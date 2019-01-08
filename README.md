@@ -18,9 +18,13 @@ Download release for your OS, unpack and run.
 
 ## Release History
 
-* v 0.1
+* version X.X
   * ...
 
 ## Contributions
 
 * <https://github.com/ColumbusCollaboratory/electron-quick-start>
+
+## To Do
+
+* [ ] Prepare Docker container and instructions on how to use it.
