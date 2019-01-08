@@ -29,3 +29,4 @@ Download release for your OS, unpack and run.
 
 * [ ] Upload current state.
 * [ ] Prepare Docker container and instructions on how to use it.
+* [ ] Add contributions that are currently mentioned inside the browser.
