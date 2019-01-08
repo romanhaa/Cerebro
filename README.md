@@ -13,7 +13,8 @@ Download release for your OS, unpack and run.
 
 ## Usage
 
-Launch the browser and load the pre-processed data set.
+* Analyze data set with Cerebro-prepare pipeline.
+* Launch the browser and load the data set.
 
 ## Release History
 
