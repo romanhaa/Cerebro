@@ -27,4 +27,5 @@ Download release for your OS, unpack and run.
 
 ## To Do
 
+* [ ] Upload current state.
 * [ ] Prepare Docker container and instructions on how to use it.
