@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read a DBF File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.dbf {foreign}"><tr><td>read.dbf {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read a DBF File</h2>
+
+<h3>Description</h3>
+
+<p>The function reads a DBF file into a data frame, converting character
+fields to factors, and trying to respect NULL fields.
+</p>
+<p>The DBF format is documented but not much adhered to.  There is is no
+guarantee this will read all DBF files.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.dbf(file, as.is = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>name of input file</p>
+</td></tr>
+<tr valign="top"><td><code>as.is</code></td>
+<td>
+<p>should character vectors not be converted to factors?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>DBF is the extension used for files written for the &lsquo;XBASE&rsquo;
+family of database languages, &lsquo;covering the dBase, Clipper,
+FoxPro, and their Windows equivalents Visual dBase, Visual Objects,
+and Visual FoxPro, plus some older products&rsquo;
+(<a href="http://www.clicketyclick.dk/databases/xbase/format/">http://www.clicketyclick.dk/databases/xbase/format/</a>).
+Most of these follow the file structure used by Ashton-Tate's dBase
+II, III or 4 (later owned by Borland).
+</p>
+<p><code>read.dbf</code> is based on C code from
+<a href="http://shapelib.maptools.org/">http://shapelib.maptools.org/</a> which implements the
+&lsquo;XBASE&rsquo; specification.  It can convert fields of type
+<code>"L"</code> (logical), <code>"N"</code> and <code>"F"</code> (numeric and float)
+and <code>"D"</code> (dates): all other field types are read as-is as
+character vectors.  A numeric field is read as an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> integer vector if
+it is encoded to have no decimals, otherwise as a numeric vector.  However,
+if the numbers are too large to fit into an integer vector, it is
+changed to numeric.  Note that is possible to read integers that cannot be
+represented exactly even as doubles: this sometimes occurs if IDs are
+incorrectly coded as numeric.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame of data from the DBF file; note that the field names are
+adjusted to use in R using <code><a href="../../base/html/make.names.html">make.names</a>(unique=TRUE)</code>.
+</p>
+<p>There is an attribute <code>"data_type"</code> giving the single-character
+dBase types for each field.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Not to be able to read a particular &lsquo;DBF&rsquo; file is not a bug:
+this is a convenience function especially for shapefiles.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Nicholas Lewin-Koh and Roger Bivand; shapelib by Frank Warmerdam
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://shapelib.maptools.org/">http://shapelib.maptools.org/</a>.
+</p>
+
+
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="write.dbf.html">write.dbf</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- read.dbf(system.file("files/sids.dbf", package="foreign")[1])
+str(x)
+summary(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Unbiased Cross-Validation for Bandwidth Selection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ucv {MASS}"><tr><td>ucv {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Unbiased Cross-Validation for Bandwidth Selection
+</h2>
+
+<h3>Description</h3>
+
+<p>Uses unbiased cross-validation to select the bandwidth of a Gaussian
+kernel density estimator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ucv(x, nb = 1000, lower, upper)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a numeric vector
+</p>
+</td></tr>
+<tr valign="top"><td><code>nb</code></td>
+<td>
+
+<p>number of bins to use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lower, upper</code></td>
+<td>
+
+<p>Range over which to minimize.  The default is almost always satisfactory.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>a bandwidth.
+</p>
+
+
+<h3>References</h3>
+
+<p>Scott, D. W. (1992)
+<em>Multivariate Density Estimation: Theory, Practice, and  Visualization.</em>
+Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="bcv.html">bcv</a></code>, <code><a href="width.SJ.html">width.SJ</a></code>, <code><a href="../../stats/html/density.html">density</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ucv(geyser$duration)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

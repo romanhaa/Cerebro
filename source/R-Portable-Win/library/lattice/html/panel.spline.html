@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Panel Function to Add a Spline Smooth</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_2_panel.spline {lattice}"><tr><td>F_2_panel.spline {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Panel Function to Add a Spline Smooth</h2>
+
+<h3>Description</h3>
+
+<p>A predefined panel function that can be used to add a spline smooth
+based on the provided data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.spline(x, y, npoints = 101,
+             lwd = plot.line$lwd,
+             lty = plot.line$lty,
+             col, col.line = plot.line$col,
+             type,
+             horizontal = FALSE, ...,
+             keep.data = FALSE,
+             identifier = "spline")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p> Variables defining the data to be used. </p>
+</td></tr>
+<tr valign="top"><td><code>npoints</code></td>
+<td>
+<p> The number of equally spaced points within the range
+of the predictor at which the fitted model is evaluated for
+plotting.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd, lty, col, col.line</code></td>
+<td>
+<p> Graphical parameters for the added
+line.  <code>col.line</code> overrides <code>col</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> Ignored.  The argument is present only to make sure that
+an explicitly specified <code>type</code> argument (perhaps meant for
+another function) does not affect the display.  </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>A logical flag controlling which variable is to be treated as the
+predictor (by default <code>x</code>) and which as the response (by
+default <code>y</code>).  If <code>TRUE</code>, the plot is &lsquo;transposed&rsquo;
+in the sense that <code>y</code> becomes the predictor and <code>x</code> the
+response.  (The name &lsquo;horizontal&rsquo; may seem an odd choice for
+this argument, and originates from similar usage in
+<code><a href="xyplot.html">bwplot</a></code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>keep.data</code></td>
+<td>
+<p> Passed on to <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>.  The
+default here (<code>FALSE</code>) is different, and results in the
+original data not being retained in the fitted spline model.  It may
+be useful to set this to <code>TRUE</code> if the return value of
+<code>panel.spline</code>, which is the fitted model as returned by
+<code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>, is to be used for subsequent
+computations.  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Extra arguments, passed on to
+<code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code> and <code><a href="llines.html">panel.lines</a></code> as
+appropriate.  </p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The fitted model as returned by <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Lattice.html">Lattice</a>,
+<code><a href="../../stats/html/scatter.smooth.html">smooth.spline</a></code>,
+<code><a href="prepanel.functions.html">prepanel.spline</a></code>  
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

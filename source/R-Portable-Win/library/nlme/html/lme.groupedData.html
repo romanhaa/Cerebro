@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: LME fit from groupedData Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lme.groupedData {nlme}"><tr><td>lme.groupedData {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>LME fit from groupedData Object</h2>
+
+<h3>Description</h3>
+
+<p>The response variable and primary covariate in <code>formula(fixed)</code>
+are used to construct the fixed effects model formula. This formula
+and the   <code>groupedData</code> object are passed as the <code>fixed</code> and
+<code>data</code> arguments to <code>lme.formula</code>, together with any other
+additional arguments in the function call. See the documentation on
+<code>lme.formula</code> for a description of that function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'groupedData'
+lme(fixed, data, random, correlation, weights, 
+    subset, method, na.action, control, contrasts, keep.data = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>a data frame inheriting from class <code>"<a href="groupedData.html">groupedData</a>"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>this argument is included for consistency with the generic
+function. It is ignored in this method function.</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+<p>optionally, any of the following: (i) a one-sided formula
+of the form <code>~x1+...+xn | g1/.../gm</code>, with <code>x1+...+xn</code>
+specifying the model for the random effects and <code>g1/.../gm</code> the
+grouping structure (<code>m</code> may be equal to 1, in which case no
+<code>/</code> is required). The random effects formula will be repeated
+for all levels of grouping, in the case of multiple levels of
+grouping; (ii) a list of one-sided formulas of the form
+<code>~x1+...+xn | g</code>, with possibly different random effects models
+for each grouping level. The order of nesting will be assumed the
+same as the order of the elements in the list; (iii) a one-sided
+formula of the form <code>~x1+...+xn</code>, or a <code>pdMat</code> object with
+a formula (i.e. a non-<code>NULL</code> value for <code>formula(object)</code>),
+or a list of such formulas or <code>pdMat</code> objects. In this case, the
+grouping structure formula will be derived from the data used to
+fit the linear mixed-effects model, which should inherit from class
+<code>groupedData</code>; (iv) a named list of formulas or <code>pdMat</code>
+objects as in (iii), with the grouping factors as names. The order of
+nesting will be assumed the same as the order of the order of the
+elements in the list; (v) an <code>reStruct</code> object. See the
+documentation on <code>pdClasses</code> for a description of the available
+<code>pdMat</code> classes. Defaults to a formula consisting of the right
+hand side of <code>fixed</code>.</p>
+</td></tr>  
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+<p>an optional <code>corStruct</code> object describing the
+within-group correlation structure. See the documentation of
+<code>corClasses</code> for a description of the available <code>corStruct</code>
+classes. Defaults to <code>NULL</code>,
+corresponding to no within-group correlations.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>an optional <code>varFunc</code> object or one-sided formula
+describing the within-group heteroscedasticity structure. If given as
+a formula, it is used as the argument to <code>varFixed</code>,
+corresponding to fixed variance weights. See the documentation on
+<code>varClasses</code> for a description of the available <code>varFunc</code>
+classes. Defaults to <code>NULL</code>, corresponding to homoscedastic
+within-group errors.</p>
+</td></tr> 
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional expression indicating the subset of the rows of
+<code>data</code> that should be used in the fit. This can be a logical
+vector, or a numeric vector indicating which observation numbers are
+to be included, or a  character  vector of the row names to be
+included.  All observations are included by default.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>a character string.  If <code>"REML"</code> the model is fit by
+maximizing the restricted log-likelihood.  If <code>"ML"</code> the
+log-likelihood is maximized.  Defaults to <code>"REML"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s.  The default action (<code>na.fail</code>) causes
+<code>lme</code> to print an error message and terminate if there are any
+incomplete observations.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values for the estimation algorithm to
+replace the default values returned by the function <code>lmeControl</code>.
+Defaults to an empty list.</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+<p>an optional list. See the <code>contrasts.arg</code>
+of <code>model.matrix.default</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.data</code></td>
+<td>
+<p>logical: should the <code>data</code> argument (if supplied
+and a data frame) be saved as part of the model object?</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>lme</code> representing the linear mixed-effects
+model fit. Generic functions such as <code>print</code>, <code>plot</code> and
+<code>summary</code> have methods to show the results of the fit. See
+<code>lmeObject</code> for the components of the fit. The functions
+<code>resid</code>, <code>coef</code>, <code>fitted</code>, <code>fixed.effects</code>, and
+<code>random.effects</code>  can be used to extract some of its components.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>The computational methods follow on the general framework of Lindstrom,
+M.J. and Bates, D.M. (1988). The model formulation is described in
+Laird, N.M. and Ware, J.H. (1982).  The variance-covariance
+parametrizations are described in Pinheiro, J.C. and Bates., D.M.
+(1996).  The different correlation structures available for the
+<code>correlation</code> argument are described in Box, G.E.P., Jenkins,
+G.M., and Reinsel G.C. (1994), Littel, R.C., Milliken, G.A., Stroup,
+W.W., and Wolfinger, R.D. (1996), and Venables, W.N. and Ripley,
+B.D. (2002). The use of variance functions for linear and nonlinear
+mixed effects models is presented in detail in Davidian, M. and
+Giltinan, D.M. (1995).
+</p>
+<p>Box, G.E.P., Jenkins, G.M., and Reinsel G.C. (1994) &quot;Time Series
+Analysis: Forecasting and Control&quot;, 3rd Edition, Holden-Day. 
+</p>
+<p>Davidian, M. and Giltinan, D.M. (1995) &quot;Nonlinear Mixed Effects Models
+for Repeated Measurement Data&quot;, Chapman and Hall.
+</p>
+<p>Laird, N.M. and Ware, J.H. (1982) &quot;Random-Effects Models for
+Longitudinal Data&quot;, Biometrics, 38, 963-974.  
+</p>
+<p>Lindstrom, M.J. and Bates, D.M. (1988) &quot;Newton-Raphson and EM
+Algorithms for Linear Mixed-Effects Models for Repeated-Measures
+Data&quot;, Journal of the American Statistical Association, 83,
+1014-1022. 
+</p>
+<p>Littel, R.C., Milliken, G.A., Stroup, W.W., and Wolfinger, R.D. (1996)
+&quot;SAS Systems for Mixed Models&quot;, SAS Institute.
+</p>
+<p>Pinheiro, J.C. and Bates., D.M.  (1996) &quot;Unconstrained
+Parametrizations for Variance-Covariance Matrices&quot;, Statistics and
+Computing, 6, 289-296.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+<p>Venables, W.N. and Ripley, B.D. (2002) &quot;Modern Applied Statistics with
+S&quot;, 4th Edition, Springer-Verlag.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lme.html">lme</a></code>, <code><a href="groupedData.html">groupedData</a></code>,
+<code><a href="lmeObject.html">lmeObject</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(Orthodont)
+summary(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

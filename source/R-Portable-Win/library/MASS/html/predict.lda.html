@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Classify Multivariate Observations by Linear Discrimination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.lda {MASS}"><tr><td>predict.lda {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Classify Multivariate Observations by Linear Discrimination
+</h2>
+
+<h3>Description</h3>
+
+<p>Classify multivariate observations in conjunction with <code>lda</code>, and also
+project data onto the linear discriminants.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lda'
+predict(object, newdata, prior = object$prior, dimen,
+        method = c("plug-in", "predictive", "debiased"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>object  of class <code>"lda"</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+
+<p>data frame of cases to be classified or, if <code>object</code>
+has a formula, a data frame with columns of the same names as the
+variables used.  A vector will be interpreted
+as a row vector.  If newdata is missing, an attempt will be
+made to retrieve the data used to fit the <code>lda</code> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+
+<p>The prior probabilities of the classes, by default the proportions in the
+training set or what was set in the call to <code>lda</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dimen</code></td>
+<td>
+
+<p>the dimension of the space to be used. If this is less than <code>min(p, ng-1)</code>,
+only the first <code>dimen</code> discriminant components are used (except for
+<code>method="predictive"</code>), and only those dimensions are returned in <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>This determines how the parameter estimation is handled. With <code>"plug-in"</code>
+(the default) the usual unbiased parameter estimates are used and
+assumed to be correct. With <code>"debiased"</code> an unbiased estimator of
+the log posterior probabilities is used, and with <code>"predictive"</code> the
+parameter estimates are integrated out using a vague prior.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments based from or to other methods
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function <code>predict()</code> for
+class <code>"lda"</code>.  It can be invoked by calling <code>predict(x)</code> for
+an object <code>x</code> of the appropriate class, or directly by calling
+<code>predict.lda(x)</code> regardless of the class of the object.
+</p>
+<p>Missing values in <code>newdata</code> are handled by returning <code>NA</code> if the
+linear discriminants cannot be evaluated. If <code>newdata</code> is omitted and
+the <code>na.action</code> of the fit omitted cases, these will be omitted on the
+prediction.
+</p>
+<p>This version centres the linear discriminants so that the
+weighted mean (weighted by <code>prior</code>) of the group centroids is at
+the origin.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>class</code></td>
+<td>
+
+<p>The MAP classification (a factor)
+</p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+
+<p>posterior probabilities for the classes
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>the scores of test cases on up to <code>dimen</code> discriminant variables
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks</em>. Cambridge University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lda.html">lda</a></code>, <code><a href="qda.html">qda</a></code>, <code><a href="predict.qda.html">predict.qda</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+tr &lt;- sample(1:50, 25)
+train &lt;- rbind(iris3[tr,,1], iris3[tr,,2], iris3[tr,,3])
+test &lt;- rbind(iris3[-tr,,1], iris3[-tr,,2], iris3[-tr,,3])
+cl &lt;- factor(c(rep("s",25), rep("c",25), rep("v",25)))
+z &lt;- lda(train, cl)
+predict(z, test)$class
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

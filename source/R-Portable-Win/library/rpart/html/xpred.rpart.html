@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Return Cross-Validated Predictions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for xpred.rpart {rpart}"><tr><td>xpred.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Return Cross-Validated Predictions 
+</h2>
+
+<h3>Description</h3>
+
+<p>Gives the predicted values for an <code>rpart</code> fit, under
+cross validation, for a set of complexity parameter values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+xpred.rpart(fit, xval = 10, cp, return.all = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fit</code></td>
+<td>
+
+<p>a object of class <code>"rpart"</code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>xval</code></td>
+<td>
+
+<p>number of cross-validation groups.  This may also be an explicit list of
+integers that define the cross-validation groups.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cp</code></td>
+<td>
+
+<p>the desired list of complexity values.  By default it is taken from the
+<code>cptable</code> component of the fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>return.all</code></td>
+<td>
+
+<p>if FALSE return only the first element of the prediction</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Complexity penalties are actually ranges, not values.  If the
+<code>cp</code> values found in the table were <i>.36</i>, <i>.28</i>,
+and <i>.13</i>, for instance, this means that the first row of the
+table holds for all complexity penalties in the range <i>[.36, 1]</i>,
+the second row for <code>cp</code> in the range <i>[.28, .36)</i> and
+the third row for <i>[.13,.28)</i>.  By default, the geometric mean
+of each interval is used for cross validation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix with one row for each observation and one column for each complexity
+value.  If <code>return.all</code> is TRUE and the prediction for each node
+is a vector, then the result will be an array containing all of the
+predictions.  When the response is categorical, for instance, the
+result contains the predicted class followed by the class
+probabilities of the selected terminal node;
+<code>result[1,,]</code> will be the matrix of predicted classes,
+<code>result[2,,]</code> the matrix of class 1 probabilities, etc.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- rpart(Mileage ~ Weight, car.test.frame)
+xmat &lt;- xpred.rpart(fit)
+xerr &lt;- (xmat - car.test.frame$Mileage)^2
+apply(xerr, 2, sum)   # cross-validated error estimate
+
+# approx same result as rel. error from printcp(fit)
+apply(xerr, 2, sum)/var(car.test.frame$Mileage) 
+printcp(fit)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Snip Subtrees of an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for snip.rpart {rpart}"><tr><td>snip.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Snip Subtrees of an Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a &quot;snipped&quot; rpart object, containing the nodes that remain
+after selected subtrees have been snipped off.  The user can snip
+nodes using the toss argument, or interactively by clicking the mouse
+button on specified nodes within the graphics window.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+snip.rpart(x, toss)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result
+of some function that produces an object with the same named
+components as that returned by the <code>rpart</code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>toss</code></td>
+<td>
+
+<p>an integer vector containing indices (node numbers) of all subtrees to
+be snipped off.  If missing, user selects branches to snip off as
+described below.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>A dendrogram of <code>rpart</code> is expected to be visible on the graphics
+device, and a graphics input device (e.g., a mouse) is required.  Clicking
+(the selection button) on a node displays the node number, sample
+size, response y-value, and Error (dev). Clicking a second time on the
+same node snips that subtree off and visually erases the subtree.
+This process may be repeated an number of times.  Warnings result from
+selecting the root or leaf nodes.  Clicking the exit button will stop
+the snipping process and return the resulting <code>rpart</code> object.
+</p>
+<p>See the documentation for the specific graphics device for details on
+graphical input techniques.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>rpart</code> object containing the nodes that remain after specified or
+selected subtrees have been snipped off.  
+</p>
+
+
+<h3>Warning</h3>
+
+<p>Visually erasing the plot is done by over-plotting with the background
+colour.  This will do nothing if the background is transparent
+(often true for screen devices).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.rpart.html">plot.rpart</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## dataset not in R
+## Not run: 
+z.survey &lt;- rpart(market.survey) # grow the rpart object
+plot(z.survey) # plot the tree
+z.survey2 &lt;- snip.rpart(z.survey, toss = 2) # trim subtree at node 2
+plot(z.survey2) # plot new tree
+
+# can also interactively select the node using the mouse in the
+# graphics window
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

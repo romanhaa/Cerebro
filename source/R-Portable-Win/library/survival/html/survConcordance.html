@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute a concordance measure.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survConcordance {survival}"><tr><td>survConcordance {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute a concordance measure.
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the concordance between a right-censored
+survival time and a single continuous covariate
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+survConcordance(formula, data, weights, subset, na.action)
+survConcordance.fit(y, x, strata, weight)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula with a survival time on the left and a single covariate on the
+right, along with an optional <code>strata()</code> term.
+The left hand term can also be a numeric vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a data frame
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights,subset,na.action</code></td>
+<td>
+<p>as for <code>coxph</code></p>
+</td></tr>
+<tr valign="top"><td><code>x, y, strata, weight</code></td>
+<td>
+<p>predictor, response, strata, and weight
+vectors for the direct call</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>survConcordance.fit</code> function computes the result but does
+no data checking whatsoever.
+It is intended as a hook for other packages that wish to compute
+concordance, and the data has already been assembled and verified.
+</p>
+<p>Concordance is defined as Pr(agreement) for any two randomly chosen
+observations, where in this case agreement means that the observation
+with the shorter survival time of the two 
+also has the larger risk score.
+The predictor (or risk score) will often be the result of
+a Cox model or other regression.
+</p>
+<p>For continuous covariates concordance is equivalent to Kendall's tau,
+and for logistic regression is is equivalent to the area under the ROC
+curve.  A value of 1 signifies perfect agreement, .6-.7 is
+a common result for survival data, .5 is an agreement that is no
+better than chance, and .3-.4 is the performance of some stock market analysts.
+</p>
+<p>The computation involves all n(n-1)/2 pairs of data points in the
+sample.
+For survival data, however, some of the pairs are incomparable.  
+For instance a pair of times (5+, 8), the first being a censored value.
+We do not know whether the first survival time is greater than or less than
+the second.
+Among observations that are comparable, pairs may also be tied on
+survival time (but only if both are uncensored) or on the predictor.
+The final concordance is (agree + tied/2)/(agree + disagree + tied).
+</p>
+<p>There is, unfortunately, one aspect of the formula above that is unclear.
+Should the count of ties include observations that are tied on survival time y,
+tied on the predictor x, or both?
+By default the concordance only counts ties in x, treating tied survival
+times as incomparable; this agrees with the AUC calculation used in
+logistic regression.
+The Goodman-Kruskal Gamma statistic is
+(agree-disagree)/(agree + disagree), ignoring ties.  It ranges from -1 to 
++1 similar to a correlation coefficient. 
+Kendall's tau uses ties of both types.
+All of the components are returned
+in the result, however, so people can compute other combinations if interested.
+(If two observations have the same survival and the same x, they are counted
+in the tied survival time category).
+</p>
+<p>The algorithm is based on a balanced binary tree, which allows the computation
+to be done in O(n log n) time.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object containing the concordance, followed by the
+number of pairs that agree, disagree, are tied, and are
+not comparable.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p>summary.coxph
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+survConcordance(Surv(time, status) ~age, data=lung)
+
+options(na.action=na.exclude)
+fit &lt;- coxph(Surv(time, status) ~ ph.ecog + age + sex, lung)
+survConcordance(Surv(time, status) ~predict(fit), lung)
+## Not run: 
+  n=227 (1 observations deleted due to missing values)
+Concordance= 0.6371102 , Gamma= 0.2759638 
+concordant discordant  tied risk  tied time 
+     12544       7117        126         28 
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

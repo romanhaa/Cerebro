@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Setting GAM fitting defaults</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.control {mgcv}"><tr><td>gam.control {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Setting GAM fitting defaults</h2>
+
+<h3>Description</h3>
+
+<p> This is an internal function of package <code>mgcv</code> which allows 
+control of the numerical options for fitting a GAM. 
+Typically users will want to modify the defaults if model fitting fails to
+converge, or if the warnings are generated which suggest a 
+loss of numerical stability during fitting.  To change the default
+choise of fitting method, see <code><a href="gam.html">gam</a></code> arguments <code>method</code> and <code>optimizer</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gam.control(nthreads=1,irls.reg=0.0,epsilon = 1e-07, maxit = 200,
+            mgcv.tol=1e-7,mgcv.half=15, trace = FALSE,
+            rank.tol=.Machine$double.eps^0.5,nlm=list(),
+	    optim=list(),newton=list(),outerPIsteps=0,
+	    idLinksBases=TRUE,scalePenalty=TRUE,efs.lspmax=15,
+	    efs.tol=.1,keepData=FALSE,scale.est="fletcher",
+	    edge.correct=FALSE) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>nthreads</code></td>
+<td>
+<p>Some parts of some smoothing parameter selection methods (e.g. REML) can use some
+parallelization in the C code if your R installation supports openMP, and <code>nthreads</code> is set to 
+more than 1. Note that it is usually better to use the number of physical cores here, rather than the 
+number of hyper-threading cores.</p>
+</td></tr>
+<tr valign="top"><td><code>irls.reg</code></td>
+<td>
+<p>For most models this should be 0. The iteratively re-weighted least squares method
+by which GAMs are fitted  can fail to converge in some circumstances. For example, data with many zeroes can cause 
+problems in a model with a log link, because a mean of zero corresponds to an infinite range of linear predictor 
+values. Such convergence problems are caused by a fundamental lack of identifiability, but do not show up as 
+lack of identifiability in the penalized linear model problems that have to be solved at each stage of iteration.
+In such circumstances it is possible to apply a ridge regression penalty to the model to impose identifiability, and 
+<code>irls.reg</code> is the size of the penalty.
+</p>
+</td></tr>
+<tr valign="top"><td><code>epsilon</code></td>
+<td>
+<p>This is used for judging conversion of the GLM IRLS loop in
+<code><a href="gam.fit.html">gam.fit</a></code> or <code><a href="gam.fit3.html">gam.fit3</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>Maximum number of IRLS iterations to perform.</p>
+</td></tr>
+<tr valign="top"><td><code>mgcv.tol</code></td>
+<td>
+<p>The convergence tolerance parameter to use in GCV/UBRE optimization.</p>
+</td></tr>
+<tr valign="top"><td><code>mgcv.half</code></td>
+<td>
+<p>If a step of  the GCV/UBRE optimization method leads 
+to a worse GCV/UBRE score, then the step length is halved. This is
+the number of halvings to try before giving up.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Set this to <code>TRUE</code> to turn on diagnostic output.</p>
+</td></tr>
+<tr valign="top"><td><code>rank.tol</code></td>
+<td>
+<p>The tolerance used to estimate the rank of the fitting
+problem.</p>
+</td></tr>
+<tr valign="top"><td><code>nlm</code></td>
+<td>
+<p>list of control parameters to pass to <code><a href="../../stats/html/nlm.html">nlm</a></code> if this is
+used for outer estimation of smoothing parameters (not default). See details.</p>
+</td></tr>
+<tr valign="top"><td><code>optim</code></td>
+<td>
+<p>list of control parameters to pass to <code><a href="../../stats/html/optim.html">optim</a></code> if this
+is used for outer estimation of smoothing parameters (not default). See details.</p>
+</td></tr>
+<tr valign="top"><td><code>newton</code></td>
+<td>
+<p>list of control parameters to pass to default Newton optimizer
+used for outer estimation of log smoothing parameters. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>outerPIsteps</code></td>
+<td>
+<p>The number of performance interation steps used to
+initialize outer iteration.</p>
+</td></tr>
+<tr valign="top"><td><code>idLinksBases</code></td>
+<td>
+<p>If smooth terms have their smoothing parameters linked via 
+the <code>id</code> mechanism (see <code><a href="s.html">s</a></code>), should they also have the same 
+bases. Set this to <code>FALSE</code> only if you are sure you know what you are doing 
+(you should almost surely set <code>scalePenalty</code> to <code>FALSE</code> as well in this 
+case).</p>
+</td></tr>
+<tr valign="top"><td><code>scalePenalty</code></td>
+<td>
+<p><code><a href="gamm.html">gamm</a></code> is somewhat sensitive to the absolute scaling 
+of the penalty matrices of a smooth relative to its model matrix. This option rescales 
+the penalty matrices to accomodate this problem. Probably should be set to <code>FALSE</code> 
+if you are linking smoothing parameters but have set <code>idLinkBases</code> to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>efs.lspmax</code></td>
+<td>
+<p>maximum log smoothing parameters to allow under extended Fellner Schall
+smoothing parameter optimization.</p>
+</td></tr>
+<tr valign="top"><td><code>efs.tol</code></td>
+<td>
+<p>change in REML to count as negligible when testing for EFS convergence. If the
+step is small and the last 3 steps led to a REML change smaller than this, then stop.</p>
+</td></tr>
+<tr valign="top"><td><code>keepData</code></td>
+<td>
+<p>Should a copy of the original <code>data</code> argument be kept in the <code>gam</code> 
+object? Strict compatibility with class <code>glm</code> would keep it, but it wastes space to
+do so. </p>
+</td></tr>
+<tr valign="top"><td><code>scale.est</code></td>
+<td>
+<p>How to estimate the scale parameter for exponential family models estimated
+by outer iteration. See <code><a href="gam.scale.html">gam.scale</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>edge.correct</code></td>
+<td>
+<p>With RE/ML smoothing parameter selection in <code>gam</code> using the default Newton RE/ML optimizer, it is possible to improve inference at the
+&lsquo;completely smooth&rsquo; edge of the smoothing parameter space, by decreasing
+smoothing parameters until there is a small increase in the negative RE/ML (e.g. 0.02). Set to <code>TRUE</code> or to a number representing the target increase to use. Only changes the corrected smoothing parameter matrix, <code>Vc</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>Outer iteration using <code>newton</code> is controlled by the list <code>newton</code>
+with the following elements: <code>conv.tol</code> (default
+1e-6) is the relative convergence tolerance; <code>maxNstep</code> is the maximum
+length allowed for an element of the Newton search direction (default 5);
+<code>maxSstep</code> is the maximum length allowed for an element of the steepest
+descent direction (only used if Newton fails - default 2); <code>maxHalf</code> is
+the maximum number of step halvings to permit before giving up (default 30).
+</p>
+<p>If outer iteration using <code><a href="../../stats/html/nlm.html">nlm</a></code> is used for fitting, then the control list
+<code>nlm</code> stores control arguments for calls to routine
+<code><a href="../../stats/html/nlm.html">nlm</a></code>. The list has the following named elements: (i) <code>ndigit</code> is
+the number of significant digits in the GCV/UBRE score - by default this is
+worked out from <code>epsilon</code>; (ii) <code>gradtol</code> is the tolerance used to
+judge convergence of the gradient of the GCV/UBRE score to zero - by default
+set to <code>10*epsilon</code>; (iii) <code>stepmax</code> is the maximum allowable log
+smoothing parameter step - defaults to 2; (iv) <code>steptol</code> is the minimum
+allowable step length - defaults to 1e-4; (v) <code>iterlim</code> is the maximum
+number of optimization steps allowed - defaults to 200; (vi)
+<code>check.analyticals</code> indicates whether the built in exact derivative
+calculations should be checked numerically - defaults to <code>FALSE</code>. Any of
+these which are not supplied and named in the list are set to their default
+values.
+</p>
+<p>Outer iteration using <code><a href="../../stats/html/optim.html">optim</a></code> is controlled using list
+<code>optim</code>, which currently has one element: <code>factr</code> which takes
+default value 1e7.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2011) Fast stable restricted maximum likelihood 
+and marginal likelihood estimation of semiparametric generalized linear 
+models. Journal of the Royal Statistical Society (B) 73(1):3-36
+</p>
+<p>Wood, S.N. (2004) Stable and efficient multiple smoothing parameter estimation for
+generalized additive models. J. Amer. Statist. Ass.99:673-686.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gam.html">gam</a></code>, <code><a href="gam.fit.html">gam.fit</a></code>, <code><a href="../../stats/html/glm.control.html">glm.control</a></code> </p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

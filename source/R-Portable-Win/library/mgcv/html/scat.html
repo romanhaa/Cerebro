@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM scaled t family for heavy tailed data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for scat {mgcv}"><tr><td>scat {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM scaled t family for heavy tailed data</h2>
+
+<h3>Description</h3>
+
+<p>Family for use with <code><a href="gam.html">gam</a></code> or <code><a href="bam.html">bam</a></code>, implementing regression for the heavy tailed response
+variables, y, using a scaled t model. The idea is that <i>(y - mu)/sig ~ t_nu</i> where 
+<i>mu</i> is determined by a linear predictor, while <i>sig</i> and <i>nu</i> are parameters 
+to be estimated alongside the smoothing parameters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+scat(theta = NULL, link = "identity",min.df=3)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>the parameters to be estimated <i>nu = b + exp(theta_1) </i> (where &lsquo;b&rsquo; is <code>min.df</code>) and 
+<i>sig = exp(theta_2)</i>. If supplied and both positive, then taken to be fixed values of 
+<i>nu</i> and <i>sig</i>. If any negative, then absolute values taken as starting values. </p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>The link function: one of <code>"identity"</code>, <code>"log"</code> or <code>"inverse"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>min.df</code></td>
+<td>
+<p>minimum degrees of freedom. Should not be set to 2 or less as this implies infinite response variance.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Useful in place of Gaussian, when data are heavy tailed. <code>min.df</code> can be modified, but lower values can occasionally
+lead to convergence problems in smoothing parameter estimation. In any case <code>min.df</code> should be &gt;2, since only then does a t
+random variable have finite variance.   
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>extended.family</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Natalya Pya (nat.pya@gmail.com)
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+## Simulate some t data...
+set.seed(3);n&lt;-400
+dat &lt;- gamSim(1,n=n)
+dat$y &lt;- dat$f + rt(n,df=4)*2
+
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=scat(link="identity"),data=dat)
+
+b
+plot(b,pages=1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

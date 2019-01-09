@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Load URL into an HTML Browser</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for browseURL {utils}"><tr><td>browseURL {utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load URL into an HTML Browser</h2>
+
+<h3>Description</h3>
+
+<p>Load a given URL into an HTML browser.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+browseURL(url, browser = getOption("browser"),
+          encodeIfNeeded = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p>a non-empty character string giving the URL to be loaded.
+Some platforms also accept file paths.
+</p>
+</td></tr>
+<tr valign="top"><td><code>browser</code></td>
+<td>
+<p>a non-empty character string giving the name of the
+program to be used as the HTML browser.  It should be in the PATH,
+or a full path specified.  Alternatively, an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function to be
+called to invoke the browser.
+</p>
+<p>Under Windows <code>NULL</code> is also allowed (and is the default), and
+implies that the file association mechanism will be used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>encodeIfNeeded</code></td>
+<td>
+<p>Should the URL be encoded by
+<code><a href="URLencode.html">URLencode</a></code> before passing to the browser?  This is not
+needed (and might be harmful) if the <code>browser</code> program/function
+itself does encoding, and can be harmful for <span class="samp">file://</span> URLs on some
+systems and for <span class="samp">http://</span> URLs passed to some CGI applications.
+Fortunately, most URLs do not need encoding.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The default browser is set by option <code>"browser"</code>, in turn set by
+the environment variable <span class="env">R_BROWSER</span> if that is set, otherwise to
+<code>NULL</code>.
+To suppress showing URLs altogether, use the value <code>"false"</code>.
+</p>
+<p>Some browsers have required <code>:</code> be replaced by <code>|</code> in file
+paths: others do not accept that.  All seem to accept <code>\</code> as a
+path separator even though the RFC1738 standard requires <code>/</code>.
+</p>
+<p>To suppress showing URLs altogether, set <code>browser = "false"</code>.
+</p>
+
+
+<h3>URL schemes</h3>
+
+<p>Which URL schemes are accepted is platform-specific: expect
+<span class="samp">http://</span>, <span class="samp">https://</span> and <span class="samp">ftp://</span> to work, but
+<span class="samp">mailto:</span> may or may not (and if it does may not use the user's
+preferred email client).
+</p>
+<p>For the <span class="samp">file://</span> scheme the format accepted (if any) can depend on
+both browser and OS.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: browseURL("https://www.r-project.org")
+browseURL("file://d:/R/R-2.5.1/doc/html/index.html",
+          browser = "C:/Program Files/Mozilla Firefox/firefox.exe")
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>utils</em> version 3.5.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Follow Paths to Selected Nodes of an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for path.rpart {rpart}"><tr><td>path.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Follow Paths to Selected Nodes of an Rpart Object
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns a names list where each element contains the splits on the
+path from the root to the selected nodes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+path.rpart(tree, nodes, pretty = 0, print.it = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tree</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the
+result of some function that produces an object with the same named
+components as that returned by the <code>rpart</code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nodes</code></td>
+<td>
+
+<p>an integer vector containing indices (node numbers) of all nodes for
+which paths are desired.  If missing, user selects nodes as described
+below. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>pretty</code></td>
+<td>
+
+<p>an integer denoting the extent to which factor levels in split labels
+will be abbreviated.  A value of (0) signifies no abbreviation.  A
+<code>NULL</code>, the default, signifies using elements of letters to represent
+the different factor levels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.it</code></td>
+<td>
+
+<p>Logical. Denotes whether paths will be printed out as
+nodes are interactively selected.   Irrelevant if <code>nodes</code>
+argument is supplied.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The function has a required argument as an <code>rpart</code> object  and
+a list of nodes as optional arguments.  Omitting a list of
+nodes will cause the function to  wait  for  the  user  to
+select  nodes  from the dendrogram.  It will return a list,
+with one component for each node  specified  or  selected.
+The  component  contains the sequence of splits leading to
+that node.  In the graphical  interaction,  the  individual
+paths are printed out as nodes are selected.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named (by node) list, each element of which contains all
+the  splits  on the path from the root to the specified or
+selected nodes.
+</p>
+
+
+<h3>Graphical Interaction</h3>
+
+<p>A dendrogram of the <code>rpart</code> object is expected to be visible on
+the graphics device, and a graphics input device (e.g. a mouse) is
+required.  Clicking (the selection button) on a node selects that
+node.  This process may be repeated any number of times.  Clicking the
+exit button will stop the selection process and return the list of
+paths.
+</p>
+
+
+<h3>References</h3>
+
+<p>This function was modified from <code>path.tree</code> in S. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
+print(fit)
+path.rpart(fit, node = c(11, 22))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

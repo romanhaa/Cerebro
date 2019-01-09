@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Monothetic Analysis (MONA) Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mona.object {cluster}"><tr><td>mona.object {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Monothetic Analysis (MONA) Object</h2>
+
+<h3>Description</h3>
+
+<p>The objects of class <code>"mona"</code> represent the divisive
+hierarchical clustering of a dataset with only binary variables
+(measurements).   This class of objects is returned from
+<code><a href="mona.html">mona</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A legitimate <code>mona</code> object is a list with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>matrix with the same dimensions as the original data matrix,
+but with factors coded as 0 and 1, and all missing values replaced.
+</p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+
+<p>a vector giving a permutation of the original observations to allow
+for plotting, in the sense that the branches of a clustering tree
+will not cross.
+</p>
+</td></tr>
+<tr valign="top"><td><code>order.lab</code></td>
+<td>
+
+<p>a vector similar to <code>order</code>, but containing observation labels
+instead of observation numbers. This component is only available if
+the original observations were labelled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>variable</code></td>
+<td>
+
+<p>vector of length n-1 where n is the number of observations,
+specifying the variables used to separate the observations of <code>order</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>step</code></td>
+<td>
+
+<p>vector of length n-1 where n is the number of observations,
+specifying the separation steps at which the observations of
+<code>order</code> are separated.
+</p>
+</td></tr>
+</table>
+
+
+<h3>METHODS</h3>
+
+<p>The <code>"mona"</code> class has methods for the following generic functions:
+<code>print</code>, <code>summary</code>, <code>plot</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="mona.html">mona</a></code> for examples etc, <code><a href="plot.mona.html">plot.mona</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

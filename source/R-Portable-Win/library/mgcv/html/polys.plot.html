@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot geographic regions defined as polygons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for polys.plot {mgcv}"><tr><td>polys.plot {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot geographic regions defined as polygons</h2>
+
+<h3>Description</h3>
+
+<p> Produces plots of geographic regions defined by polygons, optionally filling the 
+polygons with a color or grey shade dependent on a covariate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+polys.plot(pc,z=NULL,scheme="heat",lab="",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pc</code></td>
+<td>
+<p>A named list of matrices. Each matrix has two columns. The matrix rows each define the 
+vertex of a boundary polygon. If a boundary is defined by several polygons, then each of these must be 
+separated by an <code>NA</code> row in the matrix. See <code><a href="smooth.construct.mrf.smooth.spec.html">mrf</a></code> for an example.</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>A vector of values associated with each area (item) of <code>pc</code>. If the vector elements 
+have names then these are used to match elements of <code>z</code> to areas defined in <code>pc</code>. Otherwise 
+<code>pc</code> and <code>z</code> are assumed to be in the same order. If <code>z</code> is <code>NULL</code> then polygons are not filled. </p>
+</td></tr>
+<tr valign="top"><td><code>scheme</code></td>
+<td>
+<p>One of <code>"heat"</code> or <code>"grey"</code>, indicating how to fill the polygons in accordance with the value
+of <code>z</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lab</code></td>
+<td>
+<p>label for plot.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments to pass to plot (currently only if <code>z</code> is <code>NULL</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Any polygon within another polygon counts as a hole in the area. Further nesting is dealt with by 
+treating any point that is interior to an odd number of polygons as being within the area, and all other points 
+as being exterior. The routine is provided to facilitate plotting with models containing <code><a href="smooth.construct.mrf.smooth.spec.html">mrf</a></code> smooths.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Simply produces a plot.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="smooth.construct.mrf.smooth.spec.html">mrf</a></code> and <code><a href="columb.html">columb.polys</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see also ?mrf for use of z
+require(mgcv)
+data(columb.polys)
+polys.plot(columb.polys)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

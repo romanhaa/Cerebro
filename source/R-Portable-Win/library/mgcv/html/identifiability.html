@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identifiability constraints</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for identifiability {mgcv}"><tr><td>identifiability {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Identifiability constraints</h2>
+
+<h3>Description</h3>
+
+<p>Smooth terms are generally only identifiable up to an additive constant. In consequence sum-to-zero identifiability constraints are imposed on most smooth terms. The exceptions are terms with <code>by</code> variables which cause the smooth to be identifiable without constraint (that doesn't include factor <code>by</code> variables), and random effect terms. Alternatively smooths can be set up to pass through zero at a user specified point.    
+</p>
+
+
+<h3>Details</h3>
+
+<p> By default each smooth term is subject to the sum-to-zero constraint </p>
+<p style="text-align: center;"><i>sum_i f(x_i) = 0.</i></p>
+
+<p>The constraint is imposed by reparameterization. The sum-to-zero constraint causes the term to be orthogonal to the intercept: alternative constraints lead to wider confidence bands for the constrained smooth terms.
+</p>
+<p>No constraint is used for random effect terms, since the penalty (random effect covariance matrix) anyway ensures identifiability in this case. Also if a <code>by</code> variable means that the smooth is anyway identifiable, then no extra constraint is imposed. Constraints are imposed for factor <code>by</code> variables, so that the main effect of the factor must usually be explicitly added to the model (the example below is an exception). 
+</p>
+<p>Occasionally it is desirable to substitute the constraint that a particular smooth curve should pass through zero at a particular point: the <code>pc</code> argument to <code><a href="s.html">s</a></code>, <code><a href="te.html">te</a></code>, <code><a href="te.html">ti</a></code> and  <code><a href="t2.html">t2</a></code> allows this: if specified then such constraints are always applied.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood (s.wood@r-project.org)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Example of three groups, each with a different smooth dependence on x
+## but each starting at the same value...
+require(mgcv)
+set.seed(53)
+n &lt;- 100;x &lt;- runif(3*n);z &lt;- runif(3*n)
+fac &lt;- factor(rep(c("a","b","c"),each=100))
+y &lt;- c(sin(x[1:100]*4),exp(3*x[101:200])/10-.1,exp(-10*(x[201:300]-.5))/
+       (1+exp(-10*(x[201:300]-.5)))-0.9933071) + z*(1-z)*5 + rnorm(100)*.4
+
+## 'pc' used to constrain smooths to 0 at x=0...
+b &lt;- gam(y~s(x,by=fac,pc=0)+s(z)) 
+plot(b,pages=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

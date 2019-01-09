@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Choleski decomposition of a tri-diagonal matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for trichol {mgcv}"><tr><td>trichol {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Choleski decomposition of a tri-diagonal matrix</h2>
+
+<h3>Description</h3>
+
+ 
+<p>Computes Choleski decomposition of a (symmetric positive definite) tri-diagonal matrix stored as a leading diagonal and sub/super diagonal.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trichol(ld,sd)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ld</code></td>
+<td>
+<p>leading diagonal of matrix</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>sub-super diagonal of matrix</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Calls <code>dpttrf</code> from <code>LAPACK</code>. The point of this is that it has <i>O(n)</i> computational cost, rather than the <i>O(n^3)</i> required by dense matrix methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A list with elements <code>ld</code> and <code>sd</code>. <code>ld</code> is the leading diagonal and <code>sd</code> is the super diagonal of bidiagonal matrix <i>B</i> where <i>B'B=T</i> and <i>T</i> is the original tridiagonal matrix. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., Bai, Z., Bischof, C., Blackford, S., Dongarra, J., Du Croz, J., Greenbaum, A., Hammarling, S., McKenney, A. and Sorensen, D., 1999. LAPACK Users' guide (Vol. 9). Siam.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="bandchol.html">bandchol</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+## simulate some diagonals...
+set.seed(19); k &lt;- 7
+ld &lt;- runif(k)+1
+sd &lt;- runif(k-1) -.5
+
+## get diagonals of chol factor...
+trichol(ld,sd)
+
+## compare to dense matrix result...
+A &lt;- diag(ld);for (i in 1:(k-1)) A[i,i+1] &lt;- A[i+1,i] &lt;- sd[i]
+R &lt;- chol(A)
+diag(R);diag(R[,-1])
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

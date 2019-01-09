@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Modify families for use in GAM fitting and checking</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fix.family.link {mgcv}"><tr><td>fix.family.link {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Modify families for use in GAM fitting and checking</h2>
+
+<h3>Description</h3>
+
+<p> Generalized Additive Model fitting by &lsquo;outer&rsquo; iteration,
+requires extra derivatives of the variance and link functions to be 
+added to family objects. The first 3 functions add what is needed. Model checking can
+be aided by adding quantile and random deviate generating functions to the family. 
+The final two functions do this.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fix.family.link(fam)
+fix.family.var(fam)
+fix.family.ls(fam)
+fix.family.qf(fam)
+fix.family.rd(fam)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fam</code></td>
+<td>
+<p>A <code>family</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>Consider the first 3 function first.
+</p>
+<p>Outer iteration GAM estimation requires derivatives of the GCV, UBRE/gAIC,
+GACV, REML or ML score, which are obtained by finding the derivatives of the model
+coefficients w.r.t. the log smoothing parameters, using the implicit function theorem. 
+The expressions for the derivatives require the second and third derivatives of the link 
+w.r.t. the mean (and the 4th derivatives if Fisher scoring is not used). Also required are the first
+and second derivatives of the variance function w.r.t. the mean (plus the third 
+derivative if Fisher scoring is not used). Finally REML or ML estimation of smoothing parameters
+requires the log saturated likelihood and its first two derivatives w.r.t. the scale parameter.
+These functions add functions evaluating these quantities to a family. 
+</p>
+<p>If the family already has functions <code>dvar</code>, <code>d2var</code>, <code>d3var</code>, <code>d2link</code>,
+<code>d3link</code>, <code>d4link</code> and for RE/ML <code>ls</code>, then these functions simply 
+return the family unmodified: this allows non-standard links
+to be used with <code><a href="gam.html">gam</a></code> when using outer iteration (performance
+iteration operates with unmodified families). Note that if you only need Fisher scoring then 
+<code>d4link</code> and <code>d3var</code> can be dummy, as they are ignored. Similalry <code>ls</code> is only needed for 
+RE/ML.
+</p>
+<p>The <code>dvar</code> function is a function of a mean vector, <code>mu</code>, and returns
+a vector of corresponding first derivatives of the family variance
+function. The <code>d2link</code> function is also a function of a vector of mean
+values, <code>mu</code>: it returns a vector of second derivatives of the link,
+evaluated at <code>mu</code>. Higher derivatives are defined similarly.
+</p>
+<p>If modifying your own family, note that you can often get away with supplying
+only a <code>dvar</code> and <code>d2var</code>, function if your family only requires links that occur in
+one of the standard families.
+</p>
+<p>The second two functions are useful for investigating the distribution of residuals and are used by 
+<code><a href="qq.gam.html">qq.gam</a></code>. If possible the functions add quantile (<code>qf</code>) or random deviate (<code>rd</code>) generating functions 
+to the family. If a family already has <code>qf</code> or <code>rd</code> 
+functions then it is left unmodified. <code>qf</code> functions are only available for some families, and for quasi families 
+neither type of function is available.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A family object with extra component functions <code>dvar</code>,
+<code>d2var</code>, <code>d2link</code>, <code>d3link</code>, <code>d4link</code>, <code>ls</code>, and possibly <code>qf</code> and <code>rd</code>, 
+depending on which functions are called. <code>fix.family.var</code> also adds a variable <code>scale</code> set to
+negative to indicate that family has a free scale parameter.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+  
+<p><code><a href="gam.fit3.html">gam.fit3</a></code>, <code><a href="qq.gam.html">qq.gam</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

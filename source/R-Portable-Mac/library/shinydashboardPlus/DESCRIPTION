@@ -1,0 +1,35 @@
+Package: shinydashboardPlus
+Type: Package
+Title: Add some 'AdminLTE2' Components to 'shinydashboard'
+Version: 0.5.0
+Authors@R: c(
+  person("David", "Granjon", email = "dgranjon@ymail.com", role = c("aut", "cre")),
+  person(family = "Almasaeed Studio", role = c("ctb", "cph"), comment = "AdminLTE2 theme for Bootstrap 3"),
+  person("Winston", "Chang", role = c("ctb", "cph"), comment = "Functions from shinydashboard"),
+  person("Victor", "Perrier", email = "victor.perrier@dreamrs.fr", role = "ctb",
+          comment = "improved the shinydashboardPlusGallery"))
+Maintainer: David Granjon <dgranjon@ymail.com>
+Description: Extend 'shinydashboard' with 'AdminLTE2' components. 
+             'AdminLTE2' is a free 'Bootstrap 3' dashboard template available
+             at <https://adminlte.io>.
+             Customize boxes, add timelines and a lot more. 
+License: GPL-2
+Imports: shiny, htmltools, shinydashboard
+Suggests: styler (>= 1.0.2), shinyAce, shinyWidgets, shinyjqui, knitr,
+        rmarkdown
+URL: https://github.com/DivadNojnarg/shinydashboardPlus,
+        http://130.60.24.205/shinydashboardPlus/#
+BugReports: https://github.com/DivadNojnarg/shinydashboardPlus/issues
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2018-07-05 14:48:36 UTC; macdavidgranjon
+Author: David Granjon [aut, cre],
+  Almasaeed Studio [ctb, cph] (AdminLTE2 theme for Bootstrap 3),
+  Winston Chang [ctb, cph] (Functions from shinydashboard),
+  Victor Perrier [ctb] (improved the shinydashboardPlusGallery)
+Repository: CRAN
+Date/Publication: 2018-07-05 15:20:03 UTC
+Built: R 3.5.0; ; 2018-07-06 13:48:33 UTC; unix

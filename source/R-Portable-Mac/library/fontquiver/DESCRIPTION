@@ -1,0 +1,29 @@
+Package: fontquiver
+Title: Set of Installed Fonts
+Version: 0.2.1
+Authors@R: c(
+    person("Lionel", "Henry", , "lionel@rstudio.com", c("cre", "aut")),
+    person("RStudio", role = "cph"),
+    person("George Douros", role = "cph", comment = "Symbola font"))
+Description: Provides a set of fonts with permissive licences. This is
+    useful when you want to avoid system fonts to make sure your
+    outputs are reproducible.
+Depends: R (>= 3.0.0)
+Imports: fontBitstreamVera (>= 0.1.0), fontLiberation (>= 0.1.0)
+Suggests: testthat, htmltools
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
+Collate: 'font-getters.R' 'fontset.R' 'fontset-bitstream-vera.R'
+        'fontset-dejavu.R' 'fontset-liberation.R' 'fontset-symbola.R'
+        'html-dependency.R' 'utils.R'
+NeedsCompilation: no
+Packaged: 2017-01-31 20:11:24 UTC; lionel
+Author: Lionel Henry [cre, aut],
+  RStudio [cph],
+  George Douros [cph] (Symbola font)
+Maintainer: Lionel Henry <lionel@rstudio.com>
+Repository: CRAN
+Date/Publication: 2017-02-01 00:52:56
+Built: R 3.5.0; ; 2018-04-23 18:33:48 UTC; unix

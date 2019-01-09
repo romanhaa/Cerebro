@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Spatial Covariance Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for expcov {spatial}"><tr><td>expcov {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Spatial Covariance Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Spatial covariance functions for use with <code>surf.gls</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+expcov(r, d, alpha = 0, se = 1)
+gaucov(r, d, alpha = 0, se = 1)
+sphercov(r, d, alpha = 0, se = 1, D = 2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>vector of distances at which to evaluate the covariance
+</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+
+<p>range parameter
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+
+<p>proportion of nugget effect
+</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+
+<p>standard deviation at distance zero
+</p>
+</td></tr>
+<tr valign="top"><td><code>D</code></td>
+<td>
+
+<p>dimension of spheres.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>vector of covariance values.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="surf.gls.html">surf.gls</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(topo, package="MASS")
+topo.kr &lt;- surf.ls(2, topo)
+correlogram(topo.kr, 25)
+d &lt;- seq(0, 7, 0.1)
+lines(d, expcov(d, 0.7))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

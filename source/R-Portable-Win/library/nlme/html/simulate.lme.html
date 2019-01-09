@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Results from 'lme' Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for simulate.lme {nlme}"><tr><td>simulate.lme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulate Results from <code>lme</code> Models</h2>
+
+<h3>Description</h3>
+
+<p>The model <code>object</code> is fit to the data.  Using
+the fitted values of the parameters, <code>nsim</code> new data vectors from
+this model are simulated.  Both <code>object</code> and <code>m2</code> are fit by
+maximum likelihood (ML) and/or by restricted maximum likelihood (REML)
+to each of the simulated data vectors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lme'
+simulate(object, nsim = 1, seed = , m2,
+         method = c("REML", "ML"), niterEM = c(40, 200), useGen, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>an object inheriting from class <code>"<a href="lme.html">lme</a>"</code>, representing a fitted
+linear mixed-effects model, or a list containing an <code>lme</code> model
+specification.  If given as a list, it should contain
+components <code>fixed</code>, <code>data</code>, and <code>random</code>
+with values suitable for a call to <code><a href="lme.html">lme</a></code>.  This argument
+defines the null model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>m2</code></td>
+<td>
+<p>an <code>"<a href="lme.html">lme</a>"</code> object or a list, like <code>object</code>
+containing a second lme model specification.  This argument defines
+the alternative model.  If given as a list, only those parts of the
+specification that change between model <code>object</code> and <code>m2</code>
+need to be specified.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+
+<p>an optional integer that is passed to <code>set.seed</code>.  Defaults to
+a random integer.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>an optional character array.  If it includes
+<code>"REML"</code> the models are fit by maximizing the restricted
+log-likelihood.  If it includes <code>"ML"</code> the log-likelihood is
+maximized.  Defaults to <code>c("REML", "ML")</code>, in which case both
+methods are used.</p>
+</td></tr>
+<tr valign="top"><td><code>nsim</code></td>
+<td>
+<p>an optional positive integer specifying the number of
+simulations to perform.  Defaults to <code>1</code>. <b>This has
+changed.  Previously the default was 1000.</b>
+</p>
+</td></tr>
+<tr valign="top"><td><code>niterEM</code></td>
+<td>
+<p>an optional integer vector of length 2 giving the number of
+iterations of the EM algorithm to apply when fitting the <code>object</code>
+and <code>m2</code> to each simulated set of data.  Defaults to <code>c(40,200)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>useGen</code></td>
+<td>
+
+<p>an optional logical value.  If <code>TRUE</code>, numerical derivatives are
+used to obtain the gradient and the Hessian of the log-likelihood in
+the optimization algorithm in the <code>ms</code> function.  If
+<code>FALSE</code>, the default algorithm in <code>ms</code> for functions that
+do not incorporate gradient and Hessian attributes is used.  Default
+depends on the <code>"<a href="pdMat.html">pdMat</a>"</code> classes used in <code>object</code> and <code>m2</code>:
+if both are standard classes (see <code><a href="pdClasses.html">pdClasses</a></code>) then
+defaults to <code>TRUE</code>, otherwise defaults to <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional additional arguments.  None are used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>simulate.lme</code> with components <code>null</code> and
+<code>alt</code>.  Each of these has components <code>ML</code> and/or <code>REML</code>
+which are matrices.  An attribute called <code>Random.seed</code> contains
+the seed that was used for the random number generator.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000)
+<em>Mixed-Effects Models in S and S-PLUS</em>, Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lme.html">lme</a></code>, <code><a href="../../base/html/Random.html">set.seed</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+orthSim &lt;-
+   simulate.lme(list(fixed = distance ~ age, data = Orthodont,
+                     random = ~ 1 | Subject), nsim = 200,
+                m2 = list(random = ~ age | Subject))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

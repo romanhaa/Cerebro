@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute Residuals for 'survreg' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for residuals.survreg {survival}"><tr><td>residuals.survreg {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Residuals for &lsquo;survreg&rsquo; Objects</h2>
+
+<h3>Description</h3>
+
+<p>This is a method for the function <code><a href="../../stats/html/residuals.html">residuals</a></code> for objects
+inheriting from class <code>survreg</code>.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'survreg'
+residuals(object, type=c("response", "deviance","dfbeta","dfbetas",
+"working","ldcase","ldresp","ldshape", "matrix"), rsigma=TRUE,
+collapse=FALSE, weighted=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>an object inheriting from class <code>survreg</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>type of residuals, with choices of <code>"response"</code>, <code>"deviance"</code>,
+<code>"dfbeta"</code>, <code>"dfbetas"</code>, <code>"working"</code>, <code>"ldcase"</code>, <code>"lsresp"</code>,
+<code>"ldshape"</code>, and <code>"matrix"</code>.  See the LaTeX documentation
+(<code>survival/doc/survival.ps.gz</code>) for more
+detail.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rsigma</code></td>
+<td>
+
+<p>include the scale parameters in the variance matrix, when doing computations.
+(I can think of no good reason not to).
+</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+
+<p>optional vector of subject groups.  If given, this must be of the same
+length as the residuals, and causes the result to be per group residuals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weighted</code></td>
+<td>
+
+<p>give weighted residuals?  Normally residuals are unweighted.
+</p>
+</td></tr><tr valign="top"><td><code>...</code></td>
+<td>
+<p>other unused arguments</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>A vector or matrix of residuals is returned.
+Response residuals are on the scale of the original data,
+working residuals are on the scale of the linear predictor,
+and deviance residuals are on log-likelihood scale.
+The dfbeta residuals are a matrix, where the ith row gives the
+approximate change in the coefficients due to the addition of subject i.
+The dfbetas matrix contains the dfbeta residuals, with each column
+scaled by the standard deviation of that coefficient.
+</p>
+<p>The matrix type produces a matrix based on derivatives of the log-likelihood
+function.  Let <i>L</i> be the log-likelihood, <i>p</i> be the linear predictor <i>X %*% coef</i>,
+and <i>s</i> be <i>\log(&sigma;)</i>.  Then the 6 columns of the matrix are
+<i>L</i>, <i>dL/dp</i>,<i>ddL/(dp dp)</i>,
+<i>dL/ds</i>, <i>ddL/(ds ds)</i>  and
+<i>ddL/(dp ds)</i>.  Diagnostics based on these quantities
+are discussed in an article by Escobar and Meeker.
+The main ones are the likelihood displacement residuals for perturbation
+of a case weight (<code>ldcase</code>), the response value (<code>ldresp</code>), and the <code>shape</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Escobar, L. A. and Meeker, W. Q. (1992).
+Assessing influence in regression analysis with censored data.
+<em>Biometrics</em>
+<b>48</b>, 507-528.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="predict.survreg.html">predict.survreg</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- survreg(Surv(time,status) ~x, aml)
+rr  &lt;- residuals(fit, type='matrix')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

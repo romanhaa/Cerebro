@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Method for adding new models to the 'yates' function.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for yates_setup {survival}"><tr><td>yates_setup {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Method for adding new models to the <code>yates</code> function.
+</h2>
+
+<h3>Description</h3>
+
+<p>This is a method which is called by the <code>yates</code>
+function, in order to setup the code to handle a particular
+model type.  Methods for glm, coxph, and default are part of
+the survival package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+yates_setup(fit, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fit</code></td>
+<td>
+<p>a fitted model object</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments for some methods</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If the predicted value should be the linear predictor, the function
+should return NULL.  The <code>yates</code> routine has particularly efficient
+code for this case.
+Otherwise it should return a prediction function or a list of two
+elements containing the prediction function and a summary function.
+The prediction function will be passed the linear predictor as a single
+argument and should return a vector of predicted values.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See the vignette on population prediction for more details.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="yates.html">yates</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

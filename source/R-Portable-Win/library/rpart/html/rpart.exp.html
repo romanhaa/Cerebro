@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initialization function for exponential fitting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rpart.exp {rpart}"><tr><td>rpart.exp {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Initialization function for exponential fitting</h2>
+
+<h3>Description</h3>
+
+<p>This function does the initialization step for rpart, when the
+response is a survival object.  It rescales the data so as to have an
+exponential baseline hazard and then uses Poisson methods.  This
+function would rarely if ever be called directly by a user.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rpart.exp(y, offset, parms, wt)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the response, which will be of class <code>Surv</code></p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>optional offset</p>
+</td></tr>
+<tr valign="top"><td><code>parms</code></td>
+<td>
+<p>parameters controlling the fit.
+This is a list with components <code>shrink</code> and <code>method</code>.
+The first is the prior for the coefficient of variation of the
+predictions.  The second is either <code>"deviance"</code>
+or <code>"sqrt"</code> and is the measure used for cross-validation.
+If values are missing the defaults are used, which are
+<code>"deviance"</code> for the method, and a shrinkage of 1.0 for the
+deviance method and 0 for the square root.</p>
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+<p>case weights, if present</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with the necessary initialization components</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

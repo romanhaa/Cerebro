@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Versions of 'cbind' and 'rbind' recursively built on...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cBind {Matrix}"><tr><td>cBind {Matrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Versions of 'cbind' and 'rbind' recursively built on cbind2/rbind2</h2>
+
+<h3>Description</h3>
+
+<p>The base functions <code><a href="../../base/html/cbind.html">cbind</a></code> and <code><a href="../../base/html/cbind.html">rbind</a></code> are
+defined for an arbitrary number of arguments and hence have the first
+formal argument <code>...</code>.  For that reason, in the past S4 methods
+could easily be defined for binding together matrices inheriting from
+<code><a href="Matrix.html">Matrix</a></code>.
+</p>
+<p>For that reason, <code><a href="../../methods/html/cbind2.html">cbind2</a></code> and <code><a href="../../methods/html/cbind2.html">rbind2</a></code> have
+been provided for binding together <em>two</em> matrices, and we have
+defined methods for these and the <code>'Matrix'</code>-matrices.
+</p>
+<p>Before <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> version 3.2.0 (April 2015), we have needed a substitute for
+<em>S4-enabled</em> versions of <code>cbind</code> and <code>rbind</code>, and
+provided <code>cBind</code> and <code>rBind</code> with identical syntax and
+semantic in order to bind together multiple matrices (<code>"matrix"</code>
+or <code>"Matrix"</code> and vectors.
+With <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> version 3.2.0 and newer, <code>cBind</code> and <code>rBind</code> are
+<em>deprecated</em> and produce a deprecation warning (via
+<code><a href="../../base/html/Deprecated.html">.Deprecated</a></code>), and your code should start using
+<code>cbind()</code> and <code>rbind()</code> instead.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+
+cBind(..., deparse.level = 1)
+rBind(..., deparse.level = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>matrix-like <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects to be bound together, see
+<code><a href="../../base/html/cbind.html">cbind</a></code> and <code><a href="../../base/html/cbind.html">rbind</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>deparse.level</code></td>
+<td>
+<p>integer determining under which circumstances
+column and row names are built from the actual arguments'
+&lsquo;expression&rsquo;, see <code><a href="../../base/html/cbind.html">cbind</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The implementation of these is <em>recursive</em>, calling
+<code><a href="../../methods/html/cbind2.html">cbind2</a></code> or
+<code><a href="../../methods/html/cbind2.html">rbind2</a></code> respectively, where these have methods
+defined and so should dispatch appropriately.
+</p>
+
+
+<h3>Value</h3>
+
+<p>typically a &lsquo;matrix-like&rsquo; object of a similar
+<code><a href="../../base/html/class.html">class</a></code> as the first argument in <code>...</code>.
+</p>
+<p>Note that sometimes by default, the result is a
+<code><a href="sparseMatrix-class.html">sparseMatrix</a></code> if one of the arguments is (even in
+the case where this is not efficient).  In other cases,
+the result is chosen to be sparse when there are more zero entries is
+than non-zero ones (as the default <code>sparse</code> in
+<code><a href="Matrix.html">Matrix</a>()</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Maechler</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../methods/html/cbind2.html">cbind2</a></code>, <code><a href="../../base/html/cbind.html">cbind</a></code>,
+Documentation in base <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s <span class="pkg">methods</span> package
+.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+(a &lt;- matrix(c(2:1,1:2), 2,2))
+D &lt;- Diagonal(2)
+if(getRversion() &lt; "3.2.0") {
+ M1 &lt;- cbind(0, rBind(a, 7))
+ print(M1) # remains traditional matrix
+
+ M2 &lt;- cBind(4, a, D, -1, D, 0) # a sparse Matrix
+ print(M2)
+
+} else { ## newer versions of R do not need cBind / rBind:
+
+ M1 &lt;- cbind(0, suppressWarnings(rBind(a, 7)))
+ print(M1) # remains traditional matrix
+
+ M2 &lt;- suppressWarnings(cBind(4, a, D, -1, D, 0)) # a sparse Matrix
+ print(M2)
+
+ stopifnot(identical(M1, cbind(0, rbind(a, 7))),
+           identical(M2, cbind(4, a, D, -1, D, 0)))
+}# R &gt;= 3.2.0
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Matrix</em> version 1.2-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

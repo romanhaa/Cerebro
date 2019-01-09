@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM Tweedie families</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Tweedie {mgcv}"><tr><td>Tweedie {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM Tweedie families</h2>
+
+<h3>Description</h3>
+
+<p>Tweedie families, designed for use with <code><a href="gam.html">gam</a></code> from the <code>mgcv</code> library.
+Restricted to variance function powers between 1 and 2. A useful alternative to <code><a href="../../stats/html/family.html">quasi</a></code> when a
+full likelihood is desirable. <code>Tweedie</code> is for use with fixed <code>p</code>. <code>tw</code> is for use when <code>p</code>
+is to be estimated during fitting. For fixed <code>p</code> between 1 and 2 the Tweedie is an exponential family 
+distribution with variance given by the mean to the power <code>p</code>.
+</p>
+<p><code>tw</code> is only useable with <code><a href="gam.html">gam</a></code> and <code><a href="bam.html">bam</a></code> but not <code>gamm</code>. <code>Tweedie</code> works with all three.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Tweedie(p=1, link = power(0))
+tw(theta = NULL, link = "log",a=1.01,b=1.99)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>the variance of an observation is proportional to its mean to the power <code>p</code>. <code>p</code> must
+be greater than 1 and less than or equal to 2. 1 would be Poisson, 2 is gamma. </p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>The link function: one of <code>"log"</code>, <code>"identity"</code>, <code>"inverse"</code>, <code>"sqrt"</code>, or a 
+<code><a href="../../stats/html/power.html">power</a></code> link (<code>Tweedie</code> only).</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>Related to the Tweedie power parameter by <i>p=exp(a+b*exp(theta))/(1+exp(theta))</i>. If this is supplied as a positive value then it is taken as the fixed value for <code>p</code>.
+If it is a negative values then its absolute value is taken as the initial value for <code>p</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>a</code></td>
+<td>
+<p>lower limit on <code>p</code> for optimization.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>upper limit on <code>p</code> for optimization.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> A Tweedie random variable with 1&lt;p&lt;2 is a sum of <code>N</code> gamma random variables 
+where <code>N</code> has a Poisson distribution. The p=1 case is a generalization of a Poisson distribution and is a discrete 
+distribution supported on integer multiples of the scale parameter. For 1&lt;p&lt;2 the distribution is supported on the 
+positive reals with a point mass at zero. p=2 is a gamma distribution. As p gets very close to 1 the continuous 
+distribution begins to converge on the discretely supported limit at p=1, and is therefore highly multimodal. 
+See <code><a href="ldTweedie.html">ldTweedie</a></code> for more on this behaviour.
+</p>
+<p><code>Tweedie</code> is based partly on the <code><a href="../../stats/html/family.html">poisson</a></code> family, and partly on <code>tweedie</code> from the 
+<code>statmod</code> package. It includes extra components to work with all <code>mgcv</code> GAM fitting methods as well as 
+an <code>aic</code> function. 
+</p>
+<p>The Tweedie density involves a normalizing constant with no closed form, so this is evaluated using the series 
+evaluation method of Dunn and Smyth (2005), with extensions to also compute the derivatives w.r.t. <code>p</code> and the scale parameter. 
+Without restricting <code>p</code> to (1,2) the calculation of Tweedie densities is more difficult, and there does not 
+currently seem to be an implementation which offers any benefit over <code><a href="../../stats/html/family.html">quasi</a></code>. If you need  this 
+case then the <code>tweedie</code> package is the place to start.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>Tweedie</code>, an object inheriting from class <code>family</code>, with additional elements
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>dvar</code></td>
+<td>
+<p>the function giving the first derivative of the variance function w.r.t. <code>mu</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>d2var</code></td>
+<td>
+<p>the function giving the second derivative of the variance function w.r.t. <code>mu</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ls</code></td>
+<td>
+<p>A function returning a 3 element array: the saturated log likelihood followed by its first 2 derivatives
+w.r.t. the scale parameter.</p>
+</td></tr>
+</table>
+<p>For <code>tw</code>, an object of class <code>extended.family</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Dunn, P.K. and G.K. Smyth (2005) Series evaluation of Tweedie exponential dispersion model densities. 
+Statistics and Computing 15:267-280
+</p>
+<p>Tweedie, M. C. K. (1984). An index which distinguishes between
+some important exponential families. Statistics: Applications and
+New Directions. Proceedings of the Indian Statistical Institute
+Golden Jubilee International Conference (Eds. J. K. Ghosh and J.
+Roy), pp. 579-604. Calcutta: Indian Statistical Institute.
+</p>
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ldTweedie.html">ldTweedie</a></code>, <code><a href="rTweedie.html">rTweedie</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(3)
+n&lt;-400
+## Simulate data...
+dat &lt;- gamSim(1,n=n,dist="poisson",scale=.2)
+dat$y &lt;- rTweedie(exp(dat$f),p=1.3,phi=.5) ## Tweedie response
+
+## Fit a fixed p Tweedie, with wrong link ...
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=Tweedie(1.25,power(.1)),
+         data=dat)
+plot(b,pages=1)
+print(b)
+
+## Same by approximate REML...
+b1 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=Tweedie(1.25,power(.1)),
+          data=dat,method="REML")
+plot(b1,pages=1)
+print(b1)
+
+## estimate p as part of fitting
+
+b2 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=tw(),
+          data=dat,method="REML")
+plot(b2,pages=1)
+print(b2)
+
+rm(dat)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

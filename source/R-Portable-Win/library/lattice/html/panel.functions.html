@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Useful Panel Function Components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_2_panel.functions {lattice}"><tr><td>F_2_panel.functions {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Useful Panel Function Components</h2>
+
+<h3>Description</h3>
+
+<p>These are predefined panel functions available in lattice for use in
+constructing new panel functions (often on-the-fly).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+panel.abline(a = NULL, b = 0,
+             h = NULL, v = NULL,
+             reg = NULL, coef = NULL,
+             col, col.line, lty, lwd, alpha, type,
+             ...,
+             reference = FALSE,
+             identifier = "abline")
+panel.refline(...) 
+
+panel.curve(expr, from, to, n = 101,
+            curve.type = "l",
+            col, lty, lwd, type,
+            ...,
+            identifier = "curve")
+panel.rug(x = NULL, y = NULL,
+          regular = TRUE, 
+          start = if (regular) 0 else 0.97,
+          end = if (regular) 0.03 else 1,
+          x.units = rep("npc", 2),
+          y.units = rep("npc", 2),
+          col, col.line, lty, lwd, alpha,
+          ...,
+          identifier = "rug")
+panel.average(x, y, fun = mean, horizontal = TRUE,
+              lwd, lty, col, col.line, type,
+              ...,
+              identifier = "linejoin")
+panel.linejoin(x, y, fun = mean, horizontal = TRUE,
+               lwd, lty, col, col.line, type,
+               ...,
+               identifier = "linejoin")
+
+
+
+
+
+panel.fill(col, border, ..., identifier = "fill")
+panel.grid(h=3, v=3, col, col.line, lty, lwd, x, y, ..., identifier = "grid")
+panel.lmline(x, y, ..., identifier = "lmline")
+panel.mathdensity(dmath = dnorm, args = list(mean=0, sd=1),
+                  n = 50, col, col.line, lwd, lty, type,
+                  ..., identifier = "mathdensity")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p> Variables defining the contents of the panel.
+In <code>panel.grid</code> these are optional and are used only to choose
+an appropriate method of <code><a href="../../base/html/pretty.html">pretty</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>a, b</code></td>
+<td>
+<p> Coefficients of the line to be added by
+<code>panel.abline</code>.  <code>a</code> can be a vector of length 2,
+representing the coefficients of the line to be added, in which case
+<code>b</code> should be missing.  <code>a</code> can also be an appropriate
+&lsquo;regression&rsquo; object, i.e., an object which has a
+<code><a href="../../stats/html/coef.html">coef</a></code> method that returns a length 2 numeric vector.
+The corresponding line will be plotted.  The <code>reg</code> argument
+overrides <code>a</code> if specified.
+</p>
+</td></tr>
+<tr valign="top"><td><code>coef</code></td>
+<td>
+<p> Coefficients of the line to be added as a vector of
+length 2.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reg</code></td>
+<td>
+<p> A (linear) regression object, with a <code><a href="../../stats/html/coef.html">coef</a></code>
+method that gives the coefficints of the corresponding regression
+line. </p>
+</td></tr>
+<tr valign="top"><td><code>h, v</code></td>
+<td>
+<p> For <code>panel.abline</code>, these are numeric vectors giving
+locations respectively of horizontal and vertical lines to be added
+to the plot, in native coordinates.
+</p>
+<p>For <code>panel.grid</code>, these usually specify the number of
+horizontal and vertical reference lines to be added to the plot.
+Alternatively, they can be negative numbers.  <code>h=-1</code> and
+<code>v=-1</code> are intended to make the grids aligned with the axis
+labels.  This doesn't always work; all that actually happens is that
+the locations are chosen using <code>pretty</code>, which is also how the
+label positions are chosen in the most common cases (but not for
+factor variables, for instance).  <code>h</code> and <code>v</code> can be
+negative numbers other than <code>-1</code>, in which case <code>-h</code> and
+<code>-v</code> (as appropriate) is supplied as the <code>n</code> argument to
+<code><a href="../../base/html/pretty.html">pretty</a></code>.
+</p>
+<p>If <code>x</code> and/or <code>y</code> are specified in <code>panel.grid</code>, they
+will be used to select an appropriate method for
+<code><a href="../../base/html/pretty.html">pretty</a></code>.  This is particularly useful while plotting
+date-time objects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reference</code></td>
+<td>
+<p> A logical flag determining whether the default
+graphical parameters for <code>panel.abline</code> should be taken from
+the &ldquo;reference.line&rdquo; parameter settings.  The default is to
+take them from the &ldquo;add.line&rdquo; settings.  The
+<code>panel.refline</code> function is a wrapper around
+<code>panel.abline</code> that calls it with <code>reference = TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p> An expression considered as a function of <code>x</code>, or a
+function, to be plotted as a curve.   </p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> The number of points to use for drawing the curve. </p>
+</td></tr>
+<tr valign="top"><td><code>from, to</code></td>
+<td>
+<p> optional lower and upper x-limits of curve. If
+missing, limits of current panel are used
+</p>
+</td></tr>
+<tr valign="top"><td><code>curve.type</code></td>
+<td>
+<p> Type of curve (<code>"p"</code> for points, etc), passed
+to <code><a href="llines.html">llines</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>regular</code></td>
+<td>
+<p> A logical flag indicating whether the &lsquo;rug&rsquo; is
+to be drawn on the &lsquo;regular&rsquo; side (left / bottom) or not
+(right / top).  </p>
+</td></tr>
+<tr valign="top"><td><code>start, end</code></td>
+<td>
+<p> endpoints of rug segments, in normalized parent
+coordinates (between 0 and 1).  Defaults depend on value of
+<code>regular</code>, and cover 3% of the panel width and height. </p>
+</td></tr>
+<tr valign="top"><td><code>x.units, y.units</code></td>
+<td>
+
+<p>Character vectors, replicated to be of length two.  Specifies the
+(grid) units associated with <code>start</code> and <code>end</code> above.
+<code>x.units</code> and <code>y.units</code> are for the rug on the x-axis and
+y-axis respectively (and thus are associated with <code>start</code> and
+<code>end</code> values on the y and x scales respectively).
+</p>
+</td></tr>
+<tr valign="top"><td><code>col, col.line, lty, lwd, alpha, border</code></td>
+<td>
+<p> Graphical parameters. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> Usually ignored by the panel functions documented here;
+the argument is present only to make sure an explicitly specified
+<code>type</code> argument (perhaps meant for another function) does not
+affect the display.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p> The function that will be applied to the subset of
+<code>x</code> values (or <code>y</code> if <code>horizontal</code> is <code>FALSE</code>)
+determined by the unique values of <code>y</code> (<code>x</code>). </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p> A logical flag. If <code>FALSE</code>, the plot is
+&lsquo;transposed&rsquo; in the sense that the roles of <code>x</code> and
+<code>y</code> are switched; <code>x</code> is now the &lsquo;factor&rsquo;.
+Interpretation of other arguments change accordingly. See
+documentation of <code><a href="xyplot.html">bwplot</a></code> for a fuller explanation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dmath</code></td>
+<td>
+<p> A vectorized function that produces density values given
+a numeric vector named <code>x</code>, e.g., <code><a href="../../stats/html/Normal.html">dnorm</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p> A list giving additional arguments to be passed to
+<code>dmath</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Further arguments, typically graphical parameters,
+passed on to other low-level functions as appropriate.  Color can
+usually be specified by <code>col</code>, <code>col.line</code>, and
+<code>col.symbol</code>, the last two overriding the first for lines and
+points respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>panel.abline</code> adds a line of the form <code>y = a + b * x</code>, or
+vertical and/or horizontal lines.  Graphical parameters are obtained
+from the &ldquo;add.line&rdquo; settings by default.  <code>panel.refline</code>
+is similar, but uses the &ldquo;reference.line&rdquo; settings for the
+defaults.
+</p>
+<p><code>panel.grid</code> draws a reference grid.
+</p>
+<p><code>panel.curve</code> adds a curve, similar to what <code><a href="../../graphics/html/curve.html">curve</a></code>
+does with <code>add = TRUE</code>.  Graphical parameters for the curve are
+obtained from the &ldquo;add.line&rdquo; setting.
+</p>
+<p><code>panel.average</code> treats one of <code>x</code> and <code>y</code> as a factor
+(according to the value of <code>horizontal</code>), calculates <code>fun</code>
+applied to the subsets of the other variable determined by each unique
+value of the factor, and joins them by a line.  Can be used in
+conjunction with <code>panel.xyplot</code>, and more commonly with
+<code><a href="panel.superpose.html">panel.superpose</a></code> to produce interaction plots.
+</p>
+<p><code>panel.linejoin</code> is an alias for <code>panel.average</code>.  It is
+retained for back-compatibility, and may go away in future.
+</p>
+<p><code>panel.mathdensity</code> plots a (usually theoretical) probability
+density function.  This can be useful in conjunction with
+<code>histogram</code> and <code>densityplot</code> to visually assess goodness of
+fit (note, however, that <code>qqmath</code> is more suitable for this).
+</p>
+<p><code>panel.rug</code> adds a <em>rug</em> representation of the (marginal)
+data to the panel, much like <code><a href="../../graphics/html/rug.html">rug</a></code>.
+</p>
+<p><code>panel.lmline(x, y)</code> is equivalent to
+<code>panel.abline(lm(y ~ x))</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Lattice.html">Lattice</a>, <code><a href="panel.axis.html">panel.axis</a></code>, <code><a href="interaction.html">panel.identify</a></code>
+<code><a href="../../graphics/html/identify.html">identify</a></code>, <code><a href="trellis.par.get.html">trellis.par.set</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Interaction Plot
+
+bwplot(yield ~ site, barley, groups = year,
+       panel = function(x, y, groups, subscripts, ...) {
+           panel.grid(h = -1, v = 0)
+           panel.stripplot(x, y, ..., jitter.data = TRUE,
+                           groups = groups, subscripts = subscripts)
+           panel.superpose(x, y, ..., panel.groups = panel.average,
+                           groups = groups, subscripts = subscripts)
+       },
+       auto.key =
+       list(points = FALSE, lines = TRUE, columns = 2))
+
+## Superposing a fitted normal density on a Histogram
+
+histogram( ~ height | voice.part, data = singer, layout = c(2, 4),
+          type = "density", border = "transparent", col.line = "grey60",
+          xlab = "Height (inches)",
+          ylab = "Density Histogram\n with Normal Fit",
+          panel = function(x, ...) {
+              panel.histogram(x, ...)
+              panel.mathdensity(dmath = dnorm,
+                                args = list(mean=mean(x),sd=sd(x)), ...)
+          } )
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

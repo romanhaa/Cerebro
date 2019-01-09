@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print Lisp-Style Representation of R Expression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for showTree {codetools}"><tr><td>showTree {codetools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print Lisp-Style Representation of R Expression</h2>
+
+<h3>Description</h3>
+
+<p>Prints a Lisp-style representation of R expression.  This can be
+useful for understanding how some things are parsed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+showTree(e, write = cat)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>e</code></td>
+<td>
+<p>R expression.</p>
+</td></tr>
+<tr valign="top"><td><code>write</code></td>
+<td>
+<p>function of one argument to write the result.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Luke Tierney</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+showTree(quote(-3))
+showTree(quote("x"&lt;-1))
+showTree(quote("f"(x)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>codetools</em> version 0.2-15 <a href="00Index.html">Index</a>]</div>
+</body></html>

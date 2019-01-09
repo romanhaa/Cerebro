@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiple Correspondence Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mca {MASS}"><tr><td>mca {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Multiple Correspondence Analysis
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes a multiple correspondence analysis of a set of factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mca(df, nf = 2, abbrev = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>df</code></td>
+<td>
+
+<p>A data frame containing only factors
+</p>
+</td></tr>
+<tr valign="top"><td><code>nf</code></td>
+<td>
+
+<p>The number of dimensions for the MCA. Rarely 3 might be useful.
+</p>
+</td></tr>
+<tr valign="top"><td><code>abbrev</code></td>
+<td>
+
+<p>Should the vertex names be abbreviated?  By default these are of the
+form &lsquo;factor.level&rsquo; but if <code>abbrev = TRUE</code> they are just
+&lsquo;level&rsquo; which will suffice if the factors have distinct levels.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"mca"</code>, with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>rs</code></td>
+<td>
+
+<p>The coordinates of the rows, in <code>nf</code> dimensions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cs</code></td>
+<td>
+
+<p>The coordinates of the column vertices, one for each level of each factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fs</code></td>
+<td>
+
+<p>Weights for each row, used to interpolate additional factors in <code>predict.mca</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+
+<p>The number of factors
+</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+
+<p>The singular values for the <code>nf</code> dimensions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>The matched call.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="predict.mca.html">predict.mca</a></code>, <code><a href="plot.mca.html">plot.mca</a></code>, <code><a href="corresp.html">corresp</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+farms.mca &lt;- mca(farms, abbrev=TRUE)
+farms.mca
+plot(farms.mca)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

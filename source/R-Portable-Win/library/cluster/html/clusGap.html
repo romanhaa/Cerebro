@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gap Statistic for Estimating the Number of Clusters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clusGap {cluster}"><tr><td>clusGap {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gap Statistic for Estimating the Number of Clusters</h2>
+
+<h3>Description</h3>
+
+<p><code>clusGap()</code> calculates a goodness of clustering measure, the
+&ldquo;gap&rdquo; statistic.  For each number of clusters <i>k</i>, it
+compares <i>log(W(k))</i> with
+<i>E*[log(W(k))]</i> where the latter is defined via
+bootstrapping, i.e., simulating from a reference (<i>H_0</i>)
+distribution, a uniform distribution on the hypercube determined by
+the ranges of <code>x</code>, after first centering, and then
+<code><a href="../../base/html/svd.html">svd</a></code> (aka &lsquo;PCA&rsquo;)-rotating them when (as by
+default) <code>spaceH0 = "scaledPCA"</code>.
+</p>
+<p><code>maxSE(f, SE.f)</code> determines the location of the <b>maximum</b>
+of <code>f</code>, taking a &ldquo;1-SE rule&rdquo; into account for the
+<code>*SE*</code> methods.  The default method <code>"firstSEmax"</code> looks for
+the smallest <i>k</i> such that its value <i>f(k)</i> is not more than 1
+standard error away from the first local maximum.
+This is similar but not the same as <code>"Tibs2001SEmax"</code>, Tibshirani
+et al's recommendation of determining the number of clusters from the
+gap statistics and their standard deviations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+clusGap(x, FUNcluster, K.max, B = 100, d.power = 1,
+        spaceH0 = c("scaledPCA", "original"),
+        verbose = interactive(), ...)
+
+maxSE(f, SE.f,
+      method = c("firstSEmax", "Tibs2001SEmax", "globalSEmax",
+                 "firstmax", "globalmax"),
+      SE.factor = 1)
+
+## S3 method for class 'clusGap'
+print(x, method = "firstSEmax", SE.factor = 1, ...)
+
+## S3 method for class 'clusGap'
+plot(x, type = "b", xlab = "k", ylab = expression(Gap[k]),
+     main = NULL, do.arrows = TRUE,
+     arrowArgs = list(col="red3", length=1/16, angle=90, code=3), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>numeric matrix or <code><a href="../../base/html/data.frame.html">data.frame</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>FUNcluster</code></td>
+<td>
+<p>a <code><a href="../../base/html/function.html">function</a></code> which accepts as first
+argument a (data) matrix like <code>x</code>, second argument, say
+<i>k, k &gt;= 2</i>, the number of clusters desired,
+and returns a <code><a href="../../base/html/list.html">list</a></code> with a component named (or shortened to)
+<code>cluster</code> which is a vector of length <code>n = nrow(x)</code> of
+integers in <code>1:k</code> determining the clustering or grouping of the
+<code>n</code> observations.</p>
+</td></tr>
+<tr valign="top"><td><code>K.max</code></td>
+<td>
+<p>the maximum number of clusters to consider, must be at
+least two.</p>
+</td></tr>
+<tr valign="top"><td><code>B</code></td>
+<td>
+<p>integer, number of Monte Carlo (&ldquo;bootstrap&rdquo;) samples.</p>
+</td></tr>
+<tr valign="top"><td><code>d.power</code></td>
+<td>
+<p>a positive integer specifying the power <i>p</i> which
+is applied to the euclidean distances (<code><a href="../../stats/html/dist.html">dist</a></code>) before
+they are summed up to give <i>W(k)</i>.  The default, <code>d.power = 1</code>,
+corresponds to the &ldquo;historical&rdquo; <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> implementation, whereas
+<code>d.power = 2</code> corresponds to what Tibshirani et al had
+proposed.  This was found by Juan Gonzalez, in 2016-02.</p>
+</td></tr></table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>spaceH0</code></td>
+<td>
+<p>a <code><a href="../../base/html/character.html">character</a></code> string specifying the
+space of the <i>H_0</i> distribution (of <em>no</em> cluster).  Both
+<code>"scaledPCA"</code> and <code>"original"</code> use a uniform distribution
+in a hyper cube and had been mentioned in the reference;
+<code>"original"</code> been added after a proposal (including code) by
+Juan Gonzalez.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>integer or logical, determining if &ldquo;progress&rdquo;
+output should be printed.  The default prints one bit per bootstrap
+sample.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>(for <code>clusGap()</code>:) optionally further arguments for
+<code>FUNcluster()</code>, see <code>kmeans</code> example below.</p>
+</td></tr>
+<tr valign="top"><td><code>f</code></td>
+<td>
+<p>numeric vector of &lsquo;function values&rsquo;, of length
+<i>K</i>, whose (&ldquo;1 SE respected&rdquo;) maximum we want.</p>
+</td></tr>
+<tr valign="top"><td><code>SE.f</code></td>
+<td>
+<p>numeric vector of length <i>K</i> of standard errors of <code>f</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>character string indicating how the &ldquo;optimal&rdquo;
+number of clusters, <i>k^</i>, is computed from the gap
+statistics (and their standard deviations), or more generally how
+the location <i>k^</i> of the maximum of <i>f[k]</i>
+should be determined.
+</p>
+
+
+<dl>
+<dt><code>"globalmax"</code>:</dt><dd><p>simply corresponds to the global maximum,
+i.e., is <code>which.max(f)</code></p>
+</dd>
+<dt><code>"firstmax"</code>:</dt><dd><p>gives the location of the first <em>local</em>
+maximum.</p>
+</dd>
+<dt><code>"Tibs2001SEmax"</code>:</dt><dd><p>uses the criterion, Tibshirani et
+al (2001) proposed: &ldquo;the smallest <i>k</i> such that <i>f(k)
+	    &ge; f(k+1) - s_{k+1}</i>&rdquo;.  Note that this chooses <i>k = 1</i>
+when all standard deviations are larger than the differences
+<i>f(k+1) - f(k)</i>.</p>
+</dd>
+<dt><code>"firstSEmax"</code>:</dt><dd><p>location of the first <i>f()</i> value
+which is not larger than the first <em>local</em> maximum minus
+<code>SE.factor * SE.f[]</code>, i.e, within an &ldquo;f S.E.&rdquo; range
+of that maximum (see also <code>SE.factor</code>).
+</p>
+<p>This, the default, has been proposed by Martin Maechler in 2012,
+when adding <code>clusGap()</code> to the <span class="pkg">cluster</span> package, after
+having seen the <code>"globalSEmax"</code> proposal (in code) and read
+the <code>"Tibs2001SEmax"</code> proposal.</p>
+</dd>
+<dt><code>"globalSEmax"</code>:</dt><dd><p>(used in Dudoit and Fridlyand (2002),
+supposedly following Tibshirani's proposition):
+location of the first <i>f()</i> value which is not larger than
+the <em>global</em> maximum minus <code>SE.factor * SE.f[]</code>, i.e,
+within an &ldquo;f S.E.&rdquo; range of that maximum (see also
+<code>SE.factor</code>).</p>
+</dd>
+</dl>
+
+<p>See the examples for a comparison in a simple case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>SE.factor</code></td>
+<td>
+<p>[When <code>method</code> contains <code>"SE"</code>] Determining
+the optimal number of clusters, Tibshirani et al. proposed the
+&ldquo;1 S.E.&rdquo;-rule.  Using an <code>SE.factor</code> <i>f</i>, the
+&ldquo;f S.E.&rdquo;-rule is used, more generally.</p>
+</td></tr>
+</table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>type, xlab, ylab, main</code></td>
+<td>
+<p>arguments with the same meaning as in
+<code><a href="../../graphics/html/plot.default.html">plot.default</a>()</code>, with different default.</p>
+</td></tr>
+<tr valign="top"><td><code>do.arrows</code></td>
+<td>
+<p>logical indicating if (1 SE -)&ldquo;error bars&rdquo;
+should be drawn, via <code><a href="../../graphics/html/arrows.html">arrows</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>arrowArgs</code></td>
+<td>
+<p>a list of arguments passed to <code><a href="../../graphics/html/arrows.html">arrows</a>()</code>;
+the default, notably <code>angle</code> and <code>code</code>, provide a style
+matching usual error bars.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The main result <code>&lt;res&gt;$Tab[,"gap"]</code> of course is from
+bootstrapping aka Monte Carlo simulation and hence random, or
+equivalently, depending on the initial random seed (see
+<code><a href="../../base/html/Random.html">set.seed</a>()</code>).
+On the other hand, in our experience, using <code>B = 500</code> gives
+quite precise results such that the gap plot is basically unchanged
+after an another run.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>clusGap(..)</code> returns an object of S3 class <code>"clusGap"</code>,
+basically a list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Tab</code></td>
+<td>
+<p>a matrix with <code>K.max</code> rows and 4 columns, named
+&quot;logW&quot;, &quot;E.logW&quot;, &quot;gap&quot;, and &quot;SE.sim&quot;,
+where <code>gap = E.logW - logW</code>, and <code>SE.sim</code> corresponds to
+the standard error of <code>gap</code>, <code>SE.sim[k]=</code><i>s[k]</i>,
+where <i>s[k] := sqrt(1 + 1/B)
+    sd^*(gap[])</i>, and <i>sd^*()</i> is the standard deviation of the
+simulated (&ldquo;bootstrapped&rdquo;) gap values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>the <code>clusGap(..)</code> <code><a href="../../base/html/call.html">call</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>spaceH0</code></td>
+<td>
+<p>the <code>spaceH0</code> argument (<code><a href="../../base/html/match.arg.html">match.arg</a>()</code>ed).</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of observations, i.e., <code>nrow(x)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>B</code></td>
+<td>
+<p>input <code>B</code></p>
+</td></tr>
+<tr valign="top"><td><code>FUNcluster</code></td>
+<td>
+<p>input function <code>FUNcluster</code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>This function is originally based on the functions <code>gap</code> of
+(Bioconductor) package <span class="pkg">SAGx</span> by Per Broberg,
+<code>gapStat()</code> from former package <span class="pkg">SLmisc</span> by Matthias Kohl
+and ideas from <code>gap()</code> and its methods of package <span class="pkg">lga</span> by
+Justin Harrington.
+</p>
+<p>The current implementation is by Martin Maechler.
+</p>
+<p>The implementation of <code>spaceH0 = "original"</code> is based on code
+proposed by Juan Gonzalez.
+</p>
+
+
+<h3>References</h3>
+
+<p>Tibshirani, R., Walther, G. and Hastie, T. (2001).
+Estimating the number of data clusters via the Gap statistic.
+<em>Journal of the Royal Statistical Society B</em>, <b>63</b>, 411&ndash;423.
+</p>
+<p>Tibshirani, R., Walther, G. and Hastie, T. (2000).
+Estimating the number of clusters in a dataset via the Gap statistic.
+Technical Report. Stanford.
+</p>
+<p>Per Broberg (2006). SAGx: Statistical Analysis of the GeneChip.
+R package version 1.9.7.
+<a href="http://home.swipnet.se/pibroberg/expression_hemsida1.html">http://home.swipnet.se/pibroberg/expression_hemsida1.html</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="silhouette.html">silhouette</a></code> for a much simpler less sophisticated
+goodness of clustering measure.
+</p>
+<p><code><a href="../../fpc/html/cluster.stats.html">cluster.stats</a>()</code> in package <span class="pkg">fpc</span> for
+alternative measures.
+</p>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+### --- maxSE() methods -------------------------------------------
+(mets &lt;- eval(formals(maxSE)$method))
+fk &lt;- c(2,3,5,4,7,8,5,4)
+sk &lt;- c(1,1,2,1,1,3,1,1)/2
+## use plot.clusGap():
+plot(structure(class="clusGap", list(Tab = cbind(gap=fk, SE.sim=sk))))
+## Note that 'firstmax' and 'globalmax' are always at 3 and 6 :
+sapply(c(1/4, 1,2,4), function(SEf)
+        sapply(mets, function(M) maxSE(fk, sk, method = M, SE.factor = SEf)))
+
+### --- clusGap() -------------------------------------------------
+## ridiculously nicely separated clusters in 3 D :
+x &lt;- rbind(matrix(rnorm(150,           sd = 0.1), ncol = 3),
+           matrix(rnorm(150, mean = 1, sd = 0.1), ncol = 3),
+           matrix(rnorm(150, mean = 2, sd = 0.1), ncol = 3),
+           matrix(rnorm(150, mean = 3, sd = 0.1), ncol = 3))
+
+## Slightly faster way to use pam (see below)
+pam1 &lt;- function(x,k) list(cluster = pam(x,k, cluster.only=TRUE))
+
+## We do not recommend using hier.clustering here, but if you want,
+## there is  factoextra::hcut () or a cheap version of it
+hclusCut &lt;- function(x, k, d.meth = "euclidean", ...)
+   list(cluster = cutree(hclust(dist(x, method=d.meth), ...), k=k))
+
+## You can manually set it before running this :    doExtras &lt;- TRUE  # or  FALSE
+if(!(exists("doExtras") &amp;&amp; is.logical(doExtras)))
+  doExtras &lt;- cluster:::doExtras()
+
+if(doExtras) {
+  ## Note we use  B = 60 in the following examples to keep them "speedy".
+  ## ---- rather keep the default B = 500 for your analysis!
+
+  ## note we can  pass 'nstart = 20' to kmeans() :
+  gskmn &lt;- clusGap(x, FUN = kmeans, nstart = 20, K.max = 8, B = 60)
+  gskmn #-&gt; its print() method
+  plot(gskmn, main = "clusGap(., FUN = kmeans, n.start=20, B= 60)")
+  set.seed(12); system.time(
+    gsPam0 &lt;- clusGap(x, FUN = pam, K.max = 8, B = 60)
+  )
+  set.seed(12); system.time(
+    gsPam1 &lt;- clusGap(x, FUN = pam1, K.max = 8, B = 60)
+  )
+  ## and show that it gives the "same":
+  not.eq &lt;- c("call", "FUNcluster"); n &lt;- names(gsPam0)
+  eq &lt;- n[!(n %in% not.eq)]
+  stopifnot(identical(gsPam1[eq], gsPam0[eq]))
+  print(gsPam1, method="globalSEmax")
+  print(gsPam1, method="globalmax")
+
+  print(gsHc &lt;- clusGap(x, FUN = hclusCut, K.max = 8, B = 60))
+
+}# end {doExtras}
+
+gs.pam.RU &lt;- clusGap(ruspini, FUN = pam1, K.max = 8, B = 60)
+gs.pam.RU
+plot(gs.pam.RU, main = "Gap statistic for the 'ruspini' data")
+mtext("k = 4 is best .. and  k = 5  pretty close")
+
+## This takes a minute..
+## No clustering ==&gt; k = 1 ("one cluster") should be optimal:
+Z &lt;- matrix(rnorm(256*3), 256,3)
+gsP.Z &lt;- clusGap(Z, FUN = pam1, K.max = 8, B = 200)
+plot(gsP.Z, main = "clusGap(&lt;iid_rnorm_p=3&gt;)  ==&gt; k = 1  cluster is optimal")
+gsP.Z
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

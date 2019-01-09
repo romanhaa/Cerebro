@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for parallel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.parallel {lattice}"><tr><td>F_1_panel.parallel {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for parallel </h2>
+
+<h3>Description</h3>
+
+<p>This is the default panel function for <code>parallel</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.parallel(x, y, z, subscripts,
+               groups = NULL,
+               col, lwd, lty, alpha,
+               common.scale = FALSE,
+               lower,
+               upper,
+               ...,
+               horizontal.axis = TRUE,
+               identifier = "parallel")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p> dummy variables, ignored. </p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+
+<p>The data frame used for the plot.  Each column will be coerced to
+numeric before being plotted, and an error will be issued if this
+fails.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subscripts</code></td>
+<td>
+
+<p>The indices of the rows of <code>z</code> that are to be displyed in this
+panel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+
+<p>An optional grouping variable.  If specified, different groups are
+distinguished by use of different graphical parameters (i.e., rows
+of <code>z</code> in the same group share parameters).
+</p>
+</td></tr>
+<tr valign="top"><td><code>col, lwd, lty, alpha</code></td>
+<td>
+
+<p>graphical parameters (defaults to the settings for
+<code>superpose.line</code>).  If <code>groups</code> is non-null, these
+parameters used one for each group.  Otherwise, they are recycled
+and used to distinguish between rows of the data frame <code>z</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>common.scale</code></td>
+<td>
+
+<p>logical, whether a common scale should be used columns of <code>z</code>.
+Defaults to <code>FALSE</code>, in which case the horizontal range for
+each column is different (as determined by <code>lower</code> and
+<code>upper</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>lower, upper</code></td>
+<td>
+
+<p>numeric vectors replicated to be as long as the number of columns in
+<code>z</code>.  Determines the lower and upper bounds to be used for
+scaling the corresponding columns of <code>z</code> after coercing them to
+numeric.  Defaults to the minimum and maximum of each column.
+Alternatively, these could be functions (to be applied on each
+column) that return a scalar.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments (ignored) </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal.axis</code></td>
+<td>
+<p>logical indicating whether the parallel axes should
+be laid out horizontally (<code>TRUE</code>) or vertically (<code>FALSE</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Produces parallel coordinate plots, which are easier to
+understand from an example than through a verbal description.  See
+example for <code><a href="splom.html">parallel</a></code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Inselberg, Alfred (2009) <em>Parallel Coordinates: Visual
+Multidimensional Geometry and Its Applications</em>, Springer. ISBN:
+978-0-387-21507-5.
+</p>
+<p>Inselberg, A. (1985) &ldquo;The Plane with Parallel Coordinates&rdquo;,
+<em>The Visual Computer</em>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="splom.html">parallel</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

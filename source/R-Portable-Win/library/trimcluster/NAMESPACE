@@ -1,0 +1,10 @@
+# Default NAMESPACE created by R
+# Remove the previous line if you edit this file
+
+# Export all names
+exportPattern(".")
+
+S3method("plot", "tkm")
+S3method("print", "tkm")
+
+importFrom("graphics", "lines", "plot", "points")

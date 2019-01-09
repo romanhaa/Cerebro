@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Residuals From a Fitted Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for residuals.rpart {rpart}"><tr><td>residuals.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Residuals From a Fitted Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Method for <code>residuals</code> for an <code>rpart</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+residuals(object, type = c("usual", "pearson", "deviance"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>Indicates the type of residual desired.
+</p>
+<p>For regression or <code>anova</code> trees all three residual
+definitions reduce to <code>y - fitted</code>.  This is the residual returned for
+<code>user</code> method trees as well.
+</p>
+<p>For classification trees the <code>usual</code> residuals
+are the misclassification losses L(actual, predicted) where L is the
+loss matrix.  With default losses this residual is
+0/1 for correct/incorrect classification.
+The <code>pearson</code> residual is 
+(1-fitted)/sqrt(fitted(1-fitted)) and the <code>deviance</code> residual is 
+sqrt(minus twice logarithm of fitted).
+</p>
+<p>For <code>poisson</code> and <code>exp</code>
+(or survival) trees, the <code>usual</code> residual
+is the observed - expected number of events.
+The <code>pearson</code> and <code>deviance</code> residuals are as defined in
+McCullagh and Nelder.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Vector of residuals of type <code>type</code> from a fitted <code>rpart</code> object. 
+</p>
+
+
+<h3>References</h3>
+
+<p>McCullagh P. and Nelder, J. A. (1989)
+<em>Generalized Linear Models</em>.
+London: Chapman and Hall.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- rpart(skips ~ Opening + Solder + Mask + PadType + Panel,
+             data = solder, method = "anova")
+summary(residuals(fit))
+plot(predict(fit),residuals(fit))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a smooth to a form suitable for estimating as random...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for smooth2random {mgcv}"><tr><td>smooth2random {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a smooth to a form suitable for estimating as random effect</h2>
+
+<h3>Description</h3>
+
+<p>A generic function for converting <code>mgcv</code> smooth objects to forms suitable for estimation as random effects by e.g. <code>lme</code>. Exported mostly for use by other package developers. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+smooth2random(object,vnames,type=1)
+
+
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an <code>mgcv</code> smooth object.</p>
+</td></tr>
+<tr valign="top"><td><code>vnames</code></td>
+<td>
+<p>a vector of names to avoid as dummy variable names in the random effects form.</p>
+</td></tr> 
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p><code>1</code> for <code>lme</code>, otherwise <code>lmer</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>There is a duality between smooths and random effects which means that smooths can be estimated using mixed modelling software. This function converts standard <code>mgcv</code> smooth objects to forms suitable for estimation by <code>lme</code>, for example. A service routine for <code><a href="gamm.html">gamm</a></code> exported for use by package developers. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>rand</code></td>
+<td>
+<p> a list of random effects, including grouping factors, and 
+a fixed effects matrix. Grouping factors, model matrix and             model matrix name attached as attributes, to each element.</p>
+</td></tr>
+<tr valign="top"><td><code>trans.D</code></td>
+<td>
+<p>A vector, trans.D, that transforms coefs, in order [rand1, rand2,... fix] back to original parameterization. If null, then taken as vector of ones. <code>b.original = trans.U %*% (trans.D*b.fit)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trans.U</code></td>
+<td>
+<p>A matrix, trans.U, that transforms coefs, in order [rand1, rand2,... fix] back to original parameterization. If null, then not needed. If null then taken as identity.</p>
+</td></tr>
+<tr valign="top"><td><code>Xf</code></td>
+<td>
+<p>A matrix for the fixed effects, if any.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p><code>TRUE/FALSE</code>, indicating if term was unpenalized or not. If unpenalized then other stuff may not be returned (it's not a random effect).</p>
+</td></tr>
+<tr valign="top"><td><code>rind</code></td>
+<td>
+<p>an index vector such that if br is the vector of 
+random coefficients for the term, br[rind] is the coefs in 
+order for this term. </p>
+</td></tr>
+<tr valign="top"><td><code>pen.ind</code></td>
+<td>
+<p>index of which penalty penalizes each coefficient: 0 for unpenalized.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>.</p>
+
+
+<h3>References</h3>
+
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gamm.html">gamm</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+x &lt;- runif(30)
+sm &lt;- smoothCon(s(x),data.frame(x=x))[[1]]
+smooth2random(sm,"")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

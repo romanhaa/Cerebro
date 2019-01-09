@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute truncated eigen decomposition of a symmetric matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for slanczos {mgcv}"><tr><td>slanczos {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute truncated eigen decomposition of a symmetric matrix</h2>
+
+<h3>Description</h3>
+
+<p> Uses Lanczos iteration to find the truncated eigen-decomposition of a symmetric matrix. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+slanczos(A,k=10,kl=-1,tol=.Machine$double.eps^.5,nt=1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p>A symmetric matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>Must be non-negative. If <code>kl</code> is negative, then the <code>k</code> largest magnitude eigenvalues 
+are found, together with the corresponding eigenvectors. If <code>kl</code> is non-negative then the <code>k</code>
+highest eigenvalues are found together with their eigenvectors and the <code>kl</code> lowest eigenvalues with
+eigenvectors are also returned.</p>
+</td></tr>
+<tr valign="top"><td><code>kl</code></td>
+<td>
+<p>If <code>kl</code> is non-negative then the <code>kl</code> lowest eigenvalues are returned together with their 
+corresponding eigenvectors (in addition to the <code>k</code> highest eignevalues + vectors). 
+negative <code>kl</code> signals that the <code>k</code> largest magnitude eigenvalues should be returned, with eigenvectors.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>tolerance to use for convergence testing of eigenvalues. Error in eigenvalues will be less 
+than the magnitude of the dominant eigenvalue multiplied by <code>tol</code> (or the machine precision!).</p>
+</td></tr>
+<tr valign="top"><td><code>nt</code></td>
+<td>
+<p>number of threads to use for leading order iterative multiplication of A by vector. May show no 
+speed improvement on two processor machine.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> If <code>kl</code> is non-negative, returns the highest <code>k</code> and lowest <code>kl</code> eigenvalues, 
+with their corresponding eigenvectors. If <code>kl</code> is negative, returns the largest magnitude <code>k</code> 
+eigenvalues, with corresponding eigenvectors.
+</p>
+<p>The routine implements Lanczos iteration with full re-orthogonalization as described in Demmel (1997). Lanczos 
+iteraction iteratively constructs a tridiagonal matrix, the eigenvalues of which converge to the eigenvalues of <code>A</code>,
+as the iteration proceeds (most extreme first). Eigenvectors can also be computed. For small <code>k</code> and <code>kl</code> the 
+approach is faster than computing the full symmetric eigendecompostion. The tridiagonal eigenproblems are handled using LAPACK.
+</p>
+<p>The implementation is not optimal: in particular the inner triadiagonal problems could be handled more efficiently, and 
+there would be some savings to be made by not always returning eigenvectors. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> A list with elements <code>values</code> (array of eigenvalues); <code>vectors</code> (matrix with eigenvectors in its columns); 
+<code>iter</code> (number of iterations required).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Demmel, J. (1997) Applied Numerical Linear Algebra. SIAM
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="smooth.construct.ps.smooth.spec.html">cyclic.p.spline</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ require(mgcv)
+ ## create some x's and knots...
+ set.seed(1);
+ n &lt;- 700;A &lt;- matrix(runif(n*n),n,n);A &lt;- A+t(A)
+ 
+ ## compare timings of slanczos and eigen
+ system.time(er &lt;- slanczos(A,10))
+ system.time(um &lt;- eigen(A,symmetric=TRUE))
+ 
+ ## confirm values are the same...
+ ind &lt;- c(1:6,(n-3):n)
+ range(er$values-um$values[ind]);range(abs(er$vectors)-abs(um$vectors[,ind]))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Huber M-estimator of Location with MAD Scale</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for huber {MASS}"><tr><td>huber {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Huber M-estimator of Location with MAD Scale
+</h2>
+
+<h3>Description</h3>
+
+<p>Finds the Huber M-estimator of location with MAD scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+huber(y, k = 1.5, tol = 1e-06)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>vector of data values
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>Winsorizes at <code>k</code> standard deviations
+</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+
+<p>convergence tolerance
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>list of location and scale parameters
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>mu</code></td>
+<td>
+
+<p>location estimate
+</p>
+</td></tr>
+<tr valign="top"><td><code>s</code></td>
+<td>
+
+<p>MAD scale estimate
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Huber, P. J. (1981)
+<em>Robust Statistics.</em>
+Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="hubers.html">hubers</a></code>, <code><a href="../../stats/html/mad.html">mad</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+huber(chem)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

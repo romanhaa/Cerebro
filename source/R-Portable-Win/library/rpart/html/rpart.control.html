@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Control for Rpart Fits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rpart.control {rpart}"><tr><td>rpart.control {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Control for Rpart Fits
+</h2>
+
+<h3>Description</h3>
+
+<p>Various parameters that control aspects of the <code>rpart</code> fit. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rpart.control(minsplit = 20, minbucket = round(minsplit/3), cp = 0.01, 
+              maxcompete = 4, maxsurrogate = 5, usesurrogate = 2, xval = 10,
+              surrogatestyle = 0, maxdepth = 30, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>minsplit</code></td>
+<td>
+
+<p>the minimum number of observations that must exist in a node in order for 
+a split to be attempted. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>minbucket</code></td>
+<td>
+
+<p>the minimum number of observations in any terminal <code>&lt;leaf&gt;</code> node.
+If only one of <code>minbucket</code> or <code>minsplit</code> is specified,
+the code either sets <code>minsplit</code> to <code>minbucket*3</code>
+or <code>minbucket</code> to <code>minsplit/3</code>, as appropriate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cp</code></td>
+<td>
+
+<p>complexity parameter.  Any split that does not decrease the overall
+lack of fit by a factor of <code>cp</code> is not attempted.  For instance,
+with <code>anova</code> splitting, this means that the overall R-squared must
+increase by <code>cp</code> at each step. The main role of this parameter
+is to save computing time by pruning off splits that are obviously
+not worthwhile. Essentially,the user informs the program that any
+split which does not improve the fit by <code>cp</code> will likely be
+pruned off by cross-validation, and that hence the program need
+not pursue it.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxcompete</code></td>
+<td>
+
+<p>the number of competitor splits retained in the output.  It is useful to
+know not just which split was chosen, but which variable came in second,
+third, etc.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxsurrogate</code></td>
+<td>
+
+<p>the number of surrogate splits retained in the output.  If this is set to
+zero the compute time will be reduced, since approximately half of the
+computational time (other than setup) is used in the search for surrogate
+splits.
+</p>
+</td></tr>
+<tr valign="top"><td><code>usesurrogate</code></td>
+<td>
+
+<p>how to use surrogates in the splitting process.  <code>0</code> means
+display only; an observation with a missing value for the primary
+split rule is not sent further down the tree.  <code>1</code> means use
+surrogates, in order, to split subjects missing the primary variable;
+if all surrogates are missing the observation is not split.  For value
+<code>2</code> ,if all surrogates are missing, then send the observation in
+the majority direction.  A value of <code>0</code> corresponds to the action
+of <code>tree</code>, and <code>2</code> to the recommendations of Breiman
+<em>et.al</em> (1984).
+</p>
+</td></tr>
+<tr valign="top"><td><code>xval</code></td>
+<td>
+
+<p>number of cross-validations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>surrogatestyle</code></td>
+<td>
+
+<p>controls the selection of a best surrogate.
+If set to <code>0</code> (default) the program uses the total number of correct
+classification for a potential surrogate variable,
+if set to <code>1</code> it uses the percent correct, calculated over the
+non-missing values of the surrogate.
+The first option more severely penalizes covariates with a large number of
+missing values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxdepth</code></td>
+<td>
+
+<p>Set the maximum depth of any node of the final tree, with the root
+node counted as depth 0.  Values greater than  30 <code>rpart</code> will
+give nonsense results on 32-bit machines.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>mop up other arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list containing the options.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The one standard error rule for smoother models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for one.se.rule {mgcv}"><tr><td>one.se.rule {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The one standard error rule for smoother models</h2>
+
+<h3>Description</h3>
+
+<p> The &lsquo;one standard error rule&rsquo; (see e.g. Hastie, Tibshirani and Friedman, 2009) is a way of producing smoother models than those directly estimated by automatic smoothing parameter selection methods. In the single smoothing parameter case, we select the largest smoothing parameter within one standard error of the optimum of the smoothing parameter selection criterion. This approach can be generalized to multiple smoothing parameters estimated by REML or ML.</p>
+
+
+<h3>Details</h3>
+
+<p>Under REML or ML smoothing parameter selection an asyptotic distributional approximation is available for the log smoothing parameters. Let <i>r</i> denote the log smoothing parameters that we want to increase to obtain a smoother model. The large sample distribution of the estimator of <i>r</i> is <i>N(r,V)</i> where <i>V</i> is the matrix returned by <code><a href="sp.vcov.html">sp.vcov</a></code>. Drop any elements of <i>r</i> that are already at &lsquo;effective infinity&rsquo;, along with the corresponding rows and columns of <i>V</i>. The standard errors of the log smoothing parameters can be obtained from the leading diagonal of <i>V</i>. Let the vector of these be <i>d</i>. Now suppose that we want to increase the estimated log smoothing parameters by an amount <i>a*d</i>. We choose <i>a</i> so that <i>a d'V^{-1}d = (2p)^0.5</i>, where p is the dimension of d and 2p the variance of a chi-squared r.v. with p degrees of freedom.
+</p>
+<p>The idea is that we increase the log smoothing parameters in proportion to their standard deviation, until the RE/ML is increased by 1 standard deviation according to its asypmtotic distribution. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Hastie, T, R. Tibshirani and J. Friedman (2009) The Elements of Statistical Learning 2nd ed. Springer.</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.html">gam</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+require(mgcv)
+set.seed(2) ## simulate some data...
+dat &lt;- gamSim(1,n=400,dist="normal",scale=2)
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat,method="REML")
+b
+## only the first 3 smoothing parameters are candidates for
+## increasing here...
+V &lt;- sp.vcov(b)[1:3,1:3] ## the approx cov matrix of sps
+d &lt;- diag(V)^.5          ## sp se.
+## compute the log smoothing parameter step...
+d &lt;- sqrt(2*length(d))/d
+sp &lt;- b$sp ## extract original sp estimates
+sp[1:3] &lt;- sp[1:3]*exp(d) ## apply the step
+## refit with the increased smoothing parameters...
+b1 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat,method="REML",sp=sp)
+b;b1 ## compare fits
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

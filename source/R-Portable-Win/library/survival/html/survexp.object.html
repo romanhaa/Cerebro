@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Expected Survival Curve Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survexp.object {survival}"><tr><td>survexp.object {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Expected Survival Curve Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>This class of objects is returned by the <code>survexp</code> class of functions
+to represent a fitted survival curve. 
+</p>
+<p>Objects of this class have methods for <code>summary</code>, and inherit
+the <code>print</code>, <code>plot</code>, <code>points</code> and <code>lines</code>
+methods from <code>survfit</code>.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>surv</code></td>
+<td>
+
+<p>the estimate of survival at time t+0. 
+This may be a vector or a matrix. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.risk</code></td>
+<td>
+
+<p>the number of subjects who contribute at this time.
+</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+
+<p>the time points at which the curve has a step. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>std.err</code></td>
+<td>
+
+<p>the standard error of the cumulative hazard or -log(survival). 
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>if there are multiple curves, this component gives the number of elements of 
+the <code>time</code> etc. vectors corresponding to the first curve,
+the second curve, 
+and so on.  The names of the elements are labels for the curves. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the estimation method used.  One of &quot;Ederer&quot;, &quot;Hakulinen&quot;,
+or &quot;conditional&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>the returned value from the na.action function, if any.  It will be used 
+in the printout of the curve, e.g., the number of observations deleted due 
+to missing values. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>an image of the call that produced the object. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Structure</h3>
+
+<p>The following components must be included in a legitimate 
+<code>survfit</code> 
+object. 
+</p>
+
+
+<h3>Subscripts</h3>
+
+<p>Survexp objects that contain multiple survival curves can be subscripted. 
+This is most often used to plot a subset of the curves. 
+</p>
+
+
+<h3>Details</h3>
+
+<p>In expected survival each subject from the data set is matched to a
+hypothetical person from the parent population, matched on the
+characteristics of the parent population.
+The number at risk printed here is the number of those hypothetical
+subject who are still part of the calculation.
+In particular, for the Ederer method all hypotheticals are retained for
+all time, so <code>n.risk</code> will be a constant.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.survfit.html">plot.survfit</a></code>,  
+<code><a href="summary.survexp.html">summary.survexp</a></code>,
+<code><a href="print.survfit.html">print.survfit</a></code>,
+<code><a href="survexp.html">survexp</a></code>.   
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

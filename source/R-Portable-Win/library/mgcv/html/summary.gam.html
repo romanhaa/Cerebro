@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary for a GAM fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.gam {mgcv}"><tr><td>summary.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summary for a GAM fit</h2>
+
+<h3>Description</h3>
+
+<p> Takes a fitted <code>gam</code> object produced by <code>gam()</code> and produces various useful
+summaries from it. (See <code><a href="../../base/html/sink.html">sink</a></code> to divert output to a file.)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+summary(object, dispersion=NULL, freq=FALSE, re.test=TRUE, ...)
+
+## S3 method for class 'summary.gam'
+print(x,digits = max(3, getOption("digits") - 3), 
+                  signif.stars = getOption("show.signif.stars"),...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> a fitted <code>gam</code> object as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a <code>summary.gam</code> object produced by <code>summary.gam()</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+<p>A known dispersion parameter. <code>NULL</code> to use estimate or
+default (e.g. 1 for Poisson).</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>By default p-values for parametric terms are calculated using the Bayesian estimated
+covariance matrix of the parameter estimators. If this is set to <code>TRUE</code> then
+the frequentist covariance matrix of the parameters is used instead. </p>
+</td></tr>
+<tr valign="top"><td><code>re.test</code></td>
+<td>
+<p>Should tests be performed for random effect terms (including any term with a zero dimensional null space)?
+For large models these tests can be computationally expensive. </p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>controls number of digits printed in output.</p>
+</td></tr>
+<tr valign="top"><td><code>signif.stars</code></td>
+<td>
+<p>Should significance stars be printed alongside output.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Model degrees of freedom are taken as the trace of the influence (or
+hat) matrix <i>A</i> for the model fit.
+Residual degrees of freedom are taken as number of data minus model degrees of
+freedom. 
+Let <i>P_i</i> be the matrix 
+giving the parameters of the ith smooth when applied to the data (or pseudodata in the generalized case) and let <i>X</i> 
+be the design matrix of the model. Then <i>tr(XP_i)</i> is the edf for the ith term. Clearly this 
+definition causes the edf's to add up properly! An alternative version of EDF is more appropriate for p-value computation, and is based on the trace of  <i>2A - AA</i>.
+</p>
+<p><code>print.summary.gam</code> tries to print various bits of summary information useful for term selection in a pretty way.
+</p>
+<p>P-values for smooth terms are usually based on a 
+test statistic motivated by an extension of Nychka's (1988) analysis of the frequentist properties 
+of Bayesian confidence intervals for smooths (Marra and Wood, 2012). 
+These have better frequentist performance (in terms of power and distribution under the null) 
+than the alternative strictly frequentist approximation. When the Bayesian intervals have good 
+across the function properties then the p-values have close to the correct null distribution 
+and reasonable power (but there are no optimality results for the power). Full details are in Wood (2013b), 
+although what is computed is actually a slight variant in which the components of the test statistic are weighted by the iterative fitting weights. 
+</p>
+<p>Note that for terms with no unpenalized terms (such as Gaussian random effects) the Nychka (1988) requirement for smoothing bias to be substantially less than variance breaks down (see e.g. appendix of Marra and Wood, 2012), and this results in incorrect null distribution for p-values computed using the above approach. In this case it is necessary to use an alternative 
+approach designed for random effects variance components, and this is done. See Wood (2013a) for details: the test is based on a likelihood ratio statistic (with the reference distribution appropriate for the null hypothesis on the boundary of the parameter space).
+</p>
+<p>All p-values are computed without considering uncertainty in the smoothing parameter estimates.
+</p>
+<p>In simulations the p-values have best behaviour under ML smoothness selection, with REML coming second. In general the p-values behave well, but neglecting smoothing parameter uncertainty means that they may be somewhat too low when smoothing parameters are highly uncertain. High uncertainty happens in particular when smoothing parameters are poorly identified, which can occur with nested smooths or highly correlated covariates (high concurvity).
+</p>
+<p>By default the p-values for parametric model terms are also based on Wald tests using the Bayesian 
+covariance matrix for the coefficients. This is appropriate when there are &quot;re&quot; terms present, and is 
+otherwise rather similar to the results using the frequentist covariance matrix (<code>freq=TRUE</code>), since 
+the parametric terms themselves are usually unpenalized. Default P-values for parameteric terms that are 
+penalized using the <code>paraPen</code> argument will not be good. However if such terms represent conventional 
+random effects with full rank penalties, then setting <code>freq=TRUE</code> is appropriate. 
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>summary.gam</code> produces a list of summary information for a fitted <code>gam</code> object. 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>p.coeff</code></td>
+<td>
+<p>is an array of estimates of the strictly parametric model coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>p.t</code></td>
+<td>
+<p>is an array of the <code>p.coeff</code>'s divided by their standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>p.pv</code></td>
+<td>
+<p>is an array of p-values for the null hypothesis that the corresponding parameter is zero. 
+Calculated with reference to the t distribution with the estimated residual
+degrees of freedom for the model fit if the dispersion parameter has been
+estimated, and the standard normal if not.</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>The number of smooth terms in the model.</p>
+</td></tr>
+<tr valign="top"><td><code>chi.sq</code></td>
+<td>
+<p>An array of test statistics for assessing the significance of
+model smooth terms. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>s.pv</code></td>
+<td>
+<p>An array of approximate p-values for the null hypotheses that each
+smooth term is zero. Be warned, these are only approximate.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>array of standard error estimates for all parameter estimates.</p>
+</td></tr>
+<tr valign="top"><td><code>r.sq</code></td>
+<td>
+<p>The adjusted r-squared for the model. Defined as the proportion of variance explained, where original variance and 
+residual variance are both estimated using unbiased estimators. This quantity can be negative if your model is worse than a one 
+parameter constant model, and can be higher for the smaller of two nested models! The proportion null deviance 
+explained is probably more appropriate for non-normal errors. Note that <code>r.sq</code> does not include any offset in the one parameter model.</p>
+</td></tr>
+<tr valign="top"><td><code>dev.expl</code></td>
+<td>
+<p>The proportion of the null deviance explained by the model. The null deviance is computed taking account of any offset, so 
+<code>dev.expl</code> can be substantially lower than <code>r.sq</code> when an offset is present.</p>
+</td></tr>
+<tr valign="top"><td><code>edf</code></td>
+<td>
+<p>array of estimated degrees of freedom for the model terms.</p>
+</td></tr>
+<tr valign="top"><td><code>residual.df</code></td>
+<td>
+<p>estimated residual degrees of freedom.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of data.</p>
+</td></tr>
+<tr valign="top"><td><code>np</code></td>
+<td>
+<p>number of model coefficients (regression coefficients, not smoothing parameters or other parameters of likelihood).</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>apparent model rank.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>The smoothing selection criterion used.</p>
+</td></tr>
+<tr valign="top"><td><code>sp.criterion</code></td>
+<td>
+<p>The minimized value of the smoothness selection criterion. Note that for ML and REML methods, 
+what is reported is the negative log marginal likelihood or negative log restricted likelihood. </p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>estimated (or given) scale parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>the family used.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>the original GAM formula.</p>
+</td></tr>
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+<p>the scale parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>pTerms.df</code></td>
+<td>
+<p>the degrees of freedom associated with each parametric term
+(excluding the constant).</p>
+</td></tr>
+<tr valign="top"><td><code>pTerms.chi.sq</code></td>
+<td>
+<p>a Wald statistic for testing the null hypothesis that the
+each parametric term is zero.</p>
+</td></tr>
+<tr valign="top"><td><code>pTerms.pv</code></td>
+<td>
+<p>p-values associated with the tests that each term is
+zero. For penalized fits these are approximate. The reference distribution 
+is an appropriate chi-squared when the
+scale parameter is known, and is based on an F when it is not.</p>
+</td></tr>
+<tr valign="top"><td><code>cov.unscaled</code></td>
+<td>
+<p>The estimated covariance matrix of the parameters (or
+estimators if <code>freq=TRUE</code>), divided
+by scale parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>cov.scaled</code></td>
+<td>
+<p>The estimated covariance matrix of the parameters
+(estimators if <code>freq=TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>p.table</code></td>
+<td>
+<p>significance table for parameters</p>
+</td></tr>
+<tr valign="top"><td><code>s.table</code></td>
+<td>
+<p>significance table for smooths</p>
+</td></tr>
+<tr valign="top"><td><code>p.Terms</code></td>
+<td>
+<p>significance table for parametric model terms</p>
+</td></tr>
+</table>
+
+
+<h3>WARNING </h3>
+
+ 
+<p>The p-values are approximate and neglect smoothing parameter uncertainty. They are likely to be somewhat too low 
+when smoothing parameter estimates are highly uncertain: do read the details section. If the exact values matter,
+read Wood (2013a or b). 
+</p>
+<p>P-values for terms penalized via &lsquo;paraPen&rsquo; are unlikely to be correct.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> with substantial
+improvements by Henric Nilsson.</p>
+
+
+<h3>References</h3>
+
+<p>Marra, G and S.N. Wood (2012) Coverage Properties of Confidence Intervals for Generalized Additive
+Model Components. Scandinavian Journal of Statistics, 39(1), 53-74.
+</p>
+<p>Nychka (1988) Bayesian Confidence Intervals for Smoothing Splines. 
+Journal of the American Statistical Association 83:1134-1143.
+</p>
+<p>Wood, S.N. (2013a) A simple test for random effects in regression models. Biometrika 100:1005-1010
+</p>
+<p>Wood, S.N. (2013b) On p-values for smooth components of an extended generalized additive model. Biometrika 100:221-228
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gam.html">gam</a></code>, <code><a href="predict.gam.html">predict.gam</a></code>,
+<code><a href="gam.check.html">gam.check</a></code>, <code><a href="anova.gam.html">anova.gam</a></code>, <code><a href="gam.vcomp.html">gam.vcomp</a></code>, <code><a href="sp.vcov.html">sp.vcov</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(0)
+
+dat &lt;- gamSim(1,n=200,scale=2) ## simulate data
+
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat)
+plot(b,pages=1)
+summary(b)
+
+## now check the p-values by using a pure regression spline.....
+b.d &lt;- round(summary(b)$edf)+1 ## get edf per smooth
+b.d &lt;- pmax(b.d,3) # can't have basis dimension less than 3!
+bc&lt;-gam(y~s(x0,k=b.d[1],fx=TRUE)+s(x1,k=b.d[2],fx=TRUE)+
+        s(x2,k=b.d[3],fx=TRUE)+s(x3,k=b.d[4],fx=TRUE),data=dat)
+plot(bc,pages=1)
+summary(bc)
+
+## Example where some p-values are less reliable...
+dat &lt;- gamSim(6,n=200,scale=2)
+b &lt;- gam(y~s(x0,m=1)+s(x1)+s(x2)+s(x3)+s(fac,bs="re"),data=dat)
+## Here s(x0,m=1) can be penalized to zero, so p-value approximation
+## cruder than usual...
+summary(b) 
+
+## p-value check - increase k to make this useful!
+k&lt;-20;n &lt;- 200;p &lt;- rep(NA,k)
+for (i in 1:k)
+{ b&lt;-gam(y~te(x,z),data=data.frame(y=rnorm(n),x=runif(n),z=runif(n)),
+         method="ML")
+  p[i]&lt;-summary(b)$s.p[1]
+}
+plot(((1:k)-0.5)/k,sort(p))
+abline(0,1,col=2)
+ks.test(p,"punif") ## how close to uniform are the p-values?
+
+## A Gamma example, by modify `gamSim' output...
+ 
+dat &lt;- gamSim(1,n=400,dist="normal",scale=1)
+dat$f &lt;- dat$f/4 ## true linear predictor 
+Ey &lt;- exp(dat$f);scale &lt;- .5 ## mean and GLM scale parameter
+## Note that `shape' and `scale' in `rgamma' are almost
+## opposite terminology to that used with GLM/GAM...
+dat$y &lt;- rgamma(Ey*0,shape=1/scale,scale=Ey*scale)
+bg &lt;- gam(y~ s(x0)+ s(x1)+s(x2)+s(x3),family=Gamma(link=log),
+          data=dat,method="REML")
+summary(bg)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

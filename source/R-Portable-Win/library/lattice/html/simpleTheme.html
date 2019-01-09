@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to generate a simple theme</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for C_03_simpleTheme {lattice}"><tr><td>C_03_simpleTheme {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Function to generate a simple theme </h2>
+
+<h3>Description</h3>
+
+<p>Simple interface to generate a list appropriate as a theme, typically
+used as the <code>par.settings</code> argument in a high level call
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simpleTheme(col, alpha, 
+            cex, pch, lty, lwd, font, fill, border,
+            col.points, col.line, 
+            alpha.points, alpha.line)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>col, col.points, col.line</code></td>
+<td>
+
+<p>A color specification.  <code>col</code> is used for components
+<code>"plot.symbol"</code>, <code>"plot.line"</code>, <code>"plot.polygon"</code>,
+<code>"superpose.symbol"</code>, <code>"superpose.line"</code>, and
+<code>"superpose.polygon"</code>.  <code>col.points</code> overrides
+<code>col</code>, but is used only for <code>"plot.symbol"</code> and
+<code>"superpose.symbol"</code>.  Similarly, <code>col.line</code> overrides
+<code>col</code> for <code>"plot.line"</code> and <code>"superpose.line"</code>.
+The arguments can be vectors, but only the first component is used
+for scalar targets (i.e., the ones without <code>"superpose"</code> in
+their name).
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha, alpha.points, alpha.line</code></td>
+<td>
+
+<p>A numeric alpha transparency specification.  The same rules as
+<code>col</code>, etc., apply.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex, pch, font</code></td>
+<td>
+<p> Parameters for points.  Applicable for
+components <code>plot.symbol</code> (for which only the first component is
+used) and <code>superpose.symbol</code> (for which the arguments can be
+vectors).
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty, lwd</code></td>
+<td>
+<p> Parameters for lines.  Applicable for
+components <code>plot.line</code> (for which only the first component is
+used) and <code>superpose.line</code> (for which the arguments can be
+vectors).
+</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p> fill color, applicable for components <code>plot.symbol</code>,
+<code>plot.polygon</code>, <code>superpose.symbol</code>, and
+<code>superpose.polygon</code>.  </p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p> border color, applicable for components
+<code>plot.polygon</code> and <code>superpose.polygon</code>.  </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The appearance of a lattice display depends partly on the
+&ldquo;theme&rdquo; active when the display is plotted (see
+<code><a href="trellis.device.html">trellis.device</a></code> for details).  This theme is used to
+obtain defaults for various graphical parameters, and in particular,
+the <code>auto.key</code> argument works on the premise that the same source
+is used for both the actual graphical encoding and the legend.  The
+easiest way to specify custom settings for a particular display is to
+use the <code>par.settings</code> argument, which is usually tedious to
+construct as it is a nested list.  The <code>simpleTheme</code> function can
+be used in such situations as a wrapper that generates a suitable list
+given parameters in simple <code>name=value</code> form, with the nesting
+made implicit.  This is less flexible, but straightforward and
+sufficient in most situations.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list that would work as the <code>theme</code> argument to
+<code><a href="trellis.device.html">trellis.device</a></code> and <code><a href="trellis.par.get.html">trellis.par.set</a></code>, or
+as the <code>par.settings</code> argument to any high level lattice function
+such as <code><a href="xyplot.html">xyplot</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a>, based on a
+suggestion from John Maindonald.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="trellis.device.html">trellis.device</a></code>, <code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="Lattice.html">Lattice</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+str(simpleTheme(pch = 16))
+
+dotplot(variety ~ yield | site, data = barley, groups = year,
+        auto.key = list(space = "right"),
+        par.settings = simpleTheme(pch = 16),
+        xlab = "Barley Yield (bushels/acre) ",
+        aspect=0.5, layout = c(1,6))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

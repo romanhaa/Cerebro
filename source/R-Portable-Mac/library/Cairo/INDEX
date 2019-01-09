@@ -1,0 +1,11 @@
+Cairo                   Create a new Cairo-based graphics device
+Cairo.capabilities      Reports which output types are supported by
+                        this Cairo build
+Cairo.capture           Capture contents of an image backend or a
+                        display list snapshot.
+Cairo.onSave            Cairo callbacks
+Cairo.serial            Check for changes in the graphics state of
+                        Cairo devices.
+CairoFontMatch          Find installed fonts with a fontconfig pattern
+CairoFonts              Set the fonts used for all Cairo graphics
+                        devices.

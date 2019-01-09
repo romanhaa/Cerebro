@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Basis dimension choice for smooths</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for choose.k {mgcv}"><tr><td>choose.k {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Basis dimension choice for smooths</h2>
+
+<h3>Description</h3>
+
+<p>Choosing the basis dimension, and checking the choice, when using
+penalized regression smoothers.
+</p>
+<p>Penalized regression smoothers gain computational efficiency by virtue of
+being defined using a basis of relatively modest size, <code>k</code>. When setting
+up models in the <code>mgcv</code> package, using <code><a href="s.html">s</a></code> or <code><a href="te.html">te</a></code>
+terms in a model formula, <code>k</code> must be chosen: the defaults are essentially arbitrary. 
+</p>
+<p>In practice <code>k-1</code> (or <code>k</code>) sets the upper limit on the degrees of freedom
+associated with an <code><a href="s.html">s</a></code> smooth (1 degree of freedom is usually lost to the identifiability
+constraint on the smooth). For <code><a href="te.html">te</a></code> smooths the upper limit of the
+degrees of freedom is given by the product of the <code>k</code> values provided for
+each marginal smooth less one, for the constraint. However the actual
+effective degrees of freedom are controlled by the degree of penalization
+selected during fitting, by GCV, AIC, REML or whatever is specified. The exception
+to this is if a smooth is specified using the <code>fx=TRUE</code> option, in which
+case it is unpenalized.  
+</p>
+<p>So, exact choice of <code>k</code> is not generally critical: it should be chosen to
+be large enough that you are reasonably sure of having enough degrees of
+freedom to represent the underlying &lsquo;truth&rsquo; reasonably well, but small enough
+to maintain reasonable computational efficiency. Clearly &lsquo;large&rsquo; and &lsquo;small&rsquo;
+are dependent on the particular problem being addressed. 
+</p>
+<p>As with all model assumptions, it is useful to be able to check the choice of
+<code>k</code> informally. If the effective degrees of freedom for a model term are
+estimated to be much less than <code>k-1</code> then this is unlikely to be very
+worthwhile, but as the EDF approach <code>k-1</code>, checking can be important. A
+useful general purpose approach goes as follows: (i) fit your model and
+extract the deviance residuals; (ii) for each smooth term in your model, fit
+an equivalent, single, smooth to the residuals, using a substantially
+increased <code>k</code> to see if there is pattern in the residuals that could
+potentially be explained by increasing <code>k</code>. Examples are provided below.
+</p>
+<p>The obvious, but more costly, alternative is simply to increase the suspect <code>k</code> 
+and refit the original model. If there are no statistically important changes as a result of 
+doing this, then <code>k</code> was large enough. (Change in the smoothness selection criterion, 
+and/or the effective degrees of freedom, when <code>k</code> is increased, provide the obvious 
+numerical measures for whether the fit has changed substantially.)
+</p>
+<p><code><a href="gam.check.html">gam.check</a></code> runs a simple simulation based check on the basis dimensions, which can 
+help to flag up terms for which <code>k</code> is too low. Grossly too small <code>k</code>
+will also be visible from partial residuals available with <code><a href="plot.gam.html">plot.gam</a></code>.
+</p>
+<p>One scenario that can cause confusion is this: a model is fitted with
+<code>k=10</code> for a smooth term, and the EDF for the term is estimated as 7.6,
+some way below the maximum of 9. The model is then refitted with <code>k=20</code>
+and the EDF increases to 8.7 - what is happening - how come the EDF was not
+8.7 the first time around? The explanation is that the function space with
+<code>k=20</code> contains a larger subspace of functions with EDF 8.7 than did the
+function space with <code>k=10</code>: one of the functions in this larger subspace
+fits the data a little better than did any function in the smaller
+subspace. These subtleties seldom have much impact on the statistical
+conclusions to be drawn from a model fit, however. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). CRC/Taylor &amp; Francis.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Simulate some data ....
+library(mgcv)
+set.seed(1) 
+dat &lt;- gamSim(1,n=400,scale=2)
+
+## fit a GAM with quite low `k'
+b&lt;-gam(y~s(x0,k=6)+s(x1,k=6)+s(x2,k=6)+s(x3,k=6),data=dat)
+plot(b,pages=1,residuals=TRUE) ## hint of a problem in s(x2)
+
+## the following suggests a problem with s(x2)
+gam.check(b)
+
+## Another approach (see below for more obvious method)....
+## check for residual pattern, removeable by increasing `k'
+## typically `k', below, chould be substantially larger than 
+## the original, `k' but certainly less than n/2.
+## Note use of cheap "cs" shrinkage smoothers, and gamma=1.4
+## to reduce chance of overfitting...
+rsd &lt;- residuals(b)
+gam(rsd~s(x0,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+gam(rsd~s(x1,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+gam(rsd~s(x2,k=40,bs="cs"),gamma=1.4,data=dat) ## `k' too low
+gam(rsd~s(x3,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+
+## refit...
+b &lt;- gam(y~s(x0,k=6)+s(x1,k=6)+s(x2,k=20)+s(x3,k=6),data=dat)
+gam.check(b) ## better
+
+## similar example with multi-dimensional smooth
+b1 &lt;- gam(y~s(x0)+s(x1,x2,k=15)+s(x3),data=dat)
+rsd &lt;- residuals(b1)
+gam(rsd~s(x0,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+gam(rsd~s(x1,x2,k=100,bs="ts"),gamma=1.4,data=dat) ## `k' too low
+gam(rsd~s(x3,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+
+gam.check(b1) ## shows same problem
+
+## and a `te' example
+b2 &lt;- gam(y~s(x0)+te(x1,x2,k=4)+s(x3),data=dat)
+rsd &lt;- residuals(b2)
+gam(rsd~s(x0,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+gam(rsd~te(x1,x2,k=10,bs="cs"),gamma=1.4,data=dat) ## `k' too low
+gam(rsd~s(x3,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+
+gam.check(b2) ## shows same problem
+
+## same approach works with other families in the original model
+dat &lt;- gamSim(1,n=400,scale=.25,dist="poisson")
+bp&lt;-gam(y~s(x0,k=5)+s(x1,k=5)+s(x2,k=5)+s(x3,k=5),
+        family=poisson,data=dat,method="ML")
+
+gam.check(bp)
+
+rsd &lt;- residuals(bp)
+gam(rsd~s(x0,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+gam(rsd~s(x1,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+gam(rsd~s(x2,k=40,bs="cs"),gamma=1.4,data=dat) ## `k' too low
+gam(rsd~s(x3,k=40,bs="cs"),gamma=1.4,data=dat) ## fine
+
+rm(dat) 
+
+## More obvious, but more expensive tactic... Just increase 
+## suspicious k until fit is stable.
+
+set.seed(0) 
+dat &lt;- gamSim(1,n=400,scale=2)
+## fit a GAM with quite low `k'
+b &lt;- gam(y~s(x0,k=6)+s(x1,k=6)+s(x2,k=6)+s(x3,k=6),
+         data=dat,method="REML")
+b 
+## edf for 3rd smooth is highest as proportion of k -- increase k
+b &lt;- gam(y~s(x0,k=6)+s(x1,k=6)+s(x2,k=12)+s(x3,k=6),
+         data=dat,method="REML")
+b 
+## edf substantially up, -ve REML substantially down
+b &lt;- gam(y~s(x0,k=6)+s(x1,k=6)+s(x2,k=24)+s(x3,k=6),
+         data=dat,method="REML")
+b 
+## slight edf increase and -ve REML change
+b &lt;- gam(y~s(x0,k=6)+s(x1,k=6)+s(x2,k=40)+s(x3,k=6),
+         data=dat,method="REML")
+b 
+## defintely stabilized (but really k around 20 would have been fine)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

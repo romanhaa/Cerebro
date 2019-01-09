@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Distribution families in mgcv</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for family.mgcv {mgcv}"><tr><td>family.mgcv {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Distribution families in mgcv</h2>
+
+<h3>Description</h3>
+
+<p>As well as the standard families documented in <code><a href="../../stats/html/family.html">family</a></code> (see also <code><a href="../../stats/html/glm.html">glm</a></code>) which can be used with functions <code><a href="gam.html">gam</a></code>, <code><a href="bam.html">bam</a></code> and <code><a href="gamm.html">gamm</a></code>, <code>mgcv</code> also supplies some extra families, most of which are currently only usable with <code><a href="gam.html">gam</a></code>, although some can also be used with <code><a href="bam.html">bam</a></code>. These are described here.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The following families are in the exponential family given the value of a single parameter. They are usable with all modelling functions.
+</p>
+
+<ul>
+<li> <p><code><a href="Tweedie.html">Tweedie</a></code> An exponential family distribution for which the variance of the response is given by the mean response to the power <code>p</code>. 
+<code>p</code> is in (1,2) and must be supplied. Alternatively, see <code><a href="Tweedie.html">tw</a></code> to estimate <code>p</code> (<code>gam</code> only).
+</p>
+</li>
+<li> <p><code><a href="negbin.html">negbin</a></code> The negative binomial. Alternatively see <code><a href="negbin.html">nb</a></code> to estimate the <code>theta</code> parameter of the negative binomial (<code>gam</code> only). 
+</p>
+</li></ul>
+
+<p>The following families are for regression type models dependent on a single linear predictor, and with a log likelihood
+which is a sum of independent terms, each coprresponding to a single response observation. Usable with <code><a href="gam.html">gam</a></code>, with smoothing parameter estimation by <code>"REML"</code> or <code>"ML"</code> (the latter does not integrate the unpenalized and parameteric effects out of the marginal likelihood optimized for the smoothing parameters). Also usable with <code><a href="bam.html">bam</a></code>.
+</p>
+
+<ul>
+<li> <p><code><a href="ocat.html">ocat</a></code> for ordered categorical data.
+</p>
+</li>
+<li> <p><code><a href="Tweedie.html">tw</a></code> for Tweedie distributed data, when the power parameter relating the variance to the mean is to be estimated.
+</p>
+</li>
+<li> <p><code><a href="negbin.html">nb</a></code> for negative binomial data when the <code>theta</code> parameter is to be estimated.
+</p>
+</li>
+<li> <p><code><a href="Beta.html">betar</a></code> for proportions data on (0,1) when the binomial is not appropriate.
+</p>
+</li>
+<li> <p><code><a href="scat.html">scat</a></code> scaled t for heavy tailed data that would otherwise be modelled as Gaussian.
+</p>
+</li>
+<li> <p><code><a href="ziP.html">ziP</a></code> for zero inflated Poisson data, when the zero inflation rate depends simply on the Poisson mean.
+</p>
+</li></ul>
+ 
+<p>The following families implement more general model classes. Usable only with <code><a href="gam.html">gam</a></code> and only with REML smoothing parameter estimation.
+</p>
+
+<ul>
+<li> <p><code><a href="coxph.html">cox.ph</a></code> the Cox Proportional Hazards model for survival data.
+</p>
+</li>
+<li> <p><code><a href="gaulss.html">gaulss</a></code> a Gaussian location-scale model where the mean and the standard deviation are both modelled using smooth linear predictors.
+</p>
+</li>
+<li> <p><code><a href="gevlss.html">gevlss</a></code> a generalized extreme value (GEV) model where the location, scale and shape parameters are each modelled using a linear predictor. 
+</p>
+</li>
+<li> <p><code><a href="ziplss.html">ziplss</a></code> a &lsquo;two-stage&rsquo; zero inflated Poisson model, in which 'potential-presence' is modelled with one linear predictor, and Poisson mean abundance
+given potential presence is modelled with a second linear predictor. 
+</p>
+</li>
+<li> <p><code><a href="mvn.html">mvn</a></code>: multivariate normal additive models.  
+</p>
+</li>
+<li> <p><code><a href="multinom.html">multinom</a></code>: multinomial logistic regression, for unordered categorical responses.  
+</p>
+</li></ul>
+ 
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood (s.wood@r-project.org) &amp; Natalya Pya
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

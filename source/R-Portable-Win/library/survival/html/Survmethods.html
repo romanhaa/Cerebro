@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Surv objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Surv-methods {survival}"><tr><td>Surv-methods {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for Surv objects</h2>
+
+<h3>Description</h3>
+
+<p>The list of methods that apply to <code>Surv</code> objects</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+    ## S3 method for class 'Surv'
+anyDuplicated(x, ...)
+    ## S3 method for class 'Surv'
+as.character(x, ...)
+    ## S3 method for class 'Surv'
+as.data.frame(x, ...)
+    ## S3 method for class 'Surv'
+as.integer(x, ...)
+    ## S3 method for class 'Surv'
+as.matrix(x, ...)
+    ## S3 method for class 'Surv'
+as.numeric(x, ...)
+    ## S3 method for class 'Surv'
+c(...)
+    ## S3 method for class 'Surv'
+duplicated(x, ...)
+    ## S3 method for class 'Surv'
+format(x, ...)
+    ## S3 method for class 'Surv'
+head(x, ...)
+    ## S3 method for class 'Surv'
+is.na(x)
+    ## S3 method for class 'Surv'
+length(x)
+    ## S3 method for class 'Surv'
+mean(x, ...)
+    ## S3 method for class 'Surv'
+median(x, ...)
+    ## S3 method for class 'Surv'
+names(x)
+    ## S3 replacement method for class 'Surv'
+names(x) &lt;- value
+    ## S3 method for class 'Surv'
+quantile(x, probs, na.rm=FALSE, ...)
+    ## S3 method for class 'Surv'
+plot(x, ...)
+    ## S3 method for class 'Surv'
+rep(x, ...)
+    ## S3 method for class 'Surv'
+rep.int(x, ...)
+    ## S3 method for class 'Surv'
+rep_len(x, ...)
+    ## S3 method for class 'Surv'
+rev(x)
+    ## S3 method for class 'Surv'
+t(x)
+    ## S3 method for class 'Surv'
+tail(x, ...)
+    ## S3 method for class 'Surv'
+unique(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a <code>Surv</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>probs</code></td>
+<td>
+<p>a vector of probabilities</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>remove missing values from the calculation</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a character vector of up to the same length as <code>x</code>, or
+<code>NULL</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments to the method</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions extend the standard methods to <code>Surv</code> objects.
+The arguments and results from these are mostly as expected, with the
+following further details:
+</p>
+
+<ul>
+<li><p> The <code>as.character</code> function uses &quot;5+&quot; for right censored
+at time 5, &quot;5-&quot; for left censored at time 5, &quot;[2,7]&quot; for an
+observation that was interval censored between 2 and 7,
+&quot;(1,6]&quot; for a counting process data denoting an observation which
+was at risk from time 1 to 6, with an event at time 6, and
+&quot;(1,6+]&quot; for an observation over the same interval but not ending
+with and event.
+For a multi-state survival object the type of event is appended to
+the event time using &quot;:type&quot;.
+</p>
+</li>
+<li><p> The <code>print</code> and <code>format</code> methods make use of
+<code>as.character</code>.
+</p>
+</li>
+<li><p> The <code>as.numeric</code> and <code>as.integer</code> methods perform
+these actions on the survival times, but do not affect the
+censoring indicator.
+</p>
+</li>
+<li><p> The <code>as.matrix</code> and <code>t</code> methods return a matrix
+</p>
+</li>
+<li><p> The <code>length</code> of a <code>Surv</code> object is the number of
+survival times it contains, not the number of items required to
+encode it, e.g., <code>x &lt;- Surv(1:4, 5:9, c(1,0,1,0)); length(x)</code>
+has a value of 4.
+Likewise <code>names(x)</code> will be NULL or a vector of length 4.
+(For technical reasons, any names are actually stored in the
+<code>rownames</code> attribute of the object.)
+</p>
+</li>
+<li><p> For a multi-state survival object <code>levels</code> returns the
+names of the endpoints, otherwise it is NULL.
+</p>
+</li>
+<li><p> The <code>median</code>, <code>quantile</code> and <code>plot</code> methods
+first construct a survival curve using <code>survfit</code>, then apply
+the appropriate method to that curve.
+</p>
+</li>
+<li><p> The concatonation method <code>c()</code> is asymmetric, its first
+argument determines the exection path.  For instance
+<code>c(Surv(1:4), Surv(5:6))</code> will concatonate the two objects,
+<code>c(Surv(1:4), 5:6)</code> will give an error, and
+<code>c(5:6, Surv(1:4))</code> is equivalent to
+<code>c(5:6, as.vector(Surv(1:4)))</code>. 
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="Surv.html">Surv</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

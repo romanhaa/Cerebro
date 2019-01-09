@@ -1,0 +1,20 @@
+*2repr                  Lists mapping mime types ('mime2repr') or
+                        format names ('format2repr') to 'repr'
+                        functions
+repr                    Dynamic representation
+repr-generics           Representations for specific formats
+repr-options            repr options
+repr-package            The repr package
+repr_*.data.table       Representation of data.table objects
+repr_*.factor           Representations of factors
+repr_*.function         Representations of functions
+repr_*.help_files_with_topic
+                        Representations of help
+repr_*.htmlwidget       HTML widget representations
+repr_*.list             Representations of lists
+repr_*.matrix/data.frame
+                        Tabular data representations
+repr_*.packageIQR       packageIQR representations
+repr_*.recordedplot     Plot representations
+repr_*.vector           Representations of vectors
+repr_text               Text representation

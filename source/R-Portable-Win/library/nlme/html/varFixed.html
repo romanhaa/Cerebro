@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fixed Variance Function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for varFixed {nlme}"><tr><td>varFixed {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fixed Variance Function</h2>
+
+<h3>Description</h3>
+
+<p>This function is a constructor for the <code>varFixed</code> class,
+representing a variance function with fixed variances. Letting <i>v</i>
+denote the variance covariate defined in <code>value</code>, the variance
+function <i>s2(v)</i> for this class is
+<i>s2(v)=|v|</i>. The variance covariate <i>v</i> is
+evaluated once at initialization and remains fixed thereafter. No
+coefficients are required to represent this variance function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+varFixed(value)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a one-sided formula of the form <code>~ v</code> specifying a
+variance covariate <code>v</code>. Grouping factors are ignored.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>varFixed</code> object representing a fixed variance function
+structure, also inheriting from class <code>varFunc</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="varClasses.html">varClasses</a></code>,
+<code><a href="varWeights.html">varWeights.varFunc</a></code>,
+<code><a href="varFunc.html">varFunc</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vf1 &lt;- varFixed(~age)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

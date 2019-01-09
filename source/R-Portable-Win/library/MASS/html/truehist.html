@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a Histogram</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for truehist {MASS}"><tr><td>truehist {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot a Histogram
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a histogram on the current graphics device.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+truehist(data, nbins = "Scott", h, x0 = -h/1000,
+         breaks, prob = TRUE, xlim = range(breaks),
+         ymax = max(est), col = "cyan",
+         xlab = deparse(substitute(data)), bty = "n", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>numeric vector of data for histogram.  Missing values (<code>NA</code>s)
+are allowed and omitted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nbins</code></td>
+<td>
+
+<p>The suggested number of bins.  Either a positive integer, or a character string
+naming a rule: <code>"Scott"</code> or <code>"Freedman-Diaconis"</code> or <code>"FD"</code>.  (Case is
+ignored.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+
+<p>The bin width, a strictly positive number (takes precedence over <code>nbins</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>x0</code></td>
+<td>
+
+<p>Shift for the bins - the breaks are at <code>x0 + h * (..., -1, 0, 1, ...)</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+
+<p>The set of breakpoints to be used. (Usually omitted, takes precedence
+over <code>h</code> and <code>nbins</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+
+<p>If true (the default) plot a true histogram.
+The vertical axis has a
+<em>relative frequency density</em>
+scale, so the product of the dimensions of any panel gives the
+relative frequency.  Hence the total area under the histogram
+is 1 and it is directly comparable with most other estimates
+of the probability density function.
+If false plot the counts in the bins.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+
+<p>The limits for the x-axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ymax</code></td>
+<td>
+
+<p>The upper limit for the y-axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>The colour for the bar fill: the default is colour 5 in the default <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> palette.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>label for the plot x-axis. By default, this will be the name of <code>data</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bty</code></td>
+<td>
+
+<p>The box type for the plot - defaults to none.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to <code><a href="../../graphics/html/rect.html">rect</a></code> or <code><a href="../../graphics/html/plot.html">plot</a></code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This plots a true histogram, a density estimate of total area 1.  If
+<code>breaks</code> is specified, those breakpoints are used. Otherwise if
+<code>h</code> is specified, a regular grid of bins is used with width
+<code>h</code>.  If neither <code>breaks</code> nor <code>h</code> is specified,
+<code>nbins</code> is used to select a suitable <code>h</code>.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>A histogram is plotted on the current device.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/hist.html">hist</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for qqmath</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.qqmath {lattice}"><tr><td>F_1_panel.qqmath {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for qqmath </h2>
+
+<h3>Description</h3>
+
+<p>This is the default panel function for <code>qqmath</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.qqmath(x, f.value = NULL,
+             distribution = qnorm,
+             qtype = 7,
+             groups = NULL, ...,
+             tails.n = 0,
+             identifier = "qqmath")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>vector (typically numeric, coerced if not) of data values to be used
+in the panel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>f.value, distribution</code></td>
+<td>
+
+<p>Defines how quantiles are calculated.  See <code><a href="qqmath.html">qqmath</a></code> for
+details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>qtype</code></td>
+<td>
+
+<p>The <code>type</code> argument to be used in <code><a href="../../stats/html/quantile.html">quantile</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+
+<p>An optional grouping variable.  Within each panel, one Q-Q plot is
+produced for every level of this grouping variable, differentiated
+by different graphical parameters.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments, often graphical parameters, eventually passed on
+to <code><a href="panel.xyplot.html">panel.xyplot</a></code>.  Arguments <code>grid</code> and
+<code>abline</code> of <code>panel.xyplot</code> may be particularly useful.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tails.n</code></td>
+<td>
+
+<p>number of data points to represent exactly on each tail of the
+distribution. This reproduces the effect of <code>f.value = NULL</code>
+for the extreme data values, while approximating the remaining
+data. It has no effect if <code>f.value = NULL</code>.
+If <code>tails.n</code> is given, <code>qtype</code> is forced to be 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates a Q-Q plot of the data and the theoretical distribution given
+by <code>distribution</code>.  Note that most of the arguments controlling
+the display can be supplied directly to the high-level <code>qqmath</code>
+call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qqmath.html">qqmath</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(0)
+xx &lt;- rt(10000, df = 10)
+qqmath(~ xx, pch = "+", distribution = qnorm,
+       grid = TRUE, abline = c(0, 1),
+       xlab.top = c("raw", "ppoints(100)", "tails.n = 50"),
+       panel = function(..., f.value) {
+           switch(panel.number(),
+                  panel.qqmath(..., f.value = NULL),
+                  panel.qqmath(..., f.value = ppoints(100)),
+                  panel.qqmath(..., f.value = ppoints(100), tails.n = 50))
+       }, layout = c(3, 1))[c(1,1,1)]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

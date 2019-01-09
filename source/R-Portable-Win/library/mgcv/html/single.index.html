@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Single index models with mgcv</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for single.index {mgcv}"><tr><td>single.index {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Single index models with mgcv</h2>
+
+<h3>Description</h3>
+
+<p> Single index models contain smooth terms with arguments that are linear combinations 
+of other covariates. e.g. <i>s(Xa)</i> where <i>a</i> has to be estimated. For identifiability, assume <i>||a||=1</i> with positive first element. One simple way to fit such models is to use <code><a href="gam.html">gam</a></code> to profile out the smooth model coefficients and smoothing parameters, leaving only the
+<i>a</i> to be estimated by a general purpose optimizer. 
+</p>
+<p>Example code is provided below, which can be easily adapted to include multiple single index terms, parametric terms and further smooths. Note the initialization strategy. First estimate <i>a</i> without penalization to get starting values and then do the full fit. Otherwise it is easy to get trapped in a local optimum in which the smooth is linear. An alternative is to initialize using fixed penalization (via the <code>sp</code> argument to <code><a href="gam.html">gam</a></code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+
+si &lt;- function(theta,y,x,z,opt=TRUE,k=10,fx=FALSE) {
+## Fit single index model using gam call, given theta (defines alpha). 
+## Return ML if opt==TRUE and fitted gam with theta added otherwise.
+## Suitable for calling from 'optim' to find optimal theta/alpha.
+  alpha &lt;- c(1,theta) ## constrained alpha defined using free theta
+  kk &lt;- sqrt(sum(alpha^2))
+  alpha &lt;- alpha/kk  ## so now ||alpha||=1
+  a &lt;- x%*%alpha     ## argument of smooth
+  b &lt;- gam(y~s(a,fx=fx,k=k)+s(z),family=poisson,method="ML") ## fit model
+  if (opt) return(b$gcv.ubre) else {
+    b$alpha &lt;- alpha  ## add alpha
+    J &lt;- outer(alpha,-theta/kk^2) ## compute Jacobian
+    for (j in 1:length(theta)) J[j+1,j] &lt;- J[j+1,j] + 1/kk
+    b$J &lt;- J ## dalpha_i/dtheta_j 
+    return(b)
+  }
+} ## si
+
+## simulate some data from a single index model...
+
+set.seed(1)
+f2 &lt;- function(x) 0.2 * x^11 * (10 * (1 - x))^6 + 10 * 
+            (10 * x)^3 * (1 - x)^10
+n &lt;- 200;m &lt;- 3
+x &lt;- matrix(runif(n*m),n,m) ## the covariates for the single index part
+z &lt;- runif(n) ## another covariate
+alpha &lt;- c(1,-1,.5); alpha &lt;- alpha/sqrt(sum(alpha^2))
+eta &lt;- as.numeric(f2((x%*%alpha+.41)/1.4)+1+z^2*2)/4
+mu &lt;- exp(eta)
+y &lt;- rpois(n,mu) ## Poi response 
+
+## now fit to the simulated data...
+
+
+th0 &lt;- c(-.8,.4) ## close to truth for speed
+## get initial theta, using no penalization...
+f0 &lt;- nlm(si,th0,y=y,x=x,z=z,fx=TRUE,k=5)
+## now get theta/alpha with smoothing parameter selection...
+f1 &lt;- nlm(si,f0$estimate,y=y,x=x,z=z,hessian=TRUE,k=10)
+theta.est &lt;-f1$estimate 
+
+## Alternative using 'optim'... 
+
+th0 &lt;- rep(0,m-1) 
+## get initial theta, using no penalization...
+f0 &lt;- optim(th0,si,y=y,x=x,z=z,fx=TRUE,k=5)
+## now get theta/alpha with smoothing parameter selection...
+f1 &lt;- optim(f0$par,si,y=y,x=x,z=z,hessian=TRUE,k=10)
+theta.est &lt;-f1$par 
+
+## extract and examine fitted model...
+
+b &lt;- si(theta.est,y,x,z,opt=FALSE) ## extract best fit model
+plot(b,pages=1)
+b
+b$alpha 
+## get sd for alpha...
+Vt &lt;- b$J%*%solve(f1$hessian,t(b$J))
+diag(Vt)^.5
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

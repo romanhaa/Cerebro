@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fuzzy Analysis Clustering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fanny {cluster}"><tr><td>fanny {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fuzzy Analysis Clustering</h2>
+
+<h3>Description</h3>
+
+<p>Computes a fuzzy clustering of the data into <code>k</code> clusters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fanny(x, k, diss = inherits(x, "dist"), memb.exp = 2,
+      metric = c("euclidean", "manhattan", "SqEuclidean"),
+      stand = FALSE, iniMem.p = NULL, cluster.only = FALSE,
+      keep.diss = !diss &amp;&amp; !cluster.only &amp;&amp; n &lt; 100,
+      keep.data = !diss &amp;&amp; !cluster.only,
+      maxit = 500, tol = 1e-15, trace.lev = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data matrix or data frame, or dissimilarity matrix, depending on the
+value of the <code>diss</code> argument.
+</p>
+<p>In case of a matrix or data frame, each row corresponds to an observation,
+and each column corresponds to a variable. All variables must be numeric.
+Missing values (NAs) are allowed.
+</p>
+<p>In case of a dissimilarity matrix, <code>x</code> is typically the output
+of <code><a href="daisy.html">daisy</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code>.  Also a vector of
+length n*(n-1)/2 is allowed (where n is the number of observations),
+and will be interpreted in the same way as the output of the
+above-mentioned functions.  Missing values (NAs) are not allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>integer giving the desired number of clusters.  It is
+required that <i>0 &lt; k &lt; n/2</i> where <i>n</i> is the number of
+observations.</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>logical flag: if TRUE (default for <code>dist</code> or
+<code>dissimilarity</code> objects), then <code>x</code> is assumed to be a
+dissimilarity matrix.  If FALSE, then <code>x</code> is treated as
+a matrix of observations by variables.
+</p>
+</td></tr>
+<tr valign="top"><td><code>memb.exp</code></td>
+<td>
+<p>number <i>r</i> strictly larger than 1 specifying the
+<em>membership exponent</em> used in the fit criterion; see the
+&lsquo;Details&rsquo; below. Default: <code>2</code> which used to be hardwired
+inside FANNY.</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+<p>character string specifying the metric to be used for
+calculating dissimilarities between observations.  Options are
+<code>"euclidean"</code> (default), <code>"manhattan"</code>, and
+<code>"SqEuclidean"</code>.  Euclidean distances are root sum-of-squares
+of differences, and manhattan distances are the sum of absolute
+differences, and <code>"SqEuclidean"</code>, the <em>squared</em> euclidean
+distances are sum-of-squares of differences.  Using this last option is
+equivalent (but somewhat slower) to computing so called &ldquo;fuzzy C-means&rdquo;.
+<br />
+If <code>x</code> is already a dissimilarity matrix, then this argument will
+be ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stand</code></td>
+<td>
+<p>logical; if true, the measurements in <code>x</code> are
+standardized before calculating the dissimilarities.  Measurements
+are standardized for each variable (column), by subtracting the
+variable's mean value and dividing by the variable's mean absolute
+deviation.  If <code>x</code> is already a dissimilarity matrix, then this
+argument will be ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>iniMem.p</code></td>
+<td>
+<p>numeric <i>n x k</i> matrix or <code>NULL</code>
+(by default); can be used to specify a starting <code>membership</code>
+matrix, i.e., a matrix of non-negative numbers, each row summing to
+one.
+</p>
+</td></tr> </table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cluster.only</code></td>
+<td>
+<p>logical; if true, no silhouette information will be
+computed and returned, see details.</p>
+</td></tr></table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>keep.diss, keep.data</code></td>
+<td>
+<p>logicals indicating if the dissimilarities
+and/or input data <code>x</code> should be kept in the result.  Setting
+these to <code>FALSE</code> can give smaller results and hence also save
+memory allocation <em>time</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>maxit, tol</code></td>
+<td>
+<p>maximal number of iterations and default tolerance
+for convergence (relative convergence of the fit criterion) for the
+FANNY algorithm.  The defaults <code>maxit = 500</code> and <code>tol =
+      1e-15</code> used to be hardwired inside the algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>trace.lev</code></td>
+<td>
+<p>integer specifying a trace level for printing
+diagnostics during the C-internal algorithm.
+Default <code>0</code> does not print anything; higher values print
+increasingly more.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In a fuzzy clustering, each observation is &ldquo;spread out&rdquo; over
+the various clusters.  Denote by <i>u(i,v)</i> the membership
+of observation <i>i</i> to cluster <i>v</i>.
+</p>
+<p>The memberships are nonnegative, and for a fixed observation i they sum to 1.
+The particular method <code>fanny</code> stems from chapter 4 of
+Kaufman and Rousseeuw (1990) (see the references in
+<code><a href="daisy.html">daisy</a></code>) and has been extended by Martin Maechler to allow
+user specified <code>memb.exp</code>, <code>iniMem.p</code>, <code>maxit</code>,
+<code>tol</code>, etc.
+</p>
+<p>Fanny aims to minimize the objective function
+</p>
+<p style="text-align: center;"><i>
+    SUM_[v=1..k] (SUM_(i,j) u(i,v)^r u(j,v)^r d(i,j)) / (2 SUM_j u(j,v)^r)</i></p>
+
+<p>where <i>n</i> is the number of observations, <i>k</i> is the number of
+clusters, <i>r</i> is the membership exponent <code>memb.exp</code> and
+<i>d(i,j)</i> is the dissimilarity between observations <i>i</i> and <i>j</i>.
+<br /> Note that <i>r -&gt; 1</i> gives increasingly crisper
+clusterings whereas <i>r -&gt; Inf</i> leads to complete
+fuzzyness.  K&amp;R(1990), p.191 note that values too close to 1 can lead
+to slow convergence.  Further note that even the default, <i>r = 2</i>
+can lead to complete fuzzyness, i.e., memberships <i>u(i,v) == 1/k</i>.  In that case a warning is signalled and the
+user is advised to chose a smaller <code>memb.exp</code> (<i>=r</i>).
+</p>
+<p>Compared to other fuzzy clustering methods, <code>fanny</code> has the following
+features: (a) it also accepts a dissimilarity matrix; (b) it is
+more robust to the <code>spherical cluster</code> assumption; (c) it provides
+a novel graphical display, the silhouette plot (see
+<code><a href="plot.partition.html">plot.partition</a></code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"fanny"</code> representing the clustering.
+See <code><a href="fanny.object.html">fanny.object</a></code> for details.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code> for background and references;
+<code><a href="fanny.object.html">fanny.object</a></code>, <code><a href="partition.object.html">partition.object</a></code>,
+<code><a href="plot.partition.html">plot.partition</a></code>, <code><a href="daisy.html">daisy</a></code>, <code><a href="../../stats/html/dist.html">dist</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## generate 10+15 objects in two clusters, plus 3 objects lying
+## between those clusters.
+x &lt;- rbind(cbind(rnorm(10, 0, 0.5), rnorm(10, 0, 0.5)),
+           cbind(rnorm(15, 5, 0.5), rnorm(15, 5, 0.5)),
+           cbind(rnorm( 3,3.2,0.5), rnorm( 3,3.2,0.5)))
+fannyx &lt;- fanny(x, 2)
+## Note that observations 26:28 are "fuzzy" (closer to # 2):
+fannyx
+summary(fannyx)
+plot(fannyx)
+
+(fan.x.15 &lt;- fanny(x, 2, memb.exp = 1.5)) # 'crispier' for obs. 26:28
+(fanny(x, 2, memb.exp = 3))               # more fuzzy in general
+
+data(ruspini)
+f4 &lt;- fanny(ruspini, 4)
+stopifnot(rle(f4$clustering)$lengths == c(20,23,17,15))
+plot(f4, which = 1)
+## Plot similar to Figure 6 in Stryuf et al (1996)
+plot(fanny(ruspini, 5))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

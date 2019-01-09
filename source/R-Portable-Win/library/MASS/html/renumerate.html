@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a Formula Transformed by 'denumerate'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for renumerate {MASS}"><tr><td>renumerate {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Convert a Formula Transformed by 'denumerate'
+</h2>
+
+<h3>Description</h3>
+
+<p><code><a href="denumerate.html">denumerate</a></code> converts a formula written using the conventions of
+<code><a href="loglm.html">loglm</a></code> into one that <code><a href="../../stats/html/terms.html">terms</a></code> is able to process.  <code>renumerate</code>
+converts it back again to a form like the original.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+renumerate(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A formula, normally as modified by <code><a href="denumerate.html">denumerate</a></code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This is an inverse function to <code><a href="denumerate.html">denumerate</a></code>.  It is only needed
+since <code><a href="../../stats/html/terms.html">terms</a></code> returns an expanded form of the original formula
+where the non-marginal terms are exposed.  This expanded form is
+mapped back into a form corresponding to the one that the user
+originally supplied.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A formula where all variables with names of the form <code>.vn</code>, where
+<code>n</code> is an integer, converted to numbers, <code>n</code>, as allowed by the
+formula conventions of <code><a href="loglm.html">loglm</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="denumerate.html">denumerate</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+denumerate(~(1+2+3)^3 + a/b)
+## ~ (.v1 + .v2 + .v3)^3 + a/b
+renumerate(.Last.value)
+## ~ (1 + 2 + 3)^3 + a/b
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

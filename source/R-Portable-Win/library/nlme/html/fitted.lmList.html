@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract lmList Fitted Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitted.lmList {nlme}"><tr><td>fitted.lmList {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract lmList Fitted Values</h2>
+
+<h3>Description</h3>
+
+<p>The fitted values are extracted from each <code>lm</code> component of
+<code>object</code> and arranged into a list with as many components as
+<code>object</code>, or combined into a single vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lmList'
+fitted(object, subset, asList, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="lmList.html">lmList</a>"</code>, representing
+a list of <code>lm</code> objects with a common model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional character or integer vector naming the
+<code>lm</code> components of <code>object</code> from which the fitted values
+are to be extracted. Default is <code>NULL</code>, in which case all
+components are used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>asList</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code>, the returned
+object is a list with the fitted values split by groups; else the
+returned value is a vector. Defaults to <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with components given by the fitted values of each <code>lm</code>
+component of <code>object</code>, or a vector with the fitted values for all
+<code>lm</code> components of <code>object</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lmList.html">lmList</a></code>, <code><a href="residuals.lmList.html">residuals.lmList</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(distance ~ age | Subject, Orthodont)
+fitted(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

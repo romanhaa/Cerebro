@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract model matrix from GAM fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for model.matrix.gam {mgcv}"><tr><td>model.matrix.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract model matrix from GAM fit</h2>
+
+<h3>Description</h3>
+
+<p>Obtains the model matrix from a fitted <code>gam</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+model.matrix(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> fitted model object of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments, passed to <code><a href="predict.gam.html">predict.gam</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Calls <code><a href="predict.gam.html">predict.gam</a></code> with no <code>newdata</code> argument and
+<code>type="lpmatrix"</code> in order to obtain the model matrix of <code>object</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A model matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood S.N. (2006b) Generalized Additive Models: An Introduction with R. Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.html">gam</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+require(mgcv)
+n &lt;- 15
+x &lt;- runif(n)
+y &lt;- sin(x*2*pi) + rnorm(n)*.2
+mod &lt;- gam(y~s(x,bs="cc",k=6),knots=list(x=seq(0,1,length=6)))
+model.matrix(mod)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

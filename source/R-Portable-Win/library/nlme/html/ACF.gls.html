@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Autocorrelation Function for gls Residuals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ACF.gls {nlme}"><tr><td>ACF.gls {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Autocorrelation Function for gls Residuals</h2>
+
+<h3>Description</h3>
+
+<p>This method function calculates the empirical autocorrelation function
+for the residuals from a <code>gls</code> fit. If a grouping variable is
+specified in <code>form</code>, the autocorrelation values
+are calculated using pairs of residuals within the same group;
+otherwise all possible residual pairs are used. The autocorrelation
+function is useful for investigating serial correlation models for
+equally spaced data.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gls'
+ACF(object, maxLag, resType, form, na.action, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="gls.html">gls</a>"</code>, representing
+a generalized least squares fitted  model.</p>
+</td></tr>
+<tr valign="top"><td><code>maxLag</code></td>
+<td>
+<p>an optional integer giving the maximum lag for which the
+autocorrelation should be calculated. Defaults to maximum lag in the
+residuals.</p>
+</td></tr>  
+<tr valign="top"><td><code>resType</code></td>
+<td>
+<p>an optional character string specifying the type of
+residuals to be used. If <code>"response"</code>, the &quot;raw&quot; residuals
+(observed - fitted) are used; else, if <code>"pearson"</code>, the
+standardized residuals (raw residuals divided by the corresponding
+standard errors) are used; else, if <code>"normalized"</code>, the
+normalized residuals (standardized residuals pre-multiplied by the
+inverse square-root factor of the estimated error correlation
+matrix) are used. Partial matching of arguments is used, so only the
+first character needs to be provided. Defaults to <code>"pearson"</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional one sided formula of the form <code>~ t</code>, or
+<code>~ t | g</code>, specifying a time covariate <code>t</code> and,  optionally, a
+grouping factor <code>g</code>. The time covariate must be integer
+valued. When a grouping factor is present in 
+<code>form</code>, the autocorrelations are calculated using residual pairs
+within the same group. Defaults to <code>~ 1</code>, which corresponds to
+using the order of the observations in the data as a covariate, and
+no groups.</p>
+</td></tr>   
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s.  The default action (<code>na.fail</code>) causes
+<code>ACF.gls</code> to print an error message and terminate if there are any
+incomplete observations.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a data frame with columns <code>lag</code> and <code>ACF</code> representing,
+respectively, the lag between residuals within a pair and the corresponding
+empirical autocorrelation. The returned value inherits from class
+<code>ACF</code>.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Box, G.E.P., Jenkins, G.M., and Reinsel G.C. (1994) &quot;Time Series
+Analysis: Forecasting and Control&quot;, 3rd Edition, Holden-Day.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ACF.lme.html">ACF.lme</a></code>, <code><a href="plot.ACF.html">plot.ACF</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- gls(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), Ovary)
+ACF(fm1, form = ~ 1 | Mare)
+
+# Pinheiro and Bates, p. 255-257
+fm1Dial.gls &lt;- gls(rate ~
+  (pressure+I(pressure^2)+I(pressure^3)+I(pressure^4))*QB,
+                   Dialyzer)
+
+fm2Dial.gls &lt;- update(fm1Dial.gls,
+                 weights = varPower(form = ~ pressure))
+
+ACF(fm2Dial.gls, form = ~ 1 | Subject)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

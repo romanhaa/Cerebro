@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fuzzy Analysis (FANNY) Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fanny.object {cluster}"><tr><td>fanny.object {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fuzzy Analysis (FANNY) Object</h2>
+
+<h3>Description</h3>
+
+<p>The objects of class <code>"fanny"</code> represent a fuzzy clustering of a
+dataset.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A legitimate <code>fanny</code> object is a list with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>membership</code></td>
+<td>
+
+<p>matrix containing the memberships for each pair consisting of an
+observation and a cluster.
+</p>
+</td></tr>
+<tr valign="top"><td><code>memb.exp</code></td>
+<td>
+<p>the membership exponent used in the fitting criterion.</p>
+</td></tr>
+<tr valign="top"><td><code>coeff</code></td>
+<td>
+
+<p>Dunn's partition coefficient <i>F(k)</i> of the clustering, where
+<i>k</i> is the number of clusters. <i>F(k)</i> is the sum of all
+<em>squared</em> membership coefficients, divided by the number of
+observations.  Its value is between <i>1/k</i> and 1.
+</p>
+<p>The normalized form of the coefficient is also given.  It is defined
+as <i>(F(k) - 1/k) / (1 - 1/k)</i>, and ranges between 0 and 1.
+A low value of Dunn's coefficient indicates a very fuzzy clustering,
+whereas a value close to 1 indicates a near-crisp clustering.
+</p>
+</td></tr>
+<tr valign="top"><td><code>clustering</code></td>
+<td>
+
+<p>the clustering vector of the nearest crisp clustering, see
+<code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>k.crisp</code></td>
+<td>
+<p>integer (<i>&lt;= k</i>) giving the number of <em>crisp</em>
+clusters; can be less than <i>k</i>, where it's recommended to
+decrease <code>memb.exp</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>objective</code></td>
+<td>
+
+<p>named vector containing the minimal value of the objective function
+reached by the FANNY algorithm and the relative convergence
+tolerance <code>tol</code> used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>convergence</code></td>
+<td>
+
+<p>named vector with <code>iterations</code>, the number of iterations needed
+and <code>converged</code> indicating if the algorithm converged (in
+<code>maxit</code> iterations within convergence tolerance <code>tol</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>an object of class <code>"dissimilarity"</code>, see
+<code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>generating call, see <code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>silinfo</code></td>
+<td>
+
+<p>list with silhouette information of the nearest crisp clustering, see
+<code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>matrix, possibibly standardized, or NULL, see
+<code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>GENERATION</h3>
+
+<p>These objects are returned from <code><a href="fanny.html">fanny</a></code>.
+</p>
+
+
+<h3>METHODS</h3>
+
+<p>The <code>"fanny"</code> class has methods for the following generic functions:
+<code>print</code>, <code>summary</code>.
+</p>
+
+
+<h3>INHERITANCE</h3>
+
+<p>The class <code>"fanny"</code> inherits from <code>"partition"</code>.
+Therefore, the generic functions <code>plot</code> and <code>clusplot</code> can
+be used on a <code>fanny</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="fanny.html">fanny</a></code>, <code><a href="print.fanny.html">print.fanny</a></code>,
+<code><a href="dissimilarity.object.html">dissimilarity.object</a></code>,
+<code><a href="partition.object.html">partition.object</a></code>, <code><a href="plot.partition.html">plot.partition</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

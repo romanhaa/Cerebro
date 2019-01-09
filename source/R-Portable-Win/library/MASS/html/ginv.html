@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generalized Inverse of a Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ginv {MASS}"><tr><td>ginv {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Generalized Inverse of a Matrix
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the Moore-Penrose generalized inverse of a matrix
+<code>X</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ginv(X, tol = sqrt(.Machine$double.eps))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+
+<p>Matrix for which the Moore-Penrose inverse is required.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+
+<p>A relative tolerance to detect zero singular values.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>A MP generalized inverse matrix for <code>X</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (1999)
+<em>Modern Applied Statistics with S-PLUS.</em> Third
+Edition. Springer. p.100.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/solve.html">solve</a></code>, <code><a href="../../base/html/svd.html">svd</a></code>, <code><a href="../../base/html/eigen.html">eigen</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# The function is currently defined as
+function(X, tol = sqrt(.Machine$double.eps))
+{
+## Generalized Inverse of a Matrix
+  dnx &lt;- dimnames(X)
+  if(is.null(dnx)) dnx &lt;- vector("list", 2)
+  s &lt;- svd(X)
+  nz &lt;- s$d &gt; tol * s$d[1]
+  structure(
+    if(any(nz)) s$v[, nz] %*% (t(s$u[, nz])/s$d[nz]) else X,
+    dimnames = dnx[2:1])
+}
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

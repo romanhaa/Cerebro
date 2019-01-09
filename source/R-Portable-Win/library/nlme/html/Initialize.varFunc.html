@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initialize varFunc Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Initialize.varFunc {nlme}"><tr><td>Initialize.varFunc {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Initialize varFunc Object</h2>
+
+<h3>Description</h3>
+
+<p>This method initializes <code>object</code> by evaluating its associated
+covariate(s) and grouping factor, if any is present, in <code>data</code>;
+determining if the covariate(s) need to be updated when the
+values of the coefficients associated with <code>object</code> change;
+initializing the log-likelihood and the weights associated with
+<code>object</code>; and assigning initial values for the coefficients in
+<code>object</code>, if none were present. The covariate(s) will only be
+initialized if no update is needed when <code>coef(object)</code> changes. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'varFunc'
+Initialize(object, data, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="varFunc.html">varFunc</a>"</code>,
+representing a variance function structure.</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to evaluate the variables named in
+<code>formula(object)</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>this argument is included to make this method compatible
+with the generic.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an initialized object with the same class as <code>object</code>
+representing a variance function structure.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Initialize.html">Initialize</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vf1 &lt;- varPower( form = ~ age | Sex )
+vf1 &lt;- Initialize( vf1, Orthodont )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

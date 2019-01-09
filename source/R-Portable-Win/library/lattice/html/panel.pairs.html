@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Superpanel Function for splom</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.pairs {lattice}"><tr><td>F_1_panel.pairs {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Superpanel Function for splom</h2>
+
+<h3>Description</h3>
+
+<p>This is the default superpanel function for <code>splom</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.pairs(z,
+            panel = lattice.getOption("panel.splom"),
+            lower.panel = panel,
+            upper.panel = panel,
+            diag.panel = "diag.panel.splom",
+            as.matrix = FALSE,
+            groups = NULL,
+            panel.subscripts,
+            subscripts,
+            pscales = 5,
+            prepanel.limits = scale.limits,
+            varnames = colnames(z),
+            varname.col, varname.cex, varname.font,
+            varname.fontfamily, varname.fontface,
+            axis.text.col, axis.text.cex, axis.text.font,
+            axis.text.fontfamily, axis.text.fontface,
+            axis.text.lineheight,
+            axis.line.col, axis.line.lty, axis.line.lwd,
+            axis.line.alpha, axis.line.tck,
+            ...)
+diag.panel.splom(x = NULL,
+                 varname = NULL, limits, at = NULL, labels = NULL,
+                 draw = TRUE, tick.number = 5,
+                 varname.col, varname.cex,
+                 varname.lineheight, varname.font,
+                 varname.fontfamily, varname.fontface,
+                 axis.text.col, axis.text.alpha,
+                 axis.text.cex, axis.text.font, 
+                 axis.text.fontfamily, axis.text.fontface,
+                 axis.text.lineheight, 
+                 axis.line.col, axis.line.alpha,
+                 axis.line.lty, axis.line.lwd,
+                 axis.line.tck,
+                 ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p> The data frame used for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>panel, lower.panel, upper.panel</code></td>
+<td>
+
+<p>The panel function used to display each pair of variables. If
+specified, <code>lower.panel</code> and <code>upper.panel</code> are used for
+panels below and above the diagonal respectively.
+</p>
+<p>In addition to extra arguments not recognized by <code>panel.pairs</code>,
+the list of arguments passed to the panel function also includes
+arguments named <code>i</code> and <code>j</code>, with values indicating the
+row and column of the scatterplot matrix being plotted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>diag.panel</code></td>
+<td>
+
+<p>The panel function used for the diagonals. See arguments to
+<code>diag.panel.splom</code> to know what arguments this function is
+passed when called. Use <code>diag.panel=NULL</code> to suppress plotting
+on the diagonal panels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>as.matrix</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code>, the layout of the panels will have origin
+on the top left instead of bottom left (similar to
+<code>pairs</code>). This is in essence the same functionality as provided
+by <code>as.table</code> for the panel layout
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p> Grouping variable, if any </p>
+</td></tr>
+<tr valign="top"><td><code>panel.subscripts</code></td>
+<td>
+
+<p>logical specifying whether the panel function accepts an argument
+named <code>subscripts</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subscripts</code></td>
+<td>
+<p> The indices of the rows of <code>z</code> that are to be
+displayed in this (super)panel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pscales</code></td>
+<td>
+<p> Controls axis labels, passed down from <code>splom</code>.
+If <code>pscales</code> is a single number, it indicates the approximate
+number of equally-spaced ticks that should appear on each axis.  If
+<code>pscales</code> is a list, it should have one component for each
+column in <code>z</code>, each of which itself a list with the following
+valid components:
+</p>
+<p><code>at</code>: a numeric vector specifying tick locations
+</p>
+<p><code>labels</code>: character vector labels to go with at
+</p>
+<p><code>limits</code>: numeric 2-vector specifying axis limits (should be
+made more flexible at some point to handle factors)
+</p>
+<p>These are specifications on a per-variable basis, and used on all
+four sides in the diagonal cells used for labelling.  Factor
+variables are labelled with the factor names.  Use <code>pscales=0</code>
+to supress the axes entirely.
+</p>
+</td></tr>
+<tr valign="top"><td><code>prepanel.limits</code></td>
+<td>
+
+<p>A function to calculate suitable axis limits given a single argument
+<code>x</code> containing a data vector. The return value of the function
+should be similar to the <code>xlim</code> or <code>ylim</code> argument
+documented in <code><a href="xyplot.html">xyplot</a></code>; that is, it should be a numeric
+or DateTime vector of length 2 defining a range, or a character
+vector representing levels of a factor.
+</p>
+<p>Most high-level lattice plots (such as <code>xyplot</code>) use the
+<code>prepanel</code> function for deciding on axis limits from data.
+This function serves a similar function by calculating the
+per-variable limits.  These limits can be overridden by the
+corresponding <code>limits</code> component in the <code>pscales</code> list.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data vector corresponding to that row / column (which will be the
+same for diagonal &lsquo;panels&rsquo;).
+</p>
+</td></tr>
+<tr valign="top"><td><code>varname</code></td>
+<td>
+<p> (scalar) character string or expression that is to be
+written centred within the panel
+</p>
+</td></tr>
+<tr valign="top"><td><code>limits</code></td>
+<td>
+
+<p>numeric of length 2, or, vector of characters, specifying the scale
+for that panel (used to calculate tick locations when missing)
+</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p> locations of tick marks</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p> optional labels for tick marks</p>
+</td></tr>
+<tr valign="top"><td><code>draw</code></td>
+<td>
+
+<p>A logical flag specifying whether to draw the tick marks and labels.
+If <code>FALSE</code>, variable names are shown but axis annotation is
+omitted. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>tick.number</code></td>
+<td>
+
+<p>A Numeric scalar giving the suggested number of tick marks.
+</p>
+</td></tr>
+<tr valign="top"><td><code>varnames</code></td>
+<td>
+ 
+<p>A character or expression vector or giving names to be used for the
+variables in <code>x</code>. By default, the column names of <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>varname.col</code></td>
+<td>
+<p> Color for the variable name in each diagonal
+panel.  See <code><a href="../../grid/html/gpar.html">gpar</a></code> for details on this and the
+other graphical parameters listed below. </p>
+</td></tr>
+<tr valign="top"><td><code>varname.cex</code></td>
+<td>
+
+<p>Size multiplier for the variable name in each diagonal panel.
+</p>
+</td></tr> 
+<tr valign="top"><td><code>varname.lineheight</code></td>
+<td>
+
+<p>Line height for the variable name in each diagonal panel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>varname.font, varname.fontfamily, varname.fontface</code></td>
+<td>
+
+<p>Font specification for the variable name in each diagonal panel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>axis.text.col</code></td>
+<td>
+<p> Color for axis label text. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.text.cex</code></td>
+<td>
+<p> Size multiplier for axis label text. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.text.font, axis.text.fontfamily, axis.text.fontface</code></td>
+<td>
+
+<p>Font specification for axis label text.
+</p>
+</td></tr> 
+<tr valign="top"><td><code>axis.text.lineheight</code></td>
+<td>
+<p> Line height for axis label text. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.text.alpha</code></td>
+<td>
+<p> Alpha-transparency for axis label text. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.line.col</code></td>
+<td>
+<p> Color for the axes. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.line.lty</code></td>
+<td>
+<p> Line type for the axes. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.line.lwd</code></td>
+<td>
+<p> Line width for the axes. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.line.alpha</code></td>
+<td>
+<p> Alpha-transparency for the axes. </p>
+</td></tr> 
+<tr valign="top"><td><code>axis.line.tck</code></td>
+<td>
+
+<p>A numeric multiplier for the length of tick marks in diagonal
+panels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments, passed on to <code>panel</code>, <code>lower.panel</code>,
+<code>upper.panel</code>, and <code>diag.panel</code> from <code>panel.pairs</code>.
+Currently ignored by <code>diag.panel.splom</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>panel.pairs</code> is the function that is actually used as the panel
+function in a <code>"trellis"</code> object produced by <code>splom</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="splom.html">splom</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+Cmat &lt;- outer(1:6,1:6,
+              function(i,j) rainbow(11, start=.12, end=.5)[i+j-1])
+
+splom(~diag(6), as.matrix = TRUE,
+      panel = function(x, y, i, j, ...) {
+          panel.fill(Cmat[i,j])
+          panel.text(.5,.5, paste("(",i,",",j,")",sep=""))
+      })
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

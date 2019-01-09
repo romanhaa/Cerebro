@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Panel Function to create Violin Plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_2_panel.violin {lattice}"><tr><td>F_2_panel.violin {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Panel Function to create Violin Plots </h2>
+
+<h3>Description</h3>
+
+<p>This is a panel function that can create a violin plot.  It is
+typically used in a high-level call to <code>bwplot</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+panel.violin(x, y, box.ratio = 1, box.width,
+             horizontal = TRUE,
+             alpha, border, lty, lwd, col,
+             varwidth = FALSE,
+             bw, adjust, kernel, window, 
+             width, n = 50, from, to, cut,
+             na.rm, ...,
+             identifier = "violin")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+
+<p>numeric vector or factor. Violin plots are drawn for each unique
+value of <code>y</code> (<code>x</code>) if <code>horizontal</code> is <code>TRUE</code>
+(<code>FALSE</code>)
+</p>
+</td></tr>
+<tr valign="top"><td><code>box.ratio</code></td>
+<td>
+
+<p>ratio of the thickness of each violin and inter violin space
+</p>
+</td></tr>
+<tr valign="top"><td><code>box.width</code></td>
+<td>
+<p> thickness of the violins in absolute units;
+overrides <code>box.ratio</code>.  Useful for specifying thickness when
+the categorical variable is not a factor, as use of <code>box.ratio</code>
+alone cannot achieve a thickness greater than 1. </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>logical. If FALSE, the plot is &lsquo;transposed&rsquo; in the sense that
+the behaviours of <code>x</code> and <code>y</code> are switched.  <code>x</code> is
+now the &lsquo;factor&rsquo;. See documentation of <code><a href="xyplot.html">bwplot</a></code>
+for a fuller explanation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha, border, lty, lwd, col</code></td>
+<td>
+
+<p>graphical parameters controlling the violin.  Defaults are taken
+from the <code>"plot.polygon"</code> settings.
+</p>
+</td></tr>
+<tr valign="top"><td><code>varwidth</code></td>
+<td>
+
+<p>logical. If <code>FALSE</code>, the densities are scaled separately for
+each group, so that the maximum value of the density reaches the
+limit of the allocated space for each violin (as determined by
+<code>box.ratio</code>).  If <code>TRUE</code>, densities across violins will
+have comparable scale.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bw, adjust, kernel, window, width, n, from, to, cut, na.rm</code></td>
+<td>
+
+<p>arguments to <code><a href="../../stats/html/density.html">density</a></code>, passed on as appropriate </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed on to <code>density</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates Violin plot of <code>x</code> for every level of <code>y</code>. Note that
+most arguments controlling the display can be supplied to the
+high-level (typically <code>bwplot</code>) call directly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">bwplot</a></code>, <code><a href="../../stats/html/density.html">density</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+bwplot(voice.part ~ height, singer,
+       panel = function(..., box.ratio) {
+           panel.violin(..., col = "transparent",
+                        varwidth = FALSE, box.ratio = box.ratio)
+           panel.bwplot(..., fill = NULL, box.ratio = .1)
+       } )
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Diagnostics plots for generalized linear models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glm.diag.plots {boot}"><tr><td>glm.diag.plots {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Diagnostics plots for generalized linear models
+</h2>
+
+<h3>Description</h3>
+
+<p>Makes plot of jackknife deviance residuals against linear predictor, 
+normal scores plots of standardized deviance residuals, plot of approximate Cook statistics against leverage/(1-leverage), and case plot of Cook statistic.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glm.diag.plots(glmfit, glmdiag = glm.diag(glmfit), subset = NULL,
+               iden = FALSE, labels = NULL, ret = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>glmfit</code></td>
+<td>
+
+<p><code>glm.object</code> : the result of a call to <code>glm()</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>glmdiag</code></td>
+<td>
+
+<p>Diagnostics of <code>glmfit</code> obtained from a call to <code>glm.diag</code>.  If
+it is not supplied then it is calculated.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>Subset of <code>data</code> for which <code>glm</code> fitting performed: should be the same as the 
+<code>subset</code> option used in the call to <code>glm()</code> which generated <code>glmfit</code>.  Needed 
+only if the <code>subset=</code> option was used in the call to <code>glm</code>.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>iden</code></td>
+<td>
+
+<p>A logical argument. If <code>TRUE</code> then, after the plots are drawn, the user will
+be prompted for an integer between 0 and 4.  A positive integer will select
+a plot and invoke <code>identify()</code> on that plot.  After exiting <code>identify()</code>, the
+user is again prompted, this loop continuing until the user responds to the
+prompt with 0.  If <code>iden</code> is <code>FALSE</code> (default) the user cannot interact with the plots.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>A vector of labels for use with <code>identify()</code> if <code>iden</code> is <code>TRUE</code>.  If it is not 
+supplied then the labels are derived from <code>glmfit</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ret</code></td>
+<td>
+
+<p>A logical argument indicating if <code>glmdiag</code> should be returned.  The default is
+<code>FALSE</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The diagnostics required for the plots are calculated by <code>glm.diag</code>.  These are
+then used to produce the four plots on the current graphics device.
+</p>
+<p>The plot on the top left is a plot of the jackknife deviance residuals 
+against the fitted values.
+</p>
+<p>The plot on the top right is a normal QQ plot of the standardized deviance 
+residuals.  The dotted line is the expected line if the standardized residuals
+are normally distributed, i.e. it is the line with intercept 0 and slope 1.
+</p>
+<p>The bottom two panels are plots of the Cook statistics.  On the left is a plot
+of the Cook statistics against the standardized leverages.  In general there
+will be two dotted lines on this plot.  The horizontal line is at 8/(n-2p)
+where n is the number of observations and p is the number of parameters 
+estimated.  Points above this line may be points with high influence on the
+model.  The vertical line is at 2p/(n-2p) and points to the right of this
+line have high leverage compared to the variance of the raw residual at that 
+point.  If all points are below the horizontal line or to the left of the
+vertical line then the line is not shown.
+</p>
+<p>The final plot again shows the Cook statistic this time plotted against case
+number enabling us to find which observations are influential.
+</p>
+<p>Use of <code>iden=T</code> is encouraged for proper exploration of these four plots as
+a guide to how well the model fits the data and whether certain observations
+have an unduly large effect on parameter estimates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>ret</code> is <code>TRUE</code> then the value of <code>glmdiag</code> is returned otherwise there is
+no returned value.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>The current device is cleared and four plots are plotted by use of
+<code>split.screen(c(2,2))</code>.  If <code>iden</code> is <code>TRUE</code>, interactive identification of 
+points is enabled.  All screens are closed, but not cleared, on termination of 
+the function.
+</p>
+
+
+<h3>References</h3>
+
+<p>Davison, A. C. and Hinkley, D. V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Davison, A.C. and Snell, E.J.  (1991)  Residuals and diagnostics.  In 
+<em>Statistical Theory and Modelling: In Honour of Sir David Cox</em>
+D.V. Hinkley, N. Reid, and E.J. Snell (editors), 83&ndash;106. Chapman and Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/glm.html">glm</a></code>, <code><a href="glm.diag.html">glm.diag</a></code>, <code><a href="../../graphics/html/identify.html">identify</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# In this example we look at the leukaemia data which was looked at in 
+# Example 7.1 of Davison and Hinkley (1997)
+data(leuk, package = "MASS")
+leuk.mod &lt;- glm(time ~ ag-1+log10(wbc), family = Gamma(log), data = leuk)
+leuk.diag &lt;- glm.diag(leuk.mod)
+glm.diag.plots(leuk.mod, leuk.diag)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

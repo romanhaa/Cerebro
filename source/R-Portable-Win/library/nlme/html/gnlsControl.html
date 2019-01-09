@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Control Values for gnls Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gnlsControl {nlme}"><tr><td>gnlsControl {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Control Values for gnls Fit</h2>
+
+<h3>Description</h3>
+
+<p>The values supplied in the function call replace the defaults and a
+list with all possible arguments is returned. The returned list is
+used as the <code>control</code> argument to the <code>gnls</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gnlsControl(maxIter = 50, nlsMaxIter = 7, msMaxIter = 50, minScale = 0.001,
+            tolerance = 1e-6, nlsTol = 0.001, msTol = 1e-7,
+            returnObject = FALSE, msVerbose = FALSE,
+            apVar = TRUE, .relStep =,
+            opt = c("nlminb", "optim"), optimMethod = "BFGS",
+            minAbsParApVar = 0.05, sigma = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>maxIter</code></td>
+<td>
+<p>maximum number of iterations for the <code>gnls</code>
+optimization algorithm.  Default is 50.</p>
+</td></tr>
+<tr valign="top"><td><code>nlsMaxIter</code></td>
+<td>
+<p>maximum number of iterations
+for the <code>nls</code> optimization step <em>inside</em> the <code>gnls</code>
+optimization.  Default is 7.</p>
+</td></tr>
+<tr valign="top"><td><code>msMaxIter</code></td>
+<td>
+<p>maximum number of iterations
+for the <code>ms</code> optimization step inside the <code>gnls</code>
+optimization.  Default is 50.</p>
+</td></tr>
+<tr valign="top"><td><code>minScale</code></td>
+<td>
+<p>minimum factor by which to shrink the default step size
+in an attempt to decrease the sum of squares in the <code>nls</code> step.
+Default 0.001.</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>tolerance for the convergence criterion in the
+<code>gnls</code> algorithm. Default is 1e-6.</p>
+</td></tr>
+<tr valign="top"><td><code>nlsTol</code></td>
+<td>
+<p>tolerance for the convergence criterion in <code>nls</code>
+step. Default is 1e-3.</p>
+</td></tr>
+<tr valign="top"><td><code>msTol</code></td>
+<td>
+<p>tolerance for the convergence criterion of the first outer
+iteration when <code>optim</code> is used.  Default is 1e-7.</p>
+</td></tr>
+<tr valign="top"><td><code>returnObject</code></td>
+<td>
+<p>a logical value indicating whether the fitted
+object should be returned with a <code><a href="../../base/html/warning.html">warning</a></code> (instead of an
+error via <code><a href="../../base/html/stop.html">stop</a>()</code>) when the maximum number of
+iterations is reached without convergence of the algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>msVerbose</code></td>
+<td>
+<p>a logical value passed as the <code>trace</code> argument to
+the optimizer chosen by <code>opt</code>; see documentation on that.
+Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>apVar</code></td>
+<td>
+<p>a logical value indicating whether the approximate
+covariance matrix of the variance-covariance parameters should be
+calculated.  Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.relStep</code></td>
+<td>
+<p>relative step for numerical derivatives
+calculations.  Default is <code>.Machine$double.eps^(1/3)</code> (about 6e-6).</p>
+</td></tr>
+<tr valign="top"><td><code>opt</code></td>
+<td>
+<p>the optimizer to be used, either <code>"<a href="../../stats/html/nlminb.html">nlminb</a>"</code> (the
+current default) or <code>"<a href="../../stats/html/optim.html">optim</a>"</code> (the previous default).</p>
+</td></tr>
+<tr valign="top"><td><code>optimMethod</code></td>
+<td>
+<p>character - the optimization method to be used with
+the <code><a href="../../stats/html/optim.html">optim</a></code> optimizer. The default is
+<code>"BFGS"</code>.  An alternative is <code>"L-BFGS-B"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>minAbsParApVar</code></td>
+<td>
+<p>numeric value - minimum absolute parameter value
+in the approximate variance calculation.  The default is <code>0.05</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>optionally a positive number to fix the residual error at.
+If <code>NULL</code>, as by default, or <code>0</code>, sigma is estimated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with components for each of the possible arguments.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a>; the
+<code>sigma</code> option: Siem Heisterkamp and Bert van Willigen.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gnls.html">gnls</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# decrease the maximum number iterations in the ms call and
+# request that information on the evolution of the ms iterations be printed
+gnlsControl(msMaxIter = 20, msVerbose = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

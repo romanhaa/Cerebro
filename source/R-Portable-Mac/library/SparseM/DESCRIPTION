@@ -1,0 +1,18 @@
+Package: SparseM
+Version: 1.77
+Author: Roger Koenker <rkoenker@uiuc.edu> and Pin Ng <Pin.Ng@NAU.EDU>
+Maintainer: Roger Koenker <rkoenker@uiuc.edu>
+Depends: R (>= 2.15), methods
+Imports: graphics, stats, utils
+Description: Some basic linear algebra functionality for sparse matrices is
+  provided:  including Cholesky decomposition and backsolving as well as 
+  standard R subsetting and Kronecker products.
+License: GPL (>= 2)
+Title: Sparse Linear Algebra
+URL: http://www.econ.uiuc.edu/~roger/research/sparse/sparse.html
+NeedsCompilation: yes
+Repository: CRAN
+Packaged: 2017-04-23 17:52:11 UTC; roger
+Date/Publication: 2017-04-23 18:26:30 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-23 04:04:07 UTC; unix
+Archs: SparseM.so.dSYM

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write Text Files and Code to Read Them</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for write.foreign {foreign}"><tr><td>write.foreign {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write Text Files and Code to Read Them</h2>
+
+<h3>Description</h3>
+
+<p>This function exports simple data frames to other statistical packages by
+writing the data as free-format text and writing a separate file of
+instructions for the other package to read the data. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+write.foreign(df, datafile, codefile,
+              package = c("SPSS", "Stata", "SAS"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>df</code></td>
+<td>
+<p>A data frame</p>
+</td></tr>
+<tr valign="top"><td><code>datafile</code></td>
+<td>
+<p>Name of file for data output</p>
+</td></tr>
+<tr valign="top"><td><code>codefile</code></td>
+<td>
+<p>Name of file for code output</p>
+</td></tr>
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>Name of package</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments for the individual <code>writeForeign</code>
+functions</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The work for this function is done by
+<code>foreign:::writeForeignStata</code>, <code>foreign:::writeForeignSAS</code> and
+<code>foreign:::writeForeignSPSS</code>.  To add support for another package,
+eg Systat, create a function <code>writeForeignSystat</code> with the same first
+three arguments as <code>write.foreign</code>. This will be called from
+<code>write.foreign</code> when <code>package="Systat"</code>.
+</p>
+<p>Numeric variables and factors are supported for all packages: dates and
+times (<code>Date</code>, <code>dates</code>, <code>date</code>, and <code>POSIXt</code>
+classes) and logical vectors are also supported for SAS and characters
+are supported for SPSS.
+</p>
+<p>For <code>package="SAS"</code> there are optional arguments
+<code>dataname = "rdata"</code> taking a string that will be the SAS data set
+name, <code>validvarname</code> taking either <code>"V6"</code> or <code>"V7"</code>,
+and <code>libpath = NULL</code> taking a string that will be the directory where
+the target SAS datset will be written when the generated SAS code been
+run.
+</p>
+<p>For <code>package="SPSS"</code> there is an optional argument <code>maxchars = 32L</code> 
+taking an integer that causes the variable names (not variable labels) 
+to be abbreviated to not more than <code>maxchars</code> chars.
+For compatibility with SPSS version 12 and before, change this to <code>maxchars = 8L</code>.
+In single byte locales with SPSS versions 13 or later, this can be set to <code>maxchars = 64L</code>.
+</p>
+<p>For <code>package="SPSS"</code>, as a side effect, the decimal indicator is always set by 
+<code>SET DECIMAL=DOT.</code> which may override user settings of the indicator or its default 
+derived from the current locale.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisible <code>NULL</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Thomas Lumley and Stephen Weigand
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+datafile &lt;- tempfile()
+codefile &lt;- tempfile()
+write.foreign(esoph, datafile, codefile, package="SPSS")
+file.show(datafile)
+file.show(codefile)
+unlink(datafile)
+unlink(codefile)
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

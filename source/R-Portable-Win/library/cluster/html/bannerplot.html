@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Banner (of Hierarchical Clustering)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bannerplot {cluster}"><tr><td>bannerplot {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Banner (of Hierarchical Clustering)</h2>
+
+<h3>Description</h3>
+
+<p>Draws a &ldquo;banner&rdquo;, i.e. basically a horizontal <code><a href="../../graphics/html/barplot.html">barplot</a></code>
+visualizing the (agglomerative or divisive) hierarchical clustering or
+an other binary dendrogram structure.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bannerplot(x, w = rev(x$height), fromLeft = TRUE,
+           main=NULL, sub=NULL, xlab = "Height",  adj = 0,
+           col = c(2, 0), border = 0, axes = TRUE, frame.plot = axes,
+           rev.xax = !fromLeft, xax.pretty = TRUE,
+           labels = NULL, nmax.lab = 35, max.strlen = 5,
+           yax.do = axes &amp;&amp; length(x$order) &lt;= nmax.lab,
+           yaxRight = fromLeft, y.mar = 2.4 + max.strlen/2.5, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a list with components <code>order</code>, <code>order.lab</code> and
+<code>height</code> when <code>w</code>, the next argument is not specified.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>non-negative numeric vector of bar widths.</p>
+</td></tr>
+<tr valign="top"><td><code>fromLeft</code></td>
+<td>
+<p>logical, indicating if the banner is from the left or not.</p>
+</td></tr>
+<tr valign="top"><td><code>main,sub</code></td>
+<td>
+<p>main and sub titles, see <code><a href="../../graphics/html/title.html">title</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>x axis label (with &lsquo;correct&rsquo; default e.g. for
+<code>plot.agnes</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>passed to <code><a href="../../graphics/html/title.html">title</a>(main,sub)</code> for string adjustment.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>vector of length 2, for two horizontal segments.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>color for bar border; now defaults to background (no border).</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>logical indicating if axes (and labels) should be drawn at all.</p>
+</td></tr>
+<tr valign="top"><td><code>frame.plot</code></td>
+<td>
+<p>logical indicating the banner should be framed;
+mainly used when <code>border = 0</code> (as per default).</p>
+</td></tr>
+<tr valign="top"><td><code>rev.xax</code></td>
+<td>
+<p>logical indicating if the x axis should be reversed (as
+in <code>plot.diana</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>xax.pretty</code></td>
+<td>
+<p>logical or integer indicating if
+<code><a href="../../base/html/pretty.html">pretty</a>()</code> should be used for the x axis.
+<code>xax.pretty = FALSE</code> is mainly for back compatibility.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>labels to use on y-axis; the default is constructed from
+<code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nmax.lab</code></td>
+<td>
+<p>integer indicating the number of labels which is
+considered too large for single-name labelling the banner plot.</p>
+</td></tr>
+<tr valign="top"><td><code>max.strlen</code></td>
+<td>
+<p>positive integer giving the length to which
+strings are truncated in banner plot labeling.</p>
+</td></tr>
+<tr valign="top"><td><code>yax.do</code></td>
+<td>
+<p>logical indicating if a y axis and banner labels should
+be drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>yaxRight</code></td>
+<td>
+<p>logical indicating if the y axis is on the right or left.</p>
+</td></tr>
+<tr valign="top"><td><code>y.mar</code></td>
+<td>
+<p>positive number specifying the margin width to use when
+banners are labeled (along a y-axis).  The default adapts to the
+string width and optimally would also dependend on the font.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters (see <code><a href="../../graphics/html/par.html">par</a></code>) may also
+be supplied as arguments to this function.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>This is mainly a utility called from <code><a href="plot.agnes.html">plot.agnes</a></code>,
+<code><a href="plot.diana.html">plot.diana</a></code> and <code><a href="plot.mona.html">plot.mona</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Maechler (from original code of Kaufman and Rousseeuw).</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(agriculture)
+bannerplot(agnes(agriculture), main = "Bannerplot")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

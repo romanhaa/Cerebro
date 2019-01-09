@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Control Variate Calculations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for control {boot}"><tr><td>control {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Control Variate Calculations
+</h2>
+
+<h3>Description</h3>
+
+<p>This function will find control variate estimates from a bootstrap
+output object.  It can either find the adjusted bias estimate using
+post-simulation balancing or it can estimate the bias, variance, third
+cumulant and quantiles, using the linear approximation as a control
+variate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+control(boot.out, L = NULL, distn = NULL, index = 1, t0 = NULL,
+        t = NULL, bias.adj = FALSE, alpha = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>boot.out</code></td>
+<td>
+
+<p>A bootstrap output object returned from <code>boot</code>.  The bootstrap
+replicates must have been generated using the usual nonparametric
+bootstrap.
+</p>
+</td></tr>
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>The empirical influence values for the statistic of interest.  If
+<code>L</code> is not supplied then <code>empinf</code> is called to calculate
+them from <code>boot.out</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>distn</code></td>
+<td>
+
+<p>If present this must be the output from <code>smooth.spline</code> giving
+the distribution function of the linear approximation.  This is used
+only if <code>bias.adj</code> is <code>FALSE</code>.  Normally this would be
+found using a saddlepoint approximation. If it is not supplied in
+that case then it is calculated by <code>saddle.distn</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+
+<p>The index of the variable of interest in the output of
+<code>boot.out$statistic</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The observed value of the statistic of interest on the original data
+set <code>boot.out$data</code>.  This argument is used only if
+<code>bias.adj</code> is <code>FALSE</code>. The input value is ignored if
+<code>t</code> is not also supplied.  The default value is is
+<code>boot.out$t0[index]</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>The bootstrap replicate values of the statistic of interest.  This
+argument is used only if <code>bias.adj</code> is <code>FALSE</code>.  The input
+is ignored if <code>t0</code> is not supplied also.  The default value is
+<code>boot.out$t[,index]</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bias.adj</code></td>
+<td>
+
+<p>A logical variable which if <code>TRUE</code> specifies that the adjusted
+bias estimate using post-simulation balance is all that is required.
+If <code>bias.adj</code> is <code>FALSE</code> (default) then the linear
+approximation to the statistic is calculated and used as a control
+variate in estimates of the bias, variance and third cumulant as
+well as quantiles.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+
+<p>The alpha levels for the required quantiles if <code>bias.adj</code> is
+<code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Any additional arguments that <code>boot.out$statistic</code> requires.
+These are passed unchanged every time <code>boot.out$statistic</code> is
+called.  <code>boot.out$statistic</code> is called once if <code>bias.adj</code>
+is <code>TRUE</code>, otherwise it may be called by <code>empinf</code> for
+empirical influence calculations if <code>L</code> is not supplied.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>bias.adj</code> is <code>FALSE</code> then the linear approximation to
+the statistic is found and evaluated at each bootstrap replicate.
+Then using the equation <em>T* = Tl*+(T*-Tl*)</em>, moment estimates can
+be found.  For quantile estimation the distribution of the linear
+approximation to <code>t</code> is approximated very accurately by
+saddlepoint methods, this is then combined with the bootstrap
+replicates to approximate the bootstrap distribution of <code>t</code> and
+hence to estimate the bootstrap quantiles of <code>t</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>bias.adj</code> is <code>TRUE</code> then the returned value is the
+adjusted bias estimate.
+</p>
+<p>If <code>bias.adj</code> is <code>FALSE</code> then the returned value is a list
+with the following components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>The empirical influence values used.  These are the input values if
+supplied, and otherwise they are the values calculated by
+<code>empinf</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tL</code></td>
+<td>
+
+<p>The linear approximations to the bootstrap replicates <code>t</code> of
+the statistic of interest.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bias</code></td>
+<td>
+
+<p>The control estimate of bias using the linear approximation to
+<code>t</code> as a control variate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>var</code></td>
+<td>
+
+<p>The control estimate of variance using the linear approximation to
+<code>t</code> as a control variate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k3</code></td>
+<td>
+
+<p>The control estimate of the third cumulant using the linear
+approximation to <code>t</code> as a control variate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>quantiles</code></td>
+<td>
+
+<p>A matrix with two columns; the first column are the alpha levels
+used for the quantiles and the second column gives the corresponding
+control estimates of the quantiles using the linear approximation to
+<code>t</code> as a control variate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>distn</code></td>
+<td>
+
+<p>An output object from <code>smooth.spline</code> describing the
+saddlepoint approximation to the bootstrap distribution of the
+linear approximation to <code>t</code>.  If <code>distn</code> was supplied on
+input then this is the same as the input otherwise it is calculated
+by a call to <code>saddle.distn</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Davison, A.C., Hinkley, D.V. and Schechtman, E. (1986) Efficient bootstrap 
+simulation. <em>Biometrika</em>, <b>73</b>, 555&ndash;566.
+</p>
+<p>Efron, B. (1990) More efficient bootstrap computations.
+<em>Journal of the American Statistical Association</em>, <b>55</b>, 79&ndash;89.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.html">boot</a></code>, <code><a href="empinf.html">empinf</a></code>, <code><a href="k3.linear.html">k3.linear</a></code>, <code><a href="linear.approx.html">linear.approx</a></code>, <code><a href="saddle.distn.html">saddle.distn</a></code>, <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>, <code><a href="var.linear.html">var.linear</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Use of control variates for the variance of the air-conditioning data
+mean.fun &lt;- function(d, i)
+{    m &lt;- mean(d$hours[i])
+     n &lt;- nrow(d)
+     v &lt;- (n-1)*var(d$hours[i])/n^2
+     c(m, v)
+}
+air.boot &lt;- boot(aircondit, mean.fun, R = 999)
+control(air.boot, index = 2, bias.adj = TRUE)
+air.cont &lt;- control(air.boot, index = 2)
+# Now let us try the variance on the log scale.
+air.cont1 &lt;- control(air.boot, t0 = log(air.boot$t0[2]),
+                     t = log(air.boot$t[, 2]))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

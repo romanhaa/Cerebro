@@ -1,0 +1,22 @@
+Package: classInt
+Version: 0.2-3
+Date: 2018-04-16
+Title: Choose Univariate Class Intervals
+Authors@R: c(person("Roger", "Bivand", role=c("aut", "cre"), email="Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")), person("Hisaji", "Ono", role="ctb"), person("Richard", "Dunlap", role="ctb"), person("Matthieu", "Stigler", role="ctb"))
+Depends: R (>= 2.2), spData (>= 0.2.6.2)
+Imports: grDevices, stats, graphics, e1071, class
+Description: Selected commonly used methods for choosing univariate class intervals for mapping or other graphics purposes.
+License: GPL (>= 2)
+URL: https://github.com/r-spatial/classInt/
+BugReports: https://github.com/r-spatial/classInt/issues/
+NeedsCompilation: yes
+Packaged: 2018-04-16 12:47:24 UTC; rsb
+Author: Roger Bivand [aut, cre] (<https://orcid.org/0000-0003-2392-6140>),
+  Hisaji Ono [ctb],
+  Richard Dunlap [ctb],
+  Matthieu Stigler [ctb]
+Maintainer: Roger Bivand <Roger.Bivand@nhh.no>
+Repository: CRAN
+Date/Publication: 2018-04-16 13:19:59 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-23 16:00:51 UTC; unix
+Archs: classInt.so.dSYM

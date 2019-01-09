@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Penalized Constrained Least Squares Fitting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pcls {mgcv}"><tr><td>pcls {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Penalized Constrained Least Squares Fitting</h2>
+
+<h3>Description</h3>
+
+<p>Solves least squares problems with quadratic penalties subject to linear
+equality and inequality constraints using quadratic programming.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pcls(M)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>M</code></td>
+<td>
+<p>is the single list argument to <code>pcls</code>. It should have  the 
+following elements:
+</p>
+
+<dl>
+<dt>y</dt><dd><p>The response data vector.</p>
+</dd>
+<dt>w</dt><dd><p>A vector of weights for the data (often proportional to the 
+reciprocal of the variance). </p>
+</dd>
+<dt>X</dt><dd><p>The design matrix for the problem, note that <code>ncol(M$X)</code>
+must give the number of model parameters, while <code>nrow(M$X)</code> 
+should give the number of data.</p>
+</dd>
+<dt>C</dt><dd><p>Matrix containing any linear equality constraints 
+on the problem (e.g. <i>C</i> in <i>Cp=c</i>). If you have no equality constraints
+initialize this to a zero by zero matrix. Note that there is no need 
+to supply the vector <i>c</i>, it is defined implicitly by the 
+initial parameter estimates <i>p</i>.</p>
+</dd>
+<dt>S</dt><dd><p> A list of penalty matrices. <code>S[[i]]</code> is the smallest contiguous matrix including 
+all the non-zero elements of the ith penalty matrix. The first parameter it
+penalizes is given by <code>off[i]+1</code> (starting counting at 1). </p>
+</dd>
+<dt>off</dt><dd><p> Offset values locating the elements of <code>M$S</code> in
+the correct location within each penalty coefficient matrix. (Zero
+offset implies starting in first location)</p>
+</dd>
+<dt>sp</dt><dd><p> An array of  smoothing parameter estimates.</p>
+</dd>
+<dt>p</dt><dd><p>An array of feasible initial parameter estimates - these must
+satisfy the constraints, but should avoid satisfying the inequality
+constraints as equality constraints.</p>
+</dd>
+<dt>Ain</dt><dd><p>Matrix for the inequality constraints <i>A_in p &gt; b</i>. </p>
+</dd>
+<dt>bin</dt><dd><p>vector in the inequality constraints. </p>
+</dd>
+</dl>
+ 
+</td></tr> </table>
+
+
+
+<h3>Details</h3>
+
+ 
+<p>This solves the problem:
+</p>
+<p style="text-align: center;"><i> min || W^0.5 (Xp-y) ||^2 + 
+lambda_1 p'S_1 p + lambda_1 p'S_2 p + . . .</i></p>
+
+<p>subject to constraints <i>Cp=c</i> and <i>A_in p &gt; b_in</i>, w.r.t. <i>p</i> given the
+smoothing parameters <i>lambda_i</i>.
+<i>X</i> is a design matrix, <i>p</i> a parameter vector, 
+<i>y</i> a data vector, <i>W</i> a diagonal weight matrix,
+<i>S_i</i> a positive semi-definite matrix  of coefficients
+defining the ith penalty and <i>C</i> a matrix of coefficients 
+defining the linear equality constraints on the problem. The smoothing
+parameters are the <i>lambda_i</i>. Note that <i>X</i>
+must be of full column rank, at least when projected  into the null space
+of any equality constraints. <i>A_in</i> is a matrix of
+coefficients defining the inequality constraints, while <i>b_in</i> is a vector involved in defining the inequality constraints.  
+</p>
+<p>Quadratic programming is used to perform the solution. The method used
+is designed for maximum stability with least squares problems:
+i.e. <i>X'X</i> is not formed explicitly. See
+Gill et al. 1981.
+</p>
+
+
+<h3>Value</h3>
+
+<p> The function returns an array containing the estimated parameter
+vector. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Gill, P.E., Murray, W. and Wright, M.H. (1981) Practical Optimization. Academic
+Press, London. 
+</p>
+<p>Wood, S.N. (1994) Monotonic smoothing splines fitted by cross validation SIAM
+Journal on Scientific Computing 15(5):1126-1133
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="magic.html">magic</a></code>, <code><a href="mono.con.html">mono.con</a></code>  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+# first an un-penalized example - fit E(y)=a+bx subject to a&gt;0
+set.seed(0)
+n &lt;- 100
+x &lt;- runif(n); y &lt;- x - 0.2 + rnorm(n)*0.1
+M &lt;- list(X=matrix(0,n,2),p=c(0.1,0.5),off=array(0,0),S=list(),
+Ain=matrix(0,1,2),bin=0,C=matrix(0,0,0),sp=array(0,0),y=y,w=y*0+1)
+M$X[,1] &lt;- 1; M$X[,2] &lt;- x; M$Ain[1,] &lt;- c(1,0)
+pcls(M) -&gt; M$p
+plot(x,y); abline(M$p,col=2); abline(coef(lm(y~x)),col=3)
+
+# Penalized example: monotonic penalized regression spline .....
+
+# Generate data from a monotonic truth.
+x &lt;- runif(100)*4-1;x &lt;- sort(x);
+f &lt;- exp(4*x)/(1+exp(4*x)); y &lt;- f+rnorm(100)*0.1; plot(x,y)
+dat &lt;- data.frame(x=x,y=y)
+# Show regular spline fit (and save fitted object)
+f.ug &lt;- gam(y~s(x,k=10,bs="cr")); lines(x,fitted(f.ug))
+# Create Design matrix, constraints etc. for monotonic spline....
+sm &lt;- smoothCon(s(x,k=10,bs="cr"),dat,knots=NULL)[[1]]
+F &lt;- mono.con(sm$xp);   # get constraints
+G &lt;- list(X=sm$X,C=matrix(0,0,0),sp=f.ug$sp,p=sm$xp,y=y,w=y*0+1)
+G$Ain &lt;- F$A;G$bin &lt;- F$b;G$S &lt;- sm$S;G$off &lt;- 0
+
+p &lt;- pcls(G);  # fit spline (using s.p. from unconstrained fit)
+
+fv&lt;-Predict.matrix(sm,data.frame(x=x))%*%p
+lines(x,fv,col=2)
+
+# now a tprs example of the same thing....
+
+f.ug &lt;- gam(y~s(x,k=10)); lines(x,fitted(f.ug))
+# Create Design matrix, constriants etc. for monotonic spline....
+sm &lt;- smoothCon(s(x,k=10,bs="tp"),dat,knots=NULL)[[1]]
+xc &lt;- 0:39/39 # points on [0,1]  
+nc &lt;- length(xc)  # number of constraints
+xc &lt;- xc*4-1  # points at which to impose constraints
+A0 &lt;- Predict.matrix(sm,data.frame(x=xc)) 
+# ... A0%*%p evaluates spline at xc points
+A1 &lt;- Predict.matrix(sm,data.frame(x=xc+1e-6)) 
+A &lt;- (A1-A0)/1e-6    
+##  ... approx. constraint matrix (A%*%p is -ve 
+## spline gradient at points xc)
+G &lt;- list(X=sm$X,C=matrix(0,0,0),sp=f.ug$sp,y=y,w=y*0+1,S=sm$S,off=0)
+G$Ain &lt;- A;    # constraint matrix
+G$bin &lt;- rep(0,nc);  # constraint vector
+G$p &lt;- rep(0,10); G$p[10] &lt;- 0.1  
+# ... monotonic start params, got by setting coefs of polynomial part
+p &lt;- pcls(G);  # fit spline (using s.p. from unconstrained fit)
+
+fv2 &lt;- Predict.matrix(sm,data.frame(x=x))%*%p
+lines(x,fv2,col=3)
+
+######################################
+## monotonic additive model example...
+######################################
+
+## First simulate data...
+
+set.seed(10)
+f1 &lt;- function(x) 5*exp(4*x)/(1+exp(4*x));
+f2 &lt;- function(x) {
+  ind &lt;- x &gt; .5
+  f &lt;- x*0
+  f[ind] &lt;- (x[ind] - .5)^2*10
+  f 
+}
+f3 &lt;- function(x) 0.2 * x^11 * (10 * (1 - x))^6 + 
+      10 * (10 * x)^3 * (1 - x)^10
+n &lt;- 200
+x &lt;- runif(n); z &lt;- runif(n); v &lt;- runif(n)
+mu &lt;- f1(x) + f2(z) + f3(v)
+y &lt;- mu + rnorm(n)
+
+## Preliminary unconstrained gam fit...
+G &lt;- gam(y~s(x)+s(z)+s(v,k=20),fit=FALSE)
+b &lt;- gam(G=G)
+
+## generate constraints, by finite differencing
+## using predict.gam ....
+eps &lt;- 1e-7
+pd0 &lt;- data.frame(x=seq(0,1,length=100),z=rep(.5,100),
+                  v=rep(.5,100))
+pd1 &lt;- data.frame(x=seq(0,1,length=100)+eps,z=rep(.5,100),
+                  v=rep(.5,100))
+X0 &lt;- predict(b,newdata=pd0,type="lpmatrix")
+X1 &lt;- predict(b,newdata=pd1,type="lpmatrix")
+Xx &lt;- (X1 - X0)/eps ## Xx %*% coef(b) must be positive 
+pd0 &lt;- data.frame(z=seq(0,1,length=100),x=rep(.5,100),
+                  v=rep(.5,100))
+pd1 &lt;- data.frame(z=seq(0,1,length=100)+eps,x=rep(.5,100),
+                  v=rep(.5,100))
+X0 &lt;- predict(b,newdata=pd0,type="lpmatrix")
+X1 &lt;- predict(b,newdata=pd1,type="lpmatrix")
+Xz &lt;- (X1-X0)/eps
+G$Ain &lt;- rbind(Xx,Xz) ## inequality constraint matrix
+G$bin &lt;- rep(0,nrow(G$Ain))
+G$C = matrix(0,0,ncol(G$X))
+G$sp &lt;- b$sp
+G$p &lt;- coef(b)
+G$off &lt;- G$off-1 ## to match what pcls is expecting
+## force inital parameters to meet constraint
+G$p[11:18] &lt;- G$p[2:9]&lt;- 0
+p &lt;- pcls(G) ## constrained fit
+par(mfrow=c(2,3))
+plot(b) ## original fit
+b$coefficients &lt;- p
+plot(b) ## constrained fit
+## note that standard errors in preceding plot are obtained from
+## unconstrained fit
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

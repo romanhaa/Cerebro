@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply a Function by Groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gapply {nlme}"><tr><td>gapply {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply a Function by Groups</h2>
+
+<h3>Description</h3>
+
+<p>Applies the function to the distinct sets of rows of the data frame
+defined by <code>groups</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gapply(object, which, FUN, form, level, groups, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object to which the function will be applied - usually
+a <code>groupedData</code> object or a <code>data.frame</code>. Must inherit from
+class <code>"data.frame"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>an optional character or positive integer vector
+specifying which columns of <code>object</code> should be used with
+<code>FUN</code>. Defaults to all columns in <code>object</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>function to apply to the distinct sets of rows
+of the data frame <code>object</code> defined by the values of
+<code>groups</code>.
+</p>
+</td></tr> 
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional one-sided formula that defines the groups.
+When this formula is given the right-hand side is evaluated in
+<code>object</code>, converted to a factor if necessary, and the unique
+levels are used to define the groups.  Defaults to
+<code>formula(object)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>an optional positive integer giving the level of grouping
+to be used in an object with multiple nested grouping levels.
+Defaults to the highest or innermost level of grouping.
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>an optional factor that will be used to split the 
+rows into groups.  Defaults to <code>getGroups(object, form, level)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional additional arguments to the summary function
+<code>FUN</code>.  Often it is helpful to specify <code>na.rm = TRUE</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a data frame with as many rows as there are levels in the
+<code>groups</code> argument.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. sec. 3.4.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gsummary.html">gsummary</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Find number of non-missing "conc" observations for each Subject
+gapply( Phenobarb, FUN = function(x) sum(!is.na(x$conc)) )
+
+# Pinheiro and Bates, p. 127 
+table( gapply(Quinidine, "conc", function(x) sum(!is.na(x))) )
+changeRecords &lt;- gapply( Quinidine, FUN = function(frm)
+    any(is.na(frm[["conc"]]) &amp; is.na(frm[["dose"]])) )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Resistant Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lqs {MASS}"><tr><td>lqs {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Resistant Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit a regression to the <em>good</em> points in the dataset, thereby
+achieving a regression estimator with a high breakdown point.
+<code>lmsreg</code> and <code>ltsreg</code> are compatibility wrappers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lqs(x, ...)
+
+## S3 method for class 'formula'
+lqs(formula, data, ...,
+    method = c("lts", "lqs", "lms", "S", "model.frame"),
+    subset, na.action, model = TRUE,
+    x.ret = FALSE, y.ret = FALSE, contrasts = NULL)
+
+## Default S3 method:
+lqs(x, y, intercept = TRUE, method = c("lts", "lqs", "lms", "S"),
+    quantile, control = lqs.control(...), k0 = 1.548, seed, ...)
+
+lmsreg(...)
+ltsreg(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula of the form <code>y ~ x1 + x2 + ...</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>data frame from which variables specified in
+<code>formula</code> are preferentially to be taken.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an index vector specifying the cases to be used in
+fitting. (NOTE: If given, this argument must be named exactly.)</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>function to specify the action to be taken if
+<code>NA</code>s are found.  The default action is for the procedure to
+fail.  Alternatives include <code><a href="../../stats/html/na.fail.html">na.omit</a></code> and
+<code><a href="../../stats/html/na.fail.html">na.exclude</a></code>, which lead to omission of
+cases with missing values on any required variable.  (NOTE: If
+given, this argument must be named exactly.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>model, x.ret, y.ret</code></td>
+<td>
+<p>logical. If <code>TRUE</code> the model frame,
+the model matrix and the response are returned, respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+<p>an optional list.  See the <code>contrasts.arg</code>
+of <code><a href="../../stats/html/model.matrix.html">model.matrix.default</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a matrix or data frame containing the explanatory variables.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the response: a vector of length the number of rows of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>should the model include an intercept?</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>the method to be used. <code>model.frame</code> returns the model frame: for the
+others see the <code>Details</code> section. Using <code>lmsreg</code> or
+<code>ltsreg</code> forces <code>"lms"</code> and <code>"lts"</code> respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>quantile</code></td>
+<td>
+
+<p>the quantile to be used: see <code>Details</code>. This is over-ridden if
+<code>method = "lms"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>additional control items: see <code>Details</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>k0</code></td>
+<td>
+<p>the cutoff / tuning constant used for <i>chi()</i>
+and <i>psi()</i> functions when <code>method = "S"</code>, currently
+corresponding to Tukey's &lsquo;biweight&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+
+<p>the seed to be used for random sampling: see <code>.Random.seed</code>. The
+current value of <code>.Random.seed</code> will be preserved if it is set..
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to be passed to <code>lqs.default</code> or
+<code>lqs.control</code>, see <code>control</code> above and <code>Details</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Suppose there are <code>n</code> data points and <code>p</code> regressors,
+including any intercept.
+</p>
+<p>The first three methods minimize some function of the sorted squared
+residuals. For methods <code>"lqs"</code> and <code>"lms"</code> is the
+<code>quantile</code> squared residual, and for <code>"lts"</code> it is the sum
+of the <code>quantile</code> smallest squared residuals. <code>"lqs"</code> and
+<code>"lms"</code> differ in the defaults for <code>quantile</code>, which are
+<code>floor((n+p+1)/2)</code> and <code>floor((n+1)/2)</code> respectively.
+For <code>"lts"</code> the default is <code>floor(n/2) + floor((p+1)/2)</code>.
+</p>
+<p>The <code>"S"</code> estimation method solves for the scale <code>s</code>
+such that the average of a function chi of the residuals divided
+by <code>s</code> is equal to a given constant.
+</p>
+<p>The <code>control</code> argument is a list with components
+</p>
+
+<dl>
+<dt><code>psamp</code>:</dt><dd><p>the size of each sample. Defaults to <code>p</code>.</p>
+</dd>
+<dt><code>nsamp</code>:</dt><dd><p>the number of samples or <code>"best"</code> (the
+default) or <code>"exact"</code> or <code>"sample"</code>.
+If <code>"sample"</code> the number chosen is <code>min(5*p, 3000)</code>,
+taken from Rousseeuw and Hubert (1997).
+If <code>"best"</code> exhaustive enumeration is done up to 5000 samples;
+if <code>"exact"</code> exhaustive enumeration will be attempted however
+many samples are needed.</p>
+</dd>
+<dt><code>adjust</code>:</dt><dd><p>should the intercept be optimized for each
+sample?  Defaults to <code>TRUE</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"lqs"</code>.  This is a list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>crit</code></td>
+<td>
+<p>the value of the criterion for the best solution found, in
+the case of <code>method == "S"</code> before IWLS refinement.</p>
+</td></tr>
+<tr valign="top"><td><code>sing</code></td>
+<td>
+<p>character. A message about the number of samples which
+resulted in singular fits.</p>
+</td></tr>
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>of the fitted linear model</p>
+</td></tr>
+<tr valign="top"><td><code>bestone</code></td>
+<td>
+<p>the indices of those points fitted by the best sample
+found (prior to adjustment of the intercept, if requested).</p>
+</td></tr>
+<tr valign="top"><td><code>fitted.values</code></td>
+<td>
+<p>the fitted values.</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>the residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>estimate(s) of the scale of the error. The first is based
+on the fit criterion.  The second (not present for <code>method ==
+      "S"</code>) is based on the variance of those residuals whose absolute
+value is less than 2.5 times the initial estimate.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>There seems no reason other than historical to use the <code>lms</code> and
+<code>lqs</code> options.  LMS estimation is of low efficiency (converging
+at rate <i>n^{-1/3}</i>) whereas LTS has the same asymptotic efficiency
+as an M estimator with trimming at the quartiles (Marazzi, 1993, p.201).
+LQS and LTS have the same maximal breakdown value of
+<code>(floor((n-p)/2) + 1)/n</code> attained if
+<code>floor((n+p)/2) &lt;= quantile &lt;= floor((n+p+1)/2)</code>.
+The only drawback mentioned of LTS is greater computation, as a sort
+was thought to be required (Marazzi, 1993, p.201) but this is not
+true as a partial sort can be used (and is used in this implementation).
+</p>
+<p>Adjusting the intercept for each trial fit does need the residuals to
+be sorted, and may be significant extra computation if <code>n</code> is large
+and <code>p</code> small.
+</p>
+<p>Opinions differ over the choice of <code>psamp</code>.  Rousseeuw and Hubert
+(1997) only consider p; Marazzi (1993) recommends p+1 and suggests
+that more samples are better than adjustment for a given computational
+limit.
+</p>
+<p>The computations are exact for a model with just an intercept and
+adjustment, and for LQS for a model with an intercept plus one
+regressor and exhaustive search with adjustment. For all other cases
+the minimization is only known to be approximate.
+</p>
+
+
+<h3>References</h3>
+
+<p>P. J. Rousseeuw and A. M. Leroy (1987)
+<em>Robust Regression and Outlier Detection.</em> Wiley.
+</p>
+<p>A. Marazzi (1993)
+<em>Algorithms, Routines and S Functions for Robust Statistics.</em>
+Wadsworth and Brooks/Cole.
+</p>
+<p>P. Rousseeuw and M. Hubert (1997) Recent developments in PROGRESS. In
+<em>L1-Statistical Procedures and Related Topics</em>,
+ed Y. Dodge, IMS Lecture Notes volume <b>31</b>, pp. 201&ndash;214.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="predict.lqs.html">predict.lqs</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123) # make reproducible
+lqs(stack.loss ~ ., data = stackloss)
+lqs(stack.loss ~ ., data = stackloss, method = "S", nsamp = "exact")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

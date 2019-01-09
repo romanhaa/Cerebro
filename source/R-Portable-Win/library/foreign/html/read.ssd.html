@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Obtain a Data Frame from a SAS Permanent Dataset, via...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.ssd {foreign}"><tr><td>read.ssd {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Obtain a Data Frame from a SAS Permanent Dataset, via read.xport </h2>
+
+<h3>Description</h3>
+
+<p>Generates a SAS program to convert the ssd contents to SAS transport format
+and then uses <code>read.xport</code> to obtain a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.ssd(libname, sectionnames, 
+   tmpXport=tempfile(), tmpProgLoc=tempfile(), sascmd="sas")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>libname</code></td>
+<td>
+<p>character string defining the SAS library (usually a
+directory reference)</p>
+</td></tr>
+<tr valign="top"><td><code>sectionnames</code></td>
+<td>
+<p>character vector giving member names.  These are
+files in the <code>libname</code> directory. They will usually have a
+<code>.ssd0x</code> or <code>.sas7bdat</code> extension, which should be
+omitted.  Use of ASCII names of at most 8 characters is strongly
+recommended.</p>
+</td></tr>
+<tr valign="top"><td><code>tmpXport</code></td>
+<td>
+<p>character  string: location where temporary xport
+format archive should reside &ndash; defaults to a randomly named file
+in the session temporary directory, which will be removed.</p>
+</td></tr>
+<tr valign="top"><td><code>tmpProgLoc</code></td>
+<td>
+<p>character  string: location where temporary
+conversion SAS program should reside &ndash; defaults to a randomly named
+file in session temporary directory, which will be removed on
+successful operation.</p>
+</td></tr>
+<tr valign="top"><td><code>sascmd</code></td>
+<td>
+<p>character string giving full path to SAS executable.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates a SAS program and runs it.
+</p>
+<p>Error handling is primitive.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame if all goes well, or <code>NULL</code> with warnings and some
+enduring side effects (log file for auditing)
+</p>
+
+
+<h3>Note</h3>
+
+<p><strong>This requires SAS to be available.</strong>  If you have a SAS dataset
+without access to SAS you will need another product to convert it to a 
+format such as <code>.csv</code>, for example &lsquo;Stat/Transfer&rsquo; or 
+&lsquo;DBMS/Copy&rsquo; or the &lsquo;SAS System Viewer&rsquo; (Windows only).
+</p>
+<p>SAS requires section names to be no more than 8 characters.  This is
+worked by the use of symbolic links: these are barely supported on Windows.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>For Unix: VJ Carey <a href="mailto:stvjc@channing.harvard.edu">stvjc@channing.harvard.edu</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="read.xport.html">read.xport</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## if there were some files on the web we could get a real
+## runnable example
+## Not run: 
+R&gt; list.files("trialdata")
+ [1] "baseline.sas7bdat" "form11.sas7bdat"   "form12.sas7bdat"  
+ [4] "form13.sas7bdat"   "form22.sas7bdat"   "form23.sas7bdat"  
+ [7] "form3.sas7bdat"    "form4.sas7bdat"    "form48.sas7bdat"  
+[10] "form50.sas7bdat"   "form51.sas7bdat"   "form71.sas7bdat"  
+[13] "form72.sas7bdat"   "form8.sas7bdat"    "form9.sas7bdat"   
+[16] "form90.sas7bdat"   "form91.sas7bdat"  
+R&gt; baseline &lt;- read.ssd("trialdata", "baseline")
+R&gt; form90 &lt;- read.ssd("trialdata", "form90")
+
+## Or for a Windows example
+sashome &lt;- "/Program Files/SAS/SAS 9.1"
+read.ssd(file.path(sashome, "core", "sashelp"), "retail",
+         sascmd = file.path(sashome, "sas.exe"))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

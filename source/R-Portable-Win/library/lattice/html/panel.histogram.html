@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for histogram</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.histogram {lattice}"><tr><td>F_1_panel.histogram {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for histogram </h2>
+
+<h3>Description</h3>
+
+<p>This is the default panel function for <code>histogram</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.histogram(x,
+                breaks,
+                equal.widths = TRUE,
+                type = "density",
+                nint = round(log2(length(x)) + 1), 
+                alpha, col, border, lty, lwd,
+                ...,
+                identifier = "histogram")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> The data points for which the histogram is to be drawn</p>
+</td></tr> 
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p> The breakpoints for the histogram</p>
+</td></tr>
+<tr valign="top"><td><code>equal.widths</code></td>
+<td>
+<p> logical used when <code>breaks==NULL</code> </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> Type of histogram, possible values being <code>"percent"</code>,
+<code>"density"</code> and <code>"count"</code></p>
+</td></tr>
+<tr valign="top"><td><code>nint</code></td>
+<td>
+<p> Number of bins for the histogram </p>
+</td></tr>
+<tr valign="top"><td><code>alpha, col, border, lty, lwd</code></td>
+<td>
+
+<p>graphical parameters for bars; defaults are obtained from the
+<code>plot.polygon</code> settings.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments, passed to <code><a href="../../graphics/html/hist.html">hist</a></code> when
+deemed appropriate </p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="histogram.html">histogram</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

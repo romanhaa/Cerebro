@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM zero-inflated Poisson regression family</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ziP {mgcv}"><tr><td>ziP {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM zero-inflated Poisson regression family</h2>
+
+<h3>Description</h3>
+
+<p>Family for use with <code><a href="gam.html">gam</a></code> or <code><a href="bam.html">bam</a></code>, implementing regression for zero inflated Poisson data
+when the complimentary log log of the zero probability is linearly dependent on the log of the Poisson parameter. Use with great care, noting that simply having many zero response observations is not an indication of zero inflation: the question is whether you have too many zeroes given the specified model.
+</p>
+<p>This sort of model is really only appropriate when none of your covariates help to explain the zeroes in your data. If your covariates predict which observations are likely to have zero mean then adding a zero inflated model on top of this is likely to lead to identifiability problems. Identifiability problems may lead to fit failures, or absurd values for the linear predictor or predicted values. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ziP(theta = NULL, link = "identity",b=0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>the 2 parameters controlling the slope and intercept of the 
+linear transform of the mean controlling the zero inflation rate. If supplied
+then treated as fixed parameters (<i>theta_1</i> and <i>theta_2</i>), otherwise estimated.</p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>The link function: only the <code>"identity"</code> is currently supported.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>a non-negative constant, specifying the minimum dependence of the zero inflation rate on the linear predictor.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The probability of a zero count is given by <i>1- p</i>, whereas the probability of
+count <i>y&gt;0</i> is given by the truncated Poisson probability function <i>(pmu^y/((exp(mu)-1)y!)</i>. The linear predictor 
+gives <i>log(mu)</i>, while <i>eta=log(-log(1-p))</i> and <i>eta = theta_1 + (b+exp(theta_2)) log(mu)</i>. The <code>theta</code> parameters are estimated alongside the smoothing parameters. Increasing the <code>b</code> parameter from zero can greatly reduce identifiability problems, particularly when there are very few non-zero data.  
+</p>
+<p>The fitted values for this model are the log of the Poisson parameter. Use the <code>predict</code> function with <code>type=="response"</code> to get the predicted expected response. Note that the theta parameters reported in model summaries are <i>theta_1</i> and <i>b + exp(theta_2)</i>.
+</p>
+<p>These models should be subject to very careful checking, especially if fitting has not converged. It is quite easy to set up models with identifiability problems, particularly if the data are not really zero inflated, but simply have many zeroes because the mean is very low in some parts of the covariate space. See example for some obvious checks. Take convergence warnings seriously.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>extended.family</code>.
+</p>
+
+
+<h3>WARNINGS </h3>
+
+<p>Zero inflated models are often over-used. Having lots of zeroes in the data does not in itself imply zero inflation. Having too many zeroes *given the model mean* may imply zero inflation. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ziplss.html">ziplss</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+rzip &lt;- function(gamma,theta= c(-2,.3)) {
+## generate zero inflated Poisson random variables, where 
+## lambda = exp(gamma), eta = theta[1] + exp(theta[2])*gamma
+## and 1-p = exp(-exp(eta)).
+   y &lt;- gamma; n &lt;- length(y)
+   lambda &lt;- exp(gamma)
+   eta &lt;- theta[1] + exp(theta[2])*gamma
+   p &lt;- 1- exp(-exp(eta))
+   ind &lt;- p &gt; runif(n)
+   y[!ind] &lt;- 0
+   np &lt;- sum(ind)
+   ## generate from zero truncated Poisson, given presence...
+   y[ind] &lt;- qpois(runif(np,dpois(0,lambda[ind]),1),lambda[ind])
+   y
+} 
+
+library(mgcv)
+## Simulate some ziP data...
+set.seed(1);n&lt;-400
+dat &lt;- gamSim(1,n=n)
+dat$y &lt;- rzip(dat$f/4-1)
+
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=ziP(),data=dat)
+
+b$outer.info ## check convergence!!
+b
+plot(b,pages=1)
+plot(b,pages=1,unconditional=TRUE) ## add s.p. uncertainty 
+gam.check(b)
+## more checking...
+## 1. If the zero inflation rate becomes decoupled from the linear predictor, 
+## it is possible for the linear predictor to be almost unbounded in regions
+## containing many zeroes. So examine if the range of predicted values 
+## is sane for the zero cases? 
+range(predict(b,type="response")[b$y==0])
+
+## 2. Further plots...
+par(mfrow=c(2,2))
+plot(predict(b,type="response"),residuals(b))
+plot(predict(b,type="response"),b$y);abline(0,1,col=2)
+plot(b$linear.predictors,b$y)
+qq.gam(b,rep=20,level=1)
+
+## 3. Refit fixing the theta parameters at their estimated values, to check we 
+## get essentially the same fit...
+thb &lt;- b$family$getTheta()
+b0 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=ziP(theta=thb),data=dat)
+b;b0
+
+## Example fit forcing minimum linkage of prob present and
+## linear predictor. Can fix some identifiability problems.
+b2 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=ziP(b=.3),data=dat)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

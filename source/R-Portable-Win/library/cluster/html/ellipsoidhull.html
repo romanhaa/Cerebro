@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the Ellipsoid Hull or Spanning Ellipsoid of a Point...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ellipsoidhull {cluster}"><tr><td>ellipsoidhull {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the Ellipsoid Hull or Spanning Ellipsoid of a Point Set</h2>
+
+<h3>Description</h3>
+
+<p>Compute the &ldquo;ellipsoid hull&rdquo; or &ldquo;spanning ellipsoid&rdquo;, i.e. the
+ellipsoid of minimal volume (&lsquo;area&rsquo; in 2D) such that all given points
+lie just inside or on the boundary of the ellipsoid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ellipsoidhull(x, tol=0.01, maxit=5000,
+              ret.wt = FALSE, ret.sqdist = FALSE, ret.pr = FALSE)
+## S3 method for class 'ellipsoid'
+print(x, digits = max(1, getOption("digits") - 2), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the <i>n</i> <i>p</i>-dimensional points  asnumeric
+<i>n x p</i> matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>convergence tolerance for Titterington's algorithm.
+Setting this to much smaller values may drastically increase the number of
+iterations needed, and you may want to increas <code>maxit</code> as well.</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>integer giving the maximal number of iteration steps for
+the algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>ret.wt, ret.sqdist, ret.pr</code></td>
+<td>
+<p>logicals indicating if additional
+information should be returned, <code>ret.wt</code> specifying the
+<em>weights</em>, <code>ret.sqdist</code> the <em><b>sq</b>uared
+<b>dist</b>ances</em> and <code>ret.pr</code> the final <b>pr</b>obabilities
+in the algorithms.</p>
+</td></tr>
+<tr valign="top"><td><code>digits,...</code></td>
+<td>
+<p>the usual arguments to <code><a href="../../base/html/print.html">print</a></code> methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The &ldquo;spanning ellipsoid&rdquo; algorithm is said to stem from
+Titterington(1976), in Pison et al (1999) who use it for
+<code><a href="clusplot.default.html">clusplot.default</a></code>.<br />
+The problem can be seen as a special case of the &ldquo;Min.Vol.&rdquo;
+ellipsoid of which a more more flexible and general implementation is
+<code><a href="../../MASS/html/cov.mve.html">cov.mve</a></code> in the <code>MASS</code> package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"ellipsoid"</code>, basically a <code><a href="../../base/html/list.html">list</a></code>
+with several components, comprising at least
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>cov</code></td>
+<td>
+<p><i>p x p</i> <em>covariance</em> matrix description
+the ellipsoid.</p>
+</td></tr>
+<tr valign="top"><td><code>loc</code></td>
+<td>
+<p><i>p</i>-dimensional location of the ellipsoid center.</p>
+</td></tr>
+<tr valign="top"><td><code>d2</code></td>
+<td>
+<p>average squared radius.  Further, <i>d2 = t^2</i>, where
+<i>t</i> is &ldquo;the value of a t-statistic on the ellipse
+boundary&rdquo; (from <code><a href="../../ellipse/html/ellipse.html">ellipse</a></code> in the
+<span class="pkg">ellipse</span> package), and hence, more usefully,
+<code>d2 = qchisq(alpha, df = p)</code>, where <code>alpha</code> is the
+confidence level for p-variate normally distributed data with
+location and covariance <code>loc</code> and <code>cov</code> to lie inside the
+ellipsoid.</p>
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+<p>the vector of weights iff <code>ret.wt</code> was true.</p>
+</td></tr>
+<tr valign="top"><td><code>sqdist</code></td>
+<td>
+<p>the vector of squared distances iff <code>ret.sqdist</code> was true.</p>
+</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+<p>the vector of algorithm probabilities iff <code>ret.pr</code> was true.</p>
+</td></tr>
+<tr valign="top"><td><code>it</code></td>
+<td>
+<p>number of iterations used.</p>
+</td></tr>
+<tr valign="top"><td><code>tol, maxit</code></td>
+<td>
+<p>just the input argument, see above.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>the achieved tolerance which is the maximal squared radius
+minus <i>p</i>.</p>
+</td></tr>
+<tr valign="top"><td><code>ierr</code></td>
+<td>
+<p>error code as from the algorithm; <code>0</code> means <em>ok</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>conv</code></td>
+<td>
+<p>logical indicating if the converged.  This is defined as
+<code>it &lt; maxit &amp;&amp; ierr == 0</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Maechler did the present class implementation; Rousseeuw
+et al did the underlying code.</p>
+
+
+<h3>References</h3>
+
+<p>Pison, G., Struyf, A. and Rousseeuw, P.J. (1999)
+Displaying a Clustering with CLUSPLOT,
+<em>Computational Statistics and Data Analysis</em>, <b>30</b>, 381&ndash;392.<br />
+
+
+
+</p>
+<p>D.M. Titterington (1976)
+Algorithms for computing D-optimal design on finite design spaces.  In
+<em>Proc.\ of the 1976 Conf.\ on Information Science and Systems</em>,
+213&ndash;216; John Hopkins University.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="predict.ellipsoid.html">predict.ellipsoid</a></code> which is also the
+<code><a href="../../stats/html/predict.html">predict</a></code> method for <code>ellipsoid</code> objects.
+<code><a href="volume.ellipsoid.html">volume.ellipsoid</a></code> for an example of &lsquo;manual&rsquo;
+<code>ellipsoid</code> object construction;<br />
+further <code><a href="../../ellipse/html/ellipse.html">ellipse</a></code> from package <span class="pkg">ellipse</span>
+and <code><a href="../../sfsmisc/html/ellipsePoints.html">ellipsePoints</a></code> from package <span class="pkg">sfsmisc</span>.
+</p>
+<p><code><a href="../../grDevices/html/chull.html">chull</a></code> for the convex hull,
+<code><a href="clusplot.partition.html">clusplot</a></code> which makes use of this; <code><a href="../../MASS/html/cov.mve.html">cov.mve</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- rnorm(100)
+xy &lt;- unname(cbind(x, rnorm(100) + 2*x + 10))
+exy &lt;- ellipsoidhull(xy)
+exy # &gt;&gt; calling print.ellipsoid()
+
+plot(xy, main = "ellipsoidhull(&lt;Gauss data&gt;) -- 'spanning points'")
+lines(predict(exy), col="blue")
+points(rbind(exy$loc), col = "red", cex = 3, pch = 13)
+
+exy &lt;- ellipsoidhull(xy, tol = 1e-7, ret.wt = TRUE, ret.sq = TRUE)
+str(exy) # had small `tol', hence many iterations
+(ii &lt;- which(zapsmall(exy $ wt) &gt; 1e-6))
+## --&gt; only about 4 to 6  "spanning ellipsoid" points
+round(exy$wt[ii],3); sum(exy$wt[ii]) # weights summing to 1
+points(xy[ii,], pch = 21, cex = 2,
+       col="blue", bg = adjustcolor("blue",0.25))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

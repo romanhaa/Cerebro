@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot an nfnGroupedData Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.nfnGroupedData {nlme}"><tr><td>plot.nfnGroupedData {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot an nfnGroupedData Object</h2>
+
+<h3>Description</h3>
+
+<p>A Trellis plot of the response versus the primary covariate is
+generated. If outer variables are specified, the combination of their
+levels are used to determine the panels of the Trellis
+display. Otherwise, the levels of the grouping variable determine the
+panels. A scatter plot of the response versus the primary covariate is
+displayed in each panel, with observations corresponding to same
+inner group joined by line segments. The Trellis function
+<code>xyplot</code> is used. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'nfnGroupedData'
+plot(x, outer, inner, innerGroups, xlab, ylab, strip, aspect, panel,
+     key, grid, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>nfnGroupedData</code>,
+representing a <code>groupedData</code> object with a numeric primary
+covariate and a single grouping level.
+</p>
+</td></tr>
+<tr valign="top"><td><code>outer</code></td>
+<td>
+<p>an optional logical value or one-sided formula,
+indicating covariates that are outer to the grouping factor, which
+are used to determine the panels of the Trellis plot. If
+equal to <code>TRUE</code>, <code>attr(object, "outer")</code> is used to
+indicate the outer covariates. An outer covariate is invariant within
+the sets of rows defined by the grouping factor.  Ordering of the
+groups is done in such a way as to preserve adjacency of groups with
+the same value of the outer variables. Defaults to <code>NULL</code>,
+meaning that no outer covariates are to be used.
+</p>
+</td></tr>  
+<tr valign="top"><td><code>inner</code></td>
+<td>
+<p>an optional logical value or one-sided formula, indicating
+a covariate that is inner to the grouping factor, which is used to
+associate points within each panel of the Trellis plot. If
+equal to <code>TRUE</code>, <code>attr(object, "inner")</code> is used to
+indicate the inner covariate. An inner covariate can change within
+the sets of rows defined by the grouping  factor. Defaults to
+<code>NULL</code>, meaning that no inner covariate  is present. 
+</p>
+</td></tr> 
+<tr valign="top"><td><code>innerGroups</code></td>
+<td>
+<p>an optional one-sided formula specifying a factor
+to be used for grouping the levels of the <code>inner</code>
+covariate. Different colors, or line types, are used for each level
+of the <code>innerGroups</code> factor. Default is <code>NULL</code>, meaning
+that no <code>innerGroups</code> covariate is present.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>optional character strings with the labels for the
+plot. Default is the corresponding elements of <code>attr(object,
+     "labels")</code> and <code>attr(object, "units")</code> pasted together.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strip</code></td>
+<td>
+<p>an optional function passed as the <code>strip</code> argument to
+the <code>xyplot</code> function. Default is <code>strip.default(..., style
+     = 1)</code> (see <code>trellis.args</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>aspect</code></td>
+<td>
+<p>an optional character string indicating the aspect ratio
+for the plot passed as the <code>aspect</code> argument to the
+<code>xyplot</code> function. Default is <code>"xy"</code> (see
+<code>trellis.args</code>). 
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+<p>an optional function used to generate the individual
+panels in the Trellis display, passed as the <code>panel</code> argument
+to the <code>xyplot</code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>key</code></td>
+<td>
+<p>an optional logical function or function. If <code>TRUE</code>
+and <code>innerGroups</code> is non-<code>NULL</code>, a legend for the
+different <code>innerGroups</code> levels is included at the top of the
+plot. If given as a function, it is passed as the <code>key</code> argument
+to the <code>xyplot</code> function.  Default is <code>TRUE</code> if
+<code>innerGroups</code> is non-<code>NULL</code> and <code>FALSE</code> otherwise.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>an optional logical value indicating whether a grid should
+be added to plot. Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed to the <code>xyplot</code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a Trellis plot of the response versus the primary covariate.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Bates, D.M. and Pinheiro, J.C. (1997), &quot;Software Design for Longitudinal
+Data&quot;, in &quot;Modelling Longitudinal and Spatially Correlated Data:
+Methods, Applications and Future Directions&quot;, T.G. Gregoire (ed.),
+Springer-Verlag, New York.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="groupedData.html">groupedData</a></code>, <code><a href="../../lattice/html/xyplot.html">xyplot</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# different panels per Subject
+plot(Orthodont)
+# different panels per gender
+plot(Orthodont, outer = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

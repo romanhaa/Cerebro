@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Visualization of GAM objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for vis.gam {mgcv}"><tr><td>vis.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Visualization of GAM objects</h2>
+
+<h3>Description</h3>
+
+<p> Produces perspective or contour plot views of <code>gam</code> model
+predictions, fixing all but the values in <code>view</code> to the  values supplied in <code>cond</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+vis.gam(x,view=NULL,cond=list(),n.grid=30,too.far=0,col=NA,
+        color="heat",contour.col=NULL,se=-1,type="link",
+        plot.type="persp",zlim=NULL,nCol=50,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a <code>gam</code> object, produced by <code>gam()</code></p>
+</td></tr>
+<tr valign="top"><td><code>view</code></td>
+<td>
+<p>an array containing the names of the two main effect terms to be displayed on the 
+x and y dimensions of the plot. If omitted the first two suitable terms
+will be used. Note that variables coerced to factors in the model formula won't work
+as view variables, and <code>vis.gam</code> can not detect that this has happened when setting defaults. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>cond</code></td>
+<td>
+<p>a named list of the values to use for the other predictor terms
+(not in <code>view</code>). Variables omitted from this list will have the closest observed value to the median 
+for continuous variables, or the most commonly occuring level for factors. Parametric matrix variables have 
+all the entries in each column set to the observed column entry closest to the column median.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.grid</code></td>
+<td>
+<p>The number of grid nodes in each direction used for calculating the 
+plotted surface.</p>
+</td></tr> 
+<tr valign="top"><td><code>too.far</code></td>
+<td>
+<p> plot grid nodes that are too far from the points defined by the variables given in <code>view</code> 
+can be excluded from the plot. <code>too.far</code> determines what is too far. The grid is scaled into the unit 
+square along with the <code>view</code> variables and then grid nodes more than <code>too.far</code> from the predictor variables 
+are excluded.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The colours for the facets of the plot. If this is <code>NA</code> then if <code>se</code>&gt;0 the facets are transparent, 
+otherwise the colour scheme specified in <code>color</code> is used. If <code>col</code> is not <code>NA</code> then it is used as the facet 
+colour.</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p> the colour scheme to use for plots when <code>se</code>&lt;=0. One of <code>"topo"</code>, <code>"heat"</code>, <code>"cm"</code>, 
+<code>"terrain"</code>, <code>"gray"</code> or <code>"bw"</code>. Schemes <code>"gray"</code> and
+<code>"bw"</code> also modify the colors used when <code>se</code>&gt;0.</p>
+</td></tr>
+<tr valign="top"><td><code>contour.col</code></td>
+<td>
+<p>sets the colour of contours when using <code>plot.type="contour"</code>. Default scheme used if <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>if less than or equal to zero then only the predicted surface is plotted, but if greater than zero, then 3 
+surfaces are plotted, one at the predicted values minus <code>se</code> standard errors, one at the predicted values and one at
+the predicted values plus <code>se</code> standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p><code>"link"</code> to plot on linear predictor scale and <code>"response"</code> to plot on the response scale.</p>
+</td></tr>
+<tr valign="top"><td><code>plot.type</code></td>
+<td>
+<p>one of <code>"contour"</code> or <code>"persp"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>a two item array giving the lower and upper limits for the z-axis
+scale. <code>NULL</code> to choose automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>nCol</code></td>
+<td>
+<p>The number of colors to use in color schemes.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other options to pass on to <code><a href="../../graphics/html/persp.html">persp</a></code>,
+<code><a href="../../graphics/html/image.html">image</a></code> or <code><a href="../../graphics/html/contour.html">contour</a></code>. In particular <code>ticktype="detailed"</code> will add proper axes 
+labelling to the plots. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The x and y limits are determined by the ranges of the terms named in <code>view</code>. If <code>se</code>&lt;=0 then 
+a single (height colour coded, by default) surface is produced, otherwise three (by default see-through) meshes are produced at 
+mean and +/- <code>se</code> standard errors. Parts of the x-y plane too far from
+data can be excluded by setting <code>too.far</code>
+</p>
+<p>All options to the underlying graphics functions can be reset by passing them
+as extra arguments <code>...</code>: such supplied values will always over-ride the
+default values used by <code>vis.gam</code>. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>Simply produces a plot.</p>
+
+
+<h3>WARNINGS</h3>
+
+<p>The routine can not detect that a variable has been coerced to factor within a model formula, 
+and will therefore fail if such a variable is used as a <code>view</code> variable. When setting 
+default <code>view</code> variables it can not detect this situation either, which can cause failures
+if the coerced variables are the first, otherwise suitable, variables encountered.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+<p>Based on an original idea and design by Mike Lonergan.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/persp.html">persp</a></code> and <code><a href="gam.html">gam</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(0)
+n&lt;-200;sig2&lt;-4
+x0 &lt;- runif(n, 0, 1);x1 &lt;- runif(n, 0, 1)
+x2 &lt;- runif(n, 0, 1)
+y&lt;-x0^2+x1*x2 +runif(n,-0.3,0.3)
+g&lt;-gam(y~s(x0,x1,x2))
+old.par&lt;-par(mfrow=c(2,2))
+# display the prediction surface in x0, x1 ....
+vis.gam(g,ticktype="detailed",color="heat",theta=-35)  
+vis.gam(g,se=2,theta=-35) # with twice standard error surfaces
+vis.gam(g, view=c("x1","x2"),cond=list(x0=0.75)) # different view 
+vis.gam(g, view=c("x1","x2"),cond=list(x0=.75),theta=210,phi=40,
+        too.far=.07)
+# ..... areas where there is no data are not plotted
+
+# contour examples....
+vis.gam(g, view=c("x1","x2"),plot.type="contour",color="heat")
+vis.gam(g, view=c("x1","x2"),plot.type="contour",color="terrain")
+vis.gam(g, view=c("x1","x2"),plot.type="contour",color="topo")
+vis.gam(g, view=c("x1","x2"),plot.type="contour",color="cm")
+
+
+par(old.par)
+
+# Examples with factor and "by" variables
+
+fac&lt;-rep(1:4,20)
+x&lt;-runif(80)
+y&lt;-fac+2*x^2+rnorm(80)*0.1
+fac&lt;-factor(fac)
+b&lt;-gam(y~fac+s(x))
+
+vis.gam(b,theta=-35,color="heat") # factor example
+
+z&lt;-rnorm(80)*0.4   
+y&lt;-as.numeric(fac)+3*x^2*z+rnorm(80)*0.1
+b&lt;-gam(y~fac+s(x,by=z))
+
+vis.gam(b,theta=-35,color="heat",cond=list(z=1)) # by variable example
+
+vis.gam(b,view=c("z","x"),theta= -135) # plot against by variable
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

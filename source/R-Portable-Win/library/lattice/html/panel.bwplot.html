@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for bwplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.bwplot {lattice}"><tr><td>F_1_panel.bwplot {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for bwplot </h2>
+
+<h3>Description</h3>
+
+<p>This is the default panel function for <code>bwplot</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.bwplot(x, y, box.ratio = 1,
+             box.width = box.ratio / (1 + box.ratio),
+             horizontal = TRUE,
+             pch, col, alpha, cex, 
+             font, fontfamily, fontface, 
+             fill, varwidth = FALSE,
+             notch = FALSE, notch.frac = 0.5,
+             ...,
+             levels.fos,
+             stats = boxplot.stats,
+             coef = 1.5,
+             do.out = TRUE,
+             identifier = "bwplot")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p> numeric vector or factor. Boxplots drawn for each unique value of
+<code>y</code> (<code>x</code>) if <code>horizontal</code> is <code>TRUE</code> (<code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>box.ratio</code></td>
+<td>
+<p> ratio of box thickness to inter box space</p>
+</td></tr>
+<tr valign="top"><td><code>box.width</code></td>
+<td>
+<p> thickness of box in absolute units; overrides
+<code>box.ratio</code>.  Useful for specifying thickness when the
+categorical variable is not a factor, as use of <code>box.ratio</code>
+alone cannot achieve a thickness greater than 1. </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>logical. If FALSE, the plot is &lsquo;transposed&rsquo; in the sense that
+the behaviours of x and y are switched. x is now the
+&lsquo;factor&rsquo;.  Interpretation of other arguments change
+accordingly. See documentation of <code><a href="xyplot.html">bwplot</a></code> for a fuller
+explanation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch, col, alpha, cex, font, fontfamily, fontface</code></td>
+<td>
+<p> graphical
+parameters controlling the dot.  <code>pch="|"</code> is treated
+specially, by replacing the dot with a line (similar to
+<code><a href="../../graphics/html/boxplot.html">boxplot</a></code>)
+</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p> color to fill the boxplot</p>
+</td></tr>
+<tr valign="top"><td><code>varwidth</code></td>
+<td>
+<p> logical. If TRUE, widths of boxplots are proportional
+to the number of points used in creating it.</p>
+</td></tr>
+<tr valign="top"><td><code>notch</code></td>
+<td>
+<p> if <code>notch</code> is <code>TRUE</code>, a notch is drawn in each
+side of the boxes.  If the notches of two plots do not overlap this
+is &lsquo;strong evidence&rsquo; that the two medians differ (Chambers et
+al., 1983, p. 62).  See <code><a href="../../grDevices/html/boxplot.stats.html">boxplot.stats</a></code> for the
+calculations used. </p>
+</td></tr>
+<tr valign="top"><td><code>notch.frac</code></td>
+<td>
+<p> numeric in (0,1). When <code>notch=TRUE</code>, the
+fraction of the box width that the notches should use. </p>
+</td></tr>
+<tr valign="top"><td><code>stats</code></td>
+<td>
+<p> a function, defaulting to <code><a href="../../grDevices/html/boxplot.stats.html">boxplot.stats</a></code>,
+that accepts a numeric vector and returns a list similar to the
+return value of <code>boxplot.stats</code>.  The function must accept
+arguments <code>coef</code> and <code>do.out</code> even if they do not use
+them (a <code>...</code> argument is good enough).  This function is
+used to determine the box and whisker plot.  </p>
+</td></tr>
+<tr valign="top"><td><code>coef, do.out</code></td>
+<td>
+<p> passed to <code>stats</code></p>
+</td></tr>
+<tr valign="top"><td><code>levels.fos</code></td>
+<td>
+<p> numeric values corresponding to positions of the
+factor or shingle variable.  For internal use. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments, ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates Box and Whisker plot of <code>x</code> for every level of
+<code>y</code> (or the other way round if <code>horizontal=FALSE</code>).  By
+default, the actual boxplot statistics are calculated using
+<code>boxplot.stats</code>.  Note that most arguments controlling the
+display can be supplied to the high-level <code>bwplot</code> call directly.
+</p>
+
+
+<p>Although the graphical parameters for the dot representing the median
+can be controlled by optional arguments, many others can not.  These
+parameters are obtained from the relevant settings parameters
+(<code>"box.rectangle"</code> for the box, <code>"box.umbrella"</code> for the
+whiskers and <code>"plot.symbol"</code> for the outliers).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">bwplot</a></code>, <code><a href="../../grDevices/html/boxplot.stats.html">boxplot.stats</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+bwplot(voice.part ~ height, data = singer,
+       xlab = "Height (inches)",
+       panel = function(...) {
+           panel.grid(v = -1, h = 0)
+           panel.bwplot(...)
+       },
+       par.settings = list(plot.symbol = list(pch = 4)))
+
+bwplot(voice.part ~ height, data = singer,
+       xlab = "Height (inches)",
+       notch = TRUE, pch = "|")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot of a Partition of the Data Set</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.partition {cluster}"><tr><td>plot.partition {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot of a Partition of the Data Set</h2>
+
+<h3>Description</h3>
+
+<p>Creates plots for visualizing a <code>partition</code> object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'partition'
+plot(x, ask = FALSE, which.plots = NULL,
+     nmax.lab = 40, max.strlen = 5, data = x$data, dist = NULL,
+     stand = FALSE, lines = 2,
+     shade = FALSE, color = FALSE, labels = 0, plotchar = TRUE,
+     span = TRUE, xlim = NULL, ylim = NULL, main = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"partition"</code>, typically created by the
+functions <code><a href="pam.html">pam</a></code>, <code><a href="clara.html">clara</a></code>, or <code><a href="fanny.html">fanny</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ask</code></td>
+<td>
+<p>logical; if true and <code>which.plots</code> is <code>NULL</code>,
+<code>plot.partition</code> operates in interactive mode, via <code><a href="../../utils/html/menu.html">menu</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>which.plots</code></td>
+<td>
+<p>integer vector or NULL (default), the latter
+producing both plots.  Otherwise, <code>which.plots</code> must contain
+integers of <code>1</code> for a <em>clusplot</em> or <code>2</code> for
+<em>silhouette</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>nmax.lab</code></td>
+<td>
+<p>integer indicating the number of labels which is
+considered too large for single-name labeling the silhouette plot.</p>
+</td></tr>
+<tr valign="top"><td><code>max.strlen</code></td>
+<td>
+<p>positive integer giving the length to which
+strings are truncated in silhouette plot labeling.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>numeric matrix with the scaled data; per default taken
+from the partition object <code>x</code>, but can be specified explicitly.</p>
+</td></tr>
+<tr valign="top"><td><code>dist</code></td>
+<td>
+<p>when <code>x</code> does not have a <code>diss</code> component as for
+<code><a href="pam.html">pam</a>(*, keep.diss=FALSE)</code>, <code>dist</code> must be the
+dissimilarity if a clusplot is desired.</p>
+</td></tr>
+<tr valign="top"><td><code>stand,lines,shade,color,labels,plotchar,span,xlim,ylim,main, ...</code></td>
+<td>
+
+<p>All optional arguments available for the <code><a href="clusplot.default.html">clusplot.default</a></code>
+function (except for the <code>diss</code> one) and graphical parameters
+(see <code><a href="../../graphics/html/par.html">par</a></code>) may also be supplied as arguments to this function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When <code>ask= TRUE</code>, rather than producing each plot sequentially,
+<code>plot.partition</code> displays a menu listing all the plots that can
+be produced.
+If the menu is not desired but a pause between plots is still wanted,
+call <code>par(ask= TRUE)</code> before invoking the plot command.
+</p>
+<p>The <em>clusplot</em> of a cluster partition consists of a two-dimensional
+representation of the observations, in which the clusters are
+indicated by ellipses (see <code><a href="clusplot.partition.html">clusplot.partition</a></code> for more
+details).
+</p>
+<p>The <em>silhouette plot</em> of a nonhierarchical clustering is fully
+described in Rousseeuw (1987) and in chapter 2 of Kaufman and
+Rousseeuw (1990).
+For each observation i, a bar is drawn, representing its silhouette
+width s(i), see <code><a href="silhouette.html">silhouette</a></code> for details.
+Observations are grouped per cluster, starting with cluster 1 at the
+top.  Observations with a large s(i) (almost 1) are very well
+clustered, a small s(i) (around 0) means that the observation lies
+between two clusters, and observations with a negative s(i) are
+probably placed in the wrong cluster.
+</p>
+<p>A clustering can be performed for several values of <code>k</code> (the number of
+clusters).  Finally, choose the value of <code>k</code> with the largest overall
+average silhouette width.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>An appropriate plot is produced on the current graphics device.  This
+can be one or both of the following choices:
+<br /> Clusplot
+<br /> Silhouette plot
+</p>
+
+
+<h3>Note</h3>
+
+<p>In the silhouette plot, observation labels are only printed when the
+number of observations is less than <code>nmax.lab</code> (40, by default),
+for readability.  Moreover, observation labels are truncated to
+maximally <code>max.strlen</code> (5) characters.  <br />
+For more flexibility, use <code>plot(silhouette(x), ...)</code>, see
+<code><a href="silhouette.html">plot.silhouette</a></code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Rousseeuw, P.J. (1987)
+Silhouettes: A graphical aid to the interpretation and validation of
+cluster analysis. <em>J. Comput. Appl. Math.</em>, <b>20</b>, 53&ndash;65.
+</p>
+<p>Further, the references in <code><a href="plot.agnes.html">plot.agnes</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="partition.object.html">partition.object</a></code>, <code><a href="clusplot.partition.html">clusplot.partition</a></code>,
+<code><a href="clusplot.default.html">clusplot.default</a></code>, <code><a href="pam.html">pam</a></code>,
+<code><a href="pam.object.html">pam.object</a></code>, <code><a href="clara.html">clara</a></code>,
+<code><a href="clara.object.html">clara.object</a></code>, <code><a href="fanny.html">fanny</a></code>,
+<code><a href="fanny.object.html">fanny.object</a></code>, <code><a href="../../graphics/html/par.html">par</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## generate 25 objects, divided into 2 clusters.
+x &lt;- rbind(cbind(rnorm(10,0,0.5), rnorm(10,0,0.5)),
+           cbind(rnorm(15,5,0.5), rnorm(15,5,0.5)))
+plot(pam(x, 2))
+
+## Save space not keeping data in clus.object, and still clusplot() it:
+data(xclara)
+cx &lt;- clara(xclara, 3, keep.data = FALSE)
+cx$data # is NULL
+plot(cx, data = xclara)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

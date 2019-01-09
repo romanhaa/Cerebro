@@ -1,0 +1,828 @@
+%
+%  Copyright (C) 2004-2005 Friedrich Leisch
+%  $Id: flexmix-intro.Rnw 5079 2016-01-31 12:21:12Z gruen $
+%
+\documentclass[nojss]{jss}
+
+\title{FlexMix: A General Framework for Finite Mixture Models and
+  Latent Class Regression in \proglang{R}}
+
+\Plaintitle{FlexMix: A General Framework for Finite Mixture Models and
+  Latent Class Regression in R} 
+\Shorttitle{FlexMix: Finite Mixture Models in \proglang{R}}
+
+\author{Friedrich Leisch\\Universit\"at f\"ur Bodenkultur Wien}
+\Plainauthor{Friedrich Leisch}
+
+\Address{
+  Friedrich Leisch\\
+  Institut f\"ur Angewandte Statistik und EDV\\
+  Universit\"at f\"ur Bodenkultur Wien\\
+  Peter Jordan Stra\ss{}e 82\\
+  1190 Wien, Austria\\
+  E-mail: \email{Friedrich.Leisch@boku.ac.at}\\
+  URL: \url{http://www.statistik.lmu.de/~leisch/}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\newcommand{\R}{\proglang{R}}
+
+<<echo=false,results=hide>>=
+set.seed(1504)
+options(width=70, prompt = "R> ", continue = "+  ", useFancyQuotes = FALSE)
+grDevices::ps.options(family="Times")
+library("graphics")
+library("flexmix")
+data("NPreg")
+@
+
+\Abstract{ 
+
+  This article was originally published as \cite{flexmix:Leisch:2004a}
+  in the \emph{Journal of Statistical Software}.
+  
+  FlexMix implements a general framework for fitting
+  discrete mixtures of regression models in the \R{} statistical
+  computing environment: three variants of the EM algorithm can be
+  used for parameter estimation, regressors and responses may be
+  multivariate with arbitrary dimension, data may be grouped, e.g., to
+  account for multiple observations per individual, the usual formula
+  interface of the \proglang{S} language is used for convenient model
+  specification, and a modular concept of driver functions allows to
+  interface many different types of regression models. Existing
+  drivers implement mixtures of standard linear models, generalized
+  linear models and model-based clustering. FlexMix provides the
+  E-step and all data handling, while the M-step can be supplied by
+  the user to easily define new models.
+}
+
+\Keywords{\proglang{R}, finite mixture models, model based clustering, latent
+  class regression}
+\Plainkeywords{R, finite mixture models, model based clustering, latent
+  class regression}
+
+\Volume{11}
+\Issue{8}
+\Month{October}
+\Year{2004}
+\Submitdate{2004-04-19}
+\Acceptdate{2004-10-18}
+
+%%\usepackage{Sweave} %% already provided by jss.cls
+%%\VignetteIndexEntry{FlexMix: A General Framework for Finite Mixture Models and Latent Class Regression in R}
+%%\VignetteDepends{flexmix}
+%%\VignetteKeywords{R, finite mixture models, model based clustering, latent class regression}
+%%\VignettePackage{flexmix}
+
+\begin{document}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Finite mixture models have been used for more than 100 years, but have
+seen a real boost in popularity over the last decade due to the
+tremendous increase in available computing power. The areas of
+application of mixture models range from biology and medicine to
+physics, economics and marketing.  On the one hand these models can be
+applied to data where observations originate from various groups and
+the group affiliations are not known, and on the other hand to provide
+approximations for multi-modal distributions
+\citep{flexmix:Everitt+Hand:1981,flexmix:Titterington+Smith+Makov:1985,flexmix:McLachlan+Peel:2000}.
+
+In the 1990s finite mixture models have been extended by mixing
+standard linear regression models as well as generalized linear models
+\citep{flexmix:Wedel+DeSarbo:1995}. An important area of application of
+mixture models is market segmentation \citep{flexmix:Wedel+Kamakura:2001},
+where finite mixture models replace more traditional cluster analysis
+and cluster-wise regression techniques as state of the art.  Finite
+mixture models with a fixed number of components are usually estimated
+with the expectation-maximization (EM) algorithm within a maximum
+likelihood framework \citep{flexmix:Dempster+Laird+Rubin:1977} and with
+MCMC sampling \citep{flexmix:Diebolt+Robert:1994} within a Bayesian
+framework.
+
+\newpage
+
+The \R{} environment for statistical computing \citep{flexmix:R-Core:2004}
+features several packages for finite mixture models, including
+\pkg{mclust} for mixtures of multivariate Gaussian distributions
+\citep{flexmix:Fraley+Raftery:2002,flexmix:Fraley+Raftery:2002a}, \pkg{fpc}
+for mixtures of linear regression models \citep{flexmix:Hennig:2000} and
+\pkg{mmlcr} for mixed-mode latent class regression
+\citep{flexmix:Buyske:2003}.
+
+There are three main reasons why we have chosen to write yet another
+software package for EM estimation of mixture models:
+\begin{itemize}
+ \item The existing implementations did not cover all cases we needed
+  for our own research (mainly marketing applications).
+ \item While all \R{} packages mentioned above are open source and hence
+  can be extended by the user by modifying the source code, we wanted
+  an implementation where extensibility is a main design principle to
+  enable rapid prototyping of new mixture models.
+ \item We include a sampling-based variant of the EM-algorithm for
+  models where weighted maximum likelihood estimation is not
+  available. FlexMix has a clean interface between E- and M-step such
+  that variations of both are easy to combine.
+\end{itemize}
+
+This paper is organized as follows: First we introduce the
+mathematical models for latent class regression in
+Section~\ref{sec:latent-class-regr} and shortly discuss parameter
+estimation and identifiability.  Section~\ref{sec:using-flexmix}
+demonstrates how to use FlexMix to fit models with the standard driver
+for generalized linear models. Finally,
+Section~\ref{sec:extending-flexmix} shows how to extend FlexMix by
+writing new drivers using the well-known model-based clustering
+procedure as an example.
+
+\section{Latent class regression}
+\label{sec:latent-class-regr}
+
+
+Consider finite mixture models with $K$ components of form
+\begin{equation}\label{eq:1}
+  h(y|x,\psi) = \sum_{k = 1}^K \pi_k
+  f(y|x,\theta_k) 
+\end{equation}
+\begin{displaymath}
+  \pi_k \geq 0, \quad
+  \sum_{k = 1}^K \pi_k = 1
+\end{displaymath}
+where $y$ is a (possibly multivariate) dependent variable with
+conditional density $h$, $x$ is a vector of independent variables,
+$\pi_k$ is the prior probability of component $k$, $\theta_k$ is the
+component specific parameter vector for the density function $f$, and
+$\psi=(\pi_1,,\ldots,\pi_K,\theta_1',\ldots,\theta_K')'$ is the vector of
+all parameters.
+
+If $f$ is a univariate normal density with component-specific mean
+$\beta_k'x$ and variance $\sigma^2_k$, we have $\theta_k = (\beta_k',
+\sigma_k^2)'$ and Equation~(\ref{eq:1}) describes a mixture of
+standard linear regression models, also called \emph{latent class
+  regression} or \emph{cluster-wise regression}
+\citep{flexmix:DeSarbo+Cron:1988}.  If $f$ is a member of the exponential
+family, we get a mixture of generalized linear models
+\citep{flexmix:Wedel+DeSarbo:1995}, known as \emph{GLIMMIX} models in the
+marketing literature \citep{flexmix:Wedel+Kamakura:2001}.  For
+multivariate normal $f$ and $x\equiv1$ we get a mixture of Gaussians
+without a regression part, also known as \emph{model-based
+  clustering}.
+
+The posterior probability that observation $(x,y)$ belongs to class
+$j$ is given by
+\begin{equation}\label{eq:3}
+  \Prob(j|x, y, \psi) =
+  \frac{\pi_j f(y | x, \theta_j)}{\sum_k \pi_k f(y | x, \theta_k)}
+\end{equation}
+The posterior probabilities can be used to segment data by assigning
+each observation to the class with maximum posterior probability.  In
+the following we will refer to $f(\cdot|\cdot, \theta_k)$ as
+\emph{mixture components} or \emph{classes}, and the groups in the
+data induced by these components as \emph{clusters}.
+
+\subsection{Parameter estimation}
+\label{sec:parameter-estimation}
+
+The log-likelihood of a sample of $N$ observations
+$\{(x_1,y_1),\ldots,(x_N,y_N)\}$ is given by
+\begin{equation}\label{eq:4}
+  \log L = \sum_{n=1}^N \log h(y_n|x_n,\psi) =
+  \sum_{n=1}^N \log\left(\sum_{k = 1}^K \pi_kf(y_n|x_n,\theta_k) \right)
+\end{equation}
+and can usually not be maximized directly. The most popular method for
+maximum likelihood estimation of the parameter vector $\psi$ is the
+iterative EM algorithm \citep{flexmix:Dempster+Laird+Rubin:1977}: 
+\begin{description}
+ \item[Estimate] the posterior class probabilities for each observation
+  \begin{displaymath}
+    \hat p_{nk} = \Prob(k|x_n, y_n, \hat \psi)
+  \end{displaymath}
+  using Equation~(\ref{eq:3}) and derive the prior class probabilities as
+  \begin{displaymath}
+    \hat\pi_k = \frac1N \sum_{n=1}^N \hat p_{nk}
+  \end{displaymath}
+
+ \item[Maximize] the log-likelihood for each component separately using the
+  posterior probabilities as weights
+  \begin{equation}\label{eq:2}
+    \max_{\theta_k} \sum_{n=1}^N \hat p_{nk} \log f(y_n | x_n, \theta_k)  
+  \end{equation}
+\end{description}
+The E- and M-steps are repeated until the likelihood improvement falls
+under a pre-specified threshold or a maximum number of iterations is
+reached.
+
+The EM algorithm cannot be used for mixture models only, but rather
+provides a general framework for fitting models on incomplete data.
+Suppose we augment each observation $(x_n,y_n)$ with an unobserved
+multinomial variable $z_n = (z_{n1},\ldots,z_{nK})$, where $z_{nk}=1$
+if $(x_n,y_n)$ belongs to class $k$ and $z_{nk}=0$ otherwise. The EM
+algorithm can be shown to maximize the likelihood on the ``complete
+data'' $(x_n,y_n,z_n)$;  the $z_n$ encode the missing class
+information. If the $z_n$ were known, maximum likelihood estimation of
+all parameters would be easy, as we could separate the data set into
+the $K$ classes and estimate the parameters $\theta_k$ for each class
+independently from the other classes.
+
+If the weighted likelihood estimation in Equation~(\ref{eq:2}) is
+infeasible for analytical, computational, or other reasons, then we
+have to resort to approximations of the true EM procedure by assigning
+the observations to disjoint classes and do unweighted estimation
+within the groups:
+\begin{displaymath}
+  \max_{\theta_k} \sum_{n: z_{nk=1}} \log f(y_n | x_n, \theta_k)  
+\end{displaymath}
+This corresponds to allow only 0 and 1 as weights.
+
+Possible ways of assigning the data into the $K$ classes are
+\begin{itemize}
+ \item \textbf{hard} \label{hard} assignment to the class with maximum
+  posterior probability $p_{nk}$, the resulting procedure is called
+  maximizing the \emph{classification likelihood} by
+  \cite{flexmix:Fraley+Raftery:2002}. Another idea is to do
+ \item \textbf{random} assignment to classes with probabilities
+  $p_{nk}$, which is similar to the sampling techniques used in
+  Bayesian estimation (although for the $z_n$ only).
+\end{itemize}
+
+Well known limitations of the EM algorithm include that convergence
+can be slow and is to a local maximum of the likelihood surface only.
+There can also be numerical instabilities at the margin of parameter
+space, and if a component gets to contain only a few observations
+during the iterations, parameter estimation in the respective
+component may be problematic.  E.g., the likelihood of Gaussians
+increases without bounds for $\sigma^2\to 0$. As a result, numerous
+variations of the basic EM algorithm described above exist, most of
+them exploiting features of special cases for $f$.
+
+\subsection{Identifiability}
+\label{sec:identifiability}
+
+An open question is still identifiability of many mixture models. A
+comprehensive overview of this topic is beyond the scope of this
+paper, however, users of mixture models should be aware of the
+problem:
+\begin{description}
+ \item[Relabelling of components:] Mixture models are only
+  identifiable up to a permutation of the component labels. For
+  EM-based approaches this only affects interpretation of results, but
+  is no problem for parameter estimation itself.
+  
+ \item[Overfitting:] If a component is empty or two or more components
+  have the same parameters, the data generating process can be
+  represented by a smaller model with fewer components.  This kind of
+  unidentifiability can be avoided by requiring that the prior weights
+  $\pi_k$ are not equal to zero and that the component specific
+  parameters are different.
+  
+ \item[Generic unidentifiability:] It has been shown that mixtures of
+  univariate normal, gamma, exponential, Cauchy and Poisson
+  distributions are identifiable, while mixtures of discrete or
+  continuous uniform distributions are not identifiable. A special
+  case is the class of mixtures of binomial and multinomial
+  distributions which are only identifiable if the number of
+  components is limited with respect to, e.g., the number of
+  observations per person. See \cite{flexmix:Everitt+Hand:1981},
+  \cite{flexmix:Titterington+Smith+Makov:1985},
+  \cite{flexmix:Grun:2002} and references therein for details.
+\end{description}
+
+FlexMix tries to avoid overfitting because of vanishing prior
+probabilities by automatically removing components where the prior
+$\pi_k$ falls below a user-specified threshold. Automated diagnostics
+for generic identifiability are currently under investigation.
+Relabelling of components is in some cases more of a nuisance than a
+real problem (``component 2 of the first run may be component 3 in the
+second run''), more serious are interactions of component relabelling
+and categorical predictor variables, see
+\cite{flexmix:Grun+Leisch:2004} for a discussion and how
+bootstrapping can be used to assess identifiability of mixture models.
+
+\pagebreak[4]
+\section{Using FlexMix}
+\label{sec:using-flexmix}
+
+\SweaveOpts{width=12,height=8,eps=FALSE,keep.source=TRUE}
+
+The standard M-step \texttt{FLXMRglm()} of FlexMix is an interface to
+R's generalized linear modelling facilities (the \texttt{glm()}
+function).  As a simple example we use artificial data with two latent
+classes of size \Sexpr{nrow(NPreg)/2} each:
+\begin{center}
+  \begin{tabular}{ll}
+    Class~1: & $ y = 5x+\epsilon$\\
+    Class~2: & $ y = 15+10x-x^2+\epsilon$\\
+  \end{tabular}
+\end{center}
+with $\epsilon\sim N(0,9)$ and prior class probabilities
+$\pi_1=\pi_2=0.5$, see the left panel of Figure~\ref{fig:npreg}. 
+
+We can fit this model in \R{} using the commands
+<<>>= 
+library("flexmix")
+data("NPreg")
+m1 <- flexmix(yn ~ x + I(x^2), data = NPreg, k = 2)
+m1
+@
+and get a first look at the estimated parameters of mixture component~1 by 
+<<>>=
+parameters(m1, component = 1)
+@ 
+and
+<<>>=
+parameters(m1, component = 2)
+@ 
+for component~2. The paramter estimates of both components are close
+to the true values. A cross-tabulation of true classes and cluster
+memberships can be obtained by
+<<>>=
+table(NPreg$class, clusters(m1))
+@ 
+The summary method
+<<>>=
+summary(m1)
+@ 
+gives the estimated prior probabilities $\hat\pi_k$, the
+number of observations assigned to the corresponding clusters, the
+number of observations where $p_{nk}>\delta$ (with a default of
+$\delta=10^{-4}$), and the ratio of the latter two numbers. For
+well-seperated components, a large proportion of observations with
+non-vanishing posteriors $p_{nk}$ should also be assigned to the
+corresponding cluster, giving a ratio close to 1. For our example data the
+ratios of both components are approximately 0.7, indicating the
+overlap of the classes at the cross-section of line and parabola.
+
+
+
+\begin{figure}[htbp]
+  \centering
+<<fig=true, echo=false, results=hide, height=6>>=
+par(mfrow=c(1,2))
+plot(yn~x, col=class, pch=class, data=NPreg)
+plot(yp~x, col=class, pch=class, data=NPreg)
+@ 
+  \caption{Standard regression example (left) and Poisson regression (right).}
+  \label{fig:npreg}
+\end{figure}
+
+Histograms or rootograms of the posterior class probabilities can be
+used to visually assess the cluster structure
+\citep{flexmix:Tantrum+Murua+Stuetzle:2003}, this is now the default plot
+method for \texttt{"flexmix"} objects
+\citep{flexmix:Leisch:2004}. Rootograms are very similar to
+histograms, the only difference is that the height of the bars
+correspond to square roots of counts rather than the counts
+themselves, hence low counts are more visible and peaks less
+emphasized.
+
+\begin{figure}[htbp]
+  \centering
+<<fig=true, echo=false, results=hide, height=5, width=10>>=
+print(plot(m1))
+@ 
+\caption{The plot method for \texttt{"flexmix"} objects, here obtained
+  by \texttt{plot(m1)}, shows rootograms of the posterior class
+  probabilities.}
+  \label{fig:root1}
+\end{figure}
+
+Usually in each component a lot of observations have posteriors close
+to zero, resulting in a high count for the corresponing bin in the
+rootogram which obscures the information in the other bins. To avoid
+this problem, all probabilities with a posterior below a threshold are
+ignored (we again use $10^{-4}$).  A peak at probability 1 indicates that a
+mixture component is well seperated from the other components, while
+no peak at 1 and/or significant mass in the middle of the unit
+interval indicates overlap with other components. In our simple
+example the components are medium well separated, see
+Figure~\ref{fig:root1}. 
+
+Tests for significance of regression coefficients can be obtained by
+<<>>=
+rm1 <- refit(m1)
+summary(rm1)
+@
+Function \texttt{refit()} fits weighted generalized linear models to each
+component using the standard \R{} function \texttt{glm()} and the
+posterior probabilities as weights, see \texttt{help("refit")} for
+details.
+
+The data set \texttt{NPreg} also includes a response from a
+generalized linear model with a Poisson distribution and exponential
+link function. The two classes of size \Sexpr{nrow(NPreg)/2} each have
+parameters
+\begin{center}
+  \begin{tabular}{ll}
+    Class~1: & $ \mu_1 = 2 - 0.2x$\\
+    Class~2: & $ \mu_2 = 1 + 0.1x$\\
+  \end{tabular}
+\end{center}
+and given $x$ the response $y$ in group $k$ has a Poisson distribution
+with mean $e^{\mu_k}$, see the right panel of Figure~\ref{fig:npreg}.
+The model can be estimated using
+
+<<echo=false,results=hide>>=
+options(width=55)
+@ 
+<<>>=
+m2 <- flexmix(yp ~ x, data = NPreg, k = 2, 
+  model = FLXMRglm(family = "poisson"))
+summary(m2)
+@ 
+<<echo=false,results=hide>>=
+options(width=65)
+@ 
+\begin{figure}[htbp]
+  \centering
+<<fig=true, echo=false, results=hide, height=5, width=10>>=
+print(plot(m2))
+@ 
+  \caption{\texttt{plot(m2)}}
+  \label{fig:root2}
+\end{figure}
+
+Both the summary table and the rootograms in Figure~\ref{fig:root2}
+clearly show that the clusters of the Poisson response have much more
+overlap. For our simple low-dimensional example data the overlap of
+the classes is obvious by looking at scatterplots of the data. For
+data in higher dimensions this is not an option. The rootograms and
+summary tables for \texttt{"flexmix"} objects work off the densities
+or posterior probabilities of the observations and thus do not depend
+on the dimensionality of the input space. While we use simple
+2-dimensional examples to demonstrate the techniques, they can easily
+be used on high-dimensional data sets or models with complicated
+covariate structures.
+
+
+\subsection{Multiple independent responses}
+\label{sec:mult-indep-resp}
+
+
+If the response $y=(y_1,\ldots,y_D)'$ is $D$-dimensional and the $y_d$
+are mutually independent the mixture density in Equation~(\ref{eq:1})
+can be written as
+\begin{eqnarray*}
+  h(y|x,\psi) &=& \sum_{k = 1}^K \pi_k
+  f(y|x,\theta_k)\\
+  &=&  \sum_{k = 1}^K \pi_k
+  \prod_{d=1}^D f_d(y|x,\theta_{kd})
+\end{eqnarray*}
+To specify such models in FlexMix we pass it a list of models, where
+each list element corresponds to one $f_d$, and each can have a
+different set of dependent and independent variables.  To use the
+Gaussian and Poisson responses of data \texttt{NPreg} simultaneously,
+we use the model specification
+\begin{Sinput}
+> m3 = flexmix(~x, data=NPreg, k=2,
++              model=list(FLXMRglm(yn~.+I(x^2)), 
++                         FLXMRglm(yp~., family="poisson")))  
+\end{Sinput}
+
+<<echo=false>>=
+m3 <- flexmix(~ x, data = NPreg, k = 2,
+  model=list(FLXMRglm(yn ~ . + I(x^2)), 
+    FLXMRglm(yp ~ ., family = "poisson")))
+@
+Note that now three model formulas are involved: An overall formula as
+first argument to function \texttt{flexmix()} and one formula per
+response. The latter ones are interpreted relative to the overall
+formula such that common predictors have to be specified only once,
+see \texttt{help("update.formula")} for details on the syntax. The
+basic principle is that the dots get replaced by the respective terms
+from the overall formula. The rootograms show that the posteriors of
+the two-response model are shifted towards 0 and 1 (compared with
+either of the two univariate models), the clusters are now
+well-separated.
+
+\begin{figure}[htbp]
+  \centering
+<<fig=true, echo=false, results=hide, height=5, width=10>>=
+print(plot(m3))
+@ 
+  \caption{\texttt{plot(m3)}}
+  \label{fig:root3}
+\end{figure}
+
+
+
+\subsection{Repeated measurements}
+\label{sec:repe-meas}
+
+If the data are repeated measurements on $M$ individuals, and we have
+$N_m$ observations from individual $m$, then the log-likelihood in
+Equation~(\ref{eq:4}) can be written as
+\begin{displaymath}
+  \log L = \sum_{m=1}^M \sum_{n=1}^{N_m} \log h(y_{mn}|x_{mn},\psi),
+  \qquad \sum_{m=1}^M N_m = N
+\end{displaymath}
+and the posterior probability that individual $m$ belongs to class
+$j$ is given by
+\begin{displaymath}
+  \Prob(j|m) = \frac{\pi_j \prod_{n=1}^{N_m} f(y_{mn} | x_{mn}, \theta_j)}{\sum_k \pi_k \prod_{n=1}^{N_m} f(y_{mn} | x_{mn}, \theta_k)}
+\end{displaymath}
+where $(x_{mn}, y_{mn})$ is the $n$-th observation from individual $m$.
+As an example, assume that the data in \texttt{NPreg} are not 200
+independent observations, but 4 measurements each from 50 persons such
+that $\forall m: N_m=4$.  Column \texttt{id2} of the data frame
+encodes such a grouping and can easily be used in FlexMix:
+
+<<>>=
+m4 <- flexmix(yn ~ x + I(x^2) | id2, data = NPreg, k = 2)
+summary(m4)
+@ 
+Note that convergence of the EM algorithm is much faster with
+grouping and the two clusters are now perfectly separated.
+
+
+
+\subsection{Control of the EM algorithm}
+\label{sec:control-em-algorithm}
+
+Details of the EM algorithm can be tuned using the \texttt{control}
+argument of function \texttt{flexmix()}. E.g., to use a maximum number
+of 15 iterations, report the log-likelihood at every 3rd step and use hard
+assignment of observations to clusters (cf. page~\pageref{hard}) the
+call is
+
+<<>>=
+m5 <- flexmix(yn ~ x + I(x^2), data = NPreg, k = 2,
+  control = list(iter.max = 15, verbose = 3, classify = "hard"))
+@ 
+
+Another control parameter (\texttt{minprior}, see below for an
+example) is the minimum prior probability components are enforced to
+have, components falling below this threshold (the current default is
+0.05) are removed during EM iteration to avoid numerical instabilities
+for components containing only a few observations. Using a minimum
+prior of 0 disables component removal.
+
+
+
+\subsection{Automated model search}
+
+In real applications the number of components is unknown and has to be
+estimated.  Tuning the minimum prior parameter allows for 
+simplistic model selection, which works surprisingly well in some situations:
+<<>>=
+m6 <- flexmix(yp ~ x + I(x^2), data = NPreg, k = 4,
+  control = list(minprior = 0.2))
+
+m6  
+@ 
+Although we started with four components, the algorithm converged at
+the correct two component solution.
+
+A better approach is to fit models with an increasing number of
+components and compare them using AIC or BIC. As the EM algorithm
+converges only to the next local maximum of the likelihood, it should
+be run repeatedly using different starting values. The function
+\texttt{stepFlexmix()} can be used to repeatedly fit models, e.g.,
+<<>>=
+m7 <- stepFlexmix(yp ~ x + I(x^2), data = NPreg,
+  control = list(verbose = 0), k = 1:5, nrep = 5)
+
+@ 
+runs \texttt{flexmix()} 5 times for $k=1,2,\ldots,5$ components,
+totalling in 25 runs. It returns a list with the best solution found
+for each number of components, each list element is simply an object
+of class \texttt{"flexmix"}. To find the best model we can use
+<<>>=
+getModel(m7, "BIC")
+@ 
+and choose the number of components minimizing the BIC.
+
+
+
+
+\section{Extending FlexMix}
+\label{sec:extending-flexmix}
+
+One of the main design principles of FlexMix was extensibility, users
+can provide their own M-step for rapid prototyping of new mixture
+models. FlexMix was written using S4 classes and methods
+\citep{flexmix:Chambers:1998} as implemented in \R{} package
+\pkg{methods}. 
+
+The central classes for writing M-steps are \texttt{"FLXM"} and
+\texttt{"FLXcomponent"}. Class \texttt{"FLXM"} specifies how the
+model is fitted using the following slots:
+\begin{description}
+ \item[fit:] A \texttt{function(x,y,w)} returning an object of class
+  \texttt{"FLXcomponent"}.
+\item[defineComponent:] Expression or function constructing the object
+  of class \texttt{"FLXcomponent"}.
+ \item[weighted:] Logical, specifies if the model may be fitted using
+  weighted likelihoods. If \texttt{FALSE}, only hard and random
+  classification are allowed (and hard classification becomes the
+  default). 
+ \item[formula:] Formula relative to the overall model formula, default is
+  \verb|.~.|
+ \item[name:] A character string describing the model, this is only
+  used for print output. 
+\end{description}
+The remaining slots of class \texttt{"FLXM"} are used internally
+by FlexMix to hold data, etc. and omitted here, because they are not
+needed to write an M-step driver. The most important slot doing all
+the work is \texttt{fit} holding a function performing the maximum
+likelihood estimation described in Equation~(\ref{eq:2}). The
+\texttt{fit()} function returns an object of class \texttt{"FLXcomponent"}
+which holds a fitted component using the slots:
+\begin{description}
+ \item[logLik:] A \texttt{function(x,y)} returning the
+  log-likelihood for observations in matrices \texttt{x} and \texttt{y}.
+ \item[predict:] A \texttt{function(x)} predicting \texttt{y} given
+  \texttt{x}.
+ \item[df:] The degrees of freedom used by the component, i.e., the
+  number of estimated parameters.
+ \item[parameters:] An optional list containing model parameters.
+\end{description}
+In a nutshell class \texttt{"FLXM"} describes an \emph{unfitted}
+model, whereas class \texttt{"FLXcomponent"} holds a \emph{fitted}
+model.
+
+\lstset{frame=trbl,basicstyle=\small\tt,stepnumber=5,numbers=left}
+                                                                               
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{0.94\textwidth}
+    \lstinputlisting{mymclust.R}
+  \end{minipage}
+  \caption{M-step for model-based clustering: \texttt{mymclust} is a
+    simplified version of the standard FlexMix driver \texttt{FLXmclust}.}
+  \label{fig:mymclust.R}
+\end{figure}
+
+
+\subsection{Writing an M-step driver}
+\label{sec:writing-an-m}
+
+Figure~\ref{fig:mymclust.R} shows an example driver for model-based
+clustering. We use function \texttt{dmvnorm()} from package
+\pkg{mvtnorm} for calculation of multivariate Gaussian densities.  In
+line~5 we create a new \texttt{"FLXMC"} object named \texttt{retval},
+which is also the return value of the driver.  Class \texttt{"FLXMC"}
+extends \texttt{"FLXM"} and is used for model-based clustering. It
+contains an additional slot with the name of the distribution used.
+All drivers should take a formula as their first argument, this
+formula is directly passed on to \texttt{retval}. In most cases
+authors of new FlexMix drivers need not worry about formula parsing
+etc., this is done by \texttt{flexmix} itself. In addition we have to
+declare whether the driver can do weighted ML estimation
+(\texttt{weighted=TRUE}) and give a name to our model.
+
+The remainder of the driver creates a \texttt{fit()} function, which
+takes regressors \texttt{x}, response \texttt{y} and weights
+\texttt{w}. For multivariate Gaussians the maximum likelihood
+estimates correspond to mean and covariance matrix, the standard R
+function \texttt{cov.wt()} returns a list containing estimates of the
+weighted covariance matrix and the mean for given data. Our simple
+example performs clustering without a regression part, hence $x$ is
+ignored. If \texttt{y} has $D$ columns, we estimate $D$ parameters for
+the mean and $D(D-1)/2$ parameters for the covariance matrix, giving a
+total of $(3D+D^2)/2$ parameters (line~11).  As an additional feature
+we allow the user to specify whether the covariance matrix is assumed
+to be diagonal or a full matrix. For \texttt{diagonal=TRUE} we use
+only the main diagonal of the covariance matrix (line~14) and the
+number of parameters is reduced to $2D$.
+
+In addition to parameter estimates, \texttt{flexmix()} needs a
+function calculating the log-likelihood of given data $x$ and $y$,
+which in our example is the log-density of a multivariate Gaussian. In
+addition we have to provide a function predicting $y$ given $x$, in
+our example simply the mean of the Gaussian. Finally we create a new
+\texttt{"FLXcomponent"} as return value of function \texttt{fit()}.
+
+Note that our internal functions \texttt{fit()}, \texttt{logLik()} and
+\texttt{predict()} take only \texttt{x}, \texttt{y} and \texttt{w} as
+arguments, but none of the model-specific parameters like means and
+covariances, although they use them of course. \R{} uses \emph{lexical
+  scoping} rules for finding free variables
+\citep{flexmix:Gentleman+Ihaka:2000}, hence it searches for them first in
+the environment where a function is defined. E.g., the \texttt{fit()}
+function uses the variable \texttt{diagonal} in line~24, and finds it
+in the environment where the function itself was defined, which is the
+body of function \texttt{mymclust()}. Function \texttt{logLik()} uses
+the list \texttt{para} in lines~8 and 9, and uses the one found in the
+body of \texttt{defineComponent()}.
+
+Function \texttt{flexmix()} on the other hand never sees the model
+parameters, all it uses are function calls of form \texttt{fit(x,y,w)}
+or \texttt{logLik(x,y)}, which are exactly the same for all kinds of
+mixture models. In fact, it would not be necessary to even store the
+component parameters in the \texttt{"FLXcomponent"} object, they are
+there only for convenience such that users can easily extract and use
+them after \texttt{flexmix()} has finished. Lexical scope allows to
+write clean interfaces in a very elegant way, the driver abstracts all
+model details from the FlexMix main engine.
+
+
+
+\subsection{Example: Using the driver}
+\label{sec:example:-model-based}
+
+\SweaveOpts{width=12,height=6,eps=FALSE}
+
+<<echo=false,results=hide>>=
+library("flexmix")
+set.seed(1504)
+options(width=60)
+grDevices::ps.options(family="Times")
+require("ellipse")
+require("mvtnorm")
+source("mymclust.R")
+@
+
+As a simple example we use the four 2-dimensional Gaussian clusters
+from data set \texttt{Nclus}. Fitting a wrong model with diagonal
+covariance matrix is done by
+<<>>=
+data("Nclus")
+m1 <- flexmix(Nclus ~ 1, k = 4, model = mymclust())
+summary(m1)
+@
+
+The result can be seen in the left panel of Figure~\ref{fig:ell}, the
+result is ``wrong'' because we forced the ellipses to be parallel to
+the axes. The overlap between three of the four clusters can also be
+inferred from the low ratio statistics in the summary table (around
+0.5 for components 1, 3 and 4), while the much better separated upper
+left cluster has a much higher ratio of 0.85. Using the correct model
+with a full covariance matrix can be done by setting
+\texttt{diagonal=FALSE} in the call to our driver \texttt{mymclust()}:
+<<>>=
+m2 <- flexmix(Nclus ~ 1, k = 4, model = mymclust(diagonal = FALSE))
+summary(m2)
+@
+
+\begin{figure}[htbp]
+  \centering
+<<fig=true,echo=false,results=hide>>=
+par(mfrow=1:2)
+plotEll(m1, Nclus)
+plotEll(m2, Nclus)
+@  
+  \caption{Fitting a mixture model with diagonal covariance matrix (left) and full covariance matrix (right).}
+  \label{fig:ell}
+\end{figure}
+
+\pagebreak[4]
+\section{Summary and outlook}
+\label{sec:summary}
+
+The primary goal of FlexMix is extensibility, this makes the package
+ideal for rapid development of new mixture models. There is no intent
+to replace packages implementing more specialized mixture models like
+\pkg{mclust} for mixtures of Gaussians, FlexMix should rather be
+seen as a complement to those. By interfacing R's facilities for
+generalized linear models, FlexMix allows the user to estimate complex
+latent class regression models.
+
+Using lexical scope to resolve model-specific parameters hides all
+model details from the programming interface, FlexMix can in principle
+fit almost arbitrary finite mixture models for which the EM algorithm
+is applicable. The downside of this is that FlexMix can in principle
+fit almost arbitrary finite mixture models, even models where no
+proper theoretical results for model identification etc.\ are
+available.
+
+We are currently working on a toolset for diagnostic checks on mixture
+models to test necessary identifiability conditions for those
+cases where results are available. We also want to implement
+newer variations of the classic EM algorithm, especially for faster
+convergence. Another plan is to have an interactive version of the
+rootograms using \texttt{iPlots} \citep{flexmix:Urbanek+Theus:2003} such
+that the user can explore the relations between mixture components,
+possibly linked to background variables. Other planned extensions
+include covariates for the prior probabilities and to allow to mix
+different distributions for components, e.g., to include a Poisson
+point process for background noise.
+
+\section*{Computational details}
+<<echo=false,results=hide>>=
+SI <- sessionInfo()
+pkgs <- paste(sapply(c(SI$otherPkgs, SI$loadedOnly), function(x) 
+                     paste("\\\\pkg{", x$Package, "} ", 
+                           x$Version, sep = "")), collapse = ", ")
+@ 
+
+All computations and graphics in this paper have been done using
+\proglang{R} version \Sexpr{getRversion()} with the packages
+\Sexpr{pkgs}. 
+\section*{Acknowledgments}
+
+This research was supported by the Austrian Science Foundation (FWF)
+under grant SFB\#010 (`Adaptive Information Systems and Modeling in
+Economics and Management Science'). Bettina Gr\"un has modified the
+original version to include and reflect the changes of the package.
+
+\bibliography{flexmix}
+
+\end{document}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

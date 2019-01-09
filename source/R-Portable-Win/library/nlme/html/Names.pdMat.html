@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Names of a pdMat Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Names.pdMat {nlme}"><tr><td>Names.pdMat {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Names of a pdMat Object</h2>
+
+<h3>Description</h3>
+
+<p>This method function returns the fist element of the <code>Dimnames</code>
+attribute of <code>object</code>, which contains the column names of the
+matrix represented by <code>object</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'pdMat'
+Names(object, ...)
+## S3 replacement method for class 'pdMat'
+Names(object, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="pdMat.html">pdMat</a>"</code>,
+representing a positive-definite matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a character vector with the replacement values for the
+column and row names of the matrix represented by <code>object</code>. It
+must have length equal to the dimension of the matrix
+represented by <code>object</code> and, if names have been previously
+assigned to <code>object</code>, it must correspond to a permutation of the
+original names.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>object</code> has a <code>Dimnames</code> attribute then the first
+element of this attribute is returned; otherwise <code>NULL</code>. 
+</p>
+
+
+<h3>SIDE EFFECTS</h3>
+
+<p>On the left side of an assignment, sets the <code>Dimnames</code> attribute
+of <code>object</code> to <code>list(value, value)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Names.html">Names</a></code>, <code><a href="Names.pdBlocked.html">Names.pdBlocked</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdSymm(~age, data = Orthodont)
+Names(pd1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

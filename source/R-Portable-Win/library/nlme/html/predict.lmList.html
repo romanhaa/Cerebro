@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predictions from an lmList Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.lmList {nlme}"><tr><td>predict.lmList {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Predictions from an lmList Object</h2>
+
+<h3>Description</h3>
+
+<p>If the grouping factor corresponding to <code>object</code> is included
+in <code>newdata</code>, the data frame is partitioned according to the
+grouping factor levels; else, <code>newdata</code> is repeated for all
+<code>lm</code> components. The predictions and, optionally, the standard
+errors for the predictions, are obtained for each <code>lm</code>
+component of <code>object</code>, using the corresponding element of the
+partitioned <code>newdata</code>, and arranged into a list with as many
+components as <code>object</code>, or combined into a single vector or data
+frame (if <code>se.fit=TRUE</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lmList'
+predict(object, newdata, subset, pool, asList, se.fit, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="lmList.html">lmList</a>"</code>, representing
+a list of <code>lm</code> objects with a common model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>an optional data frame to be used for obtaining the
+predictions. All variables used in the <code>object</code> model formula
+must be present in the data frame. If missing, the same data frame
+used to produce <code>object</code> is used.
+</p>
+</td></tr> 
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional character or integer vector naming the
+<code>lm</code> components of <code>object</code> from which the predictions
+are to be extracted. Default is <code>NULL</code>, in which case all
+components are used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>asList</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code>, the returned
+object is a list with the predictions split by groups; else the
+returned value is a vector. Defaults to <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pool</code></td>
+<td>
+<p>an optional logical value indicating whether a pooled
+estimate of the residual standard error should be used. Default is
+<code>attr(object, "pool")</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>se.fit</code></td>
+<td>
+<p>an optional logical value indicating whether pointwise
+standard errors should be computed along with the
+predictions. Default is <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with components given by the predictions (and, optionally, the
+standard errors for the predictions) from each <code>lm</code>
+component of <code>object</code>,  a vector with the predictions from all 
+<code>lm</code> components of <code>object</code>, or a data frame with columns
+given by the predictions and their corresponding standard errors.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lmList.html">lmList</a></code>, <code><a href="../../stats/html/predict.lm.html">predict.lm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(distance ~ age | Subject, Orthodont)
+predict(fm1, se.fit = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

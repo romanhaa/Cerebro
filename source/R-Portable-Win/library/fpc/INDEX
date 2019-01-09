@@ -1,0 +1,110 @@
+adcoord                 Asymmetric discriminant coordinates
+ancoord                 Asymmetric neighborhood based discriminant
+                        coordinates
+awcoord                 Asymmetric weighted discriminant coordinates
+batcoord                Bhattacharyya discriminant projection
+bhattacharyya.dist      Bhattacharyya distance between Gaussian
+                        distributions
+bhattacharyya.matrix    Matrix of pairwise Bhattacharyya distances
+calinhara               Calinski-Harabasz index
+can                     Generation of the tuning constant for
+                        regression fixed point clusters
+cat2bin                 Recode nominal variables to binary variables
+cdbw                    CDbw-index for cluster validation
+classifdist             Classification of unclustered points
+clucols                 Sets of colours and symbols for cluster
+                        plotting
+clujaccard              Jaccard similarity between logical vectors
+clusexpect              Expected value of the number of times a fixed
+                        point cluster is found
+cluster.stats           Cluster validation statistics
+cluster.varstats        Variablewise statistics for clusters
+clusterboot             Clusterwise cluster stability assessment by
+                        resampling
+cmahal                  Generation of tuning constant for Mahalanobis
+                        fixed point clusters.
+con.comp                Connectivity components of an undirected graph
+confusion               Misclassification probabilities in mixtures
+cov.wml                 Weighted Covariance Matrices (Maximum
+                        Likelihood)
+cvnn                    Cluster validation based on nearest neighbours
+cweight                 Weight function for AWC
+dbscan                  DBSCAN density reachability and connectivity
+                        clustering
+dipp.tantrum            Simulates p-value for dip test
+diptest.multi           Diptest for discriminant coordinate projection
+discrcoord              Discriminant coordinates/canonical variates
+discrete.recode         Recodes mixed variables dataset
+discrproj               Linear dimension reduction for classification
+distancefactor          Factor for dissimilarity of mixed type data
+distcritmulti           Distance based validity criteria for large data
+                        sets
+dridgeline              Density along the ridgeline
+dudahart2               Duda-Hart test for splitting
+extract.mixturepars     Extract parameters for certain components from
+                        mclust
+findrep                 Finding representatives for cluster border
+fixmahal                Mahalanobis Fixed Point Clusters
+fixreg                  Linear Regression Fixed Point Clusters
+flexmixedruns           Fitting mixed Gaussian/multinomial mixtures
+                        with flexmix
+fpc-package             fpc package overview
+fpclusters              Extracting clusters from fixed point cluster
+                        objects
+itnumber                Number of regression fixed point cluster
+                        iterations
+jittervar               Jitter variables in a data matrix
+kmeansCBI               Interface functions for clustering methods
+kmeansruns              k-means with estimating k and initialisations
+lcmixed                 flexmix method for mixed Gaussian/multinomial
+                        mixtures
+localshape              Local shape matrix
+mahalanodisc            Mahalanobis for AWC
+mahalanofix             Mahalanobis distances from center of indexed
+                        points
+mahalconf               Mahalanobis fixed point clusters initial
+                        configuration
+mergenormals            Clustering by merging Gaussian mixture
+                        components
+mergeparameters         New parameters from merging two Gaussian
+                        mixture components
+minsize                 Minimum size of regression fixed point cluster
+mixdens                 Density of multivariate Gaussian mixture,
+                        mclust parameterisation
+mixpredictive           Prediction strength of merged Gaussian mixture
+mvdcoord                Mean/variance differences discriminant
+                        coordinates
+ncoord                  Neighborhood based discriminant coordinates
+neginc                  Neg-entropy normality index for cluster
+                        validation
+nselectboot             Selection of the number of clusters via
+                        bootstrap
+pamk                    Partitioning around medoids with estimation of
+                        number of clusters
+piridge                 Ridgeline Pi-function
+piridge.zeroes          Extrema of two-component Gaussian mixture
+plotcluster             Discriminant projection plot.
+prediction.strength     Prediction strength for estimating number of
+                        clusters
+rFace                   "Face-shaped" clustered benchmark datasets
+randcmatrix             Random partition matrix
+randconf                Generate a sample indicator vector
+regmix                  Mixture Model ML for Clusterwise Linear
+                        Regression
+ridgeline               Ridgeline computation
+ridgeline.diagnosis     Ridgeline plots, ratios and unimodality
+simmatrix               Extracting intersections between clusters from
+                        fpc-object
+solvecov                Inversion of (possibly singular) symmetric
+                        matrices
+sseg                    Position in a similarity vector
+tdecomp                 Root of singularity-corrected eigenvalue
+                        decomposition
+tonedata                Tone perception data
+unimodal.ind            Is a fitted denisity unimodal or not?
+weightplots             Ordered posterior plots
+wfu                     Weight function (for Mahalabobis distances)
+xtable                  Partition crosstable with empty clusters
+zmisclassification.matrix
+                        Matrix of misclassification probabilities
+                        between mixture components

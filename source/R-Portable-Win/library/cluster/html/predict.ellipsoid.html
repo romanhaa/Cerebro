@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predict Method for Ellipsoid Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.ellipsoid {cluster}"><tr><td>predict.ellipsoid {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Predict Method for Ellipsoid Objects</h2>
+
+<h3>Description</h3>
+
+<p>Compute points on the ellipsoid boundary, mostly for drawing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+predict.ellipsoid(object, n.out=201, ...)
+## S3 method for class 'ellipsoid'
+predict(object, n.out=201, ...)
+ellipsoidPoints(A, d2, loc, n.half = 201)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>ellipsoid</code>, typically from
+<code><a href="ellipsoidhull.html">ellipsoidhull</a>()</code>; alternatively any list-like object
+with proper components, see details below.</p>
+</td></tr>
+<tr valign="top"><td><code>n.out, n.half</code></td>
+<td>
+<p>half the number of points to create.</p>
+</td></tr>
+<tr valign="top"><td><code>A, d2, loc</code></td>
+<td>
+<p>arguments of the auxilary <code>ellipsoidPoints</code>,
+see below.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>passed to and from methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note <code>ellipsoidPoints</code> is the workhorse function of
+<code>predict.ellipsoid</code> a standalone function and method for
+<code>ellipsoid</code> objects, see <code><a href="ellipsoidhull.html">ellipsoidhull</a></code>.
+The class of <code>object</code> is not checked; it must solely have valid
+components <code>loc</code> (length <i>p</i>), the <i>p x p</i>
+matrix <code>cov</code> (corresponding to <code>A</code>) and <code>d2</code> for the
+center, the shape (&ldquo;covariance&rdquo;) matrix and the squared average
+radius (or distance) or <code><a href="../../stats/html/Chisquare.html">qchisq</a>(*, p)</code> quantile.
+</p>
+<p>Unfortunately, this is only implemented for <i>p = 2</i>, currently;
+contributions for <i>p &gt;= 3</i> are <em>very welcome</em>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a numeric matrix of dimension <code>2*n.out</code> times <i>p</i>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ellipsoidhull.html">ellipsoidhull</a></code>, <code><a href="volume.ellipsoid.html">volume.ellipsoid</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ ## see also  example(ellipsoidhull)
+
+## Robust vs. L.S. covariance matrix
+set.seed(143)
+x &lt;- rt(200, df=3)
+y &lt;- 3*x + rt(200, df=2)
+plot(x,y, main="non-normal data (N=200)")
+mtext("with classical and robust cov.matrix ellipsoids")
+X &lt;- cbind(x,y)
+C.ls &lt;- cov(X) ; m.ls &lt;- colMeans(X)
+d2.99 &lt;- qchisq(0.99, df = 2)
+lines(ellipsoidPoints(C.ls, d2.99, loc=m.ls), col="green")
+if(require(MASS)) {
+  Cxy &lt;- cov.rob(cbind(x,y))
+  lines(ellipsoidPoints(Cxy$cov, d2 = d2.99, loc=Cxy$center), col="red")
+}# MASS
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

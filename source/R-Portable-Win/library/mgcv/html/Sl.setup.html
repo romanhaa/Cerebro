@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Setting up a list representing a block diagonal penalty...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Sl.setup {mgcv}"><tr><td>Sl.setup {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Setting up a list representing a block diagonal penalty matrix</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL function for setting up a list representing a block diagonal penalty matrix
+from the object produced by <code>gam.setup</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Sl.setup(G)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>G</code></td>
+<td>
+<p>the output of <code>gam.setup</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with an element for each block. 
+For block, b, <code>Sl[[b]]</code> is a list with the following elements </p>
+
+<ul>
+<li><p><code>repara</code>: should re-parameterization be applied to model matrix, etc?
+Usually <code>FALSE</code> if non-linear in coefficients.
+</p>
+</li>
+<li><p><code>start, stop</code>: such that <code>start:stop</code> are the indexes of the parameters of this block.
+</p>
+</li>
+<li><p><code>S</code>: a list of penalty matrices for the block (<code>dim = stop-start+1</code>)
+If <code>length(S)==1</code> then this will be an identity penalty.
+Otherwise it is a multiple penalty, and an <code>rS</code> list of square
+root penalty matrices will be added. <code>S</code> (if <code>repara==TRUE</code>) and <code>rS</code> (always)
+will be projected into range space of total penalty matrix.
+</p>
+</li>
+<li><p><code>rS</code>: square root of penalty matrices if multiple penalties are used.
+</p>
+</li>
+<li><p><code>D</code>: a reparameterization matrix for the block. Applies to cols/params in <code>start:stop</code>.
+If numeric then <code>X[,start:stop]%*%diag(D)</code> is re-parametrization of <code>X[,start:stop]</code>,
+and <code>b.orig = D*b.repara</code> (where <code>b.orig</code> is the original parameter vector).
+If matrix then <code>X[,start:stop]%*%D</code> is re-parametrization of <code>X[,start:stop]</code>,
+and <code>b.orig = D%*%b.repara</code> (where <code>b.orig</code> is the original parameter vector).
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

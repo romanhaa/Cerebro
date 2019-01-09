@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a ranef.lme Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.ranef.lme {nlme}"><tr><td>plot.ranef.lme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot a ranef.lme Object</h2>
+
+<h3>Description</h3>
+
+<p>If <code>form</code> is missing, or is given as a one-sided formula, a
+Trellis dot-plot of the random effects is generated, with a different
+panel for each random effect (coefficient). Rows in the dot-plot are
+determined by the <code>form</code> argument (if not missing) or by the row
+names of the random effects (coefficients). If a single factor is
+specified in <code>form</code>, its levels determine the dot-plot rows
+(with possibly multiple dots per row); otherwise, if <code>form</code>
+specifies a crossing of factors, the dot-plot rows are determined by
+all combinations of the levels of the individual factors in the 
+formula. The Trellis function <code>dotplot</code> is used in this method
+function.
+</p>
+<p>If <code>form</code> is a two-sided formula, a Trellis display is generated,
+with a different panel for each variable listed in the right hand side
+of <code>form</code>. Scatter plots are generated for numeric variables and
+boxplots are generated for categorical (<code>factor</code> or
+<code>ordered</code>) variables. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'ranef.lme'
+plot(x, form, omitFixed, level, grid, control, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class
+<code>"<a href="ranef.lme.html">ranef.lme</a>"</code>, representing the estimated coefficients or
+estimated random effects for the <code>lme</code> object from which it was
+produced.</p>
+</td></tr> 
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional formula specifying the desired type of plot. If
+given as a one-sided formula, a <code>dotplot</code> of the estimated
+random effects (coefficients) grouped according to all combinations of
+the levels of the factors named in <code>form</code> is returned. Single
+factors (<code>~g</code>) or crossed factors (<code>~g1*g2</code>) are
+allowed. If given as a two-sided formula, the left hand side must
+be a single random effects (coefficient) and the right hand side
+is formed by covariates in <code>x</code> separated by <code>+</code>. A
+Trellis display of the random effect (coefficient) versus the named
+covariates is returned in this case. Default is <code>NULL</code>, in
+which case  the row names of the random effects (coefficients) are
+used.</p>
+</td></tr>
+<tr valign="top"><td><code>omitFixed</code></td>
+<td>
+<p>an optional logical value indicating whether
+columns with values that are constant across groups should be
+omitted. Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>an optional integer value giving the level of grouping
+to be used for <code>x</code>. Only used when <code>x</code> is a list
+with different components for each grouping level. Defaults to the
+highest or innermost level of grouping.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>an optional logical value indicating whether a grid should
+be added to plot. Only applies to plots associated with two-sided
+formulas in <code>form</code>. Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>an optional list with control values for the
+plot, when <code>form</code> is given as a two-sided formula. The control
+values are referenced by name in the <code>control</code> list and  only
+the ones to be modified from the default need to be
+specified. Available values include: <code>drawLine</code>, a logical
+value indicating whether a <code>loess</code> smoother should be added to
+the scatter plots and a line connecting the medians should be added
+to the boxplots (default is <code>TRUE</code>); <code>span.loess</code>, used
+as the <code>span</code> argument in the call to <code>panel.loess</code>
+(default is <code>2/3</code>); <code>degree.loess</code>, used as the
+<code>degree</code> argument in the call to <code>panel.loess</code> (default
+is <code>1</code>); <code>cex.axis</code>, the character expansion factor for
+the x-axis (default is <code>0.8</code>); <code>srt.axis</code>, the rotation
+factor for the x-axis (default is <code>0</code>); and <code>mgp.axis</code>, the
+margin parameters for the x-axis (default is <code>c(2, 0.5, 0)</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed to the Trellis <code>dotplot</code>
+function.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a Trellis plot of the estimated random-effects (coefficients) versus
+covariates, or groups.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ranef.lme.html">ranef.lme</a></code>, <code><a href="lme.html">lme</a></code>,
+<code><a href="../../lattice/html/xyplot.html">dotplot</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+fm1 &lt;- lme(distance ~ age, Orthodont, random = ~ age | Subject)
+plot(ranef(fm1))
+fm1RE &lt;- ranef(fm1, aug = TRUE)
+plot(fm1RE, form = ~ Sex)
+plot(fm1RE, form = age ~ Sex)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

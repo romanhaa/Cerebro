@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: find the unique rows in a matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for uniquecombs {mgcv}"><tr><td>uniquecombs {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>find the unique rows in a matrix </h2>
+
+<h3>Description</h3>
+
+<p>This routine returns a matrix or data frame containing all the unique rows of the
+matrix or data frame supplied as its argument. That is, all the duplicate rows are
+stripped out. Note that the ordering of the rows on exit need not be the same
+as on entry. It also returns an index attribute for relating the result back 
+to the original matrix. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+uniquecombs(x,ordered=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> is an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> matrix (numeric), or data frame. </p>
+</td></tr>
+<tr valign="top"><td><code>ordered</code></td>
+<td>
+<p> set to <code>TRUE</code> to have the rows of the returned object in the same order regardless of input ordering.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Models with more parameters than unique combinations of
+covariates are not identifiable. This routine provides a means of
+evaluating the number of unique combinations of covariates in a
+model. 
+</p>
+<p>When <code>x</code> has only one column then the routine
+uses <code><a href="../../base/html/unique.html">unique</a></code> and <code><a href="../../base/html/match.html">match</a></code> to get the index. When there are
+multiple columns then it uses <code><a href="../../base/html/paste.html">paste0</a></code> to produce labels for each row, 
+which should be unique if the row is unique. Then <code>unique</code> and <code>match</code> 
+can be used as in the single column case. Obviously the pasting is inefficient, but 
+still quicker for large n than the C based code that used to be called by this routine, which 
+had O(nlog(n)) cost. In principle a hash table based solution in C 
+would be only O(n) and much quicker in the multicolumn case. 
+</p>
+<p><code><a href="../../base/html/unique.html">unique</a></code> and <code><a href="../../base/html/duplicated.html">duplicated</a></code>, can be used 
+in place of this, if the full index is not needed. Relative performance is variable. 
+</p>
+<p>If <code>x</code> is not a matrix or data frame on entry then an attempt is made to coerce 
+it to a data frame. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix or data frame consisting of the unique rows of <code>x</code> (in arbitrary order).
+</p>
+<p>The matrix or data frame has an <code>"index"</code> attribute. <code>index[i]</code> gives the row of the returned 
+matrix that contains row i of the original matrix. 
+</p>
+
+
+<h3>WARNINGS </h3>
+
+<p>If a dataframe contains variables of a type other than numeric, logical, factor or character, which
+either have no <code>as.character</code> method, or whose <code>as.character</code> method is a many to one mapping,
+then the routine is likely to fail.
+</p>
+<p>If the character representation of a dataframe variable (other than of class factor of character) contains <code>*</code> then in priniciple the method could fail (but with a warning).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> with thanks to Jonathan Rougier</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/unique.html">unique</a></code>, <code><a href="../../base/html/duplicated.html">duplicated</a></code>, <code><a href="../../base/html/match.html">match</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+
+## matrix example...
+X &lt;- matrix(c(1,2,3,1,2,3,4,5,6,1,3,2,4,5,6,1,1,1),6,3,byrow=TRUE)
+print(X)
+Xu &lt;- uniquecombs(X);Xu
+ind &lt;- attr(Xu,"index")
+## find the value for row 3 of the original from Xu
+Xu[ind[3],];X[3,]
+
+## same with fixed output ordering
+Xu &lt;- uniquecombs(X,TRUE);Xu
+ind &lt;- attr(Xu,"index")
+## find the value for row 3 of the original from Xu
+Xu[ind[3],];X[3,]
+
+
+## data frame example...
+df &lt;- data.frame(f=factor(c("er",3,"b","er",3,3,1,2,"b")),
+      x=c(.5,1,1.4,.5,1,.6,4,3,1.7),
+      bb = c(rep(TRUE,5),rep(FALSE,4)),
+      fred = c("foo","a","b","foo","a","vf","er","r","g"),
+      stringsAsFactors=FALSE)
+uniquecombs(df)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

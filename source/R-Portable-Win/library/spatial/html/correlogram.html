@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute Spatial Correlograms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for correlogram {spatial}"><tr><td>correlogram {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute Spatial Correlograms
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute spatial correlograms of spatial data or residuals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+correlogram(krig, nint, plotit = TRUE,  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>krig</code></td>
+<td>
+
+<p>trend-surface or kriging object with columns <code>x</code>, <code>y</code>, and <code>z</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>nint</code></td>
+<td>
+
+<p>number of bins used
+</p>
+</td></tr>
+<tr valign="top"><td><code>plotit</code></td>
+<td>
+
+<p>logical for plotting
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>parameters for the plot
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>Divides range of data into <code>nint</code> bins, and computes the covariance for
+pairs with separation in each bin, then divides by the variance.
+Returns results for bins with 6 or more pairs.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>x</code> and <code>y</code> coordinates of the correlogram, and <code>cnt</code>, the number of pairs
+averaged per bin.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>Plots the correlogram if <code>plotit = TRUE</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="variogram.html">variogram</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(topo, package="MASS")
+topo.kr &lt;- surf.ls(2, topo)
+correlogram(topo.kr, 25)
+d &lt;- seq(0, 7, 0.1)
+lines(d, expcov(d, 0.7))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

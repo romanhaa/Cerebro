@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cost-complexity Pruning of an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for prune.rpart {rpart}"><tr><td>prune.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Cost-complexity Pruning of an Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Determines a nested sequence of subtrees of the supplied <code>rpart</code> object 
+by recursively <code>snipping</code> off the least important splits, based on the 
+complexity parameter (<code>cp</code>). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+prune(tree, ...)
+
+## S3 method for class 'rpart'
+prune(tree, cp, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tree</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the <code>rpart</code> function. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>cp</code></td>
+<td>
+
+<p>Complexity parameter to which the <code>rpart</code> object will be trimmed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A new <code>rpart</code> object that is trimmed to the value <code>cp</code>. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+zp &lt;- prune(z.auto, cp = 0.1)
+plot(zp) #plot smaller rpart object
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

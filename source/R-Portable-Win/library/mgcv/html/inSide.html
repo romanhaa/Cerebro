@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Are points inside boundary?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for inSide {mgcv}"><tr><td>inSide {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Are points inside boundary?</h2>
+
+<h3>Description</h3>
+
+<p>Assesses whether points are inside a boundary. The boundary must enclose the
+domain, but may include islands. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+inSide(bnd,x,y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bnd</code></td>
+<td>
+<p>This should have two equal length columns with names matching whatever is 
+supplied in <code>x</code> and <code>y</code>. This may contain several sections of boundary separated by
+<code>NA</code>. Alternatively <code>bnd</code> may be a list, each element of which 
+contains 2 columns named as above.
+See below for details.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>x co-ordinates of points to be tested.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>y co-ordinates of points to be tested.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Segments of boundary are separated by <code>NA</code>s, or are in separate list elements.
+The boundary co-ordinates are taken to define nodes which are joined by straight line segments in
+order to create the boundary. Each segment is assumed to
+define a closed loop, and the last point in a segment will be assumed to be
+joined to the first. Loops must not intersect (no test is made for
+this). 
+</p>
+<p>The method used is to count how many times a line, in the y-direction from a
+point, crosses a boundary segment. An odd number of crossings defines an
+interior point. Hence in geographic applications it would be usual to have
+an outer boundary loop, possibly with some inner &lsquo;islands&rsquo; completely
+enclosed in the outer loop. 
+</p>
+<p>The routine calls compiled C code and operates by an exhaustive search for
+each point in <code>x, y</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> The function returns a logical array of the same dimension as <code>x</code> and
+<code>y</code>. <code>TRUE</code> indicates that the corresponding <code>x, y</code> point lies
+inside the boundary.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+m &lt;- 300;n &lt;- 150
+xm &lt;- seq(-1,4,length=m);yn&lt;-seq(-1,1,length=n)
+x &lt;- rep(xm,n);y&lt;-rep(yn,rep(m,n))
+er &lt;- matrix(fs.test(x,y),m,n)
+bnd &lt;- fs.boundary()
+in.bnd &lt;- inSide(bnd,x,y)
+plot(x,y,col=as.numeric(in.bnd)+1,pch=".")
+lines(bnd$x,bnd$y,col=3)
+points(x,y,col=as.numeric(in.bnd)+1,pch=".")
+## check boundary details ...
+plot(x,y,col=as.numeric(in.bnd)+1,pch=".",ylim=c(-1,0),xlim=c(3,3.5))
+lines(bnd$x,bnd$y,col=3)
+points(x,y,col=as.numeric(in.bnd)+1,pch=".")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

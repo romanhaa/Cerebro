@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of Graphical Devices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Devices {grDevices}"><tr><td>Devices {grDevices}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of Graphical Devices</h2>
+
+<h3>Description</h3>
+
+<p>The following graphics devices are currently available:
+</p>
+
+<ul>
+<li> <p><code><a href="windows.html">windows</a></code> The graphics device for Windows (on screen,
+to printer and to Windows metafile).
+</p>
+</li>
+<li> <p><code><a href="pdf.html">pdf</a></code> Write PDF graphics commands to a file
+</p>
+</li>
+<li> <p><code><a href="postscript.html">postscript</a></code> Writes PostScript graphics commands to
+a file
+</p>
+</li>
+<li> <p><code><a href="xfig.html">xfig</a></code> Device for XFIG graphics file format
+</p>
+</li>
+<li> <p><code><a href="dev2bitmap.html">bitmap</a></code> bitmap pseudo-device via
+<code>Ghostscript</code> (if available).
+</p>
+</li>
+<li> <p><code><a href="pictex.html">pictex</a></code> Writes TeX/PicTeX graphics commands to a
+file (of historical interest only)
+</p>
+</li></ul>
+
+<p>The following devices will be functional if <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> was compiled to use
+them (they exist but will return with a warning on other systems):
+</p>
+
+<ul>
+<li> <p><code><a href="cairo.html">cairo_pdf</a></code>, <code>cairo_ps</code> PDF and PostScript
+devices based on cairo graphics.
+</p>
+</li>
+<li> <p><code><a href="cairo.html">svg</a></code> SVG device based on cairo graphics.
+</p>
+</li>
+<li> <p><code><a href="png.html">png</a></code> PNG bitmap device
+</p>
+</li>
+<li> <p><code><a href="png.html">jpeg</a></code> JPEG bitmap device
+</p>
+</li>
+<li> <p><code><a href="png.html">bmp</a></code> BMP bitmap device
+</p>
+</li>
+<li> <p><code><a href="png.html">tiff</a></code> TIFF bitmap device
+</p>
+</li></ul>
+
+
+
+<h3>Details</h3>
+
+<p>If no device is open, using a high-level graphics function will cause
+a device to be opened.  Which device is given by
+<code><a href="../../base/html/options.html">options</a>("device")</code> which is initially set as the most
+appropriate for each platform: a screen device for most interactive use and
+<code><a href="pdf.html">pdf</a></code> (or the setting of <span class="env">R_DEFAULT_DEVICE</span>)
+otherwise.  The exception is interactive use under Unix if no screen
+device is known to be available, when <code>pdf()</code> is used.
+</p>
+<p>It is possible for an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package to provide further graphics devices
+and several packages on CRAN do so.  These include other devices outputting
+SVG and PGF/TiKZ (TeX-based graphics, see <a href="http://pgf.sourceforge.net/">http://pgf.sourceforge.net/</a>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The individual help files for further information on any of the
+devices listed here;
+<code><a href="windows.options.html">windows.options</a></code>,
+<code><a href="ps.options.html">ps.options</a></code> and <code><a href="pdf.options.html">pdf.options</a></code> for how to
+customize devices.
+</p>
+<p><code><a href="dev.interactive.html">dev.interactive</a></code>,
+<code><a href="dev.html">dev.cur</a></code>, <code><a href="dev2.html">dev.print</a></code>,
+<code><a href="dev.html">graphics.off</a></code>, <code><a href="../../graphics/html/image.html">image</a></code>,
+<code><a href="dev2bitmap.html">dev2bitmap</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+## open the default screen device on this platform if no device is
+## open
+if(dev.cur() == 1) dev.new()
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>grDevices</em> version 3.5.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

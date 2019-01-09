@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: read.paml_rst</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.paml_rst {treeio}"><tr><td>read.paml_rst {treeio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>read.paml_rst</h2>
+
+<h3>Description</h3>
+
+<p>read rst file from paml (both baseml and codeml) output
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.paml_rst(rstfile, type = "Joint")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>rstfile</code></td>
+<td>
+<p>rst file</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>one of 'Marginal' or 'Joint'</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code>treedata</code> object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Guangchuang Yu <a href="https://guangchuangyu.github.io">https://guangchuangyu.github.io</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+rstfile &lt;- system.file("extdata/PAML_Baseml", "rst", package="treeio")
+read.paml_rst(rstfile)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>treeio</em> version 1.4.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

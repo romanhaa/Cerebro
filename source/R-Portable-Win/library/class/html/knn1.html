@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 1-Nearest Neighbour Classification</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for knn1 {class}"><tr><td>knn1 {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+1-Nearest Neighbour Classification
+</h2>
+
+<h3>Description</h3>
+
+<p>Nearest neighbour classification for test set from training set. For
+each row of the test set, the nearest (by Euclidean distance) training
+set vector is found, and its classification used. If there is more than
+one nearest, a majority vote is used with ties broken at random.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+knn1(train, test, cl)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>train</code></td>
+<td>
+
+<p>matrix or data frame of training set cases.
+</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+
+<p>matrix or data frame of test set cases. A vector will be interpreted
+as a row vector for a single case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+
+<p>factor of true classification of training set.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>Factor of classifications of test set.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="knn.html">knn</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+train &lt;- rbind(iris3[1:25,,1], iris3[1:25,,2], iris3[1:25,,3])
+test &lt;- rbind(iris3[26:50,,1], iris3[26:50,,2], iris3[26:50,,3])
+cl &lt;- factor(c(rep("s",25), rep("c",25), rep("v",25)))
+knn1(train, test, cl)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

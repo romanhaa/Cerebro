@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Residual and Fit Spread Plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_10_rfs {lattice}"><tr><td>B_10_rfs {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Residual and Fit Spread Plots</h2>
+
+<h3>Description</h3>
+
+<p>Plots fitted values and residuals (via qqmath) on a common scale for
+any object that has methods for fitted values and residuals. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rfs(model, layout=c(2, 1), xlab="f-value", ylab=NULL,
+    distribution = qunif,
+    panel, prepanel, strip, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>a fitted model object with methods <code>fitted.values</code>
+and <code>residuals</code>. Can be the value returned by <code>oneway</code> </p>
+</td></tr>
+<tr valign="top"><td><code>layout</code></td>
+<td>
+<p>default layout is c(2,1)  </p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>defaults to <code>"f.value"</code> </p>
+</td></tr>
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+<p>the distribution function to be used for <code>qqmath</code></p>
+</td></tr>
+<tr valign="top"><td><code>ylab, panel, prepanel, strip</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code> </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments, passed on to <code><a href="qqmath.html">qqmath</a></code>.  </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="oneway.html">oneway</a></code>, <code><a href="qqmath.html">qqmath</a></code>,
+<code><a href="xyplot.html">xyplot</a></code>, <code><a href="Lattice.html">Lattice</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+rfs(oneway(height ~ voice.part, data = singer, spread = 1), aspect = 1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

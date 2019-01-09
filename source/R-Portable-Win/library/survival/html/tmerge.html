@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Time based merge for survival data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tmerge {survival}"><tr><td>tmerge {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Time based merge for survival data</h2>
+
+<h3>Description</h3>
+
+<p>A common task in survival analysis is the creation of start,stop data
+sets which have multiple intervals for each subject, along with the
+covariate values that apply over that interval.  This function aids
+in the creation of such data sets.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tmerge(data1, data2,  id,..., tstart, tstop, options)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data1</code></td>
+<td>
+<p>the primary data set, to which new variables and/or
+observation will be added</p>
+</td></tr>
+<tr valign="top"><td><code>data2</code></td>
+<td>
+<p>second data set in which the other arguments
+will be found</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>subject identifier</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>operations that add new variables or intervals, see
+below</p>
+</td></tr>
+<tr valign="top"><td><code>tstart</code></td>
+<td>
+<p>optional variable to define the valid time range for
+each subject, only used on an initial call</p>
+</td></tr>
+<tr valign="top"><td><code>tstop</code></td>
+<td>
+<p>optional variable to define the valid time range for
+each subject, only used on an initial call</p>
+</td></tr>
+<tr valign="top"><td><code>options</code></td>
+<td>
+<p>a list of options.  Valid ones are idname, tstartname,
+tstopname, delay, na.rm, and tdcstart.  See the explanation below.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The program is often run in multiple passes, the first of which
+defines the basic structure, and subsequent ones that add new
+variables to that structure.  For a more complete explanation of how this
+routine works refer to the vignette on time-dependent variables.
+</p>
+<p>There are 4 types of optional arguments: a time dependent covariate
+(tdc), cumulative count (cumtdc), event (event) or cumulative event
+(cumevent).
+Time dependent covariates change their values before an event,
+events are outcomes.
+</p>
+
+<ul>
+<li><p>newname = tdc(y, x) A new time dependent covariate
+variable will created. 
+The argument <code>y</code> is assumed to be on the
+scale of the start and end time, and each instance describes the
+occurrent of a &quot;condition&quot; at that time.
+The second argument <code>x</code> is optional. In the  case where
+<code>x</code> is missing the count variable starts at 0 for each subject
+and becomes 1 at the time of the event.
+If <code>x</code> is present the value of the time dependent covariate
+is initialized to the <code>tdcstart</code> option and is reset to the
+value of <code>x</code> at each observation.
+If the option <code>na.rm=TRUE</code> missing values of <code>x</code> are
+first removed.  
+</p>
+<p>newname = cumtdc(y,x) Similar to tdc, except that the event
+count is accumulated over time for each subject.
+</p>
+<p>newname = event(y,x) Mark an event at time y.
+In the usual case that <code>x</code> is missing the new 0/1 variable
+will be similar to the 0/1 status variable of a survival time.
+
+</p>
+<p>newname = cumevent(y,x) Cumulative events.
+
+</p>
+</li></ul>
+
+<p>The function adds three new variables to the output data set: 
+<code>tstart</code>, <code>tstop</code>, and <code>id</code>.  The <code>options</code> argument
+can be used to change these names.
+If <code>data1</code> contains the <code>tstart</code> variable then that is used as
+the starting point for the created time intervals, otherwise the initial
+interval for each id will begin at 0 by default.
+This will lead to an invalid interval and subsequent error if say a
+death time were &lt;= 0.
+</p>
+<p>The <code>na.rm</code> option affects creation of time-dependent covariates.
+Should a data row in <code>data2</code> that has a missing value for the
+variable be ignored (na.rm=FALSE, default) or should it generate an
+observation with a value of NA?  The default value leads to
+&quot;last value carried forward&quot; behavior.
+The <code>delay</code> option causes a time-dependent covariate's new
+value to be delayed, see the vignette for an example.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a data frame with two extra attributes <code>tname</code> and
+<code>tcount</code>.
+The first contains the names of the key variables; it's persistence
+from call to call allows the user to avoid constantly reentering the
+<code>options</code> argument.
+The tcount variable contains counts of the match types.
+New time values that occur before the first interval for a subject
+are &quot;early&quot;, those after the last interval for a subject are &quot;late&quot;,
+and those that fall into a gap are of type &quot;gap&quot;.
+All these are are considered to be outside the specified time frame for the
+given subject.  An event of this type will be discarded.  A
+time-dependent covariate value will be applied to later intervals but
+will not generate a new time point in the output.
+</p>
+<p>The most common type will usually be &quot;within&quot;, for those new times that
+fall inside an existing interval and cause it to be split into two.
+Observations that fall exactly on the edge of an interval but within the
+(min, max] time for a subject are counted
+as being on a &quot;leading&quot; edge, &quot;trailing&quot; edge or &quot;boundary&quot;.
+The first corresponds for instance
+to an occurrence at 17 for someone with an intervals of (0,15] and (17, 35].
+A <code>tdc</code> at time 17  will affect this interval
+but an <code>event</code> at 17 would be ignored.  An <code>event</code>
+occurrence at 15 would count in the (0,15] interval.
+The last case is where the main data set has touching
+intervals for a subject, e.g. (17, 28] and (28,35] and a new occurrence
+lands at the join.  Events will go to the earlier interval and counts
+to the latter one.  A last column shows the number of additions
+where the id and time point were identical.
+When this occurs, the <code>tdc</code> and <code>event</code> operators will use
+the final value in the data (last edit wins), but ignoring missing,
+while <code>cumtdc</code> and <code>cumevent</code> operators add up the values.
+</p>
+<p>These extra attributes are ephemeral and will be discarded
+if the dataframe is modified in any way.  This is intentional.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="neardate.html">neardate</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The pbc data set contains baseline data and follow-up status
+# for a set of subjects with primary biliary cirrhosis, while the
+# pbcseq data set contains repeated laboratory values for those
+# subjects.  
+# The first data set contains data on 312 subjects in a clinical trial plus
+# 106 that agreed to be followed off protocol, the second data set has data
+# only on the trial subjects.
+temp &lt;- subset(pbc, id &lt;= 312, select=c(id:sex, stage)) # baseline data
+pbc2 &lt;- tmerge(temp, temp, id=id, endpt = event(time, status))
+pbc2 &lt;- tmerge(pbc2, pbcseq, id=id, ascites = tdc(day, ascites),
+               bili = tdc(day, bili), albumin = tdc(day, albumin),
+               protime = tdc(day, protime), alk.phos = tdc(day, alk.phos))
+
+fit &lt;- coxph(Surv(tstart, tstop, endpt==2) ~ protime + log(bili), data=pbc2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

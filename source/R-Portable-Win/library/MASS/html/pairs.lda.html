@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Produce Pairwise Scatterplots from an 'lda' Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pairs.lda {MASS}"><tr><td>pairs.lda {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Produce Pairwise Scatterplots from an 'lda' Fit
+</h2>
+
+<h3>Description</h3>
+
+<p>Pairwise scatterplot of the data on the linear discriminants.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lda'
+pairs(x, labels = colnames(x), panel = panel.lda,
+     dimen, abbrev = FALSE, ..., cex=0.7, type = c("std", "trellis"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>Object of class <code>"lda"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>vector of character strings for labelling the variables.
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>panel function to plot the data in each panel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dimen</code></td>
+<td>
+
+<p>The number of linear discriminants to be used for the plot; if this
+exceeds the number determined by <code>x</code> the smaller value is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>abbrev</code></td>
+<td>
+
+<p>whether the group labels are abbreviated on the plots. If <code>abbrev &gt; 0</code>
+this gives <code>minlength</code> in the call to <code>abbreviate</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments for <code>pairs.default</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+
+<p>graphics parameter <code>cex</code> for labels on plots.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>type of plot. The default is in the style of <code><a href="../../graphics/html/pairs.html">pairs.default</a></code>; the
+style <code>"trellis"</code> uses the Trellis function <code><a href="../../lattice/html/splom.html">splom</a></code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function
+<code>pairs()</code> for class <code>"lda"</code>.
+It can be invoked by calling <code>pairs(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>pairs.lda(x)</code> regardless of the
+class of the object.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/pairs.html">pairs</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

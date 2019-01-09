@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Grouping Factors from an Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGroups {nlme}"><tr><td>getGroups {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Grouping Factors from an Object</h2>
+
+<h3>Description</h3>
+
+<p>This function is generic; method functions can be written to handle
+specific classes of objects. Classes which already have methods for
+this function include <code>corStruct</code>, <code>data.frame</code>,
+<code>gls</code>, <code>lme</code>, <code>lmList</code>, and <code>varFunc</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getGroups(object, form, level, data, sep)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>any object</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional formula with a conditioning expression on its
+right hand side (i.e. an expression involving the <code>|</code>
+operator). Defaults to <code>formula(object)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>a positive integer vector with the level(s) of grouping to
+be used when multiple nested levels of grouping are present. This
+argument is optional for most methods of this generic function and
+defaults to all levels of nesting.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to interpret the variables named in
+<code>form</code>. Optional for most methods.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>character, the separator to use between group levels when
+multiple levels are collapsed.  The default is <code>'/'</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>will depend on the method function used; see the appropriate documentation.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. pp. 100, 461.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getGroupsFormula.html">getGroupsFormula</a></code>, <code><a href="getGroups.data.frame.html">getGroups.data.frame</a></code>,
+<code><a href="getGroups.gls.html">getGroups.gls</a></code>, <code><a href="getGroups.lmList.html">getGroups.lmList</a></code>,
+<code><a href="getGroups.lme.html">getGroups.lme</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see the method function documentation
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

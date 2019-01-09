@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pairs Plot of compareFits Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pairs.compareFits {nlme}"><tr><td>pairs.compareFits {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pairs Plot of compareFits Object</h2>
+
+<h3>Description</h3>
+
+<p>Scatter plots of the values being compared are generated for each pair
+of coefficients in <code>x</code>. Different symbols (colors) are used
+for each object being compared and values corresponding to the same
+group are joined by a line, to facilitate comparison of fits. If only
+two coefficients are present, the <code>trellis</code> function
+<code>xyplot</code> is used; otherwise the <code>trellis</code> function <code>splom</code>
+is used.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'compareFits'
+pairs(x, subset, key, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>compareFits</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional logical or integer vector specifying which
+rows of <code>x</code> should be used in the plots. If missing, all
+rows are used.</p>
+</td></tr>
+<tr valign="top"><td><code>key</code></td>
+<td>
+<p>an optional logical value, or list. If <code>TRUE</code>, a legend
+is included at the top of the plot indicating which symbols (colors)
+correspond to which objects being compared. If <code>FALSE</code>, no legend
+is included. If given as a list, <code>key</code> is passed down as an
+argument to the <code>trellis</code> function generating the plots
+(<code>splom</code> or  <code>xyplot</code>). Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed down to the <code>trellis</code>
+function generating the plots.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Pairwise scatter plots of the values being compared, with different
+symbols (colors) used for each object under comparison.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="compareFits.html">compareFits</a></code>,
+<code><a href="plot.compareFits.html">plot.compareFits</a></code>,
+<code><a href="pairs.lme.html">pairs.lme</a></code>,
+<code><a href="pairs.lmList.html">pairs.lmList</a></code>,
+<code><a href="../../lattice/html/xyplot.html">xyplot</a></code>,
+<code><a href="../../lattice/html/splom.html">splom</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(Orthodont)
+fm2 &lt;- lme(Orthodont)
+pairs(compareFits(coef(fm1), coef(fm2)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

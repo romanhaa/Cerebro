@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Linear functionals of a smooth in GAMs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for linear.functional.terms {mgcv}"><tr><td>linear.functional.terms {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Linear functionals of a smooth in GAMs</h2>
+
+<h3>Description</h3>
+
+<p><code><a href="gam.html">gam</a></code> allows the response variable to depend on linear 
+functionals of smooth terms. Specifically dependancies of the form
+</p>
+<p style="text-align: center;"><i>g(mu_i) = ... + sum_j L_ij f(x_ij) +...</i></p>
+
+<p>are allowed, where the <i>x_ij</i> are covariate values and the <i>L_ij</i> are 
+fixed weights. i.e. the response can depend on the weighted sum of the same smooth 
+evaluated at different covariate values. This allows, for example, for the 
+response to depend on the derivatives or integrals of a smooth (approximated by finite 
+differencing or quadrature, respectively). It also allows dependence on predictor functions 
+(sometimes called &lsquo;signal regression&rsquo;).
+</p>
+<p>The mechanism by which this is achieved is to supply matrices of covariate values to the 
+model smooth terms specified by <code><a href="s.html">s</a></code> or <code><a href="te.html">te</a></code> terms in the model formula.
+Each column of the covariate matrix gives rise to a corresponding column of predictions 
+from the smooth. Let the resulting matrix of evaluated smooth values be F (F will have 
+the same dimension as the covariate matrices). In the absense of a <code>by</code> variable 
+then these columns are simply summed and added to the linear predictor. i.e. the contribution of the 
+term to the linear predictor is <code>rowSums(F)</code>. If a <code>by</code> variable is present 
+then it must be a matrix, L,say, of the same dimension as F (and the covariate matrices), 
+and it contains the weights <i>L_ij</i> in the summation given above. 
+So in this case the contribution to the  linear predictor is <code>rowSums(L*F)</code>. 
+</p>
+<p>Note that if a <i>L1</i> (i.e. <code>rowSums(L)</code>) is a constant vector, or there is no <code>by</code> 
+variable then the smooth will automatically be centred in order to ensure identifiability. Otherwise it 
+will not be. Note also that for centred smooths it can be worth replacing the constant term in the model with <code>rowSums(L)</code> 
+in order to ensure that predictions are automatically on the right scale.
+</p>
+<p><code><a href="predict.gam.html">predict.gam</a></code> can accept matrix predictors for prediction with such terms, in which case its
+<code>newdata</code> argument will need to be a list. However when predicting from the model it is not necessary to provide matrix covariate and <code>by</code> variable values. 
+For example to simply examine the underlying smooth function one would use vectors of covariate values and vector 
+<code>by</code> variables, with the <code>by</code> variable and equivalent of <code>L1</code>, above, set to vectors of ones. 
+</p>
+<p>The mechanism is usable with random effect smooths which take factor arguments, by using a trick to create a 2D array of factors. Simply create a factor vector containing the columns of the factor matrix stacked end to end (column major order). Then reset the dimensions of this vector to create the appropriate 2D array: the first dimension should be the number of response data and the second the number of columns of the required factor matrix. You can not use <code>matrix</code> or <code>data.matrix</code> to set up the required matrix of factor levels. See example below.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### matrix argument `linear operator' smoothing
+library(mgcv)
+set.seed(0)
+
+###############################
+## simple summation example...#
+###############################
+
+n&lt;-400
+sig&lt;-2
+x &lt;- runif(n, 0, .9)
+f2 &lt;- function(x) 0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10
+x1 &lt;- x + .1
+
+f &lt;- f2(x) + f2(x1)  ## response is sum of f at two adjacent x values 
+y &lt;- f + rnorm(n)*sig
+
+X &lt;- matrix(c(x,x1),n,2) ## matrix covariate contains both x values
+b &lt;- gam(y~s(X))         
+
+plot(b)  ## reconstruction of f
+plot(f,fitted(b))
+
+## example of prediction with summation convention...
+predict(b,list(X=X[1:3,]))
+
+## example of prediction that simply evaluates smooth (no summation)...
+predict(b,data.frame(X=c(.2,.3,.7))) 
+
+######################################################################
+## Simple random effect model example.
+## model: y[i] = f(x[i]) + b[k[i]] - b[j[i]] + e[i]
+## k[i] and j[i] index levels of i.i.d. random effects, b.
+######################################################################
+
+set.seed(7)
+n &lt;- 200
+x &lt;- runif(n) ## a continuous covariate
+
+## set up a `factor matrix'...
+fac &lt;- factor(sample(letters,n*2,replace=TRUE))
+dim(fac) &lt;- c(n,2)
+
+## simulate data from such a model...
+nb &lt;- length(levels(fac))
+b &lt;- rnorm(nb)
+y &lt;- 20*(x-.3)^4 + b[fac[,1]] - b[fac[,2]] + rnorm(n)*.5
+
+L &lt;- matrix(-1,n,2);L[,1] &lt;- 1 ## the differencing 'by' variable 
+
+mod &lt;- gam(y ~ s(x) + s(fac,by=L,bs="re"),method="REML")
+gam.vcomp(mod)
+plot(mod,page=1)
+
+## example of prediction using matrices...
+dat &lt;- list(L=L[1:20,],fac=fac[1:20,],x=x[1:20],y=y[1:20])
+predict(mod,newdata=dat)
+
+
+######################################################################
+## multivariate integral example. Function `test1' will be integrated# 
+## (by midpoint quadrature) over 100 equal area sub-squares covering # 
+## the unit square. Noise is added to the resulting simulated data.  #
+## `test1' is estimated from the resulting data using two alternative#
+## smooths.                                                          #
+######################################################################
+
+test1 &lt;- function(x,z,sx=0.3,sz=0.4)
+  { (pi**sx*sz)*(1.2*exp(-(x-0.2)^2/sx^2-(z-0.3)^2/sz^2)+
+    0.8*exp(-(x-0.7)^2/sx^2-(z-0.8)^2/sz^2))
+  }
+
+## create quadrature (integration) grid, in useful order
+ig &lt;- 5 ## integration grid within square
+mx &lt;- mz &lt;- (1:ig-.5)/ig
+ix &lt;- rep(mx,ig);iz &lt;- rep(mz,rep(ig,ig))
+
+og &lt;- 10 ## observarion grid
+mx &lt;- mz &lt;- (1:og-1)/og
+ox &lt;- rep(mx,og);ox &lt;- rep(ox,rep(ig^2,og^2))
+oz &lt;- rep(mz,rep(og,og));oz &lt;- rep(oz,rep(ig^2,og^2))
+
+x &lt;- ox + ix/og;z &lt;- oz + iz/og ## full grid, subsquare by subsquare
+
+## create matrix covariates...
+X &lt;- matrix(x,og^2,ig^2,byrow=TRUE)
+Z &lt;- matrix(z,og^2,ig^2,byrow=TRUE)
+
+## create simulated test data...
+dA &lt;- 1/(og*ig)^2  ## quadrature square area
+F &lt;- test1(X,Z)    ## evaluate on grid
+f &lt;- rowSums(F)*dA ## integrate by midpoint quadrature
+y &lt;- f + rnorm(og^2)*5e-4 ## add noise
+## ... so each y is a noisy observation of the integral of `test1'
+## over a 0.1 by 0.1 sub-square from the unit square
+
+## Now fit model to simulated data...
+
+L &lt;- X*0 + dA
+
+## ... let F be the matrix of the smooth evaluated at the x,z values
+## in matrices X and Z. rowSums(L*F) gives the model predicted
+## integrals of `test1' corresponding to the observed `y'
+
+L1 &lt;- rowSums(L) ## smooths are centred --- need to add in L%*%1
+
+## fit models to reconstruct `test1'....
+
+b &lt;- gam(y~s(X,Z,by=L)+L1-1)   ## (L1 and const are confounded here)
+b1 &lt;- gam(y~te(X,Z,by=L)+L1-1) ## tensor product alternative
+
+## plot results...
+
+old.par&lt;-par(mfrow=c(2,2))
+x&lt;-runif(n);z&lt;-runif(n);
+xs&lt;-seq(0,1,length=30);zs&lt;-seq(0,1,length=30)
+pr&lt;-data.frame(x=rep(xs,30),z=rep(zs,rep(30,30)))
+truth&lt;-matrix(test1(pr$x,pr$z),30,30)
+contour(xs,zs,truth)
+plot(b)
+vis.gam(b,view=c("X","Z"),cond=list(L1=1,L=1),plot.type="contour")
+vis.gam(b1,view=c("X","Z"),cond=list(L1=1,L=1),plot.type="contour")
+
+####################################
+## A "signal" regression example...#
+####################################
+
+rf &lt;- function(x=seq(0,1,length=100)) {
+## generates random functions...
+  m &lt;- ceiling(runif(1)*5) ## number of components
+  f &lt;- x*0;
+  mu &lt;- runif(m,min(x),max(x));sig &lt;- (runif(m)+.5)*(max(x)-min(x))/10
+  for (i in 1:m) f &lt;- f+ dnorm(x,mu[i],sig[i])
+  f
+}
+
+x &lt;- seq(0,1,length=100) ## evaluation points
+
+## example functional predictors...
+par(mfrow=c(3,3));for (i in 1:9) plot(x,rf(x),type="l",xlab="x")
+
+## simulate 200 functions and store in rows of L...
+L &lt;- matrix(NA,200,100) 
+for (i in 1:200) L[i,] &lt;- rf()  ## simulate the functional predictors
+
+f2 &lt;- function(x) { ## the coefficient function
+  (0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10)/10 
+}
+
+f &lt;- f2(x) ## the true coefficient function
+
+y &lt;- L%*%f + rnorm(200)*20 ## simulated response data
+
+## Now fit the model E(y) = L%*%f(x) where f is a smooth function.
+## The summation convention is used to evaluate smooth at each value
+## in matrix X to get matrix F, say. Then rowSum(L*F) gives E(y).
+
+## create matrix of eval points for each function. Note that
+## `smoothCon' is smart and will recognize the duplication...
+X &lt;- matrix(x,200,100,byrow=TRUE) 
+
+b &lt;- gam(y~s(X,by=L,k=20)) 
+par(mfrow=c(1,1))
+plot(b,shade=TRUE);lines(x,f,col=2)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve Dependency Information for a Vignette</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for vignetteDepends {tools}"><tr><td>vignetteDepends {tools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Retrieve Dependency Information for a Vignette</h2>
+
+<h3>Description</h3>
+
+<p>Given a vignette name, will create a <code>DependsList</code> object that
+reports information about the packages the vignette depends on.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+vignetteDepends(vignette, recursive = TRUE, reduce = TRUE,
+                local = TRUE, lib.loc = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>vignette</code></td>
+<td>
+<p>The path to the vignette source</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>Whether or not to include indirect dependencies</p>
+</td></tr>
+<tr valign="top"><td><code>reduce</code></td>
+<td>
+<p>Whether or not to collapse all sets of dependencies to a
+minimal value</p>
+</td></tr>
+<tr valign="top"><td><code>local</code></td>
+<td>
+<p>Whether or not to search only locally</p>
+</td></tr>
+<tr valign="top"><td><code>lib.loc</code></td>
+<td>
+<p>What libraries to search in locally</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>recursive</code> is <code>TRUE</code>, any package that is specified as a
+dependency will in turn have its dependencies included (and so on),
+these are known as indirect dependencies.  If recursive is
+<code>FALSE</code>, only the dependencies directly named by the vignette
+will be used.
+</p>
+<p>If <code>local</code> is <code>TRUE</code>, the system will only look at the
+user's local machine and not online to find dependencies.
+</p>
+<p>If <code>reduce</code> is <code>TRUE</code>, the system will collapse the fields in the
+<code>DependsList</code> object such that a minimal set of dependencies
+are specified (for instance if there was
+<span class="samp">foo, foo (&gt;= 1.0.0), foo (&gt;= 1.3.0)</span>, it would only return
+<span class="samp">foo (&gt;= 1.3.0)</span>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"DependsList"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeff Gentry </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="tools-deprecated.html">pkgDepends</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## This may not be installed, as it requires lattice
+gridEx &lt;- system.file("doc", "grid.Rnw", package = "grid")
+vignetteDepends(gridEx)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>tools</em> version 3.5.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Self-Organizing Maps: Batch Algorithm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for batchSOM {class}"><tr><td>batchSOM {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Self-Organizing Maps: Batch Algorithm
+</h2>
+
+<h3>Description</h3>
+
+<p>Kohonen's Self-Organizing Maps are a crude form of multidimensional scaling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+batchSOM(data, grid = somgrid(), radii, init)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a matrix or data frame of observations, scaled so that Euclidean
+distance is appropriate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+
+<p>A grid for the representatives: see <code><a href="somgrid.html">somgrid</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>radii</code></td>
+<td>
+
+<p>the radii of the neighbourhood to be used for each pass: one pass is
+run for each element of <code>radii</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>init</code></td>
+<td>
+
+<p>the initial representatives.  If missing, chosen (without replacement)
+randomly from <code>data</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The batch SOM algorithm of Kohonen(1995, section 3.14) is used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"SOM"</code> with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>the grid, an object of class <code>"somgrid"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>codes</code></td>
+<td>
+<p>a matrix of representatives.</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Kohonen, T. (1995) <em>Self-Organizing Maps.</em> Springer-Verlag.
+</p>
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="somgrid.html">somgrid</a></code>, <code><a href="SOM.html">SOM</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(graphics)
+data(crabs, package = "MASS")
+
+lcrabs &lt;- log(crabs[, 4:8])
+crabs.grp &lt;- factor(c("B", "b", "O", "o")[rep(1:4, rep(50,4))])
+gr &lt;- somgrid(topo = "hexagonal")
+crabs.som &lt;- batchSOM(lcrabs, gr, c(4, 4, 2, 2, 1, 1, 1, 0, 0))
+plot(crabs.som)
+
+bins &lt;- as.numeric(knn1(crabs.som$code, lcrabs, 0:47))
+plot(crabs.som$grid, type = "n")
+symbols(crabs.som$grid$pts[, 1], crabs.som$grid$pts[, 2],
+        circles = rep(0.4, 48), inches = FALSE, add = TRUE)
+text(crabs.som$grid$pts[bins, ] + rnorm(400, 0, 0.1),
+     as.character(crabs.grp))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

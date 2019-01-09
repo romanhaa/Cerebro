@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prediction methods for smooth terms in a GAM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Predict.matrix {mgcv}"><tr><td>Predict.matrix {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prediction methods for smooth terms in a GAM</h2>
+
+<h3>Description</h3>
+
+<p> Takes <code>smooth</code> objects produced by <code>smooth.construct</code> methods and obtains the matrix mapping 
+the parameters associated with such a smooth to the predicted values of the smooth at a set of new covariate values.
+</p>
+<p>In practice this method is often called via the wrapper function <code><a href="smoothCon.html">PredictMat</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Predict.matrix(object,data)
+Predict.matrix2(object,data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> is a smooth object produced by a <code>smooth.construct</code> method function. The object 
+contains all the information required to specify the basis for a term of its class, and this information is
+used by the appropriate <code>Predict.matrix</code> function to produce a prediction matrix for new covariate values.
+Further details are given in <code><a href="smooth.construct.html">smooth.construct</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame containing the values of the (named) covariates at which the smooth term is to be 
+evaluated. Exact requirements are as for <code><a href="smooth.construct.html">smooth.construct</a></code> and <code>smooth.construct2</code></p>
+</td></tr></table>
+<p>.
+</p>
+
+
+<h3>Details</h3>
+
+<p> Smooth terms in a GAM formula are turned into smooth specification objects of 
+class <code>xx.smooth.spec</code> during processing of the formula. Each of these objects is
+converted to a smooth object using an appropriate <code>smooth.construct</code> function. The <code>Predict.matrix</code> 
+functions are used to obtain the matrix that will map the parameters associated with a smooth term to
+the predicted values for the term at new covariate values.
+</p>
+<p>Note that new smooth classes can be added by writing a new <code>smooth.construct</code> method function and a 
+corresponding <code><a href="Predict.matrix.html">Predict.matrix</a></code> method function: see the example code provided for 
+<code><a href="smooth.construct.html">smooth.construct</a></code> for details.</p>
+
+
+<h3>Value</h3>
+
+<p> A matrix which will map the parameters associated with the smooth to the vector of values of the smooth 
+evaluated at the covariate values given in <code>object</code>. If the smooth class
+is one which generates offsets the corresponding offset is returned as
+attribute <code>"offset"</code> of the matrix.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+ 
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.html">gam</a></code>,<code><a href="gamm.html">gamm</a></code>,
+<code><a href="smooth.construct.html">smooth.construct</a></code>, <code><a href="smoothCon.html">PredictMat</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre># See smooth.construct examples
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

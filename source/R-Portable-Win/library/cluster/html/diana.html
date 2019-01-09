@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: DIvisive ANAlysis Clustering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for diana {cluster}"><tr><td>diana {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>DIvisive ANAlysis Clustering</h2>
+
+<h3>Description</h3>
+
+<p>Computes a divisive hierarchical clustering of the dataset
+returning an object of class <code>diana</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+diana(x, diss = inherits(x, "dist"), metric = "euclidean", stand = FALSE,
+      stop.at.k = FALSE,
+      keep.diss = n &lt; 100, keep.data = !diss, trace.lev = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data matrix or data frame, or dissimilarity matrix or object,
+depending on the value of the <code>diss</code> argument.
+</p>
+<p>In case of a matrix or data frame, each row corresponds to an observation,
+and each column corresponds to a variable.  All variables must be numeric.
+Missing values (<code><a href="../../base/html/NA.html">NA</a></code>s) <em>are</em> allowed.
+</p>
+<p>In case of a dissimilarity matrix, <code>x</code> is typically the output
+of <code><a href="daisy.html">daisy</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code>.  Also a vector of
+length n*(n-1)/2 is allowed (where n is the number of observations),
+and will be interpreted in the same way as the output of the
+above-mentioned functions. Missing values (NAs) are <em>not</em> allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>logical flag: if TRUE (default for <code>dist</code> or
+<code>dissimilarity</code> objects), then <code>x</code> will be considered as a
+dissimilarity matrix.  If FALSE, then <code>x</code> will be considered as
+a matrix of observations by variables.
+</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+
+<p>character string specifying the metric to be used for calculating
+dissimilarities between observations.<br />
+The currently available options are &quot;euclidean&quot; and
+&quot;manhattan&quot;.  Euclidean distances are root sum-of-squares of
+differences, and manhattan distances are the sum of absolute
+differences.  If <code>x</code> is already a dissimilarity matrix, then
+this argument will be ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stand</code></td>
+<td>
+<p>logical; if true, the measurements in <code>x</code> are
+standardized before calculating the dissimilarities.  Measurements
+are standardized for each variable (column), by subtracting the
+variable's mean value and dividing by the variable's mean absolute
+deviation.  If <code>x</code> is already a dissimilarity matrix, then this
+argument will be ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>stop.at.k</code></td>
+<td>
+<p>logical or integer, <code>FALSE</code> by default.
+Otherwise must be integer, say <i>k</i>, in <i>\{1,2,..,n\}</i>,
+specifying that the <code>diana</code> algorithm should stop early.
+
+Non-default NOT YET IMPLEMENTED.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.diss, keep.data</code></td>
+<td>
+<p>logicals indicating if the dissimilarities
+and/or input data <code>x</code> should be kept in the result.  Setting
+these to <code>FALSE</code> can give much smaller results and hence even save
+memory allocation <em>time</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>trace.lev</code></td>
+<td>
+<p>integer specifying a trace level for printing
+diagnostics during the algorithm.  Default <code>0</code> does not print
+anything; higher values print increasingly more.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>diana</code> is fully described in chapter 6 of Kaufman and Rousseeuw (1990).
+It is probably unique in computing a divisive hierarchy, whereas most
+other software for hierarchical clustering is agglomerative.
+Moreover, <code>diana</code> provides (a) the divisive coefficient
+(see <code>diana.object</code>) which measures the amount of clustering structure
+found; and (b) the banner, a novel graphical display
+(see <code>plot.diana</code>).
+</p>
+<p>The <code>diana</code>-algorithm constructs a hierarchy of clusterings,
+starting with one large
+cluster containing all n observations. Clusters are divided until each cluster
+contains only a single observation.<br />
+At each stage, the cluster with the largest diameter is selected.
+(The diameter of a cluster is the largest dissimilarity between any
+two of its observations.)<br />
+To divide the selected cluster, the algorithm first looks for its most
+disparate observation (i.e., which has the largest average dissimilarity to the
+other observations of the selected cluster). This observation initiates the
+&quot;splinter group&quot;. In subsequent steps, the algorithm reassigns observations
+that are closer to the &quot;splinter group&quot; than to the &quot;old party&quot;. The result
+is a division of the selected cluster into two new clusters.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"diana"</code> representing the clustering;
+this class has methods for the following generic functions:
+<code>print</code>, <code>summary</code>, <code>plot</code>.
+</p>
+<p>Further, the class <code>"diana"</code> inherits from
+<code>"twins"</code>.  Therefore, the generic function <code><a href="pltree.html">pltree</a></code> can be
+used on a <code>diana</code> object, and <code><a href="../../stats/html/as.hclust.html">as.hclust</a></code> and
+<code><a href="../../stats/html/dendrogram.html">as.dendrogram</a></code> methods are available.
+</p>
+<p>A legitimate <code>diana</code> object is a list with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>order</code></td>
+<td>
+
+<p>a vector giving a permutation of the original observations to allow for
+plotting, in the sense that the branches of a clustering tree will
+not cross.
+</p>
+</td></tr>
+<tr valign="top"><td><code>order.lab</code></td>
+<td>
+
+<p>a vector similar to <code>order</code>, but containing observation labels
+instead of observation numbers.  This component is only available if
+the original observations were labelled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>a vector with the diameters of the clusters prior to splitting.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dc</code></td>
+<td>
+
+<p>the divisive coefficient, measuring the clustering structure of the
+dataset.  For each observation i, denote by <i>d(i)</i> the diameter of the
+last cluster to which it belongs (before being split off as a single
+observation), divided by the diameter of the whole dataset.  The
+<code>dc</code> is the average of all <i>1 - d(i)</i>.  It can also be seen
+as the average width (or the percentage filled) of the banner plot.
+Because <code>dc</code> grows with the number of observations, this
+measure should not be used to compare datasets of very different
+sizes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>merge</code></td>
+<td>
+
+<p>an (n-1) by 2 matrix, where n is the number of
+observations. Row i of <code>merge</code> describes the split at step n-i of
+the clustering. If a number <i>j</i> in row r is negative, then the single
+observation <i>|j|</i> is split off at stage n-r. If j is positive, then the
+cluster that will be splitted at stage n-j (described by row j), is
+split off at stage n-r.
+</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>an object of class <code>"dissimilarity"</code>, representing the total
+dissimilarity matrix of the dataset.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a matrix containing the original or standardized measurements, depending
+on the <code>stand</code> option of the function <code>agnes</code>.  If a
+dissimilarity matrix was given as input structure, then this component
+is not available.
+</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code> also for background and references;
+<code><a href="../../stats/html/cutree.html">cutree</a></code> (and <code><a href="../../stats/html/as.hclust.html">as.hclust</a></code>) for grouping
+extraction; <code><a href="daisy.html">daisy</a></code>, <code><a href="../../stats/html/dist.html">dist</a></code>,
+<code><a href="plot.diana.html">plot.diana</a></code>, <code><a href="twins.object.html">twins.object</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(votes.repub)
+dv &lt;- diana(votes.repub, metric = "manhattan", stand = TRUE)
+print(dv)
+plot(dv)
+
+## Cut into 2 groups:
+dv2 &lt;- cutree(as.hclust(dv), k = 2)
+table(dv2) # 8 and 42 group members
+rownames(votes.repub)[dv2 == 1]
+
+## For two groups, does the metric matter ?
+dv0 &lt;- diana(votes.repub, stand = TRUE) # default: Euclidean
+dv.2 &lt;- cutree(as.hclust(dv0), k = 2)
+table(dv2 == dv.2)## identical group assignments
+
+str(as.dendrogram(dv0)) # {via as.dendrogram.twins() method}
+
+data(agriculture)
+## Plot similar to Figure 8 in ref
+## Not run: plot(diana(agriculture), ask = TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

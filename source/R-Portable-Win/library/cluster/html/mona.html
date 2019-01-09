@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: MONothetic Analysis Clustering of Binary Variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mona {cluster}"><tr><td>mona {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>MONothetic Analysis Clustering of Binary Variables</h2>
+
+<h3>Description</h3>
+
+<p>Returns a list representing a divisive hierarchical clustering of
+a dataset with binary variables only.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mona(x, trace.lev = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data matrix or data frame in which each row corresponds to an
+observation, and each column corresponds to a variable.  All
+variables must be binary.  A limited number of missing values (<code>NA</code>s)
+is allowed.  Every observation must have at least one value different
+from <code><a href="../../base/html/NA.html">NA</a></code>.  No variable should have half of its values
+missing.  There must be at least one variable which has no missing
+values.  A variable with all its non-missing values identical is
+not allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>trace.lev</code></td>
+<td>
+<p>logical or integer indicating if (and how much) the
+algorithm should produce progress output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>mona</code> is fully described in chapter 7 of Kaufman and Rousseeuw (1990).
+It is &ldquo;monothetic&rdquo; in the sense that each division is based on a
+single (well-chosen) variable, whereas most other hierarchical methods
+(including <code>agnes</code> and <code>diana</code>) are &ldquo;polythetic&rdquo;, i.e. they use
+all variables together.
+</p>
+<p>The <code>mona</code>-algorithm constructs a hierarchy of clusterings,
+starting with one large cluster.  Clusters are divided until all
+observations in the same cluster have identical values for all variables.
+<br />
+At each stage, all clusters are divided according to the values of one
+variable. A cluster is divided into one cluster with all observations having
+value 1 for that variable, and another cluster with all observations having
+value 0 for that variable.
+</p>
+<p>The variable used for splitting a cluster is the variable with the maximal
+total association to the other variables, according to the observations in the
+cluster to be splitted. The association between variables f and g
+is given by a(f,g)*d(f,g) - b(f,g)*c(f,g), where a(f,g), b(f,g), c(f,g),
+and d(f,g) are the numbers in the contingency table of f and g.
+[That is, a(f,g) (resp. d(f,g)) is the number of observations for which f and g
+both have value 0 (resp. value 1); b(f,g) (resp. c(f,g)) is the number of
+observations for which f has value 0 (resp. 1) and g has value 1 (resp. 0).]
+The total association of a variable f is the sum of its associations to all
+variables.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"mona"</code> representing the clustering.
+See <code><a href="mona.object.html">mona.object</a></code> for details.
+</p>
+
+
+<h3>Missing Values (<code><a href="../../base/html/NA.html">NA</a></code>s)</h3>
+
+<p>The mona-algorithm requires &ldquo;pure&rdquo; 0-1 values.  However,
+<code>mona(x)</code> allows <code>x</code> to contain (not too many)
+<code><a href="../../base/html/NA.html">NA</a></code>s.  In a preliminary step, these are &ldquo;imputed&rdquo;,
+i.e., all missing values are filled in.  To do this, the same measure
+of association between variables is used as in the algorithm.  When variable
+f has missing values, the variable g with the largest absolute association
+to f is looked up. When the association between f and g is positive,
+any missing value of f is replaced by the value of g for the same
+observation. If the association between f and g is negative, then any missing
+value of f is replaced by the value of 1-g for the same
+observation.
+</p>
+
+
+<h3>Note</h3>
+
+<p>In <span class="pkg">cluster</span> versions before 2.0.6, the algorithm entered an
+infinite loop in the boundary case of one variable, i.e.,
+<code>ncol(x) == 1</code>, which currently signals an error (because the
+algorithm now in C, haes not correctly taken account of this special case).
+
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code> for background and references;
+<code><a href="mona.object.html">mona.object</a></code>, <code><a href="plot.mona.html">plot.mona</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(animals)
+ma &lt;- mona(animals)
+ma
+## Plot similar to Figure 10 in Struyf et al (1996)
+plot(ma)
+
+## One place to see if/how error messages are *translated* (to 'de' / 'pl'):
+ani.NA   &lt;- animals; ani.NA[4,] &lt;- NA
+aniNA    &lt;- within(animals, { end[2:9] &lt;- NA })
+aniN2    &lt;- animals; aniN2[cbind(1:6, c(3, 1, 4:6, 2))] &lt;- NA
+ani.non2 &lt;- within(animals, end[7] &lt;- 3 )
+ani.idNA &lt;- within(animals, end[!is.na(end)] &lt;- 1 )
+try( mona(ani.NA)   ) ## error: .. object with all values missing
+try( mona(aniNA)    ) ## error: .. more than half missing values
+try( mona(aniN2)    ) ## error: all have at least one missing
+try( mona(ani.non2) ) ## error: all must be binary
+try( mona(ani.idNA) ) ## error:  ditto
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

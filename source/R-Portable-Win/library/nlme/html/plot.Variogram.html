@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a Variogram Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.Variogram {nlme}"><tr><td>plot.Variogram {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot a Variogram Object</h2>
+
+<h3>Description</h3>
+
+<p>an <code>xyplot</code> of the semi-variogram versus the distances is
+produced. If <code>smooth = TRUE</code>, a <code>loess</code> smoother is added to
+the plot. If <code>showModel = TRUE</code> and <code>x</code> includes an
+<code>"modelVariog"</code> attribute, the corresponding semi-variogram
+is added to the plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Variogram'
+plot(x, smooth, showModel, sigma, span, xlab,
+     ylab, type, ylim, grid, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="Variogram.html">Variogram</a>"</code>,
+consisting of a data frame with two columns named <code>variog</code> and
+<code>dist</code>, representing the semi-variogram values and the corresponding
+distances.
+</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p>an optional logical value controlling whether a
+<code>loess</code> smoother should be added to the plot. Defaults to
+<code>TRUE</code>, when <code>showModel</code> is <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>showModel</code></td>
+<td>
+<p>an optional logical value controlling whether the
+semi-variogram corresponding to an <code>"modelVariog"</code> attribute of
+<code>x</code>, if any is present, should be added to the
+plot. Defaults to <code>TRUE</code>, when the <code>"modelVariog"</code>
+attribute is present.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>an optional numeric value used as the height of a
+horizontal line displayed in the plot. Can be used to represent the
+process standard deviation. Default is <code>NULL</code>, implying that no
+horizontal line is drawn. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>span</code></td>
+<td>
+<p>an optional numeric value with the smoothing parameter for
+the <code>loess</code> fit. Default is 0.6.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>optional character strings with the x- and y-axis
+labels. Default respectively to <code>"Distance"</code> and
+<code>"SemiVariogram"</code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>an optional character indicating the type of plot. Defaults
+to <code>"p"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>an optional numeric vector with the limits for the
+y-axis. Defaults to <code>c(0, max(x$variog))</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>an optional logical value indicating whether a grid should
+be added to plot. Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed to the Trellis <code>xyplot</code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an <code>xyplot</code> Trellis plot.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Variogram.html">Variogram</a></code>, <code><a href="../../lattice/html/xyplot.html">xyplot</a></code>, <code><a href="../../stats/html/loess.html">loess</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), Ovary)
+plot(Variogram(fm1, form = ~ Time | Mare, maxDist = 0.7))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

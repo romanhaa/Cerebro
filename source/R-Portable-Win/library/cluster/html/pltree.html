@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Clustering Tree of a Hierarchical Clustering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pltree {cluster}"><tr><td>pltree {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Clustering Tree of a Hierarchical Clustering</h2>
+
+<h3>Description</h3>
+
+<p><code>pltree()</code> Draws a clustering tree (&ldquo;dendrogram&rdquo;) on the
+current graphics device.  We provide the <code>twins</code> method draws the
+tree of a <code>twins</code> object, i.e., hierarchical clustering,
+typically resulting from <code><a href="agnes.html">agnes</a>()</code> or <code><a href="diana.html">diana</a>()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pltree(x, ...)
+## S3 method for class 'twins'
+pltree(x, main = paste("Dendrogram of ", deparse(x$call)),
+             labels = NULL, ylab = "Height", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>in general, an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object for which a <code>pltree</code> method is
+defined; specifically, an object of class <code>"twins"</code>, typically
+created by either <code><a href="agnes.html">agnes</a>()</code> or <code><a href="diana.html">diana</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>main title with a sensible default.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>labels to use; the default is constructed from <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>label for y-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters (see <code><a href="../../graphics/html/par.html">par</a></code>) may also
+be supplied as arguments to this function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates a plot of a clustering tree given a <code>twins</code> object.  The
+leaves of the tree are the original observations.  In case of an
+agglomerative clustering, two branches come together at the distance
+between the two clusters being merged.  For a divisive clustering, a
+branch splits up at the diameter of the cluster being splitted.
+</p>
+<p>Note that currently the method function simply calls
+<code>plot(<a href="../../stats/html/as.hclust.html">as.hclust</a>(x), ...)</code>, which dispatches to
+<code><a href="../../stats/html/hclust.html">plot.hclust</a>(..)</code>.  If more flexible plots are needed,
+consider <code>xx &lt;- <a href="../../stats/html/dendrogram.html">as.dendrogram</a>(<a href="../../stats/html/as.hclust.html">as.hclust</a>(x))</code> and plotting
+<code>xx</code>, see <code><a href="../../stats/html/dendrogram.html">plot.dendrogram</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a NULL value is returned.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code>, <code><a href="agnes.object.html">agnes.object</a></code>, <code><a href="diana.html">diana</a></code>,
+<code><a href="diana.html">diana.object</a></code>, <code><a href="../../stats/html/hclust.html">hclust</a></code>, <code><a href="../../graphics/html/par.html">par</a></code>,
+<code><a href="plot.agnes.html">plot.agnes</a></code>, <code><a href="plot.diana.html">plot.diana</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(votes.repub)
+agn &lt;- agnes(votes.repub)
+pltree(agn)
+
+dagn  &lt;- as.dendrogram(as.hclust(agn))
+dagn2 &lt;- as.dendrogram(as.hclust(agn), hang = 0.2)
+op &lt;- par(mar = par("mar") + c(0,0,0, 2)) # more space to the right
+plot(dagn2, horiz = TRUE)
+plot(dagn, horiz = TRUE, center = TRUE,
+     nodePar = list(lab.cex = 0.6, lab.col = "forest green", pch = NA),
+     main = deparse(agn$call))
+par(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

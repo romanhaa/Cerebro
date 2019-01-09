@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Relative Curvature Measures for Non-Linear Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rms.curv {MASS}"><tr><td>rms.curv {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Relative Curvature Measures for Non-Linear Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the root mean square parameter effects and intrinsic relative
+curvatures, <i>c^theta</i> and <i>c^iota</i>, for a
+fitted nonlinear regression, as defined in Bates &amp; Watts, section 7.3,
+p. 253ff
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rms.curv(obj)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+
+<p>Fitted model object of class <code>"nls"</code>.  The model must be fitted using the
+default algorithm.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The method of section 7.3.1 of Bates &amp; Watts is implemented.  The
+function <code>deriv3</code> should be used generate a model function with first
+derivative (gradient) matrix and second derivative (Hessian) array
+attributes.  This function should then be used to fit the nonlinear
+regression model.
+</p>
+<p>A print method, <code>print.rms.curv</code>, prints the <code>pc</code> and
+<code>ic</code> components only, suitably annotated.
+</p>
+<p>If either <code>pc</code> or <code>ic</code> exceeds some threshold (0.3 has been
+suggested) the curvature is unacceptably high for the planar assumption.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>rms.curv</code> with components <code>pc</code> and <code>ic</code>
+for parameter effects and intrinsic relative curvatures multiplied by
+sqrt(F), <code>ct</code> and <code>ci</code> for <i>c^&theta;</i> and <i>c^&iota;</i> (unmultiplied),
+and <code>C</code> the C-array as used in section 7.3.1 of Bates &amp; Watts.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bates, D. M, and Watts, D. G. (1988)
+<em>Nonlinear Regression Analysis and its Applications.</em>
+Wiley, New York.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/deriv.html">deriv3</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The treated sample from the Puromycin data
+mmcurve &lt;- deriv3(~ Vm * conc/(K + conc), c("Vm", "K"),
+                  function(Vm, K, conc) NULL)
+Treated &lt;- Puromycin[Puromycin$state == "treated", ]
+(Purfit1 &lt;- nls(rate ~ mmcurve(Vm, K, conc), data = Treated,
+                start = list(Vm=200, K=0.1)))
+rms.curv(Purfit1)
+##Parameter effects: c^theta x sqrt(F) = 0.2121
+##        Intrinsic: c^iota  x sqrt(F) = 0.092
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

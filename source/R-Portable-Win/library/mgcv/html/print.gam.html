@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print a Generalized Additive Model object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.gam {mgcv}"><tr><td>print.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print a Generalized Additive Model object.</h2>
+
+<h3>Description</h3>
+
+<p> The default print method for a <code>gam</code> object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+print(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>x, ...</code></td>
+<td>
+<p> fitted model objects of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Prints out the family, model formula, effective degrees of freedom for each smooth term, and optimized 
+value of the smoothness selection criterion used. See <code><a href="gamObject.html">gamObject</a></code> (or <code>names(x)</code>) for a listing 
+of what the object contains. <code><a href="summary.gam.html">summary.gam</a></code> provides more detail. 
+</p>
+<p>Note that the optimized smoothing parameter selection criterion reported is one of GCV, UBRE(AIC), GACV, 
+negative log marginal likelihood (ML), or negative log restricted likelihood (REML).
+</p>
+<p>If rank deficiency of the model was detected then the apparent rank is reported, along with the length of the cofficient vector 
+(rank in absense of rank deficieny). Rank deficiency occurs when not all coefficients are identifiable given the data. Although 
+the fitting routines (except <code>gamm</code>) deal gracefully with rank deficiency, interpretation of rank deficient models may be difficult. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> </p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). CRC/
+Chapmand and Hall, Boca Raton, Florida.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+   <p><code><a href="gam.html">gam</a></code>, <code><a href="summary.gam.html">summary.gam</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

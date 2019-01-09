@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare Predictions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for comparePred {nlme}"><tr><td>comparePred {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare Predictions</h2>
+
+<h3>Description</h3>
+
+<p>Predicted values are obtained at the specified values of
+<code>primary</code> for each object. If either <code>object1</code> or
+<code>object2</code> have a grouping structure
+(i.e. <code>getGroups(object)</code> is not <code>NULL</code>), predicted values
+are obtained for each group. When both objects determine groups, the
+group levels must be the same. If other covariates besides
+<code>primary</code> are used in the prediction model, their group-wise averages
+(numeric covariates) or most frequent values (categorical covariates)
+are used to obtain the predicted values. The original observations are
+also included in the returned object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+comparePred(object1, object2, primary, minimum, maximum,
+    length.out, level, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object1,object2</code></td>
+<td>
+<p>fitted model objects, from which predictions can
+be extracted using the <code>predict</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>primary</code></td>
+<td>
+<p>an optional one-sided formula specifying the primary
+covariate to be used to generate the augmented predictions. By
+default, if a  covariate can be extracted from the data used to generate
+the objects (using <code>getCovariate</code>), it will be used as
+<code>primary</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>minimum</code></td>
+<td>
+<p>an optional lower limit for the primary
+covariate. Defaults to <code>min(primary)</code>, after <code>primary</code> is 
+evaluated in the <code>data</code> used in fitting <code>object1</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>maximum</code></td>
+<td>
+<p>an optional upper limit for the primary
+covariate. Defaults to <code>max(primary)</code>, after <code>primary</code> is
+evaluated in the <code>data</code> used in fitting <code>object1</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>length.out</code></td>
+<td>
+<p>an optional integer with the number of primary
+covariate values at which to evaluate the predictions. Defaults to
+51.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>an optional integer specifying the desired
+prediction level. Levels increase from outermost to innermost
+grouping, with level 0 representing the population (fixed effects)
+predictions. Only one level can be specified. Defaults to the
+innermost level.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for the generic may require additional
+arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a data frame with four columns representing, respectively, the values
+of the primary covariate, the groups (if <code>object</code> does not have a
+grouping structure, all elements will be <code>1</code>), the predicted or
+observed values, and the type of value in the third column: the
+objects' names are used to classify the predicted values and
+<code>original</code> is used for the observed values. The returned object
+inherits from classes <code>comparePred</code> and <code>augPred</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is generic; method functions can be written to handle
+specific classes of objects. Classes which already have methods for
+this function include: <code>gls</code>, <code>lme</code>, and <code>lmList</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="augPred.html">augPred</a></code>, <code><a href="getGroups.html">getGroups</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(distance ~ age * Sex, data = Orthodont, random = ~ age)
+fm2 &lt;- update(fm1, distance ~ age)
+comparePred(fm1, fm2, length.out = 2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

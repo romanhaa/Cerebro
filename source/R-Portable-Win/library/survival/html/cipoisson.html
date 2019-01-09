@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Confidence limits for the Poisson</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cipoisson {survival}"><tr><td>cipoisson {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Confidence limits for the Poisson</h2>
+
+<h3>Description</h3>
+
+<p>Confidence interval calculation for Poisson rates.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cipoisson(k, time = 1, p = 0.95, method = c("exact", "anscombe"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>Number of successes</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+<p>Total time on trial</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>Probability level for the (two-sided) interval</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>The method for computing the interval.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The likelihood method is based on equation 10.10 of Feller, which relates
+poisson probabilities to tail area of the gamma distribution.
+The Anscombe approximation is based on the fact that sqrt(k + 3/8) is
+has a nearly constant variance of 1/4, along with a continuity
+correction.
+</p>
+<p>There are many other proposed intervals: Patil and Kulkarni list and
+evaluate 19 different suggestions from the literature!.  The exact
+intervals can be overly broad for very small values of <code>k</code>, many of
+the other approaches try to shrink the lengths, with varying success.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector, matrix, or array.
+If both <code>k</code> and <code>time</code> are single values the result is a
+vector of length 2 containing the lower an upper limits.
+If either or both are vectors the result is a matrix with two columns.
+If <code>k</code> is a matrix or array, the result will be an array with one
+more dimension; in this case the dimensions and dimnames (if any) of
+<code>k</code> are preserved.
+</p>
+
+
+<h3>References</h3>
+
+<p>F.J. Anscombe (1949). Transformations of Poisson, binomial and
+negative-binomial data. Biometrika, 35:246-254.
+</p>
+<p>W.F. Feller (1950). An Introduction to Probability Theory and its
+Applications, Volume 1, Chapter 6, Wiley.
+</p>
+<p>V. V. Patil and H.F. Kulkarni (2012).  Comparison of confidence
+intervals for the poisson mean: some new aspects.
+Revstat 10:211-227.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/ppois.html">ppois</a></code>, <code><a href="../../stats/html/qpois.html">qpois</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cipoisson(4) # 95\% confidence limit 
+# lower    upper  
+# 1.089865 10.24153 
+ppois(4, 10.24153)     #chance of seeing 4 or fewer events with large rate  
+# [1] 0.02500096 
+1-ppois(3, 1.08986)    #chance of seeing 4 or more, with a small rate 
+# [1] 0.02499961
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: reStruct Model Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for model.matrix.reStruct {nlme}"><tr><td>model.matrix.reStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>reStruct Model Matrix</h2>
+
+<h3>Description</h3>
+
+<p>The model matrices for each element of <code>formula(object)</code>,
+calculated using <code>data</code>, are bound together column-wise. When
+multiple grouping levels are present (i.e. when <code>length(object) &gt;
+    1</code>), the individual model matrices are combined from innermost (at
+the leftmost position) to outermost (at the rightmost position). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'reStruct'
+model.matrix(object, data, contrast, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="reStruct.html">reStruct</a>"</code>,
+representing a random effects structure and consisting of a list of
+<code>pdMat</code> objects.</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to evaluate the variables defined in
+<code>formula(object)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>contrast</code></td>
+<td>
+<p>an optional named list specifying the contrasts to be used
+for representing the <code>factor</code> variables in <code>data</code>. The
+components names should match the names of the variables in
+<code>data</code> for which the contrasts are to be specified. The
+components of this list will be used as the <code>contrasts</code>
+attribute of the corresponding factor. If missing, the default
+contrast specification is used.</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a matrix obtained by binding together, column-wise, the model matrices
+for each element of <code>formula(object)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/model.matrix.html">model.matrix</a></code>, <code><a href="../../stats/html/contrasts.html">contrasts</a></code>,
+<code><a href="reStruct.html">reStruct</a></code>, <code><a href="formula.reStruct.html">formula.reStruct</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+rs1 &lt;- reStruct(list(Dog = ~day, Side = ~1), data = Pixel)
+model.matrix(rs1, Pixel)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

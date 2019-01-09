@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Resistant Estimation of Multivariate Location and Scatter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cov.rob {MASS}"><tr><td>cov.rob {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Resistant Estimation of Multivariate Location and Scatter
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute a multivariate location and scale estimate with a high
+breakdown point &ndash; this can be thought of as estimating the mean and
+covariance of the <code>good</code> part of the data. <code>cov.mve</code> and
+<code>cov.mcd</code> are compatibility wrappers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cov.rob(x, cor = FALSE, quantile.used = floor((n + p + 1)/2),
+        method = c("mve", "mcd", "classical"),
+        nsamp = "best", seed)
+
+cov.mve(...)
+cov.mcd(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a matrix or data frame.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cor</code></td>
+<td>
+
+<p>should the returned result include a correlation matrix?
+</p>
+</td></tr>
+<tr valign="top"><td><code>quantile.used</code></td>
+<td>
+
+<p>the minimum number of the data points regarded as <code>good</code> points.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>the method to be used &ndash; minimum volume ellipsoid, minimum
+covariance determinant or classical product-moment. Using
+<code>cov.mve</code> or <code>cov.mcd</code> forces <code>mve</code> or <code>mcd</code>
+respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nsamp</code></td>
+<td>
+
+<p>the number of samples or <code>"best"</code> or <code>"exact"</code> or
+<code>"sample"</code>.
+If <code>"sample"</code> the number chosen is <code>min(5*p, 3000)</code>, taken
+from Rousseeuw and Hubert (1997). If <code>"best"</code> exhaustive
+enumeration is done up to 5000 samples: if <code>"exact"</code>
+exhaustive enumeration will be attempted however many samples are needed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+
+<p>the seed to be used for random sampling: see <code><a href="../../base/html/Random.html">RNGkind</a></code>. The
+current value of <code>.Random.seed</code> will be preserved if it is set.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to <code>cov.rob</code> other than <code>method</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For method <code>"mve"</code>, an approximate search is made of a subset of
+size <code>quantile.used</code> with an enclosing ellipsoid of smallest volume; in
+method <code>"mcd"</code> it is the volume of the Gaussian confidence
+ellipsoid, equivalently the determinant of the classical covariance
+matrix, that is minimized. The mean of the subset provides a first
+estimate of the location, and the rescaled covariance matrix a first
+estimate of scatter. The Mahalanobis distances of all the points from
+the location estimate for this covariance matrix are calculated, and
+those points within the 97.5% point under Gaussian assumptions are
+declared to be <code>good</code>. The final estimates are the mean and rescaled
+covariance of the <code>good</code> points.
+</p>
+<p>The rescaling is by the appropriate percentile under Gaussian data; in
+addition the first covariance matrix has an <em>ad hoc</em> finite-sample
+correction given by Marazzi.
+</p>
+<p>For method <code>"mve"</code> the search is made over ellipsoids determined
+by the covariance matrix of <code>p</code> of the data points. For method
+<code>"mcd"</code> an additional improvement step suggested by Rousseeuw and
+van Driessen (1999) is used, in which once a subset of size
+<code>quantile.used</code> is selected, an ellipsoid based on its covariance
+is tested (as this will have no larger a determinant, and may be smaller).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>center</code></td>
+<td>
+
+<p>the final estimate of location.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cov</code></td>
+<td>
+
+<p>the final estimate of scatter.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cor</code></td>
+<td>
+
+<p>(only is <code>cor = TRUE</code>) the estimate of the correlation
+matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sing</code></td>
+<td>
+
+<p>message giving number of singular samples out of total
+</p>
+</td></tr>
+<tr valign="top"><td><code>crit</code></td>
+<td>
+
+<p>the value of the criterion on log scale. For MCD this is
+the determinant, and for MVE it is proportional to the volume.
+</p>
+</td></tr>
+<tr valign="top"><td><code>best</code></td>
+<td>
+
+<p>the subset used. For MVE the best sample, for MCD the best
+set of size <code>quantile.used</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.obs</code></td>
+<td>
+
+<p>total number of observations.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>P. J. Rousseeuw and A. M. Leroy (1987) 
+<em>Robust Regression and Outlier Detection.</em>
+Wiley.
+</p>
+<p>A. Marazzi (1993) 
+<em>Algorithms, Routines and S Functions for Robust Statistics.</em>
+Wadsworth and Brooks/Cole. 
+</p>
+<p>P. J. Rousseeuw and B. C. van Zomeren (1990) Unmasking
+multivariate outliers and leverage points, 
+<em>Journal of the American Statistical Association</em>, <b>85</b>, 633&ndash;639.
+</p>
+<p>P. J. Rousseeuw and K. van Driessen (1999) A fast algorithm for the
+minimum covariance determinant estimator. <em>Technometrics</em>
+<b>41</b>, 212&ndash;223.
+</p>
+<p>P. Rousseeuw and M. Hubert (1997) Recent developments in PROGRESS. In
+<em>L1-Statistical Procedures and Related Topics </em>
+ed Y. Dodge, IMS Lecture Notes volume <b>31</b>, pp. 201&ndash;214.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lqs.html">lqs</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+cov.rob(stackloss)
+cov.rob(stack.x, method = "mcd", nsamp = "exact")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

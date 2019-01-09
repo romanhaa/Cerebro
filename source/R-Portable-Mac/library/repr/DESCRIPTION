@@ -1,0 +1,42 @@
+Package: repr
+Title: Serializable Representations
+Version: 0.15.0
+Authors@R: c(
+    person('Philipp', 'Angerer', email = 'phil.angerer@gmail.com', role = c('aut', 'cre')),
+    person('Thomas', 'Kluyver', email = 'thomas@kluyver.me.uk', role = 'aut'),
+    person('Jan', 'Schulz', email = 'jasc@gmx.net', role = 'aut'),
+    person('abielr', role = 'ctb'),
+    person('Denilson', 'Figueiredo de Sa', role = 'ctb'),
+    person('Jim', 'Hester', role = 'ctb'),
+    person('karldw', role = 'ctb'),
+    person('Carson', 'Sievert', role = 'ctb')
+    )
+Maintainer: Philipp Angerer <phil.angerer@gmail.com>
+Description: String and binary representations of objects for several formats /
+    mime types.
+Depends: R (>= 3.0.1)
+Imports: utils, grDevices, htmltools, base64enc
+Suggests: methods, highr, Cairo, stringr, testthat
+Enhances: data.table, dplyr, htmlwidgets
+License: GPL-3
+LazyData: true
+Encoding: UTF-8
+Collate: 'generics.r' 'options.r' 'package.r' 'repr_datatable.r'
+        'utils.r' 'repr_list.r' 'repr_vector.r' 'repr_factor.r'
+        'repr_function.r' 'repr_help_files_with_topic.r'
+        'repr_htmlwidget.r' 'repr_matrix_df.r' 'repr_packageIQR.r'
+        'repr_recordedplot.r'
+RoxygenNote: 6.0.1.9000
+NeedsCompilation: no
+Packaged: 2018-05-18 07:54:03 UTC; phil
+Author: Philipp Angerer [aut, cre],
+  Thomas Kluyver [aut],
+  Jan Schulz [aut],
+  abielr [ctb],
+  Denilson Figueiredo de Sa [ctb],
+  Jim Hester [ctb],
+  karldw [ctb],
+  Carson Sievert [ctb]
+Repository: CRAN
+Date/Publication: 2018-05-18 09:54:20 UTC
+Built: R 3.5.0; ; 2018-05-19 11:15:51 UTC; unix

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display current Bioconductor and CRAN repositories.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for biocinstallRepos {BiocInstaller}"><tr><td>biocinstallRepos {BiocInstaller}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Display current Bioconductor and CRAN repositories.
+</h2>
+
+<h3>Description</h3>
+
+<p>Displays the URLs of the repositories used by <code><a href="biocLite.html">biocLite</a></code>
+to install Bioconductor and CRAN packages.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+biocinstallRepos(siteRepos=character(), version=biocVersion())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>siteRepos</code></td>
+<td>
+<p>(Optional) <code>character(1)</code> representing an
+additional repository (e.g., a URL to an organization's internally
+maintained repository) in which to look for packages to
+install. This repository will be prepended to the default
+repositories returned by the function.</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>(Optional) <code>character(1)</code> or
+<code>package_version</code> indicating the Bioconductor version (e.g.,
+&ldquo;3.1&rdquo;) for which repositories are required.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named <code>character()</code> of repositories.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="biocLite.html">biocLite</a></code> Installs/updates Bioconductor/CRAN packages.
+</p>
+<p><code><a href="../../utils/html/install.packages.html">install.packages</a></code> installs the packages themselves.
+</p>
+<p><code><a href="../../utils/html/chooseBioCmirror.html">chooseBioCmirror</a></code> lets you choose from a list of all
+public Bioconductor mirror URLs.
+</p>
+<p><code><a href="../../utils/html/chooseCRANmirror.html">chooseCRANmirror</a></code> lets you choose from a list of all
+public CRAN mirror URLs.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+biocinstallRepos()
+
+## Choose mirrors
+## Not run: 
+chooseCRANmirror()
+chooseBioCmirror()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocInstaller</em> version 1.30.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

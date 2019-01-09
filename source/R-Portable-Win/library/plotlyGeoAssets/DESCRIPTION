@@ -1,0 +1,22 @@
+Package: plotlyGeoAssets
+Title: Render 'Plotly' Maps without an Internet Connection
+Version: 0.0.1
+Authors@R: person("Carson", "Sievert", role = c("aut", "cre"),
+    email = "cpsievert1@gmail.com", comment = c(ORCID = "0000-0002-4958-2844"))
+Description: Includes 'JavaScript' files that allow 'plotly' maps to render without an internet connection.
+Depends: R (>= 2.10)
+Enhances: plotly
+Suggests: testthat, htmltools
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+URL: https://github.com/cpsievert/plotlyGeoAssets
+BugReports: https://github.com/cpsievert/plotlyGeoAssets/issues
+NeedsCompilation: no
+Packaged: 2018-05-31 21:18:58 UTC; cpsievert
+Author: Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>)
+Maintainer: Carson Sievert <cpsievert1@gmail.com>
+Repository: CRAN
+Date/Publication: 2018-06-06 12:53:07 UTC
+Built: R 3.5.1; ; 2018-10-14 08:09:53 UTC; windows

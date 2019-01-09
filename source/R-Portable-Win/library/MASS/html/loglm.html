@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Log-Linear Models by Iterative Proportional Scaling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for loglm {MASS}"><tr><td>loglm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit Log-Linear Models by Iterative Proportional Scaling
+</h2>
+
+<h3>Description</h3>
+
+<p>This function provides a front-end to the standard function,
+<code>loglin</code>, to allow log-linear models to be specified and fitted
+in a manner similar to that of other fitting functions, such as
+<code>glm</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+loglm(formula, data, subset, na.action, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>A linear model formula specifying the log-linear model.
+</p>
+<p>If the left-hand side is empty, the <code>data</code> argument is required
+and must be a (complete) array of frequencies.  In this case the
+variables on the right-hand side may be the names of the
+<code>dimnames</code> attribute of the frequency array, or may be the
+positive integers: 1, 2, 3, ... used as alternative names for the
+1st, 2nd, 3rd, ... dimension (classifying factor).
+If the left-hand side is not empty it specifies a vector of
+frequencies.  In this case the data argument, if present, must be
+a data frame from which the left-hand side vector and the
+classifying factors on the right-hand side are (preferentially)
+obtained.  The usual abbreviation of a <code>.</code> to stand for &lsquo;all
+other variables in the data frame&rsquo; is allowed.  Any non-factors
+on the right-hand side of the formula are coerced to factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>Numeric array or data frame.  In the first case it specifies the
+array of frequencies; in then second it provides the data frame
+from which the variables occurring in the formula are
+preferentially obtained in the usual way.
+</p>
+<p>This argument may be the result of a call to <code><a href="../../stats/html/xtabs.html">xtabs</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>Specifies a subset of the rows in the data frame to be used.  The
+default is to take all rows.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>Specifies a method for handling missing observations.  The
+default is to fail if missing values are present.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>May supply other arguments to the function <code><a href="loglm1.html">loglm1</a></code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>If the left-hand side of the formula is empty the <code>data</code> argument
+supplies the frequency array and the right-hand side of the
+formula is used to construct the list of fixed faces as required
+by <code>loglin</code>.  Structural zeros may be specified by giving a
+<code>start</code> argument with those entries set to zero, as described in
+the help information for <code>loglin</code>.
+</p>
+<p>If the left-hand side is not empty, all variables on the
+right-hand side are regarded as classifying factors and an array
+of frequencies is constructed.  If some cells in the complete
+array are not specified they are treated as structural zeros.
+The right-hand side of the formula is again used to construct the
+list of faces on which the observed and fitted totals must agree,
+as required by <code>loglin</code>.  Hence terms such as
+<code>a:b</code>, <code>a*b</code> and <code>a/b</code> are all equivalent.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"loglm"</code> conveying the results of the fitted
+log-linear model.  Methods exist for the generic functions <code>print</code>,
+<code>summary</code>, <code>deviance</code>, <code>fitted</code>, <code>coef</code>,
+<code>resid</code>, <code>anova</code> and <code>update</code>, which perform the expected
+tasks.  Only log-likelihood ratio tests are allowed using <code>anova</code>.
+</p>
+<p>The deviance is simply an alternative name for the log-likelihood
+ratio statistic for testing the current model within a saturated
+model, in accordance with standard usage in generalized linear
+models.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>If structural zeros are present, the calculation of degrees of
+freedom may not be correct.  <code>loglin</code> itself takes no action to
+allow for structural zeros.  <code>loglm</code> deducts one degree of
+freedom for each structural zero, but cannot make allowance for
+gains in error degrees of freedom due to loss of dimension in the
+model space.  (This would require checking the rank of the
+model matrix, but since iterative proportional scaling methods
+are developed largely to avoid constructing the model matrix
+explicitly, the computation is at least difficult.)
+</p>
+<p>When structural zeros (or zero fitted values) are present the
+estimated coefficients will not be available due to infinite
+estimates.  The deviances will normally continue to be correct, though.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="loglm1.html">loglm1</a></code>, <code><a href="../../stats/html/loglin.html">loglin</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The data frames  Cars93, minn38 and quine are available
+# in the MASS package.
+
+# Case 1: frequencies specified as an array.
+sapply(minn38, function(x) length(levels(x)))
+## hs phs fol sex f
+##  3   4   7   2 0
+##minn38a &lt;- array(0, c(3,4,7,2), lapply(minn38[, -5], levels))
+##minn38a[data.matrix(minn38[,-5])] &lt;- minn38$f
+
+## or more simply
+minn38a &lt;- xtabs(f ~ ., minn38)
+
+fm &lt;- loglm(~ 1 + 2 + 3 + 4, minn38a)  # numerals as names.
+deviance(fm)
+## [1] 3711.9
+fm1 &lt;- update(fm, .~.^2)
+fm2 &lt;- update(fm, .~.^3, print = TRUE)
+## 5 iterations: deviation 0.075
+anova(fm, fm1, fm2)
+
+# Case 1. An array generated with xtabs.
+
+loglm(~ Type + Origin, xtabs(~ Type + Origin, Cars93))
+
+# Case 2.  Frequencies given as a vector in a data frame
+names(quine)
+## [1] "Eth"  "Sex"  "Age"  "Lrn"  "Days"
+fm &lt;- loglm(Days ~ .^2, quine)
+gm &lt;- glm(Days ~ .^2, poisson, quine)  # check glm.
+c(deviance(fm), deviance(gm))          # deviances agree
+## [1] 1368.7 1368.7
+c(fm$df, gm$df)                        # resid df do not!
+c(fm$df, gm$df.residual)               # resid df do not!
+## [1] 127 128
+# The loglm residual degrees of freedom is wrong because of
+# a non-detectable redundancy in the model matrix.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

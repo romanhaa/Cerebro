@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: nlsList Fit from a selfStart Function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nlsList.selfStart {nlme}"><tr><td>nlsList.selfStart {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>nlsList Fit from a selfStart Function</h2>
+
+<h3>Description</h3>
+
+<p>The response variable and primary covariate in <code>formula(data)</code>
+are used together with <code>model</code> to construct the nonlinear model
+formula. This is used in the <code>nls</code> calls and, because a
+selfStarting model function can calculate initial estimates for its
+parameters from the data, no starting estimates need to be provided.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'selfStart'
+nlsList(model, data, start, control, level, subset,
+        na.action = na.fail, pool = TRUE, warn.nls = NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>a <code>"<a href="../../stats/html/selfStart.html">selfStart</a>"</code> model function, which calculates
+initial estimates for the model parameters from <code>data</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to interpret the variables in
+<code>model</code>. Because no grouping factor can be specified in
+<code>model</code>, <code>data</code> must inherit from class
+<code>"<a href="groupedData.html">groupedData</a>"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>an optional named list with initial values for the
+parameters to be estimated in <code>model</code>. It is passed as the
+<code>start</code> argument to each <code>nls</code> call and is required when
+the nonlinear function in <code>model</code> does not inherit from class
+<code>selfStart</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values passed as the <code>control</code>
+argument to <code>nls</code>. Defaults to an empty list.
+</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>an optional integer specifying the level of grouping to
+be used when multiple nested levels of grouping are present.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional expression indicating the subset of the rows of
+<code>data</code> that should be used in the fit. This can be a logical
+vector, or a numeric vector indicating which observation numbers are
+to be included, or a  character  vector of the row names to be
+included.  All observations are included by default.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s.  The default action (<code>na.fail</code>) causes
+<code>nlsList</code> to print an error message and terminate if there are any
+incomplete observations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pool, warn.nls</code></td>
+<td>
+<p>optional <code><a href="../../base/html/logical.html">logical</a></code>s, see <code><a href="nlsList.html">nlsList</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list of <code>nls</code> objects with as many components as the number of
+groups defined by the grouping factor. A <code>NULL</code> value is assigned
+to the components corresponding to clusters for which the <code>nls</code>
+algorithm failed to converge. Generic functions such as <code>coef</code>,
+<code>fixed.effects</code>, <code>lme</code>, <code>pairs</code>, <code>plot</code>,
+<code>predict</code>, <code>random.effects</code>, <code>summary</code>, and
+<code>update</code> have methods that can be applied to an <code>nlsList</code>
+object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/selfStart.html">selfStart</a></code>, <code><a href="groupedData.html">groupedData</a></code>,
+<code><a href="../../stats/html/nls.html">nls</a></code>, <code><a href="nlsList.html">nlsList</a></code>,
+<code><a href="nlme.nlsList.html">nlme.nlsList</a></code>, <code><a href="nlsList.html">nlsList.formula</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- nlsList(SSasympOff, CO2)
+summary(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

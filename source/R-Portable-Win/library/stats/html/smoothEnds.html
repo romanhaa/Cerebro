@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: End Points Smoothing (for Running Medians)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for smoothEnds {stats}"><tr><td>smoothEnds {stats}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>End Points Smoothing (for Running Medians)</h2>
+
+<h3>Description</h3>
+
+<p>Smooth end points of a vector <code>y</code> using subsequently smaller
+medians and Tukey's end point rule at the very end. (of odd span),
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+smoothEnds(y, k = 3)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>dependent variable to be smoothed (vector).</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>width of largest median window; must be odd.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>smoothEnds</code> is used to only do the &lsquo;end point smoothing&rsquo;,
+i.e., change at most the observations closer to the beginning/end
+than half the window <code>k</code>.  The first and last value are computed using
+<em>Tukey's end point rule</em>, i.e.,
+<code>sm[1] = median(y[1], sm[2], 3*sm[2] - 2*sm[3])</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>vector of smoothed values, the same length as <code>y</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Maechler</p>
+
+
+<h3>References</h3>
+
+<p>John W. Tukey (1977)
+<em>Exploratory Data Analysis</em>, Addison.
+</p>
+<p>Velleman, P.F., and Hoaglin, D.C. (1981)
+<em>ABC of EDA (Applications, Basics, and Computing of Exploratory
+Data Analysis)</em>; Duxbury.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="runmed.html">runmed</a>(*, endrule = "median")</code> which calls
+<code>smoothEnds()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(graphics)
+
+y &lt;- ys &lt;- (-20:20)^2
+y [c(1,10,21,41)] &lt;-  c(100, 30, 400, 470)
+s7k &lt;- runmed(y, 7, endrule = "keep")
+s7. &lt;- runmed(y, 7, endrule = "const")
+s7m &lt;- runmed(y, 7)
+col3 &lt;- c("midnightblue","blue","steelblue")
+plot(y, main = "Running Medians -- runmed(*, k=7, end.rule = X)")
+lines(ys, col = "light gray")
+matlines(cbind(s7k, s7.,s7m), lwd = 1.5, lty = 1, col = col3)
+legend(1, 470, paste("endrule", c("keep","constant","median"), sep = " = "),
+       col = col3, lwd = 1.5, lty = 1)
+
+stopifnot(identical(s7m, smoothEnds(s7k, 7)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>stats</em> version 3.5.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

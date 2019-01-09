@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Recalculate for an reStruct Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for recalc.reStruct {nlme}"><tr><td>recalc.reStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Recalculate for an reStruct Object</h2>
+
+<h3>Description</h3>
+
+<p>The log-likelihood, or restricted log-likelihood, of the
+Gaussian linear mixed-effects model represented by <code>object</code> and
+<code>conLin</code> (assuming spherical within-group covariance structure),
+evaluated at <code>coef(object)</code> is calculated and added to the
+<code>logLik</code> component of <code>conLin</code>. The <code>settings</code>
+attribute of <code>object</code> determines whether the log-likelihood, or
+the restricted log-likelihood, is to be calculated. The computational
+methods for the (restricted) log-likelihood calculations are described
+in Bates and Pinheiro (1998). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'reStruct'
+recalc(object, conLin, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="reStruct.html">reStruct</a>"</code>,
+representing a random effects structure and consisting of a list of
+<code>pdMat</code> objects.</p>
+</td></tr> 
+<tr valign="top"><td><code>conLin</code></td>
+<td>
+<p>a condensed linear model object, consisting of a list
+with components <code>"Xy"</code>, corresponding to a regression matrix
+(<code>X</code>) combined with a response vector (<code>y</code>), and
+<code>"logLik"</code>, corresponding to the log-likelihood of the
+underlying model.</p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>the condensed linear model with its <code>logLik</code> component updated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/logLik.html">logLik</a></code>,
+<code><a href="lme.html">lme</a></code>, 
+<code><a href="recalc.html">recalc</a></code>,
+<code><a href="reStruct.html">reStruct</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

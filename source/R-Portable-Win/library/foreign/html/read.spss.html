@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read an SPSS Data File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.spss {foreign}"><tr><td>read.spss {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read an SPSS Data File</h2>
+
+<h3>Description</h3>
+
+<p><code>read.spss</code> reads a file stored by the SPSS <code>save</code> or
+<code>export</code> commands.
+</p>
+<p>This was orignally written in 2000 and has limited support for changes
+in SPSS formats since (which have not been many).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.spss(file, use.value.labels = TRUE, to.data.frame = FALSE,
+          max.value.labels = Inf, trim.factor.names = FALSE,
+          trim_values = TRUE, reencode = NA, use.missings = to.data.frame, 
+          sub = ".", add.undeclared.levels = c("sort", "append", "no"),
+          duplicated.value.labels = c("append", "condense"),
+          duplicated.value.labels.infix = "_duplicated_", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>character string: the name of the file or URL to read.</p>
+</td></tr>
+<tr valign="top"><td><code>use.value.labels</code></td>
+<td>
+<p>logical: convert variables with value labels
+into <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> factors with those levels?  This is only done if there are
+at least as many labels as values of the variable (when values
+without a matching label are returned as <code>NA</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>to.data.frame</code></td>
+<td>
+<p>logical: return a data frame?</p>
+</td></tr>
+<tr valign="top"><td><code>max.value.labels</code></td>
+<td>
+<p>logical: only variables with value labels and
+at most this many unique values will be converted to factors if
+<code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trim.factor.names</code></td>
+<td>
+<p>logical: trim trailing spaces from factor levels?</p>
+</td></tr>
+<tr valign="top"><td><code>trim_values</code></td>
+<td>
+<p>logical: should values and value labels have
+trailing spaces ignored when matching for <code>use.value.labels = TRUE</code>?</p>
+</td></tr>
+<tr valign="top"><td><code>reencode</code></td>
+<td>
+<p>logical: should character strings be re-encoded to the
+current locale.  The default, <code>NA</code>, means to do so in UTF-8 or latin-1
+locales, only.  Alternatively a character string specifying an encoding to
+assume for the file.</p>
+</td></tr>
+<tr valign="top"><td><code>use.missings</code></td>
+<td>
+<p>logical: should information on user-defined
+missing values be used to set the corresponding values to <code>NA</code>?</p>
+</td></tr>
+<tr valign="top"><td><code>sub</code></td>
+<td>
+<p>character string: If not <code>NA</code> it is used by <code><a href="../../base/html/iconv.html">iconv</a></code> 
+to replace any non-convertible bytes in character/factor input. 
+Default is <code>"."</code>. For back compatibility with <span class="pkg">foreign</span> 
+versions &lt;= 0.8-68 use <code>sub=NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>add.undeclared.levels</code></td>
+<td>
+<p>character: 
+specify how to handle variables with at least one value label and further 
+non-missing values that have no value label (like a factor levels in R).
+For <code>"sort"</code> (the default) it adds undeclared factor levels to the 
+already declared levels (and labels) and sort them according to level,
+for <code>"append"</code> it appends undeclared factor levels to declared levels 
+(and labels) without sorting, and
+for <code>"no"</code> this does not convert to factor in case of numeric SPSS levels 
+(not labels), and still converts to factor if the SPSS levels are characters 
+and <code>to.data.frame=TRUE</code>.
+For back compatibility with <span class="pkg">foreign</span> versions &lt;= 0.8-68 use 
+<code>add.undeclared.levels="no"</code> (not recommended as this may convert some 
+values with missing corresponding value labels to <code>NA</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>duplicated.value.labels</code></td>
+<td>
+<p>character: what to do with duplicated value 
+labels for different levels.
+For <code>"append"</code> (the default), the first original value label is kept 
+while further duplicated labels are renamed to 
+<code>paste0(label, duplicated.value.labels.infix, level)</code>,
+for <code>"condense"</code>, all levels with identical labels are condensed into 
+exactly the first of these levels in R.
+Back compatibility with <span class="pkg">foreign</span> versions &lt;= 0.8-68 is not given as 
+R versions &gt;= 3.4.0 no longer support duplicated factor labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>duplicated.value.labels.infix</code></td>
+<td>
+<p>character: the infix used for labels of 
+factor levels with duplicated value labels in SPSS (default <code>"_duplicated_"</code>) 
+if <code>duplicated.value.labels="append"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>passed to <code><a href="../../base/html/as.data.frame.html">as.data.frame</a></code> if <code>to.data.frame = TRUE</code>.</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This uses modified code from the PSPP project
+(<a href="http://www.gnu.org/software/pspp/">http://www.gnu.org/software/pspp/</a> for reading the SPSS formats.
+</p>
+<p>If the filename appears to be a URL (of schemes <span class="samp">http:</span>,
+<span class="samp">ftp:</span> or <span class="samp">https:</span>) the URL is first downloaded to a
+temporary file and then read.  (<span class="samp">https:</span> is supported where
+supported by <code><a href="../../utils/html/download.file.html">download.file</a></code> with its current default
+<code>method</code>.)
+</p>
+<p>Occasionally in SPSS, value labels will be added to some values of a
+continuous variable (e.g. to distinguish different types of missing
+data), and you will not want these variables converted to factors.  By
+setting <code>max.value.labels</code> you can specify that variables with a
+large number of distinct values are not converted to factors even if
+they have value labels.  
+</p>
+<p>If SPSS variable labels are present, they are returned as the
+<code>"variable.labels"</code> attribute of the answer.
+</p>
+<p>Fixed length strings (including value labels) are padded on the right
+with spaces by SPSS, and so are read that way by <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>.  The default
+argument <code>trim_values=TRUE</code> causes trailing spaces to be ignored
+when matching to value labels, as examples have been seen where the
+strings and the value labels had different amounts of padding.  See
+the examples for <code><a href="../../base/html/grep.html">sub</a></code> for ways to remove trailing spaces
+in character data.
+</p>
+<p>URL <a href="http://msdn.microsoft.com/en-us/library/ms776446(VS.85).aspx">http://msdn.microsoft.com/en-us/library/ms776446(VS.85).aspx</a>
+provides a list of translations from Windows codepage numbers to
+encoding names that <code><a href="../../base/html/iconv.html">iconv</a></code> is likely to know about and so
+suitable values for <code>reencode</code>.  Automatic re-encoding is
+attempted for apparent codepages of 200 or more in a UTF-8 or latin-1 locale:
+some other high-numbered codepages can be re-encoded on most systems,
+but the encoding names are platform-dependent (see
+<code><a href="../../base/html/iconv.html">iconvlist</a></code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list (or optionally a data frame) with one component for each
+variable in the saved data set.
+</p>
+<p>If what looks like a Windows codepage was recorded in the SPSS file,
+it is attached (as a number) as attribute <code>"codepage"</code> to the
+result.
+</p>
+<p>There may be attributes <code>"label.table"</code> and
+<code>"variable.labels"</code>.  Attribute <code>"label.table"</code> is a named
+list of value labels with one element per variable, either <code>NULL</code>
+or a named character vector.  Attribute <code>"variable.labels"</code> is a
+named character vector with names the short variable names and
+elements the long names.
+</p>
+<p>If there are user-defined missing values, there will be a attribute
+<code>"Missings"</code>.  This is a named list with one list element per
+variable.  Each element has an element <code>type</code>, a length-one
+character vector giving the type of missingness, and may also have an
+element <code>value</code> with the values corresponding to missingness.
+This is a complex subject (where the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> and C source code for
+<code>read.spss</code> is the main documentation), but the simplest cases
+are types <code>"one"</code>, <code>"two"</code> and <code>"three"</code> with a
+corresponding number of (real or string) values whose labels can be
+found from the <code>"label.table"</code> attribute.  Other possibilities are
+a finite or semi-infinite range, possibly plus a single value.
+See also <a href="http://www.gnu.org/software/pspp/manual/html_node/Missing-Observations.html#Missing-Observations">http://www.gnu.org/software/pspp/manual/html_node/Missing-Observations.html#Missing-Observations</a>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If SPSS value labels are converted to factors the underlying numerical
+codes will not in general be the same as the SPSS numerical
+values, since the numerical codes in R are always <i>1,2,3,&hellip;</i>.
+</p>
+<p>You may see warnings about the file encoding for SPSS <code>save</code>
+files: it is possible such files contain non-ASCII character data
+which need re-encoding.  The most common occurrence is Windows codepage
+1252, a superset of Latin-1.  The encoding is recorded (as an integer)
+in attribute <code>"codepage"</code> of the result if it looks like a
+Windows codepage.  Automatic re-encoding is done only in UTF-8 and latin-1
+locales: see argument <code>reencode</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saikat DebRoy and the R-core team</p>
+
+
+<h3>See Also</h3>
+
+<p>A different interface also based on the PSPP codebase is available in
+package <span class="pkg">memisc</span>: see its help for <code>spss.system.file</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+(sav &lt;- system.file("files", "electric.sav", package = "foreign"))
+dat &lt;- read.spss(file=sav) 
+str(dat)   # list structure with attributes
+
+dat &lt;- read.spss(file=sav, to.data.frame=TRUE) 
+str(dat)   # now a data.frame
+
+
+### Now we use an example file that is not very well structured and 
+### hence may need some special treatment with appropriate argument settings.
+### Expect lots of warnings as value labels (corresponding to R factor labels) are uncomplete, 
+### and an unsupported long string variable is present in the data
+(sav &lt;- system.file("files", "testdata.sav", package = "foreign"))
+
+### Examples for add.undeclared.levels:
+## add.undeclared.levels = "sort" (default):
+x.sort &lt;- read.spss(file=sav, to.data.frame = TRUE)
+## add.undeclared.levels = "append":
+x.append &lt;- read.spss(file=sav, to.data.frame = TRUE, 
+    add.undeclared.levels = "append")
+## add.undeclared.levels = "no":
+x.no &lt;- read.spss(file=sav, to.data.frame = TRUE, 
+    add.undeclared.levels = "no")
+
+levels(x.sort$factor_n_undeclared)
+levels(x.append$factor_n_undeclared)
+str(x.no$factor_n_undeclared)
+
+
+### Examples for duplicated.value.labels:
+## duplicated.value.labels = "append" (default)
+x.append &lt;- read.spss(file=sav, to.data.frame=TRUE)
+## duplicated.value.labels = "condense"
+x.condense &lt;- read.spss(file=sav, to.data.frame=TRUE, 
+    duplicated.value.labels = "condense")
+
+levels(x.append$factor_n_duplicated)
+levels(x.condense$factor_n_duplicated)
+
+as.numeric(x.append$factor_n_duplicated)
+as.numeric(x.condense$factor_n_duplicated)
+
+    
+## Long Strings (&gt;255 chars) are imported in consecutive separate variables 
+## (see warning about subtype 14):
+x &lt;- read.spss(file=sav, to.data.frame=TRUE, stringsAsFactors=FALSE)
+
+cat.long.string &lt;- function(x, w=70) cat(paste(strwrap(x, width=w), "\n"))
+
+## first part: x$string_500:
+cat.long.string(x$string_500)
+## second part: x$STRIN0:
+cat.long.string(x$STRIN0)
+## complete long string:
+long.string &lt;- apply(x[,c("string_500", "STRIN0")], 1, paste, collapse="")
+cat.long.string(long.string)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

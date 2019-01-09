@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ordered Logistic or Probit Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for polr {MASS}"><tr><td>polr {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Ordered Logistic or Probit Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Fits a logistic or probit regression model to an ordered factor
+response.  The default logistic case is <em>proportional odds
+logistic regression</em>, after which the function is named.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+polr(formula, data, weights, start, ..., subset, na.action,
+     contrasts = NULL, Hess = FALSE, model = TRUE,
+     method = c("logistic", "probit", "loglog", "cloglog", "cauchit"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula expression as for regression models, of the form
+<code>response ~ predictors</code>. The response should be a factor
+(preferably an ordered factor), which will be interpreted as an
+ordinal response, with levels ordered as in the factor.  
+The model must have an intercept: attempts to remove one will
+lead to a warning and be ignored.  An offset may be used.  See the
+documentation of <code><a href="../../stats/html/formula.html">formula</a></code> for other details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>an optional data frame in which to interpret the variables occurring
+in <code>formula</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>optional case weights in fitting.  Default to 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+
+<p>initial values for the parameters.  This is in the format
+<code>c(coefficients, zeta)</code>: see the Values section.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to be passed to <code><a href="../../stats/html/optim.html">optim</a></code>, most often a
+<code>control</code> argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>expression saying which subset of the rows of the data should  be used
+in the fit.  All observations are included by default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>a function to filter missing data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>a list of contrasts to be used for some or all of
+the factors appearing as variables in the model formula.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Hess</code></td>
+<td>
+
+<p>logical for whether the Hessian (the observed information matrix)
+should be returned.  Use this if you intend to call <code>summary</code> or
+<code>vcov</code> on the fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>logical for whether the model matrix should be returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>logistic or probit or (complementary) log-log or cauchit
+(corresponding to a Cauchy latent variable). 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This model is what Agresti (2002) calls a <em>cumulative link</em>
+model.  The basic interpretation is as a <em>coarsened</em> version of a
+latent variable <i>Y_i</i> which has a logistic or normal or
+extreme-value or Cauchy distribution with scale parameter one and a
+linear model for the mean.  The ordered factor which is observed is
+which bin <i>Y_i</i> falls into with breakpoints
+</p>
+<p style="text-align: center;"><i>zeta_0 = -Inf &lt; zeta_1 &lt; &hellip; &lt; zeta_K = Inf</i></p>
+
+<p>This leads to the model
+</p>
+<p style="text-align: center;"><i>logit P(Y &lt;= k | x) = zeta_k - eta</i></p>
+
+<p>with <em>logit</em> replaced by <em>probit</em> for a normal latent
+variable, and <i>eta</i> being the linear predictor, a linear
+function of the explanatory variables (with no intercept).  Note
+that it is quite common for other software to use the opposite sign
+for <i>eta</i> (and hence the coefficients <code>beta</code>).
+</p>
+<p>In the logistic case, the left-hand side of the last display is the
+log odds of category <i>k</i> or less, and since these are log odds
+which differ only by a constant for different <i>k</i>, the odds are
+proportional.  Hence the term <em>proportional odds logistic
+regression</em>.
+</p>
+<p>The log-log and complementary log-log links are the increasing functions
+<i>F^-1(p) = -log(-log(p))</i> and
+<i>F^-1(p) = log(-log(1-p))</i>;
+some call the first the &lsquo;negative log-log&rsquo; link.  These
+correspond to a latent variable with the extreme-value distribution for
+the maximum and minimum respectively.
+</p>
+<p>A <em>proportional hazards</em> model for grouped survival times can be
+obtained by using the complementary log-log link with grouping ordered
+by increasing times.
+</p>
+<p><code><a href="../../stats/html/predict.html">predict</a></code>, <code><a href="../../base/html/summary.html">summary</a></code>, <code><a href="../../stats/html/vcov.html">vcov</a></code>,
+<code><a href="../../stats/html/anova.html">anova</a></code>, <code><a href="../../stats/html/model.frame.html">model.frame</a></code> and an
+<code>extractAIC</code> method for use with <code><a href="stepAIC.html">stepAIC</a></code> (and
+<code><a href="../../stats/html/step.html">step</a></code>).  There are also <code><a href="../../stats/html/profile.html">profile</a></code> and
+<code><a href="../../stats/html/confint.html">confint</a></code> methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A object of class <code>"polr"</code>.  This has components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>the coefficients of the linear predictor, which has no
+intercept.</p>
+</td></tr>
+<tr valign="top"><td><code>zeta</code></td>
+<td>
+<p>the intercepts for the class boundaries.</p>
+</td></tr>
+<tr valign="top"><td><code>deviance</code></td>
+<td>
+<p>the residual deviance.</p>
+</td></tr>
+<tr valign="top"><td><code>fitted.values</code></td>
+<td>
+<p>a matrix, with a column for each level of the response.</p>
+</td></tr>
+<tr valign="top"><td><code>lev</code></td>
+<td>
+<p>the names of the response levels.</p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+<p>the <code>terms</code> structure describing the model.</p>
+</td></tr>
+<tr valign="top"><td><code>df.residual</code></td>
+<td>
+<p>the number of residual degrees of freedoms,
+calculated using the weights.</p>
+</td></tr>
+<tr valign="top"><td><code>edf</code></td>
+<td>
+<p>the (effective) number of degrees of freedom used by the model</p>
+</td></tr>
+<tr valign="top"><td><code>n, nobs</code></td>
+<td>
+<p>the (effective) number of observations, calculated using the
+weights. (<code>nobs</code> is for use by <code><a href="stepAIC.html">stepAIC</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>the matched call.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the matched method used.</p>
+</td></tr>
+<tr valign="top"><td><code>convergence</code></td>
+<td>
+<p>the convergence code returned by <code>optim</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>niter</code></td>
+<td>
+<p>the number of function and gradient evaluations used by
+<code>optim</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lp</code></td>
+<td>
+<p>the linear predictor (including any offset).</p>
+</td></tr>
+<tr valign="top"><td><code>Hessian</code></td>
+<td>
+<p>(if <code>Hess</code> is true).  Note that this is a
+numerical approximation derived from the optimization proces.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>(if <code>model</code> is true).</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>The <code><a href="../../stats/html/vcov.html">vcov</a></code> method uses the approximate Hessian: for
+reliable results the model matrix should be sensibly scaled with all
+columns having range the order of one.
+</p>
+<p>Prior to version 7.3-32, <code>method = "cloglog"</code> confusingly gave
+the log-log link, implicitly assuming the first response level was the
+&lsquo;best&rsquo;.
+</p>
+
+
+<h3>References</h3>
+
+<p>Agresti, A. (2002) <em>Categorical Data.</em> Second edition.  Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/optim.html">optim</a></code>, <code><a href="../../stats/html/glm.html">glm</a></code>, <code><a href="../../nnet/html/multinom.html">multinom</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+options(contrasts = c("contr.treatment", "contr.poly"))
+house.plr &lt;- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+house.plr
+summary(house.plr, digits = 3)
+## slightly worse fit from
+summary(update(house.plr, method = "probit", Hess = TRUE), digits = 3)
+## although it is not really appropriate, can fit
+summary(update(house.plr, method = "loglog", Hess = TRUE), digits = 3)
+summary(update(house.plr, method = "cloglog", Hess = TRUE), digits = 3)
+
+predict(house.plr, housing, type = "p")
+addterm(house.plr, ~.^2, test = "Chisq")
+house.plr2 &lt;- stepAIC(house.plr, ~.^2)
+house.plr2$anova
+anova(house.plr, house.plr2)
+
+house.plr &lt;- update(house.plr, Hess=TRUE)
+pr &lt;- profile(house.plr)
+confint(pr)
+plot(pr)
+pairs(pr)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

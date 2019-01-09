@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Mean-Variance Plot for an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for meanvar.rpart {rpart}"><tr><td>meanvar.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Mean-Variance Plot for an Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a plot on the current graphics device of the deviance of the 
+node divided by the number of observations at the node.  Also returns 
+the node number. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+meanvar(tree, ...)
+
+## S3 method for class 'rpart'
+meanvar(tree, xlab = "ave(y)", ylab = "ave(deviance)", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tree</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the <code>rpart</code> function. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>x-axis label for the plot. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+<p>y-axis label for the plot. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional graphical parameters may be supplied as arguments to this function. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an invisible list containing the following vectors is returned. 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>fitted value at terminal nodes (<code>yval</code>). 
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>deviance of node divided by number of observations at node. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+
+<p>node number. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Side Effects</h3>
+
+<p>a plot is put on the current graphics device. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.rpart.html">plot.rpart</a></code>.   
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+meanvar(z.auto, log = 'xy')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

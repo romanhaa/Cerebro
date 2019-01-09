@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Positive-Definite Matrix Classes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pdClasses {nlme}"><tr><td>pdClasses {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Positive-Definite Matrix Classes</h2>
+
+<h3>Description</h3>
+
+<p>Standard classes of positive-definite matrices (<code>pdMat</code>)
+structures  available in the <code>nlme</code> package. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>Available standard classes:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>pdSymm</code></td>
+<td>
+<p>general positive-definite matrix, with no additional
+structure</p>
+</td></tr>
+<tr valign="top"><td><code>pdLogChol</code></td>
+<td>
+<p>general positive-definite matrix, with no additional
+structure, using a log-Cholesky parameterization</p>
+</td></tr>
+<tr valign="top"><td><code>pdDiag</code></td>
+<td>
+<p>diagonal</p>
+</td></tr>
+<tr valign="top"><td><code>pdIdent</code></td>
+<td>
+<p>multiple of an identity</p>
+</td></tr>
+<tr valign="top"><td><code>pdCompSymm</code></td>
+<td>
+<p>compound symmetry structure (constant diagonal and
+constant off-diagonal elements)</p>
+</td></tr>
+<tr valign="top"><td><code>pdBlocked</code></td>
+<td>
+<p>block-diagonal matrix, with diagonal blocks of any
+&quot;atomic&quot; <code>pdMat</code> class</p>
+</td></tr>
+<tr valign="top"><td><code>pdNatural</code></td>
+<td>
+<p>general positive-definite matrix in natural
+parametrization (i.e. parametrized in terms of standard deviations
+and correlations). The underlying coefficients are not unrestricted,
+so this class should NOT be used for optimization.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>Users may define their own <code>pdMat</code> classes by specifying a
+<code>constructor</code> function and, at a minimum, methods for the
+functions <code>pdConstruct</code>, <code>pdMatrix</code> and <code>coef</code>. For
+examples of these functions, see the methods for classes <code>pdSymm</code>
+and <code>pdDiag</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pdBlocked.html">pdBlocked</a></code>,
+<code><a href="pdCompSymm.html">pdCompSymm</a></code>,
+<code><a href="pdDiag.html">pdDiag</a></code>,
+<code><a href="pdFactor.html">pdFactor</a></code>, 
+<code><a href="pdIdent.html">pdIdent</a></code>,
+<code><a href="pdMat.html">pdMat</a></code>,
+<code><a href="pdMatrix.html">pdMatrix</a></code>,
+<code><a href="pdNatural.html">pdNatural</a></code>,
+<code><a href="pdSymm.html">pdSymm</a></code>,
+<code><a href="pdLogChol.html">pdLogChol</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

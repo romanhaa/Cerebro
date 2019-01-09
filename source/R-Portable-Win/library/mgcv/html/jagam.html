@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Just Another Gibbs Additive Modeller: JAGS support for mgcv.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for jagam {mgcv}"><tr><td>jagam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Just Another Gibbs Additive Modeller: JAGS support for mgcv.</h2>
+
+<h3>Description</h3>
+
+<p>Facilities to auto-generate model specification code and associated data to simulate with GAMs in JAGS (or BUGS). This is useful for inference about models with complex random effects structure best coded in JAGS. It is a very innefficient approach to making inferences about standard GAMs. The idea is that <code>jagam</code> generates template JAGS code, and associated data, for the smooth part of the model. This template is then directly edited to include other stochastic components. After simulation with the resulting model, facilities are provided for plotting and prediction with the model smooth components. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+jagam(formula,family=gaussian,data=list(),file,weights=NULL,na.action,
+offset=NULL,knots=NULL,sp=NULL,drop.unused.levels=TRUE,
+control=gam.control(),centred=TRUE,sp.prior = "gamma",diagonalize=FALSE)
+
+sim2jam(sam,pregam,edf.type=2,burnin=0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p> A GAM formula (see <code><a href="formula.gam.html">formula.gam</a></code> and also <code><a href="gam.models.html">gam.models</a></code>). 
+This is exactly like the formula for a GLM except that smooth terms,  <code><a href="s.html">s</a></code>, <code><a href="te.html">te</a></code>, <code><a href="te.html">ti</a></code> 
+and <code><a href="t2.html">t2</a></code> can be added to the right hand side to specify that the linear predictor depends on smooth functions of predictors (or linear functionals of these).
+</p>
+</td></tr> 
+<tr valign="top"><td><code>family</code></td>
+<td>
+
+<p>This is a family object specifying the distribution and link function to use. 
+See <code><a href="../../stats/html/glm.html">glm</a></code> and <code><a href="../../stats/html/family.html">family</a></code> for more
+details. Currently only gaussian, poisson, binomial and Gamma families are supported, 
+but the user can easily modify the assumed distribution in the JAGS code.
+</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> A data frame or list containing the model response variable and 
+covariates required by the formula. By default the variables are taken 
+from <code>environment(formula)</code>: typically the environment from 
+which <code>jagam</code> is called.</p>
+</td></tr> 
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Name of the file to which JAGS model specification code should be written. See <code><a href="../../base/html/getwd.html">setwd</a></code> for setting and querying the current working directory.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p> prior weights on the data.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p> a function which indicates what should happen when the data
+contain &lsquo;NA&rsquo;s.  The default is set by the &lsquo;na.action&rsquo; setting
+of &lsquo;options&rsquo;, and is &lsquo;na.fail&rsquo; if that is unset.  The
+&ldquo;factory-fresh&rdquo; default is &lsquo;na.omit&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>Can be used to supply a model offset for use in fitting. Note
+that this offset will always be completely ignored when predicting, unlike an offset 
+included in <code>formula</code>: this conforms to the behaviour of
+<code>lm</code> and <code>glm</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>A list of fit control parameters to replace defaults returned by 
+<code><a href="gam.control.html">gam.control</a></code>. Any control parameters not supplied stay at their default values. 
+little effect on <code>jagam</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>knots</code></td>
+<td>
+<p>this is an optional list containing user specified knot values to be used for basis construction. 
+For most bases the user simply supplies the knots to be used, which must match up with the <code>k</code> value
+supplied (note that the number of knots is not always just <code>k</code>). 
+See <code><a href="smooth.construct.tp.smooth.spec.html">tprs</a></code> for what happens in the <code>"tp"/"ts"</code> case. 
+Different terms can use different numbers of knots, unless they share a covariate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>A vector of smoothing parameters can be provided here.
+Smoothing parameters must be supplied in the order that the smooth terms appear in the model 
+formula (without forgetting null space penalties). Negative elements indicate that the parameter should be estimated, and hence a mixture 
+of fixed and estimated parameters is possible. If smooths share smoothing parameters then <code>length(sp)</code> 
+must correspond to the number of underlying smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>drop.unused.levels</code></td>
+<td>
+<p>by default unused levels are dropped from factors before fitting. For some smooths 
+involving factor variables you might want to turn this off. Only do so if you know what you are doing.</p>
+</td></tr>
+<tr valign="top"><td><code>centred</code></td>
+<td>
+<p>Should centring constraints be applied to the smooths, as is usual with GAMS? Only set 
+this to <code>FALSE</code> if you know exactly what you are doing. If <code>FALSE</code> there is a (usually global) 
+intercept for each smooth.</p>
+</td></tr>
+<tr valign="top"><td><code>sp.prior</code></td>
+<td>
+<p><code>"gamma"</code> or <code>"log.uniform"</code> prior for the smoothing parameters? Do check that the 
+default parameters are appropriate for your model in the JAGS code.</p>
+</td></tr>
+<tr valign="top"><td><code>diagonalize</code></td>
+<td>
+<p>Should smooths be re-parameterized to have i.i.d. Gaussian priors (where possible)? For Gaussian data this 
+allows efficient conjugate samplers to be used, and it can also work well with GLMs if the JAGS <code>"glm"</code> module is loaded, but otherwise it is often better to update smoothers blockwise, and not do this.</p>
+</td></tr>
+<tr valign="top"><td><code>sam</code></td>
+<td>
+<p>jags sample object, containing at least fields <code>b</code> (coefficients) and <code>rho</code> (log 
+smoothing parameters). May also contain field <code>mu</code> containing monitored expected response.</p>
+</td></tr>
+<tr valign="top"><td><code>pregam</code></td>
+<td>
+<p>standard <code>mgcv</code> GAM setup data, as returned in <code>jagam</code> return list.</p>
+</td></tr>
+<tr valign="top"><td><code>edf.type</code></td>
+<td>
+<p>Since EDF is not uniquely defined and may be affected by the stochastic structure added to the JAGS model file, 3 options are offered. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>burnin</code></td>
+<td>
+<p>the amount of burn in to discard from the simulation chains. Limited to .9 of the chain length.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Smooths are easily incorportated into JAGS models using multivariate normal priors on the smooth coefficients. The smoothing parameters and smoothing penalty matrices directly specifiy the prior multivariate normal precision matrix. Normally a smoothing penalty does not correspond to a full rank precision matrix, implying an improper prior inappropriate for Gibbs sampling. To rectify this problem the null space penalties suggested in Marra and Wood (2011) are added to the usual penalties. 
+</p>
+<p>In an additive modelling context it is usual to centre the smooths, to avoid the identifiability issues associated with having an intercept for each smooth term (in addition to a global intercept). Under Gibbs sampling with JAGS it is technically possible to omit this centring, since we anyway force propriety on the priors, and this propiety implies formal model identifiability. However, in most situations this formal identifiability is rather artificial and does not imply statistically meaningfull identifiability. Rather it serves only to massively inflate confidence intervals, since the multiple intercept terms are not identifiable from the data, but only from the prior. By default then, <code>jagam</code> imposes standard GAM identifiability constraints on all smooths. The <code>centred</code> argument does allow you to turn this off, but it is not recommended. If you do set <code>centred=FALSE</code> then chain convergence and mixing checks should be particularly stringent. 
+</p>
+<p>The final technical issue for model setup is the setting of initial conditions for the coefficients and smoothing parameters. The approach taken is to take the default initial smoothing parameter values used elsewhere by <code>mgcv</code>, and to take a single PIRLS fitting step with these smoothing parameters in order to obtain starting values for the smooth coefficients. In the setting of fully conjugate updating the initial values of the coefficients are not critical, and good results are obtained without supplying them. But in the usual setting in which slice sampling is required for at least some of the updates then very poor results can sometimes be obtained without initial values, as the sampler simply fails to find the region of the posterior mode. 
+</p>
+<p>The <code>sim2jam</code> function takes the partial <code>gam</code> object (<code>pregam</code>) from <code>jagam</code> along with simulation output in standard <code>rjags</code> form and creates a reduced version of a <code>gam</code> object, suitable for plotting and prediction of the model's smooth components. <code>sim2gam</code> computes effective degrees of freedom for each smooth, but it should be noted that there are several possibilites for doing this in the context of a model with a complex random effects structure. The simplest approach (<code>edf.type=0</code>) is to compute the degrees of freedom that the smooth would have had if it had been part of an unweighted Gaussian additive model. One might choose to use this option if the model has been modified so that the response distribution and/or link are not those that were specified to <code>jagam</code>. The second option is (<code>edf.type=1</code>) uses the edf that would have been computed by <code><a href="gam.html">gam</a></code> had it produced these estimates - in the context in which the JAGS model modifications have all been about modifying the random effects structure, this is equivalent to simply setting all the random effects to zero for the effective degrees of freedom calculation. The default option (<code>edf.type=2</code>) is to base the EDF on the sample covariance matrix, <code>Vp</code>, of the model coefficients. If the simulation output (<code>sim</code>) includes a <code>mu</code> field, then this will be used to form the weight matrix <code>W</code> in <code>XWX = t(X)%*%W%*%X</code>, where the EDF is computed from <code>rowSums(Vp*XWX)*scale</code>. If <code>mu</code> is not supplied then it is estimated from the the model matrix <code>X</code> and the mean of the simulated coefficients, but the resulting <code>W</code> may not be strictly comaptible with the <code>Vp</code> matrix in this case. In the situation in which the fitted model is very different in structure from the regression model of the template produced by <code>jagam</code> then the default option may make no sense, and indeed it may be best to use option 0.
+</p>
+
+
+<h3>Value</h3>
+
+ 
+<p>For <code>jagam</code> a three item list containing 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>pregam</code></td>
+<td>
+<p>standard <code>mgcv</code> GAM setup data.</p>
+</td></tr>
+<tr valign="top"><td><code>jags.data</code></td>
+<td>
+<p>list of arguments to be supplied to JAGS containing information referenced in model specification.</p>
+</td></tr>
+<tr valign="top"><td><code>jags.ini</code></td>
+<td>
+<p>initialization data for smooth coefficients and smoothing parameters.</p>
+</td></tr>
+</table>
+<p>For <code>sim2jam</code> an object of class <code>"jam"</code>: a partial version of an <code>mgcv</code> <code><a href="gamObject.html">gamObject</a></code>, suitable for 
+plotting and predicting.
+</p>
+
+
+<h3>WARNINGS </h3>
+
+<p>Gibb's sampling is a very slow inferential method for standard GAMs. It is only likely to be worthwhile when complex random effects structures are required above what is possible with direct GAMM methods.
+</p>
+<p>Check that the parameters of the priors on the parameters are fit for your purpose.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2016) Just Another Gibbs Additive Modeller: Interfacing JAGS and mgcv. Journal of Statistical Software 75(7):1-15 doi:10.18637/jss.v075.i07)
+</p>
+<p>Marra, G. and S.N. Wood (2011) Practical variable selection for generalized additive models.
+Computational Statistics &amp; Data Analysis 55(7): 2372-2387
+</p>
+<p>Here is a key early reference to smoothing using BUGS (although the approach and smooths used are a bit different to jagam)
+</p>
+<p>Crainiceanu, C. M. D Ruppert, &amp; M.P. Wand (2005) Bayesian Analysis for Penalized Spline Regression Using WinBUGS Journal of Statistical Software 14.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gam.html">gam</a></code>, <code><a href="gamm.html">gamm</a></code>, <code><a href="bam.html">bam</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## the following illustrates a typical workflow. To run the 
+## 'Not run' code you need rjags (and JAGS) to be installed.
+require(mgcv)
+  
+set.seed(2) ## simulate some data... 
+n &lt;- 400
+dat &lt;- gamSim(1,n=n,dist="normal",scale=2)
+## regular gam fit for comparison...
+b0 &lt;- gam(y~s(x0)+s(x1) + s(x2)+s(x3),data=dat,method="REML")
+
+## Set directory and file name for file containing jags code.
+## In real use you would *never* use tempdir() for this. It is
+## only done here to keep CRAN happy, and avoid any chance of
+## an accidental overwrite. Instead you would use
+## setwd() to set an appropriate working directory in which
+## to write the file, and just set the file name to what you
+## want to call it (e.g. "test.jags" here). 
+
+jags.file &lt;- paste(tempdir(),"/test.jags",sep="") 
+
+## Set up JAGS code and data. In this one might want to diagonalize
+## to use conjugate samplers. Usually call 'setwd' first, to set
+## directory in which model file ("test.jags") will be written.
+
+jd &lt;- jagam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat,file=jags.file,
+            sp.prior="gamma",diagonalize=TRUE)
+
+## In normal use the model in "test.jags" would now be edited to add 
+## the non-standard stochastic elements that require use of JAGS....
+
+## Not run: 
+require(rjags)
+load.module("glm") ## improved samplers for GLMs often worth loading
+jm &lt;-jags.model(jags.file,data=jd$jags.data,inits=jd$jags.ini,n.chains=1)
+list.samplers(jm)
+sam &lt;- jags.samples(jm,c("b","rho","scale"),n.iter=10000,thin=10)
+jam &lt;- sim2jam(sam,jd$pregam)
+plot(jam,pages=1)
+jam
+pd &lt;- data.frame(x0=c(.5,.6),x1=c(.4,.2),x2=c(.8,.4),x3=c(.1,.1))
+fv &lt;- predict(jam,newdata=pd)
+## and some minimal checking...
+require(coda)
+effectiveSize(as.mcmc.list(sam$b))
+
+## End(Not run)
+
+## a gamma example...
+set.seed(1); n &lt;- 400
+dat &lt;- gamSim(1,n=n,dist="normal",scale=2)
+scale &lt;- .5; Ey &lt;- exp(dat$f/2)
+dat$y &lt;- rgamma(n,shape=1/scale,scale=Ey*scale)
+jd &lt;- jagam(y~s(x0)+te(x1,x2)+s(x3),data=dat,family=Gamma(link=log),
+            file=jags.file,sp.prior="log.uniform")
+
+## In normal use the model in "test.jags" would now be edited to add 
+## the non-standard stochastic elements that require use of JAGS....
+
+## Not run: 
+require(rjags)
+## following sets random seed, but note that under JAGS 3.4 many
+## models are still not fully repeatable (JAGS 4 should fix this)
+jd$jags.ini$.RNG.name &lt;- "base::Mersenne-Twister" ## setting RNG
+jd$jags.ini$.RNG.seed &lt;- 6 ## how to set RNG seed
+jm &lt;-jags.model(jags.file,data=jd$jags.data,inits=jd$jags.ini,n.chains=1)
+list.samplers(jm)
+sam &lt;- jags.samples(jm,c("b","rho","scale","mu"),n.iter=10000,thin=10)
+jam &lt;- sim2jam(sam,jd$pregam)
+plot(jam,pages=1)
+jam
+pd &lt;- data.frame(x0=c(.5,.6),x1=c(.4,.2),x2=c(.8,.4),x3=c(.1,.1))
+fv &lt;- predict(jam,newdata=pd)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

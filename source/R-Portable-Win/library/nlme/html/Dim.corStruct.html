@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dimensions of a corStruct Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Dim.corStruct {nlme}"><tr><td>Dim.corStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dimensions of a corStruct Object</h2>
+
+<h3>Description</h3>
+
+<p>if <code>groups</code> is missing, it returns the <code>Dim</code> attribute of
+<code>object</code>; otherwise, calculates the dimensions associated with
+the grouping factor.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'corStruct'
+Dim(object, groups, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="corClasses.html">corStruct</a>"</code>,
+representing a correlation structure.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>an optional factor defining the grouping of the
+observations; observations within a group are correlated and
+observations in different groups are uncorrelated.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>length of <code>groups</code></p>
+</td></tr>
+<tr valign="top"><td><code>M</code></td>
+<td>
+<p>number of groups</p>
+</td></tr>
+<tr valign="top"><td><code>maxLen</code></td>
+<td>
+<p>maximum number of observations in a group</p>
+</td></tr>
+<tr valign="top"><td><code>sumLenSq</code></td>
+<td>
+<p>sum of the squares of the number of observations per
+group</p>
+</td></tr> 
+<tr valign="top"><td><code>len</code></td>
+<td>
+<p>an integer vector with the number of observations per
+group</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>an integer vector with the starting position for the
+observations in each group, beginning from zero</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Dim.html">Dim</a></code>, <code><a href="Dim.corSpatial.html">Dim.corSpatial</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Dim(corAR1(), getGroups(Orthodont))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

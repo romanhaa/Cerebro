@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Obtain square roots of penalty matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mini.roots {mgcv}"><tr><td>mini.roots {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Obtain square roots of penalty matrices</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL function to obtain square roots, <code>B[[i]]</code>, of the penalty matrices <code>S[[i]]</code>'s having as few
+columns as possible.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mini.roots(S, off, np, rank = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>S</code></td>
+<td>
+<p>a list of penalty matrices, in packed form.</p>
+</td></tr>
+<tr valign="top"><td><code>off</code></td>
+<td>
+<p>a vector where the i-th element is the offset for the i-th matrix. 
+The elements in columns <code>1:off[i]</code> of <code>B[[i]]</code> will be equal to zero.</p>
+</td></tr>
+<tr valign="top"><td><code>np</code></td>
+<td>
+<p>total number of parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>here <code>rank[i]</code> is optional supplied rank of <code>S[[i]]</code>. Set <code>rank[i] &lt; 1</code>, or 
+<code>rank=NULL</code> to estimate.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of matrix square roots such that <code>S[[i]]=B[[i]]%*%t(B[[i]])</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

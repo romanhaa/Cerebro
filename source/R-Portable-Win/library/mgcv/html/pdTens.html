@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions implementing a pdMat class for tensor product...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pdTens {mgcv}"><tr><td>pdTens {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions implementing a pdMat class for tensor product smooths</h2>
+
+<h3>Description</h3>
+
+<p>This set of functions implements an <code>nlme</code> library <code>pdMat</code> class to allow
+tensor product smooths to be estimated by <code>lme</code> as called by <code>gamm</code>. Tensor product smooths
+have a penalty matrix made up of a weighted sum of penalty matrices, where the weights are the smoothing 
+parameters. In the mixed model formulation the penalty matrix is the inverse of the covariance matrix for 
+the random effects of a term, and the smoothing parameters (times a half) are variance parameters to be estimated. 
+It's not possible to transform the problem to make the required random effects covariance matrix look like one of the standard 
+<code>pdMat</code> classes: hence the need for the <code>pdTens</code> class. A <code><a href="notExp2.html">notLog2</a></code> parameterization ensures that 
+the parameters are positive. 
+</p>
+<p>These functions (<code>pdTens</code>, <code>pdConstruct.pdTens</code>,
+<code>pdFactor.pdTens</code>, <code>pdMatrix.pdTens</code>, <code>coef.pdTens</code> and <code>summary.pdTens</code>)
+would not normally be called directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pdTens(value = numeric(0), form = NULL, 
+       nam = NULL, data = sys.frame(sys.parent()))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Initialization values for parameters. Not normally used.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>A one sided formula specifying the random effects structure. The formula should have
+an attribute <code>S</code> which is a list of the penalty matrices the weighted sum of which gives the inverse of the 
+covariance matrix for these random effects.</p>
+</td></tr>   
+<tr valign="top"><td><code>nam</code></td>
+<td>
+<p>a names argument, not normally used with this class.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>data frame in which to evaluate formula.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> If using this class directly note that it is worthwhile scaling the
+<code>S</code> matrices to be of &lsquo;moderate size&rsquo;, for example by dividing each
+matrix by its largest singular value: this avoids problems with <code>lme</code>
+defaults (<code><a href="smooth.construct.tensor.smooth.spec.html">smooth.construct.tensor.smooth.spec</a></code> does this automatically).  
+</p>
+<p>This appears to be the minimum set of functions required to implement a new <code>pdMat</code> class. 
+</p>
+<p>Note that while the <code>pdFactor</code> and <code>pdMatrix</code> functions return the inverse of the scaled random 
+effect covariance matrix or its factor, the <code>pdConstruct</code> function is
+sometimes initialised with estimates of the scaled covariance matrix, and
+sometimes intialized with its inverse. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> A class <code>pdTens</code> object, or its coefficients or the matrix it
+represents or the factor of 
+that matrix. <code>pdFactor</code> returns the factor as a vector (packed
+column-wise) (<code>pdMatrix</code> always returns a matrix).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro J.C. and Bates, D.M. (2000) Mixed effects Models in S and S-PLUS. Springer
+</p>
+<p>The <code>nlme</code> source code.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="te.html">te</a></code>  <code><a href="gamm.html">gamm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# see gamm
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

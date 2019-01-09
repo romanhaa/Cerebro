@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generates index arrays for upper triangular storage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for trind.generator {mgcv}"><tr><td>trind.generator {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generates index arrays for upper triangular storage</h2>
+
+<h3>Description</h3>
+
+<p>Generates index arrays for upper triangular storage up to order four. Useful when
+working with higher order derivatives, which generate symmetric arrays. 
+Mainly intended for internal use.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trind.generator(K = 2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>K</code></td>
+<td>
+<p>positive integer determining the size of the array.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Suppose that <code>m=1</code> and you fill an array using code like
+<code>for(i in 1:K) for(j in i:K) for(k in j:K) for(l in k:K) 
+          {a[,m] &lt;- something; m &lt;- m+1 }</code> and do this because actually the same 
+&quot;something&quot; would be stored for any permutation of the indices i,j,k,l.
+Clearly in storage we have the restriction l&gt;=k&gt;=j&gt;=i, but for access we 
+want no restriction on the indices. <code>i4[i,j,k,l]</code> produces the 
+appropriate <code>m</code> for unrestricted indices. <code>i3</code> and i2 do the same 
+for 3d and 2d arrays.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list where the entries <code>i1</code> to <code>i4</code> are arrays in up to four dimensions, 
+containing K indexes along each dimension.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+A &lt;- trind.generator(3)
+
+# All permutations of c(1, 2, 3) point to the same index (5)
+A$i3[1, 2, 3] 
+A$i3[2, 1, 3]
+A$i3[2, 3, 1]
+A$i3[3, 1, 2]
+A$i3[1, 3, 2]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

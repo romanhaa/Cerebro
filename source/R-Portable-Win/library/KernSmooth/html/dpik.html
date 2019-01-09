@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Select a Bandwidth for Kernel Density Estimation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dpik {KernSmooth}"><tr><td>dpik {KernSmooth}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Select a Bandwidth for Kernel Density Estimation
+</h2>
+
+<h3>Description</h3>
+
+<p>Use direct plug-in methodology to select the bandwidth
+of a kernel density estimate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dpik(x, scalest = "minim", level = 2L, kernel = "normal",   
+     canonical = FALSE, gridsize = 401L, range.x = range(x), 
+     truncate = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>numeric vector containing the sample on which the
+kernel density estimate is to be constructed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scalest</code></td>
+<td>
+
+<p>estimate of scale.
+</p>
+<p><code>"stdev"</code> - standard deviation is used.
+</p>
+<p><code>"iqr"</code> - inter-quartile range divided by 1.349 is used.
+</p>
+<p><code>"minim"</code> - minimum of <code>"stdev"</code> and <code>"iqr"</code> is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+
+<p>number of levels of functional estimation used in the
+plug-in rule.
+</p>
+</td></tr>
+<tr valign="top"><td><code>kernel</code></td>
+<td>
+
+<p>character string which determines the smoothing kernel.
+<code>kernel</code> can be:
+<code>"normal"</code> - the Gaussian density function (the default).
+<code>"box"</code> - a rectangular box.
+<code>"epanech"</code> - the centred beta(2,2) density.
+<code>"biweight"</code> - the centred beta(3,3) density.
+<code>"triweight"</code> - the centred beta(4,4) density.
+This can be abbreviated to any unique abbreviation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>canonical</code></td>
+<td>
+
+<p>logical flag: if <code>TRUE</code>, canonically scaled kernels are used
+</p>
+</td></tr>
+<tr valign="top"><td><code>gridsize</code></td>
+<td>
+
+<p>the number of equally-spaced points over which binning is 
+performed to obtain kernel functional approximation. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>range.x</code></td>
+<td>
+
+<p>vector containing the minimum and maximum values of <code>x</code>
+at which to compute the estimate.
+The default is the minimum and maximum data values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>truncate</code></td>
+<td>
+
+<p>logical flag: if <code>TRUE</code>, data with <code>x</code> values outside the
+range specified by <code>range.x</code> are ignored.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The direct plug-in approach, where unknown functionals
+that appear in expressions for the asymptotically
+optimal bandwidths
+are replaced by kernel estimates, is used.
+The normal distribution is used to provide an
+initial estimate.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the selected bandwidth.
+</p>
+
+
+<h3>Background</h3>
+
+<p>This method for selecting the bandwidth of a kernel
+density estimate was proposed by Sheather and
+Jones (1991)
+and is
+described in Section 3.6 of Wand and Jones (1995). 
+</p>
+
+
+<h3>References</h3>
+
+<p>Sheather, S. J. and Jones, M. C. (1991).
+A reliable data-based bandwidth selection method for
+kernel density estimation.
+<em>Journal of the Royal Statistical Society, Series B</em>,
+<b>53</b>, 683&ndash;690.
+</p>
+<p>Wand, M. P. and Jones, M. C. (1995).
+<em>Kernel Smoothing.</em>
+Chapman and Hall, London.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="bkde.html">bkde</a></code>, <code><a href="../../stats/html/density.html">density</a></code>, <code><a href="../../stats/html/ksmooth.html">ksmooth</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(geyser, package="MASS")
+x &lt;- geyser$duration
+h &lt;- dpik(x)
+est &lt;- bkde(x, bandwidth=h)
+plot(est,type="l")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>KernSmooth</em> version 2.23-15 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Introduction to msigdbr</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceLine, a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+div.sourceLine, a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource div.sourceLine, .numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource div.sourceLine::before, .numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; color: #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to msigdbr</h1>
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>Most people who work with genomic data are eventually tasked with performing pathway analysis. The majority of pathways analysis software tools are R-based. Depending on the tool, it may be necessary to import the pathways into R, translate genes to the appropriate species, convert between symbols and IDs, and format the object in the required way.</p>
+<p>The goal of <code>msigdbr</code> is to provide MSigDB gene sets:</p>
+<ul>
+<li>for various frequently studied model organisms</li>
+<li>in an R-friendly format (a data frame in a “long” format with one gene per row)</li>
+<li>as both gene symbols and Entrez Gene IDs</li>
+<li>that can be used and shared in a script without requiring additional files</li>
+</ul>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<p>Load package.</p>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(msigdbr)</div></code></pre>
+<p>Check the species available in the database.</p>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">msigdbr_show_species</span>()</div>
+<div class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;  [1] &quot;Bos taurus&quot;               &quot;Caenorhabditis elegans&quot;   &quot;Canis lupus familiaris&quot;  </span></div>
+<div class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;  [4] &quot;Danio rerio&quot;              &quot;Drosophila melanogaster&quot;  &quot;Gallus gallus&quot;           </span></div>
+<div class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;  [7] &quot;Homo sapiens&quot;             &quot;Mus musculus&quot;             &quot;Rattus norvegicus&quot;       </span></div>
+<div class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; [10] &quot;Saccharomyces cerevisiae&quot; &quot;Sus scrofa&quot;</span></div></code></pre>
+<p>Retrieve all human gene sets.</p>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Homo sapiens&quot;</span>)</div>
+<div class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">head</span>(m_df)</div>
+<div class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 9</span></div>
+<div class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;   gs_name    gs_id gs_cat gs_subcat human_gene_symb… species_name entrez_gene gene_symbol</span></div>
+<div class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;      </span></div>
+<div class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 1 AAACCAC_M… M126… C3     MIR       ABCC4            Homo sapiens       10257 ABCC4      </span></div>
+<div class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 2 AAACCAC_M… M126… C3     MIR       ACTN4            Homo sapiens          81 ACTN4      </span></div>
+<div class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 3 AAACCAC_M… M126… C3     MIR       ACVR1            Homo sapiens          90 ACVR1      </span></div>
+<div class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 4 AAACCAC_M… M126… C3     MIR       ADAM9            Homo sapiens        8754 ADAM9      </span></div>
+<div class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 5 AAACCAC_M… M126… C3     MIR       ADAMTS5          Homo sapiens       11096 ADAMTS5    </span></div>
+<div class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 6 AAACCAC_M… M126… C3     MIR       AGER             Homo sapiens         177 AGER       </span></div>
+<div class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; # ... with 1 more variable: sources &lt;chr&gt;</span></div></code></pre>
+<p>Retrieve mouse hallmark collection gene sets.</p>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>, <span class="dt">category =</span> <span class="st">&quot;H&quot;</span>)</div>
+<div class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">head</span>(m_df)</div>
+<div class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 9</span></div>
+<div class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   gs_name    gs_id gs_cat gs_subcat human_gene_symb… species_name entrez_gene gene_symbol</span></div>
+<div class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;      </span></div>
+<div class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 1 HALLMARK_… M5905 H      &quot;&quot;        ABCA1            Mus musculus       11303 Abca1      </span></div>
+<div class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 2 HALLMARK_… M5905 H      &quot;&quot;        ABCB8            Mus musculus       74610 Abcb8      </span></div>
+<div class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 3 HALLMARK_… M5905 H      &quot;&quot;        ACAA2            Mus musculus       52538 Acaa2      </span></div>
+<div class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 4 HALLMARK_… M5905 H      &quot;&quot;        ACADL            Mus musculus       11363 Acadl      </span></div>
+<div class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 5 HALLMARK_… M5905 H      &quot;&quot;        ACADM            Mus musculus       11364 Acadm      </span></div>
+<div class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 6 HALLMARK_… M5905 H      &quot;&quot;        ACADS            Mus musculus       11409 Acads      </span></div>
+<div class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; # ... with 1 more variable: sources &lt;chr&gt;</span></div></code></pre>
+<p>The gene sets data frame can also be manipulated manually.</p>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(gs_cat <span class="op">==</span><span class="st"> &quot;H&quot;</span>)</div></code></pre>
+</div>
+<div id="integrating-with-pathway-analysis-packages" class="section level2">
+<h2>Integrating with Pathway Analysis Packages</h2>
+<p>Use the gene sets data frame for <code>clusterProfiler</code> (for genes as Entrez Gene IDs).</p>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">m_t2g =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(gs_name, entrez_gene) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()</div>
+<div class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">enricher</span>(<span class="dt">gene =</span> genes_entrez, <span class="dt">TERM2GENE =</span> m_t2g, ...)</div></code></pre>
+<p>Use the gene sets data frame for <code>clusterProfiler</code> (for genes as gene symbols).</p>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">m_t2g =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(gs_name, gene_symbol) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()</div>
+<div class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">enricher</span>(<span class="dt">gene =</span> genes_symbols, <span class="dt">TERM2GENE =</span> m_t2g, ...)</div></code></pre>
+<p>Use the gene sets data frame for <code>fgsea</code>.</p>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">m_list =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">split</span>(<span class="dt">x =</span> .<span class="op">$</span>gene_symbol, <span class="dt">f =</span> .<span class="op">$</span>gs_name)</div>
+<div class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">fgsea</span>(<span class="dt">pathways =</span> m_list, ...)</div></code></pre>
+</div>
+<div id="questions-and-concerns" class="section level2">
+<h2>Questions and Concerns</h2>
+<p>Which version of MSigDB was used?</p>
+<blockquote>
+<p>This package was generated with MSigDB v6.1 (released October 2017). The MSigDB version is used as the base of the package version. You can check with <code>packageVersion(&quot;msigdbr&quot;)</code>.</p>
+</blockquote>
+<p>Can’t I just download the gene sets from MSigDB?</p>
+<blockquote>
+<p>Yes. You can then import the GMTs with something like <code>getGmt()</code> from the <code>GSEABase</code> package. Only human genes are available, even for gene sets generated with mouse data. If you are not working with human data, you then have to convert the MSigDB genes to your organism or your genes to human.</p>
+</blockquote>
+<p>Can’t I just convert between human and mouse genes by adjusting gene capitalization?</p>
+<blockquote>
+<p>That will work for most genes, but not all.</p>
+</blockquote>
+<p>Can’t I just convert human genes to any organism myself?</p>
+<blockquote>
+<p>Yes. A popular method is using the <code>biomaRt</code> package. You may still end up with dozens of homologs for some genes, so additional cleanup may be helpful.</p>
+</blockquote>
+<p>Aren’t there already other similar tools?</p>
+<blockquote>
+<p>There are a few other resources that and provide some of the functionality and served as an inspiration for this package. <a href="http://ge-lab.org/#/data">Ge Lab Gene Set Files</a> has GMT files for many species. According the log, it was last updated in 2013 (as of April 2018) so the gene sets may be outdated. <a href="http://bioinf.wehi.edu.au/software/MSigDB/">WEHI</a> provides MSigDB gene sets in R format for human and mouse, but the genes are provided only as Entrez IDs, each collection is a separate file, and the database is not actively maintained (last updated in October 2016 as of April 2018). <a href="https://github.com/stephenturner/msigdf">MSigDF</a> is based on the WEHI resource, so it provides the same data, but it is converted to a more tidyverse-friendly data frame.</p>
+</blockquote>
+</div>
+<div id="details" class="section level2">
+<h2>Details</h2>
+<p>The Molecular Signatures Database (MSigDB) is a collection of gene sets originally created for use with the Gene Set Enrichment Analysis (GSEA) software.</p>
+<p>Gene homologs are provided by HUGO Gene Nomenclature Committee at the European Bioinformatics Institute which integrates the orthology assertions predicted for human genes by eggNOG, Ensembl Compara, HGNC, HomoloGene, Inparanoid, NCBI Gene Orthology, OMA, OrthoDB, OrthoMCL, Panther, PhylomeDB, TreeFam and ZFIN. For each human equivalent within each species, only the ortholog supported by the largest number of databases is used.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

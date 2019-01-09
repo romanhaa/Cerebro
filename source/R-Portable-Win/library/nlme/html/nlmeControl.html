@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Control Values for nlme Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nlmeControl {nlme}"><tr><td>nlmeControl {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Control Values for nlme Fit</h2>
+
+<h3>Description</h3>
+
+<p>The values supplied in the function call replace the defaults and a
+list with all possible arguments is returned.  The returned list is
+used as the <code>control</code> argument to the <code>nlme</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nlmeControl(maxIter, pnlsMaxIter, msMaxIter, minScale,
+            tolerance, niterEM, pnlsTol, msTol,
+            returnObject, msVerbose, msWarnNoConv,
+            gradHess, apVar, .relStep, minAbsParApVar = 0.05,
+            opt = c("nlminb", "nlm"), natural = TRUE, sigma = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>maxIter</code></td>
+<td>
+<p>maximum number of iterations for the <code>nlme</code>
+optimization algorithm.  Default is 50.</p>
+</td></tr>
+<tr valign="top"><td><code>pnlsMaxIter</code></td>
+<td>
+<p>maximum number of iterations
+for the <code>PNLS</code> optimization step inside the <code>nlme</code>
+optimization.  Default is 7.</p>
+</td></tr>
+<tr valign="top"><td><code>msMaxIter</code></td>
+<td>
+<p>maximum number of iterations for <code><a href="../../stats/html/nlminb.html">nlminb</a></code>
+(<code>iter.max</code>) or the <code><a href="../../stats/html/nlm.html">nlm</a></code> (<code>iterlim</code>, from the
+10-th step) optimization step inside the <code>nlme</code>
+optimization.  Default is 50 (which may be too small for e.g. for
+overparametrized cases).</p>
+</td></tr>
+<tr valign="top"><td><code>minScale</code></td>
+<td>
+<p>minimum factor by which to shrink the default step size
+in an attempt to decrease the sum of squares in the <code>PNLS</code> step.
+Default <code>0.001</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>tolerance for the convergence criterion in the
+<code>nlme</code> algorithm.  Default is <code>1e-6</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>niterEM</code></td>
+<td>
+<p>number of iterations for the EM algorithm used to refine
+the initial estimates of the random effects variance-covariance
+coefficients.  Default is 25.</p>
+</td></tr>
+<tr valign="top"><td><code>pnlsTol</code></td>
+<td>
+<p>tolerance for the convergence criterion in <code>PNLS</code>
+step.  Default is <code>1e-3</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>msTol</code></td>
+<td>
+<p>tolerance for the convergence criterion in <code>nlm</code>,
+passed as the <code>gradtol</code> argument to the function (see
+documentation on <code>nlm</code>).  Default is <code>1e-7</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>returnObject</code></td>
+<td>
+<p>a logical value indicating whether the fitted
+object should be returned when the maximum number of iterations is
+reached without convergence of the algorithm.  Default is
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>msVerbose</code></td>
+<td>
+<p>a logical value passed as the <code>trace</code> to
+<code><a href="../../stats/html/nlminb.html">nlminb</a>(.., control= list(trace = *, ..))</code> or
+as argument <code>print.level</code> to <code><a href="../../stats/html/nlm.html">nlm</a>()</code>.  Default is
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>msWarnNoConv</code></td>
+<td>
+<p>logical indicating if a <code><a href="../../base/html/warning.html">warning</a></code>
+should be signalled whenever the minimization by (<code>opt</code>) in the
+LME step does not converge; defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>gradHess</code></td>
+<td>
+<p>a logical value indicating whether numerical gradient
+vectors and Hessian matrices of the log-likelihood function should
+be used in the <code>nlm</code> optimization. This option is only available
+when the correlation structure (<code>corStruct</code>) and the variance
+function structure (<code>varFunc</code>) have no &quot;varying&quot; parameters and
+the <code>pdMat</code> classes used in the random effects structure are
+<code>pdSymm</code> (general positive-definite), <code>pdDiag</code> (diagonal),
+<code>pdIdent</code> (multiple of the identity),  or
+<code>pdCompSymm</code> (compound symmetry).  Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>apVar</code></td>
+<td>
+<p>a logical value indicating whether the approximate
+covariance matrix of the variance-covariance parameters should be
+calculated.  Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.relStep</code></td>
+<td>
+<p>relative step for numerical derivatives
+calculations.  Default is <code>.Machine$double.eps^(1/3)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>minAbsParApVar</code></td>
+<td>
+<p>numeric value - minimum absolute parameter value
+in the approximate variance calculation.  The default is <code>0.05</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>opt</code></td>
+<td>
+<p>the optimizer to be used, either <code>"<a href="../../stats/html/nlminb.html">nlminb</a>"</code> (the
+default) or <code>"<a href="../../stats/html/nlm.html">nlm</a>"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>natural</code></td>
+<td>
+<p>a logical value indicating whether the <code>pdNatural</code>
+parametrization should be used for general positive-definite matrices
+(<code>pdSymm</code>) in <code>reStruct</code>, when the approximate covariance
+matrix of the estimators is calculated.  Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>optionally a positive number to fix the residual error at.
+If <code>NULL</code>, as by default, or <code>0</code>, sigma is estimated.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further, named control arguments to be passed to
+<code><a href="../../stats/html/nlminb.html">nlminb</a></code> (apart from <code>trace</code> and <code>iter.max</code>
+mentioned above), where used (<code>eval.max</code> and those from
+<code>abs.tol</code> down).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with components for each of the possible arguments.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a>; the
+<code>sigma</code> option: Siem Heisterkamp and Bert van Willigen.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="nlme.html">nlme</a></code>, <code><a href="../../stats/html/nlm.html">nlm</a></code>, <code><a href="../../stats/html/optim.html">optim</a></code>,
+<code><a href="nlmeStruct.html">nlmeStruct</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# decrease the maximum number iterations in the ms call and
+# request that information on the evolution of the ms iterations be printed
+nlmeControl(msMaxIter = 20, msVerbose = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

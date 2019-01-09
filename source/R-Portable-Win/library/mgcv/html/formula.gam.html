@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM formula</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for formula.gam {mgcv}"><tr><td>formula.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM formula</h2>
+
+<h3>Description</h3>
+
+<p> Description of <code><a href="gam.html">gam</a></code> formula (see Details), and how to extract it from a fitted <code>gam</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+formula(x,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> fitted model objects of class <code>gam</code> (see <code><a href="gamObject.html">gamObject</a></code>) as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>un-used in this case</p>
+</td></tr> 
+</table>
+
+
+<h3>Details</h3>
+
+ <p><code><a href="gam.html">gam</a></code> will accept a formula or, with some families, a list of formulae. 
+Other <code>mgcv</code> modelling functions will not accept a list. The list form provides a mechanism for 
+specifying several linear predictors, and allows these to share terms: see below.
+</p>
+<p>The formulae supplied to <code><a href="gam.html">gam</a></code> are exactly like those supplied to 
+<code><a href="../../stats/html/glm.html">glm</a></code> except that smooth terms, <code><a href="s.html">s</a></code>, <code><a href="te.html">te</a></code>, <code><a href="te.html">ti</a></code> and <code><a href="t2.html">t2</a></code> can
+be added to the right hand side (and <code>.</code> is not supported in <code>gam</code> formulae).
+</p>
+<p>Smooth terms are specified by expressions of the form: <br />
+<code>s(x1,x2,...,k=12,fx=FALSE,bs="tp",by=z,id=1)</code><br />
+where <code>x1</code>, <code>x2</code>, etc. are the covariates which the smooth
+is a function of, and <code>k</code> is the dimension of the basis used to
+represent the smooth term. If <code>k</code> is not
+specified then basis specific defaults are used. Note that these defaults are
+essentially arbitrary, and it  is important to check that they are not so 
+small that they cause oversmoothing (too large just slows down computation). 
+Sometimes the modelling context suggests sensible values for <code>k</code>, but if not
+informal checking is easy: see <code><a href="choose.k.html">choose.k</a></code> and <code><a href="gam.check.html">gam.check</a></code>.  
+</p>
+<p><code>fx</code> is used to indicate whether or not this term should be unpenalized, 
+and therefore have a fixed number of degrees of freedom set by <code>k</code> 
+(almost always <code>k-1</code>). <code>bs</code> indicates the basis to use for the smooth:
+the built in options are described in <code><a href="smooth.terms.html">smooth.terms</a></code>, and user defined 
+smooths can be added (see <code><a href="smooth.construct.html">user.defined.smooth</a></code>). If <code>bs</code> is not supplied 
+then the default <code>"tp"</code> (<code><a href="smooth.construct.tp.smooth.spec.html">tprs</a></code>) basis is used. 
+<code>by</code> can be used to specify a variable by which
+the smooth should be multiplied. For example <code>gam(y~s(x,by=z))</code>
+would specify a model <i>E(y)=f(x)z</i> where
+<i>f(.)</i> is a smooth function. The <code>by</code> 
+option is particularly useful for models in
+which different functions of the same variable are required for
+each level of a factor and for &lsquo;varying coefficient models&rsquo;: see <code><a href="gam.models.html">gam.models</a></code>. 
+<code>id</code> is used to give smooths identities: smooths with the same identity have
+the same basis, penalty and smoothing parameter (but different coefficients, so they are 
+different functions). 
+</p>
+<p>An alternative for specifying smooths of more than one covariate is e.g.: <br />
+<code>te(x,z,bs=c("tp","tp"),m=c(2,3),k=c(5,10))</code><br /> which would specify a tensor product 
+smooth of the two covariates <code>x</code> and <code>z</code> constructed from marginal t.p.r.s. bases 
+of dimension 5 and 10 with marginal penalties of order 2 and 3. Any combination of basis types is 
+possible, as is any number of covariates. <code><a href="te.html">te</a></code> provides further information. 
+<code><a href="te.html">ti</a></code> terms are a variant designed to be used as interaction terms when the main 
+effects (and any lower order interactions) are present. <code><a href="t2.html">t2</a></code> produces tensor product
+smooths that are the natural low rank analogue of smoothing spline anova models. 
+</p>
+<p><code>s</code>, <code>te</code>, <code>ti</code> and <code>t2</code> terms accept an <code>sp</code> argument of supplied smoothing parameters: positive 
+values are taken  as fixed values to be used, negative to indicate that the parameter should be estimated. If
+<code>sp</code> is supplied then it over-rides whatever is in the <code>sp</code> argument to <code>gam</code>, if it is not supplied 
+then it defaults to all negative, but does not over-ride the <code>sp</code> argument to <code>gam</code>.
+</p>
+<p>Formulae can involve nested or &ldquo;overlapping&rdquo; terms such as <br />
+<code>y~s(x)+s(z)+s(x,z)</code> or <code>y~s(x,z)+s(z,v)</code><br /> 
+but nested models should really be set up using <code><a href="te.html">ti</a></code> terms:
+see <code><a href="gam.side.html">gam.side</a></code> for further details and examples. 
+</p>
+<p>Smooth terms in a <code>gam</code> formula will accept matrix arguments as covariates (and corresponding <code>by</code> variable), 
+in which case a &lsquo;summation convention&rsquo; is invoked. Consider the example of <code>s(X,Z,by=L)</code> where <code>X</code>, <code>Z</code>
+and <code>L</code> are n by m matrices. Let <code>F</code> be the n by m matrix that results from evaluating the smooth at the values in 
+<code>X</code> and <code>Z</code>. Then the contribution to the linear predictor from the term will be
+<code>rowSums(F*L)</code> (note the element-wise multiplication). This convention allows the linear predictor of the GAM
+to depend on (a discrete approximation to) any linear functional of a smooth: see <code><a href="linear.functional.terms.html">linear.functional.terms</a></code> for more information and examples (including functional linear models/signal regression).
+</p>
+<p>Note that <code>gam</code> allows any term in the model formula to be penalized (possibly by multiple penalties), 
+via the <code>paraPen</code> argument. See <code><a href="gam.models.html">gam.models</a></code> for details and example code.
+</p>
+<p>When several formulae are provided in a list, then they can be used to specify multiple linear predictors 
+for families for which this makes sense (e.g. <code><a href="mvn.html">mvn</a></code>). The first formula in the list must include 
+a response variable, but later formulae need not (depending on the requirements of the family). Let the linear predictors 
+be indexed, 1 to d where d is the number of linear predictors, and the indexing is in the order in which the 
+formulae appear in the list. It is possible to supply extra formulae specifying that several linear predictors 
+should share some terms. To do this a formula is supplied in which the response is replaced by numbers specifying the 
+indices of the linear predictors which will shre the terms specified on the r.h.s. For example <code>1+3~s(x)+z-1</code> specifies that linear predictors 1 and 3 will share the terms <code>s(x)</code> and <code>z</code> (but we don't want an extra intercept, as this would usually be unidentifiable). Note that it is possible that a linear predictor only includes shared terms: it must still have its own formula, but the r.h.s. would simply be <code>-1</code> (e.g. <code>y ~ -1</code> or <code>~ -1</code>).  
+</p>
+
+
+<h3>Value</h3>
+
+<p> Returns the model formula, <code>x$formula</code>. Provided so that <code>anova</code> methods
+print an appropriate description of the model.
+</p>
+
+
+<h3>WARNING</h3>
+
+<p>A codegam formula should not refer to variables using e.g. <code>dat[["x"]]</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gam.html">gam</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

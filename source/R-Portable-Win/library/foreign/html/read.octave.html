@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read Octave Text Data Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.octave {foreign}"><tr><td>read.octave {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read Octave Text Data Files</h2>
+
+<h3>Description</h3>
+
+<p>Read a file in Octave text data format into a list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.octave(file)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>a character string with the name of the file to read.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is used to read in files in Octave text data format, as
+created by <code>save -text</code> in Octave.  It knows about most of the
+common types of variables, including the standard atomic (real and
+complex scalars, matrices, and <i>N</i>-d arrays, strings, ranges, and
+boolean scalars and matrices) and recursive (structs, cells, and
+lists) ones, but has no guarantee to read all types.  If a type is not
+recognized, a warning indicating the unknown type is issued, it is
+attempted to skip the unknown entry, and <code>NULL</code> is used as its
+value.  Note that this will give incorrect results, and maybe even
+errors, in the case of unknown recursive data types.
+</p>
+<p>As Octave can read MATLAB binary files, one can make the contents of
+such files available to R by using Octave's load and save (as text)
+facilities as an intermediary step.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with one named component for each variable in the file.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Stephen Eglen <a href="mailto:stephen@gnu.org">stephen@gnu.org</a> and Kurt Hornik</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.octave.org/">http://www.octave.org/</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

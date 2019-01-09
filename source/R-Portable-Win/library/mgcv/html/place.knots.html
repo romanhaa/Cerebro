@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Automatically place a set of knots evenly through covariate...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for place.knots {mgcv}"><tr><td>place.knots {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Automatically place a set of knots evenly through covariate values</h2>
+
+<h3>Description</h3>
+
+<p>Given a univariate array of covariate values, places a set of knots for a regression spline evenly through the 
+covariate values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre> place.knots(x,nk)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>array of covariate values (need not be sorted).</p>
+</td></tr> 
+<tr valign="top"><td><code>nk</code></td>
+<td>
+<p>integer indicating the required number of knots.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>Places knots evenly throughout a set of covariates. For example, if you had 11 covariate values and wanted 6 knots 
+then a knot would be placed at the first (sorted) covariate value and every second (sorted) value thereafter. With 
+less convenient numbers of data and knots the knots are placed within intervals between data in order to achieve 
+even coverage, where even means having approximately the same number of data between each pair of knots.</p>
+
+
+<h3>Value</h3>
+
+<p> An array of knot locations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="smooth.construct.cr.smooth.spec.html">smooth.construct.cc.smooth.spec</a></code>  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+x&lt;-runif(30)
+place.knots(x,7)
+rm(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fits a Trend Surface by Generalized Least-squares</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for surf.gls {spatial}"><tr><td>surf.gls {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fits a Trend Surface by Generalized Least-squares
+</h2>
+
+<h3>Description</h3>
+
+<p>Fits a trend surface by generalized least-squares.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+surf.gls(np, covmod, x, y, z, nx = 1000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>np</code></td>
+<td>
+
+<p>degree of polynomial surface
+</p>
+</td></tr>
+<tr valign="top"><td><code>covmod</code></td>
+<td>
+
+<p>function to evaluate covariance or correlation function
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>x coordinates or a data frame with columns <code>x</code>, <code>y</code>, <code>z</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>y coordinates
+</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+
+<p>z coordinates. Will supersede <code>x$z</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>nx</code></td>
+<td>
+
+<p>Number of bins for table of the covariance. Increasing adds accuracy,
+and increases size of the object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>parameters for <code>covmod</code>
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>beta</code></td>
+<td>
+
+<p>the coefficients
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+
+<p>and others for internal use only.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="trmat.html">trmat</a></code>, <code><a href="surf.ls.html">surf.ls</a></code>, <code><a href="prmat.html">prmat</a></code>, <code><a href="semat.html">semat</a></code>, <code><a href="expcov.html">expcov</a></code>, <code><a href="expcov.html">gaucov</a></code>, <code><a href="expcov.html">sphercov</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(MASS)  # for eqscplot
+data(topo, package="MASS")
+topo.kr &lt;- surf.gls(2, expcov, topo, d=0.7)
+trsurf &lt;- trmat(topo.kr, 0, 6.5, 0, 6.5, 50)
+eqscplot(trsurf, type = "n")
+contour(trsurf, add = TRUE)
+
+prsurf &lt;- prmat(topo.kr, 0, 6.5, 0, 6.5, 50)
+contour(prsurf, levels=seq(700, 925, 25))
+sesurf &lt;- semat(topo.kr, 0, 6.5, 0, 6.5, 30)
+eqscplot(sesurf, type = "n")
+contour(sesurf, levels = c(22, 25), add = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

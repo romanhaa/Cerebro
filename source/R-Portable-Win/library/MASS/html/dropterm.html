@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Try All One-Term Deletions from a Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dropterm {MASS}"><tr><td>dropterm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Try All One-Term Deletions from a Model
+</h2>
+
+<h3>Description</h3>
+
+<p>Try fitting all models that differ from the current model by dropping a
+single term, maintaining marginality.
+</p>
+<p>This function is generic; there exist methods for classes <code>lm</code> and
+<code>glm</code> and the default method will work for many other classes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dropterm (object, ...)
+
+## Default S3 method:
+dropterm(object, scope, scale = 0, test = c("none", "Chisq"),
+         k = 2, sorted = FALSE, trace = FALSE, ...)
+
+## S3 method for class 'lm'
+dropterm(object, scope, scale = 0, test = c("none", "Chisq", "F"),
+         k = 2, sorted = FALSE, ...)
+
+## S3 method for class 'glm'
+dropterm(object, scope, scale = 0, test = c("none", "Chisq", "F"),
+         k = 2, sorted = FALSE, trace = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>A object fitted by some model-fitting function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scope</code></td>
+<td>
+
+<p>a formula giving terms which might be dropped. By default, the
+model formula. Only terms that can be dropped and maintain marginality
+are actually tried.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+
+<p>used in the definition of the AIC statistic for selecting the models,
+currently only for <code>lm</code>, <code>aov</code> and <code>glm</code> models. Specifying <code>scale</code>
+asserts that the residual standard error or dispersion is known.
+</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+
+<p>should the results include a test statistic relative to the original
+model?  The F test is only appropriate for <code>lm</code> and <code>aov</code> models,
+and perhaps for some over-dispersed <code>glm</code> models. The
+Chisq test can be an exact test (<code>lm</code> models with known scale) or a
+likelihood-ratio test depending on the method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>the multiple of the number of degrees of freedom used for the penalty.
+Only <code>k = 2</code> gives the genuine AIC: <code>k = log(n)</code> is sometimes
+referred to as BIC or SBC.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sorted</code></td>
+<td>
+
+<p>should the results be sorted on the value of AIC?
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>if <code>TRUE</code> additional information may be given on the fits as they are tried.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The definition of AIC is only up to an additive constant: when
+appropriate (<code>lm</code> models with specified scale) the constant is taken
+to be that used in Mallows' Cp statistic and the results are labelled
+accordingly.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A table of class <code>"anova"</code> containing at least columns for the change
+in degrees of freedom and AIC (or Cp) for the models. Some methods
+will give further information, for example sums of squares, deviances,
+log-likelihoods and test statistics.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="addterm.html">addterm</a></code>, <code><a href="stepAIC.html">stepAIC</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+quine.hi &lt;- aov(log(Days + 2.5) ~ .^4, quine)
+quine.nxt &lt;- update(quine.hi, . ~ . - Eth:Sex:Age:Lrn)
+dropterm(quine.nxt, test=  "F")
+quine.stp &lt;- stepAIC(quine.nxt,
+    scope = list(upper = ~Eth*Sex*Age*Lrn, lower = ~1),
+    trace = FALSE)
+dropterm(quine.stp, test = "F")
+quine.3 &lt;- update(quine.stp, . ~ . - Eth:Age:Lrn)
+dropterm(quine.3, test = "F")
+quine.4 &lt;- update(quine.3, . ~ . - Eth:Age)
+dropterm(quine.4, test = "F")
+quine.5 &lt;- update(quine.4, . ~ . - Age:Lrn)
+dropterm(quine.5, test = "F")
+
+house.glm0 &lt;- glm(Freq ~ Infl*Type*Cont + Sat, family=poisson,
+                   data = housing)
+house.glm1 &lt;- update(house.glm0, . ~ . + Sat*(Infl+Type+Cont))
+dropterm(house.glm1, test = "Chisq")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

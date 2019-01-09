@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize a Generalized Least Squares 'gls' Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.gls {nlme}"><tr><td>summary.gls {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize a Generalized Least Squares <code>gls</code> Object</h2>
+
+<h3>Description</h3>
+
+<p>Additional information about the linear model fit represented
+by <code>object</code> is extracted and included as components of
+<code>object</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gls'
+summary(object, verbose, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="gls.html">gls</a>"</code>, representing
+a generalized least squares fitted linear model.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>an optional logical value used to control the amount of
+output when the object is printed. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object inheriting from class <code>summary.gls</code> with all components
+included in <code>object</code> (see <code><a href="glsObject.html">glsObject</a></code> for a full
+description of the components) plus the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>corBeta</code></td>
+<td>
+<p>approximate correlation matrix for the coefficients
+estimates</p>
+</td></tr>
+<tr valign="top"><td><code>tTable</code></td>
+<td>
+<p>a matrix with columns <code>Value</code>,
+<code>Std. Error</code>, <code>t-value</code>, and <code>p-value</code> representing
+respectively the coefficients estimates, their approximate standard
+errors, the ratios between the estimates and their standard errors,
+and the associated p-value under a <i>t</i> approximation.  Rows
+correspond to the different coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>if more than five observations are used in the
+<code>gls</code> fit, a vector with the minimum, first quartile, median, third
+quartile, and maximum of the residuals distribution; else the
+residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>AIC</code></td>
+<td>
+<p>the Akaike Information Criterion corresponding to
+<code>object</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>BIC</code></td>
+<td>
+<p>the Bayesian Information Criterion corresponding to
+<code>object</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/AIC.html">AIC</a></code>,
+<code><a href="../../stats/html/AIC.html">BIC</a></code>,
+<code><a href="gls.html">gls</a></code>,
+<code><a href="../../base/html/summary.html">summary</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- gls(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), Ovary,
+           correlation = corAR1(form = ~ 1 | Mare))
+summary(fm1)
+coef(summary(fm1)) # "the matrix"
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

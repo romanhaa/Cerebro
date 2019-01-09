@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute a Binned Kernel Density Estimate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bkde {KernSmooth}"><tr><td>bkde {KernSmooth}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute a Binned Kernel Density Estimate
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns x and y coordinates of the binned
+kernel density estimate of the probability
+density of the data.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bkde(x, kernel = "normal", canonical = FALSE, bandwidth,
+     gridsize = 401L, range.x, truncate = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>numeric vector of observations from the distribution whose density is to
+be estimated.  Missing values are not allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bandwidth</code></td>
+<td>
+
+<p>the kernel bandwidth smoothing parameter.  Larger values of
+<code>bandwidth</code> make smoother estimates, smaller values of
+<code>bandwidth</code> make less smooth estimates.  The default is a bandwidth
+computed from the variance of <code>x</code>, specifically the
+&lsquo;oversmoothed bandwidth selector&rsquo; of Wand and Jones
+(1995, page 61).
+</p>
+</td></tr>
+<tr valign="top"><td><code>kernel</code></td>
+<td>
+
+<p>character string which determines the smoothing kernel.
+<code>kernel</code> can be:
+<code>"normal"</code> - the Gaussian density function (the default).
+<code>"box"</code> - a rectangular box.
+<code>"epanech"</code> - the centred beta(2,2) density.
+<code>"biweight"</code> - the centred beta(3,3) density.
+<code>"triweight"</code> - the centred beta(4,4) density.
+This can be abbreviated to any unique abbreviation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>canonical</code></td>
+<td>
+
+<p>logical flag: if <code>TRUE</code>, canonically scaled kernels are used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>gridsize</code></td>
+<td>
+
+<p>the number of equally spaced points at which to estimate
+the density.
+</p>
+</td></tr>
+<tr valign="top"><td><code>range.x</code></td>
+<td>
+
+<p>vector containing the minimum and maximum values of <code>x</code>
+at which to compute the estimate.
+The default is the minimum and maximum data values, extended by the
+support of the kernel.
+</p>
+</td></tr>
+<tr valign="top"><td><code>truncate</code></td>
+<td>
+
+<p>logical flag: if <code>TRUE</code>, data with <code>x</code> values outside the
+range specified by <code>range.x</code> are ignored.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This is the binned approximation to the ordinary kernel density estimate.
+Linear binning is used to obtain the bin counts.  
+For each <code>x</code> value in the sample, the kernel is
+centered on that <code>x</code> and the heights of the kernel at each datapoint are summed.
+This sum, after a normalization, is the corresponding <code>y</code> value in the output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>vector of sorted <code>x</code> values at which the estimate was computed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>vector of density estimates
+at the corresponding <code>x</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Background</h3>
+
+<p>Density estimation is a smoothing operation.
+Inevitably there is a trade-off between bias in the estimate and the
+estimate's variability: large bandwidths will produce smooth estimates that
+may hide local features of the density; small bandwidths may introduce
+spurious bumps into the estimate.
+</p>
+
+
+<h3>References</h3>
+
+<p>Wand, M. P. and Jones, M. C. (1995).
+<em>Kernel Smoothing.</em>
+Chapman and Hall, London.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/density.html">density</a></code>, <code><a href="dpik.html">dpik</a></code>, <code><a href="../../graphics/html/hist.html">hist</a></code>,
+<code><a href="../../stats/html/ksmooth.html">ksmooth</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(geyser, package="MASS")
+x &lt;- geyser$duration
+est &lt;- bkde(x, bandwidth=0.25)
+plot(est, type="l")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>KernSmooth</em> version 2.23-15 <a href="00Index.html">Index</a>]</div>
+</body></html>

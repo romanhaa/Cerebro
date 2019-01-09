@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: k-Nearest Neighbour Classification</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for knn {class}"><tr><td>knn {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+k-Nearest Neighbour Classification
+</h2>
+
+<h3>Description</h3>
+
+<p>k-nearest neighbour classification for test set from training set. For
+each row of the test set, the <code>k</code> nearest (in Euclidean distance)
+training set vectors are found, and the classification is decided by
+majority vote, with ties broken at random. If there are ties for the
+<code>k</code>th nearest vector, all candidates are included in the vote.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+knn(train, test, cl, k = 1, l = 0, prob = FALSE, use.all = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>train</code></td>
+<td>
+
+<p>matrix or data frame of training set cases.
+</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+
+<p>matrix or data frame of test set cases. A vector will be interpreted
+as a row vector for a single case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+
+<p>factor of true classifications of training set
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>number of neighbours considered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>l</code></td>
+<td>
+
+<p>minimum vote for definite decision, otherwise <code>doubt</code>. (More
+precisely, less than <code>k-l</code> dissenting votes are allowed, even if <code>k</code>
+is increased by ties.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+
+<p>If this is true, the proportion of the votes for the winning class
+are returned as attribute <code>prob</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.all</code></td>
+<td>
+
+<p>controls handling of ties. If true, all distances equal to the <code>k</code>th
+largest are included. If false, a random selection of distances
+equal to the <code>k</code>th is chosen to use exactly <code>k</code> neighbours.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>Factor of classifications of test set. <code>doubt</code> will be returned as <code>NA</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="knn1.html">knn1</a></code>, <code><a href="knn.cv.html">knn.cv</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+train &lt;- rbind(iris3[1:25,,1], iris3[1:25,,2], iris3[1:25,,3])
+test &lt;- rbind(iris3[26:50,,1], iris3[26:50,,2], iris3[26:50,,3])
+cl &lt;- factor(c(rep("s",25), rep("c",25), rep("v",25)))
+knn(train, test, cl, k = 3, prob=TRUE)
+attributes(.Last.value)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

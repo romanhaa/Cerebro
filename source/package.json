@@ -1,0 +1,24 @@
+{
+  "name": "scBrowser",
+  "productName": "scBrowser",
+  "description": "scBrowser",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64  --out=App --icon=icon.icns",
+    "package-win": "electron-packager . --overwrite --platform=win32  --arch=ia32 --out=App --icon=icon.ico",
+    "package-linux": "electron-packager . --overwrite --platform=linux  --arch=x64  --out=App --icon=icon.png --prune=true"
+  },
+  "repository": "https://github.com/romanhaa/cerebro",
+  "keywords": "",
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.11"
+  },
+  "dependencies": {
+    "electron-log": "^2.2.17",
+    "menu": "^0.2.5"
+  }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write a DBF File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for write.dbf {foreign}"><tr><td>write.dbf {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write a DBF File</h2>
+
+<h3>Description</h3>
+
+<p>The function tries to write a data frame to a DBF file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+write.dbf(dataframe, file, factor2char = TRUE, max_nchar = 254)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dataframe</code></td>
+<td>
+<p>a data frame object.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>a file name to be written to.</p>
+</td></tr>
+<tr valign="top"><td><code>factor2char</code></td>
+<td>
+<p>logical, default <code>TRUE</code>, convert factor columns to
+character: otherwise they are written as the internal integer codes.</p>
+</td></tr>
+<tr valign="top"><td><code>max_nchar</code></td>
+<td>
+<p>The maximum number of characters allowed in a
+character field.  Strings which exceed this will be truncated with a
+warning.  See Details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Dots in column names are replaced by underlines in the DBF file, and
+names are truncated to 11 characters.
+</p>
+<p>Only vector columns of classes <code>"logical"</code>, <code>"numeric"</code>,
+<code>"integer"</code>, <code>"character"</code>, <code>"factor"</code> and
+<code>"Date"</code> can be written.  Other columns should be converted to
+one of these.
+</p>
+<p>Maximum precision (number of digits including minus sign and decimal
+sign) for numeric is 19 - scale (digits after the decimal sign) which is
+calculated internally based on the number of digits before the decimal
+sign.
+</p>
+<p>The original DBASE format limited character fields to 254 bytes.
+It is said that Clipper and FoxPro can read up to 32K, and it is
+possible to write a reader that could accept up to 65535 bytes.
+(The documentation suggests that only ASCII characters can be assumed
+to be supported.)  Readers expecting the older standard (which
+includes Excel 2003, Access 2003 and OpenOffice 2.0) will truncate the
+field to the maximum width modulo 256, so increase <code>max_nchar</code>
+only if you are sure the intended reader supports wider character fields.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisible <code>NULL</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Other applications have varying abilities to read the data types used
+here.  Microsoft Access reads <code>"numeric"</code>, <code>"integer"</code>,
+<code>"character"</code> and <code>"Date"</code> fields, including recognizing
+missing values, but not <code>"logical"</code> (read as <code>0,-1</code>).
+Microsoft Excel understood all possible types but did not interpret missing
+values in character fields correctly (showing them as character nuls).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Nicholas J. Lewin-Koh, modified by Roger Bivand and Brian Ripley;
+shapelib by Frank Warmerdam.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://shapelib.maptools.org/">http://shapelib.maptools.org/</a>
+</p>
+<p><a href="http://www.clicketyclick.dk/databases/xbase/format/data_types.html">http://www.clicketyclick.dk/databases/xbase/format/data_types.html</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="read.dbf.html">read.dbf</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+str(warpbreaks)
+try1 &lt;- paste(tempfile(), ".dbf", sep = "")
+write.dbf(warpbreaks, try1, factor2char = FALSE)
+in1 &lt;- read.dbf(try1)
+str(in1)
+try2 &lt;- paste(tempfile(), ".dbf", sep = "")
+write.dbf(warpbreaks, try2, factor2char = TRUE)
+in2 &lt;- read.dbf(try2)
+str(in2)
+unlink(c(try1, try2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

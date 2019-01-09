@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Regression diagnostics for trend surfaces</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for trls.influence {spatial}"><tr><td>trls.influence {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Regression diagnostics for trend surfaces
+</h2>
+
+<h3>Description</h3>
+
+<p>This function provides the basic quantities which are used in
+forming a variety of diagnostics for checking the quality of
+regression fits for trend surfaces calculated by <code>surf.ls</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trls.influence(object)
+## S3 method for class 'trls'
+plot(x, border = "red", col = NA, pch = 4, cex = 0.6,
+     add = FALSE, div = 8, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object, x</code></td>
+<td>
+
+<p>Fitted trend surface model from <code>surf.ls</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>div</code></td>
+<td>
+
+<p>scaling factor for influence circle radii in <code>plot.trls</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+
+<p>add influence plot to existing graphics if <code>TRUE</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>border, col, pch, cex, ...</code></td>
+<td>
+
+<p>additional graphical parameters
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>trls.influence</code> returns a list with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>raw residuals as given by <code>residuals.trls</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>hii</code></td>
+<td>
+
+<p>diagonal elements of the Hat matrix
+</p>
+</td></tr>
+<tr valign="top"><td><code>stresid</code></td>
+<td>
+
+<p>standardised residuals
+</p>
+</td></tr>
+<tr valign="top"><td><code>Di</code></td>
+<td>
+
+<p>Cook's statistic
+</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Unwin, D. J., Wrigley, N. (1987) Towards a general-theory of
+control point distribution effects in trend surface models.
+<em>Computers and Geosciences,</em> <b>13</b>, 351&ndash;355.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="surf.ls.html">surf.ls</a></code>, <code><a href="../../stats/html/influence.measures.html">influence.measures</a></code>, <code><a href="../../stats/html/plot.lm.html">plot.lm</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(MASS)  # for eqscplot
+data(topo, package = "MASS")
+topo2 &lt;- surf.ls(2, topo)
+infl.topo2 &lt;- trls.influence(topo2)
+(cand &lt;- as.data.frame(infl.topo2)[abs(infl.topo2$stresid) &gt; 1.5, ])
+cand.xy &lt;- topo[as.integer(rownames(cand)), c("x", "y")]
+trsurf &lt;- trmat(topo2, 0, 6.5, 0, 6.5, 50)
+eqscplot(trsurf, type = "n")
+contour(trsurf, add = TRUE, col = "grey")
+plot(topo2, add = TRUE, div = 3)
+points(cand.xy, pch = 16, col = "orange")
+text(cand.xy, labels = rownames(cand.xy), pos = 4, offset = 0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

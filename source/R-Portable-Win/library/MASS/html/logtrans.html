@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Estimate log Transformation Parameter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for logtrans {MASS}"><tr><td>logtrans {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Estimate log Transformation Parameter
+</h2>
+
+<h3>Description</h3>
+
+<p>Find and optionally plot the marginal (profile) likelihood for alpha
+for a transformation model of the form <code>log(y + alpha) ~ x1 + x2 + ...</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+logtrans(object, ...)
+
+## Default S3 method:
+logtrans(object, ..., alpha = seq(0.5, 6, by = 0.25) - min(y),
+         plotit = TRUE, interp =, xlab = "alpha",
+         ylab = "log Likelihood")
+
+## S3 method for class 'formula'
+logtrans(object, data, ...)
+
+## S3 method for class 'lm'
+logtrans(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>Fitted linear model object, or formula defining the untransformed
+model that is <code>y ~ x1 + x2 + ...</code>.  The function is generic.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>If <code>object</code> is a formula, this argument may specify a data frame
+as for <code>lm</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+
+<p>Set of values for the transformation parameter, alpha.
+</p>
+</td></tr>
+<tr valign="top"><td><code>plotit</code></td>
+<td>
+
+<p>Should plotting be done?
+</p>
+</td></tr>
+<tr valign="top"><td><code>interp</code></td>
+<td>
+
+<p>Should the marginal log-likelihood be interpolated with a spline
+approximation?   (Default is <code>TRUE</code> if plotting is to be done and
+the number of real points is less than 100.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>as for <code>plot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+<p>as for <code>plot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>optional <code>data</code> argument for <code>lm</code> fit.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>List with components <code>x</code> (for alpha) and <code>y</code> (for the marginal
+log-likelihood values).
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>A plot of the marginal log-likelihood is produced, if requested,
+together with an approximate mle and 95% confidence interval.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boxcox.html">boxcox</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+logtrans(Days ~ Age*Sex*Eth*Lrn, data = quine,
+         alpha = seq(0.75, 6.5, len=20))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

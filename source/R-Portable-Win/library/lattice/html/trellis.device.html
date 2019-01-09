@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initializing Trellis Displays</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for C_01_trellis.device {lattice}"><tr><td>C_01_trellis.device {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Initializing Trellis Displays </h2>
+
+<h3>Description</h3>
+
+<p>Initialization of a display device with appropriate graphical
+parameters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trellis.device(device = getOption("device"),
+               color = !(dev.name == "postscript"),
+               theme = lattice.getOption("default.theme"),
+               new = TRUE,
+               retain = FALSE,
+               ...)
+
+standard.theme(name, color)
+canonical.theme(name, color)
+col.whitebg()
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>device</code></td>
+<td>
+<p> function (or the name of one as a character string)
+that starts a device.  Admissible values depend on the platform and
+how <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> was compiled (see <code><a href="../../grDevices/html/Devices.html">Devices</a></code>), but usually
+<code>"pdf"</code>, <code>"postscript"</code>, <code>"png"</code>, <code>"jpeg"</code> and
+at least one of <code>"X11"</code>, <code>"windows"</code> and <code>"quartz"</code>
+will be available.
+</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p> logical, whether the initial settings should be color or
+black and white.  Defaults to <code>FALSE</code> for postscript devices,
+<code>TRUE</code> otherwise.  Note that this only applies to the initial
+choice of colors, which can be overridden using <code>theme</code> or
+subsequent calls to <code><a href="trellis.par.get.html">trellis.par.set</a></code> (and by arguments
+supplied directly in high level calls for some settings).
+</p>
+</td></tr>
+<tr valign="top"><td><code>theme</code></td>
+<td>
+<p> list of components that changes the settings of the
+device opened, or, a function that when called produces such a
+list.  The function name can be supplied as a quoted string.  These
+settings are only used to modify the default settings (determined by
+other arguments), and need not contain all possible parameters.
+</p>
+<p>A possible use of this argument is to change the default settings by 
+specifying <code>lattice.options(default.theme = "col.whitebg")</code>. 
+For back-compatibility, this is initially (when lattice is loaded)
+set to <code>getOption(lattice.theme)</code>.
+</p>
+<p>If <code>theme</code> is a function, it will not be supplied any
+arguments, however, it is guaranteed that a device will already be
+open when it is called, so one may use <code>.Device</code> inside the
+function to ascertain what device has been opened.
+</p>
+</td></tr>
+<tr valign="top"><td><code>new</code></td>
+<td>
+<p> logical flag indicating whether a new device should be
+started.  If <code>FALSE</code>, the options for the current device are
+changed to the defaults determined by the other arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>retain</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code> and a setting for this device already
+exists, then that is used instead of the defaults for this
+device. By default, pre-existing settings are overwritten (and
+lost).
+</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p> name of the device for which the setting is required, as
+returned by <code>.Device</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional parameters to be passed to the <code>device</code>
+function, most commonly <code>file</code> for non-screen devices, as well
+as <code>height</code>, <code>width</code>, etc.  See the help file for
+individual devices for admissible arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Trellis Graphics functions obtain the default values of various
+graphical parameters (colors, line types, fonts, etc.) from a
+customizable &ldquo;settings&rdquo; list.  This functionality is analogous
+to <code><a href="../../graphics/html/par.html">par</a></code> for standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> graphics and, together with
+<code><a href="lattice.options.html">lattice.options</a></code>, mostly supplants it (<code><a href="../../graphics/html/par.html">par</a></code>
+settings are mostly ignored by Lattice).  Unlike <code><a href="../../graphics/html/par.html">par</a></code>,
+Trellis settings can be controlled separately for each different
+device type (but not concurrently for different instances of the same
+device).  <code>standard.theme</code> and <code>col.whitebg</code> produce
+predefined settings (a.k.a. themes), while <code>trellis.device</code>
+provides a high level interface to control which &ldquo;theme&rdquo; will
+be in effect when a new device is opened.  <code>trellis.device</code> is
+called automatically when a <code>"trellis"</code> object is plotted, and
+the defaults can be used to provide sufficient control, so in a
+properly configured system it is rarely necessary for the user to call
+<code>trellis.device</code> explicitly.
+</p>
+<p>The <code>standard.theme</code> function is intended to provide device
+specific settings (e.g. light colors on a grey background for screen
+devices, dark colors or black and white for print devices) which were
+used as defaults prior to <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> 2.3.0.  However, these defaults are not
+always appropriate, due to the variety of platforms and hardware
+settings on which <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> is used, as well as the fact that a plot created
+on a particular device may be subsequently used in many different
+ways.  For this reason, a &ldquo;safe&rdquo; default is used for all
+devices from <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> 2.3.0 onwards.  The old behaviour can be reinstated by
+setting <code>standard.theme</code> as the default <code>theme</code> argument,
+e.g. by putting <code>lattice.options(default.theme =
+  "standard.theme")</code> in a startup script (see the entry for <code>theme</code>
+above for details).
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>standard.theme</code> returns a list of components defining graphical
+parameter settings for Lattice displays. It is used internally in
+<code>trellis.device</code>, and can also be used as the <code>theme</code>
+argument to <code>trellis.par.set</code>, or even as <code>theme</code> in
+<code>trellis.device</code> to use the defaults for another device.
+<code>canonical.theme</code> is an alias for <code>standard.theme</code>.
+</p>
+<p><code>col.whitebg</code> returns a similar (but smaller) list that is
+suitable as the <code>theme</code> argument to <code>trellis.device</code> and
+<code><a href="trellis.par.get.html">trellis.par.set</a></code>.  It contains settings values which
+provide colors suitable for plotting on a white background.  Note that
+the name <code>col.whitebg</code> is somewhat of a misnomer, since it
+actually sets the background to transparent rather than white.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Earlier versions of <code>trellis.device</code> had a <code>bg</code> argument to
+set the background color, but this is no longer supported.  If
+supplied, the <code>bg</code> argument will be passed on to the device
+function; however, this will have no effect on the Trellis settings.
+It is rarely meaningful to change the background alone; if you feel
+the need to change the background, consider using the <code>theme</code>
+argument instead.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Sarkar, Deepayan (2008) <em>Lattice: Multivariate Data
+Visualization with R</em>, Springer.
+<a href="http://lmdvr.r-forge.r-project.org/">http://lmdvr.r-forge.r-project.org/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code> for an overview of the <code>lattice</code> package.
+</p>
+<p><code><a href="../../grDevices/html/Devices.html">Devices</a></code> for valid choices of <code>device</code> on your
+platform.
+</p>
+<p><code><a href="trellis.par.get.html">trellis.par.get</a></code> and <code><a href="trellis.par.get.html">trellis.par.set</a></code> can be
+used to query and modify the settings <em>after</em> a device has been
+initialized.  The <code>par.settings</code> argument to high level
+functions, described in <code><a href="xyplot.html">xyplot</a></code>, can be used to attach
+transient settings to a <code>"trellis"</code> object.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute Expected Survival</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survexp.fit {survival}"><tr><td>survexp.fit {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute Expected Survival 
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute expected survival times. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+survexp.fit(group, x, y, times, death, ratetable)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>if there are multiple survival curves this identifies the group,
+otherwise it is a constant.  Must be an integer.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix whose columns match the dimensions of the <code>ratetable</code>, 
+in the correct order. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>the follow up time for each subject. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>times</code></td>
+<td>
+
+<p>the vector of times at which a result will be computed. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>death</code></td>
+<td>
+
+<p>a logical value, if <code>TRUE</code> the conditional survival is computed, 
+if <code>FALSE</code> the cohort survival is computed. See
+<code><a href="survexp.html">survexp</a></code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ratetable</code></td>
+<td>
+
+<p>a rate table, such as <code>survexp.uswhite</code>. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For conditional survival <code>y</code> must be the time of last follow-up or death for 
+each subject. 
+For cohort survival it must be the potential censoring time for 
+each subject, ignoring death. 
+</p>
+<p>For an exact estimate <code>times</code> should be a superset of <code>y</code>, so that each 
+subject at risk is at risk for the entire sub-interval of time. 
+For a large data set, however, this can use an inordinate amount of 
+storage and/or compute time.  If the <code>times</code> spacing is more coarse than 
+this, an actuarial approximation is used which should, however, be extremely 
+accurate as long as all of the returned values are &gt; .99. 
+</p>
+<p>For a subgroup of size 1 and <code>times</code> &gt; <code>y</code>, 
+the conditional method reduces to exp(-h) where 
+h is the expected cumulative hazard for the subject over his/her 
+observation time.  This is used to compute individual expected survival. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the number of subjects and the expected survival(s) 
+at each time point. 
+If there are multiple groups, these will be 
+matrices with one column per group. 
+</p>
+
+
+<h3>Warning</h3>
+
+<p>Most users will call the higher level routine <code>survexp</code>. 
+Consequently, this function has very few error checks on its input arguments. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="survexp.html">survexp</a></code>,  <code><a href="survexp.us.html">survexp.us</a></code>.   
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

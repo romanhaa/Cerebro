@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model.matrix method for coxph models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for model.matrix.coxph {survival}"><tr><td>model.matrix.coxph {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Model.matrix method for coxph models
+</h2>
+
+<h3>Description</h3>
+
+<p>Reconstruct the model matrix for a cox model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'coxph'
+model.matrix(object, data=NULL, contrast.arg =
+ object$contrasts, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>the result of a <code>coxph</code> model</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional, a data frame from which to obtain the data</p>
+</td></tr>
+<tr valign="top"><td><code>contrast.arg</code></td>
+<td>
+<p>optional, a contrasts object describing how
+factors should be coded</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other possible argument to <code>model.frame</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When there is a <code>data</code> argument this function differs from most
+of the other <code>model.matrix</code> methods in that the response variable
+for the original formula is <em>not</em> required to be in the data.
+</p>
+<p>If the data frame contains a <code>terms</code> attribute then it is
+assumed to be the result of a call to <code>model.frame</code>, otherwise
+a call to <code>model.frame</code> is applied with the data as an argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The model matrix for the fit
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/model.matrix.html">model.matrix</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit1 &lt;- coxph(Surv(time, status) ~ age + factor(ph.ecog), data=lung)
+xfit &lt;- model.matrix(fit1)
+
+fit2 &lt;- coxph(Surv(time, status) ~ age + factor(ph.ecog), data=lung,
+                                 x=TRUE)
+all.equal(model.matrix(fit1), fit2$x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

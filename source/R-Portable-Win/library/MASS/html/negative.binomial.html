@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Family function for Negative Binomial GLMs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for negative.binomial {MASS}"><tr><td>negative.binomial {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Family function for Negative Binomial GLMs
+</h2>
+
+<h3>Description</h3>
+
+<p>Specifies the information required to fit a Negative Binomial generalized
+linear model, with known <code>theta</code> parameter, using <code>glm()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+negative.binomial(theta = stop("'theta' must be specified"), link = "log")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+
+<p>The known value of the additional parameter, <code>theta</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+
+<p>The link function, as a character string, name or one-element
+character vector specifying one of <code>log</code>, <code>sqrt</code>
+or <code>identity</code>, or an object of class
+<code>"<a href="../../stats/html/family.html">link-glm</a>"</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"family"</code>, a list of functions and
+expressions needed by <code>glm()</code> to fit a Negative Binomial
+generalized linear model.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (1999)
+<em>Modern Applied Statistics with S-PLUS.</em> Third
+Edition. Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="glm.nb.html">glm.nb</a></code>, <code><a href="anova.negbin.html">anova.negbin</a></code>,
+<code><a href="summary.negbin.html">summary.negbin</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Fitting a Negative Binomial model to the quine data
+#   with theta = 2 assumed known.
+#
+glm(Days ~ .^4, family = negative.binomial(2), data = quine)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

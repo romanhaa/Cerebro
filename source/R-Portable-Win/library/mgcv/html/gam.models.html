@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Specifying generalized additive models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.models {mgcv}"><tr><td>gam.models {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Specifying generalized additive models</h2>
+
+<h3>Description</h3>
+
+<p> This page is intended to provide some more information on
+how to specify GAMs. A GAM is a GLM in which the linear predictor depends, 
+in part, on a sum of smooth functions of predictors and (possibly) linear 
+functionals of smooth functions of (possibly dummy) predictors.
+</p>
+<p>Specifically let <i>y_i</i> denote an independent random variable 
+with mean <i>mu_i</i> and an exponential family distribution, or failing 
+that a known mean variance relationship suitable for use of quasi-likelihood methods. 
+Then the the linear predictor of a GAM has a structure something like
+</p>
+<p style="text-align: center;"><i>g(mu_i)=X_i b + f_1(x_1i,x_2i) + f_2(x_3i) + L_i f_3(x_4) + ...</i></p>
+
+<p>where <i>g</i> is a known smooth monotonic &lsquo;link&rsquo; function, <i>X_i b</i> 
+is the parametric part of the linear predictor, the <i>x_j</i> are predictor variables,
+the <i>f_j</i> are smooth functions and <i>L_i</i> is some linear functional of 
+<i>f_3</i>. There may of course be multiple linear functional terms, or none.
+</p>
+<p>The key idea here is that the
+dependence of the response on the predictors can be represented as a
+parametric sub-model plus the sum of some (functionals of) smooth functions of one or
+more of the predictor variables. Thus the model is quite flexible
+relative to strictly parametric linear or generalized linear models,
+but still has much more structure than the completely general model
+that says that the response is just some smooth function of all the
+covariates.
+</p>
+<p>Note one important point. In order for the model to be identifiable
+the smooth functions usually have to be constrained to have zero mean (usually
+taken over the set of covariate values). The constraint is needed if the term involving the 
+smooth includes a constant function in its span. <code>gam</code> always applies such constraints 
+unless there is a <code>by</code> variable present, in which case an assessment is made of whether 
+the constraint is needed or not (see below).
+</p>
+<p>The following sections discuss specifying model structures for <code>gam</code>. 
+Specification of the distribution and link function is done using the <code><a href="../../stats/html/family.html">family</a></code> 
+argument to <code><a href="gam.html">gam</a></code> and works in the same way as for <code><a href="../../stats/html/glm.html">glm</a></code>. 
+This page therefore concentrates on the model formula for <code>gam</code>.
+</p>
+
+
+<h3>Models with simple smooth terms</h3>
+
+<p>Consider the example model.
+</p>
+<p style="text-align: center;"><i> g(mu_i) = b_0 + b_1 x_1i + b_2 x_2i + f1(x_3i) + f2(x_4i,x_5i)</i></p>
+
+<p>where the response variables <i>y_i</i> has expectation <i>mu_i</i>
+and <i>g</i> is a link function.
+</p>
+<p>The <code>gam</code> formula for this would be <br />
+<code>y ~ x1 + x2 + s(x3) + s(x4,x5)</code>. <br />
+This would use the default basis for the smooths (a thin plate
+regression spline basis for each), with automatic selection of the
+effective degrees of freedom for both smooths. The dimension of the
+smoothing basis is given a default value as well (the dimension of the
+basis sets an upper limit on the maximum possible degrees of
+freedom for the basis - the limit is typically one less than basis
+dimension). Full details of how to control smooths are given in
+<code><a href="s.html">s</a></code> and <code><a href="te.html">te</a></code>, and further discussion of basis
+dimension choice can be found in <code><a href="choose.k.html">choose.k</a></code>. 
+For the moment suppose that we would like to change
+the basis of the first smooth to a cubic regression spline basis with
+a dimension of 20, while fixing the second term at 25 degrees of
+freedom. The appropriate formula would be:<br />
+<code>y ~ x1 + x2 + s(x3,bs="cr",k=20) + s(x4,x5,k=26,fx=TRUE)</code>.
+</p>
+<p>The above assumes that <i>x_4</i> and <i>x_5</i> are naturally on 
+similar scales (e.g. they might be co-ordinates), so that isotropic smoothing 
+is appropriate. If this assumption is false then tensor product smoothing might be 
+better (see <code><a href="te.html">te</a></code>). <br />
+<code>y ~ x1 + x2 + s(x3) + te(x4,x5)</code><br />
+would generate a tensor product smooth of <i>x_4</i> and <i>x_5</i>. 
+By default this smooth would have basis dimension 25 and use cubic regression spline marginals. 
+Varying the defaults is easy. For example<br />
+<code>y ~ x1 + x2 + s(x3) + te(x4,x5,bs=c("cr","ps"),k=c(6,7))</code><br />
+specifies that the tensor product should use a rank 6 cubic regression spline marginal
+and a rank 7 P-spline marginal to create a smooth with basis dimension 42.
+</p>
+
+
+<h3>Nested terms/functional ANOVA</h3>
+
+<p>Sometimes it is interesting to specify smooth models with a main effects + interaction structure such as 
+</p>
+<p style="text-align: center;"><i>E(y) = f1 (x) + f2(z) + f3(x,z)</i></p>
+
+<p>or
+</p>
+<p style="text-align: center;"><i>
+ E(y) = f1(x) + f2(z) + f3(v) + f4(x,z) + f5(z,v) + f6(z,v) + f7(x,z,v)</i></p>
+
+<p>for example. Such models should be set up using <code><a href="te.html">ti</a></code> terms in the model formula. For example: <br />
+<code>y ~ ti(x) + ti(z) + ti(x,z)</code>, or<br />
+<code>y ~ ti(x) + ti(z) + ti(v) + ti(x,z) + ti(x,v) + ti(z,v)+ti(x,z,v)</code>. <br />
+The <code>ti</code> terms produce interactions with the component main effects excluded appropriately. (There is in fact no need to use <code>ti</code> terms for the main effects here, <code>s</code> terms could also be used.)
+</p>
+<p><code>gam</code> allows nesting (or &lsquo;overlap&rsquo;) of <code>te</code> and <code>s</code> smooths, and automatically generates side conditions to 
+make such models identifiable, but the resulting models are much less stable and interpretable than those constructed using <code>ti</code> terms. 
+</p>
+
+
+<h3>&lsquo;by&rsquo; variables</h3>
+
+<p><code>by</code> variables are the means for constructing &lsquo;varying-coefficient models&rsquo; (geographic regression models) and 
+for letting smooths &lsquo;interact&rsquo; with factors or parametric terms. They are also the key to specifying general linear 
+functionals of smooths.
+</p>
+<p>The <code><a href="s.html">s</a></code> and <code><a href="te.html">te</a></code> terms used to specify smooths accept an argument <code>by</code>, 
+which is a numeric or factor variable of the same dimension as the covariates of the smooth. 
+If a <code>by</code> variable is numeric, then its <i>ith</i> element multiples the  <i>ith</i>
+row of the model matrix corresponding to the smooth term concerned. 
+</p>
+<p>Factor smooth interactions (see also <code><a href="smooth.construct.fs.smooth.spec.html">factor.smooth.interaction</a></code>).
+If a <code>by</code> variable is a <code><a href="../../base/html/factor.html">factor</a></code> then it 
+generates an indicator vector for each level 
+of the factor, unless it is an <code><a href="../../base/html/factor.html">ordered</a></code> factor.
+In the non-ordered case, the model matrix for the smooth term is then replicated for each factor level,
+and each copy has its rows multiplied by the corresponding rows of its
+indicator variable. The smoothness penalties are also duplicated for each
+factor level.  In short a different smooth is generated
+for each factor level (the <code>id</code> argument to <code><a href="s.html">s</a></code> and <code><a href="te.html">te</a></code> can be used to force all 
+such smooths to have the same smoothing parameter). <code><a href="../../base/html/factor.html">ordered</a></code> <code>by</code> variables are handled in the same 
+way, except that no smooth is generated for the first level of the ordered factor (see <code>b3</code> example below). 
+This is useful for setting up 
+identifiable models when the same smooth occurs more than once in a model, with different factor <code>by</code> variables.
+</p>
+<p>As an example, consider the model
+</p>
+<p style="text-align: center;"><i>E(y_i) = b_0 + f(x_i)z_i</i></p>
+
+<p>where <i>f</i> is a smooth function, and <i>z_i</i> is a numeric variable.
+The appropriate formula is:<br />
+<code>y ~ s(x,by=z)</code><br />
+- the <code>by</code> argument ensures that the smooth function gets multiplied by
+covariate <code>z</code>. Note that when using factor by variables, centering constraints are applied to the smooths,
+which usually means that the by variable should be included as a parametric term, as well.
+</p>
+<p>The example code below also illustrates the use of factor <code>by</code> variables.
+</p>
+<p><code>by</code> variables may be supplied as numeric matrices as part of specifying general linear functional terms.
+</p>
+<p>If a <code>by</code> variable is present and numeric (rather than a factor) then the corresponding smooth is only subjected 
+to an identifiability constraint if (i) the <code>by</code> variable is a constant vector, or, (ii) for a matrix 
+<code>by</code> variable, <code>L</code>, if <code>L%*%rep(1,ncol(L))</code> is constant or (iii) if a user defined smooth constructor 
+supplies an identifiability constraint explicitly, and that constraint has an attibute <code>"always.apply"</code>. 
+</p>
+
+
+<h3>Linking smooths with &lsquo;id&rsquo;</h3>
+
+<p>It is sometimes desirable to insist that different smooth terms have the same degree of smoothness. 
+This can be done by using the <code>id</code> argument to <code><a href="s.html">s</a></code> or <code><a href="te.html">te</a></code> terms. Smooths 
+which share an <code>id</code> will have the same smoothing parameter. Really this only makes sense if the 
+smooths use the same basis functions, and the default behaviour is to force this to happen: all smooths 
+sharing an <code>id</code> have the same basis functions as the first smooth occurring with that <code>id</code>. Note 
+that if you want exactly the same function for each smooth, then this is best achieved by making use of the 
+summation convention covered under &lsquo;linear functional terms&rsquo;. 
+</p>
+<p>As an example suppose that <i>E(y_i)=mu_i</i> and 
+</p>
+<p style="text-align: center;"><i>g(mu_i) = f1(x_1i) + f2(x_2i,x_3i) + f3(x_4i)</i></p>
+
+<p>but that <i>f1</i> and <i>f3</i> should have the same smoothing parameters (and <i>x_2</i>
+and <i>x_3</i> are on different scales). Then 
+the <code>gam</code> formula<br />
+<code>y ~ s(x1,id=1) + te(x_2,x3) + s(x4,id=1)</code><br />
+would achieve the desired result. <code>id</code> can be numbers or character strings. Giving an <code>id</code> to a 
+term with a factor <code>by</code> variable causes the smooths at each level of the factor to have the same smoothing 
+parameter.
+</p>
+<p>Smooth term <code>id</code>s are not supported by <code>gamm</code>.
+</p>
+
+
+<h3>Linear functional terms</h3>
+
+<p>General linear functional terms have a long history in the spline literature including in the penalized 
+GLM context (see e.g. Wahba 1990). Such terms encompass varying coefficient models/ geographic 
+regression, functional GLMs (i.e. GLMs with functional predictors), GLASS models, etc, and allow 
+smoothing with respect to aggregated covariate values, for example. 
+</p>
+<p>Such terms are implemented in <code>mgcv</code> using a simple &lsquo;summation convention&rsquo; for smooth terms: If the covariates of a 
+smooth are supplied as matrices, then summation of the evaluated smooth over the columns of the matrices is implied. Each 
+covariate matrix and any <code>by</code> variable matrix must be of the same dimension. Consider, for example the term<br />
+<code>s(X,Z,by=L)</code><br />
+where <code>X</code>, <code>Z</code> and <code>L</code> are <i>n by p</i> matrices. Let <i>f</i> denote the thin plate regression 
+spline specified. The resulting contibution to the <i>ith</i> 
+element of the linear predictor is 
+</p>
+<p style="text-align: center;"><i>sum_j^p L_ij f(X_ij,Z_ij)</i></p>
+
+<p>If no <code>L</code> is supplied then all its elements are taken as 1. In R code terms, let <code>F</code> denote the <i>n by p</i> 
+matrix obtained by evaluating the smooth at the values in <code>X</code> and <code>Z</code>. Then the contribution of the term to the 
+linear predictor is <code>rowSums(L*F)</code> (note that it's element by element multiplication here!). 
+</p>
+<p>The summation convention applies to <code>te</code> terms as well as <code>s</code> terms. More details and examples 
+are provided in 
+<code><a href="linear.functional.terms.html">linear.functional.terms</a></code>. 
+</p>
+
+
+<h3>Random effects</h3>
+
+<p>Random effects can be added to <code>gam</code> models using <code>s(...,bs="re")</code> terms (see 
+<code><a href="smooth.construct.re.smooth.spec.html">smooth.construct.re.smooth.spec</a></code>), 
+or the <code>paraPen</code> argument to <code><a href="gam.html">gam</a></code> covered below. See <code><a href="gam.vcomp.html">gam.vcomp</a></code>, <code><a href="random.effects.html">random.effects</a></code> and 
+<code><a href="smooth.construct.re.smooth.spec.html">smooth.construct.re.smooth.spec</a></code> for further details. An alternative is to use the approach of <code><a href="gamm.html">gamm</a></code>.
+</p>
+
+
+<h3>Penalizing the parametric terms</h3>
+
+<p>In case the ability to add smooth classes, smooth identities, <code>by</code> variables and the summation convention are 
+still not sufficient to implement exactly the penalized GLM that you require, <code><a href="gam.html">gam</a></code> also allows you to penalize the 
+parametric terms in the model formula. This is mostly useful in 
+allowing one or more matrix terms to be included in the formula, along with a 
+sequence of quadratic penalty matrices for each. 
+</p>
+<p>Suppose that you have set up a model matrix <i>X</i>, and want to penalize the corresponding coefficients, <i>b</i>
+with two penalties <i>b'S1 b</i> and <i>b'S2 b</i>. 
+Then something like the 
+following would be appropriate:<br />
+<code>gam(y ~ X - 1,paraPen=list(X=list(S1,S2)))</code><br />
+The <code>paraPen</code> argument should be a list with elements having  names corresponding to the terms being penalized. 
+Each element of <code>paraPen</code> is itself a list, with optional elements <code>L</code>, <code>rank</code> and <code>sp</code>: all other elements 
+must be penalty matrices. If present, <code>rank</code> is a vector giving the rank of each penalty matrix 
+(if absent this is determined numerically). <code>L</code> is a matrix that maps underlying log smoothing parameters to the 
+log smoothing parameters that actually multiply the individual quadratic penalties: taken as the identity if not supplied.
+<code>sp</code> is a vector of (underlying) smoothing parameter values: positive values are taken as fixed, negative to signal that 
+the smoothing parameter should be estimated. Taken as all negative if not supplied.
+</p>
+<p>An obvious application of <code>paraPen</code> is to incorporate random effects, and an example of this is provided below. In this
+case the supplied penalty matrices will be (generalized) inverse covariance matrices for the random effects &mdash; i.e. precision 
+matrices. The final estimate of the covariance matrix corresponding to one of these penalties is given by the (generalized) 
+inverse of the penalty matrix multiplied by the estimated scale parameter and divided by the estimated 
+smoothing parameter for the penalty. For example, if you use an identity matrix to penalize some coefficients that are to be viewed as i.i.d. 
+Gaussian random effects, then their estimated variance will be the estimated scale parameter divided by the estimate of the 
+smoothing parameter, for this penalty. See the &lsquo;rail&rsquo; example below. 
+</p>
+<p>P-values for penalized parametric terms should be treated with caution. If you must have them, then use the option <code>freq=TRUE</code> in 
+<code><a href="anova.gam.html">anova.gam</a></code> and <code><a href="summary.gam.html">summary.gam</a></code>, which will tend to give reasonable results for random effects implemented this way, 
+but not for terms with a rank defficient penalty (or penalties with a wide eigen-spectrum). 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wahba (1990) Spline Models of Observational Data SIAM.
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+set.seed(10)
+## simulate date from y = f(x2)*x1 + error
+dat &lt;- gamSim(3,n=400)
+
+b&lt;-gam(y ~ s(x2,by=x1),data=dat)
+plot(b,pages=1)
+summary(b)
+
+## Factor `by' variable example (with a spurious covariate x0)
+## simulate data...
+
+dat &lt;- gamSim(4)
+
+## fit model...
+b &lt;- gam(y ~ fac+s(x2,by=fac)+s(x0),data=dat)
+plot(b,pages=1)
+summary(b)
+
+## note that the preceding fit is the same as....
+b1&lt;-gam(y ~ s(x2,by=as.numeric(fac==1))+s(x2,by=as.numeric(fac==2))+
+            s(x2,by=as.numeric(fac==3))+s(x0)-1,data=dat)
+## ... the `-1' is because the intercept is confounded with the 
+## *uncentred* smooths here.
+plot(b1,pages=1)
+summary(b1)
+
+## repeat forcing all s(x2) terms to have the same smoothing param
+## (not a very good idea for these data!)
+b2 &lt;- gam(y ~ fac+s(x2,by=fac,id=1)+s(x0),data=dat)
+plot(b2,pages=1)
+summary(b2)
+
+## now repeat with a single reference level smooth, and 
+## two `difference' smooths...
+dat$fac &lt;- ordered(dat$fac)
+b3 &lt;- gam(y ~ fac+s(x2)+s(x2,by=fac)+s(x0),data=dat,method="REML")
+plot(b3,pages=1)
+summary(b3)
+
+
+rm(dat)
+
+## An example of a simple random effects term implemented via 
+## penalization of the parametric part of the model...
+
+dat &lt;- gamSim(1,n=400,scale=2) ## simulate 4 term additive truth
+## Now add some random effects to the simulation. Response is 
+## grouped into one of 20 groups by `fac' and each groups has a
+## random effect added....
+fac &lt;- as.factor(sample(1:20,400,replace=TRUE))
+dat$X &lt;- model.matrix(~fac-1)
+b &lt;- rnorm(20)*.5
+dat$y &lt;- dat$y + dat$X%*%b
+
+## now fit appropriate random effect model...
+PP &lt;- list(X=list(rank=20,diag(20)))
+rm &lt;- gam(y~ X+s(x0)+s(x1)+s(x2)+s(x3),data=dat,paraPen=PP)
+plot(rm,pages=1)
+## Get estimated random effects standard deviation...
+sig.b &lt;- sqrt(rm$sig2/rm$sp[1]);sig.b 
+
+## a much simpler approach uses "re" terms...
+
+rm1 &lt;- gam(y ~ s(fac,bs="re")+s(x0)+s(x1)+s(x2)+s(x3),data=dat,method="ML")
+gam.vcomp(rm1)
+
+## Simple comparison with lme, using Rail data. 
+## See ?random.effects for a simpler method
+require(nlme)
+b0 &lt;- lme(travel~1,data=Rail,~1|Rail,method="ML") 
+Z &lt;- model.matrix(~Rail-1,data=Rail,
+     contrasts.arg=list(Rail="contr.treatment"))
+b &lt;- gam(travel~Z,data=Rail,paraPen=list(Z=list(diag(6))),method="ML")
+
+b0 
+(b$reml.scale/b$sp)^.5 ## `gam' ML estimate of Rail sd
+b$reml.scale^.5         ## `gam' ML estimate of residual sd
+
+b0 &lt;- lme(travel~1,data=Rail,~1|Rail,method="REML") 
+Z &lt;- model.matrix(~Rail-1,data=Rail,
+     contrasts.arg=list(Rail="contr.treatment"))
+b &lt;- gam(travel~Z,data=Rail,paraPen=list(Z=list(diag(6))),method="REML")
+
+b0 
+(b$reml.scale/b$sp)^.5 ## `gam' REML estimate of Rail sd
+b$reml.scale^.5         ## `gam' REML estimate of residual sd
+
+################################################################
+## Approximate large dataset logistic regression for rare events
+## based on subsampling the zeroes, and adding an offset to
+## approximately allow for this.
+## Doing the same thing, but upweighting the sampled zeroes
+## leads to problems with smoothness selection, and CIs.
+################################################################
+n &lt;- 50000  ## simulate n data 
+dat &lt;- gamSim(1,n=n,dist="binary",scale=.33)
+p &lt;- binomial()$linkinv(dat$f-6) ## make 1's rare
+dat$y &lt;- rbinom(p,1,p)      ## re-simulate rare response
+
+## Now sample all the 1's but only proportion S of the 0's
+S &lt;- 0.02                   ## sampling fraction of zeroes
+dat &lt;- dat[dat$y==1 | runif(n) &lt; S,] ## sampling
+
+## Create offset based on total sampling fraction
+dat$s &lt;- rep(log(nrow(dat)/n),nrow(dat))
+
+lr.fit &lt;- gam(y~s(x0,bs="cr")+s(x1,bs="cr")+s(x2,bs="cr")+s(x3,bs="cr")+
+              offset(s),family=binomial,data=dat,method="REML")
+
+## plot model components with truth overlaid in red
+op &lt;- par(mfrow=c(2,2))
+fn &lt;- c("f0","f1","f2","f3");xn &lt;- c("x0","x1","x2","x3")
+for (k in 1:4) {
+       plot(lr.fit,select=k,scale=0)
+       ff &lt;- dat[[fn[k]]];xx &lt;- dat[[xn[k]]]
+       ind &lt;- sort.int(xx,index.return=TRUE)$ix
+       lines(xx[ind],(ff-mean(ff))[ind]*.33,col=2)
+}
+par(op)
+rm(dat)
+
+## A Gamma example, by modify `gamSim' output...
+ 
+dat &lt;- gamSim(1,n=400,dist="normal",scale=1)
+dat$f &lt;- dat$f/4 ## true linear predictor 
+Ey &lt;- exp(dat$f);scale &lt;- .5 ## mean and GLM scale parameter
+## Note that `shape' and `scale' in `rgamma' are almost
+## opposite terminology to that used with GLM/GAM...
+dat$y &lt;- rgamma(Ey*0,shape=1/scale,scale=Ey*scale)
+bg &lt;- gam(y~ s(x0)+ s(x1)+s(x2)+s(x3),family=Gamma(link=log),
+          data=dat,method="REML")
+plot(bg,pages=1,scheme=1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

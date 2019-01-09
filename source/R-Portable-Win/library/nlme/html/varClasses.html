@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Variance Function Classes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for varClasses {nlme}"><tr><td>varClasses {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Variance Function Classes</h2>
+
+<h3>Description</h3>
+
+<p>Standard classes of variance function structures (<code>varFunc</code>) 
+available in the <code>nlme</code> package. Covariates included in the
+variance function, denoted by variance covariates, may involve
+functions of the fitted model object, such as the fitted values and
+the residuals. Different coefficients may be assigned to the levels of
+a classification factor.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Available standard classes:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>varExp</code></td>
+<td>
+<p>exponential of a variance covariate.</p>
+</td></tr>
+<tr valign="top"><td><code>varPower</code></td>
+<td>
+<p>power of a variance covariate.</p>
+</td></tr>
+<tr valign="top"><td><code>varConstPower</code></td>
+<td>
+<p>constant plus power of a variance covariate.</p>
+</td></tr>
+<tr valign="top"><td><code>varIdent</code></td>
+<td>
+<p>constant variance(s), generally used to allow
+different variances according to the levels of a classification
+factor.</p>
+</td></tr> 
+<tr valign="top"><td><code>varFixed</code></td>
+<td>
+<p>fixed weights, determined by a variance covariate.</p>
+</td></tr>
+<tr valign="top"><td><code>varComb</code></td>
+<td>
+<p>combination of variance functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>Users may define their own <code>varFunc</code> classes by specifying a
+<code>constructor</code> function and, at a minimum, methods for the
+functions <code>coef</code>, <code>coef&lt;-</code>, and <code>initialize</code>. For
+examples of these functions, see the methods for class
+<code>varPower</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="varComb.html">varComb</a></code>,
+<code><a href="varConstPower.html">varConstPower</a></code>,
+<code><a href="varExp.html">varExp</a></code>,
+<code><a href="varFixed.html">varFixed</a></code>,
+<code><a href="varIdent.html">varIdent</a></code>,
+<code><a href="varPower.html">varPower</a></code>,
+<code><a href="summary.varFunc.html">summary.varFunc</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

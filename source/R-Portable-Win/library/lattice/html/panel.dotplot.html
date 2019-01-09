@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for dotplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.dotplot {lattice}"><tr><td>F_1_panel.dotplot {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for dotplot</h2>
+
+<h3>Description</h3>
+
+<p>Default panel function for <code>dotplot</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.dotplot(x, y, horizontal = TRUE,
+              pch, col, lty, lwd, 
+              col.line, levels.fos,
+              groups = NULL,
+              ...,
+              identifier = "dotplot")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p> variables to be plotted in the panel. Typically y is the
+&lsquo;factor&rsquo; </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p> logical. If FALSE, the plot is &lsquo;transposed&rsquo;
+in the sense that the behaviours of x and y are switched. x is now
+the &lsquo;factor&rsquo;.  Interpretation of other arguments change
+accordingly. See documentation of <code><a href="xyplot.html">bwplot</a></code> for a fuller
+explanation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch, col, lty, lwd, col.line</code></td>
+<td>
+<p> graphical parameters</p>
+</td></tr>
+<tr valign="top"><td><code>levels.fos</code></td>
+<td>
+<p> locations where reference lines will be drawn </p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p> grouping variable (affects graphical parameters)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>extra parameters, passed to <code>panel.xyplot</code> which is responsible
+for drawing the foreground points (<code>panel.dotplot</code> only draws
+the background reference lines).
+</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates (possibly grouped) Dotplot of <code>x</code> against <code>y</code> or
+vice versa
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">dotplot</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

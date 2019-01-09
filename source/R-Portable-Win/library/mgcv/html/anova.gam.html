@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Approximate hypothesis tests related to GAM fits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for anova.gam {mgcv}"><tr><td>anova.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Approximate hypothesis tests related to  GAM fits</h2>
+
+<h3>Description</h3>
+
+<p> Performs hypothesis tests relating to one or more fitted
+<code>gam</code> objects. For a single fitted <code>gam</code> object, Wald tests of
+the significance of each parametric and smooth term are performed, so interpretation 
+is analogous to <code><a href="../../stats/html/add1.html">drop1</a></code> rather than <code>anova.lm</code> (i.e. it's like type III ANOVA, 
+rather than a sequential type I ANOVA). Otherwise the fitted models are compared using an analysis of deviance table: this latter approach should not be use to test the significance of terms which can be penalized 
+to zero. Models to be compared should be fitted to the same data using the same smoothing parameter selection method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+anova(object, ..., dispersion = NULL, test = NULL,
+                    freq = FALSE)
+## S3 method for class 'anova.gam'
+print(x, digits = max(3, getOption("digits") - 3),...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object,...</code></td>
+<td>
+<p> fitted model objects of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an <code>anova.gam</code> object produced by a single model call to <code>anova.gam()</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+<p> a value for the dispersion parameter: not normally used.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>what sort of test to perform for a multi-model call. One of
+<code>"Chisq"</code>, <code>"F"</code> or <code>"Cp"</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>whether to use frequentist or Bayesian approximations for parametric term 
+p-values. See <code><a href="summary.gam.html">summary.gam</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>number of digits to use when printing output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> If more than one fitted model is provided than <code>anova.glm</code> is
+used, with the difference in model degrees of freedom being taken as the difference 
+in effective degress of freedom (when possible this is a smoothing parameter uncertainty corrected version).
+The p-values resulting from this are only approximate, 
+and must be used with care. The approximation is most accurate when the comparison 
+relates to unpenalized terms, or smoothers with a null space of dimension greater than zero.
+(Basically we require that the difference terms could be well approximated by unpenalized 
+terms with degrees of freedom approximately the effective degrees of freedom). In simulations the 
+p-values are usually slightly too low. For terms with a zero-dimensional null space 
+(i.e. those which can be penalized to zero) the approximation is often very poor, and significance 
+can be greatly overstated: i.e. p-values are often substantially too low. This case applies to random effect terms. 
+</p>
+<p>Note also that in the multi-model call to <code>anova.gam</code>, it is quite possible for a model with more terms to end up with lower effective degrees of freedom, but better fit, than the notionally null model with fewer terms. In such cases it is very rare that it makes sense to perform any sort of test, since there is then no basis on which to accept the notional null model. 
+</p>
+<p>If only one model is provided then the significance of each model term
+is assessed using Wald like tests, conditional on the smoothing parameter estimates: see <code><a href="summary.gam.html">summary.gam</a></code> 
+and Wood (2013a,b) for details. The p-values  provided here are better justified than in the multi model case, and have close to the 
+correct distribution under the null, unless smoothing parameters are poorly identified. ML or REML smoothing parameter selection leads to 
+the best results in simulations as they tend to avoid occasional severe undersmoothing. In replication of the full simulation study of Scheipl et al. (2008) the tests give almost indistinguishable power to the method recommended there, but slightly too low p-values under the null in their section 3.1.8 test for a smooth interaction (the Scheipl et al. recommendation is not used directly, because it only applies in the Gaussian case, and requires model refits, but it is available in package <code>RLRsim</code>). 
+</p>
+<p>In the single model case <code>print.anova.gam</code> is used as the printing method. 
+</p>
+<p>By default the p-values for parametric model terms are also based on Wald tests using the Bayesian 
+covariance matrix for the coefficients. This is appropriate when there are &quot;re&quot; terms present, and is 
+otherwise rather similar to the results using the frequentist covariance matrix (<code>freq=TRUE</code>), since 
+the parametric terms themselves are usually unpenalized. Default P-values for parameteric terms that are 
+penalized using the <code>paraPen</code> argument will not be good.
+</p>
+
+
+<h3>Value</h3>
+
+<p>In the multi-model case <code>anova.gam</code> produces output identical to
+<code><a href="../../stats/html/anova.glm.html">anova.glm</a></code>, which it in fact uses.
+</p>
+<p>In the single model case an object of class <code>anova.gam</code> is produced,
+which is in fact an object returned from <code><a href="summary.gam.html">summary.gam</a></code>.
+</p>
+<p><code>print.anova.gam</code> simply produces tabulated output.
+</p>
+
+
+<h3>WARNING</h3>
+
+<p> If models 'a' and 'b' differ only in terms with no un-penalized components (such as random effects) then 
+p values from anova(a,b) are unreliable, and usually much too low.
+</p>
+<p>Default P-values will usually be wrong for parametric terms penalized using &lsquo;paraPen&rsquo;: use freq=TRUE
+to obtain better p-values when the penalties are full rank and represent conventional random effects.
+</p>
+<p>For a single model, interpretation is similar to drop1, not anova.lm.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> with substantial
+improvements by Henric Nilsson.</p>
+
+
+<h3>References</h3>
+
+<p>Scheipl, F., Greven, S. and Kuchenhoff, H. (2008) Size and power of tests for a zero random effect variance or polynomial 
+regression in additive and linear mixed models. Comp. Statist. Data Anal. 52, 3283-3299
+</p>
+<p>Wood, S.N. (2013a) On p-values for smooth components of an extended generalized additive model. Biometrika 100:221-228
+</p>
+<p>Wood, S.N. (2013b) A simple test for random effects in regression models. Biometrika 100:1005-1010
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gam.html">gam</a></code>, <code><a href="predict.gam.html">predict.gam</a></code>,
+<code><a href="gam.check.html">gam.check</a></code>, <code><a href="summary.gam.html">summary.gam</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(0)
+dat &lt;- gamSim(5,n=200,scale=2)
+
+b&lt;-gam(y ~ x0 + s(x1) + s(x2) + s(x3),data=dat)
+anova(b)
+b1&lt;-gam(y ~ x0 + s(x1) + s(x2),data=dat)
+anova(b,b1,test="F")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

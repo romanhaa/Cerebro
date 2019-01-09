@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nonparametric Bootstrap Confidence Intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for boot.ci {boot}"><tr><td>boot.ci {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Nonparametric Bootstrap Confidence Intervals
+</h2>
+
+<h3>Description</h3>
+
+<p>This function generates 5 different types of equi-tailed two-sided
+nonparametric confidence intervals.  These are the first order normal 
+approximation, the basic bootstrap interval, the studentized bootstrap 
+interval, the bootstrap percentile interval, and the adjusted bootstrap 
+percentile (BCa) interval.  All or a subset of these intervals can be 
+generated.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+boot.ci(boot.out, conf = 0.95, type = "all", 
+        index = 1:min(2,length(boot.out$t0)), var.t0 = NULL, 
+        var.t = NULL, t0 = NULL, t = NULL, L = NULL,
+        h = function(t) t, hdot = function(t) rep(1,length(t)),
+        hinv = function(t) t, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>boot.out</code></td>
+<td>
+
+<p>An object of class <code>"boot"</code> containing the output of a bootstrap
+calculation.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>conf</code></td>
+<td>
+
+<p>A scalar or vector containing the confidence level(s) of the required
+interval(s).
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>A vector of character strings representing the type of intervals
+required. The value should be any subset of the values
+<code>c("norm","basic", "stud", "perc", "bca")</code> or simply <code>"all"</code>
+which will compute all five types of intervals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+
+<p>This should be a vector of length 1 or 2.  The first element of
+<code>index</code> indicates the position of the variable of interest in
+<code>boot.out$t0</code> and the relevant column in <code>boot.out$t</code>.  The
+second element indicates the position of the variance of the variable of
+interest.  If both <code>var.t0</code> and <code>var.t</code> are supplied then the
+second element of <code>index</code> (if present) is ignored.  The default is
+that the variable of interest is in position 1 and its variance is in
+position 2 (as long as there are 2 positions in <code>boot.out$t0</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>var.t0</code></td>
+<td>
+
+<p>If supplied, a value to be used as an estimate of the variance of
+the statistic for the normal approximation and studentized intervals.
+If it is not supplied and <code>length(index)</code> is 2 then <code>var.t0</code>
+defaults to <code>boot.out$t0[index[2]]</code> otherwise <code>var.t0</code> is
+undefined.  For studentized intervals <code>var.t0</code> must be defined.
+For the normal approximation, if <code>var.t0</code> is undefined it defaults
+to <code>var(t)</code>.  If a transformation is supplied through the argument
+<code>h</code> then <code>var.t0</code> should be the variance of the untransformed
+statistic.
+</p>
+</td></tr>
+<tr valign="top"><td><code>var.t</code></td>
+<td>
+
+<p>This is a vector (of length <code>boot.out$R</code>) of variances of the
+bootstrap replicates of the variable of interest.  It is used only for
+studentized intervals.  If it is not supplied and <code>length(index)</code>
+is 2 then <code>var.t</code> defaults to <code>boot.out$t[,index[2]]</code>,
+otherwise its value is undefined which will cause an error for
+studentized intervals.  If a transformation is supplied through the
+argument <code>h</code> then <code>var.t</code> should be the variance of the
+untransformed bootstrap statistics.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The observed value of the statistic of interest.  The default value
+is <code>boot.out$t0[index[1]]</code>.  Specification of <code>t0</code> and
+<code>t</code> allows the user to get intervals for a transformed statistic
+which may not be in the bootstrap output object.  See the second example
+below.  An alternative way of achieving this would be to supply the
+functions <code>h</code>, <code>hdot</code>, and <code>hinv</code> below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>The bootstrap replicates of the statistic of interest.  It must be a
+vector of length <code>boot.out$R</code>.  It is an error to supply one of
+<code>t0</code> or <code>t</code> but not the other.  Also if studentized
+intervals are required and <code>t0</code> and <code>t</code> are supplied then
+so should be <code>var.t0</code> and <code>var.t</code>.  The default value is
+<code>boot.out$t[,index]</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>The empirical influence values of the statistic of interest for the
+observed data.  These are used only for BCa intervals.  If a
+transformation is supplied through the parameter <code>h</code> then
+<code>L</code> should be the influence values for <code>t</code>; the values for
+<code>h(t)</code> are derived from these and <code>hdot</code> within the
+function. If <code>L</code> is not supplied then the values are calculated
+using <code>empinf</code> if they are needed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+
+<p>A function defining a transformation.  The intervals are calculated
+on the scale of <code>h(t)</code> and the inverse function <code>hinv</code>
+applied to the resulting intervals.  It must be a function of one
+variable only and for a vector argument, it must return a vector of
+the same length, i.e. <code>h(c(t1,t2,t3))</code> should return
+<code>c(h(t1),h(t2),h(t3))</code>. The default is the identity function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hdot</code></td>
+<td>
+
+<p>A function of one argument returning the derivative of <code>h</code>.  It
+is a required argument if <code>h</code> is supplied and normal,
+studentized or BCa intervals are required.  The function is used for
+approximating the variances of <code>h(t0)</code> and <code>h(t)</code> using
+the delta method, and also for finding the empirical influence
+values for BCa intervals.  Like <code>h</code> it should be able to take a
+vector argument and return a vector of the same length.  The default
+is the constant function 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hinv</code></td>
+<td>
+
+<p>A function, like <code>h</code>, which returns the inverse of <code>h</code>.
+It is used to transform the intervals calculated on the scale of
+<code>h(t)</code> back to the original scale. The default is the identity
+function.  If <code>h</code> is supplied but <code>hinv</code> is not, then the
+intervals returned will be on the transformed scale.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Any extra arguments that <code>boot.out$statistic</code> is
+expecting. These arguments are needed only if BCa intervals are required
+and <code>L</code> is not supplied since in that case <code>L</code> is calculated
+through a call to <code>empinf</code> which calls <code>boot.out$statistic</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The formulae on which the calculations are based can be found in
+Chapter 5 of Davison and Hinkley (1997).  Function <code>boot</code> must be
+run prior to running this function to create the object to be passed as
+<code>boot.out</code>.
+</p>
+<p>Variance estimates are required for studentized intervals.  The variance
+of the observed statistic is optional for normal theory intervals.  If
+it is not supplied then the bootstrap estimate of variance is used.  The
+normal intervals also use the bootstrap bias correction.
+</p>
+<p>Interpolation on the normal quantile scale is used when a non-integer order
+statistic is required.  If the order statistic used is the smallest or
+largest of the R values in boot.out a warning is generated and such
+intervals should not be considered reliable.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of type <code>"bootci"</code> which contains the intervals.
+It has components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>The number of bootstrap replicates on which the intervals were based.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The observed value of the statistic on the same scale as the intervals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>The call to <code>boot.ci</code> which generated the object.
+</p>
+<p>It will also contain one or more of the following components depending
+on the value of <code>type</code> used in the call to <code>bootci</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>normal</code></td>
+<td>
+
+<p>A matrix of intervals calculated using the normal approximation.  It will
+have 3 columns, the first being the level and the other two being the upper
+and lower endpoints of the intervals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>basic</code></td>
+<td>
+
+<p>The intervals calculated using the basic bootstrap method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>student</code></td>
+<td>
+
+<p>The intervals calculated using the studentized bootstrap method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+
+<p>The intervals calculated using the bootstrap percentile method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bca</code></td>
+<td>
+
+<p>The intervals calculated using the adjusted bootstrap percentile
+(BCa) method.
+</p>
+<p>These latter four components will be matrices with 5 columns,  the
+first column containing the level, the next two containing the
+indices of the order statistics used in the calculations and the
+final two the calculated endpoints themselves. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>, Chapter 5.
+Cambridge University Press.
+</p>
+<p>DiCiccio, T.J. and Efron  B. (1996) Bootstrap confidence intervals (with 
+Discussion). <em>Statistical Science</em>, <b>11</b>, 189&ndash;228.
+</p>
+<p>Efron, B. (1987) Better bootstrap confidence intervals (with Discussion).
+<em>Journal of the American Statistical Association</em>, <b>82</b>, 171&ndash;200.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="abc.ci.html">abc.ci</a></code>, <code><a href="boot.html">boot</a></code>,
+<code><a href="empinf.html">empinf</a></code>, <code><a href="norm.ci.html">norm.ci</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# confidence intervals for the city data
+ratio &lt;- function(d, w) sum(d$x * w)/sum(d$u * w)
+city.boot &lt;- boot(city, ratio, R = 999, stype = "w", sim = "ordinary")
+boot.ci(city.boot, conf = c(0.90, 0.95),
+        type = c("norm", "basic", "perc", "bca"))
+
+# studentized confidence interval for the two sample 
+# difference of means problem using the final two series
+# of the gravity data. 
+diff.means &lt;- function(d, f)
+{    n &lt;- nrow(d)
+     gp1 &lt;- 1:table(as.numeric(d$series))[1]
+     m1 &lt;- sum(d[gp1,1] * f[gp1])/sum(f[gp1])
+     m2 &lt;- sum(d[-gp1,1] * f[-gp1])/sum(f[-gp1])
+     ss1 &lt;- sum(d[gp1,1]^2 * f[gp1]) - (m1 *  m1 * sum(f[gp1]))
+     ss2 &lt;- sum(d[-gp1,1]^2 * f[-gp1]) - (m2 *  m2 * sum(f[-gp1]))
+     c(m1 - m2, (ss1 + ss2)/(sum(f) - 2))
+}
+grav1 &lt;- gravity[as.numeric(gravity[,2]) &gt;= 7, ]
+grav1.boot &lt;- boot(grav1, diff.means, R = 999, stype = "f",
+                   strata = grav1[ ,2])
+boot.ci(grav1.boot, type = c("stud", "norm"))
+
+# Nonparametric confidence intervals for mean failure time 
+# of the air-conditioning data as in Example 5.4 of Davison
+# and Hinkley (1997)
+mean.fun &lt;- function(d, i) 
+{    m &lt;- mean(d$hours[i])
+     n &lt;- length(i)
+     v &lt;- (n-1)*var(d$hours[i])/n^2
+     c(m, v)
+}
+air.boot &lt;- boot(aircondit, mean.fun, R = 999)
+boot.ci(air.boot, type = c("norm", "basic", "perc", "stud"))
+
+# Now using the log transformation
+# There are two ways of doing this and they both give the
+# same intervals.
+
+# Method 1
+boot.ci(air.boot, type = c("norm", "basic", "perc", "stud"), 
+        h = log, hdot = function(x) 1/x)
+
+# Method 2
+vt0 &lt;- air.boot$t0[2]/air.boot$t0[1]^2
+vt &lt;- air.boot$t[, 2]/air.boot$t[ ,1]^2
+boot.ci(air.boot, type = c("norm", "basic", "perc", "stud"), 
+        t0 = log(air.boot$t0[1]), t = log(air.boot$t[,1]),
+        var.t0 = vt0, var.t = vt)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

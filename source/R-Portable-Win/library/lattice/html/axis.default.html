@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default axis annotation utilities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for G_axis.default {lattice}"><tr><td>G_axis.default {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Default axis annotation utilities</h2>
+
+<h3>Description</h3>
+
+<p>Lattice funtions provide control over how the plot axes are annotated
+through a common interface.  There are two levels of control.  The
+<code>xscale.components</code> and <code>yscale.components</code> arguments can be
+functions that determine tick mark locations and labels given a
+packet.  For more direct control, the <code>axis</code> argument can be a
+function that actually draws the axes.  The functions documented here
+are the defaults for these arguments.  They can additonally be used as
+components of user written replacements.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+xscale.components.default(lim,
+                          packet.number = 0,
+                          packet.list = NULL,
+                          top = TRUE,
+                          ...)
+yscale.components.default(lim,
+                          packet.number = 0,
+                          packet.list = NULL,
+                          right = TRUE,
+                          ...)
+axis.default(side = c("top", "bottom", "left", "right"),
+             scales, components, as.table,
+             labels = c("default", "yes", "no"),
+             ticks = c("default", "yes", "no"),
+             ..., prefix)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lim</code></td>
+<td>
+<p> the range of the data in that packet (data subset
+corresponding to a combination of levels of the conditioning
+variable).  The range is not necessarily numeric; e.g. for factors,
+they could be character vectors representing levels, and for the
+various date-time representations, they could be vectors of length 2
+with the corresponding class. </p>
+</td></tr>
+<tr valign="top"><td><code>packet.number</code></td>
+<td>
+<p> which packet (counted according to the packet
+order, described in <code><a href="print.trellis.html">print.trellis</a></code>) is being
+processed.  In cases where all panels have the same limits, this
+function is called only once (rather than once for each packet), in
+which case this argument will have the value <code>0</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>packet.list</code></td>
+<td>
+<p> list, as long as the number of packets, giving
+all the actual packets.  Specifically, each component is the
+list of arguments given to the panel function when and if that
+packet is drawn in a panel.  (This has not yet been implemented.) </p>
+</td></tr>
+<tr valign="top"><td><code>top, right</code></td>
+<td>
+<p> the value of the <code>top</code> and <code>right</code>
+components of the result, as appropriate.  See below for
+interpretation.</p>
+</td></tr>
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p> on which side the axis is to be drawn.  The usual partial
+matching rules apply.  </p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+<p> the appropriate component of the <code>scales</code> argument
+supplied to the high level function, suitably standardized. </p>
+</td></tr>
+<tr valign="top"><td><code>components</code></td>
+<td>
+<p> list, similar to those produced by
+<code>xscale.components.default</code> and
+<code>yscale.components.default</code>.  </p>
+</td></tr>
+<tr valign="top"><td><code>as.table</code></td>
+<td>
+<p> the <code>as.table</code> argument in the high level
+function.  </p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p> whether labels are to be drawn.  By default, the rules
+determined by <code>scales</code> are used.  </p>
+</td></tr>
+<tr valign="top"><td><code>ticks</code></td>
+<td>
+<p> whether labels are to be drawn.  By default, the rules
+determined by <code>scales</code> are used.  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> many other arguments may be supplied, and are passed on
+to other internal functions. </p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+
+<p>A character string identifying the plot being drawn (see
+<code><a href="print.trellis.html">print.trellis</a></code>).  Used to retrieve location of current
+panel in the overall layout, so that axes can be drawn
+appropriately.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions are part of a new API introduced in lattice 0.14 to
+provide the user more control over how axis annotation is done.  While
+the API has been designed in anticipation of use that was previously
+unsupported, the implementation has initially focused on reproducing
+existing capabilities, rather than test new features.  At the time of
+writing, several features are unimplemented.  If you require them,
+please contact the maintainer.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>xscale.components.default</code> and <code>yscale.components.default</code>
+return a list of the form suitable as the <code>components</code> argument
+of <code>axis.default</code>.  Valid components in the return value of
+<code>xscale.components.default</code> are:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code><code>num.limit</code></code></td>
+<td>
+<p> A numeric limit for the box. </p>
+</td></tr>
+<tr valign="top"><td><code><code>bottom</code></code></td>
+<td>
+<p> A list with two elements, <code>ticks</code> and
+<code>labels</code>.  <code>ticks</code> must be a list with components
+<code>at</code> and <code>tck</code> which give the location and lengths of tick
+marks.  <code>tck</code> can be a vector, and will be recycled to be as
+long as <code>at</code>.  <code>labels</code> must be a list with components
+<code>at</code>, <code>labels</code>, and <code>check.overlap</code>.  <code>at</code> and
+<code>labels</code> give the location and labels of the tick labels; this
+is usually the same as the location of the ticks, but is not
+required to be so.  <code>check.overlap</code> is a logical flag
+indicating whether overlapping of labels should be avoided by
+omitting some of the labels while rendering.  </p>
+</td></tr>
+<tr valign="top"><td><code><code>top</code></code></td>
+<td>
+<p> This can be a logical flag; if <code>TRUE</code>,
+<code>top</code> is treated as being the same as <code>bottom</code>; if
+<code>FALSE</code>, axis annotation for the top axis is omitted.
+Alternatively, <code>top</code> can be a list like <code>bottom</code>.
+</p>
+</td></tr>
+</table>
+<p>Valid components in the return value of
+<code>yscale.components.default</code> are <code>left</code> and <code>right</code>.
+Their interpretations are analogous to (respectively) the
+<code>bottom</code> and <code>top</code> components described above.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code>,
+<code><a href="xyplot.html">xyplot</a></code>, 
+<code><a href="print.trellis.html">print.trellis</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+str(xscale.components.default(c(0, 1)))
+
+set.seed(36872)
+rln &lt;- rlnorm(100)
+
+densityplot(rln, 
+            scales = list(x = list(log = 2), alternating = 3),
+            xlab = "Simulated lognormal variates",
+            xscale.components = function(...) {
+                ans &lt;- xscale.components.default(...)
+                ans$top &lt;- ans$bottom
+                ans$bottom$labels$labels &lt;- parse(text = ans$bottom$labels$labels)
+                ans$top$labels$labels &lt;-
+                    if (require(MASS))
+                        fractions(2^(ans$top$labels$at))
+                    else
+                        2^(ans$top$labels$at)
+                ans
+            })
+
+
+## Direct use of axis to show two temperature scales (Celcius and
+## Fahrenheit).  This does not work for multi-row plots, and doesn't
+## do automatic allocation of space
+
+
+F2C &lt;- function(f) 5 * (f - 32) / 9 
+C2F &lt;- function(c) 32 + 9 * c / 5 
+
+axis.CF &lt;-
+    function(side, ...) 
+{
+    ylim &lt;- current.panel.limits()$ylim
+    switch(side,
+           left = {
+               prettyF &lt;- pretty(ylim)
+               labF &lt;- parse(text = sprintf("%s ~ degree * F", prettyF))
+               panel.axis(side = side, outside = TRUE,
+                          at = prettyF, labels = labF)
+           },
+           right = {
+               prettyC &lt;- pretty(F2C(ylim))
+               labC &lt;- parse(text = sprintf("%s ~ degree * C", prettyC))
+               panel.axis(side = side, outside = TRUE,
+                          at = C2F(prettyC), labels = labC)
+           },
+           axis.default(side = side, ...))
+}
+
+xyplot(nhtemp ~ time(nhtemp), aspect = "xy", type = "o",
+       scales = list(y = list(alternating = 3)),
+       axis = axis.CF, xlab = "Year", ylab = "Temperature", 
+       main = "Yearly temperature in New Haven, CT")
+
+## version using yscale.components
+
+yscale.components.CF &lt;-
+    function(...)
+{
+    ans &lt;- yscale.components.default(...)
+    ans$right &lt;- ans$left
+    ans$left$labels$labels &lt;-
+        parse(text = sprintf("%s ~ degree * F", ans$left$labels$at))
+    prettyC &lt;- pretty(F2C(ans$num.limit))
+    ans$right$ticks$at &lt;- C2F(prettyC)
+    ans$right$labels$at &lt;- C2F(prettyC)
+    ans$right$labels$labels &lt;-
+        parse(text = sprintf("%s ~ degree * C", prettyC))
+    ans
+}
+      
+
+xyplot(nhtemp ~ time(nhtemp), aspect = "xy", type = "o",
+       scales = list(y = list(alternating = 3)),
+       yscale.components = yscale.components.CF,
+       xlab = "Year", ylab = "Temperature", 
+       main = "Yearly temperature in New Haven, CT")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

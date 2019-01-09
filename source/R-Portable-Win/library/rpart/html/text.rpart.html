@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Place Text on a Dendrogram Plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for text.rpart {rpart}"><tr><td>text.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Place Text on a Dendrogram Plot
+</h2>
+
+<h3>Description</h3>
+
+<p>Labels the current plot of the tree dendrogram with text.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+text(x, splits = TRUE, label, FUN = text, all = FALSE,
+     pretty = NULL, digits = getOption("digits") - 3, use.n = FALSE,
+     fancy = FALSE, fwidth = 0.8, fheight = 0.8, bg = par("bg"),
+     minlength = 1L, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result
+of some function that produces an object with the same named
+components as that returned by the <code>rpart</code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>splits</code></td>
+<td>
+
+<p>logical flag.  If <code>TRUE</code> (default), then the splits in the tree are
+labeled with the criterion for the split.
+</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+
+<p>For compatibility with <code>rpart2</code>, ignored in this version (with
+a warning).
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+
+<p>the name of a labeling function, e.g. <code>text</code>.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>all</code></td>
+<td>
+
+<p>Logical.  If <code>TRUE</code>, all nodes are labeled, otherwise just
+terminal nodes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>minlength</code></td>
+<td>
+
+<p>the length to use for factor labels.  A value of 1 causes them to be
+printed as &lsquo;a&rsquo;, &lsquo;b&rsquo;, .....
+Larger values use abbreviations of the label names.
+See the <code>labels.rpart</code> function for details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pretty</code></td>
+<td>
+
+<p>an alternative to the <code>minlength</code> argument, see
+<code><a href="labels.rpart.html">labels.rpart</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+
+<p>number of significant digits to include in numerical labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.n</code></td>
+<td>
+
+<p>Logical.  If <code>TRUE</code>, adds to label 
+(\#events level1/ \#events level2/etc. for <code>class</code>,
+<code>n</code> for <code>anova</code>, and \#events/n for <code>poisson</code> and <code>exp</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>fancy</code></td>
+<td>
+
+<p>Logical.  If <code>TRUE</code>, nodes are represented by ellipses (interior nodes)
+and rectangles (leaves) and labeled by <code>yval</code>.  The edges connecting the
+nodes are labeled by left and right splits.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fwidth</code></td>
+<td>
+
+<p>Relates to option <code>fancy</code> and the width of the ellipses and rectangles.
+If <code>fwidth &lt; 1</code> then it is a scaling factor (default = 0.8).  If 
+<code>fwidth &gt; 1</code> then it represents the number of character widths 
+(for current graphical device) to use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fheight</code></td>
+<td>
+
+<p>Relates to option <code>fancy</code> and the height of the ellipses and rectangles.
+If <code>fheight &lt;1</code> then it is a scaling factor (default = 0.8).  If
+<code>fheight &gt; 1</code> then it represents the number of character heights 
+(for current graphical device) to use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+
+<p>The color used to paint the background to annotations if <code>fancy = TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Graphical parameters may also be supplied as arguments to this
+function (see <code>par</code>).  As labels often extend outside the plot
+region it can be helpful to specify <code>xpd = TRUE</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Side Effects</h3>
+
+<p>the current plot of a tree dendrogram is labeled.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/text.html">text</a></code>, <code><a href="plot.rpart.html">plot.rpart</a></code>, <code><a href="rpart.html">rpart</a></code>,
+<code><a href="labels.rpart.html">labels.rpart</a></code>, <code><a href="../../base/html/abbreviate.html">abbreviate</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+freen.tr &lt;- rpart(y ~ ., freeny)
+par(xpd = TRUE)
+plot(freen.tr)
+text(freen.tr, use.n = TRUE, all = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ridge Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lm.ridge {MASS}"><tr><td>lm.ridge {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Ridge Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit a linear model by ridge regression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lm.ridge(formula, data, subset, na.action, lambda = 0, model = FALSE,
+         x = FALSE, y = FALSE, contrasts = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula expression as for regression models, of the form
+<code>response ~ predictors</code>. See the documentation of <code>formula</code>
+for other details. <code><a href="../../stats/html/offset.html">offset</a></code> terms are allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>an optional data frame in which to interpret the variables occurring
+in <code>formula</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>expression saying which subset of the rows of the data should  be used
+in the fit.  All observations are included by default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>a function to filter missing data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+
+<p>A scalar or vector of ridge constants.
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>should the model frame be returned?  Not implemented.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>should the design matrix be returned?  Not implemented.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>should the response be returned?  Not implemented.
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>a list of contrasts to be used for some or all of factor terms in the
+formula. See the <code>contrasts.arg</code> of <code><a href="../../stats/html/model.matrix.html">model.matrix.default</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to <code><a href="../../stats/html/lmfit.html">lm.fit</a></code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>If an intercept is present in the model, its coefficient is not
+penalized.  (If you want to penalize an intercept, put in your own
+constant term and remove the intercept.)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coef</code></td>
+<td>
+
+<p>matrix of coefficients, one row for each value of <code>lambda</code>.
+Note that these are not on the original scale and are for use by the
+<code><a href="../../stats/html/coef.html">coef</a></code> method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+
+<p>scalings used on the X matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Inter</code></td>
+<td>
+
+<p>was intercept included?
+</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+
+<p>vector of lambda values
+</p>
+</td></tr>
+<tr valign="top"><td><code>ym</code></td>
+<td>
+
+<p>mean of <code>y</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>xm</code></td>
+<td>
+
+<p>column means of <code>x</code> matrix
+</p>
+</td></tr>
+<tr valign="top"><td><code>GCV</code></td>
+<td>
+
+<p>vector of GCV values
+</p>
+</td></tr>
+<tr valign="top"><td><code>kHKB</code></td>
+<td>
+
+<p>HKB estimate of the ridge constant.
+</p>
+</td></tr>
+<tr valign="top"><td><code>kLW</code></td>
+<td>
+
+<p>L-W estimate of the ridge constant.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Brown, P. J. (1994)
+<em>Measurement, Regression and Calibration</em>
+Oxford.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/lm.html">lm</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+longley # not the same as the S-PLUS dataset
+names(longley)[1] &lt;- "y"
+lm.ridge(y ~ ., longley)
+plot(lm.ridge(y ~ ., longley,
+              lambda = seq(0,0.1,0.001)))
+select(lm.ridge(y ~ ., longley,
+               lambda = seq(0,0.1,0.0001)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

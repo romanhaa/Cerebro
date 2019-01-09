@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A direct interface to the 'computational engine' of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survfitcoxph.fit {survival}"><tr><td>survfitcoxph.fit {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+A direct interface to the &lsquo;computational engine&rsquo; of survfit.coxph
+</h2>
+
+<h3>Description</h3>
+
+<p>This program is mainly supplied to allow other packages to invoke the
+survfit.coxph function at a &lsquo;data&rsquo; level rather than a &lsquo;user&rsquo; level.
+It does no checks on the input data that is provided, which can lead
+to unexpected errors if that data is wrong.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+survfitcoxph.fit(y, x, wt, x2, risk, newrisk, strata, se.fit, survtype,
+vartype, varmat, id, y2, strata2, unlist=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the response variable used in the Cox model.  (Missing values
+removed of course.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>covariate matrix used in the Cox model
+</p>
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+<p>weight vector for the Cox model. If the model was unweighted
+use a vector of 1s.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x2</code></td>
+<td>
+<p>matrix describing the hypothetical subjects for which a
+curve is desired.  Must have the same number of columns as <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>risk</code></td>
+<td>
+<p>the risk score exp(X beta) from the fitted Cox model.  If
+the model had an offset, include it in the argument to exp.
+</p>
+</td></tr>
+<tr valign="top"><td><code>newrisk</code></td>
+<td>
+<p>risk scores for the hypothetical subjects
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>strata variable used in the Cox model. This will be a factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>se.fit</code></td>
+<td>
+<p>if <code>TRUE</code> the standard errors of the curve(s) are returned
+</p>
+</td></tr>
+<tr valign="top"><td><code>survtype</code></td>
+<td>
+<p>1=Kalbfleisch-Prentice, 2=Nelson-Aalen, 3=Efron.  It is
+usual to match this to the approximation for ties used in the
+<code>coxph</code> model: KP for &lsquo;exact&rsquo;, N-A for &lsquo;breslow&rsquo; and Efron for &lsquo;efron&rsquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>vartype</code></td>
+<td>
+<p>1=Greenwood, 2=Aalen, 3=Efron
+</p>
+</td></tr>
+<tr valign="top"><td><code>varmat</code></td>
+<td>
+<p>the variance matrix of the coefficients
+</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>optional; if present and not NULL this should be
+a vector of identifiers of length <code>nrow(x2)</code>.
+A mon-null value signifies that <code>x2</code> contains time dependent
+covariates, in which case this identifies which rows of <code>x2</code> go
+with each subject.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y2</code></td>
+<td>
+<p>survival times, for time dependent prediction.  It gives
+the time range (time1,time2] for each row of <code>x2</code>.  Note: this
+must be a Surv object and thus contains a status indicator, which is
+never used in the routine, however.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata2</code></td>
+<td>
+<p>vector of strata indicators for <code>x2</code>.  This must
+be a factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>unlist</code></td>
+<td>
+<p>if <code>FALSE</code> the result will be a list with one
+element for each strata.  Otherwise the strata are &ldquo;unpacked&rdquo; into
+the form found in a <code>survfit</code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list containing nearly all the components of a <code>survfit</code>
+object.  All that is missing is to add the confidence intervals, the
+type of the original model's response (as in a coxph object), and the
+class.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The source code for for both this function and
+<code>survfit.coxph</code> is written using noweb.  For complete
+documentation see the <code>inst/sourcecode.pdf</code> file.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="survfit.coxph.html">survfit.coxph</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

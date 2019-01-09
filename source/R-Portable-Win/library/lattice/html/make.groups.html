@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Grouped data from multiple vectors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for D_make.groups {lattice}"><tr><td>D_make.groups {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Grouped data from multiple vectors </h2>
+
+<h3>Description</h3>
+
+<p>Combines two or more vectors, possibly of different lengths, producing
+a data frame with a second column indicating which of these vectors
+that row came from.  This is mostly useful for getting data into a
+form suitable for use in high level Lattice functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+make.groups(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>one or more vectors of the same type (coercion is attempted if not),
+or one or more data frames with similar columns, with possibly
+differing number of rows.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>When all the input arguments are vectors, a data frame with two
+columns
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code><code>data</code></code></td>
+<td>
+
+<p>all the vectors supplied, concatenated
+</p>
+</td></tr>
+<tr valign="top"><td><code><code>which</code></code></td>
+<td>
+
+<p>factor indicating which vector the corresponding <code>data</code> value
+came from
+</p>
+</td></tr>
+</table>
+<p>When all the input arguments are data frames, the result of
+<code><a href="../../base/html/cbind.html">rbind</a></code> applied to them, along with an additional
+<code>which</code> column as described above.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sim.dat &lt;-
+    make.groups(uniform = runif(200),
+                exponential = rexp(175),
+                lognormal = rlnorm(150),
+                normal = rnorm(125))
+qqmath( ~ data | which, sim.dat, scales = list(y = "free"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

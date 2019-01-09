@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to generate a simple key</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for D_simpleKey {lattice}"><tr><td>D_simpleKey {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Function to generate a simple key </h2>
+
+<h3>Description</h3>
+
+<p>Simple interface to generate a list appropriate for <code>draw.key</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simpleKey(text, points = TRUE,
+          rectangles = FALSE,
+          lines = FALSE,
+          col, cex, alpha, font,
+          fontface, fontfamily, 
+          lineheight, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+
+<p>character or expression vector, to be used as labels for levels of
+the grouping variable
+</p>
+</td></tr>
+<tr valign="top"><td><code>points</code></td>
+<td>
+<p> logical </p>
+</td></tr>
+<tr valign="top"><td><code>rectangles</code></td>
+<td>
+<p> logical </p>
+</td></tr>
+<tr valign="top"><td><code>lines</code></td>
+<td>
+<p> logical </p>
+</td></tr>
+<tr valign="top"><td><code>col, cex, alpha, font, fontface, fontfamily, lineheight</code></td>
+<td>
+
+<p>Used as top-level components of the list produced, to be used for
+the text labels. Defaults to the values in
+<code>trellis.par.get("add.text")</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments added to the list, eventually passed to
+<code>draw.key</code>
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A lattice plot can include a legend (key) if an appropriate list is
+specified as the <code>key</code> argument to a high level Lattice function
+such as <code>xyplot</code>. This key can be very flexible, but that
+flexibility comes at a cost: this list needs to be fairly complicated
+even in simple situations.  <code>simpleKey</code> is designed as a useful
+shortcut in the common case of a key drawn in conjunction with a
+grouping variable, using the default graphical settings.
+</p>
+<p>The <code>simpleKey</code> function produces a suitable <code>key</code> argument
+using a simpler interface.  The resulting list will use the
+<code>text</code> argument as a text component, along with at most one set
+each of points, rectangles, and lines.  The number of entries (rows)
+in the key will be the length of the <code>text</code> component.  The
+graphical parameters for the additional components will be derived
+from the default graphical settings (wherein lies the simplification,
+as otherwise these would have to be provided explicitly).
+</p>
+<p>Calling <code>simpleKey</code> directly is usually unnecessary.  It is most
+commonly invoked (during the plotting of the <code>"trellis"</code> object)
+when the <code>auto.key</code> argument is supplied in a high-level plot
+with a <code>groups</code> argument.  In that case, the <code>text</code> argument
+of <code>simpleKey</code> defaults to <code>levels(groups)</code>, and the
+defaults for the other arguments depend on the relevant high-level
+function.  Note that these defaults can be overridden by supplying
+<code>auto.key</code> as a list containing the replacement values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list that would work as the <code>key</code> argument to
+<code><a href="xyplot.html">xyplot</a></code>, etc.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code>, <code><a href="draw.key.html">draw.key</a></code>,
+<code><a href="trellis.par.get.html">trellis.par.get</a></code>, and
+<code><a href="xyplot.html">xyplot</a></code>, specifically the entry for <code>auto.key</code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

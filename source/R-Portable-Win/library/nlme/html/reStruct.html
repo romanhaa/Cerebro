@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Random Effects Structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for reStruct {nlme}"><tr><td>reStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Random Effects Structure</h2>
+
+<h3>Description</h3>
+
+<p>This function is a constructor for the <code>reStruct</code> class,
+representing a random effects structure and consisting of a list of
+<code>pdMat</code> objects, plus a <code>settings</code> attribute containing
+information for the optimization algorithm used to fit the associated
+mixed-effects model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+reStruct(object, pdClass, REML, data)
+## S3 method for class 'reStruct'
+print(x, sigma, reEstimates, verbose, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>any of the following: (i) a one-sided formula of the form
+<code>~x1+...+xn | g1/.../gm</code>, with <code>x1+...+xn</code> specifying the
+model for the random effects and <code>g1/.../gm</code> the grouping
+structure (<code>m</code> may be equal to 1, in which case no <code>/</code> is
+required). The random effects formula will be repeated for all levels
+of grouping, in the case of multiple levels of grouping; (ii) a list of
+one-sided formulas of the form <code>~x1+...+xn | g</code>, with possibly
+different random effects models for each grouping level. The order of
+nesting will be assumed the same as the order of the elements in the
+list; (iii) a one-sided formula of the form <code>~x1+...+xn</code>, or a
+<code>pdMat</code> object with a formula (i.e. a non-<code>NULL</code> value for
+<code>formula(object)</code>), or a list of such formulas or <code>pdMat</code>
+objects. In this case, the grouping structure formula will be derived
+from the data used to to fit the mixed-effects model, which should
+inherit from class <code>groupedData</code>; (iv) a named list of formulas or
+<code>pdMat</code> objects as in (iii), with the grouping factors as
+names. The order of nesting will be assumed the same as the order of
+the order of the elements in the list; (v) an <code>reStruct</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>pdClass</code></td>
+<td>
+<p>an optional character string with the name of the
+<code>pdMat</code> class to be used for the formulas in
+<code>object</code>. Defaults to <code>"pdSymm"</code> which corresponds to a
+general positive-definite matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>REML</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code>, the associated
+mixed-effects model will be fitted using restricted maximum
+likelihood; else, if <code>FALSE</code>, maximum likelihood will be
+used. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame in which to evaluate the variables
+used in the random effects formulas in <code>object</code>. It is used to
+obtain the levels for <code>factors</code>, which affect the dimensions and
+the row/column names of the underlying <code>pdMat</code> objects. If
+<code>NULL</code>, no attempt is made to obtain information on
+<code>factors</code> appearing in the formulas. Defaults to the
+parent frame from which the function was called.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>reStruct</code> to be printed.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>an optional numeric value used as a multiplier for
+the square-root factors of the <code>pdMat</code> components (usually the
+estimated within-group standard deviation from a mixed-effects
+model). Defaults to 1.</p>
+</td></tr> 
+<tr valign="top"><td><code>reEstimates</code></td>
+<td>
+<p>an optional list with the random effects estimates
+for each level of grouping. Only used when <code>verbose = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>an optional logical value determining if the random
+effects estimates should be printed. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Optional arguments can be given to other methods for this
+generic.  None are used in this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object inheriting from class <code>reStruct</code>, representing a random
+effects structure.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="groupedData.html">groupedData</a></code>, 
+<code><a href="lme.html">lme</a></code>,
+<code><a href="pdMat.html">pdMat</a></code>,
+<code><a href="solve.reStruct.html">solve.reStruct</a></code>,
+<code><a href="summary.modelStruct.html">summary.reStruct</a></code>,
+<code><a href="update.modelStruct.html">update.reStruct</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+rs1 &lt;- reStruct(list(Dog = ~day, Side = ~1), data = Pixel)
+rs1
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap Resampling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for boot {boot}"><tr><td>boot {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Bootstrap Resampling
+</h2>
+
+<h3>Description</h3>
+
+<p>Generate <code>R</code> bootstrap replicates of a statistic applied to data.  Both
+parametric and nonparametric resampling are possible.  For the nonparametric
+bootstrap, possible resampling methods are the ordinary bootstrap, the 
+balanced bootstrap, antithetic resampling, and permutation.
+For nonparametric multi-sample problems stratified resampling is used:
+this is specified by including a vector of strata in the call to boot.
+Importance resampling weights may be specified.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+boot(data, statistic, R, sim = "ordinary", stype = c("i", "f", "w"), 
+     strata = rep(1,n), L = NULL, m = 0, weights = NULL, 
+     ran.gen = function(d, p) d, mle = NULL, simple = FALSE, ...,
+     parallel = c("no", "multicore", "snow"),
+     ncpus = getOption("boot.ncpus", 1L), cl = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>The data as a vector, matrix or data frame.  If it is a matrix or
+data frame then each row is considered as one multivariate
+observation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>A function which when applied to data returns a vector containing
+the statistic(s) of interest.  When <code>sim = "parametric"</code>, the
+first argument to <code>statistic</code> must be the data.  For each
+replicate a simulated dataset returned by <code>ran.gen</code> will be
+passed.  In all other cases <code>statistic</code> must take at least two
+arguments.  The first argument passed will always be the original
+data.  The second will be a vector of indices, frequencies or weights
+which define the bootstrap sample.  Further, if predictions are
+required, then a third argument is required which would be a vector
+of the random indices used to generate the bootstrap predictions.
+Any further arguments can be passed to <code>statistic</code> through the
+<code>...</code> argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>The number of bootstrap replicates.  Usually this will be a single
+positive integer.  For importance resampling, some resamples may use
+one set of weights and others use a different set of weights.  In
+this case <code>R</code> would be a vector of integers where each
+component gives the number of resamples from each of the rows of
+weights.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sim</code></td>
+<td>
+
+<p>A character string indicating the type of simulation required.
+Possible values are <code>"ordinary"</code> (the default),
+<code>"parametric"</code>, <code>"balanced"</code>, <code>"permutation"</code>, or
+<code>"antithetic"</code>.  Importance resampling is specified by
+including importance weights; the type of importance resampling must
+still be specified but may only be <code>"ordinary"</code> or
+<code>"balanced"</code> in this case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stype</code></td>
+<td>
+
+<p>A character string indicating what the second argument of <code>statistic</code>
+represents.  Possible values of stype are <code>"i"</code> (indices - the
+default), <code>"f"</code> (frequencies), or <code>"w"</code> (weights).  Not
+used for <code>sim = "parametric"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>An integer vector or factor specifying the strata for multi-sample
+problems.  This may be specified for any simulation, but is ignored
+when <code>sim = "parametric"</code>.  When <code>strata</code> is
+supplied for a nonparametric bootstrap, the simulations are done
+within the specified strata.
+</p>
+</td></tr>
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>Vector of influence values evaluated at the observations.  This is
+used only when <code>sim</code> is <code>"antithetic"</code>.  If not supplied,
+they are calculated through a call to <code>empinf</code>.  This will use
+the infinitesimal jackknife provided that <code>stype</code> is
+<code>"w"</code>, otherwise the usual jackknife is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+
+<p>The number of predictions which are to be made at each bootstrap
+replicate.  This is most useful for (generalized) linear models.
+This can only be used when <code>sim</code> is <code>"ordinary"</code>.
+<code>m</code> will usually be a single integer but, if there are strata,
+it may be a vector with length equal to the number of strata,
+specifying how many of the errors for prediction should come from
+each strata.  The actual predictions should be returned as the final
+part of the output of <code>statistic</code>, which should also take an
+argument giving the vector of indices of the errors to be used for
+the predictions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>Vector or matrix of importance weights.  If a vector then it should
+have as many elements as there are observations in <code>data</code>.
+When simulation from more than one set of weights is required,
+<code>weights</code> should be a matrix where each row of the matrix is
+one set of importance weights.  If <code>weights</code> is a matrix then
+<code>R</code> must be a vector of length <code>nrow(weights)</code>.  This
+parameter is ignored if <code>sim</code> is not <code>"ordinary"</code> or
+<code>"balanced"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ran.gen</code></td>
+<td>
+
+<p>This function is used only when <code>sim = "parametric"</code>
+when it describes how random values are to be generated.  It should
+be a function of two arguments.  The first argument should be the
+observed data and the second argument consists of any other
+information needed (e.g. parameter estimates).  The second argument
+may be a list, allowing any number of items to be passed to
+<code>ran.gen</code>.  The returned value should be a simulated data set
+of the same form as the observed data which will be passed to
+<code>statistic</code> to get a bootstrap replicate.  It is important that the
+returned value be of the same shape and type as the original
+dataset.  If <code>ran.gen</code> is not specified, the default is a
+function which returns the original <code>data</code> in which case all
+simulation should be included as part of <code>statistic</code>.  Use of
+<code>sim = "parametric"</code> with a suitable <code>ran.gen</code> allows the
+user to implement any types of nonparametric resampling which are
+not supported directly.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mle</code></td>
+<td>
+
+<p>The second argument to be passed to <code>ran.gen</code>.  Typically these
+will be maximum likelihood estimates of the parameters.  For
+efficiency <code>mle</code> is often a list containing all of the objects
+needed by <code>ran.gen</code> which can be calculated using the original
+data set only.
+</p>
+</td></tr>
+<tr valign="top"><td><code>simple</code></td>
+<td>
+<p>logical, only allowed to be <code>TRUE</code> for
+<code>sim = "ordinary", stype = "i", n = 0</code> (otherwise ignored with a
+warning).  By default a <code>n</code> by <code>R</code> index array is created:
+this can be large and if <code>simple = TRUE</code> this is avoided by
+sampling separately for each replication, which is slower but uses
+less memory.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Other named arguments for <code>statistic</code> which are passed
+unchanged each time it is called.  Any such arguments to
+<code>statistic</code> should follow the arguments which <code>statistic</code> is
+required to have for the simulation.  Beware of partial matching to
+arguments of <code>boot</code> listed above, and that arguments named
+<code>X</code> and <code>FUN</code> cause conflicts in some versions of
+<span class="pkg">boot</span> (but not this one).
+</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+
+<p>The type of parallel operation to be used (if any).  If missing, the
+default is taken from the option <code>"boot.parallel"</code> (and if that
+is not set, <code>"no"</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>ncpus</code></td>
+<td>
+
+<p>integer: number of processes to be used in parallel operation:
+typically one would chose this to the number of available CPUs.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+
+<p>An optional <span class="pkg">parallel</span> or <span class="pkg">snow</span> cluster for use if
+<code>parallel = "snow"</code>.  If not supplied, a cluster on the
+local machine is created for the duration of the <code>boot</code> call.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The statistic to be bootstrapped can be as simple or complicated as
+desired as long as its arguments correspond to the dataset and (for
+a nonparametric bootstrap) a vector of indices, frequencies or
+weights.  <code>statistic</code> is treated as a black box by the
+<code>boot</code> function and is not checked to ensure that these
+conditions are met.
+</p>
+<p>The first order balanced bootstrap is described in Davison, Hinkley
+and Schechtman (1986).  The antithetic bootstrap is described by
+Hall (1989) and is experimental, particularly when used with strata.
+The other non-parametric simulation types are the ordinary bootstrap
+(possibly with unequal probabilities), and permutation which returns
+random permutations of cases. All of these methods work
+independently within strata if that argument is supplied.
+</p>
+<p>For the parametric bootstrap it is necessary for the user to specify
+how the resampling is to be conducted.  The best way of
+accomplishing this is to specify the function <code>ran.gen</code> which
+will return a simulated data set from the observed data set and a
+set of parameter estimates specified in <code>mle</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The returned value is an object of class <code>"boot"</code>, containing the
+following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The observed value of <code>statistic</code> applied to <code>data</code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>A matrix with <code>sum(R)</code> rows each of which is a bootstrap replicate
+of the result of calling <code>statistic</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>The value of <code>R</code> as passed to <code>boot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>The <code>data</code> as passed to <code>boot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+
+<p>The value of <code>.Random.seed</code> when <code>boot</code> started work.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>The function <code>statistic</code> as passed to <code>boot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sim</code></td>
+<td>
+
+<p>Simulation type used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stype</code></td>
+<td>
+
+<p>Statistic type as passed to <code>boot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>The original call to <code>boot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>The strata used.  This is the vector passed to <code>boot</code>, if it
+was supplied or a vector of ones if there were no strata.  It is not
+returned if <code>sim</code> is <code>"parametric"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>The importance sampling weights as passed to <code>boot</code> or the empirical 
+distribution function weights if no importance sampling weights were
+specified.  It is omitted if <code>sim</code> is not one of
+<code>"ordinary"</code> or <code>"balanced"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pred.i</code></td>
+<td>
+
+<p>If predictions are required (<code>m &gt; 0</code>) this is the matrix of
+indices at which predictions were calculated as they were passed to
+statistic.  Omitted if <code>m</code> is <code>0</code> or <code>sim</code> is not
+<code>"ordinary"</code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>The influence values used when <code>sim</code> is <code>"antithetic"</code>.
+If no such values were specified and <code>stype</code> is not <code>"w"</code>
+then <code>L</code> is returned as consecutive integers corresponding to
+the assumption that data is ordered by influence values. This
+component is omitted when <code>sim</code> is not <code>"antithetic"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ran.gen</code></td>
+<td>
+
+<p>The random generator function used if <code>sim</code> is
+<code>"parametric"</code>. This component is omitted for any other value
+of <code>sim</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mle</code></td>
+<td>
+
+<p>The parameter estimates passed to <code>boot</code> when <code>sim</code> is
+<code>"parametric"</code>.  It is omitted for all other values of
+<code>sim</code>.
+</p>
+</td></tr>
+</table>
+<p>There are <code>c</code>, <code>plot</code> and <code>print</code> methods for this class.
+</p>
+
+
+<h3>Parallel operation</h3>
+
+<p>When <code>parallel = "multicore"</code> is used (not available on Windows),
+each worker process inherits the environment of the current session,
+including the workspace and the loaded namespaces and attached
+packages (but not the random number seed: see below).
+</p>
+<p>More work is needed when <code>parallel = "snow"</code> is used: the worker
+processes are newly created <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> processes, and <code>statistic</code> needs
+to arrange to set up the environment it needs: often a good way to do
+that is to make use of lexical scoping since when <code>statistic</code> is
+sent to the worker processes its enclosing environment is also sent.
+(E.g. see the example for <code><a href="jack.after.boot.html">jack.after.boot</a></code> where
+ancillary functions are nested inside the <code>statistic</code> function.)
+<code>parallel = "snow"</code> is primarily intended to be used on
+multi-core Windows machine where <code>parallel = "multicore"</code> is not
+available.
+</p>
+<p>For most of the <code>boot</code> methods the resampling is done in the
+master process, but not if <code>simple = TRUE</code> nor <code>sim =
+  "parametric"</code>.  In those cases (or where <code>statistic</code> itself uses
+random numbers), more care is needed if the results need to be
+reproducible.  Resampling is done in the worker processes by
+<code><a href="censboot.html">censboot</a>(sim = "wierd")</code> and by most of the schemes in
+<code><a href="tsboot.html">tsboot</a></code> (the exceptions being <code>sim == "fixed"</code> and
+<code>sim == "geom"</code> with the default <code>ran.gen</code>).
+</p>
+<p>Where random-number generation is done in the worker processes, the
+default behaviour is that each worker chooses a separate seed,
+non-reproducibly.  However, with <code>parallel = "multicore"</code> or
+<code>parallel = "snow"</code> using the default cluster, a second approach
+is used if <code><a href="../../base/html/Random.html">RNGkind</a>("L'Ecuyer-CMRG")</code> has been selected.
+In that approach each worker gets a different subsequence of the RNG
+stream based on the seed at the time the worker is spawned and so the
+results will be reproducible if <code>ncpus</code> is unchanged, and for
+<code>parallel = "multicore"</code> if <code>parallel::<a href="../../parallel/html/RngStream.html">mc.reset.stream</a>()</code> is
+called: see the examples for <code><a href="../../parallel/html/mcdummies.html">mclapply</a></code>.
+</p>
+<p>Note that loading the <span class="pkg">parallel</span> namespace may change the random
+seed, so for maximum reproducibility this should be done before
+calling this function.
+</p>
+
+
+<h3>References</h3>
+
+<p>There are many references explaining the bootstrap and its variations.
+Among them are :
+</p>
+<p>Booth, J.G., Hall, P. and Wood, A.T.A. (1993) Balanced importance resampling 
+for the bootstrap. <em>Annals of Statistics</em>, <b>21</b>, 286&ndash;298.
+</p>
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Davison, A.C., Hinkley, D.V. and Schechtman, E. (1986) Efficient bootstrap 
+simulation. <em>Biometrika</em>, <b>73</b>, 555&ndash;566.
+</p>
+<p>Efron, B. and Tibshirani, R. (1993) <em>An Introduction to the Bootstrap</em>.
+Chapman &amp; Hall.
+</p>
+<p>Gleason, J.R. (1988) Algorithms for balanced bootstrap simulations.
+<em> American Statistician</em>, <b>42</b>, 263&ndash;266.
+</p>
+<p>Hall, P. (1989) Antithetic resampling for the bootstrap. <em>Biometrika</em>,
+<b>73</b>, 713&ndash;724.
+</p>
+<p>Hinkley, D.V. (1988) Bootstrap methods (with Discussion). 
+<em>Journal of the  Royal Statistical Society, B</em>, <b>50</b>,
+312&ndash;337, 355&ndash;370.
+</p>
+<p>Hinkley, D.V. and Shi, S. (1989) Importance sampling and the nested bootstrap.
+<em>Biometrika</em>, <b>76</b>, 435&ndash;446.
+</p>
+<p>Johns M.V. (1988) Importance sampling for bootstrap confidence intervals.
+<em>Journal of the American Statistical Association</em>, <b>83</b>, 709&ndash;714.
+</p>
+<p>Noreen, E.W. (1989) <em>Computer Intensive Methods for Testing Hypotheses</em>. 
+John Wiley &amp; Sons.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.array.html">boot.array</a></code>, <code><a href="boot.ci.html">boot.ci</a></code>,
+<code><a href="censboot.html">censboot</a></code>, <code><a href="empinf.html">empinf</a></code>,
+<code><a href="jack.after.boot.html">jack.after.boot</a></code>, <code><a href="tilt.boot.html">tilt.boot</a></code>,
+<code><a href="tsboot.html">tsboot</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Usual bootstrap of the ratio of means using the city data
+ratio &lt;- function(d, w) sum(d$x * w)/sum(d$u * w)
+boot(city, ratio, R = 999, stype = "w")
+
+
+# Stratified resampling for the difference of means.  In this
+# example we will look at the difference of means between the final
+# two series in the gravity data.
+diff.means &lt;- function(d, f)
+{    n &lt;- nrow(d)
+     gp1 &lt;- 1:table(as.numeric(d$series))[1]
+     m1 &lt;- sum(d[gp1,1] * f[gp1])/sum(f[gp1])
+     m2 &lt;- sum(d[-gp1,1] * f[-gp1])/sum(f[-gp1])
+     ss1 &lt;- sum(d[gp1,1]^2 * f[gp1]) - (m1 *  m1 * sum(f[gp1]))
+     ss2 &lt;- sum(d[-gp1,1]^2 * f[-gp1]) - (m2 *  m2 * sum(f[-gp1]))
+     c(m1 - m2, (ss1 + ss2)/(sum(f) - 2))
+}
+grav1 &lt;- gravity[as.numeric(gravity[,2]) &gt;= 7,]
+boot(grav1, diff.means, R = 999, stype = "f", strata = grav1[,2])
+
+# In this example we show the use of boot in a prediction from
+# regression based on the nuclear data.  This example is taken
+# from Example 6.8 of Davison and Hinkley (1997).  Notice also
+# that two extra arguments to 'statistic' are passed through boot.
+nuke &lt;- nuclear[, c(1, 2, 5, 7, 8, 10, 11)]
+nuke.lm &lt;- glm(log(cost) ~ date+log(cap)+ne+ct+log(cum.n)+pt, data = nuke)
+nuke.diag &lt;- glm.diag(nuke.lm)
+nuke.res &lt;- nuke.diag$res * nuke.diag$sd
+nuke.res &lt;- nuke.res - mean(nuke.res)
+
+# We set up a new data frame with the data, the standardized 
+# residuals and the fitted values for use in the bootstrap.
+nuke.data &lt;- data.frame(nuke, resid = nuke.res, fit = fitted(nuke.lm))
+
+# Now we want a prediction of plant number 32 but at date 73.00
+new.data &lt;- data.frame(cost = 1, date = 73.00, cap = 886, ne = 0,
+                       ct = 0, cum.n = 11, pt = 1)
+new.fit &lt;- predict(nuke.lm, new.data)
+
+nuke.fun &lt;- function(dat, inds, i.pred, fit.pred, x.pred)
+{
+     lm.b &lt;- glm(fit+resid[inds] ~ date+log(cap)+ne+ct+log(cum.n)+pt,
+                 data = dat)
+     pred.b &lt;- predict(lm.b, x.pred)
+     c(coef(lm.b), pred.b - (fit.pred + dat$resid[i.pred]))
+}
+
+nuke.boot &lt;- boot(nuke.data, nuke.fun, R = 999, m = 1, 
+                  fit.pred = new.fit, x.pred = new.data)
+# The bootstrap prediction squared error would then be found by
+mean(nuke.boot$t[, 8]^2)
+# Basic bootstrap prediction limits would be
+new.fit - sort(nuke.boot$t[, 8])[c(975, 25)]
+
+
+# Finally a parametric bootstrap.  For this example we shall look 
+# at the air-conditioning data.  In this example our aim is to test 
+# the hypothesis that the true value of the index is 1 (i.e. that 
+# the data come from an exponential distribution) against the 
+# alternative that the data come from a gamma distribution with
+# index not equal to 1.
+air.fun &lt;- function(data) {
+     ybar &lt;- mean(data$hours)
+     para &lt;- c(log(ybar), mean(log(data$hours)))
+     ll &lt;- function(k) {
+          if (k &lt;= 0) 1e200 else lgamma(k)-k*(log(k)-1-para[1]+para[2])
+     }
+     khat &lt;- nlm(ll, ybar^2/var(data$hours))$estimate
+     c(ybar, khat)
+}
+
+air.rg &lt;- function(data, mle) {
+    # Function to generate random exponential variates.
+    # mle will contain the mean of the original data
+    out &lt;- data
+    out$hours &lt;- rexp(nrow(out), 1/mle)
+    out
+}
+
+air.boot &lt;- boot(aircondit, air.fun, R = 999, sim = "parametric",
+                 ran.gen = air.rg, mle = mean(aircondit$hours))
+
+# The bootstrap p-value can then be approximated by
+sum(abs(air.boot$t[,2]-1) &gt; abs(air.boot$t0[2]-1))/(1+air.boot$R)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

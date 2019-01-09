@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert date objects to ratetable form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ratetableDate {survival}"><tr><td>ratetableDate {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert date objects to ratetable form</h2>
+
+<h3>Description</h3>
+
+<p>This method converts dates from various forms into
+the internal form used in <code>ratetable</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ratetableDate(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a date.  The function currently has methods for Date, date,
+POSIXt, timeDate, and chron objects.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is useful for those who create new ratetables, but is
+normally invisible to users.
+It is used internally by the <code>survexp</code> and <code>pyears</code>
+functions to map the various date formats; if a new method is added
+then those routines will automatically be adapted to the new date type.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a numeric vector, the number of days since 1/1/1960.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pyears.html">pyears</a></code>, <code><a href="survexp.html">survexp</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

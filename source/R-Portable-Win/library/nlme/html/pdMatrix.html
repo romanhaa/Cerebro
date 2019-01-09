@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Matrix or Square-Root Factor from a pdMat Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pdMatrix {nlme}"><tr><td>pdMatrix {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Matrix or Square-Root Factor from a pdMat Object</h2>
+
+<h3>Description</h3>
+
+<p>The positive-definite matrix represented by <code>object</code>, or a
+square-root factor of it is obtained. Letting <i>S</i> denote a
+positive-definite matrix, a square-root factor of <i>S</i> is
+any square matrix <i>L</i> such that <i>S =
+    L'L</i>. This function extracts <i>S</i> or <i>L</i>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pdMatrix(object, factor)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>pdMat</code>, representing
+a positive definite matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>factor</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code>, a square-root
+factor of the positive-definite matrix represented by <code>object</code>
+is returned; else, if <code>FALSE</code>, the positive-definite matrix is
+returned. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>fact</code> is <code>FALSE</code> the positive-definite matrix
+represented by <code>object</code> is returned; else a square-root of the
+positive-definite matrix is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. p. 162.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="as.matrix.pdMat.html">as.matrix.pdMat</a></code>,
+<code><a href="pdClasses.html">pdClasses</a></code>,
+<code><a href="pdFactor.html">pdFactor</a></code>,
+<code><a href="pdMat.html">pdMat</a></code>,
+<code><a href="pdMatrix.reStruct.html">pdMatrix.reStruct</a></code>,
+<code><a href="corMatrix.html">corMatrix</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdSymm(diag(1:4))
+pdMatrix(pd1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

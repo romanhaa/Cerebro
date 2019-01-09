@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Refinery yield of gasoline</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Gasoline {nlme}"><tr><td>Gasoline {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Refinery yield of gasoline</h2>
+
+<h3>Description</h3>
+
+<p>The <code>Gasoline</code> data frame has 32 rows and 6 columns.
+</p>
+
+
+<h3>Format</h3>
+
+<p>This data frame contains the following columns:
+</p>
+
+<dl>
+<dt>yield</dt><dd>
+<p>a numeric vector giving the percentage of crude oil converted to
+gasoline after distillation and fractionation
+</p>
+</dd>
+<dt>endpoint</dt><dd>
+<p>a numeric vector giving the temperature (degrees F) at which all
+the gasoline is vaporized
+</p>
+</dd>
+<dt>Sample</dt><dd>
+<p>an ordered factor giving the inferred crude oil sample number
+</p>
+</dd>
+<dt>API</dt><dd>
+<p>a numeric vector giving the crude oil gravity (degrees API)
+</p>
+</dd>
+<dt>vapor</dt><dd>
+<p>a numeric vector giving the vapor pressure of the crude oil
+<i>(lbf/in^2)</i>
+</p>
+</dd>
+<dt>ASTM</dt><dd>
+<p>a numeric vector giving the crude oil 10% point ASTM&mdash;the
+temperature at which 10% of the crude oil has become vapor. 
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Details</h3>
+
+<p>Prater (1955) provides data on crude oil properties and
+gasoline yields.  Atkinson (1985)
+uses these data to illustrate the use of diagnostics in multiple
+regression analysis.  Three of the covariates&mdash;<code>API</code>,
+<code>vapor</code>, and <code>ASTM</code>&mdash;measure characteristics of the
+crude oil used to produce the gasoline.  The other covariate &mdash;
+<code>endpoint</code>&mdash;is a characteristic of the refining process.
+Daniel and Wood (1980) notice that the covariates characterizing
+the crude oil occur in only ten distinct groups and conclude that the
+data represent responses measured on ten different crude oil samples.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Prater, N. H. (1955), Estimate gasoline yields from crudes,
+<em>Petroleum Refiner</em>, <b>35</b> (5).
+</p>
+<p>Atkinson, A. C. (1985), <em>Plots, Transformations, and
+Regression</em>, Oxford Press, New York.
+</p>
+<p>Daniel, C. and Wood, F. S. (1980), <em>Fitting Equations to Data</em>,
+Wiley, New York
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002) <em>Modern Applied
+Statistics with S (4th ed)</em>, Springer, New York.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

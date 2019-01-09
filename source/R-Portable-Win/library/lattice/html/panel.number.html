@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accessing Auxiliary Information During Plotting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for G_panel.number {lattice}"><tr><td>G_panel.number {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accessing Auxiliary Information During Plotting</h2>
+
+<h3>Description</h3>
+
+<p>Control over lattice plots are provided through a collection of user
+specifiable functions that perform various tasks during the plotting.
+Not all information is available to all functions.  The functions
+documented here attempt to provide a consistent interface to access
+relevant information from within these user specified functions,
+namely those specified as the <code>panel</code>, <code>strip</code> and
+<code>axis</code> functions.  Note that this information is not available to
+the <code>prepanel</code> function, which is executed prior to the actual
+plotting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+current.row(prefix)
+current.column(prefix)
+panel.number(prefix)
+packet.number(prefix)
+which.packet(prefix)
+
+trellis.currentLayout(which = c("packet", "panel"), prefix)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>which</code></td>
+<td>
+
+<p>whether return value (a matrix) should contain panel numbers or
+packet numbers, which are usually, but not necessarily, the same
+(see below for details).
+</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+
+<p>A character string acting as a prefix identifying the plot of a
+<code>"trellis"</code> object.  Only relevant when a particular page is
+occupied by more than one plot.  Defaults to the value appropriate
+for the last <code>"trellis"</code> object printed.  See
+<code><a href="interaction.html">trellis.focus</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>trellis.currentLayout</code> returns a matrix with as many rows and
+columns as in the layout of panels in the current plot.  Entries in
+the matrix are integer indices indicating which packet (or panel; see
+below) occupies that position, with 0 indicating the absence of a
+panel.  <code>current.row</code> and <code>current.column</code> return integer
+indices specifying which row and column in the layout are currently
+active.  <code>panel.number</code> returns an integer counting which panel
+is being drawn (starting from 1 for the first panel, a.k.a. the panel
+order).  <code>packet.number</code> gives the packet number according to the
+packet order, which is determined by varying the first conditioning
+variable the fastest, then the second, and so on.  <code>which.packet</code>
+returns the combination of levels of the conditioning variables in the
+form of a numeric vector as long as the number of conditioning
+variables, with each element an integer indexing the levels of the
+corresponding variable.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The availability of these functions make redundant some features
+available in earlier versions of lattice, namely optional arguments
+called <code>panel.number</code> and <code>packet.number</code> that were made
+available to <code>panel</code> and <code>strip</code>.  If you have written such
+functions, it should be enough to replace instances of
+<code>panel.number</code> and <code>packet.number</code> by the corresponding
+function calls.  You should also remove <code>panel.number</code> and
+<code>packet.number</code> from the argument list of your function to avoid
+a warning.
+</p>
+<p>If these accessor functions are not enough for your needs, feel free
+to contact the maintainer and ask for more.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code>, <code><a href="xyplot.html">xyplot</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

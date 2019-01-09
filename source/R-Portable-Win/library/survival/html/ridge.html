@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ridge regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ridge {survival}"><tr><td>ridge {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Ridge regression</h2>
+
+<h3>Description</h3>
+
+<p>When used in a <a href="coxph.html">coxph</a> or <a href="survreg.html">survreg</a> model formula,
+specifies a ridge regression term.  The likelihood is penalised by
+<code>theta</code>/2 time the sum of squared coefficients. If <code>scale=T</code>
+the penalty is calculated for coefficients based on rescaling the
+predictors to have unit variance. If <code>df</code> is specified then <code>theta</code> is chosen based on an approximate degrees of freedom.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ridge(..., theta, df=nvar/2, eps=0.1, scale=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>predictors to be ridged </p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>penalty is <code>theta</code>/2 time sum of squared coefficients </p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+<p>Approximate degrees of freedom </p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p> Accuracy required for <code>df</code> </p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p> Scale variables before applying penalty? </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>coxph.penalty</code> containing the data and
+control functions.  </p>
+
+
+<h3>References</h3>
+
+<p>Gray (1992) &quot;Flexible methods of analysing survival data using splines, with applications to breast cancer prognosis&quot; JASA 87:942&ndash;951
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="coxph.html">coxph</a></code>,<code><a href="survreg.html">survreg</a></code>,<code><a href="pspline.html">pspline</a></code>,<code><a href="frailty.html">frailty</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+coxph(Surv(futime, fustat) ~ rx + ridge(age, ecog.ps, theta=1),
+	      ovarian)
+
+lfit0 &lt;- survreg(Surv(time, status) ~1, cancer)
+lfit1 &lt;- survreg(Surv(time, status) ~ age + ridge(ph.ecog, theta=5), cancer)
+lfit2 &lt;- survreg(Surv(time, status) ~ sex + ridge(age, ph.ecog, theta=1), cancer)
+lfit3 &lt;- survreg(Surv(time, status) ~ sex + age + ph.ecog, cancer)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

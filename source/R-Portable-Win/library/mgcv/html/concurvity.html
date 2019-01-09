@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM concurvity measures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for concurvity {mgcv}"><tr><td>concurvity {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM concurvity measures</h2>
+
+<h3>Description</h3>
+
+<p>Produces summary measures of concurvity between <code><a href="gam.html">gam</a></code> components.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+concurvity(b,full=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>An object inheriting from class <code>"gam"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>full</code></td>
+<td>
+<p>If <code>TRUE</code> then concurvity of each term with the whole of the rest of the model is considered. 
+If <code>FALSE</code> then pairwise concurvity measures between each smooth term (as well as the parametric component) 
+are considered.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Concurvity occurs when some smooth term in a model could be approximated by one or more of the other smooth terms 
+in the model. This is often the case when a smooth of space is included in a model, along with smooths of other covariates 
+that also vary more or less smoothly in space. Similarly it tends to be an issue in models including a smooth of time, 
+along with smooths of other time varying covariates.
+</p>
+<p>Concurvity can be viewed as a generalization of co-linearity, and causes similar problems of interpretation. It can also make estimates somewhat unstable (so that they become sensitive to apparently innocuous modelling details, for example). 
+</p>
+<p>This routine computes three related indices of concurvity, all bounded between 0 and 1, with 0 indicating no problem, 
+and 1 indicating total lack of identifiability. The three indices are all based on the idea that a smooth term, f,  
+in the model can be decomposed into a part, g, that lies entirely in the space of one or more other terms 
+in the model, and a remainder part that is completely within the term's own space. If g makes up a large part of f then there is a concurvity problem. The indices used are all based on the square of ||g||/||f||, that is the ratio of the squared 
+Euclidean norms of the vectors of f and g evaluated at the observed covariate values. 
+</p>
+<p>The three measures are as follows 
+</p>
+
+<dl>
+<dt>worst</dt><dd><p>This is the largest value that the square of ||g||/||f|| could take for any coefficient vector. This is a fairly pessimistic measure, as it looks at the worst case irrespective of data. This is the only measure that is symmetric.</p>
+</dd>
+<dt>observed</dt><dd><p>This just returns the value of the square of ||g||/||f|| according to the estimated coefficients. 
+This could be a bit over-optimistic about the potential for a problem in some cases. </p>
+</dd>
+<dt>estimate</dt><dd><p>This is the squared F-norm of the basis for g divided by the F-norm of the basis for f. 
+It is a measure of the 
+extent to which the f basis can be explained by the g basis. It does not suffer from the pessimism or potential for 
+over-optimism of the previous two measures, but is less easy to understand.</p>
+</dd>
+</dl>
+
+
+
+<h3>Value</h3>
+
+<p> If <code>full=TRUE</code> a matrix with one column for each term and one row for each of the 3 concurvity measures detailed below. If <code>full=FALSE</code> a list of 3 matrices, one for each of the three concurvity measures detailed below. Each row of 
+the matrix relates to how the model terms depend on the model term supplying that rows name.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+## simulate data with concurvity...
+set.seed(8);n&lt;- 200
+f2 &lt;- function(x) 0.2 * x^11 * (10 * (1 - x))^6 + 10 *
+            (10 * x)^3 * (1 - x)^10
+t &lt;- sort(runif(n)) ## first covariate
+## make covariate x a smooth function of t + noise...
+x &lt;- f2(t) + rnorm(n)*3
+## simulate response dependent on t and x...
+y &lt;- sin(4*pi*t) + exp(x/20) + rnorm(n)*.3
+
+## fit model...
+b &lt;- gam(y ~ s(t,k=15) + s(x,k=15),method="REML")
+
+## assess concurvity between each term and `rest of model'...
+concurvity(b)
+
+## ... and now look at pairwise concurvity between terms...
+concurvity(b,full=FALSE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

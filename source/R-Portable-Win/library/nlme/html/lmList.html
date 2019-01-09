@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of lm Objects with a Common Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lmList {nlme}"><tr><td>lmList {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of lm Objects with a Common Model</h2>
+
+<h3>Description</h3>
+
+<p><code>Data</code> is partitioned according to the levels of the grouping
+factor <code>g</code> and individual <code>lm</code> fits are obtained for each
+<code>data</code> partition, using the model defined in <code>object</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lmList(object, data, level, subset, na.action = na.fail,
+       pool = TRUE, warn.lm = TRUE)
+## S3 method for class 'lmList'
+update(object, formula., ..., evaluate = TRUE)
+## S3 method for class 'lmList'
+print(x, pool, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>For <code>lmList</code>,
+either a linear formula object of the form <code>y ~ x1+...+xn | g</code>
+or a <code>groupedData</code> object. In the formula object, <code>y</code>
+represents the response, <code>x1,...,xn</code> the covariates, and
+<code>g</code> the grouping factor specifying the partitioning of the data
+according to which different <code>lm</code> fits should be performed. The
+grouping factor <code>g</code> may be omitted from the formula, in which
+case the grouping structure will be obtained from <code>data</code>, which
+must inherit from class <code>groupedData</code>.  The method function
+<code><a href="lmList.groupedData.html">lmList.groupedData</a></code> is documented separately.
+For the method <code>update.lmList</code>, <code>object</code> is an object
+inheriting from class <code>lmList</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>(used in <code>update.lmList</code> only)
+a two-sided linear formula with the common model for the individuals
+<code>lm</code> fits.
+</p>
+</td></tr>
+<tr valign="top"><td><code>formula.</code></td>
+<td>
+<p>Changes to the formula &ndash; see <code>update.formula</code> for
+details.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a data frame in which to interpret the variables named in
+<code>object</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+
+<p>an optional integer specifying the level of grouping to be used when
+multiple nested levels of grouping are present.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional expression indicating which subset of the rows of
+<code>data</code> should  be  used in the fit. This can be a logical
+vector, or a numeric vector indicating which observation numbers are
+to be included, or a  character  vector of the row names to be
+included.  All observations are included by default.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s.  The default action (<code>na.fail</code>) causes
+<code>lmList</code> to print an error message and terminate if there are any
+incomplete observations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pool</code></td>
+<td>
+
+<p>an optional logical value indicating whether a pooled
+estimate of the residual standard error should be used
+in calculations of standard deviations or standard errors for
+summaries.
+</p>
+</td></tr>
+<tr valign="top"><td><code>warn.lm</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> indicating if <code><a href="../../stats/html/lm.html">lm</a>()</code>
+errors (all of which are caught by <code><a href="../../base/html/conditions.html">tryCatch</a></code>) should be
+signalled as a &ldquo;summarizing&rdquo; <code><a href="../../base/html/warning.html">warning</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>lmList</code> to be printed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr>
+<tr valign="top"><td><code>evaluate</code></td>
+<td>
+<p>If <code>TRUE</code> evaluate the new call else return the call.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list of <code>lm</code> objects with as many components as the number of
+groups defined by the grouping factor. Generic functions such as
+<code>coef</code>, <code>fixed.effects</code>, <code>lme</code>, <code>pairs</code>,
+<code>plot</code>, <code>predict</code>, <code>random.effects</code>, <code>summary</code>,
+and <code>update</code> have methods that can be applied to an <code>lmList</code>
+object.
+</p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/lm.html">lm</a></code>,
+<code><a href="lme.lmList.html">lme.lmList</a></code>,
+<code><a href="plot.lmList.html">plot.lmList</a></code>,
+<code><a href="pooledSD.html">pooledSD</a></code>,
+<code><a href="predict.lmList.html">predict.lmList</a></code>,
+<code><a href="residuals.lmList.html">residuals.lmList</a></code>,
+<code><a href="summary.lmList.html">summary.lmList</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(distance ~ age | Subject, Orthodont)
+summary(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

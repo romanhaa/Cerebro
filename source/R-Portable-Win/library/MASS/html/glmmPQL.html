@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Generalized Linear Mixed Models via PQL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glmmPQL {MASS}"><tr><td>glmmPQL {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit Generalized Linear Mixed Models via PQL
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit a GLMM model with multivariate normal random effects, using
+Penalized Quasi-Likelihood.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glmmPQL(fixed, random, family, data, correlation, weights,
+        control, niter = 10, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+
+<p>a two-sided linear formula giving fixed-effects part of the model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+
+<p>a formula or list of formulae describing the random effects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+
+<p>a GLM family.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>an optional data frame used as the first place to find
+variables in the formulae, <code>weights</code> and if present in
+<code>...</code>, <code>subset</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+
+<p>an optional correlation structure.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>optional case weights as in <code>glm</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+
+<p>an optional argument to be passed to <code>lme</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>niter</code></td>
+<td>
+
+<p>maximum number of iterations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+
+<p>logical: print out record of iterations?
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments for <code>lme</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p><code>glmmPQL</code> works by repeated calls to <code><a href="../../nlme/html/lme.html">lme</a></code>, so
+package <code>nlme</code> will be loaded at first use if necessary.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A object of class <code>"lme"</code>: see <code><a href="../../nlme/html/lmeObject.html">lmeObject</a></code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Schall, R. (1991) Estimation in generalized linear models with
+random effects.
+<em>Biometrika</em>
+<b>78</b>, 719&ndash;727.
+</p>
+<p>Breslow, N. E. and Clayton, D. G. (1993) Approximate inference in
+generalized linear mixed models.
+<em>Journal of the American Statistical Association</em>
+<b>88</b>, 9&ndash;25.
+</p>
+<p>Wolfinger, R. and O'Connell, M. (1993) Generalized linear mixed models: a
+pseudo-likelihood approach.
+<em>Journal of Statistical Computation and Simulation</em>
+<b>48</b>, 233&ndash;243.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../nlme/html/lme.html">lme</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(nlme) # will be loaded automatically if omitted
+summary(glmmPQL(y ~ trt + I(week &gt; 2), random = ~ 1 | ID,
+                family = binomial, data = bacteria))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

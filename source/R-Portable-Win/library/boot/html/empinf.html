@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Empirical Influence Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for empinf {boot}"><tr><td>empinf {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Empirical Influence Values
+</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the empirical influence values for a
+statistic applied to a data set.  It allows four types of calculation,
+namely the infinitesimal jackknife (using numerical differentiation),
+the usual jackknife estimates, the &lsquo;positive&rsquo; jackknife
+estimates and a method which estimates the empirical influence values
+using regression of bootstrap replicates of the statistic.  All
+methods can be used with one or more samples.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+empinf(boot.out = NULL, data = NULL, statistic = NULL,
+       type = NULL, stype = NULL ,index = 1, t = NULL,
+       strata = rep(1, n), eps = 0.001, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>boot.out</code></td>
+<td>
+
+<p>A bootstrap object created by the function <code>boot</code>.  If
+<code>type</code> is <code>"reg"</code> then this argument is required.  For any
+of the other types it is an optional argument.  If it is included
+when optional then the values of <code>data</code>, <code>statistic</code>,
+<code>stype</code>, and <code>strata</code> are taken from the components of
+<code>boot.out</code> and any values passed to <code>empinf</code> directly are
+ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>A vector, matrix or data frame containing the data for which
+empirical influence values are required.  It is a required argument
+if <code>boot.out</code> is not supplied.  If <code>boot.out</code> is supplied
+then <code>data</code> is set to <code>boot.out$data</code> and any value
+supplied is ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>The statistic for which empirical influence values are required.  It
+must be a function of at least two arguments, the data set and a
+vector of weights, frequencies or indices.  The nature of the second
+argument is given by the value of <code>stype</code>.  Any other arguments
+that it takes must be supplied to <code>empinf</code> and will be passed
+to <code>statistic</code> unchanged. This is a required argument if
+<code>boot.out</code> is not supplied, otherwise its value is taken from
+<code>boot.out</code> and any value supplied here will be ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>The calculation type to be used for the empirical influence
+values. Possible values of <code>type</code> are <code>"inf"</code>
+(infinitesimal jackknife), <code>"jack"</code> (usual jackknife),
+<code>"pos"</code> (positive jackknife), and <code>"reg"</code> (regression
+estimation).  The default value depends on the other arguments.  If
+<code>t</code> is supplied then the default value of <code>type</code> is
+<code>"reg"</code> and <code>boot.out</code> should be present so that its
+frequency array can be found.  It <code>t</code> is not supplied then if
+<code>stype</code> is <code>"w"</code>, the default value of <code>type</code> is
+<code>"inf"</code>; otherwise, if <code>boot.out</code> is present the default
+is <code>"reg"</code>.  If none of these conditions apply then the default
+is <code>"jack"</code>.  Note that it is an error for <code>type</code> to be
+<code>"reg"</code> if <code>boot.out</code> is missing or to be  <code>"inf"</code> if
+<code>stype</code> is not <code>"w"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stype</code></td>
+<td>
+
+<p>A character variable giving the nature of the second argument to
+<code>statistic</code>. It can take on three values: <code>"w"</code> (weights),
+<code>"f"</code> (frequencies), or <code>"i"</code> (indices).  If
+<code>boot.out</code> is supplied the value of <code>stype</code> is set to
+<code>boot.out$stype</code> and any value supplied here is ignored.
+Otherwise it is an optional argument which defaults to <code>"w"</code>.
+If <code>type</code> is <code>"inf"</code> then <code>stype</code> MUST be
+<code>"w"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+
+<p>An integer giving the position of the variable of interest in the
+output of <code>statistic</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>A vector of length <code>boot.out$R</code> which gives the bootstrap
+replicates of the statistic of interest.  <code>t</code> is used only when
+<code>type</code> is <code>reg</code> and it defaults to
+<code>boot.out$t[,index]</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>An integer vector or a factor specifying the strata for multi-sample
+problems. If <code>boot.out</code> is supplied  the value of <code>strata</code>
+is set to <code>boot.out$strata</code>. Otherwise it is an optional
+argument which has default corresponding to the single sample
+situation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+
+<p>This argument is used only if <code>type</code> is <code>"inf"</code>.  In that
+case the value of epsilon to be used for numerical differentiation
+will be <code>eps</code> divided by the number of observations in
+<code>data</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Any other arguments that <code>statistic</code> takes.  They will be
+passed unchanged to <code>statistic</code> every time that it is called.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>type</code> is <code>"inf"</code> then numerical differentiation is used
+to approximate the empirical influence values.  This makes sense only
+for statistics which are written in weighted form (i.e. <code>stype</code>
+is <code>"w"</code>).  If <code>type</code> is <code>"jack"</code> then the usual
+leave-one-out jackknife estimates of the empirical influence are
+returned.  If <code>type</code> is <code>"pos"</code> then the positive
+(include-one-twice) jackknife values are used.  If <code>type</code> is
+<code>"reg"</code> then a bootstrap object must be supplied. The regression
+method then works by regressing the bootstrap replicates of
+<code>statistic</code> on the frequency array from which they were derived.
+The bootstrap frequency array is obtained through a call to
+<code>boot.array</code>.  Further details of the methods are given in
+Section 2.7 of Davison and Hinkley (1997).
+</p>
+<p>Empirical influence values are often used frequently in nonparametric
+bootstrap applications.  For this reason many other functions call
+<code>empinf</code> when they are required.  Some examples of their use are
+for nonparametric delta estimates of variance, BCa intervals and
+finding linear approximations to statistics for use as control
+variates.  They are also used for antithetic bootstrap resampling.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of the empirical influence values of <code>statistic</code> applied
+to <code>data</code>.  The values will be in the same order as the
+observations in data.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>All arguments to <code>empinf</code> must be passed using the <code>name =
+    value</code> convention.  If this is not followed then unpredictable
+errors can occur.
+</p>
+
+
+<h3>References</h3>
+
+<p>Davison, A.C. and Hinkley, D.V. (1997)
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Efron, B. (1982) <em>The Jackknife, the Bootstrap and Other
+Resampling Plans</em>. CBMS-NSF Regional Conference Series in Applied
+Mathematics, <b>38</b>, SIAM.
+</p>
+<p>Fernholtz, L.T. (1983) <em>von Mises Calculus for Statistical Functionals</em>.
+Lecture Notes in Statistics, <b>19</b>, Springer-Verlag.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.html">boot</a></code>, <code><a href="boot.array.html">boot.array</a></code>, <code><a href="boot.ci.html">boot.ci</a></code>,
+<code><a href="control.html">control</a></code>, <code><a href="jack.after.boot.html">jack.after.boot</a></code>,
+<code><a href="linear.approx.html">linear.approx</a></code>, <code><a href="var.linear.html">var.linear</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The empirical influence values for the ratio of means in
+# the city data.
+ratio &lt;- function(d, w) sum(d$x *w)/sum(d$u*w)
+empinf(data = city, statistic = ratio)
+city.boot &lt;- boot(city, ratio, 499, stype="w")
+empinf(boot.out = city.boot, type = "reg")
+
+# A statistic that may be of interest in the difference of means
+# problem is the t-statistic for testing equality of means.  In
+# the bootstrap we get replicates of the difference of means and
+# the variance of that statistic and then want to use this output
+# to get the empirical influence values of the t-statistic.
+grav1 &lt;- gravity[as.numeric(gravity[,2]) &gt;= 7,]
+grav.fun &lt;- function(dat, w) {
+     strata &lt;- tapply(dat[, 2], as.numeric(dat[, 2]))
+     d &lt;- dat[, 1]
+     ns &lt;- tabulate(strata)
+     w &lt;- w/tapply(w, strata, sum)[strata]
+     mns &lt;- as.vector(tapply(d * w, strata, sum)) # drop names
+     mn2 &lt;- tapply(d * d * w, strata, sum)
+     s2hat &lt;- sum((mn2 - mns^2)/ns)
+     c(mns[2] - mns[1], s2hat)
+}
+
+grav.boot &lt;- boot(grav1, grav.fun, R = 499, stype = "w",
+                  strata = grav1[, 2])
+
+# Since the statistic of interest is a function of the bootstrap
+# statistics, we must calculate the bootstrap replicates and pass
+# them to empinf using the t argument.
+grav.z &lt;- (grav.boot$t[,1]-grav.boot$t0[1])/sqrt(grav.boot$t[,2])
+empinf(boot.out = grav.boot, t = grav.z)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

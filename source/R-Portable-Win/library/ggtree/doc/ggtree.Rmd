@@ -1,0 +1,259 @@
+---
+title: "ggtree: a phylogenetic tree viewer for different types of tree annotations"
+author: "Guangchuang Yu and Tommy Tsan-Yuk Lam\\
+
+        School of Public Health, The University of Hong Kong"
+date: "`r Sys.Date()`"
+bibliography: ggtree.bib
+biblio-style: apalike
+output:
+  prettydoc::html_pretty:
+    toc: true
+    theme: cayman
+    highlight: github
+  pdf_document:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{01 ggtree Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r style, echo=FALSE, results="asis", message=FALSE}
+knitr::opts_chunk$set(tidy = FALSE,
+		   message = FALSE)
+```
+
+
+```{r echo=FALSE}
+CRANpkg <- function (pkg) {
+    cran <- "https://CRAN.R-project.org/package"
+    fmt <- "[%s](%s=%s)"
+    sprintf(fmt, pkg, cran, pkg)
+}
+
+Biocpkg <- function (pkg) {
+    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
+}
+
+```
+
+> You can't even begin to understand biology, you can't understand life, unless
+> you understand what it's all there for, how it arose - and that means
+> evolution.
+>
+> --- Richard Dawkins
+
+
+# Citation
+
+If you use `r Biocpkg('ggtree')` in published research, please cite:
+
+__G Yu__, DK Smith, H Zhu, Y Guan, TTY Lam^\*^. ggtree: an R package for
+visualization and annotation of phylogenetic trees with their covariates and
+other associated data. __*Methods in Ecology and Evolution*__. 2017, 8(1):28-36.
+doi: [10.1111/2041-210X.12628](https://doi.org/10.1111/2041-210X.12628).
+
+
+# Introduction
+
+This project arose from our needs to annotate nucleotide substitutions in the
+phylogenetic tree, and we found that there is no tree visualization software can
+do this easily. Existing tree viewers are designed for displaying phylogenetic
+tree, but not annotating it. Although some tree viewers can displaying bootstrap
+values in the tree, it is hard/impossible to display other information in the
+tree. Our first solution for displaying nucleotide substituitions in the tree is
+to add this information in the node/tip names and use traditional tree viewer to
+show it. We displayed the information in the tree successfully, but we believe
+this indirect approach is inefficient.
+
+Previously, phylogenetic trees were much smaller. Annotation of phylogenetic
+trees was not as necessary as nowadays much more data is becomming available. We
+want to associate our experimental data, for instance antigenic change, with the
+evolution relationship. Visualizing these associations in a phylogenetic tree
+can help us to identify evolution patterns. We believe we need a next generation
+tree viewer that should be programmable and extensible. It can view a
+phylogenetic tree easily as we did with classical software and support adding
+annotation data in a layer above the tree. This is the objective of developing
+the `r Biocpkg('ggtree')` [@yu_ggtree:_2017]. Common tasks of annotating a phylogenetic tree should
+be easy and complicated tasks can be possible to achieve by adding multiple
+layers of annotation.
+
+The `r Biocpkg('ggtree')` is designed by extending the `r CRANpkg('ggplot2')`
+[@wickham_ggplot2_2009] package. It is based on the grammar of graphics and
+takes all the good parts of `r CRANpkg('ggplot2')`. There are other R packages that implement
+tree viewer using `r CRANpkg('ggplot2')`, including `r CRANpkg('OutbreakTools')`,
+`r Biocpkg('phyloseq')` [@mcmurdie_phyloseq_2013]
+and [ggphylo](https://github.com/gjuggler/ggphylo); they mostly create complex
+tree view functions for their specific needs. Internally, these packages
+interpret a phylogenetic as a collection of lines, which makes it hard to
+annotate diverse user input that are related to node (taxa). The `r Biocpkg('ggtree')` is
+different to them by interpreting a tree as a collection of taxa and allowing
+general flexibilities of annotating phylogenetic tree with diverse types of user
+inputs.
+
+
+# Getting data into *R*
+
+Most of the tree viewer software (including *R* packages) focus on *Newick* and
+*Nexus* file format, while there are file formats from different evolution
+analysis software that contain supporting evidences within the file that are
+ready for annotating a phylogenetic tree. The `r Biocpkg('treeio')` package
+supports several file formats and software outputs. It brings analysis findings
+to *R* users for further analysis (*e.g.* summarization, visualization,
+comparison and test, *etc.*). It also allows external data to be mapped on the
+phylogeny. Please refer to the `r Biocpkg('treeio')` vignette
+for more details.
+
+Users can use the following command to open the vignette:
+
+```r
+vignette("Importer", package="treeio")
+```
+
+All the data parsed/integrated by `r Biocpkg('treeio')` package can be used to
+visualize or annotate phylogenetic tree in `r Biocpkg('ggtree')` [@yu_ggtree:_2017].
+
+
+# Tree Visualization and Annotation
+
+Tree Visualization in `r Biocpkg('ggtree')` is easy, with one line of command
+`ggtree(tree_object)`. It supports several layouts, including *rectangular*,
+*slanted*, *circular* and *fan* for *phylogram* and *cladogram*, *equal_angle*
+and *daylight* for *unrooted* layout, time-scaled and two dimentional
+phylogenies. [Tree Visualization](treeVisualization.html) vignette describes
+these feature in details.
+
+We implement several functions to manipulate a phylogenetic tree visually,
+including viewing selected clade to explore large tree, taxa clustering,
+rotating clade or tree, zoom out or collapsing clades *etc.*.
+
+
+
+```{r treeman, echo=FALSE, out.extra='', message=FALSE}
+treeman <- matrix(c(
+  "collapse", "collapse a selecting clade",
+  "expand", "expand collapsed clade",
+  "flip", "exchange position of 2 clades that share a parent node",
+  "groupClade", "grouping clades",
+  "groupOTU", "grouping OTUs by tracing back to most recent common ancestor",
+  "identify", "interactive tree manipulation",
+  "rotate", "rotating a selected clade by 180 degree",
+  "rotate_tree", "rotating circular layout tree by specific angle",
+  "scaleClade", "zoom in or zoom out selecting clade",
+  "open_tree", "convert a tree to fan layout by specific open angle"
+), ncol=2, byrow=TRUE)
+treeman <- as.data.frame(treeman)
+colnames(treeman) <- c("Function", "Descriptiotn")
+knitr::kable(treeman, caption = "Tree manipulation functions.", booktabs = T)
+```
+
+
+Details and examples can be found in [Tree Manipulation](treeManipulation.html) vignette.
+
+
+Most of the phylogenetic trees are scaled by evolutionary distance
+(substitution/site), in `r Biocpkg('ggtree')` a phylogenetic tree can be
+re-scaled by any numerical variable inferred by evolutionary analysis (e.g.
+species divergence time, *d~N~/d~S~*, _etc_). Numerical and category variable can be
+used to color a phylogenetic tree.
+
+The `r Biocpkg('ggtree')` package provides several layers to annotate a
+phylogenetic tree. These layers are building blocks that can be freely combined
+together to create complex tree visualization.
+
+```{r geoms, echo=FALSE, message=FALSE}
+geoms <- matrix(c(
+  "geom_balance", "highlights the two direct descendant clades of an internal node",
+  "geom_cladelabel", "annotate a clade with bar and text label",
+  "geom_cladelabel2", "annotate a clade with bar and text label for unrooted layout",
+  "geom_hilight", "highlight a clade with rectangle",
+  "geom_hilight_encircle", "highlight a clade with xspline for unrooted layout",
+  "geom_label2", "modified version of geom_label, with subsetting supported",
+  "geom_nodelab", "layer for node labels, which can be text or image",
+  "geom_nodepoint", "annotate internal nodes with symbolic points",
+  "geom_point2", "modified version of geom_point, with subsetting supported",
+  "geom_range", "bar layer to present uncertainty of evolutionary inference",
+  "geom_rootpoint", "annotate root node with symbolic point",
+  "geom_segment2", "modified version of geom_segment, with subsetting supported",
+  "geom_strip", "annotate associated taxa with bar and (optional) text label",
+  "geom_taxalink", "associate two related taxa by linking them with a curve",
+  "geom_text2", "modified version of geom_text, with subsetting supported",
+  "geom_tiplab", "layer of tip labels, which can be text or image",
+  "geom_tiplab2", "layer of tip labels for circular layout",
+  "geom_tippoint", "annotate external nodes with symbolic points",
+  "geom_tree", "tree structure layer, with multiple layout supported",
+  "geom_treescale", "tree branch scale legend"
+), ncol=2, byrow=TRUE)
+geoms <- as.data.frame(geoms)
+colnames(geoms) <- c("Layer", "Description")
+knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T)
+```
+
+`r Biocpkg('ggtree')` supports creating phylomoji using Emoji fonts, please
+refer to the [Phylomoji](https://guangchuangyu.github.io/software/ggtree/vignettes/phylomoji.html) vignette.
+
+
+`r Biocpkg('ggtree')` integrates [phylopic](http://phylopic.org/) database and silhouette images of organisms can
+be downloaded and used to annotate phylogenetic directly. `r Biocpkg('ggtree')` also supports
+using local or remote images to annotate a phylogenetic tree. For details,
+please refer to the `r CRANpkg('ggimage')` package vignette, which can be opened
+via the following command:
+
+
+```r
+vignette("ggtree", package="ggimage")
+```
+
+
+Visualizing an annotated phylogenetic tree with numerical matrix (e.g. genotype
+table), multiple sequence alignment and subplots are also supported in `ggtree`.
+Examples of annotating phylogenetic trees can be found in
+the [Tree Annotation](treeAnnotation.html) vignette.
+
+
+# Vignette Entry
+
++ [Tree Data Import](https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html)
++ [Tree Visualization](treeVisualization.html)
++ [Tree Manipulation](treeManipulation.html)
++ [Tree Annotation](treeAnnotation.html)
++ [Phylomoji](https://guangchuangyu.github.io/software/ggtree/vignettes/phylomoji.html)
++ [Annotating phylogenetic tree with images](https://guangchuangyu.github.io/software/ggtree/vignettes/ggtree-ggimage.html)
++ [Annotate a phylogenetic tree with insets](https://guangchuangyu.github.io/software/ggtree/vignettes/ggtree-inset.html)
+
+
+**ggtree homepage**: <https://guangchuangyu.github.io/software/ggtree> (contains more
+information about the package, more documentation, a gallery of beautiful
+published images and links to related resources).
+
+
+# Need helps?
+
+
+If you have questions/issues, please visit
+[ggtree homepage](https://guangchuangyu.github.io/software/ggtree/) first.
+Your problems are mostly documented. If you think you found a bug, please follow
+[the guide](https://guangchuangyu.github.io/2016/07/how-to-bug-author/) and
+provide a reproducible example to be posted
+on
+[github issue tracker](https://github.com/GuangchuangYu/ggtree/issues).
+For questions, please post
+to [google group](https://groups.google.com/forum/#!forum/bioc-ggtree). Users
+are highly recommended to subscribe to the [mailing list](https://groups.google.com/forum/#!forum/bioc-ggtree).
+
+
+For Chinese user, you can follow me on [WeChat (微信)](https://guangchuangyu.github.io/blog_images/biobabble.jpg).
+
+
+# Session info
+
+Here is the output of `sessionInfo()` on the system on which this document was compiled:
+
+```{r echo=FALSE}
+sessionInfo()
+```
+
+
+# References

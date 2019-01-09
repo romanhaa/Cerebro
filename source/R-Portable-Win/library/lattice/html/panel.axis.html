@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Panel Function for Drawing Axis Ticks and Labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for G_panel.axis {lattice}"><tr><td>G_panel.axis {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Panel Function for Drawing Axis Ticks and Labels</h2>
+
+<h3>Description</h3>
+
+<p><code>panel.axis</code> is the function used by lattice to draw axes. It is
+typically not used by users, except those wishing to create advanced
+annotation. Keep in mind issues of clipping when trying to use it as
+part of the panel function. <code>current.panel.limits</code> can be used to
+retrieve a panel's x and y limits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.axis(side = c("bottom", "left", "top", "right"),
+           at,
+           labels = TRUE,
+           draw.labels = TRUE,
+           check.overlap = FALSE,
+           outside = FALSE,
+           ticks = TRUE,
+           half = !outside,
+           which.half,
+           tck = as.numeric(ticks),
+           rot = if (is.logical(labels)) 0 else c(90, 0),
+           text.col, text.alpha, text.cex, text.font,
+           text.fontfamily, text.fontface, text.lineheight,
+           line.col, line.lty, line.lwd, line.alpha)
+
+current.panel.limits(unit = "native")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>side</code></td>
+<td>
+
+<p>A character string indicating which side axes are to be drawn
+on. Partial specification is allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p> Numeric vector giving location of labels. </p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>The labels to go along with <code>at</code>.  The labels can be a character
+vector or a vector of expressions.  Alternatively, <code>at</code> can be a
+logical flag: If <code>TRUE</code>, the labels are derived from <code>at</code>,
+otherwise, labels are empty.
+</p>
+</td></tr>
+<tr valign="top"><td><code>draw.labels</code></td>
+<td>
+
+<p>A logical indicating whether labels are to be drawn.
+</p>
+</td></tr>
+<tr valign="top"><td><code>check.overlap</code></td>
+<td>
+
+<p>A logical, whether to check for overlapping of labels.  This also has
+the effect of removing <code>at</code> values that are &lsquo;too close&rsquo;
+to the limits.
+</p>
+</td></tr>
+<tr valign="top"><td><code>outside</code></td>
+<td>
+
+<p>A logical flag, indicating whether to draw the labels outside the
+panel or inside. Note that <code>outside=TRUE</code> will only have a visible
+effect if clipping is disabled for the viewport (panel).
+</p>
+</td></tr>
+<tr valign="top"><td><code>ticks</code></td>
+<td>
+<p> Logical flag, whether to draw the tickmarks. </p>
+</td></tr>
+<tr valign="top"><td><code>half</code></td>
+<td>
+
+<p>Logical flag, indicating whether only around half the scales will be
+drawn for each side.  This is primarily used for axis labeling in
+<code><a href="splom.html">splom</a></code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>which.half</code></td>
+<td>
+
+<p>Character string, either <code>"lower"</code> or <code>"upper"</code>,
+indicating which half is to be used for tick locations if <code>half
+    = TRUE</code>.  Defaults to whichever is suitable for <code><a href="splom.html">splom</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tck</code></td>
+<td>
+
+<p>A numeric scalar multiplier for tick length.  Can be negative, in
+which case the ticks point inwards. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>rot</code></td>
+<td>
+
+<p>Rotation angle(s) for labels in degrees. Can be a vector of length 2
+for x- and y-axes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>text.col</code></td>
+<td>
+
+<p>Color for the axis label text.  See <code><a href="../../grid/html/gpar.html">gpar</a></code> for
+more details on this and the other graphical parameters listed
+below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>text.alpha</code></td>
+<td>
+<p> Alpha-transparency value for the axis label text. </p>
+</td></tr>
+<tr valign="top"><td><code>text.cex</code></td>
+<td>
+<p> Size multiplier for the axis label text. </p>
+</td></tr>
+<tr valign="top"><td><code>text.font, text.fontfamily, text.fontface</code></td>
+<td>
+<p> Font for the axis label text. </p>
+</td></tr>
+<tr valign="top"><td><code>text.lineheight</code></td>
+<td>
+<p> Line height for the axis label text. </p>
+</td></tr>
+<tr valign="top"><td><code>line.col</code></td>
+<td>
+<p> Color for the axis label text. </p>
+</td></tr>
+<tr valign="top"><td><code>line.lty</code></td>
+<td>
+<p> Color for the axis. </p>
+</td></tr>
+<tr valign="top"><td><code>line.lwd</code></td>
+<td>
+<p> Color for the axis. </p>
+</td></tr>
+<tr valign="top"><td><code>line.alpha</code></td>
+<td>
+<p> Alpha-transparency value for the axis. </p>
+</td></tr>
+<tr valign="top"><td><code>unit</code></td>
+<td>
+<p> Which grid <code><a href="../../grid/html/unit.html">unit</a></code> the values
+should be in. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>panel.axis</code> can draw axis tick marks inside or outside a
+panel (more precisely, a grid viewport). It honours the (native) axis
+scales. Used in <code><a href="panel.pairs.html">panel.pairs</a></code> for <code><a href="splom.html">splom</a></code>, as
+well as for all the usual axis drawing by the print method for
+<code>"trellis"</code> objects. It can also be used to enhance plots
+&lsquo;after the fact&rsquo; by adding axes.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>current.panel.limits</code> returns a list with components <code>xlim</code>
+and <code>ylim</code>, which are both numeric vectors of length 2, giving
+the scales of the current panel (viewport).  The values correspond to
+the unit system specified by <code><a href="../../grid/html/unit.html">unit</a></code>, by default
+<code>"native"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code>, <code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="interaction.html">trellis.focus</a></code>, <code><a href="../../grid/html/unit.html">unit</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

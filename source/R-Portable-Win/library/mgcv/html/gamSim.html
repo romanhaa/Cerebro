@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate example data for GAMs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gamSim {mgcv}"><tr><td>gamSim {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulate example data for GAMs</h2>
+
+<h3>Description</h3>
+
+<p> Function used to simulate data sets to illustrate the use of 
+<code><a href="gam.html">gam</a></code> and <code><a href="gamm.html">gamm</a></code>. Mostly used in help files to keep down 
+the length of the example code sections.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>gamSim(eg=1,n=400,dist="normal",scale=2,verbose=TRUE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>eg</code></td>
+<td>
+<p> numeric value specifying the example required.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> number of data to simulate.</p>
+</td></tr>
+<tr valign="top"><td><code>dist</code></td>
+<td>
+<p>character string which may be used to spcify the distribution of
+the response.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Used to set noise level.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Should information about simulation type be printed?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See the source code for exactly what is simulated in each case. 
+</p>
+
+<ol>
+<li><p>Gu and Wahba 4 univariate term example.
+</p>
+</li>
+<li><p>A smooth function of 2 variables.
+</p>
+</li>
+<li><p>Example with continuous by variable.
+</p>
+</li>
+<li><p>Example with factor by variable.
+</p>
+</li>
+<li><p>An additive example plus a factor variable.
+</p>
+</li>
+<li><p>Additive + random effect.
+</p>
+</li>
+<li><p>As 1 but with correlated covariates.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p> Depends on <code>eg</code>, but usually a dataframe, which may also contain some information on 
+the underlying truth. Sometimes a list with more items, including a data frame for model fitting.
+See source code or helpfile examples where the function is used for further information.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.html">gam</a></code>, <code><a href="gamm.html">gamm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see ?gam
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

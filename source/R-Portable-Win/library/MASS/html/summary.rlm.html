@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary Method for Robust Linear Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.rlm {MASS}"><tr><td>summary.rlm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Summary Method for Robust Linear Models
+</h2>
+
+<h3>Description</h3>
+
+<p><code>summary</code> method for objects of class <code>"rlm"</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rlm'
+summary(object, method = c("XtX", "XtWX"), correlation = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>the fitted model.
+This is assumed to be the result of some fit that produces
+an object inheriting from the class <code>rlm</code>, in the sense that
+the components returned by the <code>rlm</code> function will be available.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>Should the weighted (by the IWLS weights) or unweighted cross-products
+matrix be used?
+</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+
+<p>logical. Should correlations be computed (and printed)?
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function
+<code>summary()</code> for class <code>"rlm"</code>.
+It can be invoked by calling <code>summary(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>summary.rlm(x)</code> regardless of the
+class of the object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If printing takes place, only a null value is returned.
+Otherwise, a list is returned with the following components.
+Printing always takes place if this function is invoked automatically
+as a method for the <code>summary</code> function.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+
+<p>The computed correlation coefficient matrix for the coefficients in the model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cov.unscaled</code></td>
+<td>
+
+<p>The unscaled covariance matrix; i.e, a matrix such that multiplying it by
+an estimate of the error variance produces an estimated covariance matrix
+for the coefficients.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+
+<p>The scale estimate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stddev</code></td>
+<td>
+
+<p>A scale estimate used for the standard errors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+
+<p>The number of degrees of freedom for the model and for residuals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+
+<p>A matrix with three columns, containing the coefficients, their standard errors
+and the corresponding t statistic.
+</p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+
+<p>The terms object used in fitting this model.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/summary.html">summary</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+summary(rlm(calls ~ year, data = phones, maxit = 50))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

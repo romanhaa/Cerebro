@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find rank of upper triangular matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Rrank {mgcv}"><tr><td>Rrank {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find rank of upper triangular matrix</h2>
+
+<h3>Description</h3>
+
+ 
+<p>Finds rank of upper triangular matrix R, by estimating condition
+number of upper <code>rank</code> by <code>rank</code> block, and reducing <code>rank</code> 
+until this is acceptably low. Assumes R has been computed by a method that uses 
+pivoting, usually pivoted QR or Choleski.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Rrank(R,tol=.Machine$double.eps^.9)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>R</code></td>
+<td>
+<p>An upper triangular matrix, obtained by pivoted QR or pivoted Choleski.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>the tolerance to use for judging rank.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The method is based on Cline et al. (1979) as described in Golub and van Loan (1996).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Cline, A.K., C.B. Moler, G.W. Stewart and J.H. Wilkinson (1979) 
+An estimate for the condition number of a matrix. 
+SIAM J. Num. Anal. 16, 368-375
+</p>
+<p>Golub, G.H, and C.F. van Loan (1996) 
+Matrix Computations 3rd ed. 
+Johns Hopkins University Press, Baltimore.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(0)
+  n &lt;- 10;p &lt;- 5
+  X &lt;- matrix(runif(n*(p-1)),n,p)
+  qrx &lt;- qr(X,LAPACK=TRUE)
+  Rrank(qr.R(qrx))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

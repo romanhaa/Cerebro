@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Self-Organizing Maps: Online Algorithm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for SOM {class}"><tr><td>SOM {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Self-Organizing Maps: Online Algorithm
+</h2>
+
+<h3>Description</h3>
+
+<p>Kohonen's Self-Organizing Maps are a crude form of multidimensional scaling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+SOM(data, grid = somgrid(), rlen = 10000, alpha, radii, init)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a matrix or data frame of observations, scaled so that Euclidean
+distance is appropriate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+
+<p>A grid for the representatives: see <code><a href="somgrid.html">somgrid</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rlen</code></td>
+<td>
+
+<p>the number of updates: used only in the defaults for <code>alpha</code> and <code>radii</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+
+<p>the amount of change: one update is done for each element of <code>alpha</code>.
+Default is to decline linearly from 0.05 to 0 over <code>rlen</code> updates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>radii</code></td>
+<td>
+
+<p>the radii of the neighbourhood to be used for each update: must be the
+same length as <code>alpha</code>.  Default is to decline linearly from 4 to 1
+over <code>rlen</code> updates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>init</code></td>
+<td>
+
+<p>the initial representatives.  If missing, chosen (without replacement)
+randomly from <code>data</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p><code>alpha</code> and <code>radii</code> can also be lists, in which case each component is
+used in turn, allowing two- or more phase training.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"SOM"</code> with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>grid</code></td>
+<td>
+
+<p>the grid, an object of class <code>"somgrid"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>codes</code></td>
+<td>
+
+<p>a matrix of representatives.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Kohonen, T. (1995) <em>Self-Organizing Maps.</em> Springer-Verlag
+</p>
+<p>Kohonen, T., Hynninen, J., Kangas, J. and Laaksonen, J. (1996)
+<em>SOM PAK: The self-organizing map program package.</em>
+Laboratory of Computer and Information Science, Helsinki University
+of Technology, Technical Report A31.
+</p>
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="somgrid.html">somgrid</a></code>, <code><a href="batchSOM.html">batchSOM</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(graphics)
+data(crabs, package = "MASS")
+
+lcrabs &lt;- log(crabs[, 4:8])
+crabs.grp &lt;- factor(c("B", "b", "O", "o")[rep(1:4, rep(50,4))])
+gr &lt;- somgrid(topo = "hexagonal")
+crabs.som &lt;- SOM(lcrabs, gr)
+plot(crabs.som)
+
+## 2-phase training
+crabs.som2 &lt;- SOM(lcrabs, gr,
+    alpha = list(seq(0.05, 0, len = 1e4), seq(0.02, 0, len = 1e5)),
+    radii = list(seq(8, 1, len = 1e4), seq(4, 1, len = 1e5)))
+plot(crabs.som2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

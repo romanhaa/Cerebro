@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Factor of a corStruct Object Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corFactor.corStruct {nlme}"><tr><td>corFactor.corStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Factor of a corStruct Object Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts a transpose inverse square-root factor,
+or a series of transpose inverse square-root factors, of the
+correlation matrix, or list of correlation matrices,  represented by
+<code>object</code>. Letting <i>S</i> denote a correlation
+matrix, a square-root factor of <i>S</i> is any square
+matrix <i>L</i> such that <i>S = L'L</i>. This method
+extracts <i>L^(-t)</i>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'corStruct'
+corFactor(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="corClasses.html">corStruct</a>"</code>
+representing a correlation structure, which must have been
+initialized (using <code>Initialize</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>If the correlation structure does not include a grouping factor, the
+returned value will be a vector with a transpose inverse square-root
+factor of the correlation matrix associated with <code>object</code> stacked
+column-wise.  If the correlation structure includes a grouping factor,
+the returned value will be a vector with transpose inverse
+square-root factors of the correlation matrices for each group, stacked
+by group and stacked column-wise within each group.  
+</p>
+
+
+<h3>Note</h3>
+
+<p>This method function is used intensively in optimization
+algorithms and its value is returned as a vector for efficiency
+reasons. The <code>corMatrix</code> method function can be used to obtain
+transpose inverse square-root factors in matrix form.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and
+Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corFactor.html">corFactor</a></code>,
+<code><a href="corMatrix.corStruct.html">corMatrix.corStruct</a></code>,
+<code><a href="recalc.corStruct.html">recalc.corStruct</a></code>,
+<code><a href="Initialize.corStruct.html">Initialize.corStruct</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cs1 &lt;- corAR1(form = ~1 | Subject)
+cs1 &lt;- Initialize(cs1, data = Orthodont)
+corFactor(cs1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

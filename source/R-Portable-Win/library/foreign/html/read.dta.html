@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read Stata Binary Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.dta {foreign}"><tr><td>read.dta {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read Stata Binary Files</h2>
+
+<h3>Description</h3>
+
+<p>Reads a file in Stata version 5&ndash;12 binary format into a data frame. 
+</p>
+<p>Frozen: will not support Stata formats after 12.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.dta(file, convert.dates = TRUE, convert.factors = TRUE,
+         missing.type = FALSE,
+         convert.underscore = FALSE, warn.missing.labels = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>a filename or URL as a character string.</p>
+</td></tr>
+<tr valign="top"><td><code>convert.dates</code></td>
+<td>
+<p>Convert Stata dates to <code>Date</code> class, and
+date-times to <code>POSIXct</code> class?</p>
+</td></tr>
+<tr valign="top"><td><code>convert.factors</code></td>
+<td>
+<p>Use Stata value labels to create factors?
+(Version 6.0 or later).</p>
+</td></tr>
+<tr valign="top"><td><code>missing.type</code></td>
+<td>
+<p>For version 8 or later, store information about
+different types of missing data?</p>
+</td></tr>
+<tr valign="top"><td><code>convert.underscore</code></td>
+<td>
+<p>Convert <code>"_"</code> in Stata variable names
+to <code>"."</code> in R names?</p>
+</td></tr>
+<tr valign="top"><td><code>warn.missing.labels</code></td>
+<td>
+<p>Warn if a variable is specified with value
+labels and those value labels are not present in the file.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If the filename appears to be a URL (of schemes <span class="samp">http:</span>,
+<span class="samp">ftp:</span> or <span class="samp">https:</span>) the URL is first downloaded to a
+temporary file and then read.  (<span class="samp">https:</span> is only supported on
+some platforms.)
+</p>
+<p>The variables in the Stata data set become the columns of the data
+frame.  Missing values are correctly handled.  The data label,
+variable labels, timestamp, and variable/dataset characteristics
+are stored as attributes of the data frame.
+</p>
+<p>By default Stata dates (%d and %td formats) are converted to <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s
+<code>Date</code> class, and variables with Stata value labels are
+converted to factors.  Ordinarily, <code>read.dta</code> will not convert
+a variable to a factor unless a label is present for every level.  Use
+<code>convert.factors = NA</code> to override this.  In any case the value
+label and format information is stored as attributes on the returned
+data frame.  Stata's date formats are sketchily documented: if
+necessary use <code>convert.dates = FALSE</code> and examine the attributes
+to work out how to post-process the dates.
+</p>
+<p>Stata 8 introduced a system of 27 different missing data values.  If
+<code>missing.type</code> is <code>TRUE</code> a separate list is created with the
+same variable names as the loaded data.  For string variables the list
+value is <code>NULL</code>.  For other variables the value is <code>NA</code>
+where the observation is not missing and 0&ndash;26 when the observation is
+missing.  This is attached as the <code>"missing"</code> attribute of the
+returned value.
+</p>
+<p>The default file format for Stata 13, <code>format-115</code>, is
+substantially different from those for Stata 5&ndash;12.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with attributes.  These will include <code>"datalabel"</code>,
+<code>"time.stamp"</code>, <code>"formats"</code>, <code>"types"</code>,
+<code>"val.labels"</code>, <code>"var.labels"</code> and <code>"version"</code> and may
+include <code>"label.table"</code> and <code>"expansion.table"</code>.  
+Possible versions are <code>5, 6, 7</code>,
+<code>-7</code> (Stata 7SE, &lsquo;format-111&rsquo;), <code>8</code> (Stata 8 and 9,
+&lsquo;format-113&rsquo;), <code>10</code> (Stata 10 and 11, &lsquo;format-114&rsquo;).
+and <code>12</code> (Stata 12, &lsquo;format-115&rsquo;).
+</p>
+<p>The value labels in attribute <code>"val.labels"</code> name a table for
+each variable, or are an empty string.  The tables are elements of the
+named list attribute <code>"label.table"</code>: each is an integer vector with
+names.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Thomas Lumley and R-core members: support for value labels by
+Brian Quistorff.
+</p>
+
+
+<h3>References</h3>
+
+<p>Stata Users Manual (versions 5 &amp; 6), Programming manual (version 7),
+or online help (version 8 and later) describe the format of the files.
+Or directly at <a href="http://www.stata.com/help.cgi?dta_114">http://www.stata.com/help.cgi?dta_114</a> and
+<a href="http://www.stata.com/help.cgi?dta_113">http://www.stata.com/help.cgi?dta_113</a>, but note that these have
+been changed since first published.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>A different approach is available in package <span class="pkg">memisc</span>: see its
+help for <code>Stata.file</code>, at the time of writing not for Stata 12 or
+later.  Or <code>read_dta</code> in  package <span class="pkg">haven</span>.
+</p>
+<p>Package <span class="pkg">readstata13</span> for Stata 13 files.
+</p>
+<p><code><a href="write.dta.html">write.dta</a></code>,
+<code><a href="../../base/html/attributes.html">attributes</a></code>,
+<code><a href="../../base/html/Dates.html">Date</a></code>,
+<code><a href="../../base/html/factor.html">factor</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(swiss)
+write.dta(swiss,swissfile &lt;- tempfile())
+read.dta(swissfile)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

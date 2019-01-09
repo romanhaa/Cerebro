@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plots of an Agglomerative Hierarchical Clustering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.agnes {cluster}"><tr><td>plot.agnes {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plots of an Agglomerative Hierarchical Clustering</h2>
+
+<h3>Description</h3>
+
+<p>Creates plots for visualizing an <code>agnes</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'agnes'
+plot(x, ask = FALSE, which.plots = NULL, main = NULL,
+           sub = paste("Agglomerative Coefficient = ",round(x$ac, digits = 2)),
+           adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"agnes"</code>, typically created by
+<code><a href="agnes.html">agnes</a>(.)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ask</code></td>
+<td>
+<p>logical; if true and <code>which.plots</code> is <code>NULL</code>,
+<code>plot.agnes</code> operates in interactive mode, via <code><a href="../../utils/html/menu.html">menu</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>which.plots</code></td>
+<td>
+<p>integer vector or NULL (default), the latter
+producing both plots.  Otherwise, <code>which.plots</code>
+must contain integers of <code>1</code> for a <em>banner</em> plot or <code>2</code> for a
+dendrogram or &ldquo;clustering tree&rdquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>main, sub</code></td>
+<td>
+<p>main and sub title for the plot, with convenient
+defaults.  See documentation for these arguments in <code><a href="../../graphics/html/plot.default.html">plot.default</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>for label adjustment in <code><a href="bannerplot.html">bannerplot</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nmax.lab</code></td>
+<td>
+<p>integer indicating the number of labels which is
+considered too large for single-name labelling the banner plot.</p>
+</td></tr>
+<tr valign="top"><td><code>max.strlen</code></td>
+<td>
+<p>positive integer giving the length to which
+strings are truncated in banner plot labeling.</p>
+</td></tr>
+<tr valign="top"><td><code>xax.pretty</code></td>
+<td>
+<p>logical or integer indicating if
+<code><a href="../../base/html/pretty.html">pretty</a>(*, n = xax.pretty)</code> should be used for the x axis.
+<code>xax.pretty = FALSE</code> is for back compatibility.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters (see <code><a href="../../graphics/html/par.html">par</a></code>) may also
+be supplied and are passed to <code><a href="bannerplot.html">bannerplot</a>()</code> or
+<code>pltree()</code> (see <code><a href="pltree.html">pltree.twins</a></code>), respectively.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When <code>ask = TRUE</code>, rather than producing each plot sequentially,
+<code>plot.agnes</code> displays a menu listing all the plots that can be produced.
+If the menu is not desired but a pause between plots is still wanted
+one must set <code>par(ask= TRUE)</code> before invoking the plot command.
+</p>
+<p>The banner displays the hierarchy of clusters, and is equivalent to a tree.
+See Rousseeuw (1986) or chapter 5 of Kaufman and Rousseeuw (1990).
+The banner plots distances at which observations and clusters are merged.
+The observations are listed in the order found by the <code>agnes</code> algorithm,
+and the numbers in the <code>height</code> vector are represented as bars
+between the observations.
+</p>
+<p>The leaves of the clustering tree are the original observations.  Two
+branches come together at the distance between the two clusters being merged.
+</p>
+<p>For more customization of the plots, rather call
+<code><a href="bannerplot.html">bannerplot</a></code> and <code>pltree()</code>, i.e., its method
+<code><a href="pltree.html">pltree.twins</a></code>, respectively.
+</p>
+<p>directly with
+corresponding arguments, e.g., <code>xlab</code> or <code>ylab</code>.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>Appropriate plots are produced on the current graphics device. This can
+be one or both of the following choices:
+<br /> Banner
+<br /> Clustering tree
+</p>
+
+
+<h3>Note</h3>
+
+<p>In the banner plot, observation labels are only printed when the
+number of observations is limited less than <code>nmax.lab</code> (35, by
+default), for readability.  Moreover, observation labels are truncated
+to maximally <code>max.strlen</code> (5) characters.
+</p>
+<p>For the dendrogram, more flexibility than via <code>pltree()</code> is
+provided by <code>dg &lt;- <a href="../../stats/html/dendrogram.html">as.dendrogram</a>(x)</code> and
+plotting <code>dg</code> via <code><a href="../../stats/html/plot.dendrogram.html">plot.dendrogram</a></code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Kaufman, L. and Rousseeuw, P.J. (1990)
+<em>Finding Groups in Data: An Introduction to Cluster Analysis</em>.
+Wiley, New York.
+</p>
+<p>Rousseeuw, P.J. (1986). A visual display for hierarchical classification,
+in <em>Data Analysis and Informatics 4</em>; edited by E. Diday,
+Y. Escoufier, L. Lebart, J. Pages, Y. Schektman, and R. Tomassone.
+North-Holland, Amsterdam, 743&ndash;748.
+</p>
+<p>Struyf, A., Hubert, M. and Rousseeuw, P.J. (1997)
+Integrating Robust Clustering Techniques in S-PLUS,
+<em>Computational Statistics and Data Analysis</em>, <b>26</b>, 17&ndash;37.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code> and <code><a href="agnes.object.html">agnes.object</a></code>;
+<code><a href="bannerplot.html">bannerplot</a></code>, <code><a href="pltree.html">pltree.twins</a></code>,
+and <code><a href="../../graphics/html/par.html">par</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Can also pass `labels' to pltree() and bannerplot():
+data(iris)
+cS &lt;- as.character(Sp &lt;- iris$Species)
+cS[Sp == "setosa"] &lt;- "S"
+cS[Sp == "versicolor"] &lt;- "V"
+cS[Sp == "virginica"] &lt;- "g"
+ai &lt;- agnes(iris[, 1:4])
+plot(ai, labels = cS, nmax = 150)# bannerplot labels are mess
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create Split Labels For an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for labels.rpart {rpart}"><tr><td>labels.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Create Split Labels For an Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>This function provides labels for the branches of an <code>rpart</code> tree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+labels(object, digits = 4, minlength = 1L, pretty, collapse = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the
+result of some function that produces an object with the same named
+components as that returned by the <code>rpart</code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+
+<p>the number of digits to be used for numeric values.  
+All of the <code>rpart</code> functions that call labels
+explicitly set this value, with <code>options("digits")</code>
+as the default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>minlength</code></td>
+<td>
+
+<p>the minimum length for abbreviation of character or factor variables.
+If <code>0</code> no abbreviation is done; if <code>1</code> single English letters are
+used, first lower case than upper case (with a maximum of 52
+levels). If the value is greater than , the <code><a href="../../base/html/abbreviate.html">abbreviate</a></code>
+function is used, passed the <code>minlength</code> argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pretty</code></td>
+<td>
+
+<p>an argument included for compatibility with the <span class="pkg">tree</span> package:
+<code>pretty = 0</code> implies <code>minlength = 0L</code>,
+<code>pretty = NULL</code> implies <code>minlength = 1L</code>, and
+<code>pretty = TRUE</code> implies <code>minlength = 4L</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+
+<p>logical. The returned set of labels is always of the same length as
+the number of nodes in the tree.
+</p>
+<p>If <code>collapse = TRUE</code> (default), 
+the returned value is a vector of labels for the branch leading into
+each node, with <code>"root"</code> as the label for the top node.
+</p>
+<p>If <code>FALSE</code>, the returned value is a two
+column matrix of labels for the left and right branches leading 
+out from each node, with <code>"leaf"</code> as the branch labels for terminal
+nodes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments to <code>abbreviate</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Vector of split labels (<code>collapse = TRUE</code>) or matrix of left and
+right splits (<code>collapse = FALSE</code>) for the supplied <code>rpart</code>
+object.  This function is called by printing methods for <code>rpart</code>
+and is not intended to be called directly by the users.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/abbreviate.html">abbreviate</a></code> 
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

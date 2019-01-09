@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract lmList Object Groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGroups.lmList {nlme}"><tr><td>getGroups.lmList {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract lmList Object Groups</h2>
+
+<h3>Description</h3>
+
+<p>The grouping factor determining the partitioning of the observations
+used to produce the <code>lm</code> components of <code>object</code> is
+extracted.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lmList'
+getGroups(object, form, level, data, sep)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>lmList</code>, representing
+a list of <code>lm</code> objects with a common model.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional formula with a conditioning expression on its
+right hand side (i.e. an expression involving the <code>|</code>
+operator). Defaults to <code>formula(object)</code>.  Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>a positive integer vector with the level(s) of grouping to
+be used when multiple nested levels of grouping are present. This
+argument is optional for most methods of this generic function and
+defaults to all levels of nesting.  Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to interpret the variables named in
+<code>form</code>. Optional for most methods.  Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>character, the separator to use between group levels when
+multiple levels are collapsed.  The default is <code>'/'</code>.  Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with the grouping factor corresponding to the <code>lm</code>
+components of <code>object</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lmList.html">lmList</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(distance ~ age | Subject, Orthodont)
+getGroups(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

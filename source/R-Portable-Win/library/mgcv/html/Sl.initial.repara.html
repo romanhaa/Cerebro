@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Re-parametrizing model matrix X</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Sl.initial.repara {mgcv}"><tr><td>Sl.initial.repara {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Re-parametrizing model matrix X</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL routine to apply initial Sl re-parameterization to model matrix X,
+or, if <code>inverse==TRUE</code>, to apply inverse re-parametrization to parameter vector 
+or covariance matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Sl.initial.repara(Sl, X, inverse = FALSE, both.sides = TRUE, cov = TRUE,
+  nt = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Sl</code></td>
+<td>
+<p>the output of <code>Sl.setup</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>the model matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>inverse</code></td>
+<td>
+<p>if <code>TRUE</code> an inverse re-parametrization is performed.</p>
+</td></tr>
+<tr valign="top"><td><code>both.sides</code></td>
+<td>
+<p>if <code>inverse==TRUE</code> and <code>both.sides==FALSE</code> then
+the re-parametrization only applied to rhs, as appropriate for a choleski factor.
+If <code>both.sides==FALSE</code>, <code>X</code> is a vector and <code>inverse==FALSE</code> then <code>X</code> is
+taken as a coefficient vector (so re-parametrization is inverse of that for the model matrix).</p>
+</td></tr>
+<tr valign="top"><td><code>cov</code></td>
+<td>
+<p>boolean indicating whether <code>X</code> is a covariance matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>nt</code></td>
+<td>
+<p>number of parallel threads to be used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A re-parametrized version of <code>X</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

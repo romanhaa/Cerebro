@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lattice Graphics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for A_01_Lattice {lattice}"><tr><td>A_01_Lattice {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lattice Graphics</h2>
+
+<h3>Description</h3>
+
+<p>The <span class="pkg">lattice</span> add-on package is an implementation of Trellis
+graphics for <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>.  It is a powerful and elegant high-level data
+visualization system with an emphasis on multivariate data.  It is
+designed to meet most typical graphics needs with minimal tuning, but
+can also be easily extended to handle most nonstandard requirements.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Trellis Graphics, originally developed for S and S-PLUS at the Bell
+Labs, is a framework for data visualization developed by R. A. Becker,
+W. S. Cleveland, et al, extending ideas presented in Cleveland's 1993
+book <em>Visualizing Data</em>.  The Lattice API is based on the
+original design in S, but extends it in many ways.
+</p>
+<p>The Lattice user interface primarily consists of several
+&lsquo;high-level&rsquo; generic functions (listed below in the &ldquo;See
+Also&rdquo; section), each designed to create a particular type of display
+by default.  Although the functions produce different output, they
+share many common features, reflected in several common arguments that
+affect the resulting displays in similar ways.  These arguments are
+extensively (sometimes only) documented in the help page for
+<code><a href="xyplot.html">xyplot</a></code>, which also includes a discussion of the
+important topics of <em>conditioning</em> and control of the Trellis
+layout.  Features specific to other high-level functions are
+documented in their respective help pages.
+</p>
+<p>Lattice employs an extensive system of user-controllable settings to
+determine the look and feel of the displays it produces.  To learn how
+to use and customize the graphical parameters used by lattice, see
+<code><a href="trellis.par.get.html">trellis.par.set</a></code>.  For other settings, see
+<code><a href="lattice.options.html">lattice.options</a></code>.  The default graphical settings are
+(potentially) different for different graphical devices.  To learn how
+to initialize new devices with the desired settings or change the
+settings of the current device, see <code><a href="trellis.device.html">trellis.device</a></code>.
+</p>
+<p>It is usually unnecessary, but sometimes important to be able to plot
+multiple lattice plots on a single page.  Such capabilities are
+described in the <code><a href="print.trellis.html">print.trellis</a></code> help page.  See
+<code><a href="update.trellis.html">update.trellis</a></code> to learn about manipulating a
+<code>"trellis"</code> object.  Tools to augment lattice plots after they
+are drawn (including <code><a href="../../graphics/html/locator.html">locator</a></code>-like functionality) are
+described in the <code><a href="interaction.html">trellis.focus</a></code> help page.
+</p>
+<p>The online documentation accompanying the package is complete, and
+effort has been made to present the help pages in a logical sequence,
+so that one can learn how to use lattice by reading the PDF reference
+manual available at <a href="https://cran.r-project.org/package=lattice">https://cran.r-project.org/package=lattice</a>.
+However, the format in which the online documentation is written and
+the breadth of topics covered necessarily makes it somewhat terse and
+less than ideal as a first introduction.  For a more gentle
+introduction, a book on lattice is available as part of Springer's
+&lsquo;Use R&rsquo; series; see the &ldquo;References&rdquo; section below.
+</p>
+
+
+
+
+
+<h3>Note</h3>
+
+<p>High-level <span class="pkg">lattice</span> functions like <code><a href="xyplot.html">xyplot</a></code> are
+different from traditional <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> graphics functions in that they do not
+perform any plotting themselves.  Instead, they return an object, of
+class <code>"trellis"</code>, which has to be then
+<code><a href="print.trellis.html">print</a></code>-ed or
+<code><a href="print.trellis.html">plot</a></code>-ted to create the actual
+plot.  Due to <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s automatic printing rule, it is usually not
+necessary to explicitly carry out the second step, and <span class="pkg">lattice</span>
+functions appear to behave like their traditional counterparts.
+However, the automatic plotting is suppressed when the high-level
+functions are called inside another function (most often
+<code>source</code>) or in other contexts where automatic printing is
+suppressed (e.g., <code><a href="../../base/html/Control.html">for</a></code> or <code><a href="../../base/html/Control.html">while</a></code> loops).  In
+such situations, an explicit call to <code>print</code> or <code>plot</code> is
+required.
+</p>
+<p>The <span class="pkg">lattice</span> package is based on the Grid graphics engine and
+requires the <span class="pkg">grid</span> add-on package.  One consquence of this is
+that it is not (readily) compatible with traditional <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> graphics
+tools.  In particular, changing <code>par()</code> settings usually has no
+effect on Lattice plots; <span class="pkg">lattice</span> provides its own interface for
+querying and modifying an extensive set of graphical and non-graphical
+settings.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Sarkar, Deepayan (2008) <em>Lattice: Multivariate Data
+Visualization with R</em>, Springer.  ISBN: 978-0-387-75968-5
+<a href="http://lmdvr.r-forge.r-project.org/">http://lmdvr.r-forge.r-project.org/</a>
+</p>
+<p>Cleveland, William .S. (1993) <em>Visualizing Data</em>, Hobart Press,
+Summit, New Jersey.
+</p>
+<p>Becker, R. A. and Cleveland, W. S. and Shyu, M. J. (1996).  &ldquo;The
+Visual Design and Control of Trellis Display&rdquo;, <em>Journal of
+Computational and Graphical Statistics</em>, <b>5(2)</b>, 123&ndash;155.
+</p>
+<p>Bell Lab's Trellis Page contains several documents outlining the use
+of Trellis graphics; these provide a holistic introduction to
+the Trellis paradigm:
+<a href="http://ect.bell-labs.com/sl/project/trellis/">http://ect.bell-labs.com/sl/project/trellis/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The following is a list of high-level functions in the <span class="pkg">lattice</span>
+package and their default displays.  In all cases, the actual display
+is produced by the so-called &ldquo;panel&rdquo; function, which has a
+suitable default, but can be substituted by an user defined function
+to create customized displays.  In many cases, the default panel
+function will itself have many optional arguments to customize its
+output.  The default panel functions are named as
+&ldquo;<code>panel.</code>&rdquo; followed by the name of the corresponding
+high-level function; i.e., the default panel function for
+<code><a href="xyplot.html">xyplot</a></code> is <code><a href="panel.xyplot.html">panel.xyplot</a></code>, the one for
+<code><a href="histogram.html">histogram</a></code> is <code><a href="panel.histogram.html">panel.histogram</a></code>, etc.  Each
+default panel function has a separate help page, linked from the help
+pages of the corresponding high-level function.  Although documented
+separately, arguments to these panel functions can be supplied
+directly to the high-level functions, which will pass on the arguments
+appropriately.
+</p>
+<p><b>Univariate:</b>
+</p>
+
+<dl>
+<dt><code><a href="xyplot.html">barchart</a></code>:</dt><dd><p> Bar plots. </p>
+</dd>
+<dt><code><a href="xyplot.html">bwplot</a></code>:</dt><dd><p> Box-and-whisker plots. </p>
+</dd>
+<dt><code><a href="histogram.html">densityplot</a></code>:</dt><dd><p> Kernel density estimates. </p>
+</dd>
+<dt><code><a href="xyplot.html">dotplot</a></code>:</dt><dd><p> Cleveland dot plots. </p>
+</dd>
+<dt><code><a href="histogram.html">histogram</a></code>:</dt><dd><p> Histograms. </p>
+</dd>
+<dt><code><a href="qqmath.html">qqmath</a></code>:</dt><dd><p> Theretical quantile plots. </p>
+</dd>
+<dt><code><a href="xyplot.html">stripplot</a></code>:</dt><dd><p> One-dimensional scatterplots. </p>
+</dd>
+</dl>
+
+<p><b>Bivariate:</b>
+</p>
+
+<dl>
+<dt><code><a href="qq.html">qq</a></code>:</dt><dd><p> Quantile plots for comparing two distributions. </p>
+</dd>
+<dt><code><a href="xyplot.html">xyplot</a></code>:</dt><dd><p> Scatterplots and time-series plots (and potentially a lot more). </p>
+</dd>
+</dl>
+
+<p><b>Trivariate:</b>
+</p>
+
+<dl>
+<dt><code><a href="levelplot.html">levelplot</a></code>:</dt><dd><p> Level plots (similar to <code><a href="../../graphics/html/image.html">image</a></code> plots). </p>
+</dd>
+<dt><code><a href="levelplot.html">contourplot</a></code>:</dt><dd><p> Contour plots. </p>
+</dd>
+<dt><code><a href="cloud.html">cloud</a></code>:</dt><dd><p> Three-dimensional scatter plots. </p>
+</dd>
+<dt><code><a href="cloud.html">wireframe</a></code>:</dt><dd><p> Three-dimensional surface plots (similar to <code><a href="../../graphics/html/persp.html">persp</a></code> plots). </p>
+</dd>
+</dl>
+
+<p><b>Hypervariate:</b>
+</p>
+
+<dl>
+<dt><code><a href="splom.html">splom</a></code>:</dt><dd><p> Scatterplot matrices. </p>
+</dd>
+<dt><code><a href="splom.html">parallel</a></code>:</dt><dd><p> Parallel coordinate plots. </p>
+</dd>
+</dl>
+
+<p><b>Miscellaneous:</b>
+</p>
+
+<dl>
+<dt><code><a href="rfs.html">rfs</a></code>:</dt><dd><p> Residual and fitted value plots (also see <code><a href="oneway.html">oneway</a></code>). </p>
+</dd>
+<dt><code><a href="tmd.html">tmd</a></code>:</dt><dd><p> Tukey Mean-Difference plots. </p>
+</dd>
+</dl>
+
+<p>In addition, there are several panel functions that do little by
+themselves, but can be useful components of custom panel functions.
+These are documented in <code><a href="panel.functions.html">panel.functions</a></code>.  Lattice also
+provides a collection of convenience functions that correspond to the
+traditional graphics primitives <code><a href="../../graphics/html/lines.html">lines</a></code>,
+<code><a href="../../graphics/html/points.html">points</a></code>, etc.  These are implemented using Grid graphics,
+but try to be as close to the traditional versions as possible in
+terms of their argument list.  These functions have names like
+<code><a href="llines.html">llines</a></code> or <code><a href="llines.html">panel.lines</a></code> and are often useful
+when writing (or porting from S-PLUS code) nontrivial panel functions.
+</p>
+<p>Finally, many useful enhancements that extend the Lattice system are
+available in the <span class="pkg">latticeExtra</span> package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+## Show brief history of changes to lattice, including
+## a summary of new features.
+
+RShowDoc("NEWS", package = "lattice")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

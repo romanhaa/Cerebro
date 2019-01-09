@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create survival curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survfit {survival}"><tr><td>survfit {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create survival curves</h2>
+
+<h3>Description</h3>
+
+<p>This function creates survival curves from either a formula (e.g. the 
+Kaplan-Meier), a previously fitted Cox model, or a previously fitted
+accelerated failure time model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+survfit(formula, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>either a formula or a previously fitted model</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments to the specific method</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A survival curve is based on a tabulation of the number at risk and
+number of events at each unique death time.  When time is a floating
+point number the definition of &quot;unique&quot; is subject to interpretation.
+The code uses factor() to define the set.
+For further details see the documentation for the appropriate method, i.e.,
+<code>?survfit.formula</code> or <code>?survfit.coxph</code>.  
+</p>
+<p>A survfit object may contain a single curve, a set of curves, or a
+matrix curves.
+Predicted curves from a <code>coxph</code> model have one row for each
+stratum in the Cox model fit and one column for each specified
+covariate set.
+Curves from a multi-state model have one row for each stratum and
+a column for each state, the strata correspond to predictors on the
+right hand side of the equation.  The default printing and plotting
+order for curves is by column, as with other matrices.
+</p>
+<p>Curves can be subscripted using either a single or double subscript.
+If the set of curves is a matrix, as in the above, and one of the
+dimensions is 1 then the code allows a single subscript to be used.
+(That is, it is not quite as general as using a single subscript for
+a numeric matrix.)
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>survfit</code> containing one or more survival curves.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Older releases of the code also allowed the specification for 
+a single curve
+to omit the right hand of the formula, i.e.,
+<code>survfit(Surv(time, status))</code>, in which case the formula argument
+is not actually a formula.
+Handling this case required some non-standard and fairly fragile 
+manipulations, and this case is no longer supported.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="survfit.formula.html">survfit.formula</a></code>,
+<code><a href="survfit.coxph.html">survfit.coxph</a></code>,
+<code><a href="survfit.object.html">survfit.object</a></code>, <code><a href="print.survfit.html">print.survfit</a></code>,
+<code><a href="plot.survfit.html">plot.survfit</a></code>, <code><a href="quantile.survfit.html">quantile.survfit</a></code>,
+<code><a href="summary.survfit.html">summary.survfit</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

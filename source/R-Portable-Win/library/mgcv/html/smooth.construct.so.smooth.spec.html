@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Soap film smoother constructer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for smooth.construct.so.smooth.spec {mgcv}"><tr><td>smooth.construct.so.smooth.spec {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Soap film smoother constructer</h2>
+
+<h3>Description</h3>
+
+<p> Sets up basis functions and wiggliness penalties for
+soap film smoothers (Wood, Bravington and Hedley, 2008). Soap film smoothers are based on the idea of
+constructing a 2-D smooth as a film of soap connecting a smoothly varying
+closed boundary. Unless smoothing very heavily, the film is distorted towards
+the data. The smooths are designed not to smooth across boundary features (peninsulas,
+for example).
+</p>
+<p>The <code>so</code> version sets up the full smooth. The <code>sf</code> version sets up just the boundary interpolating 
+soap film, while the <code>sw</code> version sets up the wiggly component of a soap film (zero on the boundary).
+The latter two are useful for forming tensor products with soap films, and can be used with <code><a href="gamm.html">gamm</a></code> and <code>gamm4</code>. To use these to simply set up a basis, then call via the wrapper  <code><a href="smooth.construct.html">smooth.construct2</a></code> or <code><a href="smoothCon.html">smoothCon</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'so.smooth.spec'
+smooth.construct(object,data,knots)
+## S3 method for class 'sf.smooth.spec'
+smooth.construct(object,data,knots)
+## S3 method for class 'sw.smooth.spec'
+smooth.construct(object,data,knots)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A smooth specification object as produced by a <code>s(...,bs="so",xt=list(bnd=bnd,...))</code> 
+term in a <code>gam</code> formula. Note that the <code>xt</code> argument to <code>s</code> *must* be supplied, and 
+should be a list, containing at least a boundary specification list (see details). <code>xt</code> may 
+also contain various options controlling the boundary smooth (see details), and PDE solution grid. The dimension of the bases for boundary loops is specified via the
+<code>k</code> argument of <code>s</code>, either as a single number to be used for each boundary loop, or as a 
+vector of different basis dimensions for the various boundary loops.  </p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A list or data frame containing the arguments of the smooth.</p>
+</td></tr>
+<tr valign="top"><td><code>knots</code></td>
+<td>
+<p>list or data frame with two named columns specifying the knot locations within 
+the boundary. The column names should match the names of the arguments of the smooth. The number 
+of knots defines the *interior* basis dimension (i.e. it is *not* supplied via argument <code>k</code> of 
+<code>s</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For soap film smooths the following *must* be supplied:
+</p>
+
+<ul>
+<li><p>k the basis dimension for each boundary loop smooth.
+</p>
+</li>
+<li><p>xt$bnd the boundary specification for the smooth.
+</p>
+</li>
+<li><p>knots the locations of the interior knots for the smooth.
+</p>
+</li></ul>
+
+<p>When used in a GAM then <code>k</code> and <code>xt</code> are supplied via <code>s</code> while <code>knots</code> are 
+supplied in the <code>knots</code> argument of <code><a href="gam.html">gam</a></code>. 
+</p>
+<p>The <code>bnd</code> element of the <code>xt</code> list is a list of lists (or data frames), 
+specifying the loops that define the boundary. Each boundary loop list must contain 
+2 columns giving the co-ordinates of points defining a boundary loop (when joined 
+sequentially by line segments). Loops should not intersect (not checked). A point is 
+deemed to be in the region of interest if it is interior to an odd number of boundary 
+loops. Each boundary loop list may also contain a column <code>f</code> giving known 
+boundary conditions on a loop.
+</p>
+<p>The <code>bndSpec</code> element of <code>xt</code>, if non-NULL, should contain
+</p>
+
+<ul>
+<li><p>bs the type of cyclic smoothing basis to use: one of <code>"cc"</code> and <code>"cp"</code>. 
+If not <code>"cc"</code> then a cyclic p-spline is used, and argument 
+<code>m</code> must be supplied.
+</p>
+</li>
+<li><p>knot.space set to &quot;even&quot; to get even knot spacing with the &quot;cc&quot; basis.
+</p>
+</li>
+<li><p>m 1 or 2 element array specifying order of &quot;cp&quot; basis and penalty. 
+</p>
+</li></ul>
+
+<p>Currently the code will not deal with more than one level of nesting of loops, or with 
+separate loops without an outer enclosing loop: if there are known boundary conditions 
+(identifiability constraints get awkward).
+</p>
+<p>Note that the function <code><a href="../../graphics/html/locator.html">locator</a></code> provides a simple means for defining boundaries
+graphically, using something like <code>bnd &lt;-as.data.frame(locator(type="l"))</code>, 
+after producing a plot of the domain of interest (right click to stop). If the real boundary is 
+very complicated, it is probably better to use a simpler smooth boundary enclosing the true boundary, 
+which represents the major boundary features that you don't want to smooth across, but doesn't follow 
+every tiny detail.
+</p>
+<p>Model set up, and prediction, involves evaluating basis functions which are defined as the solution to PDEs. The 
+PDEs are solved numerically on a grid using sparse matrix methods, with bilinear interpolation used to obtain 
+values at any location within the smoothing domain. The dimension of the PDE solution grid can be controlled 
+via element <code>nmax</code> (default 200) of the list supplied as argument <code>xt</code> of <code>s</code> in a <code>gam</code> formula: it gives the number of cells to use on the longest grid side. 
+</p>
+<p>A little theory: the soap film smooth <i>f(x,y)</i> is defined as the solution of
+</p>
+<p style="text-align: center;"><i>f_xx+f_yy = g</i></p>
+
+<p>subject to the condition that <i>f=s</i>, on the boundary curve, where
+<i>s</i> is a smooth function (usually a cyclic penalized regression
+spline). The function <i>g</i> is defined as the solution of 
+</p>
+<p style="text-align: center;"><i>g_xx+g_yy=0</i></p>
+
+<p>where <i>g=0</i> on the boundary curve and
+<i>g(x_k,y_k)=c_k</i> at the &lsquo;knots&rsquo; of the surface; the
+<i>c_k</i> are model coefficients. 
+</p>
+<p>In the simplest case, estimation of the coefficients of <i>f</i> (boundary
+coefficients plus <i>c_k</i>'s) is by minimization of 
+</p>
+<p style="text-align: center;"><i>||z-f||^2 + l_s J_s(s)
++ l_f J_f(f)</i></p>
+
+<p>where <i>J_s</i> is usually some cubic spline type wiggliness penalty on
+the boundary smooth and <i>J_f</i> is the integral of
+<i>(f_xx+f_yy)^2</i> over the interior of the boundary. Both
+penalties can be expressed as quadratic forms in the model coefficients. The
+<i>l</i>'s are smoothing parameters, selectable by GCV, REML, AIC,
+etc. <i>z</i> represents noisy observations of <i>f</i>. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> A list with all the elements of <code>object</code> plus
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p> A list defining the PDE solution grid and domain boundary, and including the sparse LU
+factorization of the PDE coefficient matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p> The model matrix: this will have an <code>"offset"</code> attribute, if there are 
+any known boundary conditions.</p>
+</td></tr>
+<tr valign="top"><td><code>S</code></td>
+<td>
+<p> List of smoothing penalty matrices (in smallest non-zero submatrix form).</p>
+</td></tr>
+<tr valign="top"><td><code>irng</code></td>
+<td>
+<p> A vector of scaling factors that have been applied to the model matrix, 
+to ensure nice conditioning.</p>
+</td></tr>
+</table>
+<p>In addition there are all the elements usually added by <code>smooth.construct</code> methods. 
+</p>
+
+
+<h3>WARNINGS </h3>
+
+<p>Soap film smooths are quite specialized, and require more setup than most smoothers (e.g. you have to supply the 
+boundary and the interior knots, plus the boundary smooth basis dimension(s)). It is worth looking at the reference.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> </p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., M.V. Bravington and S.L. Hedley (2008) &quot;Soap film smoothing&quot;, J.R.Statist.Soc.B 70(5), 931-955.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Predict.matrix.soap.film.html">Predict.matrix.soap.film</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+require(mgcv)
+
+##########################
+## simple test function...
+##########################
+
+fsb &lt;- list(fs.boundary())
+nmax &lt;- 100
+## create some internal knots...
+knots &lt;- data.frame(v=rep(seq(-.5,3,by=.5),4),
+                    w=rep(c(-.6,-.3,.3,.6),rep(8,4)))
+## Simulate some fitting data, inside boundary...
+set.seed(0)
+n&lt;-600
+v &lt;- runif(n)*5-1;w&lt;-runif(n)*2-1
+y &lt;- fs.test(v,w,b=1)
+names(fsb[[1]]) &lt;- c("v","w")
+ind &lt;- inSide(fsb,x=v,y=w) ## remove outsiders
+y &lt;- y + rnorm(n)*.3 ## add noise
+y &lt;- y[ind];v &lt;- v[ind]; w &lt;- w[ind] 
+n &lt;- length(y)
+
+par(mfrow=c(3,2))
+## plot boundary with knot and data locations
+plot(fsb[[1]]$v,fsb[[1]]$w,type="l");points(knots,pch=20,col=2)
+points(v,w,pch=".");
+
+## Now fit the soap film smoother. 'k' is dimension of boundary smooth.
+## boundary supplied in 'xt', and knots in 'knots'...
+ 
+nmax &lt;- 100 ## reduced from default for speed.
+b &lt;- gam(y~s(v,w,k=30,bs="so",xt=list(bnd=fsb,nmax=nmax)),knots=knots)
+
+plot(b) ## default plot
+plot(b,scheme=1)
+plot(b,scheme=2)
+plot(b,scheme=3)
+
+vis.gam(b,plot.type="contour")
+
+################################
+# Fit same model in two parts...
+################################
+
+par(mfrow=c(2,2))
+vis.gam(b,plot.type="contour")
+
+b1 &lt;- gam(y~s(v,w,k=30,bs="sf",xt=list(bnd=fsb,nmax=nmax))+
+            s(v,w,k=30,bs="sw",xt=list(bnd=fsb,nmax=nmax)) ,knots=knots)
+vis.gam(b,plot.type="contour")
+plot(b1)
+ 
+##################################################
+## Now an example with known boundary condition...
+##################################################
+
+## Evaluate known boundary condition at boundary nodes...
+fsb[[1]]$f &lt;- fs.test(fsb[[1]]$v,fsb[[1]]$w,b=1,exclude=FALSE)
+
+## Now fit the smooth...
+bk &lt;- gam(y~s(v,w,bs="so",xt=list(bnd=fsb,nmax=nmax)),knots=knots)
+plot(bk) ## default plot
+
+##########################################
+## tensor product example...
+##########################################
+
+set.seed(9)
+n &lt;- 10000
+v &lt;- runif(n)*5-1;w&lt;-runif(n)*2-1
+t &lt;- runif(n)
+y &lt;- fs.test(v,w,b=1)
+y &lt;- y + 4.2
+y &lt;- y^(.5+t)
+fsb &lt;- list(fs.boundary())
+names(fsb[[1]]) &lt;- c("v","w")
+ind &lt;- inSide(fsb,x=v,y=w) ## remove outsiders
+y &lt;- y[ind];v &lt;- v[ind]; w &lt;- w[ind]; t &lt;- t[ind] 
+n &lt;- length(y)
+y &lt;- y + rnorm(n)*.05 ## add noise
+knots &lt;- data.frame(v=rep(seq(-.5,3,by=.5),4),
+                    w=rep(c(-.6,-.3,.3,.6),rep(8,4)))
+
+## notice NULL element in 'xt' list - to indicate no xt object for "cr" basis...
+bk &lt;- gam(y~ te(v,w,t,bs=c("sf","cr"),k=c(25,4),d=c(2,1),
+          xt=list(list(bnd=fsb,nmax=nmax),NULL))+
+          te(v,w,t,bs=c("sw","cr"),k=c(25,4),d=c(2,1),
+	  xt=list(list(bnd=fsb,nmax=nmax),NULL)),knots=knots)
+
+par(mfrow=c(3,2))
+m&lt;-100;n&lt;-50 
+xm &lt;- seq(-1,3.5,length=m);yn&lt;-seq(-1,1,length=n)
+xx &lt;- rep(xm,n);yy&lt;-rep(yn,rep(m,n))
+tru &lt;- matrix(fs.test(xx,yy),m,n)+4.2 ## truth
+
+image(xm,yn,tru^.5,col=heat.colors(100),xlab="v",ylab="w",
+      main="truth")
+lines(fsb[[1]]$v,fsb[[1]]$w,lwd=3)
+contour(xm,yn,tru^.5,add=TRUE)
+
+vis.gam(bk,view=c("v","w"),cond=list(t=0),plot.type="contour")
+
+image(xm,yn,tru,col=heat.colors(100),xlab="v",ylab="w",
+      main="truth")
+lines(fsb[[1]]$v,fsb[[1]]$w,lwd=3)
+contour(xm,yn,tru,add=TRUE)
+
+vis.gam(bk,view=c("v","w"),cond=list(t=.5),plot.type="contour")
+
+image(xm,yn,tru^1.5,col=heat.colors(100),xlab="v",ylab="w",
+      main="truth")
+lines(fsb[[1]]$v,fsb[[1]]$w,lwd=3)
+contour(xm,yn,tru^1.5,add=TRUE)
+
+vis.gam(bk,view=c("v","w"),cond=list(t=1),plot.type="contour")
+
+
+#############################
+# nested boundary example...
+#############################
+
+bnd &lt;- list(list(x=0,y=0),list(x=0,y=0))
+seq(0,2*pi,length=100) -&gt; theta
+bnd[[1]]$x &lt;- sin(theta);bnd[[1]]$y &lt;- cos(theta)
+bnd[[2]]$x &lt;- .3 + .3*sin(theta);
+bnd[[2]]$y &lt;- .3 + .3*cos(theta)
+plot(bnd[[1]]$x,bnd[[1]]$y,type="l")
+lines(bnd[[2]]$x,bnd[[2]]$y)
+
+## setup knots
+k &lt;- 8
+xm &lt;- seq(-1,1,length=k);ym &lt;- seq(-1,1,length=k)
+x=rep(xm,k);y=rep(ym,rep(k,k))
+ind &lt;- inSide(bnd,x,y)
+knots &lt;- data.frame(x=x[ind],y=y[ind])
+points(knots$x,knots$y)
+
+## a test function
+
+f1 &lt;- function(x,y) {
+  exp(-(x-.3)^2-(y-.3)^2)
+}
+
+## plot the test function within the domain 
+par(mfrow=c(2,3))
+m&lt;-100;n&lt;-100 
+xm &lt;- seq(-1,1,length=m);yn&lt;-seq(-1,1,length=n)
+x &lt;- rep(xm,n);y&lt;-rep(yn,rep(m,n))
+ff &lt;- f1(x,y)
+ind &lt;- inSide(bnd,x,y)
+ff[!ind] &lt;- NA
+image(xm,yn,matrix(ff,m,n),xlab="x",ylab="y")
+contour(xm,yn,matrix(ff,m,n),add=TRUE)
+lines(bnd[[1]]$x,bnd[[1]]$y,lwd=2);lines(bnd[[2]]$x,bnd[[2]]$y,lwd=2)
+
+## Simulate data by noisy sampling from test function...
+
+set.seed(1)
+x &lt;- runif(300)*2-1;y &lt;- runif(300)*2-1
+ind &lt;- inSide(bnd,x,y)
+x &lt;- x[ind];y &lt;- y[ind]
+n &lt;- length(x)
+z &lt;- f1(x,y) + rnorm(n)*.1
+
+## Fit a soap film smooth to the noisy data
+nmax &lt;- 60
+b &lt;- gam(z~s(x,y,k=c(30,15),bs="so",xt=list(bnd=bnd,nmax=nmax)),
+         knots=knots,method="REML")
+plot(b) ## default plot
+vis.gam(b,plot.type="contour") ## prettier version
+
+## trying out separated fits....
+ba &lt;- gam(z~s(x,y,k=c(30,15),bs="sf",xt=list(bnd=bnd,nmax=nmax))+
+          s(x,y,k=c(30,15),bs="sw",xt=list(bnd=bnd,nmax=nmax)),
+	  knots=knots,method="REML")
+plot(ba)
+vis.gam(ba,plot.type="contour")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

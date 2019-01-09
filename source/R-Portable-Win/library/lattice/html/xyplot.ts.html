@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Time series plotting methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_01_xyplot.ts {lattice}"><tr><td>B_01_xyplot.ts {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Time series plotting methods</h2>
+
+<h3>Description</h3>
+
+<p>This function handles time series plotting, including cut-and-stack plots.
+Examples are given of superposing, juxtaposing and styling
+different time series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'ts'
+xyplot(x, data = NULL,
+       screens = if (superpose) 1 else colnames(x),
+       ...,
+       superpose = FALSE,
+       cut = FALSE,
+       type = "l",
+       col = NULL,
+       lty = NULL,
+       lwd = NULL,
+       pch = NULL,
+       cex = NULL,
+       fill = NULL,
+       auto.key = superpose,
+       panel = if (superpose) "panel.superpose"
+               else "panel.superpose.plain",
+       par.settings = list(),
+       layout = NULL, as.table = TRUE,
+       xlab = "Time", ylab = NULL,
+       default.scales = list(y = list(relation =
+           if (missing(cut)) "free" else "same")))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>an object of class <code><a href="../../stats/html/ts.html">ts</a></code>, which may be multi-variate,
+i.e. have a matrix structure with multiple columns.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>not used, and must be left as <code>NULL</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments passed to <code><a href="xyplot.html">xyplot</a></code>,
+which may pass them on to <code><a href="panel.xyplot.html">panel.xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>screens</code></td>
+<td>
+
+<p>factor (or coerced to factor) whose levels specify which
+panel each series is to be plotted in.  <code>screens = c(1, 2, 1)</code>
+would plot series 1, 2 and 3 in panels 1, 2 and 1. May also be a
+named list, see Details below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>superpose</code></td>
+<td>
+
+<p>overlays all series in one panel (via <code>screens = 1</code>) and uses
+grouped style settings (from
+<code>trellis.par.get("superpose.line")</code>, etc). Note that this is
+just a convenience argument: its only action is to change the
+default values of other arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cut</code></td>
+<td>
+
+<p>defines a cut-and-stack plot. <code>cut</code> can be a <code>list</code> of
+arguments to the function <code><a href="shingles.html">equal.count</a></code>,
+i.e. <code>number</code> (number of intervals to divide into)
+and <code>overlap</code> (the fraction of overlap between cuts, default
+0.5). If <code>cut</code> is numeric this is passed as the
+<code>number</code> argument.
+</p>
+<p><code>cut = TRUE</code> tries to choose an appropriate number of cuts (up
+to a maximum of 6), using <code><a href="banking.html">banking</a></code>, and assuming a square
+plot region. This should have the effect of minimising wasted space
+when <code>aspect = "xy"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type, col, lty, lwd, pch, cex, fill</code></td>
+<td>
+
+<p>graphical arguments, which are processed and eventually passed to
+<code><a href="panel.xyplot.html">panel.xyplot</a></code>.
+These arguments can also be vectors or (named) lists, see Details
+for more information.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auto.key</code></td>
+<td>
+
+<p>a logical, or a list describing how to draw a key. See the
+<code>auto.key</code> entry in <code><a href="xyplot.html">xyplot</a></code>. The default here is
+to draw lines, not points, and any specified style arguments should
+show up automatically.
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>the panel function. It is recommended to leave this alone, but one
+can pass a <code>panel.groups</code> argument which is handled by
+<code><a href="panel.superpose.html">panel.superpose</a></code> for each series. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>par.settings</code></td>
+<td>
+
+<p>style settings beyond the standard <code>col</code>, <code>lty</code>,
+<code>lwd</code>, etc; see <code><a href="trellis.par.get.html">trellis.par.set</a></code> and
+<code><a href="simpleTheme.html">simpleTheme</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>layout</code></td>
+<td>
+
+<p>numeric vector of length 2 specifying number of columns and rows in
+the plot. The default is to fill columns with up to 6 rows.
+</p>
+</td></tr>
+<tr valign="top"><td><code>as.table</code></td>
+<td>
+
+<p>to draw panels from top to bottom. The order is determined by the
+order of columns in <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+
+<p>X axis and Y axis labels; see <code><a href="xyplot.html">xyplot</a></code>. Note in
+particular that <code>ylab</code> may be a character vector, in which case the
+labels are spaced out equally, to correspond to the panels;
+but <em>NOTE</em> in this case the vector should be reversed OR the
+argument <code>as.table</code> set to <code>FALSE</code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>default.scales</code></td>
+<td>
+
+<p><code>scales</code> specification. The default is set to have
+<code>"free"</code> Y axis scales unless <code>cut</code> is given.
+Note, users should pass the <code>scales</code> argument rather than
+<code>default.scales</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The handling of several graphical parameters is more
+flexible for multivariate series. These parameters can be
+vectors of the same length as the number of series plotted or
+are recycled if shorter. They can also be (partially) named list, e.g.,
+<code>list(A = c(1,2), c(3,4))</code> in which <code>c(3, 4)</code> is the
+default value and <code>c(1, 2)</code> the value only for series <code>A</code>.
+The <code>screens</code> argument can be specified in a similar way.
+</p>
+
+<p>Some examples are given below.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gabor Grothendieck, Achim Zeileis, Deepayan Sarkar and Felix Andrews
+<a href="mailto:felix@nfrac.org">felix@nfrac.org</a>.
+</p>
+<p>The first two authors developed <code>xyplot.ts</code> in their <span class="pkg">zoo</span>
+package, including the <code>screens</code> approach. The third author
+developed a different <code>xyplot.ts</code> for cut-and-stack plots in the
+<span class="pkg">latticeExtra</span> package. The final author fused these together.
+</p>
+
+
+<h3>References</h3>
+
+<p>Sarkar, Deepayan (2008) <em>Lattice: Multivariate Data
+Visualization with R</em>, Springer.
+<a href="http://lmdvr.r-forge.r-project.org/">http://lmdvr.r-forge.r-project.org/</a> (cut-and-stack plots)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="panel.xyplot.html">panel.xyplot</a></code>,
+<code><a href="../../stats/html/plot.ts.html">plot.ts</a></code>,
+<code><a href="../../stats/html/ts.html">ts</a></code>,
+<code><a href="../../zoo/html/xyplot.zoo.html">xyplot.zoo</a></code> in the <span class="pkg">zoo</span> package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+xyplot(ts(c(1:10,10:1)))
+
+### Figure 14.1 from Sarkar (2008)
+xyplot(sunspot.year, aspect = "xy",
+       strip = FALSE, strip.left = TRUE,
+       cut = list(number = 4, overlap = 0.05))
+
+### A multivariate example; first juxtaposed, then superposed
+xyplot(EuStockMarkets, scales = list(y = "same"))
+xyplot(EuStockMarkets, superpose = TRUE, aspect = "xy", lwd = 2,
+    type = c("l","g"), ylim = c(0, max(EuStockMarkets)))
+
+### Examples using screens (these two are identical)
+xyplot(EuStockMarkets, screens = c(rep("Continental", 3), "UK"))
+xyplot(EuStockMarkets, screens = list(FTSE = "UK", "Continental"))
+
+### Automatic group styles
+xyplot(EuStockMarkets, screens = list(FTSE = "UK", "Continental"),
+    superpose = TRUE)
+
+xyplot(EuStockMarkets, screens = list(FTSE = "UK", "Continental"),
+    superpose = TRUE, xlim = extendrange(1996:1998),
+    par.settings = standard.theme(color = FALSE))
+
+### Specifying styles for series by name
+xyplot(EuStockMarkets, screens = list(FTSE = "UK", "Continental"),
+    col = list(DAX = "red", FTSE = "blue", "black"), auto.key = TRUE)
+
+xyplot(EuStockMarkets, screens = list(FTSE = "UK", "Continental"),
+    col = list(DAX = "red"), lty = list(SMI = 2), lwd = 1:2,
+    auto.key = TRUE)
+
+### Example with simpler data, few data points
+set.seed(1)
+z &lt;- ts(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
+xyplot(z, screens = 1)
+xyplot(z, screens = list(a = "primary (a)", "other (b &amp; c)"),
+  type = list(a = c("p", "h"), b = c("p", "s"), "o"),
+  pch = list(a = 2, c = 3), auto.key = list(type = "o"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

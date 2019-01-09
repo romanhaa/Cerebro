@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Construct a groupedData Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for groupedData {nlme}"><tr><td>groupedData {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Construct a groupedData Object</h2>
+
+<h3>Description</h3>
+
+<p>An object of the <code>groupedData</code> class is constructed from the
+<code>formula</code> and <code>data</code> by attaching the <code>formula</code> as an
+attribute of the data, along with any of <code>outer</code>, <code>inner</code>,
+<code>labels</code>, and <code>units</code> that are given.  If
+<code>order.groups</code> is <code>TRUE</code> the grouping factor is converted to
+an ordered factor with the ordering determined by
+<code>FUN</code>. Depending on the number of grouping levels and the type of
+primary covariate, the returned object will be of one of three
+classes: <code>nfnGroupedData</code> - numeric covariate, single level of
+nesting; <code>nffGroupedData</code> - factor covariate, single level of
+nesting; and <code>nmGroupedData</code> - multiple levels of
+nesting. Several modeling and plotting functions can use the formula
+stored with a <code>groupedData</code> object to construct default plots and
+models. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+groupedData(formula, data, order.groups, FUN, outer, inner,
+ labels, units)
+## S3 method for class 'groupedData'
+update(object, formula, data, order.groups, FUN,
+outer, inner, labels, units, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>groupedData</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula of the form <code>resp ~ cov | group</code> where
+<code>resp</code> is the response, <code>cov</code> is the primary covariate, and
+<code>group</code> is the grouping factor.  The expression <code>1</code> can be
+used for the primary covariate when there is no other suitable
+candidate.  Multiple nested grouping factors can be listed separated
+by the <code>/</code> symbol as in <code>fact1/fact2</code>.  In an expression
+like this the <code>fact2</code> factor is nested within the <code>fact1</code>
+factor.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which the expressions in <code>formula</code> can
+be evaluated.  The resulting <code>groupedData</code> object will consist
+of the same data values in the same order but with additional
+attributes.</p>
+</td></tr>
+<tr valign="top"><td><code>order.groups</code></td>
+<td>
+<p>an optional logical value, or list of logical
+values, indicating if the grouping factors should be converted to
+ordered factors according to the function <code>FUN</code> applied to the
+response from each group. If multiple levels of grouping are present,
+this argument can be either a single logical value (which will be
+repeated for all grouping levels) or a list of logical values. If no
+names are assigned to the list elements, they are assumed in the same
+order as the group levels (outermost to innermost grouping). Ordering
+within a level of grouping is done within the levels of the grouping
+factors which are outer to it. Changing the grouping factor to an
+ordered factor does not affect the ordering of the rows in the data
+frame but it does affect the order of the panels in a trellis display
+of the data or models fitted to the data.  Defaults to <code>TRUE</code>.</p>
+</td></tr>  
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>an optional summary function that will be applied to the
+values of the response for each level of the grouping factor, when
+<code>order.groups = TRUE</code>, to determine the ordering.  Defaults to
+the <code>max</code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>outer</code></td>
+<td>
+<p>an optional one-sided formula, or list of one-sided
+formulas, indicating covariates that are outer to the grouping
+factor(s).  If multiple levels of grouping are present,
+this argument can be either a single one-sided formula, or a list of
+one-sided formulas. If no names are assigned to the list elements,
+they are assumed in the same order as the group levels (outermost to
+innermost grouping). An outer covariate is invariant within the sets
+of rows defined by the grouping factor.  Ordering of the groups is
+done in such a way as to preserve adjacency of groups with the same
+value of the outer variables.  When plotting a  groupedData object,
+the argument <code>outer = TRUE</code> causes the panels to be determined
+by the <code>outer</code> formula.  The points within the panels are 
+associated by level of the grouping factor. Defaults to <code>NULL</code>,
+meaning that no outer covariates are present.</p>
+</td></tr> 
+<tr valign="top"><td><code>inner</code></td>
+<td>
+<p>an optional one-sided formula, or list of one-sided
+formulas, indicating covariates that are inner to the grouping
+factor(s). If multiple levels of grouping are present,
+this argument can be either a single one-sided formula, or a list of
+one-sided formulas. If no names are assigned to the list elements,
+they are assumed in the same order as the group levels (outermost to
+innermost grouping). An inner covariate can change 
+within the sets of rows defined by the grouping factor.  An inner
+formula can be used to associate points in a plot of a groupedData
+object.  Defaults to <code>NULL</code>, meaning that no inner covariates
+are present.</p>
+</td></tr> 
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>an optional list of character strings giving labels for
+the response and the primary covariate.  The label for the primary
+covariate is named <code>x</code> and that for the response is named
+<code>y</code>.  Either label can be omitted.</p>
+</td></tr>
+<tr valign="top"><td><code>units</code></td>
+<td>
+<p>an optional list of character strings giving the units for
+the response and the primary covariate.  The units string for the
+primary covariate is named <code>x</code> and that for the response is
+named <code>y</code>.  Either units string can be omitted.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of one of the classes <code>nfnGroupedData</code>,
+<code>nffGroupedData</code>, or <code>nmGroupedData</code>, and also inheriting
+from  classes <code>groupedData</code> and <code>data.frame</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Douglas Bates and José Pinheiro</p>
+
+
+<h3>References</h3>
+
+<p>Bates, D.M. and Pinheiro, J.C. (1997), &quot;Software Design for Longitudinal
+Data&quot;, in &quot;Modelling Longitudinal and Spatially Correlated Data:
+Methods, Applications and Future Directions&quot;, T.G. Gregoire (ed.),
+Springer-Verlag, New York.
+</p>
+<p>Pinheiro, J.C. and Bates, D.M. (1997) &quot;Future Directions in
+Mixed-Effects Software: Design of NLME 3.0&quot; available at
+http://nlme.stat.wisc.edu/
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/formula.html">formula</a></code>, <code><a href="gapply.html">gapply</a></code>,
+<code><a href="gsummary.html">gsummary</a></code>,
+<code><a href="lme.html">lme</a></code>,
+<code><a href="plot.nffGroupedData.html">plot.nffGroupedData</a></code>,
+<code><a href="plot.nfnGroupedData.html">plot.nfnGroupedData</a></code>,
+<code><a href="plot.nmGroupedData.html">plot.nmGroupedData</a></code>,
+<code><a href="reStruct.html">reStruct</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Orth.new &lt;-  # create a new copy of the groupedData object
+  groupedData( distance ~ age | Subject,
+              data = as.data.frame( Orthodont ),
+              FUN = mean,
+              outer = ~ Sex,
+              labels = list( x = "Age",
+                y = "Distance from pituitary to pterygomaxillary fissure" ),
+              units = list( x = "(yr)", y = "(mm)") )
+## Not run: 
+plot( Orth.new )         # trellis plot by Subject
+
+## End(Not run)
+formula( Orth.new )      # extractor for the formula
+gsummary( Orth.new )     # apply summary by Subject
+fm1 &lt;- lme( Orth.new )   # fixed and groups formulae extracted from object
+Orthodont2 &lt;- update(Orthodont, FUN = mean)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

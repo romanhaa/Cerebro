@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate glsStruct Fitted Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitted.glsStruct {nlme}"><tr><td>fitted.glsStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate glsStruct Fitted Values</h2>
+
+<h3>Description</h3>
+
+<p>The fitted values for the linear model represented by <code>object</code>
+are extracted.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'glsStruct'
+fitted(object, glsFit, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="glsStruct.html">glsStruct</a>"</code>,
+representing a list of linear model components, such as
+<code>corStruct</code> and <code>"<a href="varFunc.html">varFunc</a>"</code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>glsFit</code></td>
+<td>
+<p>an optional list with components <code>logLik</code>
+(log-likelihood), <code>beta</code> (coefficients), <code>sigma</code> (standard
+deviation for error term), <code>varBeta</code> (coefficients' covariance
+matrix), <code>fitted</code> (fitted values), and <code>residuals</code>
+(residuals). Defaults to <code>attr(object, "glsFit")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with the fitted values for the linear model represented by
+<code>object</code>. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>This method function is generally only used inside <code>gls</code> and 
+<code>fitted.gls</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gls.html">gls</a></code>, 
+<code><a href="residuals.glsStruct.html">residuals.glsStruct</a></code> </p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

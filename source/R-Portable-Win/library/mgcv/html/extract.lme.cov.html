@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract the data covariance matrix from an lme object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for extract.lme.cov {mgcv}"><tr><td>extract.lme.cov {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Extract the data covariance matrix from an lme object</h2>
+
+<h3>Description</h3>
+
+<p> This is a service routine for <code><a href="gamm.html">gamm</a></code>. Extracts 
+the estimated covariance matrix of the data from an <code>lme</code> object, allowing the 
+user control about which levels of random effects to include in this 
+calculation. <code>extract.lme.cov</code> forms the full matrix explicitly:
+<code>extract.lme.cov2</code> tries to be more economical than this.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+extract.lme.cov(b,data,start.level=1)
+extract.lme.cov2(b,data,start.level=1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p> A fitted model object returned by a call to <code><a href="../../nlme/html/lme.html">lme</a></code></p>
+</td></tr></table>
+<p>.
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> The data frame/ model frame that was supplied to
+<code><a href="../../nlme/html/lme.html">lme</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>start.level</code></td>
+<td>
+<p>The level of nesting at which to start including random 
+effects in the calculation. This is used to allow smooth terms to be estimated
+as random effects, but treated like fixed effects for variance calculations.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The random effects, correlation structure and variance structure used
+for a linear mixed model combine to imply a covariance matrix for the 
+response data being modelled. These routines extracts that covariance matrix.
+The process is slightly complicated, because different components of the 
+fitted model object are stored in different orders (see function code for 
+details!).  
+</p>
+<p>The <code>extract.lme.cov</code> calculation is not optimally efficient, since it forms the full matrix,
+which may in fact be sparse. <code>extract.lme.cov2</code> is more efficient. If the
+covariance matrix is diagonal, then only the leading diagonal is returned; if
+it can be written as a block diagonal matrix (under some permutation of the
+original data) then a list of matrices defining the non-zero blocks is
+returned along with an index indicating which row of the original data each
+row/column of the block diagonal matrix relates to. The block sizes are defined by
+the coarsest level of grouping in the random effect structure.
+</p>
+<p><code><a href="gamm.html">gamm</a></code> uses <code>extract.lme.cov2</code>.
+</p>
+<p><code>extract.lme.cov</code> does not currently deal with the situation in which the
+grouping factors for a correlation structure are finer than those for the
+random effects. <code>extract.lme.cov2</code> does deal with this situation.
+</p>
+
+
+<h3>Value</h3>
+
+<p> For <code>extract.lme.cov</code> an estimated covariance matrix.
+</p>
+<p>For <code>extract.lme.cov2</code> a list containing the estimated covariance matrix
+and an indexing array. The covariance matrix is stored as the elements on the
+leading diagonal, a list of the matrices defining a block diagonal matrix, or
+a full matrix if the previous two options are not possible.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>For <code>lme</code> see:
+</p>
+<p>Pinheiro J.C. and Bates, D.M. (2000) Mixed effects Models in S and S-PLUS. Springer
+</p>
+<p>For details of how GAMMs are set up here for estimation using <code>lme</code> see:
+</p>
+<p>Wood, S.N. (2006) Low rank scale invariant tensor product smooths for
+Generalized Additive Mixed Models. Biometrics 62(4):1025-1036
+</p>
+<p>or 
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+  
+<p><code><a href="gamm.html">gamm</a></code>, <code><a href="formXtViX.html">formXtViX</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see also ?formXtViX for use of extract.lme.cov2
+require(mgcv)
+library(nlme)
+data(Rail)
+b &lt;- lme(travel~1,Rail,~1|Rail)
+extract.lme.cov(b,Rail)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

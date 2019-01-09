@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulates Sequential Spatial Inhibition Point Process</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for SSI {spatial}"><tr><td>SSI {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Simulates Sequential Spatial Inhibition Point Process
+</h2>
+
+<h3>Description</h3>
+
+<p>Simulates SSI (sequential spatial inhibition) point process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+SSI(n, r)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>number of points
+</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+
+<p>inhibition distance
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>uses the region set by <code>ppinit</code> or <code>ppregion</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>list of vectors of <code>x</code> and <code>y</code> coordinates
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>uses the random number generator.
+</p>
+
+
+<h3>Warnings</h3>
+
+<p>will never return if <code>r</code> is too large and it cannot place
+<code>n</code> points.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Psim.html">Psim</a></code>, <code><a href="Strauss.html">Strauss</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+towns &lt;- ppinit("towns.dat")
+par(pty = "s")
+plot(Kfn(towns, 10), type = "b", xlab = "distance", ylab = "L(t)")
+lines(Kaver(10, 25, SSI(69, 1.2)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

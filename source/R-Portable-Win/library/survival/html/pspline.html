@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Smoothing splines using a pspline basis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pspline {survival}"><tr><td>pspline {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Smoothing splines using a pspline basis</h2>
+
+<h3>Description</h3>
+
+<p>Specifies a penalised spline basis for the predictor.
+This is done by fitting a comparatively small set of splines and
+penalising the integrated second derivative.
+Traditional smoothing splines use one basis per observation, but several
+authors have pointed out that the final results of the fit are 
+indistinguishable for any number of basis functions greater than about 
+2-3 times the degrees of freedom. 
+Eilers and Marx point out that if the basis functions are evenly spaced,
+this leads to significant computational simplification, they refer
+to the result as a p-spline.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pspline(x, df=4, theta, nterm=2.5 * df, degree=3, eps=0.1, method,
+   Boundary.knots=range(x), intercept=FALSE, penalty=TRUE, combine, ...)
+
+psplineinverse(x)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>for psline: a covariate vector.
+The function does not apply to factor variables.
+For psplineinverse x will be the result of a pspline call.</p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+<p>the desired degrees of freedom.
+One of the arguments <code>df</code> or <code>theta</code>' must be given, but not both.
+If <code>df=0</code>, then the AIC = (loglik -df) is used to choose an
+&quot;optimal&quot; degrees of freedom.  If AIC is chosen, then an optional
+argument &lsquo;caic=T&rsquo; can be used to specify the corrected AIC of
+Hurvich et. al.
+</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>roughness penalty for the fit.
+It is a monotone function of the degrees of freedom, with theta=1
+corresponding to a linear fit and theta=0 to an unconstrained fit
+of nterm degrees of freedom.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nterm</code></td>
+<td>
+<p> number of splines in the basis </p>
+</td></tr>
+<tr valign="top"><td><code>degree</code></td>
+<td>
+<p> degree of splines </p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>accuracy for <code>df</code> </p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method for choosing the tuning parameter <code>theta</code>.
+If theta is given, then 'fixed' is assumed.
+If the degrees of freedom is given, then 'df' is assumed.
+If method='aic' then the degrees of freedom is chosen automatically using
+Akaike's information criterion.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments to the control function</p>
+</td></tr>
+<tr valign="top"><td><code>Boundary.knots</code></td>
+<td>
+<p>the spline is linear beyond the boundary knots.
+These default to the range of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>if TRUE, the basis functions include the intercept.</p>
+</td></tr>
+<tr valign="top"><td><code>penalty</code></td>
+<td>
+<p>if FALSE a large number of attributes having to do with
+penalized fits are excluded.  This is useful to create a pspline
+basis matrix for other uses.</p>
+</td></tr>
+<tr valign="top"><td><code>combine</code></td>
+<td>
+<p>an optional vector of increasing integers.  If two
+adjacent values of <code>combine</code> are equal, then the corresponding
+coefficients of the fit are forced to be equal.  This is useful for
+monotone fits, see the vignette for more details.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Object of class <code>pspline, coxph.penalty</code> containing the spline basis,
+with the appropriate attributes to be
+recognized as a penalized term by the coxph or survreg functions.
+</p>
+<p>For psplineinverse the original x vector is reconstructed.
+</p>
+
+
+<h3>References</h3>
+
+<p>Eilers, Paul H. and Marx, Brian D. (1996).
+Flexible smoothing with B-splines and penalties.
+Statistical Science, 11, 89-121.
+</p>
+<p>Hurvich, C.M. and Simonoff, J.S. and Tsai, Chih-Ling (1998).
+Smoothing parameter selection in nonparametric regression using
+an improved Akaike information criterion,
+JRSSB, volume 60, 271&ndash;293.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="coxph.html">coxph</a></code>,<code><a href="survreg.html">survreg</a></code>,<code><a href="ridge.html">ridge</a></code>,
+<code><a href="frailty.html">frailty</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+lfit6 &lt;- survreg(Surv(time, status)~pspline(age, df=2), cancer)
+plot(cancer$age, predict(lfit6), xlab='Age', ylab="Spline prediction")
+title("Cancer Data")
+fit0 &lt;- coxph(Surv(time, status) ~ ph.ecog + age, cancer)
+fit1 &lt;- coxph(Surv(time, status) ~ ph.ecog + pspline(age,3), cancer)
+fit3 &lt;- coxph(Surv(time, status) ~ ph.ecog + pspline(age,8), cancer)
+fit0
+fit1
+fit3
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

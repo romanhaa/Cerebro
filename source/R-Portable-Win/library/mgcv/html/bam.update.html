@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update a strictly additive bam model for new data.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bam.update {mgcv}"><tr><td>bam.update {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update a strictly additive bam model for new data.</h2>
+
+<h3>Description</h3>
+
+<p> Gaussian with identity link models fitted by <code><a href="bam.html">bam</a></code> can be efficiently updated as new data becomes available,
+by simply updating the QR decomposition on which estimation is based, and re-optimizing the smoothing parameters, starting
+from the previous estimates. This routine implements this.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bam.update(b,data,chunk.size=10000)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p> A <code>gam</code> object fitted by <code><a href="bam.html">bam</a></code> and representing a strictly additive model 
+(i.e. <code>gaussian</code> errors, <code>identity</code> link).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Extra data to augment the original data used to obtain <code>b</code>. Must include a <code>weights</code> column if the 
+original fit was weighted and a <code>AR.start</code> column if <code>AR.start</code> was non <code>NULL</code> in original fit.</p>
+</td></tr>
+<tr valign="top"><td><code>chunk.size</code></td>
+<td>
+<p>size of subsets of data to process in one go when getting fitted values.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ <p><code>bam.update</code> updates the QR decomposition of the (weighted) model matrix of the GAM represented by <code>b</code> to take 
+account of the new data. The orthogonal factor multiplied by the response vector is also updated. Given these updates the model 
+and smoothing parameters can be re-estimated, as if the whole dataset (original and the new data) had been fitted in one go. The 
+function will use the same AR1 model for the residuals as that employed in the original model fit (see <code>rho</code> parameter 
+of <code><a href="bam.html">bam</a></code>).
+</p>
+<p>Note that there may be small numerical differences in fit between fitting the data all at once, and fitting in 
+stages by updating, if the smoothing bases used have any of their details set with reference 
+to the data (e.g. default knot locations).
+</p>
+
+
+<h3>Value</h3>
+
+ 
+<p>An object of class <code>"gam"</code> as described in <code><a href="gamObject.html">gamObject</a></code>.
+</p>
+
+
+<h3>WARNINGS </h3>
+
+<p>AIC computation does not currently take account of AR model, if used.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="mgcv-package.html">mgcv-package</a></code>, <code><a href="bam.html">bam</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+## following is not *very* large, for obvious reasons...
+set.seed(8)
+n &lt;- 5000
+dat &lt;- gamSim(1,n=n,dist="normal",scale=5)
+dat[c(50,13,3000,3005,3100),]&lt;- NA
+dat1 &lt;- dat[(n-999):n,]
+dat0 &lt;- dat[1:(n-1000),]
+bs &lt;- "ps";k &lt;- 20
+method &lt;- "GCV.Cp"
+b &lt;- bam(y ~ s(x0,bs=bs,k=k)+s(x1,bs=bs,k=k)+s(x2,bs=bs,k=k)+
+           s(x3,bs=bs,k=k),data=dat0,method=method)
+
+b1 &lt;- bam.update(b,dat1)
+
+b2 &lt;- bam.update(bam.update(b,dat1[1:500,]),dat1[501:1000,])
+ 
+b3 &lt;- bam(y ~ s(x0,bs=bs,k=k)+s(x1,bs=bs,k=k)+s(x2,bs=bs,k=k)+
+           s(x3,bs=bs,k=k),data=dat,method=method)
+b1;b2;b3
+
+## example with AR1 errors...
+
+e &lt;- rnorm(n)
+for (i in 2:n) e[i] &lt;- e[i-1]*.7 + e[i]
+dat$y &lt;- dat$f + e*3
+dat[c(50,13,3000,3005,3100),]&lt;- NA
+dat1 &lt;- dat[(n-999):n,]
+dat0 &lt;- dat[1:(n-1000),]
+
+b &lt;- bam(y ~ s(x0,bs=bs,k=k)+s(x1,bs=bs,k=k)+s(x2,bs=bs,k=k)+
+           s(x3,bs=bs,k=k),data=dat0,rho=0.7)
+
+b1 &lt;- bam.update(b,dat1)
+
+
+summary(b1);summary(b2);summary(b3)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

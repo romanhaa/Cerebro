@@ -1,0 +1,32 @@
+import(methods)
+import(stats)
+import(stats4)
+
+export(ModelEnvFormula, ModelEnvMatrix, linearModel, glinearModel,
+       survReg, Predict, ICL, KLdiv, Lapply, clusters, getModel,
+       parameters, posterior, prior, refit, info, infoCheck, relabel,
+       ParseFormula)
+
+exportClasses("ModelEnv", "FormulaParts", "ModelEnvFormula", "StatModel",
+              "StatModelCapabilities")
+
+exportMethods("subset", "show", "dimension", "clone", "has", "initialize",
+              "fit", "dpp", "na.omit", "na.fail", "na.pass", "subset",
+              "MEapply", "info", "empty", "relabel")
+
+S3method(fitted, linearModel)
+S3method(model.matrix, linearModel)
+S3method(predict, linearModel)
+S3method(print, linearModel)
+S3method(weights, linearModel)
+
+S3method(fitted, glinearModel)
+S3method(model.matrix, glinearModel)
+S3method(predict, glinearModel)
+S3method(print, glinearModel)
+
+S3method(fitted, survReg)
+S3method(logLik, survReg)
+S3method(print, survReg)
+S3method(weights, survReg)
+S3method(model.matrix, survReg)

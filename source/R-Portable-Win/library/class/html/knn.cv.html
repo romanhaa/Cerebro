@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: k-Nearest Neighbour Cross-Validatory Classification</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for knn.cv {class}"><tr><td>knn.cv {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+k-Nearest Neighbour Cross-Validatory Classification
+</h2>
+
+<h3>Description</h3>
+
+<p>k-nearest neighbour cross-validatory classification from training set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+knn.cv(train, cl, k = 1, l = 0, prob = FALSE, use.all = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>train</code></td>
+<td>
+
+<p>matrix or data frame of training set cases.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+
+<p>factor of true classifications of training set
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>number of neighbours considered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>l</code></td>
+<td>
+
+<p>minimum vote for definite decision, otherwise <code>doubt</code>. (More
+precisely, less than <code>k-l</code> dissenting votes are allowed, even
+if <code>k</code> is increased by ties.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+
+<p>If this is true, the proportion of the votes for the winning class
+are returned as attribute <code>prob</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.all</code></td>
+<td>
+
+<p>controls handling of ties. If true, all distances equal to the <code>k</code>th
+largest are included. If false, a random selection of distances
+equal to the <code>k</code>th is chosen to use exactly <code>k</code> neighbours.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This uses leave-one-out cross validation.
+For each row of the training set <code>train</code>, the <code>k</code> nearest
+(in Euclidean distance) other
+training set vectors are found, and the classification is decided by
+majority vote, with ties broken at random. If there are ties for the
+<code>k</code>th nearest vector, all candidates are included in the vote.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Factor of classifications of training set. <code>doubt</code> will be returned as <code>NA</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="knn.html">knn</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+train &lt;- rbind(iris3[,,1], iris3[,,2], iris3[,,3])
+cl &lt;- factor(c(rep("s",50), rep("c",50), rep("v",50)))
+knn.cv(train, cl, k = 3, prob = TRUE)
+attributes(.Last.value)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

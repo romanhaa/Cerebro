@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.rpart {rpart}"><tr><td>print.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Print an Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>This function prints an <code>rpart</code> object.  It is a method for the generic 
+function <code>print</code> of class <code>"rpart"</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+print(x, minlength = 0, spaces = 2, cp, digits = getOption("digits"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the <code>rpart</code> function. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>minlength</code></td>
+<td>
+
+<p>Controls the abbreviation of labels: see <code><a href="labels.rpart.html">labels.rpart</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>spaces</code></td>
+<td>
+
+<p>the number of spaces to indent nodes of increasing depth. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+
+<p>the number of digits of numbers to print. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>cp</code></td>
+<td>
+
+<p>prune all nodes with a complexity less than <code>cp</code> from the
+printout. Ignored if unspecified.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to be passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function <code>print</code> for class 
+<code>"rpart"</code>.  It can be invoked by calling print for an object of the 
+appropriate class, or directly by calling <code>print.rpart</code> regardless of 
+the class of the object. 
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>A semi-graphical layout of the contents of <code>x$frame</code> is
+printed.  Indentation is used to convey the tree topology.
+Information for each node includes the node number, split, size,
+deviance, and fitted value.  For the <code>"class"</code> method, the
+class probabilities are also printed. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/print.html">print</a></code>,  <code><a href="rpart.object.html">rpart.object</a></code>,
+<code><a href="summary.rpart.html">summary.rpart</a></code>,  <code><a href="printcp.html">printcp</a></code>   
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+z.auto
+## Not run: node), split, n, deviance, yval
+      * denotes terminal node
+
+ 1) root 60 1354.58300 24.58333  
+   2) Weight&gt;=2567.5 45  361.20000 22.46667  
+     4) Weight&gt;=3087.5 22   61.31818 20.40909 *
+     5) Weight&lt;3087.5 23  117.65220 24.43478  
+      10) Weight&gt;=2747.5 15   60.40000 23.80000 *
+      11) Weight&lt;2747.5 8   39.87500 25.62500 *
+   3) Weight&lt;2567.5 15  186.93330 30.93333 *
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

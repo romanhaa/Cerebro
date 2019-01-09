@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Groups from a Data Frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGroups.data.frame {nlme}"><tr><td>getGroups.data.frame {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Groups from a Data Frame</h2>
+
+<h3>Description</h3>
+
+<p>Each variable named in the expression after the <code>|</code> operator on
+the right hand side of <code>form</code> is evaluated in <code>object</code>. If
+more than one variable is indicated in <code>level</code> they are combined
+into a data frame; else the selected variable is returned as a vector.
+When multiple grouping levels are defined in <code>form</code> and
+<code>level &gt; 1</code>, the levels of the returned factor are obtained by
+pasting together the levels of the grouping factors of level greater
+or equal to <code>level</code>, to ensure their uniqueness. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'data.frame'
+getGroups(object, form, level, data, sep)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>data.frame</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional formula with a conditioning expression on its
+right hand side (i.e. an expression involving the <code>|</code>
+operator). Defaults to <code>formula(object)</code>.</p>
+</td></tr>  
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>a positive integer vector with the level(s) of grouping to
+be used when multiple nested levels of grouping are present. Defaults
+to all levels of nesting.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>character, the separator to use between group levels when
+multiple levels are collapsed.  The default is <code>'/'</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>either a data frame with columns given by the grouping factors
+indicated in <code>level</code>, from outer to inner, or, when a single
+level is requested, a factor representing the selected grouping
+factor. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. pp. 100, 461.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getGroupsFormula.html">getGroupsFormula</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+getGroups(Pixel)
+getGroups(Pixel, level = 2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

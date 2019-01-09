@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scatter Plot Matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_08_splom {lattice}"><tr><td>B_08_splom {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Scatter Plot Matrices</h2>
+
+<h3>Description</h3>
+
+<p>Draw Conditional Scatter Plot Matrices and Parallel Coordinate Plots
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+splom(x, data, ...)
+parallelplot(x, data, ...)
+
+## S3 method for class 'formula'
+splom(x,
+      data,
+      auto.key = FALSE,
+      aspect = 1,
+      between = list(x = 0.5, y = 0.5),
+      panel = lattice.getOption("panel.splom"),
+      prepanel,
+      scales,
+      strip,
+      groups,
+      xlab,
+      xlim,
+      ylab = NULL,
+      ylim,
+      superpanel = lattice.getOption("panel.pairs"),
+      pscales = 5,
+      varnames = NULL,
+      drop.unused.levels,
+      ...,
+      lattice.options = NULL,
+      default.scales,
+      default.prepanel = lattice.getOption("prepanel.default.splom"),
+      subset = TRUE)
+## S3 method for class 'formula'
+parallelplot(x,
+         data,
+         auto.key = FALSE,
+         aspect = "fill",
+         between = list(x = 0.5, y = 0.5),
+         panel = lattice.getOption("panel.parallel"),
+         prepanel,
+         scales,
+         strip,
+         groups,
+         xlab = NULL,
+         xlim,
+         ylab = NULL,
+         ylim,
+         varnames = NULL,
+         horizontal.axis = TRUE,
+         drop.unused.levels,
+         ...,
+         lattice.options = NULL,
+         default.scales,
+         default.prepanel = lattice.getOption("prepanel.default.parallel"),
+         subset = TRUE)
+
+## S3 method for class 'data.frame'
+splom(x, data = NULL, ..., groups = NULL, subset = TRUE)
+## S3 method for class 'matrix'
+splom(x, data = NULL, ..., groups = NULL, subset = TRUE)
+
+## S3 method for class 'matrix'
+parallelplot(x, data = NULL, ..., groups = NULL, subset = TRUE)
+## S3 method for class 'data.frame'
+parallelplot(x, data = NULL, ..., groups = NULL, subset = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The object on which method dispatch is carried out.
+</p>
+<p>For the <code>"formula"</code> method, a formula describing the structure
+of the plot, which should be of the form <code>~ x | g1 * g2 *
+      ...</code>, where <code>x</code> is a data frame or matrix.  Each of
+<code>g1,g2,...</code> must be either factors or shingles. The
+conditioning variables <code>g1, g2, ...</code> may be omitted.
+</p>
+<p>For the <code>data.frame</code> methods, a data frame.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>For the <code>formula</code> methods, an optional data frame in which
+variables in the formula (as well as <code>groups</code> and
+<code>subset</code>, if any) are to be evaluated.
+</p>
+</td></tr>
+<tr valign="top"><td><code>aspect</code></td>
+<td>
+ 
+<p>aspect ratio of each panel (and subpanel), square by default for
+<code>splom</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>between</code></td>
+<td>
+ 
+<p>to avoid confusion between panels and subpanels, the default is to
+show the panels of a splom plot with space between them.
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>For <code>parallelplot</code>, this has the usual interpretation, i.e., a
+function that creates the display within each panel.
+</p>
+<p>For <code>splom</code>, the terminology is slightly complicated. The role
+played by the panel function in most other high-level functions is
+played here by the <code>superpanel</code> function, which is responsible
+for the display for each conditional data subset. <code>panel</code> is
+simply an argument to the default <code>superpanel</code> function
+<code>panel.pairs</code>, and is passed on to it unchanged. It is used
+there to create each pairwise display. See <code><a href="panel.pairs.html">panel.pairs</a></code>
+for more useful options.
+</p>
+</td></tr>
+<tr valign="top"><td><code>superpanel</code></td>
+<td>
+ 
+<p>function that sets up the splom display, by default as a scatterplot
+matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pscales</code></td>
+<td>
+ 
+<p>a numeric value or a list, meant to be a less functional substitute
+for the <code>scales</code> argument in <code>xyplot</code> etc. This argument
+is passed to the <code>superpanel</code> function, and is handled by the
+default superpanel function <code>panel.pairs</code>. The help page for
+the latter documents this argument in more detail.
+</p>
+</td></tr>
+<tr valign="top"><td><code>varnames</code></td>
+<td>
+ 
+<p>A character or expression vector or giving names to be used for the
+variables in <code>x</code>. By default, the column names of <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal.axis</code></td>
+<td>
+<p>logical indicating whether the parallel axes should
+be laid out horizontally (<code>TRUE</code>) or vertically (<code>FALSE</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>auto.key, prepanel, scales,
+strip, groups, xlab, xlim, ylab, ylim, drop.unused.levels,
+lattice.options, default.scales, subset</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code> </p>
+</td></tr>
+<tr valign="top"><td><code>default.prepanel</code></td>
+<td>
+
+<p>Fallback prepanel function.  See <code><a href="xyplot.html">xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Further arguments.  See corresponding entry in
+<code><a href="xyplot.html">xyplot</a></code> for non-trivial details.  </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>splom</code> produces Scatter Plot Matrices.  The role usually played
+by <code>panel</code> is taken over by <code>superpanel</code>, which takes a data
+frame subset and is responsible for plotting it.  It is called with
+the coordinate system set up to have both x- and y-limits from
+<code>0.5</code> to <code>ncol(z) + 0.5</code>.  The only built-in option
+currently available is <code><a href="panel.pairs.html">panel.pairs</a></code>, which calls a
+further panel function for each pair <code>(i, j)</code> of variables in
+<code>z</code> inside a rectangle of unit width and height centered at
+<code>c(i, j)</code> (see <code><a href="panel.pairs.html">panel.pairs</a></code> for details).
+</p>
+<p>Many of the finer customizations usually done via arguments to high
+level function like <code>xyplot</code> are instead done by
+<code>panel.pairs</code> for <code>splom</code>. These include control of axis
+limits, tick locations and prepanel calcultions. If you are trying to
+fine-tune your <code>splom</code> plot, definitely look at the
+<code><a href="panel.pairs.html">panel.pairs</a></code> help page. The <code>scales</code> argument is
+usually not very useful in <code>splom</code>, and trying to change it may
+have undesired effects.
+</p>
+<p><code><a href="splom.html">parallelplot</a></code> draws Parallel Coordinate Plots. (Difficult to
+describe, see example.)
+</p>
+<p>These and all other high level Trellis functions have several
+arguments in common. These are extensively documented only in the
+help page for <code>xyplot</code>, which should be consulted to learn more
+detailed usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>, <code><a href="Lattice.html">Lattice</a></code>, <code><a href="panel.pairs.html">panel.pairs</a></code>,
+<code><a href="panel.parallel.html">panel.parallel</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+super.sym &lt;- trellis.par.get("superpose.symbol")
+splom(~iris[1:4], groups = Species, data = iris,
+      panel = panel.superpose,
+      key = list(title = "Three Varieties of Iris",
+                 columns = 3, 
+                 points = list(pch = super.sym$pch[1:3],
+                 col = super.sym$col[1:3]),
+                 text = list(c("Setosa", "Versicolor", "Virginica"))))
+splom(~iris[1:3]|Species, data = iris, 
+      layout=c(2,2), pscales = 0,
+      varnames = c("Sepal\nLength", "Sepal\nWidth", "Petal\nLength"),
+      page = function(...) {
+          ltext(x = seq(.6, .8, length.out = 4), 
+                y = seq(.9, .6, length.out = 4), 
+                labels = c("Three", "Varieties", "of", "Iris"),
+                cex = 2)
+      })
+parallelplot(~iris[1:4] | Species, iris) 
+parallelplot(~iris[1:4], iris, groups = Species,
+             horizontal.axis = FALSE, scales = list(x = list(rot = 90)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

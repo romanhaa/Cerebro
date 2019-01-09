@@ -1,0 +1,37 @@
+Package: fs
+Title: Cross-Platform File System Operations Based on 'libuv'
+Version: 1.2.6
+Authors@R: c(
+    person("Jim", "Hester", email = "james.f.hester@gmail.com", role = c("aut", "cre")),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", "aut"),
+    person("libuv project contributors", role = "cph", comment = "libuv library"),
+    person("Joyent, Inc. and other Node contributors", role = "cph", comment = "libuv library"),
+    person("RStudio", role = c("cph", "fnd"))
+    )
+Description: A cross-platform interface to file system operations, built on
+  top of the 'libuv' C library.
+Depends: R (>= 3.1)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+LinkingTo: Rcpp
+Imports: methods, Rcpp
+SystemRequirements: GNU make
+RoxygenNote: 6.1.0
+URL: http://fs.r-lib.org, https://github.com/r-lib/fs
+BugReports: https://github.com/r-lib/fs/issues
+Copyright: file COPYRIGHTS
+Suggests: testthat, covr, pillar (>= 1.0.0), crayon, withr
+NeedsCompilation: yes
+Packaged: 2018-08-23 19:04:30 UTC; jhester
+Author: Jim Hester [aut, cre],
+  Hadley Wickham [aut],
+  libuv project contributors [cph] (libuv library),
+  Joyent, Inc. and other Node contributors [cph] (libuv library),
+  RStudio [cph, fnd]
+Maintainer: Jim Hester <james.f.hester@gmail.com>
+Repository: CRAN
+Date/Publication: 2018-08-23 19:34:26 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-08-24 14:52:52 UTC; unix
+Archs: fs.so.dSYM

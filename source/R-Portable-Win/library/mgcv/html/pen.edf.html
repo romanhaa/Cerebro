@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract the effective degrees of freedom associated with each...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pen.edf {mgcv}"><tr><td>pen.edf {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract the effective degrees of freedom associated with each penalty in a gam fit</h2>
+
+<h3>Description</h3>
+
+<p>Finds the coefficients penalized by each penalty and adds up their effective degrees of freedom.
+Very useful for <code><a href="t2.html">t2</a></code> terms, but hard to interpret for terms where the penalties penalize 
+overlapping sets of parameters (e.g. <code><a href="te.html">te</a></code> terms). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pen.edf(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> an object inheriting from <code>gam</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Useful for models containing <code><a href="t2.html">t2</a></code> terms, since it splits the EDF for the term up into 
+parts due to different components of the smooth. This is useful for figuring out which interaction terms are 
+actually needed in a model.  
+</p>
+
+
+<h3>Value</h3>
+
+<p> A vector of EDFs, named with labels identifying which penalty each EDF relates to.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>  Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="t2.html">t2</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+  require(mgcv)
+  set.seed(20) 
+  dat &lt;- gamSim(1,n=400,scale=2) ## simulate data
+  ## following `t2' smooth basically separates smooth 
+  ## of x0,x1 into main effects + interaction.... 
+  
+  b &lt;- gam(y~t2(x0,x1,bs="tp",m=1,k=7)+s(x2)+s(x3),
+           data=dat,method="ML")
+  pen.edf(b)
+  
+  ## label "rr" indicates interaction edf (range space times range space)
+  ## label "nr" (null space for x0 times range space for x1) is main
+  ##            effect for x1.
+  ## label "rn" is main effect for x0
+  ## clearly interaction is negligible
+  
+  ## second example with higher order marginals. 
+  
+  b &lt;- gam(y~t2(x0,x1,bs="tp",m=2,k=7,full=TRUE)
+             +s(x2)+s(x3),data=dat,method="ML")
+  pen.edf(b)
+  
+  ## In this case the EDF is negligible for all terms in the t2 smooth
+  ## apart from the `main effects' (r2 and 2r). To understand the labels
+  ## consider the following 2 examples....
+  ## "r1" relates to the interaction of the range space of the first 
+  ##      marginal smooth and the first basis function of the null 
+  ##      space of the second marginal smooth
+  ## "2r" relates to the interaction of the second basis function of 
+  ##      the null space of the first marginal smooth with the range 
+  ##      space of the second marginal smooth. 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

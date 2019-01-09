@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Autocorrelation Function for lme Residuals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ACF.lme {nlme}"><tr><td>ACF.lme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Autocorrelation Function for lme Residuals</h2>
+
+<h3>Description</h3>
+
+<p>This method function calculates the empirical autocorrelation function
+for the within-group residuals from an <code>lme</code> fit. The
+autocorrelation values are calculated using pairs of residuals within
+the innermost group level. The autocorrelation function is  useful for
+investigating serial correlation models for equally spaced data. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lme'
+ACF(object, maxLag, resType, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="lme.html">lme</a>"</code>, representing
+a fitted linear mixed-effects model.</p>
+</td></tr>
+<tr valign="top"><td><code>maxLag</code></td>
+<td>
+<p>an optional integer giving the maximum lag for which the
+autocorrelation should be calculated. Defaults to maximum lag in the
+within-group residuals.</p>
+</td></tr>  
+<tr valign="top"><td><code>resType</code></td>
+<td>
+<p>an optional character string specifying the type of
+residuals to be used. If <code>"response"</code>, the &quot;raw&quot; residuals
+(observed - fitted) are used; else, if <code>"pearson"</code>, the
+standardized residuals (raw residuals divided by the corresponding
+standard errors) are used; else, if <code>"normalized"</code>, the
+normalized residuals (standardized residuals pre-multiplied by the
+inverse square-root factor of the estimated error correlation
+matrix) are used. Partial matching of arguments is used, so only the
+first character needs to be provided. Defaults to <code>"pearson"</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments &ndash; not used.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a data frame with columns <code>lag</code> and <code>ACF</code> representing,
+respectively, the lag between residuals within a pair and the corresponding
+empirical autocorrelation. The returned value inherits from class
+<code>ACF</code>.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Box, G.E.P., Jenkins, G.M., and Reinsel G.C. (1994) &quot;Time Series
+Analysis: Forecasting and Control&quot;, 3rd Edition, Holden-Day. 
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ACF.gls.html">ACF.gls</a></code>, <code><a href="plot.ACF.html">plot.ACF</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(follicles ~ sin(2*pi*Time) + cos(2*pi*Time),
+           Ovary, random = ~ sin(2*pi*Time) | Mare)
+ACF(fm1, maxLag = 11)
+
+# Pinheiro and Bates, p240-241
+fm1Over.lme &lt;- lme(follicles  ~ sin(2*pi*Time) +
+           cos(2*pi*Time), data=Ovary,
+     random=pdDiag(~sin(2*pi*Time)) )
+(ACF.fm1Over &lt;- ACF(fm1Over.lme, maxLag=10))
+plot(ACF.fm1Over, alpha=0.01) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: O'Brien's Test for Association of a Single Variable with...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survobrien {survival}"><tr><td>survobrien {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+O'Brien's Test for Association of a Single Variable with Survival
+</h2>
+
+<h3>Description</h3>
+
+<p>Peter O'Brien's test for association of a single variable with survival 
+This test is proposed in Biometrics, June 1978. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+survobrien(formula, data, subset, na.action, transform)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a valid formula for a cox model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a data.frame in which to interpret the variables named in 
+the <code>formula</code>, or in the <code>subset</code> and the <code>weights</code>
+argument. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>expression indicating which subset of the rows of data should be used in 
+the fit.    All observations are included by default. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>a missing-data filter function.  This is applied to the model.frame
+after any 
+subset argument has been used.  Default is <code>options()\$na.action</code>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>transform</code></td>
+<td>
+<p>the transformation function to be applied at each
+time point. The default is O'Brien's suggestion logit(tr) where
+tr = (rank(x)- 1/2)/ length(x) is the rank shifted to the range
+0-1 and logit(x) = log(x/(1-x)) is the logit transform.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>a new data frame.  The response variables will be column names
+returned by the <code>Surv</code> function, i.e., &quot;time&quot; and &quot;status&quot; for
+simple survival data, or &quot;start&quot;, &quot;stop&quot;, &quot;status&quot; for counting
+process data.  Each individual event time is identified by the
+value of the variable <code>.strata.</code>.  Other variables retain
+their original names.  If a
+predictor variable is a factor or is protected with <code>I()</code>, it is 
+retained as is.  Other predictor variables have been replaced with 
+time-dependent logit scores. 
+</p>
+<p>The new data frame will have many 
+more rows that the original data, approximately the original number
+of rows * number of deaths/2. 
+</p>
+
+
+<h3>Method</h3>
+
+<p>A time-dependent cox model can now be fit to the new data. 
+The univariate statistic, as originally proposed, is equivalent to 
+single variable score tests from the time-dependent model. 
+This equivalence is the rationale for using the time dependent model as a 
+multivariate extension of the original paper. 
+</p>
+<p>In O'Brien's method, the x variables are re-ranked at each death time.  A 
+simpler method, proposed by Prentice, ranks the data only once at the 
+start. The results are usually similar. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>A prior version of the routine returned new time variables rather than
+a strata.  Unfortunately, that strategy does not work if the original
+formula has a strata statement.  This new data set will be the same
+size, but the <code>coxph</code> routine will process it slightly faster.
+</p>
+
+
+<h3>References</h3>
+
+<p>O'Brien, Peter, &quot;A Nonparametric Test for Association with Censored Data&quot;, 
+<em>Biometrics</em> 34: 243-250, 1978. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="survdiff.html">survdiff</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+xx &lt;- survobrien(Surv(futime, fustat) ~ age + factor(rx) + I(ecog.ps), 
+			       data=ovarian) 
+coxph(Surv(time, status) ~ age + strata(.strata.), data=xx) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

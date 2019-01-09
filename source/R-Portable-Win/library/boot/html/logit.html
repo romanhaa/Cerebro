@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Logit of Proportions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for logit {boot}"><tr><td>logit {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Logit of Proportions
+</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the logit of proportions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+logit(p)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+
+<p>A numeric Splus object, all of whose values are in the range [0,1].  Missing
+values (<code>NA</code>s) are allowed.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>If any elements of <code>p</code> are outside the unit interval then an error message
+is generated.  Values of <code>p</code> equal to 0 or 1 (to within machine precision)
+will return <code>-Inf</code> or <code>Inf</code> respectively.  Any <code>NA</code>s in the input will also
+be <code>NA</code>s in the output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric object of the same type as <code>p</code> containing the logits of the input
+values.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="inv.logit.html">inv.logit</a></code>, <code><a href="../../stats/html/Logistic.html">qlogis</a></code> for which this is a wrapper.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

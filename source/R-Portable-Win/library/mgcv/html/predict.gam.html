@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prediction from fitted GAM model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.gam {mgcv}"><tr><td>predict.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prediction from fitted GAM model</h2>
+
+<h3>Description</h3>
+
+<p> Takes a fitted <code>gam</code> object produced by <code>gam()</code> 
+and produces predictions given a new set of values for the model covariates 
+or the original values used for the model fit. Predictions can be accompanied
+by standard errors, based on the posterior distribution of the model
+coefficients. The routine can optionally return the matrix by which the model
+coefficients must be pre-multiplied in order to yield the values of the linear predictor at
+the supplied covariate values: this is useful for obtaining credible regions
+for quantities derived from the model (e.g. derivatives of smooths), and for lookup table prediction outside
+<code>R</code> (see example code below).</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+predict(object,newdata,type="link",se.fit=FALSE,terms=NULL,
+        exclude=NULL,block.size=NULL,newdata.guaranteed=FALSE,
+        na.action=na.pass,unconditional=FALSE,iterms.type=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> a fitted <code>gam</code> object as produced by <code>gam()</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p> A data frame or list containing the values of the model covariates at which predictions
+are required. If this is not provided then predictions corresponding to the
+original data are returned. If <code>newdata</code> is provided then
+it should contain all the variables needed for prediction: a
+warning is generated if not. See details for use with <code>link{linear.functional.terms}</code>. </p>
+</td></tr> 
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> When this has the value <code>"link"</code> (default) the linear predictor (possibly with
+associated standard errors) is returned. When <code>type="terms"</code> each component of the 
+linear predictor is returned seperately (possibly with standard errors): this includes 
+parametric model components, followed by each smooth component, but excludes
+any offset and any intercept. <code>type="iterms"</code> is the same, except that any standard errors 
+returned for smooth components will include the uncertainty about the intercept/overall mean.  When 
+<code>type="response"</code> predictions 
+on the scale of the response are returned (possibly with approximate
+standard errors). When <code>type="lpmatrix"</code> then a matrix is returned
+which yields the values of the linear predictor (minus any offset) when
+postmultiplied by the
+parameter vector (in this case <code>se.fit</code> is ignored). The latter
+option is most useful for getting variance estimates for quantities derived from
+the model: for example integrated quantities, or derivatives of smooths. A
+linear predictor matrix can also be used to implement approximate prediction
+outside <code>R</code> (see example code, below). </p>
+</td></tr>
+<tr valign="top"><td><code>se.fit</code></td>
+<td>
+<p> when this is TRUE (not default) standard error estimates are returned for each prediction.</p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+<p>if <code>type=="terms"</code> or <code>type="iterms"</code> then only results for the terms (smooth or parametric) named in this array
+will be returned. Otherwise any smooth terms not named in this array will be set to zero. If <code>NULL</code> then all terms are included.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>if <code>type=="terms"</code> or <code>type="iterms"</code> then terms (smooth or parametric) named in this array will not be returned. Otherwise any smooth terms named in this array will be set to zero. 
+If <code>NULL</code> then no terms are excluded. Note that this is the term names as it appears in the model summary, see example.</p>
+</td></tr>
+<tr valign="top"><td><code>block.size</code></td>
+<td>
+<p>maximum number of predictions to process per call to underlying
+code: larger is quicker, but more memory intensive. Set to &lt; 1 to use total number
+of predictions as this. If <code>NULL</code> then block size is 1000 if new data supplied, 
+and the number of rows in the model frame otherwise. </p>
+</td></tr>
+<tr valign="top"><td><code>newdata.guaranteed</code></td>
+<td>
+<p>Set to <code>TRUE</code> to turn off all checking of
+<code>newdata</code> except for sanity of factor levels: this can speed things up
+for large prediction tasks, but <code>newdata</code> must be complete, with no
+<code>NA</code> values for predictors required in the model. </p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>what to do about <code>NA</code> values in <code>newdata</code>. With the
+default <code>na.pass</code>, any row of <code>newdata</code> containing <code>NA</code> values
+for required predictors, gives rise to <code>NA</code> predictions (even if the term concerned has no
+<code>NA</code> predictors). <code>na.exclude</code> or <code>na.omit</code> result in the
+dropping of <code>newdata</code> rows, if they contain any <code>NA</code> values for
+required predictors. If <code>newdata</code> is missing then <code>NA</code> handling is 
+determined from <code>object$na.action</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>unconditional</code></td>
+<td>
+<p>if <code>TRUE</code> then the smoothing parameter uncertainty corrected covariance
+matrix is used, when available, otherwise the covariance matrix conditional on the estimated 
+smoothing parameters is used. </p>
+</td></tr>
+<tr valign="top"><td><code>iterms.type</code></td>
+<td>
+<p>if <code>type="iterms"</code> then standard errors can either include the uncertainty in the overall mean (default, withfixed and random effects included) or the uncertainty in the mean of the non-smooth fixed effects only (<code>iterms.type=2</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The standard errors produced by <code>predict.gam</code> are based on the
+Bayesian posterior covariance matrix of the parameters <code>Vp</code> in the fitted
+gam object.
+</p>
+<p>When predicting from models with <code>link{linear.functional.terms}</code> then there are two possibilities. If the summation convention is to be used in prediction, as it was in fitting, then <code>newdata</code> should be a list, with named matrix arguments corresponding to any variables that were matrices in fitting. Alternatively one might choose to simply evaluate the constitutent smooths at particular values in which case arguments that were matrices can be replaced by vectors (and <code>newdata</code> can be a dataframe). See <code>link{linear.functional.terms}</code> for example code.
+</p>
+<p>To facilitate plotting with <code><a href="../../stats/html/termplot.html">termplot</a></code>, if <code>object</code> possesses
+an attribute <code>"para.only"</code> and <code>type=="terms"</code> then only parametric
+terms of order 1 are returned (i.e. those that <code>termplot</code> can handle).
+</p>
+<p>Note that, in common with other prediction functions, any offset supplied to
+<code><a href="gam.html">gam</a></code> as an argument is always ignored when predicting, unlike
+offsets specified in the gam model formula.
+</p>
+<p>See the examples for how to use the <code>lpmatrix</code> for obtaining credible
+regions for quantities derived from the model. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> If <code>type=="lpmatrix"</code> then a matrix is returned which will
+give a vector of linear predictor values (minus any offest) at the supplied covariate
+values, when applied to the model coefficient vector. 
+Otherwise, if <code>se.fit</code> is <code>TRUE</code> then a 2 item list is returned with items (both arrays) <code>fit</code>
+and <code>se.fit</code> containing predictions and associated standard error estimates, otherwise an 
+array of predictions is returned. The dimensions of the returned arrays depends on whether 
+<code>type</code> is <code>"terms"</code> or not: if it is then the array is 2 dimensional with each 
+term in the linear predictor separate, otherwise the array is 1 dimensional and contains the 
+linear predictor/predicted values (or corresponding s.e.s). The linear predictor returned termwise will 
+not include the offset or the intercept.
+</p>
+<p><code>newdata</code> can be a data frame, list or model.frame: if it's a model frame
+then all variables must be supplied.
+</p>
+
+
+<h3>WARNING </h3>
+
+<p>Predictions are likely to be incorrect if data dependent transformations of the covariates
+are used within calls to smooths. See examples.
+</p>
+<p>Note that the behaviour of this function is not identical to 
+<code>predict.gam()</code> in Splus.
+</p>
+<p><code>type=="terms"</code> does not exactly match what <code>predict.lm</code> does for
+parametric model components.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> 
+</p>
+<p>The design is inspired by the S function of the same name described in
+Chambers and Hastie (1993) (but is not a clone).
+</p>
+
+
+<h3>References</h3>
+
+<p>Chambers and Hastie (1993) Statistical Models in S. Chapman &amp; Hall.
+</p>
+<p>Marra, G and S.N. Wood (2012) Coverage Properties of Confidence Intervals for Generalized Additive
+Model Components. Scandinavian Journal of Statistics, 39(1), 53-74.
+</p>
+<p>Wood S.N. (2006b) Generalized Additive Models: An Introduction with R. Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gam.html">gam</a></code>, <code><a href="gamm.html">gamm</a></code>, <code><a href="plot.gam.html">plot.gam</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+n&lt;-200
+sig &lt;- 2
+dat &lt;- gamSim(1,n=n,scale=sig)
+
+b&lt;-gam(y~s(x0)+s(I(x1^2))+s(x2)+offset(x3),data=dat)
+
+newd &lt;- data.frame(x0=(0:30)/30,x1=(0:30)/30,x2=(0:30)/30,x3=(0:30)/30)
+pred &lt;- predict.gam(b,newd)
+pred0 &lt;- predict(b,newd,exclude="s(x0)") ## prediction excluding a term
+
+#############################################
+## difference between "terms" and "iterms"
+#############################################
+nd2 &lt;- data.frame(x0=c(.25,.5),x1=c(.25,.5),x2=c(.25,.5),x3=c(.25,.5))
+predict(b,nd2,type="terms",se=TRUE)
+predict(b,nd2,type="iterms",se=TRUE)
+
+#########################################################
+## now get variance of sum of predictions using lpmatrix
+#########################################################
+
+Xp &lt;- predict(b,newd,type="lpmatrix") 
+
+## Xp %*% coef(b) yields vector of predictions
+
+a &lt;- rep(1,31)
+Xs &lt;- t(a) %*% Xp ## Xs %*% coef(b) gives sum of predictions
+var.sum &lt;- Xs %*% b$Vp %*% t(Xs)
+
+
+#############################################################
+## Now get the variance of non-linear function of predictions
+## by simulation from posterior distribution of the params
+#############################################################
+
+rmvn &lt;- function(n,mu,sig) { ## MVN random deviates
+  L &lt;- mroot(sig);m &lt;- ncol(L);
+  t(mu + L%*%matrix(rnorm(m*n),m,n)) 
+}
+
+br &lt;- rmvn(1000,coef(b),b$Vp) ## 1000 replicate param. vectors
+res &lt;- rep(0,1000)
+for (i in 1:1000)
+{ pr &lt;- Xp %*% br[i,] ## replicate predictions
+  res[i] &lt;- sum(log(abs(pr))) ## example non-linear function
+}
+mean(res);var(res)
+
+## loop is replace-able by following .... 
+
+res &lt;- colSums(log(abs(Xp %*% t(br))))
+
+##################################################################
+# illustration of unsafe scale dependent transforms in smooths....
+##################################################################
+
+b0 &lt;- gam(y~s(x0)+s(x1)+s(x2)+x3,data=dat) ## safe
+b1 &lt;- gam(y~s(x0)+s(I(x1/2))+s(x2)+scale(x3),data=dat) ## safe
+b2 &lt;- gam(y~s(x0)+s(scale(x1))+s(x2)+scale(x3),data=dat) ## unsafe
+pd &lt;- dat; pd$x1 &lt;- pd$x1/2; pd$x3 &lt;- pd$x3/2
+par(mfrow=c(1,2))
+plot(predict(b0,pd),predict(b1,pd),main="b0 and b1 predictions match")
+abline(0,1,col=2)
+plot(predict(b0,pd),predict(b2,pd),main="b2 unsafe, doesn't match")
+abline(0,1,col=2)
+
+
+##################################################################
+## The following shows how to use use an "lpmatrix" as a lookup 
+## table for approximate prediction. The idea is to create 
+## approximate prediction matrix rows by appropriate linear 
+## interpolation of an existing prediction matrix. The additivity 
+## of a GAM makes this possible. 
+## There is no reason to ever do this in R, but the following 
+## code provides a useful template for predicting from a fitted 
+## gam *outside* R: all that is needed is the coefficient vector 
+## and the prediction matrix. Use larger `Xp'/ smaller `dx' and/or 
+## higher order interpolation for higher accuracy.  
+###################################################################
+
+xn &lt;- c(.341,.122,.476,.981) ## want prediction at these values
+x0 &lt;- 1         ## intercept column
+dx &lt;- 1/30      ## covariate spacing in `newd'
+for (j in 0:2) { ## loop through smooth terms
+  cols &lt;- 1+j*9 +1:9      ## relevant cols of Xp
+  i &lt;- floor(xn[j+1]*30)  ## find relevant rows of Xp
+  w1 &lt;- (xn[j+1]-i*dx)/dx ## interpolation weights
+  ## find approx. predict matrix row portion, by interpolation
+  x0 &lt;- c(x0,Xp[i+2,cols]*w1 + Xp[i+1,cols]*(1-w1))
+}
+dim(x0)&lt;-c(1,28) 
+fv &lt;- x0%*%coef(b) + xn[4];fv    ## evaluate and add offset
+se &lt;- sqrt(x0%*%b$Vp%*%t(x0));se ## get standard error
+## compare to normal prediction
+predict(b,newdata=data.frame(x0=xn[1],x1=xn[2],
+        x2=xn[3],x3=xn[4]),se=TRUE)
+
+####################################################################
+## Differentiating the smooths in a model (with CIs for derivatives)
+####################################################################
+
+## simulate data and fit model...
+dat &lt;- gamSim(1,n=300,scale=sig)
+b&lt;-gam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat)
+plot(b,pages=1)
+
+## now evaluate derivatives of smooths with associated standard 
+## errors, by finite differencing...
+x.mesh &lt;- seq(0,1,length=200) ## where to evaluate derivatives
+newd &lt;- data.frame(x0 = x.mesh,x1 = x.mesh, x2=x.mesh,x3=x.mesh)
+X0 &lt;- predict(b,newd,type="lpmatrix") 
+
+eps &lt;- 1e-7 ## finite difference interval
+x.mesh &lt;- x.mesh + eps ## shift the evaluation mesh
+newd &lt;- data.frame(x0 = x.mesh,x1 = x.mesh, x2=x.mesh,x3=x.mesh)
+X1 &lt;- predict(b,newd,type="lpmatrix")
+
+Xp &lt;- (X1-X0)/eps ## maps coefficients to (fd approx.) derivatives
+colnames(Xp)      ## can check which cols relate to which smooth
+
+par(mfrow=c(2,2))
+for (i in 1:4) {  ## plot derivatives and corresponding CIs
+  Xi &lt;- Xp*0 
+  Xi[,(i-1)*9+1:9+1] &lt;- Xp[,(i-1)*9+1:9+1] ## Xi%*%coef(b) = smooth deriv i
+  df &lt;- Xi%*%coef(b)              ## ith smooth derivative 
+  df.sd &lt;- rowSums(Xi%*%b$Vp*Xi)^.5 ## cheap diag(Xi%*%b$Vp%*%t(Xi))^.5
+  plot(x.mesh,df,type="l",ylim=range(c(df+2*df.sd,df-2*df.sd)))
+  lines(x.mesh,df+2*df.sd,lty=2);lines(x.mesh,df-2*df.sd,lty=2)
+}
+
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

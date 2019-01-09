@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initialize a glsStruct Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Initialize.glsStruct {nlme}"><tr><td>Initialize.glsStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Initialize a glsStruct Object</h2>
+
+<h3>Description</h3>
+
+<p>The individual linear model components of the <code>glsStruct</code> list
+are initialized.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'glsStruct'
+Initialize(object, data, control, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="glsStruct.html">glsStruct</a>"</code>,
+representing a list of linear model components, such as
+<code>corStruct</code> and <code>varFunc</code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to evaluate the variables defined in
+<code>formula(object)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>an optional list with control parameters for the
+initialization and optimization algorithms used in
+<code>gls</code>. Defaults to <code>list(singular.ok = FALSE)</code>, implying that linear dependencies are not allowed in the model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>glsStruct</code> object similar to <code>object</code>, but with
+initialized model components. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gls.html">gls</a></code>,
+<code><a href="Initialize.corStruct.html">Initialize.corStruct</a></code>,
+<code><a href="Initialize.varFunc.html">Initialize.varFunc</a></code>,
+<code><a href="Initialize.html">Initialize</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

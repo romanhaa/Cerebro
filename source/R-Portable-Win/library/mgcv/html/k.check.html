@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Checking smooth basis dimension</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for k.check {mgcv}"><tr><td>k.check {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Checking smooth basis dimension </h2>
+
+<h3>Description</h3>
+
+<p> Takes a fitted <code>gam</code> object produced by <code>gam()</code> and runs 
+diagnostic tests of whether the basis dimension choises are adequate. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+k.check(b, subsample=5000, n.rep=400)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>a fitted <code>gam</code> object as produced by <code><a href="gam.html">gam</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>subsample</code></td>
+<td>
+<p>above this number of data, testing uses a random sub-sample of data of this size.</p>
+</td></tr>
+<tr valign="top"><td><code>n.rep</code></td>
+<td>
+<p>how many re-shuffles to do to get p-value for k testing.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>The test of whether the basis dimension for a smooth is adequate (Wood, 2017, section 5.9) is based on computing an estimate of the residual variance based on differencing residuals that are near neighbours according to the (numeric) covariates of the smooth. This estimate divided by the residual variance is the <code>k-index</code> reported. The further below 1 this is, the more likely it is that there is missed pattern left in the residuals. The <code>p-value</code> is computed by simulation: the residuals are randomly re-shuffled <code>n.rep</code> times to obtain the null distribution of the differencing variance estimator, if there is no pattern in the residuals. For models fitted to more than <code>subsample</code> data, the tests are based of <code>subsample</code> randomly sampled data. Low p-values may indicate that the basis dimension, <code>k</code>, has been set too low, especially if the reported <code>edf</code> is close to <code>k\'</code>, the maximum possible EDF for the term. Note the disconcerting fact that if the test statistic itself is based on random resampling and the null is true, then the associated p-values will of course vary widely from one replicate to the next. Currently smooths of factor variables are not supported and will give an <code>NA</code> p-value.
+</p>
+<p>Doubling a suspect <code>k</code> and re-fitting is sensible: if the reported <code>edf</code> increases substantially then you may have been missing something in the first fit. Of course p-values can be low for reasons other than a too low <code>k</code>. See <code><a href="choose.k.html">choose.k</a></code> for fuller discussion.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix contaning the output of the tests described above.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="choose.k.html">choose.k</a></code>,  <code><a href="gam.html">gam</a></code>, <code><a href="gam.check.html">gam.check</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(0)
+dat &lt;- gamSim(1,n=200)
+b&lt;-gam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat)
+plot(b,pages=1)
+k.check(b)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Smallest square root of matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mroot {mgcv}"><tr><td>mroot {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Smallest square root of matrix</h2>
+
+<h3>Description</h3>
+
+<p> Find a square root of a positive semi-definite matrix, 
+having as few columns as possible. Uses either pivoted choleski 
+decomposition or singular value decomposition to do this.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mroot(A,rank=NULL,method="chol")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p> The positive semi-definite matrix, a square root of which is 
+to be found.</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>if the rank of the matrix <code>A</code> is known then it should 
+be supplied. <code>NULL</code> or &lt;1 imply that it should be estimated.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+ <p><code>"chol"</code> to use pivoted choloeski decompositon, 
+which is fast but tends to over-estimate rank. <code>"svd"</code> to use 
+singular value decomposition, which is slow, but is the most accurate way 
+to estimate rank.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The function uses SVD, or a pivoted 
+Choleski routine. It is primarily of use for turning penalized regression 
+problems into ordinary regression problems.</p>
+
+
+<h3>Value</h3>
+
+<p> A matrix, <i>B</i> with as many columns as the rank of 
+<i>A</i>, and such that <i>A=BB'</i>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  require(mgcv)
+  set.seed(0)
+  a &lt;- matrix(runif(24),6,4)
+  A &lt;- a%*%t(a) ## A is +ve semi-definite, rank 4
+  B &lt;- mroot(A) ## default pivoted choleski method
+  tol &lt;- 100*.Machine$double.eps
+  chol.err &lt;- max(abs(A-B%*%t(B)));chol.err
+  if (chol.err&gt;tol) warning("mroot (chol) suspect")
+  B &lt;- mroot(A,method="svd") ## svd method
+  svd.err &lt;- max(abs(A-B%*%t(B)));svd.err
+  if (svd.err&gt;tol) warning("mroot (svd) suspect")  
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

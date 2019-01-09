@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fits a Trend Surface by Least-squares</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for surf.ls {spatial}"><tr><td>surf.ls {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fits a Trend Surface by Least-squares
+</h2>
+
+<h3>Description</h3>
+
+<p>Fits a trend surface by least-squares.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+surf.ls(np, x, y, z)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>np</code></td>
+<td>
+
+<p>degree of polynomial surface
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>x coordinates or a data frame with columns <code>x</code>, <code>y</code>, <code>z</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>y coordinates
+</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+
+<p>z coordinates. Will supersede <code>x$z</code>
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>beta</code></td>
+<td>
+
+<p>the coefficients
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+
+<p>and others for internal use only.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="trmat.html">trmat</a></code>, <code><a href="surf.gls.html">surf.gls</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(MASS)  # for eqscplot
+data(topo, package="MASS")
+topo.kr &lt;- surf.ls(2, topo)
+trsurf &lt;- trmat(topo.kr, 0, 6.5, 0, 6.5, 50)
+eqscplot(trsurf, type = "n")
+contour(trsurf, add = TRUE)
+points(topo)
+
+eqscplot(trsurf, type = "n")
+contour(trsurf, add = TRUE)
+plot(topo.kr, add = TRUE)
+title(xlab= "Circle radius proportional to Cook's influence statistic")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

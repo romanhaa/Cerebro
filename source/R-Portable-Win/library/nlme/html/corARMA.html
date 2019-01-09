@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: ARMA(p,q) Correlation Structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corARMA {nlme}"><tr><td>corARMA {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>ARMA(p,q) Correlation Structure</h2>
+
+<h3>Description</h3>
+
+<p>This function is a constructor for the <code>corARMA</code> class,
+representing an autocorrelation-moving average correlation structure
+of order (p, q). Objects created using this constructor must later
+be initialized using the appropriate <code>Initialize</code> method. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+corARMA(value, form, p, q, fixed)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a vector with the values of the autoregressive and moving
+average parameters, which must have length <code>p + q</code> and all
+elements between -1 and 1. Defaults to a vector of zeros,
+corresponding to uncorrelated observations.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>a one sided formula of the form <code>~ t</code>, or <code>~ t |
+     g</code>, specifying a time covariate <code>t</code> and,  optionally, a
+grouping factor <code>g</code>. A covariate for this correlation structure
+must be integer valued. When a grouping factor is present in
+<code>form</code>, the correlation structure is assumed to apply only
+to observations within the same grouping level; observations with
+different grouping levels are assumed to be uncorrelated. Defaults to
+<code>~ 1</code>, which corresponds to using the order of the observations
+in the data as a covariate, and no groups.</p>
+</td></tr>  
+<tr valign="top"><td><code>p, q</code></td>
+<td>
+<p>non-negative integers specifying respectively the
+autoregressive order and the moving average order of the <code>ARMA</code>
+structure. Both default to 0.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>an optional logical value indicating whether the
+coefficients should be allowed to vary in the optimization, or kept
+fixed at their initial value. Defaults to <code>FALSE</code>, in which case
+the coefficients are allowed to vary.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>corARMA</code>, representing an
+autocorrelation-moving average correlation structure. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Box, G.E.P., Jenkins, G.M., and Reinsel G.C. (1994) &quot;Time Series
+Analysis: Forecasting and Control&quot;, 3rd Edition, Holden-Day.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. pp. 236, 397.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corAR1.html">corAR1</a></code>,
+<code><a href="corClasses.html">corClasses</a></code>
+<code><a href="Initialize.corStruct.html">Initialize.corStruct</a></code>,
+<code><a href="summary.corStruct.html">summary.corStruct</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## ARMA(1,2) structure, with observation order as a covariate and
+## Mare as grouping factor
+cs1 &lt;- corARMA(c(0.2, 0.3, -0.1), form = ~ 1 | Mare, p = 1, q = 2)
+
+# Pinheiro and Bates, p. 237 
+cs1ARMA &lt;- corARMA(0.4, form = ~ 1 | Subject, q = 1)
+cs1ARMA &lt;- Initialize(cs1ARMA, data = Orthodont)
+corMatrix(cs1ARMA)
+
+cs2ARMA &lt;- corARMA(c(0.8, 0.4), form = ~ 1 | Subject, p=1, q=1)
+cs2ARMA &lt;- Initialize(cs2ARMA, data = Orthodont)
+corMatrix(cs2ARMA)
+
+# Pinheiro and Bates use in nlme:  
+# from p. 240 needed on p. 396
+fm1Ovar.lme &lt;- lme(follicles ~ sin(2*pi*Time) + cos(2*pi*Time),
+                   data = Ovary, random = pdDiag(~sin(2*pi*Time)))
+fm5Ovar.lme &lt;- update(fm1Ovar.lme,
+                corr = corARMA(p = 1, q = 1))
+# p. 396
+fm1Ovar.nlme &lt;- nlme(follicles~
+     A+B*sin(2*pi*w*Time)+C*cos(2*pi*w*Time),
+   data=Ovary, fixed=A+B+C+w~1,
+   random=pdDiag(A+B+w~1),
+   start=c(fixef(fm5Ovar.lme), 1) )
+# p. 397
+fm3Ovar.nlme &lt;- update(fm1Ovar.nlme,
+         corr=corARMA(p=0, q=2) )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

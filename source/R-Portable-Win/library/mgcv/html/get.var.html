@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get named variable or evaluate expression from list or...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for get.var {mgcv}"><tr><td>get.var {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get named variable or evaluate expression from list or data.frame</h2>
+
+<h3>Description</h3>
+
+<p> This routine takes a text string and a data frame or list. It first sees if the 
+string is the name of a variable in the data frame/ list. If it is then the value of this variable is returned. 
+Otherwise the routine tries to evaluate the expression within the data.frame/list (but nowhere else) and if 
+successful returns the result. If neither step works then <code>NULL</code> is returned. The routine is useful for
+processing gam formulae. If the variable is a matrix then it is coerced to a numeric vector, by default.</p>
+
+
+<h3>Usage</h3>
+
+<pre> get.var(txt,data,vecMat=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>txt</code></td>
+<td>
+<p>a text string which is either the name of a variable in <code>data</code> or when 
+parsed is an expression that can be evaluated in <code>data</code>. It can also be neither in which case the
+function returns <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame or list.</p>
+</td></tr> 
+<tr valign="top"><td><code>vecMat</code></td>
+<td>
+<p>Should matrices be coerced to numeric vectors?</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The evaluated variable or <code>NULL</code>. May be coerced to a numeric vector if it's a matrix.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> </p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gam.html">gam</a> </code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+y &lt;- 1:4;dat&lt;-data.frame(x=5:10)
+get.var("x",dat)
+get.var("y",dat)
+get.var("x==6",dat)
+dat &lt;- list(X=matrix(1:6,3,2))
+get.var("X",dat)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve and Update Trellis Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for C_06_update.trellis {lattice}"><tr><td>C_06_update.trellis {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve and Update Trellis Object</h2>
+
+<h3>Description</h3>
+
+<p>Update method for objects of class <code>"trellis"</code>, and a way to retrieve
+the last printed trellis object (that was saved).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'trellis'
+update(object,
+       panel,
+       aspect,
+       as.table,
+       between,
+       key,
+       auto.key,
+       legend,
+       layout,
+       main,
+       page,
+       par.strip.text,
+       prepanel,
+       scales,
+       skip,
+       strip,
+       strip.left,
+       sub,
+       xlab,
+       ylab,
+       xlab.top,
+       ylab.right,
+       xlim,
+       ylim,
+       xscale.components,
+       yscale.components,
+       axis,
+       par.settings,
+       plot.args,
+       lattice.options,
+       index.cond,
+       perm.cond,
+       ...)
+
+## S3 method for class 'trellis'
+t(x)
+
+## S3 method for class 'trellis'
+x[i, j, ..., drop = FALSE]
+
+trellis.last.object(..., prefix)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object, x</code></td>
+<td>
+
+<p>The object to be updated, of class <code>"trellis"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>i, j</code></td>
+<td>
+<p> indices to be used.  Names are not currently allowed. </p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>logical, whether dimensions with only one level are to be dropped.
+Currently ignored, behaves as if it were <code>FALSE</code>.
+</p>
+</td></tr>
+</table>
+
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>panel, aspect, as.table, between, key, auto.key, legend, layout,
+main, page, par.strip.text, prepanel, scales, skip, strip,
+strip.left, sub, xlab, ylab, xlab.top, ylab.right, xlim, ylim,
+xscale.components, yscale.components, axis, par.settings, plot.args,
+lattice.options, index.cond, perm.cond, ...</code></td>
+<td>
+
+<p>arguments that will be used to update <code>object</code>. See details
+below. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+
+<p>A character string acting as a prefix identifying the plot of a
+<code>"trellis"</code> object.  Only relevant when a particular page is
+occupied by more than one plot.  Defaults to the value appropriate
+for the last <code>"trellis"</code> object printed.  See
+<code><a href="interaction.html">trellis.focus</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All high level lattice functions such as <code>xyplot</code> produce an
+object of (S3) class <code>"trellis"</code>, which is usually displayed by its
+<code>print</code> method. However, the object itself can be manipulated and
+modified to a large extent using the <code>update</code> method, and then
+re-displayed as needed.
+</p>
+<p>Most arguments to high level functions can also be supplied to the
+<code>update</code> method as well, with some exceptions. Generally
+speaking, anything that would needs to change the data within each
+panel is a no-no (this includes the <code>formula, data, groups,
+    subscripts</code> and <code>subset</code>). Everything else is technically game,
+though might not be implemented yet. If you find something missing
+that you wish to have, feel free to make a request.
+</p>
+<p>Not all arguments accepted by a Lattice function are processed by
+<code>update</code>, but the ones listed above should work.  The purpose of
+these arguments are described in the help page for
+<code><a href="xyplot.html">xyplot</a></code>.  Any other argument is added to the list of
+arguments to be passed to the <code>panel</code> function. Because of their
+somewhat special nature, updates to objects produced by <code>cloud</code>
+and <code>wireframe</code> do not work very well yet.
+</p>
+<p>The <code>"["</code> method is a convenient shortcut for updating
+<code>index.cond</code>.  The <code>t</code> method is a convenient shortcut for
+updating <code>perm.cond</code> in the special (but frequent) case where
+there are exactly two conditioning variables, when it has the effect
+of switching (&lsquo;transposing&rsquo;) their order.
+</p>
+<p>The print method for <code>"trellis"</code> objects optionally saves the
+object after printing it.  If this feature is enabled,
+<code>trellis.last.object</code> can retrieve it.  By default, the last
+object plotted is retrieved, but if multiple objects are plotted on
+the current page, then others can be retrieved using the appropriate
+<code>prefix</code> argument.  If <code><a href="update.trellis.html">trellis.last.object</a></code> is
+called with arguments, these are used to update the retrieved object
+before returning it.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>trellis</code>, by default plotted by
+<code>print.trellis</code>.  <code>trellis.last.object</code> returns
+<code>NULL</code> is no saved object is available.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="trellis.object.html">trellis.object</a></code>, <code><a href="Lattice.html">Lattice</a></code>,
+<code><a href="xyplot.html">xyplot</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+spots &lt;- by(sunspots, gl(235, 12, labels = 1749:1983), mean)
+old.options &lt;- lattice.options(save.object = TRUE)
+xyplot(spots ~ 1749:1983, xlab = "", type = "l",
+       scales = list(x = list(alternating = 2)),
+       main = "Average Yearly Sunspots")
+update(trellis.last.object(), aspect = "xy")
+trellis.last.object(xlab = "Year")
+lattice.options(old.options)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

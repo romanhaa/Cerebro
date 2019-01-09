@@ -1,0 +1,10 @@
+
+dependencies:
+  - name: jquery
+    version: 2.2.0
+    src: htmlwidgets/lib
+    script: jquery.min.js
+  - name: imagediff
+    version: 1.0.3
+    src: htmlwidgets/lib
+    script: imagediff.js

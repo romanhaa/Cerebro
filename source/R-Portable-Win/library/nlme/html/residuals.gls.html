@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract gls Residuals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for residuals.gls {nlme}"><tr><td>residuals.gls {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract gls Residuals</h2>
+
+<h3>Description</h3>
+
+<p>The residuals for the linear model represented by <code>object</code>
+are extracted.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gls'
+residuals(object, type, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="gls.html">gls</a>"</code>, representing
+a generalized least squares fitted linear model, or from class
+<code>gnls</code>, representing a generalized nonlinear least squares
+fitted linear model.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>an optional character string specifying the type of
+residuals to be used. If <code>"response"</code>, the &quot;raw&quot; residuals
+(observed - fitted) are used; else, if <code>"pearson"</code>, the
+standardized residuals (raw residuals divided by the corresponding
+standard errors) are used; else, if <code>"normalized"</code>, the
+normalized residuals (standardized residuals pre-multiplied by the
+inverse square-root factor of the estimated error correlation
+matrix) are used. Partial matching of arguments is used, so only the
+first character needs to be provided.  Defaults to <code>"response"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic function require additional
+arguments.  None are used in this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with the residuals for the linear model represented by
+<code>object</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gls.html">gls</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- gls(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), Ovary,
+           correlation = corAR1(form = ~ 1 | Mare))
+residuals(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

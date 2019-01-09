@@ -1,0 +1,46 @@
+0.7-3	2015-07-27
+   o	fix an error when handling OOB if no handlers are registered
+
+   o	RS.oobCallbacks(c) would always return NULL callabcks
+
+
+0.7-2	2013-07-02
+   o	add RS.eval(..., lazy=FALSE) which evaluates the argument
+	locally and then remotely. This allows the construction of
+	remote calls with both remote and local symbols.
+
+   o	add RS.eval.qap() which uses Rserve QAP encoding instead of
+	native R serialization (requires Rserve 1.7-0 with DT_SEXP
+	support in CMD_eval).
+
+   o	add support for Rserve object-capability (OC) model mode.
+	OC calls are issued using RS.eval.qap() with OCref
+	as the function to call.
+
+   o	switch the order of winsock2.h and windows.h
+
+
+0.7-1	2013-02-19
+   o	add support for asynchronous connections and OOB streaming
+
+   o	add support for non-transparent proxy protocol (RSpx)
+
+   o	allow queuing of asynchronous RS.eval() and RS.assign()
+
+   o	add basic methods for connections such as print, == and !=
+
+   o	allow convenient RS.assign(c, x) syntax
+
+
+0.7-0	2012-11-05
+   o	initial CRAN release - the R client is based on Rserve 0.6-8
+	The function names on this old client are in the form RSxxx()
+
+	Included is a new C-based client which uses sockets directly
+	and thus supports features that cannot be supported with an
+ 	R-based client such as TLS/SSL connections, switching,
+	RSA secure authentication, multi-client selection.
+	The function names for the new client are of the form RS.xxx()
+
+	Handles of the two clients are not interchangeable, so you can
+	only use one or the other for one connection.

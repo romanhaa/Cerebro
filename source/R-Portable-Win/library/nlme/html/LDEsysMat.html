@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate system matrix for LDEs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for LDEsysMat {nlme}"><tr><td>LDEsysMat {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate system matrix for LDEs</h2>
+
+<h3>Description</h3>
+
+<p>Generate the system matrix for the linear differential equations
+determined by a compartment model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+LDEsysMat(pars, incidence)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pars</code></td>
+<td>
+<p>a numeric vector of parameter values.</p>
+</td></tr>
+<tr valign="top"><td><code>incidence</code></td>
+<td>
+<p>an integer matrix with columns named <code>From</code>,
+<code>To</code>, and <code>Par</code>.  Values in the <code>Par</code> column must
+be in the range 1 to <code>length(pars)</code>.  
+Values in the <code>From</code>
+column must be between 1 and the number of compartments.
+Values in the <code>To</code>
+column must be between 0 and the number of compartments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A compartment model describes material transfer between <code>k</code>
+in a system of <code>k</code> compartments to a linear system of differential
+equations. Given a description of the system and a vector of parameter
+values this function returns the system matrix.
+</p>
+<p>This function is intended for use in a general system for solving
+compartment models, as described in Bates and Watts (1988).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>k</code> by <code>k</code> numeric matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Bates, D. M. and Watts, D. G. (1988), <em>Nonlinear Regression
+Analysis and Its Applications</em>, Wiley, New York.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# incidence matrix for a two compartment open system
+incidence &lt;-
+  matrix(c(1,1,2,2,2,1,3,2,0), ncol = 3, byrow = TRUE,
+   dimnames = list(NULL, c("Par", "From", "To")))
+incidence
+LDEsysMat(c(1.2, 0.3, 0.4), incidence)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

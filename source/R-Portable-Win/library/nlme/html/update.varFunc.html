@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update varFunc Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for update.varFunc {nlme}"><tr><td>update.varFunc {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update varFunc Object</h2>
+
+<h3>Description</h3>
+
+<p>If the <code>formula(object)</code> includes a <code>"."</code> term, representing
+a fitted object, the variance covariate needs to be updated upon
+completion of an optimization cycle (in which the variance function
+weights are kept fixed). This method function allows a reevaluation of
+the variance covariate using the current fitted object and,
+optionally, other variables in the original data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'varFunc'
+update(object, data, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="varFunc.html">varFunc</a>"</code>,
+representing a variance function structure.</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a list with a component named <code>"."</code> with the current
+version of the fitted object (from which fitted values, coefficients,
+and residuals can be extracted) and, if necessary, other variables
+used to evaluate the variance covariate(s).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>formula(object)</code> includes a <code>"."</code> term, an
+<code>varFunc</code> object similar to <code>object</code>, but with the 
+variance covariate reevaluated at the current fitted object value;
+else <code>object</code> is returned unchanged.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="needUpdate.html">needUpdate</a></code>,
+<code><a href="Covariate.varFunc.html">covariate&lt;-.varFunc</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

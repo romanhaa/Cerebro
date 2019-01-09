@@ -1,0 +1,20 @@
+Animation_effects       Animation effects.
+Class_effects           Class effects.
+Interactions            Mouse interactions
+draggableModalDialog    Create a draggable modal dialog UI
+get_jqui_effects        Get available animation effects.
+includeJqueryUI         Inject necessary js and css assets to the head
+                        of a shiny document (deprecated).
+jqui_bookmarking        Enable bookmarking state of mouse interactions
+jqui_icon               Create a jQuery UI icon
+orderInput              A shiny input control to show the order of a
+                        list of items
+selectableTableOutput   Create a table output element with selectable
+                        rows or cells
+sortableCheckboxGroupInput
+                        Create a Checkbox Group Input Control with
+                        Sortable Choices
+sortableRadioButtons    Create radio buttons with sortable choices
+sortableTableOutput     Create a table output element with sortable
+                        rows
+sortableTabsetPanel     Create a tabset panel with sortable tabs

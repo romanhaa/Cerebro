@@ -1,0 +1,58 @@
+# Remove the previous line if you edit this file
+# This is the default, just nicked.
+
+# Export all names
+exportPattern(".")
+
+# Import all packages listed as Imports or Depends
+import(
+  MASS,
+  cluster,
+  mclust,
+  flexmix,
+  prabclus,
+  class,
+  diptest,
+  mvtnorm,
+  robustbase,
+  trimcluster
+)
+
+importFrom("kernlab",specc)
+
+importFrom("grDevices", "colors", "colours", "grey", "xy.coords")
+importFrom("graphics", "abline", "hist", "legend", "pairs", "par",
+             "points", "polygon", "title")
+importFrom("methods", "new")
+importFrom("stats", "BIC", "addmargins", "as.dist", "cmdscale", "coef",
+             "coefficients", "cor", "cov", "cov.wt", "cutree", "density",
+             "dist", "dnorm", "fitted.values", "hclust", "kmeans", "lm",
+             "lsfit", "mahalanobis", "median", "pchisq", "pnorm",
+             "qbinom", "qchisq", "qnorm", "quantile", "rbinom", "resid",
+              "residuals", "rexp", "rgamma", "rnorm", "rt", "runif", "sd",
+             "weighted.mean")
+importFrom("utils", "data")
+
+
+S3method(fpclusters, mfpc)
+S3method(fpclusters, rfpc)
+S3method(plot, clboot)
+S3method(plot, dbscan)
+S3method(plot, mfpc)
+S3method(plot, rfpc)
+S3method(predict, dbscan)
+S3method(print, clboot)
+S3method(print, dbscan)
+S3method(print, mfpc)
+S3method(print, predstr)
+S3method(print, rfpc)
+S3method(print, summary.mergenorm)
+S3method(print, summary.mfpc)
+S3method(print, summary.rfpc)
+S3method(print, varwisetables)
+S3method(summary, mergenorm)
+S3method(summary, mfpc)
+S3method(summary, rfpc)
+
+
+         

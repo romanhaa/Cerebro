@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize a corStruct Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.corStruct {nlme}"><tr><td>summary.corStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize a corStruct Object</h2>
+
+<h3>Description</h3>
+
+<p>This method function prepares <code>object</code> to be printed using the
+<code>print.summary</code> method, by changing its class and adding a
+<code>structName</code> attribute to it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'corStruct'
+summary(object, structName, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="corClasses.html">corStruct</a>"</code>,
+representing a correlation structure.</p>
+</td></tr>
+<tr valign="top"><td><code>structName</code></td>
+<td>
+<p>an optional character string defining the type of
+correlation structure associated with <code>object</code>, to be used in
+the <code>print.summary</code> method. Defaults to
+<code>class(object)[1]</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object identical to <code>object</code>, but with its class changed to
+<code>summary.corStruct</code> and an additional attribute
+<code>structName</code>. The returned value inherits from the same classes
+as <code>object</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corClasses.html">corClasses</a></code>, 
+<code><a href="corNatural.html">corNatural</a></code>,
+<code><a href="Initialize.corStruct.html">Initialize.corStruct</a></code>, 
+<code><a href="../../base/html/summary.html">summary</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cs1 &lt;- corAR1(0.2)
+summary(cs1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

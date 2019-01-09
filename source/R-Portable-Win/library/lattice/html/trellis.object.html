@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A Trellis Plot Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for D_trellis.object {lattice}"><tr><td>D_trellis.object {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A Trellis Plot Object</h2>
+
+<h3>Description</h3>
+
+<p>This class of objects is returned by high level lattice functions, and
+is usually plotted by default by its
+<code><a href="print.trellis.html">print</a></code> method.
+</p>
+
+
+<h3>Details</h3>
+
+<p>A trellis object, as returned by high level lattice functions like
+<code><a href="xyplot.html">xyplot</a></code>, is a list with the <code>"class"</code> attribute set
+to <code>"trellis"</code>.  Many of the components of this list are simply
+the arguments to the high level function that produced the object.
+Among them are: <code>as.table</code>, <code>layout</code>, <code>page</code>,
+<code>panel</code>, <code>prepanel</code>, <code>main</code>, <code>sub</code>,
+<code>par.strip.text</code>, <code>strip</code>, <code>skip</code>, <code>xlab</code>
+<code>ylab</code>, <code>par.settings</code>, <code>lattice.options</code> and
+<code>plot.args</code>.  Some other typical components are:
+</p>
+
+<dl>
+<dt><code>formula</code></dt><dd>
+<p>the Trellis formula used in the call
+</p>
+</dd>
+<dt><code>index.cond</code></dt><dd>
+<p>list with index for each of the conditioning variables
+</p>
+</dd>
+<dt><code>perm.cond</code></dt><dd>
+<p>permutation of the order of the conditioning variables
+</p>
+</dd>
+<dt><code>aspect.fill</code></dt><dd>
+<p>logical, whether <code>aspect</code> is <code>"fill"</code>
+</p>
+</dd>
+<dt><code>aspect.ratio</code></dt><dd>
+<p>numeric, aspect ratio to be used if <code>aspect.fill</code> is
+<code>FALSE</code>
+</p>
+</dd>
+<dt><code>call</code></dt><dd><p> call that generated the object. </p>
+</dd>
+<dt><code>condlevels</code></dt><dd>
+<p>list with levels of the conditioning variables
+</p>
+</dd>
+<dt><code>legend</code></dt><dd>
+<p>list describing the legend(s) to be drawn
+</p>
+</dd>
+<dt><code>panel.args</code></dt><dd>
+<p>a list as long as the number of panels, each element being a list
+itself, containing the arguments in named form to be passed to the
+panel function in that panel.
+</p>
+</dd>
+<dt><code>panel.args.common</code></dt><dd>
+<p>a list containing the arguments common to all the panel functions
+in <code>name=value</code> form
+</p>
+</dd>
+<dt><code>x.scales</code></dt><dd>
+<p>list describing x-scale, can consist of several other lists,
+paralleling panel.args, if x-relation is not <code>"same"</code>
+</p>
+</dd>
+<dt><code>y.scales</code></dt><dd>
+<p>list describing y-scale, similar to <code>x.scales</code>
+</p>
+</dd>
+<dt><code>x.between</code></dt><dd><p> numeric vector of interpanel x-space </p>
+</dd>
+<dt><code>y.between</code></dt><dd><p> numeric vector of interpanel y-space </p>
+</dd>
+<dt><code>x.limits</code></dt><dd>
+<p>numeric vector of length 2 or list, giving x-axis limits
+</p>
+</dd>
+<dt><code>y.limits</code></dt><dd><p> similar to <code>x.limits</code> </p>
+</dd>
+<dt><code>packet.sizes</code></dt><dd>
+<p>array recording the number of observations in each packet
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code>, <code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="print.trellis.html">print.trellis</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

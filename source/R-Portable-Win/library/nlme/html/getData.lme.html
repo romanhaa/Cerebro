@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract lme Object Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getData.lme {nlme}"><tr><td>getData.lme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract lme Object Data</h2>
+
+<h3>Description</h3>
+
+<p>If present in the calling sequence used to produce <code>object</code>, the
+data frame used to fit the model is obtained. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lme'
+getData(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>lme</code>, representing
+a linear mixed-effects fitted model.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>if a <code>data</code> argument is present in the calling sequence that
+produced <code>object</code>, the corresponding data frame (with
+<code>na.action</code> and <code>subset</code> applied to it, if also present in
+the call that produced <code>object</code>) is returned;
+else, <code>NULL</code> is returned.
+</p>
+<p>Note that as from version 3.1-102, this only omits rows omitted in the
+fit if <code>na.action = na.omit</code>, and does not omit at all if
+<code>na.action = na.exclude</code>.  That is generally what is wanted for
+plotting, the main use of this function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lme.html">lme</a></code>, 
+<code><a href="getData.html">getData</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), data = Ovary,
+           random = ~ sin(2*pi*Time))
+getData(fm1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

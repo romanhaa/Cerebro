@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Histograms and Kernel Density Plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_03_histogram {lattice}"><tr><td>B_03_histogram {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Histograms and Kernel Density Plots</h2>
+
+<h3>Description</h3>
+
+<p>Draw Histograms and Kernel Density Plots, possibly conditioned on
+other variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+histogram(x, data, ...)
+densityplot(x, data, ...)
+## S3 method for class 'formula'
+histogram(x,
+          data,
+          allow.multiple, outer = TRUE,
+          auto.key = FALSE,
+          aspect = "fill",
+          panel = lattice.getOption("panel.histogram"),
+          prepanel, scales, strip, groups,
+          xlab, xlim, ylab, ylim,
+          type = c("percent", "count", "density"),
+          nint = if (is.factor(x)) nlevels(x)
+          else round(log2(length(x)) + 1),
+          endpoints = extend.limits(range(as.numeric(x),
+                          finite = TRUE), prop = 0.04),
+          breaks,
+          equal.widths = TRUE,
+          drop.unused.levels =
+              lattice.getOption("drop.unused.levels"),
+          ...,
+          lattice.options = NULL,
+          default.scales = list(),
+          default.prepanel =
+              lattice.getOption("prepanel.default.histogram"),
+          subscripts,
+          subset)
+
+## S3 method for class 'numeric'
+histogram(x, data = NULL, xlab, ...)
+## S3 method for class 'factor'
+histogram(x, data = NULL, xlab, ...)
+
+## S3 method for class 'formula'
+densityplot(x,
+            data,
+            allow.multiple = is.null(groups) || outer,
+            outer = !is.null(groups),
+            auto.key = FALSE,
+            aspect = "fill",
+            panel = lattice.getOption("panel.densityplot"),
+            prepanel, scales, strip, groups, weights,
+            xlab, xlim, ylab, ylim,
+            bw, adjust, kernel, window, width, give.Rkern,
+            n = 512, from, to, cut, na.rm,
+            drop.unused.levels =
+                lattice.getOption("drop.unused.levels"),
+            ...,
+            lattice.options = NULL,
+            default.scales = list(),
+            default.prepanel =
+                lattice.getOption("prepanel.default.densityplot"),
+            subscripts,
+            subset)
+## S3 method for class 'numeric'
+densityplot(x, data = NULL, xlab, ...)
+
+do.breaks(endpoints, nint)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The object on which method dispatch is carried out.
+</p>
+<p>For the <code>formula</code> method, <code>x</code> can be a formula of the form
+<code>~ x | g1 * g2 * ...</code>, indicating that histograms or kernel
+density estimates of the <code>x</code> variable should be produced
+conditioned on the levels of the (optional) variables <code>g1</code>,
+<code>g2</code>, ....  <code>x</code> should be numeric (or possibly a factor
+in the case of <code>histogram</code>), and each of <code>g1</code>, <code>g2</code>,
+... should be either factors or shingles.
+</p>
+<p>As a special case, the right hand side of the formula can contain
+more than one term separated by &lsquo;+&rsquo; signs (e.g., <code>~ x1 +
+    x2 | g1 * g2</code>).  What happens in this case is described in the
+documentation for <code><a href="xyplot.html">xyplot</a></code>.  Note that in either form,
+all the terms in the formula must have the same length after
+evaluation.
+</p>
+<p>For the <code>numeric</code> and <code>factor</code> methods, <code>x</code> is the
+variable whose histogram or Kernel density estimate is drawn.
+Conditioning is not allowed in these cases.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>For the <code>formula</code> method, an optional data source (usually a
+data frame) in which variables are to be evaluated (see
+<code><a href="xyplot.html">xyplot</a></code> for details).  <code>data</code> should not be
+specified for the other methods, and is ignored with a warning if it
+is.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>A character string indicating the type of histogram that is to be
+drawn.  <code>"percent"</code> and <code>"count"</code> give relative frequency
+and frequency histograms respectively, and can be misleading when
+breakpoints are not equally spaced. <code>"density"</code> produces a
+density histogram.
+</p>
+<p><code>type</code> defaults to <code>"density"</code> when the breakpoints are
+unequally spaced, and when <code>breaks</code> is <code>NULL</code> or a
+function, and to <code>"percent"</code> otherwise.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nint</code></td>
+<td>
+
+<p>An integer specifying the number of histogram bins, applicable only
+when <code>breaks</code> is unspecified or <code>NULL</code> in the call.
+Ignored when the variable being plotted is a factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>endpoints</code></td>
+<td>
+
+<p>A numeric vector of length 2 indicating the range of x-values that
+is to be covered by the histogram.  This applies only when
+<code>breaks</code> is unspecified and the variable being plotted is not a
+factor.  In <code>do.breaks</code>, this specifies the interval that is to
+be divided up.
+</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+
+<p>Usually a numeric vector of length (number of bins + 1) defining the
+breakpoints of the bins.  Note that when breakpoints are not equally
+spaced, the only value of <code>type</code> that makes sense is density.
+</p>
+<p>When <code>breaks</code> is unspecified, the value of
+<code>lattice.getOption("histogram.breaks")</code> is first checked.  If
+this value is <code>NULL</code>, then the default is to use
+</p>
+<pre>
+      breaks = seq_len(1 + nlevels(x)) - 0.5
+    </pre>
+<p>when <code>x</code> is a factor, and 
+</p>
+<pre>
+      breaks = do.breaks(endpoints, nint)
+    </pre>
+<p>otherwise.  Breakpoints calculated in such a manner are used in all
+panels.  If the retrieved value is not <code>NULL</code>, or if
+<code>breaks</code> is explicitly specified, it affects the display in
+each panel independently.  Valid values are those accepted as the
+<code>breaks</code> argument in <code><a href="../../graphics/html/hist.html">hist</a></code>.  In particular, this
+allows specification of <code>breaks</code> as an integer giving the
+number of bins (similar to <code>nint</code>), as a character string
+denoting a method, or as a function.
+</p>
+<p>When specified explicitly, a special value of <code>breaks</code> is
+<code>NULL</code>, in which case the number of bins is determined by
+<code>nint</code> and then breakpoints are chosen according to the value
+of <code>equal.widths</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>equal.widths</code></td>
+<td>
+
+<p>A logical flag, relevant only when <code>breaks=NULL</code>.  If
+<code>TRUE</code>, equally spaced bins will be selected, otherwise,
+approximately equal area bins will be selected (typically producing
+unequally spaced breakpoints).
+</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>Integer, giving the number of points at which the kernel density is
+to be evaluated.  Passed on as an argument to <code><a href="../../stats/html/density.html">density</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>A function, called once for each panel, that uses the packet (subset
+of panel variables) corresponding to the panel to create a display.
+The default panel functions <code><a href="panel.histogram.html">panel.histogram</a></code> and
+<code><a href="panel.densityplot.html">panel.densityplot</a></code> are documented separately, and have
+arguments that can be used to customize its output in various ways.
+Such arguments can usually be directly supplied to the high-level
+function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>allow.multiple, outer</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>auto.key</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>aspect</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>prepanel</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>strip</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+
+<p>See <code><a href="xyplot.html">xyplot</a></code>.  Note that the default panel function for
+<code>histogram</code> does not support grouped displays, whereas the one
+for <code>densityplot</code> does.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>drop.unused.levels</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>lattice.options</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>default.scales</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>subscripts</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>default.prepanel</code></td>
+<td>
+
+<p>Fallback prepanel function.  See <code><a href="xyplot.html">xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p> numeric vector of weights for the density
+calculations, evaluated in the non-standard manner used for
+<code>groups</code> and terms in the formula, if any.  If this is
+specified, it is subsetted using <code>subscripts</code> inside the panel
+function to match it to the corresponding <code>x</code> values.
+</p>
+<p>At the time of writing, <code>weights</code> do not work in conjunction
+with an extended formula specification (this is not too hard to fix,
+so just bug the maintainer if you need this feature).
+</p>
+</td></tr>
+<tr valign="top"><td><code>bw, adjust, width</code></td>
+<td>
+
+<p>Arguments controlling bandwidth.  Passed on as arguments to
+<code><a href="../../stats/html/density.html">density</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>kernel, window</code></td>
+<td>
+
+<p>The choice of kernel.  Passed on as arguments to
+<code><a href="../../stats/html/density.html">density</a></code>.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>give.Rkern</code></td>
+<td>
+
+<p>Logical flag, passed on as argument to <code><a href="../../stats/html/density.html">density</a></code>.
+This argument is made available only for ease of implementation, and
+will produce an error if <code>TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>from, to, cut</code></td>
+<td>
+ 
+<p>Controls range over which density is evaluated.  Passed on as
+arguments to <code><a href="../../stats/html/density.html">density</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>Logical flag specifying whether <code>NA</code> values should be ignored.
+Passed on as argument to <code><a href="../../stats/html/density.html">density</a></code>, but unlike in
+<code>density</code>, the default is <code>TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Further arguments.  See corresponding entry in
+<code><a href="xyplot.html">xyplot</a></code> for non-trivial details.  </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>histogram</code> draws Conditional Histograms, and <code>densityplot</code>
+draws Conditional Kernel Density Plots.  The default panel function
+uses the <code><a href="../../stats/html/density.html">density</a></code> function to compute the density
+estimate, and all arguments accepted by <code>density</code> can be
+specified in the call to <code>densityplot</code> to control the output.
+See documentation of <code>density</code> for details.
+</p>
+<p>These and all other high level Trellis functions have several
+arguments in common. These are extensively documented only in the
+help page for <code>xyplot</code>, which should be consulted to learn more
+detailed usage.
+</p>
+<p><code>do.breaks</code> is an utility function that calculates breakpoints
+given an interval and the number of pieces to break it into.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The form of the arguments accepted by the default panel function
+<code>panel.histogram</code> is different from that in S-PLUS. Whereas
+S-PLUS calculates the heights inside <code>histogram</code> and passes only
+the breakpoints and the heights to the panel function, <span class="pkg">lattice</span>
+simply passes along the original variable <code>x</code> along with the
+breakpoints. This approach is more flexible; see the example below
+with an estimated density superimposed over the histogram.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Sarkar, Deepayan (2008) <em>Lattice: Multivariate Data
+Visualization with R</em>, Springer.
+<a href="http://lmdvr.r-forge.r-project.org/">http://lmdvr.r-forge.r-project.org/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="panel.histogram.html">panel.histogram</a></code>,
+<code><a href="../../stats/html/density.html">density</a></code>,
+<code><a href="panel.densityplot.html">panel.densityplot</a></code>,
+<code><a href="panel.functions.html">panel.mathdensity</a></code>,
+<code><a href="Lattice.html">Lattice</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(stats)
+histogram( ~ height | voice.part, data = singer, nint = 17,
+          endpoints = c(59.5, 76.5), layout = c(2,4), aspect = 1,
+          xlab = "Height (inches)")
+
+histogram( ~ height | voice.part, data = singer,
+          xlab = "Height (inches)", type = "density",
+          panel = function(x, ...) {
+              panel.histogram(x, ...)
+              panel.mathdensity(dmath = dnorm, col = "black",
+                                args = list(mean=mean(x),sd=sd(x)))
+          } )
+
+densityplot( ~ height | voice.part, data = singer, layout = c(2, 4),  
+            xlab = "Height (inches)", bw = 5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Partitioning Around Medoids (PAM) Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pam.object {cluster}"><tr><td>pam.object {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Partitioning Around Medoids (PAM) Object</h2>
+
+<h3>Description</h3>
+
+<p>The objects of class <code>"pam"</code> represent a partitioning of a
+dataset into clusters.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A legitimate <code>pam</code> object is a <code><a href="../../base/html/list.html">list</a></code> with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>medoids</code></td>
+<td>
+
+<p>the medoids or representative objects of the
+clusters.  If a dissimilarity matrix was given as input to
+<code>pam</code>, then a vector of numbers or labels of observations is
+given, else <code>medoids</code> is a <code><a href="../../base/html/matrix.html">matrix</a></code> with in each
+row the coordinates of one medoid.</p>
+</td></tr>
+<tr valign="top"><td><code>id.med</code></td>
+<td>
+<p>integer vector of <em>indices</em> giving the medoid
+observation numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>clustering</code></td>
+<td>
+<p>the clustering vector, see <code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>objective</code></td>
+<td>
+<p>the objective function after the first and second
+step of the <code>pam</code> algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>isolation</code></td>
+<td>
+
+<p>vector with length equal to the number of clusters, specifying which
+clusters are isolated clusters (L- or L*-clusters) and which clusters are
+not isolated.<br />
+A cluster is an L*-cluster iff its diameter is smaller than its
+separation.  A cluster is an L-cluster iff for each observation i
+the maximal dissimilarity between i and any other observation of the
+cluster is smaller than the minimal dissimilarity between i and any
+observation of another cluster.  Clearly each L*-cluster is also an
+L-cluster.
+</p>
+</td></tr>
+<tr valign="top"><td><code>clusinfo</code></td>
+<td>
+
+<p>matrix, each row gives numerical information for one cluster. These
+are the cardinality of the cluster (number of observations), the
+maximal and average dissimilarity between the observations in the
+cluster and the cluster's medoid, 
+the diameter of the cluster
+(maximal dissimilarity between two observations of the cluster), and
+the separation of the cluster (minimal dissimilarity between an
+observation of the cluster and an observation of another cluster).
+</p>
+</td></tr>
+<tr valign="top"><td><code>silinfo</code></td>
+<td>
+<p>list with silhouette width information, see
+<code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+<p>dissimilarity (maybe NULL), see <code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>generating call, see <code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>(possibibly standardized) see <code><a href="partition.object.html">partition.object</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>GENERATION</h3>
+
+<p>These objects are returned from <code><a href="pam.html">pam</a></code>.</p>
+
+
+<h3>METHODS</h3>
+
+<p>The <code>"pam"</code> class has methods for the following generic functions:
+<code>print</code>, <code>summary</code>.
+</p>
+
+
+<h3>INHERITANCE</h3>
+
+<p>The class <code>"pam"</code> inherits from <code>"partition"</code>.
+Therefore, the generic functions <code>plot</code> and <code>clusplot</code> can
+be used on a <code>pam</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pam.html">pam</a></code>, <code><a href="dissimilarity.object.html">dissimilarity.object</a></code>,
+<code><a href="partition.object.html">partition.object</a></code>, <code><a href="plot.partition.html">plot.partition</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Use the silhouette widths for assessing the best number of clusters,
+## following a one-dimensional example from Christian Hennig :
+##
+x &lt;- c(rnorm(50), rnorm(50,mean=5), rnorm(30,mean=15))
+asw &lt;- numeric(20)
+## Note that "k=1" won't work!
+for (k in 2:20)
+  asw[k] &lt;- pam(x, k) $ silinfo $ avg.width
+k.best &lt;- which.max(asw)
+cat("silhouette-optimal number of clusters:", k.best, "\n")
+
+plot(1:20, asw, type= "h", main = "pam() clustering assessment",
+     xlab= "k  (# clusters)", ylab = "average silhouette width")
+axis(1, k.best, paste("best",k.best,sep="\n"), col = "red", col.axis = "red")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

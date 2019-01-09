@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Graphical Parameters for Trellis Displays</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for C_02_trellis.par.get {lattice}"><tr><td>C_02_trellis.par.get {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Graphical Parameters for Trellis Displays </h2>
+
+<h3>Description</h3>
+
+<p>Functions used to query, display and modify graphical parameters for
+fine control of Trellis displays.  Modifications are made to the
+settings for the currently active device only.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trellis.par.set(name, value, ..., theme, warn = TRUE, strict = FALSE)
+trellis.par.get(name = NULL)
+show.settings(x = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+
+<p>A character string giving the name of a component.  If unspecified
+in <code>trellis.par.get()</code>, the return value is a named list
+containing all the current settings (this can be used to get the
+valid values for <code>name</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>a list giving the desired value of the component. Components that
+are already defined as part of the current settings but are not
+mentioned in <code>value</code> will remain unchanged.
+</p>
+</td></tr>
+<tr valign="top"><td><code>theme</code></td>
+<td>
+
+<p>a list decribing how to change the settings, similar to what is
+returned by <code>trellis.par.get()</code>.  This is purely for
+convenience, allowing multiple calls to <code>trellis.par.set</code> to be
+condensed into one.  The name of each component must be a valid
+<code>name</code> as described above, with the corresponding value a valid
+<code>value</code> as described above.
+</p>
+<p>As in <code><a href="trellis.device.html">trellis.device</a></code>, <code>theme</code> can also be a
+function that produces such a list when called.  The function name
+can be supplied as a quoted string.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Multiple settings can be specified in <code>name = value</code> form.
+Equivalent to calling with <code>theme = list(...)</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>warn</code></td>
+<td>
+
+<p>A logical flag, indicating whether a warning should be issued when
+<code>trellis.par.get</code> is called when no graphics device is open.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strict</code></td>
+<td>
+
+<p>Usually a logical flag, indicating whether the <code>value</code> should
+be interpreted strictly.  Usually, assignment of value to the
+corresponding named component is fuzzy in the sense that
+sub-components that are absent from <code>value</code> but not currently
+<code>NULL</code> are retained.  By specifying <code>strict = TRUE</code>, such
+values will be removed.
+</p>
+<p>An even stricter interpretation is allowed by specifying
+<code>strict</code> as a numeric value larger than <code>1</code>.  In that
+case, top-level components not specified in the call will also be
+removed.  This is primarily for internal use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>optional list of components that change the settings (any valid
+value of <code>theme</code>).  These are used to modify the current
+settings (obtained by <code>trellis.par.get</code>) before they are
+displayed.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The various graphical parameters (color, line type, background etc)
+that control the look and feel of Trellis displays are highly
+customizable. Also, R can produce graphics on a number of devices, and
+it is expected that a different set of parameters would be more suited
+to different devices. These parameters are stored internally in a
+variable named <code>lattice.theme</code>, which is a list whose components
+define settings for particular devices. The components are idenified
+by the name of the device they represent (as obtained by
+<code>.Device</code>), and are created as and when new devices are opened
+for the first time using <code>trellis.device</code> (or Lattice plots are
+drawn on a device for the first time in that session).
+</p>
+<p>The initial settings for each device defaults to values appropriate
+for that device. In practice, this boils down to three distinct
+settings, one for screen devices like <code>x11</code> and <code>windows</code>,
+one for black and white plots (mostly useful for <code>postscript</code>)
+and one for color printers (color <code>postcript</code>, <code>pdf</code>).
+</p>
+<p>Once a device is open, its settings can be modified. When another
+instance of the same device is opened later using
+<code>trellis.device</code>, the settings for that device are reset to its
+defaults, unless otherwise specified in the call to
+<code>trellis.device</code>. But settings for different devices are treated
+separately, i.e., opening a postscript device will not alter the x11
+settings, which will remain in effect whenever an x11 device is
+active.
+</p>
+<p>The functions <code>trellis.par.*</code> are meant to be interfaces to the
+global settings. They always apply on the settings for the currently
+ACTIVE device.
+</p>
+<p><code>trellis.par.get</code>, called without any arguments, returns the full
+list of settings for the active device. With the <code>name</code> argument
+present, it returns that component only. <code>trellis.par.get</code> sets
+the value of the <code>name</code> component of the current active device
+settings to <code>value</code>.
+</p>
+<p><code>trellis.par.get</code> is usually used inside trellis functions to get
+graphical parameters before plotting. Modifications by users via
+<code>trellis.par.set</code> is traditionally done as follows:
+</p>
+<p><code>add.line &lt;- trellis.par.get("add.line")</code>
+</p>
+<p><code>add.line$col &lt;- "red"</code>
+</p>
+<p><code>trellis.par.set("add.line", add.line)</code>
+</p>
+<p>More convenient (but not S compatible) ways to do this are
+</p>
+<p><code>trellis.par.set(list(add.line = list(col = "red")))</code>
+</p>
+<p>and
+</p>
+<p><code>trellis.par.set(add.line = list(col = "red"))</code>
+</p>
+<p>The actual list of the components in <code>trellis.settings</code> has not
+been finalized, so I'm not attempting to list them here. The current
+value can be obtained by <code>print(trellis.par.get())</code>. Most names
+should be self-explanatory.
+</p>
+<p><code>show.settings</code> provides a graphical display summarizing some of
+the values in the current settings.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>trellis.par.get</code> returns a list giving parameters for that
+component. If <code>name</code> is missing, it returns the full list.
+</p>
+<p>Most of the settings are graphical parameters that control various
+elements of a lattice plot.  For details, see the examples below.  The
+more unusual settings are described here.
+</p>
+
+<dl>
+<dt>grid.pars</dt><dd><p> Grid graphical parameters that are in effect
+globally unless overridden by specific settings.</p>
+</dd>
+<dt>fontsize</dt><dd><p> A list of two components (each a numeric scalar),
+<code>text</code> and <code>points</code>, for text and symbols
+respectively.
+</p>
+</dd> 
+<dt>clip</dt><dd><p> A list of two components (each a character string,
+either <code>"on"</code> or <code>"off"</code>), <code>panel</code> and
+<code>strip</code>.
+</p>
+</dd> 
+<dt>axis.components</dt><dd></dd>
+<dt>layout.heights</dt><dd></dd>
+<dt>layout.widths</dt><dd></dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>In some ways, <code>trellis.par.get</code> and <code>trellis.par.set</code>
+together are a replacement for the <code><a href="../../graphics/html/par.html">par</a></code> function used in
+traditional R graphics.  In particular, changing <code>par</code> settings
+has little (if any) effect on lattice output.  Since lattice plots are
+implemented using Grid graphics, its parameter system <em>does</em> have
+an effect unless overridden by a suitable lattice parameter setting.
+Such parameters can be specified as part of a lattice theme by
+including them in the <code>grid.pars</code> component (see
+<code><a href="../../grid/html/gpar.html">gpar</a></code> for a list of valid parameter names).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="trellis.device.html">trellis.device</a></code>, <code><a href="Lattice.html">Lattice</a></code>,
+<code><a href="../../grid/html/gpar.html">gpar</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+show.settings()
+
+tp &lt;- trellis.par.get()
+
+unusual &lt;- c("grid.pars", "fontsize", "clip", "axis.components",
+             "layout.heights", "layout.widths")
+
+for (u in unusual) tp[[u]] &lt;- NULL
+names.tp &lt;- lapply(tp, names)
+unames &lt;- sort(unique(unlist(names.tp)))
+ans &lt;- matrix(0, nrow = length(names.tp), ncol = length(unames))
+rownames(ans) &lt;- names(names.tp)
+colnames(ans) &lt;- unames
+for (i in seq(along = names.tp))
+    ans[i, ] &lt;- as.numeric(unames %in% names.tp[[i]])
+ans &lt;- ans[, order(-colSums(ans))]
+ans &lt;- ans[order(rowSums(ans)), ]
+ans[ans == 0] &lt;- NA
+
+levelplot(t(ans), colorkey = FALSE, 
+          scales = list(x = list(rot = 90)),
+          panel = function(x, y, z, ...) {
+              panel.abline(v = unique(as.numeric(x)), 
+                           h = unique(as.numeric(y)), 
+                           col = "darkgrey")
+              panel.xyplot(x, y, pch = 16 * z, ...)
+          },
+          xlab = "Graphical parameters", 
+          ylab = "Setting names")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Null Spaces of Matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Null {MASS}"><tr><td>Null {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Null Spaces of Matrices
+</h2>
+
+<h3>Description</h3>
+
+<p>Given a matrix, <code>M</code>, find a matrix <code>N</code> giving a basis for the
+(left) null space.  That is <code>crossprod(N, M) = t(N) %*% M</code>
+is an all-zero matrix and <code>N</code> has the maximum number of linearly
+independent columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Null(M)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>M</code></td>
+<td>
+
+<p>Input matrix.  A vector is coerced to a 1-column matrix.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For a basis for the (right) null space
+<i>{x : Mx = 0}</i>,
+use <code>Null(t(M))</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The matrix <code>N</code> with the basis for the (left) null space, or a
+matrix with zero columns if the matrix <code>M</code> is square and of
+maximal rank.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<p><code><a href="../../base/html/qr.html">qr</a></code>, <code><a href="../../base/html/qraux.html">qr.Q</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The function is currently defined as
+function(M)
+{
+    tmp &lt;- qr(M)
+    set &lt;- if(tmp$rank == 0L) seq_len(ncol(M)) else  -seq_len(tmp$rank)
+    qr.Q(tmp, complete = TRUE)[, set, drop = FALSE]
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

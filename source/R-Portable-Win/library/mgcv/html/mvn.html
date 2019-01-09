@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multivariate normal additive models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mvn {mgcv}"><tr><td>mvn {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multivariate normal additive models</h2>
+
+<h3>Description</h3>
+
+<p>Family for use with <code><a href="gam.html">gam</a></code> implementing smooth multivariate Gaussian regression. 
+The means for each dimension are given by a separate linear predictor, which may contain smooth components. Extra linear predictors may also be specified giving terms which are shared between components (see <code><a href="formula.gam.html">formula.gam</a></code>). The Choleski factor of the response precision matrix is estimated as part of fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mvn(d=2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>The dimension of the response (&gt;1).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The response is <code>d</code> dimensional multivariate normal, where the covariance matrix is estimated, 
+and the means for each dimension have sperate linear predictors. Model sepcification is via a list of gam like 
+formulae - one for each dimension. See example.
+</p>
+<p>Currently the family ignores any prior weights, and is implemented using first derivative information sufficient for BFGS estimation of smoothing parameters. <code>"response"</code> residuals give raw residuals, while <code>"deviance"</code> 
+residuals are standardized to be approximately independent standard normal if all is well.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>general.family</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood  <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/family.html">gaussian</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+## simulate some data...
+V &lt;- matrix(c(2,1,1,2),2,2)
+f0 &lt;- function(x) 2 * sin(pi * x)
+f1 &lt;- function(x) exp(2 * x)
+f2 &lt;- function(x) 0.2 * x^11 * (10 * (1 - x))^6 + 10 * 
+            (10 * x)^3 * (1 - x)^10
+n &lt;- 300
+x0 &lt;- runif(n);x1 &lt;- runif(n);
+x2 &lt;- runif(n);x3 &lt;- runif(n)
+y &lt;- matrix(0,n,2)
+for (i in 1:n) {
+  mu &lt;- c(f0(x0[i])+f1(x1[i]),f2(x2[i]))
+  y[i,] &lt;- rmvn(1,mu,V)
+}
+dat &lt;- data.frame(y0=y[,1],y1=y[,2],x0=x0,x1=x1,x2=x2,x3=x3)
+
+## fit model...
+
+b &lt;- gam(list(y0~s(x0)+s(x1),y1~s(x2)+s(x3)),family=mvn(d=2),data=dat)
+b
+summary(b)
+plot(b,pages=1)
+solve(crossprod(b$family$data$R)) ## estimated cov matrix
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

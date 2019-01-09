@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract varFunc Groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGroups.varFunc {nlme}"><tr><td>getGroups.varFunc {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract varFunc Groups</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts the grouping factor associated with the
+variance function represented by <code>object</code>, if any is present.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'varFunc'
+getGroups(object, form, level, data, sep)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>varFunc</code>,
+representing a variance function structure.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional formula with a conditioning expression on its
+right hand side (i.e. an expression involving the <code>|</code>
+operator). Defaults to <code>formula(object)</code>.  Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>a positive integer vector with the level(s) of grouping to
+be used when multiple nested levels of grouping are present. This
+argument is optional for most methods of this generic function and
+defaults to all levels of nesting.  Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in which to interpret the variables named in
+<code>form</code>. Optional for most methods.  Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>character, the separator to use between group levels when
+multiple levels are collapsed.  The default is <code>'/'</code>.  Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>object</code> has a <code>groups</code> attribute, its value is
+returned; else <code>NULL</code> is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vf1 &lt;- varPower(form = ~ age | Sex)
+vf1 &lt;- Initialize(vf1, Orthodont)
+getGroups(vf1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

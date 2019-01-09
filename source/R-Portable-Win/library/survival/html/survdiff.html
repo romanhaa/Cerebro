@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test Survival Curve Differences</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survdiff {survival}"><tr><td>survdiff {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Test Survival Curve Differences
+</h2>
+
+<h3>Description</h3>
+
+<p>Tests if there is a difference between two or more survival curves using
+the <i>G-rho</i> family of tests, or for a single curve against a known alternative.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+survdiff(formula, data, subset, na.action, rho=0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula expression as for other survival models, of the form
+<code>Surv(time, status) ~ predictors</code>.  For a one-sample test, the predictors
+must consist of a single <code>offset(sp)</code> term, where <code>sp</code> is a vector giving the
+survival probability of each subject.  For a k-sample test, each unique
+combination of predictors defines a subgroup.
+A <code>strata</code> term may be used to produce a stratified test.
+To cause missing values in the predictors to be treated as a separate
+group, rather than being omitted, use the <code>strata</code> function with its
+<code>na.group=T</code> argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>an optional data frame in which to interpret the variables occurring in the
+formula.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>expression indicating which subset of the rows of data should be used in
+the fit.  This can be a logical vector (which is replicated to have
+length equal to the number of observations), a numeric vector indicating
+which observation numbers are to be included (or excluded if negative),
+or a character vector of row names to be included.  All observations are
+included by default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>a missing-data filter function.  This is applied to the <code>model.frame</code> after any
+subset argument has been used.  Default is <code>options()$na.action</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rho</code></td>
+<td>
+
+<p>a scalar parameter that controls the type of test.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>a list with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>the number of subjects in each group.
+</p>
+</td></tr>
+<tr valign="top"><td><code>obs</code></td>
+<td>
+
+<p>the weighted observed number of events in each group.
+If there are strata, this will be a matrix with one column per stratum.
+</p>
+</td></tr>
+<tr valign="top"><td><code>exp</code></td>
+<td>
+
+<p>the weighted expected number of events in each group.
+If there are strata, this will be a matrix with one column per stratum.
+</p>
+</td></tr>
+<tr valign="top"><td><code>chisq</code></td>
+<td>
+
+<p>the chisquare statistic for a test of equality.
+</p>
+</td></tr>
+<tr valign="top"><td><code>var</code></td>
+<td>
+
+<p>the variance matrix of the test.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>optionally, the number of subjects contained in each stratum.
+</p>
+</td></tr></table>
+
+
+<h3>METHOD</h3>
+
+<p>This function implements the G-rho family of
+Harrington and Fleming (1982), with weights on each death of <i>S(t)^rho</i>,
+where <i>S</i> is the Kaplan-Meier estimate of survival.
+With <code>rho = 0</code> this is the log-rank or Mantel-Haenszel test,
+and with <code>rho = 1</code> it is equivalent to the Peto &amp; Peto modification
+of the Gehan-Wilcoxon test.
+</p>
+<p>If the right hand side of the formula consists only of an offset term,
+then a one sample test is done.
+To cause missing values in the predictors to be treated as a separate
+group, rather than being omitted, use the <code>factor</code> function with its
+<code>exclude</code> argument.
+</p>
+
+
+<h3>References</h3>
+
+<p>Harrington, D. P. and Fleming, T. R. (1982).
+A class of rank test procedures for censored survival data.
+<em>Biometrika</em>
+<b>69</b>, 553-566.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Two-sample test
+survdiff(Surv(futime, fustat) ~ rx,data=ovarian)
+
+## Stratified 7-sample test
+
+survdiff(Surv(time, status) ~ pat.karno + strata(inst), data=lung)
+
+## Expected survival for heart transplant patients based on
+## US mortality tables
+expect &lt;- survexp(futime ~ 1, data=jasa, cohort=FALSE,
+                  rmap= list(age=(accept.dt - birth.dt), sex=1, year=accept.dt),
+                  ratetable=survexp.us)
+## actual survival is much worse (no surprise)
+survdiff(Surv(jasa$futime, jasa$fustat) ~ offset(expect))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

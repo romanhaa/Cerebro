@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Binomial Spatial Point Process</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Psim {spatial}"><tr><td>Psim {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Simulate Binomial Spatial Point Process
+</h2>
+
+<h3>Description</h3>
+
+<p>Simulate Binomial spatial point process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Psim(n)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>number of points
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>relies on the region being set by <code>ppinit</code> or <code>ppregion</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>list of vectors of <code>x</code> and <code>y</code> coordinates.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>uses the random number generator.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="SSI.html">SSI</a></code>, <code><a href="Strauss.html">Strauss</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+towns &lt;- ppinit("towns.dat")
+par(pty="s")
+plot(Kfn(towns, 10), type="s", xlab="distance", ylab="L(t)")
+for(i in 1:10) lines(Kfn(Psim(69), 10))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

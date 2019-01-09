@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: drop.tip method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for drop.tip {treeio}"><tr><td>drop.tip {treeio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>drop.tip method</h2>
+
+<h3>Description</h3>
+
+<p>drop.tip method
+</p>
+<p>drop.tip method
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+drop.tip(object, tip, ...)
+
+drop.tip(object, tip, ...)
+
+## S4 method for signature 'phylo'
+drop.tip(object, tip, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A treedata or phylo object</p>
+</td></tr>
+<tr valign="top"><td><code>tip</code></td>
+<td>
+<p>a vector of mode numeric or character specifying the tips to delete</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>updated object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Casey Dunn <a href="http://dunnlab.org">http://dunnlab.org</a>  and Guangchuang Yu <a href="https://guangchuangyu.github.io">https://guangchuangyu.github.io</a>
+</p>
+
+
+<h3>Source</h3>
+
+<p>drop.tip for phylo object is a wrapper method of ape::drop.tip
+from the ape package. The documentation you should
+read for the drop.tip function can be found here: <a href="../../ape/html/drop.tip.html">drop.tip</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../ape/html/drop.tip.html">drop.tip</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+nhxfile &lt;- system.file("extdata/NHX", "ADH.nhx", package="treeio")
+nhx &lt;- read.nhx(nhxfile)
+drop.tip(nhx, c("ADH2", "ADH1"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>treeio</em> version 1.4.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

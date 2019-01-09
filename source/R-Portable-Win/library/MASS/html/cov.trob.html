@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Covariance Estimation for Multivariate t Distribution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cov.trob {MASS}"><tr><td>cov.trob {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Covariance Estimation for Multivariate t Distribution
+</h2>
+
+<h3>Description</h3>
+
+<p>Estimates a covariance or correlation matrix assuming the data came
+from a multivariate t distribution: this provides some degree of
+robustness to outlier without giving a high breakdown point.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cov.trob(x, wt = rep(1, n), cor = FALSE, center = TRUE, nu = 5,
+         maxit = 25, tol = 0.01)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data  matrix. Missing values (NAs) are not allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+
+<p>A vector of weights for each case: these are treated as if the case <code>i</code>
+actually occurred <code>wt[i]</code> times.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cor</code></td>
+<td>
+
+<p>Flag to choose between returning the correlation (<code>cor = TRUE</code>) or
+covariance (<code>cor = FALSE</code>) matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+
+<p>a logical value or a numeric vector providing the location about which
+the covariance is to be taken. If <code>center = FALSE</code>, no centering
+is done; if <code>center = TRUE</code> the MLE of the location vector is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nu</code></td>
+<td>
+
+<p>&lsquo;degrees of freedom&rsquo; for the multivariate t distribution. Must exceed
+2 (so that the covariance matrix is finite).
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+
+<p>Maximum number of iterations in fitting.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+
+<p>Convergence tolerance for fitting.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>A list with the following components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>cov</code></td>
+<td>
+
+<p>the fitted covariance matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+
+<p>the estimated or specified location vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+
+<p>the specified weights: only returned if the <code>wt</code> argument was given.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.obs</code></td>
+<td>
+
+<p>the number of cases used in the fitting.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cor</code></td>
+<td>
+
+<p>the fitted correlation matrix: only returned if <code>cor = TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>The matched call.
+</p>
+</td></tr>
+<tr valign="top"><td><code>iter</code></td>
+<td>
+
+<p>The number of iterations used.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>J. T. Kent, D. E. Tyler and Y. Vardi (1994)
+A curious likelihood identity for the multivariate t-distribution.
+<em>Communications in Statistics&mdash;Simulation and Computation</em>
+<b>23</b>, 441&ndash;453.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (1999)
+<em>Modern Applied Statistics with S-PLUS.</em> Third
+Edition. Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/cor.html">cov</a></code>, <code><a href="../../stats/html/cov.wt.html">cov.wt</a></code>, <code><a href="cov.rob.html">cov.mve</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cov.trob(stackloss)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

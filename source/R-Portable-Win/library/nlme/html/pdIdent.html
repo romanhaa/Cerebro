@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiple of the Identity Positive-Definite Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pdIdent {nlme}"><tr><td>pdIdent {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multiple of the Identity Positive-Definite Matrix</h2>
+
+<h3>Description</h3>
+
+<p>This function is a constructor for the <code>pdIdent</code> class,
+representing a multiple of the identity positive-definite matrix. 
+The matrix associated with <code>object</code> is represented by 1
+unrestricted parameter, given by the logarithm of the square-root of
+the diagonal value. When <code>value</code> is 
+<code>numeric(0)</code>, an uninitialized <code>pdMat</code> object, a one-sided
+formula, or a vector of character strings, <code>object</code> is returned
+as an uninitialized <code>pdIdent</code> object (with just some of its
+attributes and its class defined) and needs to have its coefficients
+assigned later, generally using the <code>coef</code> or <code>matrix</code> replacement
+functions. If <code>value</code> is an initialized <code>pdMat</code> object,
+<code>object</code> will be constructed from
+<code>as.matrix(value)</code>. Finally, if <code>value</code> is a numeric value,
+it is assumed to represent the unrestricted coefficient of the
+underlying positive-definite  matrix.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pdIdent(value, form, nam, data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>an optional initialization value, which can be any of the
+following: a <code>pdMat</code> object, a positive-definite
+matrix, a one-sided linear formula (with variables separated by
+<code>+</code>), a vector of character strings, or a numeric
+value. Defaults to <code>numeric(0)</code>, corresponding
+to an uninitialized object.</p>
+</td></tr> 
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional one-sided linear formula specifying the
+row/column names for the matrix represented by <code>object</code>. Because
+factors may be present in <code>form</code>, the formula needs to be
+evaluated on a data.frame to resolve the names it defines. This
+argument is ignored when <code>value</code> is a one-sided
+formula. Defaults to <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nam</code></td>
+<td>
+<p>an optional vector of character strings specifying the
+row/column names for the matrix represented by object. It must have 
+length equal to the dimension of the underlying positive-definite
+matrix and unreplicated elements. This argument is ignored when
+<code>value</code> is a vector of character strings. Defaults to
+<code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame in which to evaluate the variables
+named in <code>value</code> and <code>form</code>. It is used to
+obtain the levels for <code>factors</code>, which affect the
+dimensions and the row/column names of the underlying matrix. If
+<code>NULL</code>, no attempt is made to obtain information on 
+<code>factors</code> appearing in the formulas. Defaults to the
+parent frame from which the function was called.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>pdIdent</code> object representing a multiple of the identity
+positive-definite matrix, also inheriting from class <code>pdMat</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="as.matrix.pdMat.html">as.matrix.pdMat</a></code>,
+<code><a href="coef.pdMat.html">coef.pdMat</a></code>,
+<code><a href="pdClasses.html">pdClasses</a></code>,
+<code><a href="Matrix.pdMat.html">matrix&lt;-.pdMat</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdIdent(4 * diag(3), nam = c("A","B","C"))
+pd1
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

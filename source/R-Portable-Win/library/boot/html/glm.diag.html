@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generalized Linear Model Diagnostics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glm.diag {boot}"><tr><td>glm.diag {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Generalized Linear Model Diagnostics
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates jackknife deviance residuals, standardized deviance residuals, 
+standardized Pearson residuals, approximate Cook statistic, leverage and
+estimated dispersion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glm.diag(glmfit)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>glmfit</code></td>
+<td>
+
+<p><code>glmfit</code> is a <code>glm.object</code> - the result of a call to <code>glm()</code>
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>Returns a list with the following components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>res</code></td>
+<td>
+
+<p>The vector of jackknife deviance residuals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rd</code></td>
+<td>
+
+<p>The vector of standardized deviance residuals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rp</code></td>
+<td>
+
+<p>The vector of standardized Pearson residuals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cook</code></td>
+<td>
+
+<p>The vector of approximate Cook statistics.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+
+<p>The vector of leverages of the observations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+
+<p>The value used to standardize the residuals.  This is the estimate of
+residual standard deviation in the Gaussian family and is the square root of
+the estimated shape parameter in the Gamma family.  In all other cases it is 1.
+</p>
+</td></tr></table>
+
+
+<h3>Note</h3>
+
+<p>See the help for <code><a href="glm.diag.plots.html">glm.diag.plots</a></code> for an example of the
+use of <code>glm.diag</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Davison, A.C. and Snell, E.J.  (1991)  Residuals and diagnostics.  
+In <em>Statistical Theory and Modelling: In Honour of Sir David Cox</em>.
+D.V. Hinkley, N. Reid and E.J. Snell (editors), 83&ndash;106.  Chapman and Hall. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/glm.html">glm</a></code>, <code><a href="glm.diag.plots.html">glm.diag.plots</a></code>, <code><a href="../../stats/html/summary.glm.html">summary.glm</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,32 @@
+Package: ps
+Version: 1.1.0
+Title: List, Query, Manipulate System Processes
+Description: List, query and manipulate all system processes, on 'Windows',
+    'Linux' and 'macOS'.
+Authors@R: c(
+    person("Jay", "Loden", role = "aut"),
+    person("Dave", "Daeschler", role = "aut"),
+    person("Giampaolo", "Rodola'", role = "aut"),
+    person("Gábor", "Csárdi", , "csardi.gabor@gmail.com", c("aut", "cre")),
+    person("RStudio", role = "cph"))
+License: BSD_3_clause + file LICENSE
+URL: https://github.com/r-lib/ps#readme
+BugReports: https://github.com/r-lib/ps/issues
+Encoding: UTF-8
+Depends: R (>= 3.1)
+Imports: utils
+Suggests: callr, covr, processx (>= 3.1.0), R6, rlang, testthat, tibble
+RoxygenNote: 6.1.0
+Biarch: true
+NeedsCompilation: yes
+Packaged: 2018-08-09 23:43:34 UTC; gaborcsardi
+Author: Jay Loden [aut],
+  Dave Daeschler [aut],
+  Giampaolo Rodola' [aut],
+  Gábor Csárdi [aut, cre],
+  RStudio [cph]
+Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
+Repository: CRAN
+Date/Publication: 2018-08-10 12:30:03 UTC
+Built: R 3.5.1; x86_64-w64-mingw32; 2018-10-14 07:45:24 UTC; windows
+Archs: i386, x64

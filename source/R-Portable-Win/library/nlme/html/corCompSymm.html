@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compound Symmetry Correlation Structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corCompSymm {nlme}"><tr><td>corCompSymm {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compound Symmetry Correlation Structure</h2>
+
+<h3>Description</h3>
+
+<p>This function is a constructor for the <code>corCompSymm</code> class,
+representing a compound symmetry structure corresponding to uniform
+correlation. Objects created using this constructor must later be
+initialized using the appropriate <code>Initialize</code> method. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+corCompSymm(value, form, fixed)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>the correlation between any two correlated
+observations. Defaults to 0.</p>
+</td></tr> 
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>a one sided formula of the form <code>~ t</code>, or <code>~ t |
+     g</code>, specifying a time covariate <code>t</code> and,  optionally, a
+grouping factor <code>g</code>. When a grouping factor is present in
+<code>form</code>, the correlation structure is assumed to apply only
+to observations within the same grouping level; observations with
+different grouping levels are assumed to be uncorrelated. Defaults to
+<code>~ 1</code>, which corresponds to using the order of the observations
+in the data as a covariate, and no groups.</p>
+</td></tr>  
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>an optional logical value indicating whether the
+coefficients should be allowed to vary in the optimization, or kept
+fixed at their initial value. Defaults to <code>FALSE</code>, in which case
+the coefficients are allowed to vary.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>corCompSymm</code>, representing a compound
+symmetry correlation structure. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Milliken, G. A. and Johnson, D. E. (1992) &quot;Analysis of Messy Data,
+Volume I: Designed Experiments&quot;, Van Nostrand Reinhold.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. pp. 233-234.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corClasses.html">corClasses</a></code>, 
+<code><a href="Initialize.corStruct.html">Initialize.corStruct</a></code>,
+<code><a href="summary.corStruct.html">summary.corStruct</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## covariate is observation order and grouping factor is Subject
+cs1 &lt;- corCompSymm(0.5, form = ~ 1 | Subject)
+
+# Pinheiro and Bates, pp. 222-225 
+fm1BW.lme &lt;- lme(weight ~ Time * Diet, BodyWeight,
+                   random = ~ Time)
+# p. 223
+fm2BW.lme &lt;- update(fm1BW.lme, weights = varPower())
+# p. 225
+cs1CompSymm &lt;- corCompSymm(value = 0.3, form = ~ 1 | Subject)
+cs2CompSymm &lt;- corCompSymm(value = 0.3, form = ~ age | Subject)
+cs1CompSymm &lt;- Initialize(cs1CompSymm, data = Orthodont)
+corMatrix(cs1CompSymm)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare Fitted Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for compareFits {nlme}"><tr><td>compareFits {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare Fitted Objects</h2>
+
+<h3>Description</h3>
+
+<p>The columns in <code>object1</code> and <code>object2</code> are put together in
+matrices which allow direct comparison of the individual elements for
+each object. Missing columns in either object are replaced by
+<code>NA</code>s.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+compareFits(object1, object2, which)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object1,object2</code></td>
+<td>
+<p>data frames, or matrices, with the same
+row names, but possibly different column names. These will usually
+correspond to coefficients from fitted objects with a grouping
+structure (e.g. <code>lme</code> and <code>lmList</code> objects).</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>an optional integer or character vector indicating which
+columns in <code>object1</code> and <code>object2</code> are to be used in the
+returned object. Defaults to all columns.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a three-dimensional array, with the third dimension given by the number
+of unique column names in either <code>object1</code> or <code>object2</code>. To
+each column name there corresponds a matrix with as many rows as the
+rows in <code>object1</code> and two columns, corresponding to <code>object1</code>
+and <code>object2</code>. The returned object inherits from class
+<code>compareFits</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.compareFits.html">plot.compareFits</a></code>,
+<code><a href="pairs.compareFits.html">pairs.compareFits</a></code>,
+<code><a href="comparePred.html">comparePred</a></code>,
+<code><a href="../../stats/html/coef.html">coef</a></code>,
+<code><a href="random.effects.html">random.effects</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(Orthodont)
+fm2 &lt;- lme(fm1)
+compareFits(coef(fm1), coef(fm2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Partitioning Around Medoids</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pam {cluster}"><tr><td>pam {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Partitioning Around Medoids</h2>
+
+<h3>Description</h3>
+
+<p>Partitioning (clustering) of the data into <code>k</code> clusters &ldquo;around
+medoids&rdquo;, a more robust version of K-means.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pam(x, k, diss = inherits(x, "dist"),
+    metric = c("euclidean", "manhattan"), 
+    medoids = NULL, stand = FALSE, cluster.only = FALSE,
+    do.swap = TRUE,
+    keep.diss = !diss &amp;&amp; !cluster.only &amp;&amp; n &lt; 100,
+    keep.data = !diss &amp;&amp; !cluster.only,
+    pamonce = FALSE, trace.lev = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data matrix or data frame, or dissimilarity matrix or object,
+depending on the value of the <code>diss</code> argument.
+</p>
+<p>In case of a matrix or data frame, each row corresponds to an
+observation, and each column corresponds to a variable.  All
+variables must be numeric.  Missing values (<code><a href="../../base/html/NA.html">NA</a></code>s)
+<em>are</em> allowed&mdash;as long as every pair of observations has at
+least one case not missing.
+</p>
+<p>In case of a dissimilarity matrix, <code>x</code> is typically the output
+of <code><a href="daisy.html">daisy</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code>.  Also a vector of
+length n*(n-1)/2 is allowed (where n is the number of observations),
+and will be interpreted in the same way as the output of the
+above-mentioned functions. Missing values (<code><a href="../../base/html/NA.html">NA</a></code>s) are
+<em>not</em> allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>positive integer specifying the number of clusters, less than
+the number of observations.</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>logical flag: if TRUE (default for <code>dist</code> or
+<code>dissimilarity</code> objects), then <code>x</code> will be considered as a
+dissimilarity matrix.  If FALSE, then <code>x</code> will be considered as
+a matrix of observations by variables.
+</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+
+<p>character string specifying the metric to be used for calculating
+dissimilarities between observations.<br />
+The currently available options are &quot;euclidean&quot; and
+&quot;manhattan&quot;.  Euclidean distances are root sum-of-squares of
+differences, and manhattan distances are the sum of absolute
+differences.  If <code>x</code> is already a dissimilarity matrix, then
+this argument will be ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>medoids</code></td>
+<td>
+<p>NULL (default) or length-<code>k</code> vector of integer
+indices (in <code>1:n</code>) specifying initial medoids instead of using
+the &lsquo;<em>build</em>&rsquo; algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>stand</code></td>
+<td>
+<p>logical; if true, the measurements in <code>x</code> are
+standardized before calculating the dissimilarities.  Measurements
+are standardized for each variable (column), by subtracting the
+variable's mean value and dividing by the variable's mean absolute
+deviation.  If <code>x</code> is already a dissimilarity matrix, then this
+argument will be ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>cluster.only</code></td>
+<td>
+<p>logical; if true, only the clustering will be
+computed and returned, see details.</p>
+</td></tr>
+<tr valign="top"><td><code>do.swap</code></td>
+<td>
+<p>logical indicating if the <b>swap</b> phase should
+happen. The default, <code>TRUE</code>, correspond to the
+original algorithm.  On the other hand, the <b>swap</b> phase is
+much more computer intensive than the <b>build</b> one for large
+<i>n</i>, so can be skipped by <code>do.swap = FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.diss, keep.data</code></td>
+<td>
+<p>logicals indicating if the dissimilarities
+and/or input data <code>x</code> should be kept in the result.  Setting
+these to <code>FALSE</code> can give much smaller results and hence even save
+memory allocation <em>time</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>pamonce</code></td>
+<td>
+<p>logical or integer in <code>0:2</code> specifying algorithmic
+short cuts as proposed by Reynolds et al. (2006), see below.</p>
+</td></tr>
+<tr valign="top"><td><code>trace.lev</code></td>
+<td>
+<p>integer specifying a trace level for printing
+diagnostics during the build and swap phase of the algorithm.
+Default <code>0</code> does not print anything; higher values print
+increasingly more.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The basic <code>pam</code> algorithm is fully described in chapter 2 of
+Kaufman and Rousseeuw(1990).  Compared to the k-means approach in <code>kmeans</code>, the
+function <code>pam</code> has the following features: (a) it also accepts a
+dissimilarity matrix; (b) it is more robust because it minimizes a sum
+of dissimilarities instead of a sum of squared euclidean distances;
+(c) it provides a novel graphical display, the silhouette plot (see
+<code>plot.partition</code>) (d) it allows to select the number of clusters
+using <code>mean(<a href="silhouette.html">silhouette</a>(pr)[, "sil_width"])</code> on the result
+<code>pr &lt;- pam(..)</code>, or directly its component
+<code>pr$silinfo$avg.width</code>, see also <code><a href="pam.object.html">pam.object</a></code>.
+</p>
+<p>When <code>cluster.only</code> is true, the result is simply a (possibly
+named) integer vector specifying the clustering, i.e.,<br />
+<code>pam(x,k, cluster.only=TRUE)</code> is the same as <br />
+<code>pam(x,k)$clustering</code> but computed more efficiently.
+</p>
+<p>The <code>pam</code>-algorithm is based on the search for <code>k</code>
+representative objects or medoids among the observations of the
+dataset.  These observations should represent the structure of the
+data.  After finding a set of <code>k</code> medoids, <code>k</code> clusters are
+constructed by assigning each observation to the nearest medoid.  The
+goal is to find <code>k</code> representative objects which minimize the sum
+of the dissimilarities of the observations to their closest
+representative object.
+<br />
+By default, when <code>medoids</code> are not specified, the algorithm first
+looks for a good initial set of medoids (this is called the
+<b>build</b> phase).  Then it finds a local minimum for the
+objective function, that is, a solution such that there is no single
+switch of an observation with a medoid that will decrease the
+objective (this is called the <b>swap</b> phase).
+</p>
+<p>When the <code>medoids</code> are specified, their order does <em>not</em>
+matter; in general, the algorithms have been designed to not depend on
+the order of the observations.
+</p>
+<p>The <code>pamonce</code> option, new in cluster 1.14.2 (Jan. 2012), has been
+proposed by Matthias Studer, University of Geneva, based on the
+findings by Reynolds et al. (2006).
+</p>
+<p>The default <code>FALSE</code> (or integer <code>0</code>) corresponds to the
+original &ldquo;swap&rdquo; algorithm, whereas <code>pamonce = 1</code> (or
+<code>TRUE</code>), corresponds to the first proposal .... 
+and <code>pamonce = 2</code> additionally implements the second proposal as
+well. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"pam"</code> representing the clustering.  See
+<code>?<a href="pam.object.html">pam.object</a></code> for details.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For large datasets, <code>pam</code> may need too much memory or too much
+computation time since both are <i>O(n^2)</i>.  Then,
+<code><a href="clara.html">clara</a>()</code> is preferable, see its documentation.
+</p>
+<p>There is hard limit currently, <i>n &lt;= 65536</i>, at
+<i>2^{16}</i> because for larger <i>n</i>, <i>n(n-1)/2</i> is larger than
+the maximal integer (<code><a href="../../base/html/zMachine.html">.Machine</a>$integer.max</code> = <i>2^{31} - 1</i>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kaufman and Rousseeuw's orginal Fortran code was translated to C
+and augmented in several ways, e.g. to allow <code>cluster.only=TRUE</code>
+or <code>do.swap=FALSE</code>, by Martin Maechler.
+<br />
+Matthias Studer, Univ.Geneva provided the <code>pamonce</code>
+implementation.
+</p>
+
+
+<h3>References</h3>
+
+
+<p>Reynolds, A., Richards, G., de la Iglesia, B. and Rayward-Smith, V. (1992)
+Clustering rules: A comparison of partitioning and hierarchical
+clustering algorithms;
+<em>Journal of Mathematical Modelling and Algorithms</em> <b>5</b>,
+475&ndash;504 (<a href="http://dx.doi.org/10.1007/s10852-005-9022-1">http://dx.doi.org/10.1007/s10852-005-9022-1</a>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code> for background and references;
+<code><a href="pam.object.html">pam.object</a></code>, <code><a href="clara.html">clara</a></code>, <code><a href="daisy.html">daisy</a></code>,
+<code><a href="partition.object.html">partition.object</a></code>, <code><a href="plot.partition.html">plot.partition</a></code>,
+<code><a href="../../stats/html/dist.html">dist</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## generate 25 objects, divided into 2 clusters.
+x &lt;- rbind(cbind(rnorm(10,0,0.5), rnorm(10,0,0.5)),
+           cbind(rnorm(15,5,0.5), rnorm(15,5,0.5)))
+pamx &lt;- pam(x, 2)
+pamx # Medoids: '7' and '25' ...
+summary(pamx)
+plot(pamx)
+## use obs. 1 &amp; 16 as starting medoids -- same result (typically)
+(p2m &lt;- pam(x, 2, medoids = c(1,16)))
+## no _build_ *and* no _swap_ phase: just cluster all obs. around (1, 16):
+p2.s &lt;- pam(x, 2, medoids = c(1,16), do.swap = FALSE)
+p2.s
+
+p3m &lt;- pam(x, 3, trace = 2)
+## rather stupid initial medoids:
+(p3m. &lt;- pam(x, 3, medoids = 3:1, trace = 1))
+
+
+pam(daisy(x, metric = "manhattan"), 2, diss = TRUE)
+
+data(ruspini)
+## Plot similar to Figure 4 in Stryuf et al (1996)
+## Not run: plot(pam(ruspini, 4), ask = TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

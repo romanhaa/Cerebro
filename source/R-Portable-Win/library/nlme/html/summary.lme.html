@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize an lme Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.lme {nlme}"><tr><td>summary.lme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize an lme Object</h2>
+
+<h3>Description</h3>
+
+<p>Additional information about the linear mixed-effects fit represented
+by <code>object</code> is extracted and included as components of
+<code>object</code>.  The returned object has a <code><a href="../../base/html/print.html">print</a></code> and a
+<code><a href="../../stats/html/coef.html">coef</a></code> method, the latter returning the coefficient's
+<code>tTtable</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lme'
+summary(object, adjustSigma, verbose, ...)
+## S3 method for class 'summary.lme'
+print(x, verbose = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="lme.html">lme</a>"</code>, representing
+a fitted linear mixed-effects model.</p>
+</td></tr>
+<tr valign="top"><td><code>adjustSigma</code></td>
+<td>
+<p>an optional logical value.  If <code>TRUE</code> and the
+estimation method used to obtain <code>object</code> was maximum
+likelihood, the residual standard error is multiplied by
+<i>sqrt(nobs/(nobs - npar))</i>,
+converting it to a REML-like estimate.  This argument is only used
+when a single fitted object is passed to the function.  Default is
+<code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>an optional logical value used to control the amount of
+output in the <code>print.summary.lme</code> method.  Defaults to
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional optional arguments passed to methods, mainly
+for the <code><a href="../../base/html/print.html">print</a></code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a <code>"summary.lme"</code> object.</p>
+</td></tr>
+</table>
+<p>!</p>
+
+
+<h3>Value</h3>
+
+<p>an object inheriting from class <code>summary.lme</code> with all components
+included in <code>object</code> (see <code><a href="lmeObject.html">lmeObject</a></code> for a full
+description of the components) plus the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>corFixed</code></td>
+<td>
+<p>approximate correlation matrix for the fixed effects
+estimates.</p>
+</td></tr>
+<tr valign="top"><td><code>tTable</code></td>
+<td>
+<p>a matrix with columns named <code>Value</code>,
+<code>Std. Error</code>, <code>DF</code>, <code>t-value</code>, and <code>p-value</code>
+representing respectively the fixed effects estimates, their
+approximate standard errors, the denominator degrees of freedom, the
+ratios between the estimates and their standard errors, and the
+associated p-value from a t distribution.  Rows correspond to the
+different fixed effects.</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>if more than five observations are used in the
+<code>lme</code> fit, a vector with the minimum, first quartile, median, third
+quartile, and maximum of the innermost grouping level residuals
+distribution; else the innermost grouping level residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>AIC</code></td>
+<td>
+<p>the Akaike Information Criterion corresponding to
+<code>object</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>BIC</code></td>
+<td>
+<p>the Bayesian Information Criterion corresponding to
+<code>object</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/AIC.html">AIC</a></code>, <code><a href="../../stats/html/AIC.html">BIC</a></code>,
+<code><a href="lme.html">lme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(distance ~ age, Orthodont, random = ~ age | Subject)
+(s1 &lt;- summary(fm1))
+## Not run: coef(s1) # the (coef | Std.E | t | P-v ) matrix
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tukey Mean-Difference Plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_09_tmd {lattice}"><tr><td>B_09_tmd {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tukey Mean-Difference Plot</h2>
+
+<h3>Description</h3>
+
+<p><code>tmd</code> Creates Tukey Mean-Difference Plots from a trellis object
+returned by <code>xyplot</code>, <code>qq</code> or <code>qqmath</code>.  The prepanel
+and panel functions are used as appropriate.  The <code>formula</code>
+method for <code>tmd</code> is provided for convenience, and simply calls
+<code>tmd</code> on the object created by calling <code>xyplot</code> on that
+formula.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tmd(object, ...)
+
+## S3 method for class 'trellis'
+tmd(object,
+    xlab = "mean",
+    ylab = "difference",
+    panel, 
+    prepanel, 
+    ...)
+
+prepanel.tmd.qqmath(x,
+             f.value = NULL,
+             distribution = qnorm,
+             qtype = 7,
+             groups = NULL,
+             subscripts, ...)
+panel.tmd.qqmath(x,
+             f.value = NULL,
+             distribution = qnorm,
+             qtype = 7,
+             groups = NULL, 
+             subscripts, ...,
+             identifier = "tmd")
+panel.tmd.default(x, y, groups = NULL, ...,
+                  identifier = "tmd")
+prepanel.tmd.default(x, y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> An object of class <code>"trellis"</code> returned by
+<code>xyplot</code>, <code>qq</code> or <code>qqmath</code>.  </p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p> x label</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p> y label</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+<p> panel function to be used.  See details below.  </p>
+</td></tr>
+<tr valign="top"><td><code>prepanel</code></td>
+<td>
+<p> prepanel function.  See details below.  </p>
+</td></tr>
+<tr valign="top"><td><code>f.value, distribution, qtype</code></td>
+<td>
+<p>see <code><a href="panel.qqmath.html">panel.qqmath</a></code>.  </p>
+</td></tr>
+<tr valign="top"><td><code>groups, subscripts</code></td>
+<td>
+<p>see <code><a href="xyplot.html">xyplot</a></code>.  </p>
+</td></tr>
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p> data as passed to panel functions in original call.  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Tukey Mean-difference plot is produced by modifying the (x,y)
+values of each panel as follows: the new coordinates are given by
+<code>x=(x+y)/2</code> and <code>y=y-x</code>, which are then plotted.  The
+default panel function(s) add a reference line at <code>y=0</code> as well.
+</p>
+<p><code>tmd</code> acts on the a <code>"trellis"</code> object, not on the actual plot
+this object would have produced.  As such, it only uses the arguments
+supplied to the panel function in the original call, and completely
+ignores what the original panel function might have done with this
+data.  <code>tmd</code> uses these panel arguments to set up its own scales
+(using its <code>prepanel</code> argument) and display (using
+<code>panel</code>).  It is thus important to provide suitable prepanel and
+panel functions to <code>tmd</code> depending on the original call.
+</p>
+<p>Such functions currently exist for <code>xyplot</code>, <code>qq</code> (the ones
+with <code>default</code> in their name) and <code>qqmath</code>, as listed in the
+usage section above.  These assume the default displays for the
+corresponding high-level call.  If unspecified, the <code>prepanel</code> and
+<code>panel</code> arguments default to suitable choices.
+</p>
+<p><code>tmd</code> uses the <code>update</code> method for <code>"trellis"</code> objects,
+which processes all extra arguments supplied to <code>tmd</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="qq.html">qq</a></code>, <code><a href="qqmath.html">qqmath</a></code>, <code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="Lattice.html">Lattice</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+tmd(qqmath(~height | voice.part, data = singer))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

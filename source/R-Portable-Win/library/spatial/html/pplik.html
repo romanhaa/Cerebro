@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pseudo-likelihood Estimation of a Strauss Spatial Point...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pplik {spatial}"><tr><td>pplik {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Pseudo-likelihood Estimation of a Strauss Spatial Point Process
+</h2>
+
+<h3>Description</h3>
+
+<p>Pseudo-likelihood estimation of a Strauss spatial point process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pplik(pp, R, ng=50, trace=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pp</code></td>
+<td>
+
+<p>a pp object
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>the fixed parameter <code>R</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>ng</code></td>
+<td>
+
+<p>use a <code>ng</code>  x  <code>ng</code> grid with border <code>R</code> in the domain for numerical
+integration.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>logical? Should function evaluations be printed?
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>estimate for <code>c</code> in the interval <i>[0, 1]</i>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1988) <em>Statistical Inference for Spatial
+Processes.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Strauss.html">Strauss</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pines &lt;- ppinit("pines.dat")
+pplik(pines, 0.7)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

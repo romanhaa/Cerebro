@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.rpart {rpart}"><tr><td>plot.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot an Rpart Object
+</h2>
+
+<h3>Description</h3>
+
+<p>Plots an rpart object on the current graphics device.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+plot(x, uniform = FALSE, branch = 1, compress = FALSE, nspace,
+     margin = 0, minbranch = 0.3, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a fitted object of class <code>"rpart"</code>, containing a classification,
+regression, or rate tree.
+</p>
+</td></tr>
+<tr valign="top"><td><code>uniform</code></td>
+<td>
+
+<p>if <code>TRUE</code>, uniform vertical spacing of the nodes is used; this may be
+less cluttered when fitting a large plot onto a page.
+The default is to use a non-uniform spacing proportional to the 
+error in the fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>branch</code></td>
+<td>
+
+<p>controls the shape of the branches from parent to child node.
+Any number from 0 to 1 is allowed.  A value of 1 gives square
+shouldered branches, a value of 0 give V shaped branches, 
+with other values being intermediate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>compress</code></td>
+<td>
+
+<p>if <code>FALSE</code>, the leaf nodes will be at the horizontal plot coordinates of
+<code>1:nleaves</code>.  
+If <code>TRUE</code>, the routine attempts a more compact arrangement of
+the tree.
+The compaction algorithm assumes <code>uniform=TRUE</code>; surprisingly, the result
+is usually an improvement even when that is not the case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nspace</code></td>
+<td>
+
+<p>the amount of extra space between a node with children and
+a leaf, as compared to the minimal space between leaves.  
+Applies to compressed trees only.  The default is the value of
+<code>branch</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>margin</code></td>
+<td>
+
+<p>an extra fraction of white space to leave around the borders of the tree.
+(Long labels sometimes get cut off by the default computation).
+</p>
+</td></tr>
+<tr valign="top"><td><code>minbranch</code></td>
+<td>
+
+<p>set the minimum length for a branch to <code>minbranch</code> times the average
+branch length.  This parameter is ignored if <code>uniform=TRUE</code>.
+Sometimes a split will give very little improvement, or even (in
+the classification case) no improvement at all.  
+A tree with branch lengths strictly proportional to improvement
+leaves no room to squeeze in node labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to be passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function <code>plot</code>, for objects
+of class <code>rpart</code>.
+The y-coordinate of the top node of the tree will always be 1.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The coordinates of the nodes are returned as a list, with
+components <code>x</code> and <code>y</code>.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>An unlabeled plot is produced on the current graphics device: one being
+opened if needed.
+</p>
+<p>In order to build up a plot in the usual S style, e.g., a separate
+<code>text</code> command for adding labels, some extra information about the
+plot needs be retained.  This is kept in an environment in the package.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code>, <code><a href="text.rpart.html">text.rpart</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- rpart(Price ~ Mileage + Type + Country, cu.summary)
+par(xpd = TRUE)
+plot(fit, compress = TRUE)
+text(fit, use.n = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

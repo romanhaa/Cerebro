@@ -1,0 +1,35 @@
+Package: gdtools
+Version: 0.1.7
+License: GPL-3 | file LICENSE
+Title: Utilities for Graphical Rendering
+Description: Useful tools for writing vector graphics devices.
+Authors@R: c(
+    person("David", "Gohel", , "david.gohel@ardata.fr", c("aut", "cre")),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", "aut"),
+    person("Lionel", "Henry", , "lionel@rstudio.com", "aut"),
+    person("Jeroen", "Ooms", , "jeroen@berkeley.edu", "aut"),
+    person("Yixuan", "Qiu", role = "ctb"),
+    person("R Core Team", role = "cph", comment = "Cairo code from X11 device"),
+    person("RStudio", role = "cph")
+  )
+LazyData: TRUE
+Imports: Rcpp (>= 0.12.12), withr
+Suggests: htmltools, testthat, fontquiver (>= 0.2.0), curl
+LinkingTo: Rcpp
+SystemRequirements: cairo
+BugReports: https://github.com/davidgohel/gdtools/issues
+RoxygenNote: 6.0.1.9000
+NeedsCompilation: yes
+Packaged: 2018-02-27 16:03:31 UTC; davidgohel
+Author: David Gohel [aut, cre],
+  Hadley Wickham [aut],
+  Lionel Henry [aut],
+  Jeroen Ooms [aut],
+  Yixuan Qiu [ctb],
+  R Core Team [cph] (Cairo code from X11 device),
+  RStudio [cph]
+Maintainer: David Gohel <david.gohel@ardata.fr>
+Repository: CRAN
+Date/Publication: 2018-02-27 17:15:37 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-23 05:08:13 UTC; unix
+Archs: gdtools.so.dSYM

@@ -1,0 +1,90 @@
+Package: dendextend
+Type: Package
+Title: Extending 'dendrogram' Functionality in R
+Version: 1.8.0
+Date: 2018-04-28
+Authors@R: c(person("Tal", "Galili", role = c("aut", "cre", "cph"), email =
+    "tal.galili@gmail.com", comment = "https://www.r-statistics.com"),
+    person("Gavin", "Simpson", role = "ctb"), person("Gregory","Jefferis", role
+    = c("aut", "ctb"), email = "jefferis@gmail.com",
+    comment ="imported code from his dendroextras package"),
+    person("Marco", "Gallotta", role = "ctb", comment =
+    "a.k.a: marcog") , person("Johan", "Renaudie", role = "ctb", comment =
+    "https://github.com/plannapus"), person("The R Core Team", role = "ctb",
+    comment = "Thanks for the Infastructure, and code in the examples"),
+    person("Kurt", "Hornik", role = "ctb"), person("Uwe", "Ligges",
+    role = "ctb"), person("Andrej-Nikolai", "Spiess", role = "ctb"),
+    person("Steve", "Horvath",email = "SHorvath@mednet.ucla.edu", role =
+    "ctb"), person("Peter", "Langfelder",email = "Peter.Langfelder@gmail.com",
+    role = "ctb"), person("skullkey", role = "ctb"), person("Mark",
+    "Van Der Loo", email = "mark.vanderloo@gmail.com", comment =
+    "https://github.com/markvanderloo d3dendrogram", role = "ctb"),
+    person("Andrie",
+    "de Vries", email = "apdevries@gmail.com", comment =
+    "ggdendro author", role = "ctb"),
+    person("Zuguang",
+    "Gu", email = "z.gu@dkfz-heidelberg.de", comment =
+    "circlize author", role = "ctb"),    
+    person("Cath", comment =
+    "https://github.com/CathG", role = "ctb"), person("John",
+    "Ma", comment =
+    "https://github.com/JohnMCMa", role = "ctb"), person("Krzysiek",
+    "G", comment =
+    "https://github.com/storaged", role = "ctb"), person("Manuela",
+    "Hummel", email = "m.hummel@dkfz.de", comment =
+    "https://github.com/hummelma", role = "ctb"), 
+    person("Chase",
+    "Clark", comment =
+    "https://github.com/chasemc", role = "ctb"), 
+    person("Yoav", "Benjamini", email = "ybenja@tau.ac.il",role = "ths"))
+Description: Offers a set of functions for extending
+    'dendrogram' objects in R, letting you visualize and compare trees of
+    'hierarchical clusterings'. You can (1) Adjust a tree's graphical parameters
+    - the color, size, type, etc of its branches, nodes and labels. (2)
+    Visually and statistically compare different 'dendrograms' to one another.
+Depends: R (>= 3.0.0)
+Imports: utils, stats, datasets, magrittr (>= 1.0.1), ggplot2, fpc,
+        whisker, viridis
+Suggests: knitr, rmarkdown, testthat, seriation, colorspace, plyr, ape,
+        profdpm, microbenchmark, gplots, heatmaply, d3heatmap,
+        dynamicTreeCut, pvclust, corrplot, DendSer, MASS, cluster,
+        circlize (>= 0.2.5), covr
+Enhances: ggdendro, dendroextras, Hmisc, data.table, rpart
+VignetteBuilder: knitr
+LazyData: true
+License: GPL-2 | GPL-3
+URL: https://github.com/talgalili/dendextend/,
+        https://cran.r-project.org/package=dendextend,
+        https://www.r-statistics.com/tag/dendextend/,
+        https://academic.oup.com/bioinformatics/article/31/22/3718/240978/dendextend-an-R-package-for-visualizing-adjusting
+BugReports: https://github.com/talgalili/dendextend/issues
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2018-05-02 06:23:53 UTC; junior
+Author: Tal Galili [aut, cre, cph] (https://www.r-statistics.com),
+  Gavin Simpson [ctb],
+  Gregory Jefferis [aut, ctb] (imported code from his dendroextras
+    package),
+  Marco Gallotta [ctb] (a.k.a: marcog),
+  Johan Renaudie [ctb] (https://github.com/plannapus),
+  The R Core Team [ctb] (Thanks for the Infastructure, and code in the
+    examples),
+  Kurt Hornik [ctb],
+  Uwe Ligges [ctb],
+  Andrej-Nikolai Spiess [ctb],
+  Steve Horvath [ctb],
+  Peter Langfelder [ctb],
+  skullkey [ctb],
+  Mark Van Der Loo [ctb] (https://github.com/markvanderloo d3dendrogram),
+  Andrie de Vries [ctb] (ggdendro author),
+  Zuguang Gu [ctb] (circlize author),
+  Cath [ctb] (https://github.com/CathG),
+  John Ma [ctb] (https://github.com/JohnMCMa),
+  Krzysiek G [ctb] (https://github.com/storaged),
+  Manuela Hummel [ctb] (https://github.com/hummelma),
+  Chase Clark [ctb] (https://github.com/chasemc),
+  Yoav Benjamini [ths]
+Maintainer: Tal Galili <tal.galili@gmail.com>
+Repository: CRAN
+Date/Publication: 2018-05-03 11:02:48 UTC
+Built: R 3.5.0; ; 2018-05-04 04:57:52 UTC; unix

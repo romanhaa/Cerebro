@@ -1,0 +1,30 @@
+Package: fontLiberation
+Title: Liberation Fonts
+Version: 0.1.0
+Authors@R: c(
+    person("Lionel", "Henry", , "lionel@rstudio.com", "cre"),
+    person("Pravin Satpute", role = "aut"),
+    person("Steve Matteson", role = "aut"),
+    person("Red Hat, Inc", role = "cph"),
+    person("Google Corporation", role = "cph"))
+Description: A placeholder for the Liberation fontset intended for the
+    `fontquiver` package. This fontset covers the 12 combinations of
+    families (sans, serif, mono) and faces (plain, bold, italic, bold
+    italic) supported in R graphics devices.
+Depends: R (>= 3.0)
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-10-14 14:21:59 UTC; lionel
+Author: Lionel Henry [cre],
+  Pravin Satpute [aut],
+  Steve Matteson [aut],
+  Red Hat, Inc [cph],
+  Google Corporation [cph]
+Maintainer: Lionel Henry <lionel@rstudio.com>
+Repository: CRAN
+Date/Publication: 2016-10-15 11:24:18
+License_is_FOSS: yes
+Built: R 3.5.0; ; 2018-04-23 08:55:51 UTC; unix

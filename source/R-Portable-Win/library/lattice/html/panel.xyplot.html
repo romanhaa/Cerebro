@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for xyplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.xyplot {lattice}"><tr><td>F_1_panel.xyplot {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for xyplot </h2>
+
+<h3>Description</h3>
+
+<p>This is the default panel function for <code>xyplot</code>. Also see
+<code>panel.superpose</code>.  The default panel functions for
+<code>splom</code> and <code>qq</code> are essentially the same function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.xyplot(x, y, type = "p",
+             groups = NULL,
+             pch, col, col.line, col.symbol,
+             font, fontfamily, fontface,
+             lty, cex, fill, lwd,
+             horizontal = FALSE, ...,
+             grid = FALSE, abline = NULL,
+             jitter.x = FALSE, jitter.y = FALSE,
+             factor = 0.5, amount = NULL,
+             identifier = "xyplot")
+panel.splom(..., identifier = "splom")
+panel.qq(..., identifier = "qq")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p> variables to be plotted in the scatterplot</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> character vector consisting of one or more of the
+following: <code>"p"</code>, <code>"l"</code>, <code>"h"</code>, <code>"b"</code>,
+<code>"o"</code>, <code>"s"</code>, <code>"S"</code>, <code>"r"</code>, <code>"a"</code>,
+<code>"g"</code>, <code>"smooth"</code>, and <code>"spline"</code>.  If <code>type</code>
+has more than one element, an attempt is made to combine the effect
+of each of the components.
+</p>
+<p>The behaviour if any of the first six are included in <code>type</code> is
+similar to the effect of <code>type</code> in <code><a href="../../graphics/html/plot.html">plot</a></code> (type
+<code>"b"</code> is actually the same as <code>"o"</code>).  <code>"r"</code> adds a
+linear regression line (same as <code><a href="panel.functions.html">panel.lmline</a></code>, except
+for default graphical parameters). <code>"smooth"</code> adds a loess fit
+(same as <code><a href="panel.loess.html">panel.loess</a></code>).  <code>"spline"</code> adds a cubic
+smoothing spline fit (same as <code><a href="panel.spline.html">panel.spline</a></code>).
+<code>"g"</code> adds a reference grid using <code><a href="panel.functions.html">panel.grid</a></code> in
+the background (but using the <code>grid</code> argument is now the
+preferred way to do so).  <code>"a"</code> has the effect of calling
+<code><a href="panel.functions.html">panel.average</a></code>, which can be useful for creating
+interaction plots.  The effect of several of these specifications
+depend on the value of <code>horizontal</code>.
+</p>
+<p>Type <code>"s"</code> (and <code>"S"</code>) sorts the values along one of the
+axes (depending on <code>horizontal</code>); this is unlike the behavior
+in <code>plot</code>.  For the latter behavior, use <code>type = "s"</code> with
+<code>panel = panel.points</code>.
+</p>
+<p>See <code>example(xyplot)</code> and <code>demo(lattice)</code> for examples.
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p> an optional grouping variable.  If present,
+<code><a href="panel.superpose.html">panel.superpose</a></code> will be used instead to display each
+subgroup </p>
+</td></tr>
+<tr valign="top"><td><code>col, col.line, col.symbol</code></td>
+<td>
+
+<p>default colours are obtained from <code>plot.symbol</code> and
+<code>plot.line</code> using <code><a href="trellis.par.get.html">trellis.par.get</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>font, fontface, fontfamily</code></td>
+<td>
+
+<p>font used when <code>pch</code> is a character
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch, lty, cex, lwd, fill</code></td>
+<td>
+
+<p>other graphical parameters.  <code>fill</code> serves the purpose of
+<code>bg</code> in <code><a href="../../graphics/html/points.html">points</a></code> for certain values of <code>pch</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>A logical flag controlling the orientation for certain
+<code>type</code>'s, e.g., <code>"h"</code>, <code>"s"</code>, ans <code>"S"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Extra arguments, if any, for <code>panel.xyplot</code>.  In most cases
+<code>panel.xyplot</code> ignores these.  For types &quot;r&quot; and &quot;smooth&quot;,
+these are passed on to <code>panel.lmline</code> and <code>panel.loess</code>
+respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+
+<p>A logical flag, character string, or list specifying whether and how
+a background grid should be drawn.  This provides the same
+functionality as <code>type="g"</code>, but is the preferred alternative
+as the effect <code>type="g"</code> is conceptually different from that of
+other <code>type</code> values (which are all data-dependent).  Using the
+<code>grid</code> argument also allows more flexibility.
+</p>
+<p>Most generally, <code>grid</code> can be a list of arguments to be
+supplied to <code><a href="panel.functions.html">panel.grid</a></code>, which is called with those
+arguments.  Three shortcuts are available:
+</p>
+
+<dl>
+<dt><code>TRUE</code>:</dt><dd><p> roughly equivalent to <code>list(h = -1, v = -1)</code> </p>
+</dd>
+<dt><code>"h"</code>:</dt><dd><p> roughly equivalent to <code>list(h = -1, v = 0)</code> </p>
+</dd>
+<dt><code>"v"</code>:</dt><dd><p> roughly equivalent to <code>list(h = 0, v = -1)</code> </p>
+</dd>
+</dl>
+
+<p>No grid is drawn if <code>grid = FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>abline</code></td>
+<td>
+
+<p>A numeric vector or list, specifying arguments arguments for
+<code><a href="panel.functions.html">panel.abline</a></code>, which is called with those arguments.
+If specified as a (possibly named) numeric vector, <code>abline</code> is
+coerced to a list.  This allows arguments of the form <code>abline =
+    c(0, 1)</code>, which adds the diagonal line, or <code>abline = c(h = 0, v
+    = 0)</code>, which adds the x- and y-axes to the plot.  Use the list form
+for finer control; e.g., <code>abline = list(h = 0, v = 0, col =
+      "grey")</code>.
+</p>
+<p>For more flexibility, use <code><a href="panel.functions.html">panel.abline</a></code> directly.
+</p>
+</td></tr>
+<tr valign="top"><td><code>jitter.x, jitter.y</code></td>
+<td>
+<p> logical, whether the data should be
+jittered before being plotted. </p>
+</td></tr>
+<tr valign="top"><td><code>factor, amount</code></td>
+<td>
+<p> controls amount of jittering. </p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Creates scatterplot of <code>x</code> and <code>y</code>, with various
+modifications possible via the type argument. <code>panel.qq</code> draws a
+45 degree line before calling <code>panel.xyplot</code>.
+</p>
+<p>Note that most of the arguments controlling the display can be
+supplied directly to the high-level (e.g. <code><a href="xyplot.html">xyplot</a></code>) call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panel.superpose.html">panel.superpose</a></code>,
+<code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="splom.html">splom</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+types.plain &lt;- c("p", "l", "o", "r", "g", "s", "S", "h", "a", "smooth")
+types.horiz &lt;- c("s", "S", "h", "a", "smooth")
+horiz &lt;- rep(c(FALSE, TRUE), c(length(types.plain), length(types.horiz)))
+
+types &lt;- c(types.plain, types.horiz)
+
+x &lt;- sample(seq(-10, 10, length.out = 15), 30, TRUE)
+y &lt;- x + 0.25 * (x + 1)^2 + rnorm(length(x), sd = 5)
+
+xyplot(y ~ x | gl(1, length(types)),
+       xlab = "type", 
+       ylab = list(c("horizontal=TRUE", "horizontal=FALSE"), y = c(1/6, 4/6)),
+       as.table = TRUE, layout = c(5, 3),
+       between = list(y = c(0, 1)),
+       strip = function(...) {
+           panel.fill(trellis.par.get("strip.background")$col[1])
+           type &lt;- types[panel.number()]
+           grid::grid.text(label = sprintf('"%s"', type), 
+                           x = 0.5, y = 0.5)
+           grid::grid.rect()
+       },
+       scales = list(alternating = c(0, 2), tck = c(0, 0.7), draw = FALSE),
+       par.settings = 
+       list(layout.widths = list(strip.left = c(1, 0, 0, 0, 0))),
+       panel = function(...) {
+           type &lt;- types[panel.number()]
+           horizontal &lt;- horiz[panel.number()]
+           panel.xyplot(..., 
+                        type = type,
+                        horizontal = horizontal)
+       })[rep(1, length(types))]
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

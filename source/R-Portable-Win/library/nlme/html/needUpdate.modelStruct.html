@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check if a modelStruct Object Needs Updating</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for needUpdate.modelStruct {nlme}"><tr><td>needUpdate.modelStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check if a modelStruct Object Needs Updating</h2>
+
+<h3>Description</h3>
+
+<p>This method function checks if any of the elements of <code>object</code>
+needs to be updated. Updating of objects usually takes place in
+iterative algorithms in which auxiliary quantities associated with the
+object, and not being optimized over, may change.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'modelStruct'
+needUpdate(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"modelStruct"</code>,
+representing a list of model components, such as <code>corStruct</code> and
+<code>varFunc</code> objects.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a logical value indicating whether any element of <code>object</code> needs
+to be updated.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="needUpdate.html">needUpdate</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+lms1 &lt;- lmeStruct(reStruct = reStruct(pdDiag(diag(2), ~age)),
+   varStruct = varPower(form = ~age))
+needUpdate(lms1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

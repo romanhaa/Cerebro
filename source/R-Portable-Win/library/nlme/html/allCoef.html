@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Coefficients from a Set of Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for allCoef {nlme}"><tr><td>allCoef {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Coefficients from a Set of Objects</h2>
+
+<h3>Description</h3>
+
+<p>The extractor function is applied to each object in <code>...</code>, with
+the result being converted to a vector. A <code>map</code> attribute is
+included to indicate which pieces of the returned vector correspond to
+the original objects in <code>dots</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+allCoef(..., extract)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>objects to which <code>extract</code> will be applied. Generally
+these will be model components, such as <code>corStruct</code> and
+<code>varFunc</code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>extract</code></td>
+<td>
+<p>an optional extractor function. Defaults to <code>coef</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with all elements, generally coefficients, obtained by
+applying <code>extract</code> to the objects in <code>...</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José' Pinheiro and Douglas Bates</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lmeStruct.html">lmeStruct</a></code>,<code><a href="nlmeStruct.html">nlmeStruct</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cs1 &lt;- corAR1(0.1)
+vf1 &lt;- varPower(0.5)
+allCoef(cs1, vf1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

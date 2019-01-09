@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parametric Survival Model Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for survreg.object {survival}"><tr><td>survreg.object {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Parametric Survival Model Object
+</h2>
+
+<h3>Description</h3>
+
+<p>This class of objects is returned by the <code>survreg</code> function
+to represent a fitted parametric survival model.
+Objects of this class have methods for the functions <code>print</code>,
+<code>summary</code>, <code>predict</code>, and <code>residuals</code>.
+</p>
+
+
+<h3>COMPONENTS</h3>
+
+<p>The following components must be included in a legitimate <code>survreg</code> object.
+</p>
+
+<dl>
+<dt>coefficients</dt><dd>
+<p>the coefficients of the <code>linear.predictors</code>, which multiply  the
+columns of the model
+matrix.
+It does not include the estimate of error (sigma).
+The names of the coefficients are the names of the
+single-degree-of-freedom effects (the columns of the
+model matrix).
+If the model is over-determined there will
+be missing values in the coefficients corresponding to non-estimable
+coefficients.
+</p>
+</dd>
+<dt>icoef</dt><dd>
+<p>coefficients of the baseline model, which will contain the intercept
+and log(scale), or multiple scale factors for a stratified model.
+</p>
+</dd>
+<dt>var</dt><dd>
+<p>the variance-covariance matrix for the parameters, including the log(scale)
+parameter(s).
+</p>
+</dd>
+<dt>loglik</dt><dd>
+<p>a vector of length 2, containing the log-likelihood for the baseline and
+full models. 
+</p>
+</dd>
+<dt>iter</dt><dd>
+<p>the number of iterations required
+</p>
+</dd>
+<dt>linear.predictors</dt><dd>
+<p>the linear predictor for each subject.
+</p>
+</dd>
+<dt>df</dt><dd>
+<p>the degrees of freedom for the final model.  For a penalized model
+this will be a vector with one element per term.
+</p>
+</dd>
+<dt>scale</dt><dd>
+<p>the scale factor(s), with length equal to the number of strata.
+</p>
+</dd>
+<dt>idf</dt><dd>
+<p>degrees of freedom for the initial model.
+</p>
+</dd>
+<dt>means</dt><dd>
+<p>a vector of the column means of the coefficient matrix.
+</p>
+</dd>
+<dt>dist</dt><dd>
+<p>the distribution used in the fit.</p>
+</dd>
+<dt>weights</dt><dd><p>included for a weighted fit.</p>
+</dd>
+</dl>
+
+<p>The object will also have the following components found in 
+other model results (some are optional):
+<code>linear predictors</code>, <code>weights</code>, <code>x</code>, <code>y</code>, <code>model</code>, 
+<code>call</code>, <code>terms</code> and <code>formula</code>.
+See <code>lm</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="survreg.html">survreg</a></code>, <code><a href="../../stats/html/lm.html">lm</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

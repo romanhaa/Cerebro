@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a Complexity Parameter Table for an Rpart Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plotcp {rpart}"><tr><td>plotcp {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot a Complexity Parameter Table for an Rpart Fit 
+</h2>
+
+<h3>Description</h3>
+
+<p>Gives a visual representation of the cross-validation results in an 
+<code>rpart</code> object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotcp(x, minline = TRUE, lty = 3, col = 1,
+       upper = c("size", "splits", "none"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>an object of class <code>"rpart"</code> 
+</p>
+</td></tr>
+<tr valign="top"><td><code>minline</code></td>
+<td>
+
+<p>whether a horizontal line is drawn 1SE above the minimum of the curve. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+
+<p>line type for this line 
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>colour for this line 
+</p>
+</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+
+<p>what is plotted on the top axis: the size of the tree (the number of
+leaves), the number of splits or nothing. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional plotting parameters 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The set of possible cost-complexity prunings of a tree from a nested
+set. For the geometric means of the intervals of values of <code>cp</code> for which
+a pruning is optimal, a cross-validation has (usually) been done in
+the initial construction by <code><a href="rpart.html">rpart</a></code>. The <code>cptable</code> in the fit contains
+the mean and standard deviation of the errors in the cross-validated
+prediction against each of the geometric means, and these are plotted
+by this function. A good choice of <code>cp</code> for pruning is often the
+leftmost value for which the mean lies below the horizontal line.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None. 
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>A plot is produced on the current graphical device. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.html">rpart</a></code>,  <code><a href="printcp.html">printcp</a></code>,  <code><a href="rpart.object.html">rpart.object</a></code>   
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Log-Linear Models by Iterative Proportional Scaling -...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for loglm1 {MASS}"><tr><td>loglm1 {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit Log-Linear Models by Iterative Proportional Scaling &ndash; Internal function
+</h2>
+
+<h3>Description</h3>
+
+<p><code>loglm1</code> is an internal function used by <code><a href="loglm.html">loglm</a></code>.
+It is a generic function dispatching on the <code>data</code> argument.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+loglm1(formula, data, ...)
+
+## S3 method for class 'xtabs'
+loglm1(formula, data, ...)
+
+## S3 method for class 'data.frame'
+loglm1(formula, data, ...)
+
+## Default S3 method:
+loglm1(formula, data, start = rep(1, length(data)), fitted = FALSE,
+       keep.frequencies = fitted, param = TRUE, eps = 1/10,
+       iter = 40, print = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>A linear model formula specifying the log-linear model.
+See <code><a href="loglm.html">loglm</a></code> for its interpretation.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>Numeric array or data frame.  In the first case it specifies the
+array of frequencies; in then second it provides the data frame
+from which the variables occurring in the formula are
+preferentially obtained in the usual way.
+</p>
+<p>This argument may also be the result of a call to <code><a href="../../stats/html/xtabs.html">xtabs</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start, param, eps, iter, print</code></td>
+<td>
+<p>Arguments passed to
+<code><a href="../../stats/html/loglin.html">loglin</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+<p>logical: should the fitted values be returned?</p>
+</td></tr>
+<tr valign="top"><td><code>keep.frequencies</code></td>
+<td>
+
+<p>If <code>TRUE</code> specifies that the (possibly constructed) array of
+frequencies is to be retained as part of the fitted model object.  The
+default action is to use the same value as that used for <code>fitted</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to the default method.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"loglm"</code>. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="loglm.html">loglm</a></code>, <code><a href="../../stats/html/loglin.html">loglin</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

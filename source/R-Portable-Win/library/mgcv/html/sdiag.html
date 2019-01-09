@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract or modify diagonals of a matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sdiag {mgcv}"><tr><td>sdiag {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract or modify diagonals of a matrix</h2>
+
+<h3>Description</h3>
+
+<p> Extracts or modifies sub- or super- diagonals of a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sdiag(A,k=0)
+sdiag(A,k=0) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p>a matrix</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>sub- (negative) or super- (positive) diagonal of a matrix. 0 is the leading diagonal.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>single value, or vector of the same length as the diagonal.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector containing the requested diagonal, or a matrix with the requested diagonal replaced by <code>value</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+A &lt;- matrix(1:35,7,5)
+A
+sdiag(A,1) ## first super diagonal
+sdiag(A,-1) ## first sub diagonal
+
+sdiag(A) &lt;- 1 ## leading diagonal set to 1
+sdiag(A,3) &lt;- c(-1,-2) ## set 3rd super diagonal 
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bandwidth Selection by Pilot Estimation of Derivatives</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for width.SJ {MASS}"><tr><td>width.SJ {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Bandwidth Selection by Pilot Estimation of Derivatives
+</h2>
+
+<h3>Description</h3>
+
+<p>Uses the method of Sheather &amp; Jones (1991) to select the bandwidth of
+a Gaussian kernel density estimator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+width.SJ(x, nb = 1000, lower, upper, method = c("ste", "dpi"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a numeric vector
+</p>
+</td></tr>
+<tr valign="top"><td><code>nb</code></td>
+<td>
+
+<p>number of bins to use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>upper, lower</code></td>
+<td>
+
+<p>range over which to search for solution if <code>method = "ste"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>Either <code>"ste"</code> (&quot;solve-the-equation&quot;) or <code>"dpi"</code>
+(&quot;direct plug-in&quot;).
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>a bandwidth.
+</p>
+
+
+<h3>Note</h3>
+
+<p>A faster version for large <code>n</code> (thousands) is available in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+<i>&gt;=</i> 3.4.0 as part of <code><a href="../../stats/html/bandwidth.html">bw.SJ</a></code>: quadruple its
+value for comparability with this version.
+</p>
+
+
+<h3>References</h3>
+
+<p>Sheather, S. J. and Jones, M. C. (1991) A reliable data-based bandwidth
+selection method for kernel density estimation.
+<em>Journal of the Royal Statistical Society series B</em>
+<b>53</b>, 683&ndash;690.
+</p>
+<p>Scott, D. W. (1992)
+<em>Multivariate Density Estimation: Theory, Practice, and  Visualization.</em>
+Wiley.
+</p>
+<p>Wand, M. P. and Jones, M. C. (1995)
+<em>Kernel Smoothing.</em>
+Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ucv.html">ucv</a></code>, <code><a href="bcv.html">bcv</a></code>, <code><a href="../../stats/html/density.html">density</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+width.SJ(geyser$duration, method = "dpi")
+width.SJ(geyser$duration)
+
+width.SJ(galaxies, method = "dpi")
+width.SJ(galaxies)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

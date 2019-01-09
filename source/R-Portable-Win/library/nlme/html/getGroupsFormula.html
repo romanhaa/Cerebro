@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Grouping Formula</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGroupsFormula {nlme}"><tr><td>getGroupsFormula {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Grouping Formula</h2>
+
+<h3>Description</h3>
+
+<p>The conditioning expression associated with <code>formula(object)</code>
+(i.e. the expression after the <code>|</code> operator) is returned either as
+a named list of one-sided formulas, or a single one-sided formula,
+depending on the value of <code>asList</code>. The components of the
+returned list are ordered from outermost to innermost level and are
+named after the grouping factor expression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getGroupsFormula(object, asList, sep)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>any object from which a formula can be extracted.</p>
+</td></tr>
+<tr valign="top"><td><code>asList</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code> the returned
+value with be a list of formulas; else, if <code>FALSE</code> the returned
+value will be a one-sided formula. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>character, the separator to use between group levels when
+multiple levels are collapsed.  The default is <code>'/'</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a one-sided formula, or a list of one-sided formulas, with the
+grouping structure associated with <code>formula(object)</code>. If no
+conditioning expression is present in <code>formula(object)</code> a
+<code>NULL</code> value is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getGroupsFormula.html">getGroupsFormula.gls</a></code>,
+<code><a href="getGroupsFormula.html">getGroupsFormula.lmList</a></code>,
+<code><a href="getGroupsFormula.html">getGroupsFormula.lme</a></code>,
+<code><a href="getGroupsFormula.html">getGroupsFormula.reStruct</a></code>,
+<code><a href="getGroups.html">getGroups</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+getGroupsFormula(y ~ x | g1/g2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

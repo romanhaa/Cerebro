@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Choleski decomposition of a band diagonal matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bandchol {mgcv}"><tr><td>bandchol {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Choleski decomposition of a band diagonal matrix</h2>
+
+<h3>Description</h3>
+
+ 
+<p>Computes Choleski decomposition of a (symmetric positive definite) band-diagonal matrix, <code>A</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bandchol(B)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>B</code></td>
+<td>
+<p>An n by k matrix containing the diagonals of the matrix <code>A</code> to be decomposed. First row is leading diagonal, next is first sub-diagonal, etc. sub-diagonals are zero padded at the end. Alternatively gives <code>A</code> directly, i.e. a square matrix with 2k-1 non zero diagonals (those from the lower triangle are not accessed).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Calls <code>dpbtrf</code> from <code>LAPACK</code>. The point of this is that it has <i>O(k^2n)</i> computational cost, rather than the <i>O(n^3)</i> required by dense matrix methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Let <code>R</code> be the factor such that <code>t(R)%*%R = A</code>. <code>R</code> is upper triangular and if the rows of <code>B</code> contained the diagonals of <code>A</code> on entry, then what is returned is an n by k matrix containing the diagonals of <code>R</code>, packed as <code>B</code> was packed on entry. If <code>B</code> was square on entry, then <code>R</code> is returned directly. See examples.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Anderson, E., Bai, Z., Bischof, C., Blackford, S., Dongarra, J., Du Croz, J., Greenbaum, A., Hammarling, S., McKenney, A. and Sorensen, D., 1999. LAPACK Users' guide (Vol. 9). Siam.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+## simulate a banded diagonal matrix
+n &lt;- 7;set.seed(8)
+A &lt;- matrix(0,n,n)
+sdiag(A) &lt;- runif(n);sdiag(A,1) &lt;- runif(n-1)
+sdiag(A,2) &lt;- runif(n-2)
+A &lt;- crossprod(A) 
+
+## full matrix form...
+bandchol(A)
+chol(A) ## for comparison
+
+## compact storage form...
+B &lt;- matrix(0,3,n)
+B[1,] &lt;- sdiag(A);B[2,1:(n-1)] &lt;- sdiag(A,1)
+B[3,1:(n-2)] &lt;- sdiag(A,2)
+bandchol(B)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

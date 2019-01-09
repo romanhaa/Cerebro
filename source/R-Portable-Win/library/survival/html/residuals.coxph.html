@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate Residuals for a 'coxph' Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for residuals.coxph {survival}"><tr><td>residuals.coxph {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Calculate Residuals for a &lsquo;coxph&rsquo; Fit
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates martingale, deviance, score or Schoenfeld residuals for a
+Cox proportional hazards model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'coxph'
+residuals(object,
+       type=c("martingale", "deviance", "score", "schoenfeld",
+	      "dfbeta", "dfbetas", "scaledsch","partial"),
+       collapse=FALSE, weighted=FALSE, ...)
+## S3 method for class 'coxph.null'
+residuals(object,
+       type=c("martingale", "deviance","score","schoenfeld"),
+       collapse=FALSE, weighted=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>an object inheriting from class <code>coxph</code>, representing a fitted Cox
+regression model.
+Typically this is the output from the <code>coxph</code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>character string indicating the type of residual desired.
+Possible values are <code>"martingale"</code>, <code>"deviance"</code>, <code>"score"</code>, <code>"schoenfeld"</code>,
+&quot;dfbeta&quot;', <code>"dfbetas"</code>, and <code>"scaledsch"</code>.
+Only enough of the string to determine a unique match is required.
+</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+
+<p>vector indicating which rows to collapse (sum) over.
+In time-dependent models more than one row data can pertain
+to a single individual.
+If there were 4 individuals represented by 3, 1, 2 and 4 rows of data
+respectively, then <code>collapse=c(1,1,1, 2, 3,3, 4,4,4,4)</code> could be used to
+obtain per subject rather than per observation residuals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weighted</code></td>
+<td>
+
+<p>if <code>TRUE</code> and the model was fit with case weights, then the weighted
+residuals are returned.
+</p>
+</td></tr><tr valign="top"><td><code>...</code></td>
+<td>
+<p>other unused arguments</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>For martingale and deviance residuals, the returned object is a vector
+with one element for each subject (without <code>collapse</code>).
+For score residuals it is a matrix
+with one row per subject and one column per variable.
+The row order will match the input data for the original fit.
+For Schoenfeld residuals, the returned object is a matrix with one row
+for each event and one column per variable.  The rows are ordered by time
+within strata, and an attribute <code>strata</code> is attached that contains the
+number of observations in each strata.
+The scaled Schoenfeld residuals are used in the <code>cox.zph</code> function.
+</p>
+<p>The score residuals are each individual's contribution to the score vector.
+Two transformations of
+this are often more useful: <code>dfbeta</code> is the approximate change in the
+coefficient vector if that observation were dropped,
+and <code>dfbetas</code> is the approximate change in the coefficients, scaled by
+the standard error for the coefficients.
+</p>
+
+
+<h3>NOTE</h3>
+
+<p>For deviance residuals, the status variable may need to be reconstructed.
+For score and Schoenfeld residuals, the X matrix will need to be reconstructed.
+</p>
+
+
+<h3>References</h3>
+
+<p>T. Therneau, P. Grambsch, and T. Fleming. &quot;Martingale based residuals
+for survival models&quot;, <em>Biometrika</em>, March 1990.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="coxph.html">coxph</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+ fit &lt;- coxph(Surv(start, stop, event) ~ (age + surgery)* transplant,
+               data=heart)
+ mresid &lt;- resid(fit, collapse=heart$id)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

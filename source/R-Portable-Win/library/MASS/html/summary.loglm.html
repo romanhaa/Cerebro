@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary Method Function for Objects of Class 'loglm'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.loglm {MASS}"><tr><td>summary.loglm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Summary Method Function for Objects of Class 'loglm'
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns a summary list for log-linear models fitted by
+iterative proportional scaling using <code>loglm</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'loglm'
+summary(object, fitted = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>a fitted loglm model object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+
+<p>if <code>TRUE</code> return observed and expected frequencies in the result.
+Using <code>fitted = TRUE</code> may necessitate re-fitting the object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to be passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function
+<code>summary()</code> for class <code>"loglm"</code>.
+It can be invoked by calling <code>summary(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>summary.loglm(x)</code> regardless of the
+class of the object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list is returned for use by <code>print.summary.loglm</code>.
+This has components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>the formula used to produce <code>object</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>tests</code></td>
+<td>
+
+<p>the table of test statistics (likelihood ratio, Pearson) for the fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>oe</code></td>
+<td>
+
+<p>if <code>fitted = TRUE</code>, an array of the observed and expected frequencies,
+otherwise <code>NULL</code>.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="loglm.html">loglm</a></code>, <code><a href="../../base/html/summary.html">summary</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

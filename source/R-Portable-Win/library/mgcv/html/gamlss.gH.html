@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculating derivatives of log-likelihood wrt regression...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gamlss.gH {mgcv}"><tr><td>gamlss.gH {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculating derivatives of log-likelihood wrt regression coefficients</h2>
+
+<h3>Description</h3>
+
+<p> Mainly intended for internal use with location scale model families.
+Given the derivatives of the log-likelihood wrt the linear predictor, this function obtains
+the derivatives and Hessian wrt the regression coefficients and derivatives of
+the Hessian w.r.t. the smoothing parameters. For input derivative array packing conventions see <code><a href="trind.generator.html">trind.generator</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gamlss.gH(X, jj, l1, l2, i2, l3 = 0, i3 = 0, l4 = 0, i4 = 0, d1b = 0,
+  d2b = 0, deriv = 0, fh = NULL, D = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>matrix containing the model matrices of all the linear predictors.</p>
+</td></tr>
+<tr valign="top"><td><code>jj</code></td>
+<td>
+<p>list of index vectors such that <code>X[,jj[[i]]]</code> is the model matrix of the i-th linear predictor.</p>
+</td></tr>
+<tr valign="top"><td><code>l1</code></td>
+<td>
+<p>array of 1st order derivatives of each element of the log-likelihood wrt each parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>l2</code></td>
+<td>
+<p>array of 2nd order derivatives of each element of the log-likelihood wrt each parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>i2</code></td>
+<td>
+<p>two-dimensional index array, such that <code>l2[,i2[i,j]]</code> contains the partial w.r.t. params 
+indexed by i,j with no restriction on the index values (except that they are in 1,...,ncol(l1)).</p>
+</td></tr>
+<tr valign="top"><td><code>l3</code></td>
+<td>
+<p>array of 3rd order derivatives of each element of the log-likelihood wrt each parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>i3</code></td>
+<td>
+<p>third-dimensional index array, such that <code>l3[,i3[i,j,k]]</code> contains the partial w.r.t. params 
+indexed by i,j,k.</p>
+</td></tr>
+<tr valign="top"><td><code>l4</code></td>
+<td>
+<p>array of 4th order derivatives of each element of the log-likelihood wrt each parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>i4</code></td>
+<td>
+<p>third-dimensional index array, such that <code>l4[,i4[i,j,k,l]]</code> contains the partial w.r.t. params 
+indexed by i,j,k,l.</p>
+</td></tr>
+<tr valign="top"><td><code>d1b</code></td>
+<td>
+<p>first derivatives of the regression coefficients wrt the smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>d2b</code></td>
+<td>
+<p>second derivatives of the regression coefficients wrt the smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>deriv</code></td>
+<td>
+<p>if <code>deriv==0</code> only first and second order derivatives will be calculated. If
+<code>deriv==1</code> the function return also the diagonal of the first derivative of the Hessian,
+if <code>deriv==2</code> it return the full 3rd order derivative and if <code>deriv==3</code> it provides
+also 4th order derivatives.</p>
+</td></tr>
+<tr valign="top"><td><code>fh</code></td>
+<td>
+<p>eigen-decomposition or Cholesky factor of the penalized Hessian.</p>
+</td></tr>
+<tr valign="top"><td><code>D</code></td>
+<td>
+<p>diagonal matrix, used to provide some scaling.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list containing <code>lb</code> - the grad vector w.r.t. coefs; <code>lbb</code> - the Hessian matrix w.r.t. coefs;
+<code>d1H</code> - either a list of the derivatives of the Hessian w.r.t. the smoothing parameters, or a single matrix whose columns are the leading diagonals of these dervative matrices; <code>trHid2H</code> - the trace of the inverse Hessian multiplied by the second derivative of the Hessian w.r.t. all combinations of smoothing parameters.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="trind.generator.html">trind.generator</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

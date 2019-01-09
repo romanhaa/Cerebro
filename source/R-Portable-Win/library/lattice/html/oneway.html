@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit One-way Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_11_oneway {lattice}"><tr><td>B_11_oneway {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Fit One-way Model</h2>
+
+<h3>Description</h3>
+
+<p>Fits a One-way model to univariate data grouped by a factor, the
+result often being displayed using <code>rfs</code> 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+oneway(formula, data, location=mean, spread=function(x) sqrt(var(x)))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p> formula of the form <code>y ~ x</code> where <code>y</code> is the
+numeric response and <code>x</code> is the grouping factor
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> data frame in which the model is to be evaluated </p>
+</td></tr>
+<tr valign="top"><td><code>location</code></td>
+<td>
+<p> function or numeric giving the location statistic to
+be used for centering the observations, e.g. <code>median</code>, 0 (to
+avoid centering).
+</p>
+</td></tr>
+<tr valign="top"><td><code>spread</code></td>
+<td>
+<p> function or numeric giving the spread statistic to
+be used for scaling the observations, e.g. <code>sd</code>, 1 (to
+avoid scaling).
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>location</code></td>
+<td>
+<p> vector of locations for each group.</p>
+</td></tr>
+<tr valign="top"><td><code>spread</code></td>
+<td>
+<p> vector of spreads for each group.</p>
+</td></tr>
+<tr valign="top"><td><code>fitted.values</code></td>
+<td>
+<p> vector of locations for each observation.</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p> residuals (<code>y - fitted.values</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>scaled.residuals</code></td>
+<td>
+<p>residuals scaled by <code>spread</code> for their
+group</p>
+</td></tr> 
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rfs.html">rfs</a></code>, <code><a href="Lattice.html">Lattice</a></code> </p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

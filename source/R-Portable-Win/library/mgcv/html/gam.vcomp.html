@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Report gam smoothness estimates as variance components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.vcomp {mgcv}"><tr><td>gam.vcomp {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Report gam smoothness estimates as variance components</h2>
+
+<h3>Description</h3>
+
+<p>GAMs can be viewed as mixed models, where the smoothing parameters are related to variance 
+components. This routine extracts the estimated variance components associated with each smooth term, and if possible returns confidence intervals on the standard deviation scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gam.vcomp(x,rescale=TRUE,conf.lev=.95)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a fitted model object of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rescale</code></td>
+<td>
+<p> the penalty matrices for smooths are rescaled before fitting, for numerical 
+stability reasons, if <code>TRUE</code> this rescaling is reversed, so that the variance components
+are on the original scale.</p>
+</td></tr>
+<tr valign="top"><td><code>conf.lev</code></td>
+<td>
+<p> when the smoothing parameters are estimated by REML or ML, then confidence intervals 
+for the variance components can be obtained from large sample likelihood results. This gives the 
+confidence level to work at.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The (pseudo) inverse of the penalty matrix penalizing a term is proportional to the 
+covariance matrix of the term's coefficients, when these are viewed as random. For single penalty smooths, 
+it is possible to compute the variance component for the smooth (which multiplies the 
+inverse penalty matrix to obtain the covariance matrix of the smooth's coefficients). This
+variance component is given by the scale parameter divided by the smoothing parameter. 
+</p>
+<p>This routine computes such variance components, for <code>gam</code> models, and associated confidence intervals, if smoothing parameter estimation was likelihood based. Note that variance components are also returned 
+for tensor product smooths, but that their interpretation is not so straightforward. 
+</p>
+<p>The routine is particularly useful for model fitted by <code><a href="gam.html">gam</a></code> in which random effects have 
+been incorporated.
+</p>
+
+
+<h3>Value</h3>
+
+<p> Either a vector of variance components for each smooth term (as standard deviations), or a matrix. The first column of the 
+matrix gives standard deviations for each term, while the subsequent columns give lower and upper confidence bounds, on the same scale.
+</p>
+<p>For models in which there are more smoothing parameters than actually estimated (e.g. if some were fixed, or smoothing parameters are linked) then a list is returned. The <code>vc</code> element is as above, the <code>all</code> element is a vector of variance components for all the smoothing parameters (estimated + fixed or replicated).
+</p>
+<p>The routine prints a table of estimated standard deviations and confidence limits, if these can be 
+computed, and reports the numerical rank of the covariance matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2008) Fast stable direct fitting and smoothness
+selection for generalized additive models. Journal of the Royal
+Statistical Society (B) 70(3):495-518
+</p>
+<p>Wood, S.N. (2011) Fast stable restricted maximum likelihood 
+and marginal likelihood estimation of semiparametric generalized linear 
+models. Journal of the Royal Statistical Society (B) 73(1):3-36
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="smooth.construct.re.smooth.spec.html">smooth.construct.re.smooth.spec</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+  set.seed(3) 
+  require(mgcv)
+  ## simulate some data, consisting of a smooth truth + random effects
+
+  dat &lt;- gamSim(1,n=400,dist="normal",scale=2)
+  a &lt;- factor(sample(1:10,400,replace=TRUE))
+  b &lt;- factor(sample(1:7,400,replace=TRUE))
+  Xa &lt;- model.matrix(~a-1)    ## random main effects
+  Xb &lt;-  model.matrix(~b-1)
+  Xab &lt;- model.matrix(~a:b-1) ## random interaction
+  dat$y &lt;- dat$y + Xa%*%rnorm(10)*.5 + 
+           Xb%*%rnorm(7)*.3 + Xab%*%rnorm(70)*.7
+  dat$a &lt;- a;dat$b &lt;- b
+
+  ## Fit the model using "re" terms, and smoother linkage  
+  
+  mod &lt;- gam(y~s(a,bs="re")+s(b,bs="re")+s(a,b,bs="re")+s(x0,id=1)+s(x1,id=1)+
+               s(x2,k=15)+s(x3),data=dat,method="ML")
+
+  gam.vcomp(mod) 
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

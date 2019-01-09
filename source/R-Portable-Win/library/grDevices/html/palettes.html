@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Color Palettes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Palettes {grDevices}"><tr><td>Palettes {grDevices}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Color Palettes</h2>
+
+<h3>Description</h3>
+
+<p>Create a vector of <code>n</code> contiguous colors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rainbow(n, s = 1, v = 1, start = 0, end = max(1, n - 1)/n, alpha = 1)
+heat.colors(n, alpha = 1)
+terrain.colors(n, alpha = 1)
+topo.colors(n, alpha = 1)
+cm.colors(n, alpha = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>the number of colors (<i>&ge; 1</i>) to be in the
+palette.</p>
+</td></tr>
+<tr valign="top"><td><code>s, v</code></td>
+<td>
+<p>the &lsquo;saturation&rsquo; and &lsquo;value&rsquo; to be used
+to complete the HSV color descriptions.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>the (corrected) hue in [0,1] at which the rainbow
+begins.</p>
+</td></tr>
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>the (corrected) hue in [0,1] at which the rainbow ends.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>the alpha transparency, a number in [0,1], see argument
+<code>alpha</code> in <code><a href="hsv.html">hsv</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Conceptually, all of these functions actually use (parts of) a line
+cut out of the 3-dimensional color space, parametrized by
+<code><a href="hsv.html">hsv</a>(h, s, v)</code>, and hence
+equispaced hues in RGB space tend to cluster at
+the red, green and blue primaries.
+</p>
+<p>Some applications such as contouring require a palette
+of colors which do not wrap around to give a final
+color close to the starting one.
+</p>
+<p>With <code>rainbow</code>, the parameters <code>start</code> and <code>end</code> can be used
+to specify particular subranges of hues.
+The following values can be used when generating such a subrange:
+red = 0, yellow = <i>1/6</i>, green = <i>2/6</i>,
+cyan = <i>3/6</i>, blue = <i>4/6</i>
+and magenta = <i>5/6</i>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector, <code>cv</code>, of color names.  This can be used
+either to create a user&ndash;defined color palette for subsequent
+graphics by <code><a href="palette.html">palette</a>(cv)</code>, a <code>col =</code> specification
+in graphics functions or in <code>par</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="colors.html">colors</a></code>, <code><a href="palette.html">palette</a></code>, <code><a href="hsv.html">hsv</a></code>,
+<code><a href="hcl.html">hcl</a></code>, <code><a href="rgb.html">rgb</a></code>, <code><a href="gray.html">gray</a></code> and
+<code><a href="col2rgb.html">col2rgb</a></code> for translating to RGB numbers.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(graphics)
+# A Color Wheel
+pie(rep(1, 12), col = rainbow(12))
+
+##------ Some palettes ------------
+demo.pal &lt;-
+  function(n, border = if (n &lt; 32) "light gray" else NA,
+           main = paste("color palettes;  n=", n),
+           ch.col = c("rainbow(n, start=.7, end=.1)", "heat.colors(n)",
+                      "terrain.colors(n)", "topo.colors(n)",
+                      "cm.colors(n)"))
+{
+    nt &lt;- length(ch.col)
+    i &lt;- 1:n; j &lt;- n / nt; d &lt;- j/6; dy &lt;- 2*d
+    plot(i, i+d, type = "n", yaxt = "n", ylab = "", main = main)
+    for (k in 1:nt) {
+        rect(i-.5, (k-1)*j+ dy, i+.4, k*j,
+             col = eval(parse(text = ch.col[k])), border = border)
+        text(2*j,  k * j + dy/4, ch.col[k])
+    }
+}
+n &lt;- if(.Device == "postscript") 64 else 16
+     # Since for screen, larger n may give color allocation problem
+demo.pal(n)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>grDevices</em> version 3.5.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

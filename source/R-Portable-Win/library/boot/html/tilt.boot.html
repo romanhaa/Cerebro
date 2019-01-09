@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Non-parametric Tilted Bootstrap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tilt.boot {boot}"><tr><td>tilt.boot {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Non-parametric Tilted Bootstrap
+</h2>
+
+<h3>Description</h3>
+
+<p>This function will run an initial bootstrap with equal resampling 
+probabilities (if required) and will use the output of the initial run to 
+find resampling probabilities which put the
+value of the statistic at required values.  It then runs an importance
+resampling bootstrap using the calculated probabilities as the resampling
+distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tilt.boot(data, statistic, R, sim = "ordinary", stype = "i", 
+          strata = rep(1, n), L = NULL, theta = NULL, 
+          alpha = c(0.025, 0.975), tilt = TRUE, width = 0.5, 
+          index = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>The data as a vector, matrix or data frame.  If it is a matrix or
+data frame then each row is considered as one (multivariate)
+observation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>A function which when applied to data returns a vector containing the
+statistic(s) of interest.  It must take at least two arguments.  The first
+argument will always be <code>data</code> and the second should be a
+vector of indices, weights or frequencies describing the bootstrap
+sample.  Any other arguments must be supplied to <code>tilt.boot</code>
+and will be passed unchanged to statistic each time it is called.
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>The number of bootstrap replicates required.  This will generally be
+a vector, the first value stating how many uniform bootstrap
+simulations are to be performed at the initial stage.  The remaining
+values of <code>R</code> are the number of simulations to be performed
+resampling from each reweighted distribution. The first value of
+<code>R</code> must always be present, a value of 0 implying that no
+uniform resampling is to be carried out.  Thus <code>length(R)</code>
+should always equal <code>1+length(theta)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sim</code></td>
+<td>
+
+<p>This is a character string indicating the type of bootstrap
+simulation required.  There are only two possible values that this
+can take: <code>"ordinary"</code> and <code>"balanced"</code>.  If other
+simulation types are required for the initial un-weighted bootstrap
+then it will be necessary to run <code>boot</code>, calculate the weights
+appropriately, and run <code>boot</code> again using the calculated
+weights.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stype</code></td>
+<td>
+
+<p>A character string indicating the type of second argument expected
+by <code>statistic</code>.  The possible values that <code>stype</code> can take
+are <code>"i"</code> (indices), <code>"w"</code> (weights) and <code>"f"</code>
+(frequencies).
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>An integer vector or factor representing the strata for multi-sample
+problems.
+</p>
+</td></tr>
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>The empirical influence values for the statistic of interest.  They
+are used only for exponential tilting when <code>tilt</code> is
+<code>TRUE</code>.  If <code>tilt</code> is <code>TRUE</code> and they are not
+supplied then <code>tilt.boot</code> uses <code>empinf</code> to calculate
+them.
+</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+
+<p>The required parameter value(s) for the tilted distribution(s).
+There should be one value of <code>theta</code> for each of the
+non-uniform distributions.  If <code>R[1]</code> is 0 <code>theta</code> is a
+required argument.  Otherwise <code>theta</code> values can be estimated
+from the initial uniform bootstrap and the values in <code>alpha</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+
+<p>The alpha level to which tilting is required.  This parameter is
+ignored if <code>R[1]</code> is 0 or if <code>theta</code> is supplied,
+otherwise it is used to find the values of <code>theta</code> as quantiles
+of the initial uniform bootstrap.  In this case <code>R[1]</code> should
+be large enough that <code>min(c(alpha, 1-alpha))*R[1] &gt; 5</code>, if this
+is not the case then a warning is generated to the effect that the
+<code>theta</code> are extreme values and so the tilted output may be
+unreliable. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>tilt</code></td>
+<td>
+
+<p>A logical variable which if <code>TRUE</code> (the default) indicates that
+exponential tilting should be used, otherwise local frequency
+smoothing (<code>smooth.f</code>) is used.  If <code>tilt</code> is <code>FALSE</code>
+then <code>R[1]</code> must be positive.  In fact in this case the value
+of <code>R[1]</code> should be fairly large (in the region of 500 or
+more).
+</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+
+<p>This argument is used only if <code>tilt</code> is <code>FALSE</code>, in which
+case it is passed unchanged to <code>smooth.f</code> as the standardized
+bandwidth for the smoothing operation.  The value should generally
+be in the range (0.2, 1). See <code>smooth.f</code> for for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+
+<p>The index of the statistic of interest in the output from
+<code>statistic</code>.  By default the first element of the output of
+<code>statistic</code> is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Any additional arguments required by <code>statistic</code>.  These are
+passed unchanged to <code>statistic</code> each time it is called.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"boot"</code> with the following components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The observed value of the statistic on the original data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>The values of the bootstrap replicates of the statistic.  There will
+be <code>sum(R)</code> of these, the first <code>R[1]</code> corresponding to the
+uniform bootstrap and the remainder to the tilted bootstrap(s).
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>The input vector of the number of bootstrap replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>The original data as supplied.
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>The <code>statistic</code> function as supplied.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sim</code></td>
+<td>
+
+<p>The simulation type used in the bootstrap(s), it can either be
+<code>"ordinary"</code> or <code>"balanced"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stype</code></td>
+<td>
+
+<p>The type of statistic supplied, it is the same as the input value
+<code>stype</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>A copy of the original call to <code>tilt.boot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+
+<p>The strata as supplied.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>The matrix of weights used.  If <code>R[1]</code> is greater than 0 then the
+first row will be the uniform weights and each subsequent row the
+tilted weights. If <code>R[1]</code> equals 0 then the uniform weights are
+omitted and only the tilted weights are output.
+</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+
+<p>The values of <code>theta</code> used for the tilted distributions.  These
+are either the input values or the values derived from the uniform
+bootstrap and <code>alpha</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Booth, J.G., Hall, P. and Wood, A.T.A. (1993) Balanced importance resampling 
+for the bootstrap. <em>Annals of Statistics</em>, <b>21</b>, 286&ndash;298.
+</p>
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Hinkley, D.V. and Shi, S. (1989) Importance sampling and the nested bootstrap. 
+<em>Biometrika</em>, <b>76</b>, 435&ndash;446.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.html">boot</a></code>, <code><a href="exp.tilt.html">exp.tilt</a></code>, <code><a href="Imp.Estimates.html">Imp.Estimates</a></code>, <code><a href="imp.weights.html">imp.weights</a></code>, <code><a href="smooth.f.html">smooth.f</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Note that these examples can take a while to run.
+
+# Example 9.9 of Davison and Hinkley (1997).
+grav1 &lt;- gravity[as.numeric(gravity[,2]) &gt;= 7, ]
+grav.fun &lt;- function(dat, w, orig) {
+     strata &lt;- tapply(dat[, 2], as.numeric(dat[, 2]))
+     d &lt;- dat[, 1]
+     ns &lt;- tabulate(strata)
+     w &lt;- w/tapply(w, strata, sum)[strata]
+     mns &lt;- as.vector(tapply(d * w, strata, sum)) # drop names
+     mn2 &lt;- tapply(d * d * w, strata, sum)
+     s2hat &lt;- sum((mn2 - mns^2)/ns)
+     c(mns[2]-mns[1],s2hat,(mns[2]-mns[1]-orig)/sqrt(s2hat))
+}
+grav.z0 &lt;- grav.fun(grav1, rep(1, 26), 0)
+tilt.boot(grav1, grav.fun, R = c(249, 375, 375), stype = "w", 
+          strata = grav1[,2], tilt = TRUE, index = 3, orig = grav.z0[1]) 
+
+
+#  Example 9.10 of Davison and Hinkley (1997) requires a balanced 
+#  importance resampling bootstrap to be run.  In this example we 
+#  show how this might be run.  
+acme.fun &lt;- function(data, i, bhat) {
+     d &lt;- data[i,]
+     n &lt;- nrow(d)
+     d.lm &lt;- glm(d$acme~d$market)
+     beta.b &lt;- coef(d.lm)[2]
+     d.diag &lt;- boot::glm.diag(d.lm)
+     SSx &lt;- (n-1)*var(d$market)
+     tmp &lt;- (d$market-mean(d$market))*d.diag$res*d.diag$sd
+     sr &lt;- sqrt(sum(tmp^2))/SSx
+     c(beta.b, sr, (beta.b-bhat)/sr)
+}
+acme.b &lt;- acme.fun(acme, 1:nrow(acme), 0)
+acme.boot1 &lt;- tilt.boot(acme, acme.fun, R = c(499, 250, 250), 
+                        stype = "i", sim = "balanced", alpha = c(0.05, 0.95), 
+                        tilt = TRUE, index = 3, bhat = acme.b[1])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

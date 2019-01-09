@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plots of the Output of a Bootstrap Simulation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.boot {boot}"><tr><td>plot.boot {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plots of the Output of a Bootstrap Simulation
+</h2>
+
+<h3>Description</h3>
+
+<p>This takes a bootstrap object and produces plots for the bootstrap
+replicates of the variable of interest.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'boot'
+plot(x, index = 1, t0 = NULL, t = NULL, jack = FALSE,
+     qdist = "norm", nclass = NULL, df, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object of class <code>"boot"</code> returned from one of the bootstrap
+generation functions. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+
+<p>The index of the variable of interest within the output of
+<code>boot.out</code>.  This is ignored if <code>t</code> and <code>t0</code> are
+supplied. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The original value of the statistic.  This defaults to
+<code>boot.out$t0[index]</code> unless <code>t</code> is supplied when it
+defaults to <code>NULL</code>. In that case no vertical line is drawn on
+the histogram.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>The bootstrap replicates of the statistic.  Usually this will take
+on its default value of <code>boot.out$t[,index]</code>, however it may be
+useful sometimes to supply a different set of values which are a
+function of <code>boot.out$t</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>jack</code></td>
+<td>
+
+<p>A logical value indicating whether a jackknife-after-bootstrap plot is 
+required.  The default is not to produce such a plot.
+</p>
+</td></tr>
+<tr valign="top"><td><code>qdist</code></td>
+<td>
+
+<p>The distribution against which the Q-Q plot should be drawn.  At
+present <code>"norm"</code> (normal distribution - the default) and
+<code>"chisq"</code> (chi-squared distribution) are the only possible
+values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nclass</code></td>
+<td>
+
+<p>An integer giving the number of classes to be used in the bootstrap
+histogram.  The default is the integer between 10 and 100 closest to
+<code>ceiling(length(t)/25)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+
+<p>If <code>qdist</code> is <code>"chisq"</code> then this is the degrees of
+freedom for the chi-squared distribution to be used.  It is a
+required argument in that case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>When <code>jack</code> is <code>TRUE</code> additional parameters to
+<code>jack.after.boot</code> can be supplied.  See the help file for
+<code>jack.after.boot</code> for details of the possible parameters.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function will generally produce two side-by-side plots.  The left
+plot will be a histogram of the bootstrap replicates.  Usually the
+breaks of the histogram will be chosen so that <code>t0</code> is at a
+breakpoint and all intervals are of equal length.  A vertical dotted
+line indicates the position of <code>t0</code>.  This cannot be done if
+<code>t</code> is supplied but <code>t0</code> is not and so, in that case, the
+breakpoints are computed by <code>hist</code> using the <code>nclass</code>
+argument and no vertical line is drawn.
+</p>
+<p>The second plot is a Q-Q plot of the bootstrap replicates.  The order
+statistics of the replicates can be plotted against normal or
+chi-squared quantiles.  In either case the expected line is also
+plotted.  For the normal, this will have intercept <code>mean(t)</code> and
+slope <code>sqrt(var(t))</code> while for the chi-squared it has intercept 0
+and slope 1.
+</p>
+<p>If <code>jack</code> is <code>TRUE</code> a third plot is produced beneath these
+two.  That plot is the jackknife-after-bootstrap plot.  This plot may
+only be requested when nonparametric simulation has been used.  See
+<code>jack.after.boot</code> for further details of this plot.  
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>boot.out</code> is returned invisibly.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>All screens are closed and cleared and a number of plots are produced
+on the current graphics device.  Screens are closed but not cleared at
+termination of this function.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.html">boot</a></code>, <code><a href="jack.after.boot.html">jack.after.boot</a></code>, <code><a href="print.boot.html">print.boot</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# We fit an exponential model to the air-conditioning data and use
+# that for a parametric bootstrap.  Then we look at plots of the
+# resampled means.
+air.rg &lt;- function(data, mle) rexp(length(data), 1/mle)
+
+air.boot &lt;- boot(aircondit$hours, mean, R = 999, sim = "parametric",
+                 ran.gen = air.rg, mle = mean(aircondit$hours))
+plot(air.boot)
+
+# In the difference of means example for the last two series of the 
+# gravity data
+grav1 &lt;- gravity[as.numeric(gravity[, 2]) &gt;= 7, ]
+grav.fun &lt;- function(dat, w) {
+     strata &lt;- tapply(dat[, 2], as.numeric(dat[, 2]))
+     d &lt;- dat[, 1]
+     ns &lt;- tabulate(strata)
+     w &lt;- w/tapply(w, strata, sum)[strata]
+     mns &lt;- as.vector(tapply(d * w, strata, sum)) # drop names
+     mn2 &lt;- tapply(d * d * w, strata, sum)
+     s2hat &lt;- sum((mn2 - mns^2)/ns)
+     c(mns[2] - mns[1], s2hat)
+}
+
+grav.boot &lt;- boot(grav1, grav.fun, R = 499, stype = "w", strata = grav1[, 2])
+plot(grav.boot)
+# now suppose we want to look at the studentized differences.
+grav.z &lt;- (grav.boot$t[, 1]-grav.boot$t0[1])/sqrt(grav.boot$t[, 2])
+plot(grav.boot, t = grav.z, t0 = 0)
+
+# In this example we look at the one of the partial correlations for the
+# head dimensions in the dataset frets.
+frets.fun &lt;- function(data, i) {
+    pcorr &lt;- function(x) { 
+    #  Function to find the correlations and partial correlations between
+    #  the four measurements.
+         v &lt;- cor(x)
+         v.d &lt;- diag(var(x))
+         iv &lt;- solve(v)
+         iv.d &lt;- sqrt(diag(iv))
+         iv &lt;- - diag(1/iv.d) %*% iv %*% diag(1/iv.d)
+         q &lt;- NULL
+         n &lt;- nrow(v)
+         for (i in 1:(n-1)) 
+              q &lt;- rbind( q, c(v[i, 1:i], iv[i,(i+1):n]) )
+         q &lt;- rbind( q, v[n, ] )
+         diag(q) &lt;- round(diag(q))
+         q
+    }
+    d &lt;- data[i, ]
+    v &lt;- pcorr(d)
+    c(v[1,], v[2,], v[3,], v[4,])
+}
+frets.boot &lt;- boot(log(as.matrix(frets)),  frets.fun,  R = 999)
+plot(frets.boot, index = 7, jack = TRUE, stinf = FALSE, useJ = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

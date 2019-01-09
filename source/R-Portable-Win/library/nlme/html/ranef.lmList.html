@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract lmList Random Effects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ranef.lmList {nlme}"><tr><td>ranef.lmList {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract lmList Random Effects</h2>
+
+<h3>Description</h3>
+
+<p>The difference between the individual <code>lm</code> components
+coefficients and their average is calculated.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lmList'
+ranef(object, augFrame, data, which, FUN, standard,
+                 omitGroupingFactor, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="lmList.html">lmList</a>"</code>, representing
+a list of <code>lm</code> objects with a common model.
+</p>
+</td></tr>
+<tr valign="top"><td><code>augFrame</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code>, the returned
+data frame is augmented with variables defined in <code>data</code>; else,
+if <code>FALSE</code>, only the coefficients are returned. Defaults to
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame with the variables to be used for
+augmenting the returned data frame when <code>augFrame =
+     TRUE</code>. Defaults to the data frame used to fit <code>object</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>an optional positive integer vector specifying which
+columns of <code>data</code> should be used in the augmentation of the
+returned data frame. Defaults to all columns in <code>data</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>an optional summary function or a list of summary functions
+to be applied to group-varying variables, when collapsing <code>data</code>
+by groups.  Group-invariant variables are always summarized by the
+unique value that they assume within that group. If <code>FUN</code> is a
+single function it will be applied to each non-invariant variable by
+group to produce the summary for that variable.  If <code>FUN</code> is a
+list of functions, the names in the list should designate classes of
+variables in the frame such as <code>ordered</code>, <code>factor</code>, or
+<code>numeric</code>.  The indicated function will be applied to any
+group-varying variables of that class.  The default functions to be
+used are <code>mean</code> for numeric factors, and <code>Mode</code> for both
+<code>factor</code> and <code>ordered</code>.  The <code>Mode</code> function, defined
+internally in <code>gsummary</code>, returns the modal or most popular
+value of the variable.  It is different from the <code>mode</code> function
+that returns the S-language mode of the variable.</p>
+</td></tr>
+<tr valign="top"><td><code>standard</code></td>
+<td>
+<p>an optional logical value indicating whether the
+estimated random effects should be &quot;standardized&quot; (i.e. divided by
+the corresponding estimated standard error). Defaults to
+<code>FALSE</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>omitGroupingFactor</code></td>
+<td>
+<p>an optional logical value.  When <code>TRUE</code>
+the grouping factor itself will be omitted from the group-wise
+summary of <code>data</code> but the levels of the grouping factor will
+continue to be used as the row names for the returned data frame.
+Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with the differences between the individual <code>lm</code>
+coefficients in <code>object</code> and their average. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. pp. 100, 461.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="fixef.lmList.html">fixed.effects.lmList</a></code>, 
+<code><a href="lmList.html">lmList</a></code>, 
+<code><a href="random.effects.html">random.effects</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lmList(distance ~ age | Subject, Orthodont)
+ranef(fm1)
+random.effects(fm1)              # same as above
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

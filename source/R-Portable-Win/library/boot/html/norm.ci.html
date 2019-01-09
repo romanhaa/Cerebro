@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Normal Approximation Confidence Intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for norm.ci {boot}"><tr><td>norm.ci {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Normal Approximation Confidence Intervals
+</h2>
+
+<h3>Description</h3>
+
+<p>Using the normal approximation to a statistic, calculate equi-tailed two-sided 
+confidence intervals.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+norm.ci(boot.out = NULL, conf = 0.95, index = 1, var.t0 = NULL, 
+        t0 = NULL, t = NULL, L = NULL, h = function(t) t, 
+        hdot = function(t) 1, hinv = function(t) t)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>boot.out</code></td>
+<td>
+
+<p>A bootstrap output object returned from a call to <code>boot</code>.  If
+<code>t0</code> is missing then <code>boot.out</code> is a required argument.  It is
+also required if both <code>var.t0</code> and <code>t</code> are missing.
+</p>
+</td></tr>
+<tr valign="top"><td><code>conf</code></td>
+<td>
+
+<p>A scalar or vector containing the confidence level(s) of the required 
+interval(s).
+</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+
+<p>The index of the statistic of interest within the output of a call to
+<code>boot.out$statistic</code>.  It is not used if <code>boot.out</code> is
+missing, in which case <code>t0</code> must be supplied.
+</p>
+</td></tr>
+<tr valign="top"><td><code>var.t0</code></td>
+<td>
+
+<p>The variance of the statistic of interest.  If it is not supplied then 
+<code>var(t)</code> is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>The observed value of the statistic of interest.  If it is missing then it is
+taken from <code>boot.out</code> which is required in that case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>Bootstrap replicates of the variable of interest.  These are used to estimate 
+the variance of the statistic of interest if <code>var.t0</code> is not
+supplied.  The default value is <code>boot.out$t[,index]</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>L</code></td>
+<td>
+
+<p>The empirical influence values for the statistic of interest.  These are
+used to calculate <code>var.t0</code> if neither <code>var.t0</code> nor
+<code>boot.out</code> are supplied.  If a transformation is supplied through
+<code>h</code> then the influence values must be for the untransformed
+statistic <code>t0</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+
+<p>A function defining a monotonic transformation,  the intervals are
+calculated on the scale of <code>h(t)</code> and the inverse function
+<code>hinv</code> is applied to the resulting intervals.  <code>h</code> must be a
+function of one variable only and must be vectorized. The default is
+the identity function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hdot</code></td>
+<td>
+
+<p>A function of one argument returning the derivative of <code>h</code>.  It
+is a required argument if <code>h</code> is supplied and is used for
+approximating the variance of <code>h(t0)</code>.  The default is the
+constant function 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hinv</code></td>
+<td>
+
+<p>A function, like <code>h</code>, which returns the inverse of <code>h</code>.  It is
+used to transform the intervals calculated on the scale of <code>h(t)</code>
+back to the original scale. The default is the identity function.  If
+<code>h</code> is supplied but <code>hinv</code> is not, then the intervals returned
+will be on the transformed scale. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It is assumed that the statistic of interest has an approximately
+normal distribution with variance <code>var.t0</code> and so a confidence
+interval of length <code>2*qnorm((1+conf)/2)*sqrt(var.t0)</code> is found.
+If <code>boot.out</code> or <code>t</code> are supplied then the interval is
+bias-corrected using the bootstrap bias estimate, and so the interval
+would be centred at <code>2*t0-mean(t)</code>.  Otherwise the interval is
+centred at <code>t0</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>length(conf)</code> is 1 then a vector containing the confidence
+level and the endpoints of the interval is returned.  Otherwise, the
+returned value is a matrix where each row corresponds to a different
+confidence level.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is primarily designed to be called by <code>boot.ci</code> to
+calculate the normal approximation after a bootstrap but it can also be
+used without doing any bootstrap calculations as long as <code>t0</code> and
+<code>var.t0</code> can be supplied.  See the examples below.
+</p>
+
+
+<h3>References</h3>
+
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.ci.html">boot.ci</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#  In Example 5.1 of Davison and Hinkley (1997), normal approximation 
+#  confidence intervals are found for the air-conditioning data.
+air.mean &lt;- mean(aircondit$hours)
+air.n &lt;- nrow(aircondit)
+air.v &lt;- air.mean^2/air.n
+norm.ci(t0 = air.mean, var.t0 = air.v)
+exp(norm.ci(t0 = log(air.mean), var.t0 = 1/air.n)[2:3])
+
+# Now a more complicated example - the ratio estimate for the city data.
+ratio &lt;- function(d, w)
+     sum(d$x * w)/sum(d$u *w)
+city.v &lt;- var.linear(empinf(data = city, statistic = ratio))
+norm.ci(t0 = ratio(city,rep(0.1,10)), var.t0 = city.v)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Square-Root Factor of a Positive-Definite Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pdFactor {nlme}"><tr><td>pdFactor {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Square-Root Factor of a Positive-Definite Matrix</h2>
+
+<h3>Description</h3>
+
+<p>A square-root factor of the positive-definite matrix represented by
+<code>object</code> is obtained. Letting <i>S</i> denote a
+positive-definite matrix, a square-root factor of <i>S</i> is
+any square matrix <i>L</i> such that <i>S =
+    L'L</i>. This function extracts <i>L</i>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pdFactor(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>pdMat</code>, representing
+a positive definite matrix, which must have been initialized
+(i.e. <code>length(coef(object)) &gt; 0</code>).</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with a square-root factor of the positive-definite matrix
+associated with <code>object</code> stacked column-wise.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is used intensively in optimization
+algorithms and its value is returned as a vector for efficiency
+reasons. The <code>pdMatrix</code> function can be used to obtain
+square-root factors in matrix form.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pdMatrix.html">pdMatrix</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdCompSymm(4 * diag(3) + 1)
+pdFactor(pd1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

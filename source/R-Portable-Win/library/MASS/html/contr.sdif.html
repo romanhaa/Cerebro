@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Successive Differences Contrast Coding</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for contr.sdif {MASS}"><tr><td>contr.sdif {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Successive Differences Contrast Coding
+</h2>
+
+<h3>Description</h3>
+
+<p>A coding for factors based on successive differences.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+contr.sdif(n, contrasts = TRUE, sparse = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>The number of levels required.
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>logical: Should there be <code>n - 1</code> columns orthogonal to the mean
+(the default) or <code>n</code> columns spanning the space?
+</p>
+</td></tr>
+<tr valign="top"><td><code>sparse</code></td>
+<td>
+
+<p>logical.  If true and the result would be sparse (only
+true for <code>contrasts = FALSE</code>), return a sparse matrix.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The contrast coefficients are chosen so that the coded coefficients
+in a one-way layout are the differences between the means of the
+second and first levels, the third and second levels, and so on.  This
+makes most sense for ordered factors, but does not assume that the
+levels are equally spaced.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>contrasts</code> is <code>TRUE</code>, a matrix with <code>n</code> rows and
+<code>n - 1</code> columns, and the <code>n</code> by <code>n</code> identity matrix if
+<code>contrasts</code> is <code>FALSE</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em>
+Fourth Edition, Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/contrast.html">contr.treatment</a></code>, <code><a href="../../stats/html/contrast.html">contr.sum</a></code>,
+<code><a href="../../stats/html/contrast.html">contr.helmert</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+(A &lt;- contr.sdif(6))
+zapsmall(ginv(A))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

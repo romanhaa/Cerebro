@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Banner of Monothetic Divisive Hierarchical Clusterings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.mona {cluster}"><tr><td>plot.mona {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Banner of Monothetic Divisive Hierarchical Clusterings</h2>
+
+<h3>Description</h3>
+
+<p>Creates the banner of a <code>mona</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'mona'
+plot(x, main = paste("Banner of ", deparse(x$call)),
+          sub = NULL, xlab = "Separation step",
+	  col = c(2,0), axes = TRUE, adj = 0,
+          nmax.lab = 35, max.strlen = 5, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"mona"</code>, typically created by
+<code><a href="mona.html">mona</a>(.)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>main,sub</code></td>
+<td>
+<p>main and sub titles for the plot, with convenient
+defaults.  See documentation in <code><a href="../../graphics/html/plot.default.html">plot.default</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>x axis label, see <code><a href="../../graphics/html/title.html">title</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col,adj</code></td>
+<td>
+<p>graphical parameters passed to <code><a href="bannerplot.html">bannerplot</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>logical, indicating if (labeled) axes should be drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>nmax.lab</code></td>
+<td>
+<p>integer indicating the number of labels which is
+considered too large for labeling.</p>
+</td></tr>
+<tr valign="top"><td><code>max.strlen</code></td>
+<td>
+<p>positive integer giving the length to which
+strings are truncated in labeling.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further graphical arguments are passed to
+<code><a href="bannerplot.html">bannerplot</a>()</code> and <code><a href="../../graphics/html/text.html">text</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Plots the separation step at which clusters are splitted.  The
+observations are given in the order found by the <code>mona</code>
+algorithm, the numbers in the <code>step</code> vector are represented as
+bars between the observations.
+</p>
+<p>When a long bar is drawn between two observations,
+those observations have the same value for each variable.
+See chapter 7 of Kaufman and Rousseeuw (1990).
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>A banner is plotted on the current graphics device.
+</p>
+
+
+<h3>Note</h3>
+
+<p>In the banner plot,
+observation labels are only printed when the number of observations is
+limited less than <code>nmax.lab</code> (35, by default), for readability.
+Moreover, observation labels are truncated to maximally
+<code>max.strlen</code> (5) characters.
+</p>
+
+
+<h3>References</h3>
+
+<p>see those in <code><a href="plot.agnes.html">plot.agnes</a></code>.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="mona.html">mona</a></code>, <code><a href="mona.object.html">mona.object</a></code>, <code><a href="../../graphics/html/par.html">par</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

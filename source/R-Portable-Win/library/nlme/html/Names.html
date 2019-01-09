@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Names Associated with an Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Names {nlme}"><tr><td>Names {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Names Associated with an Object</h2>
+
+<h3>Description</h3>
+
+<p>This function is generic; method functions can be written to handle
+specific classes of objects. Classes which already have methods for
+this function include: <code>formula</code>, <code>modelStruct</code>,
+<code>pdBlocked</code>, <code>pdMat</code>, and <code>reStruct</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Names(object, ...)
+Names(object, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>any object for which names can be extracted and/or assigned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic function require additional
+arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>names to be assigned to <code>object</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>will depend on the method function used; see the appropriate documentation.
+</p>
+
+
+<h3>SIDE EFFECTS</h3>
+
+<p>On the left side of an assignment, sets the names associated with
+<code>object</code> to <code>value</code>, which must have an appropriate length. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>If <code>names</code> were generic, there would be no need for this generic
+function. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Names.formula.html">Names.formula</a></code>,
+<code><a href="Names.pdMat.html">Names.pdMat</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see the method function documentation
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

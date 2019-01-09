@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate Semi-variogram for Residuals from a gls Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Variogram.gls {nlme}"><tr><td>Variogram.gls {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Semi-variogram for Residuals from a gls Object</h2>
+
+<h3>Description</h3>
+
+<p>This method function calculates the semi-variogram for the residuals
+from a <code>gls</code> fit. The semi-variogram values are calculated for
+pairs of residuals within the same group level, if a grouping factor
+is present. If <code>collapse</code> is different from <code>"none"</code>, the
+individual semi-variogram values are collapsed using either a robust
+estimator (<code>robust = TRUE</code>) defined in Cressie (1993), or the
+average of the values within the same distance interval. The
+semi-variogram is useful for modeling the error term correlation
+structure.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gls'
+Variogram(object, distance, form, resType, data,
+      na.action, maxDist, length.out, collapse, nint, breaks,
+      robust, metric, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="gls.html">gls</a>"</code>, representing
+a generalized least squares fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>distance</code></td>
+<td>
+<p>an optional numeric vector with the distances between
+residual pairs. If a grouping variable is present, only the
+distances between residual pairs within the same group should be
+given. If missing, the distances are calculated based on the
+values of the arguments <code>form</code>, <code>data</code>, and
+<code>metric</code>, unless <code>object</code> includes a <code>corSpatial</code>
+element, in which case the associated covariate (obtained with the
+<code>getCovariate</code> method) is used.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional one-sided formula specifying the covariate(s)
+to be used for calculating the distances between residual pairs and,
+optionally, a grouping factor for partitioning the residuals (which
+must appear to the right of a <code>|</code> operator in
+<code>form</code>). Default is <code>~1</code>, implying that the observation 
+order within the groups is used to obtain the distances.</p>
+</td></tr>
+<tr valign="top"><td><code>resType</code></td>
+<td>
+<p>an optional character string specifying the type of
+residuals to be used. If <code>"response"</code>, the &quot;raw&quot; residuals
+(observed - fitted) are used; else, if <code>"pearson"</code>, the
+standardized residuals (raw residuals divided by the corresponding
+standard errors) are used; else, if <code>"normalized"</code>, the
+normalized residuals (standardized residuals pre-multiplied by the
+inverse square-root factor of the estimated error correlation
+matrix) are used. Partial matching of arguments is used, so only the
+first character needs to be provided. Defaults to <code>"pearson"</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame in which to interpret the variables
+in <code>form</code>. By default, the same data used to fit <code>object</code>
+is used.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s. The default action (<code>na.fail</code>) causes
+an error message to be printed and the function to terminate, if there
+are any incomplete observations.</p>
+</td></tr>
+<tr valign="top"><td><code>maxDist</code></td>
+<td>
+<p>an optional numeric value for the maximum distance used
+for calculating the semi-variogram between two residuals. By default
+all residual pairs are included.</p>
+</td></tr>
+<tr valign="top"><td><code>length.out</code></td>
+<td>
+<p>an optional integer value. When <code>object</code>
+includes a <code>corSpatial</code> element, its semi-variogram values are
+calculated and this argument is used as the <code>length.out</code>
+argument to the corresponding <code>Variogram</code> method. Defaults to
+<code>50</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+<p>an optional character string specifying the type of
+collapsing to be applied to the individual semi-variogram values. If
+equal to <code>"quantiles"</code>, the semi-variogram values are split
+according to quantiles of the distance distribution, with equal
+number of observations per group, with possibly varying distance
+interval lengths. Else, if <code>"fixed"</code>, the semi-variogram values
+are divided according to distance intervals of equal lengths, with
+possibly different number of observations per interval. Else, if
+<code>"none"</code>, no collapsing is used and the individual
+semi-variogram values are returned. Defaults to <code>"quantiles"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nint</code></td>
+<td>
+<p>an optional integer with the number of intervals to be
+used when collapsing the semi-variogram values. Defaults to <code>20</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>an optional logical value specifying if a robust
+semi-variogram estimator should be used when collapsing the
+individual values. If <code>TRUE</code> the robust estimator is
+used. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>an optional numeric vector with the breakpoints for the
+distance intervals to be used in collapsing the semi-variogram
+values. If not missing, the option specified in <code>collapse</code> is
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+<p>an optional character string specifying the distance
+metric to be used. The currently available options are
+<code>"euclidean"</code> for the root sum-of-squares of distances;
+<code>"maximum"</code> for the maximum difference; and <code>"manhattan"</code>
+for the sum of the absolute differences. Partial matching of
+arguments is used, so only the first three characters need to be
+provided. Defaults to <code>"euclidean"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a data frame with columns <code>variog</code> and <code>dist</code> representing,
+respectively, the semi-variogram values and the corresponding
+distances. If the semi-variogram values are collapsed, an extra
+column, <code>n.pairs</code>, with the number of residual pairs used in each
+semi-variogram calculation, is included in the returned data frame. If
+<code>object</code> includes a <code>corSpatial</code> element, a data frame with
+its corresponding semi-variogram is included in the returned value, as
+an attribute <code>"modelVariog"</code>. The returned value inherits from
+class <code>Variogram</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Cressie, N.A.C. (1993), &quot;Statistics for Spatial Data&quot;, J. Wiley &amp; Sons.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gls.html">gls</a></code>,
+<code><a href="Variogram.html">Variogram</a></code>,
+<code><a href="Variogram.default.html">Variogram.default</a></code>,
+<code><a href="Variogram.lme.html">Variogram.lme</a></code>,
+<code><a href="plot.Variogram.html">plot.Variogram</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+fm1 &lt;- gls(weight ~ Time * Diet, BodyWeight)
+Variogram(fm1, form = ~ Time | Rat)[1:10,]
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

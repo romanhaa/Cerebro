@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM ordered categorical family</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ocat {mgcv}"><tr><td>ocat {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM ordered categorical family</h2>
+
+<h3>Description</h3>
+
+<p>Family for use with <code><a href="gam.html">gam</a></code> or <code><a href="bam.html">bam</a></code>, implementing regression for ordered categorical data.
+A linear predictor provides the expected value of a latent variable following a logistic distribution. The 
+probability of this latent variable lying between certain cut-points provides the probability of the ordered 
+categorical variable being of the corresponding category. The cut-points are estimated along side the model 
+smoothing parameters (using the same criterion). The observed categories are coded 1, 2, 3, ... up to the 
+number of categories. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ocat(theta=NULL,link="identity",R=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>cut point parameter vector (dimension <code>R-2</code>). If supplied and all positive, then taken to be the cut point increments (first cut point is fixed at -1). If any are negative then absolute values are taken as starting values for cutpoint increments. </p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>The link function: only <code>"identity"</code> allowed at present (possibly for ever).</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+<p>the number of catergories.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Such cumulative threshold models are only identifiable up to an intercept, or one of the cut points. 
+Rather than remove the intercept, <code>ocat</code> simply sets the first cut point to -1. Use <code><a href="predict.gam.html">predict.gam</a></code> with 
+<code>type="response"</code> to get the predicted probabilities in each category.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>extended.family</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+## Simulate some ordered categorical data...
+set.seed(3);n&lt;-400
+dat &lt;- gamSim(1,n=n)
+dat$f &lt;- dat$f - mean(dat$f)
+
+alpha &lt;- c(-Inf,-1,0,5,Inf)
+R &lt;- length(alpha)-1
+y &lt;- dat$f
+u &lt;- runif(n)
+u &lt;- dat$f + log(u/(1-u)) 
+for (i in 1:R) {
+  y[u &gt; alpha[i]&amp;u &lt;= alpha[i+1]] &lt;- i
+}
+dat$y &lt;- y
+
+## plot the data...
+par(mfrow=c(2,2))
+with(dat,plot(x0,y));with(dat,plot(x1,y))
+with(dat,plot(x2,y));with(dat,plot(x3,y))
+
+## fit ocat model to data...
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=ocat(R=R),data=dat)
+b
+plot(b,pages=1)
+gam.check(b)
+summary(b)
+b$family$getTheta(TRUE) ## the estimated cut points
+
+## predict probabilities of being in each category
+predict(b,dat[1:2,],type="response",se=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

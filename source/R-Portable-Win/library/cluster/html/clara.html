@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Clustering Large Applications</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clara {cluster}"><tr><td>clara {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Clustering Large Applications</h2>
+
+<h3>Description</h3>
+
+<p>Computes a <code>"clara"</code> object, a list representing a clustering of
+the data into <code>k</code> clusters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+clara(x, k, metric = c("euclidean", "manhattan", "jaccard"),
+      stand = FALSE, samples = 5,
+      sampsize = min(n, 40 + 2 * k), trace = 0, medoids.x = TRUE,
+      keep.data = medoids.x, rngR = FALSE, pamLike = FALSE, correct.d = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>data matrix or data frame, each row corresponds to an observation,
+and each column corresponds to a variable.  All variables must be numeric.
+Missing values (NAs) are allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>integer, the number of clusters.
+It is required that <i>0 &lt; k &lt; n</i> where <i>n</i> is the number of
+observations (i.e., n = <code>nrow(x)</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+
+<p>character string specifying the metric to be used for calculating
+dissimilarities between observations.
+The currently available options are &quot;euclidean&quot;, &quot;manhattan&quot;, and
+&quot;jaccard&quot;.
+</p>
+<p>Euclidean distances are root sum-of-squares of differences, and
+manhattan distances are the sum of absolute differences.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stand</code></td>
+<td>
+<p>logical, indicating if the measurements in <code>x</code> are
+standardized before calculating the dissimilarities.  Measurements
+are standardized for each variable (column), by subtracting the
+variable's mean value and dividing by the variable's mean absolute
+deviation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>samples</code></td>
+<td>
+<p>integer, say <i>N</i>, the number of samples to be drawn from the
+dataset.  The default, <code>N = 5</code>, is rather small for historical (and
+now back compatibility) reasons and we <em>recommend to set
+<code>samples</code> an order of magnitude larger</em>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sampsize</code></td>
+<td>
+<p>integer, say <i>j</i>, the number of observations in each
+sample.  <code>sampsize</code> should be higher than the number of clusters
+(<code>k</code>) and at most the number of observations (n =
+<code>nrow(x)</code>).  While computational effort is proportional to <i>j^2</i>,
+see note below, it may still be advisable to set
+<i>j = </i><code>sampsize</code> to a <em>larger</em> value than the (historical) default.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>integer indicating a <em>trace level</em> for diagnostic
+output during the algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>medoids.x</code></td>
+<td>
+<p>logical indicating if the medoids should be
+returned, identically to some rows of the input data <code>x</code>.  If
+<code>FALSE</code>, <code>keep.data</code> must be false as well, and the medoid
+indices, i.e., row numbers of the medoids will still be returned
+(<code>i.med</code> component), and the algorithm saves space by needing
+one copy less of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.data</code></td>
+<td>
+<p>logical indicating if the (<em>scaled</em> if
+<code>stand</code> is true) data should be kept in the result.
+
+
+Setting this to <code>FALSE</code> saves memory (and hence time), but
+disables <code><a href="clusplot.partition.html">clusplot</a>()</code>ing of the result.  Use
+<code>medoids.x = FALSE</code> to save even more memory.</p>
+</td></tr>
+<tr valign="top"><td><code>rngR</code></td>
+<td>
+<p>logical indicating if <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s random number generator should
+be used instead of the primitive clara()-builtin one.  If true, this
+also means that each call to <code>clara()</code> returns a different result
+&ndash; though only slightly different in good situations.</p>
+</td></tr>
+<tr valign="top"><td><code>pamLike</code></td>
+<td>
+<p>logical indicating if the &ldquo;swap&rdquo; phase (see
+<code><a href="pam.html">pam</a></code>, in C code) should use the same algorithm as
+<code><a href="pam.html">pam</a>()</code>.  Note that from Kaufman and Rousseeuw's
+description this <em>should</em> have been true always, but as the
+original Fortran code and the subsequent port to C has always
+contained a small one-letter change (a typo according to Martin Maechler)
+with respect to PAM, the default, <code>pamLike = FALSE</code> has been chosen to
+remain back compatible rather than &ldquo;PAM compatible&rdquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>correct.d</code></td>
+<td>
+<p>logical or integer indicating that&mdash;only in the case
+of <code>NA</code>s present in <code>x</code>&mdash;the correct distance computation
+should be used instead of the wrong formula which has been present
+in the original Fortran code and been in use up to early 2016.
+</p>
+<p>Because the new correct formula is not back compatible, for the time
+being, a warning is signalled in this case, unless the user explicitly
+specifies <code>correct.d</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>clara</code> is fully described in chapter 3 of Kaufman and Rousseeuw (1990).
+Compared to other partitioning methods such as <code>pam</code>, it can deal with
+much larger datasets.  Internally, this is achieved by considering
+sub-datasets of fixed size (<code>sampsize</code>) such that the time and
+storage requirements become linear in <i>n</i> rather than quadratic.
+</p>
+<p>Each sub-dataset is partitioned into <code>k</code> clusters using the same
+algorithm as in <code><a href="pam.html">pam</a></code>.<br />
+Once <code>k</code> representative objects have been selected from the
+sub-dataset, each observation of the entire dataset is assigned
+to the nearest medoid.
+</p>
+<p>The mean (equivalent to the sum) of the dissimilarities of the
+observations to their closest medoid is used as a measure of the
+quality of the clustering.  The sub-dataset for which the mean (or
+sum) is minimal, is retained.  A further analysis is carried out on
+the final partition.
+</p>
+<p>Each sub-dataset is forced to contain the medoids obtained from the
+best sub-dataset until then.  Randomly drawn observations are added to
+this set until <code>sampsize</code> has been reached.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"clara"</code> representing the clustering.  See
+<code><a href="clara.object.html">clara.object</a></code> for details.
+</p>
+
+
+<h3>Note</h3>
+
+
+<p>By default, the random sampling is implemented with a <em>very</em>
+simple scheme (with period <i>2^{16} = 65536</i>) inside the Fortran
+code, independently of <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s random number generation, and as a matter
+of fact, deterministically.  Alternatively, we recommend setting
+<code>rngR = TRUE</code> which uses <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s random number generators.  Then,
+<code>clara()</code> results are made reproducible typically by using
+<code><a href="../../base/html/Random.html">set.seed</a>()</code> before calling <code>clara</code>.
+</p>
+<p>The storage requirement of <code>clara</code> computation (for small
+<code>k</code>) is about
+<i>O(n * p) + O(j^2)</i> where
+<i>j = \code{sampsize}</i>, and <i>(n,p) = \code{dim(x)}</i>.
+The CPU computing time (again assuming small <code>k</code>) is about
+<i>O(n * p * j^2 * N)</i>, where
+<i>N = \code{samples}</i>.
+</p>
+<p>For &ldquo;small&rdquo; datasets, the function <code><a href="pam.html">pam</a></code> can be used
+directly.  What can be considered <em>small</em>, is really a function
+of available computing power, both memory (RAM) and speed.
+Originally (1990), &ldquo;small&rdquo; meant less than 100 observations;
+in 1997, the authors said <em>&ldquo;small (say with fewer than 200
+observations)&rdquo;</em>; as of 2006, you can use <code><a href="pam.html">pam</a></code> with
+several thousand observations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Kaufman and Rousseeuw (see <code><a href="agnes.html">agnes</a></code>), originally.
+Metric <code>"jaccard"</code>: Kamil Kozlowski and Kamil Jadeszko (from <a href="ownedoutcomes.com">ownedoutcomes.com</a>).
+All arguments from <code>trace</code> on, and most <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> documentation and all
+tests by Martin Maechler.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code> for background and references;
+<code><a href="clara.object.html">clara.object</a></code>, <code><a href="pam.html">pam</a></code>,
+<code><a href="partition.object.html">partition.object</a></code>, <code><a href="plot.partition.html">plot.partition</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## generate 500 objects, divided into 2 clusters.
+x &lt;- rbind(cbind(rnorm(200,0,8), rnorm(200,0,8)),
+           cbind(rnorm(300,50,8), rnorm(300,50,8)))
+clarax &lt;- clara(x, 2, samples=50)
+clarax
+clarax$clusinfo
+## using pamLike=TRUE  gives the same (apart from the 'call'):
+all.equal(clarax[-8],
+          clara(x, 2, samples=50, pamLike = TRUE)[-8])
+plot(clarax)
+
+## `xclara' is an artificial data set with 3 clusters of 1000 bivariate
+## objects each.
+data(xclara)
+(clx3 &lt;- clara(xclara, 3))
+## "better" number of samples
+cl.3 &lt;- clara(xclara, 3, samples=100)
+## but that did not change the result here:
+stopifnot(cl.3$clustering == clx3$clustering)
+## Plot similar to Figure 5 in Struyf et al (1996)
+## Not run: plot(clx3, ask = TRUE)
+
+
+## Try 100 times *different* random samples -- for reliability:
+nSim &lt;- 100
+nCl &lt;- 3 # = no.classes
+set.seed(421)# (reproducibility)
+cl &lt;- matrix(NA,nrow(xclara), nSim)
+for(i in 1:nSim)
+   cl[,i] &lt;- clara(xclara, nCl, medoids.x = FALSE, rngR = TRUE)$cluster
+tcl &lt;- apply(cl,1, tabulate, nbins = nCl)
+## those that are not always in same cluster (5 out of 3000 for this seed):
+(iDoubt &lt;- which(apply(tcl,2, function(n) all(n &lt; nSim))))
+if(length(iDoubt)) { # (not for all seeds)
+  tabD &lt;- tcl[,iDoubt, drop=FALSE]
+  dimnames(tabD) &lt;- list(cluster = paste(1:nCl), obs = format(iDoubt))
+  t(tabD) # how many times in which clusters
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Negative Binomial Variates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rnegbin {MASS}"><tr><td>rnegbin {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Simulate Negative Binomial Variates
+</h2>
+
+<h3>Description</h3>
+
+<p>Function to generate random outcomes from a Negative Binomial distribution,
+with mean <code>mu</code> and variance <code>mu + mu^2/theta</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rnegbin(n, mu = n, theta = stop("'theta' must be specified"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>If a scalar, the number of sample values required.  If a vector,
+<code>length(n)</code> is the number required and <code>n</code> is used as the mean vector if
+<code>mu</code> is not specified.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+
+<p>The vector of means.  Short vectors are recycled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+
+<p>Vector of values of the <code>theta</code> parameter.  Short vectors are recycled.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The function uses the representation of the Negative Binomial distribution
+as a continuous mixture of Poisson distributions with Gamma distributed means.
+Unlike <code>rnbinom</code> the index can be arbitrary.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Vector of random Negative Binomial variate values.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>Changes <code>.Random.seed</code> in the usual way.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Negative Binomials with means fitted(fm) and theta = 4.5
+fm &lt;- glm.nb(Days ~ ., data = quine)
+dummy &lt;- rnegbin(fitted(fm), theta = 4.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

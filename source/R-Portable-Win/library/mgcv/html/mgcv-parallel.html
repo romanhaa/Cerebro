@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parallel computation in mgcv.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mgcv.parallel {mgcv}"><tr><td>mgcv.parallel {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parallel computation in mgcv.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>mgcv</code> can make some use of multiple cores or a cluster.
+</p>
+<p><code><a href="bam.html">bam</a></code> can use an openMP based parallelization approach alongside discretisation of covariates to achieve substantial speed ups. This is selected using the <code>discrete=TRUE</code> option to <code>bam</code>, withthe number of threads controlled via the <code>nthreads</code> argument. This is the approach that scales best. See example below.
+</p>
+<p>Alternatively, function <code><a href="bam.html">bam</a></code> can use the facilities provided in the <a href="../../parallel/html/parallel.html">parallel</a> package. See examples below. Note that most multi-core machines are memory bandwidth limited, so parallel speed up tends to be rather variable. 
+</p>
+<p>Function <code><a href="gam.html">gam</a></code> can use parallel threads on a (shared memory) multi-core 
+machine via <code>openMP</code> (where this is supported). To do this, set the desired number of threads by setting <code>nthreads</code> to the number of cores to use, in the <code>control</code> argument of <code><a href="gam.html">gam</a></code>. Note that, for the most part, only the dominant <i>O(np^2)</i> steps are parallelized (n is number of data, p number of parameters). For additive Gaussian models estimated by GCV, the speed up can be disappointing as these employ an <i>O(p^3)</i> SVD step that can also have substantial cost in practice. 
+</p>
+<p><code><a href="magic.html">magic</a></code> can also use multiple cores, but the same comments apply as for the GCV Gaussian additive model. 
+</p>
+<p>If <code>control$nthreads</code> is set to more than the number of cores detected, then only the number of detected cores is used. Note that using virtual cores usually gives very little speed up, and can even slow computations slightly. For example, many Intel processors reporting 4 cores actually have 2 physical cores, each with 2 virtual cores, so using 2 threads gives a marked increase in speed, while using 4 threads makes little extra difference. 
+</p>
+<p>Note that on Intel and similar processors the maximum performance is usually achieved by disabling Hyper-Threading in BIOS, and then setting the number of threads to the number of physical cores used. This prevents the operating system scheduler from sending 2 floating point intensive threads to the same physical core, where they have to share a floating point unit (and cache) and therefore slow each other down. The scheduler tends to do this under the manager - worker multi-threading approach used in mgcv, since the manager thread looks very busy up to the point at which the workers are set to work, and at the point of scheduling the sceduler has no way of knowing that the manager thread actually has nothing more to do until the workers are finished. If you are working on a many cored platform where you can not disable hyper-threading then it may be worth setting the number of threads to one less than the number of physical cores, to reduce the frequency of such scheduling problems. 
+</p>
+<p>mgcv's work splitting always makes the simple assumption that all your cores are equal, and you are not sharing them with other floating point intensive threads. 
+</p>
+<p>In addition to hyper-threading several features may lead to apparently poor scaling. The first is that many CPUs have a Turbo mode, whereby a few cores can be run at higher frequency, provided the overall power used by the CPU does not exceed design limits, however it is not possible for all cores on the CPU to run at this frequency. So as you add threads eventually the CPU frequency has to be reduced below the Turbo frequency, with the result that you don't get the expected speed up from adding cores. Secondly, most modern CPUs have their frequency set dynamically according to load. You may need to set the system power management policy to favour high performance in order to maximize the chance that all threads run at the speed you were hoping for (you can turn off dynamic power control in BIOS, but then you turn off the possibility of Turbo also). 
+</p>
+<p>Because the computational burden in <code>mgcv</code> is all in the linear algebra, then parallel computation may provide reduced or no benefit with a tuned BLAS. This is particularly the case if you are using a multi threaded BLAS, but a BLAS that is tuned to make efficient use of a particular cache size may also experience loss of performance if threads have to share the cache.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Wood &lt;simon.wood@r-project.org&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://computing.llnl.gov/tutorials/openMP/">https://computing.llnl.gov/tutorials/openMP/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## illustration of multi-threading with gam...
+
+require(mgcv);set.seed(9)
+dat &lt;- gamSim(1,n=2000,dist="poisson",scale=.1)
+k &lt;- 12;bs &lt;- "cr";ctrl &lt;- list(nthreads=2)
+
+system.time(b1&lt;-gam(y~s(x0,bs=bs)+s(x1,bs=bs)+s(x2,bs=bs,k=k)
+            ,family=poisson,data=dat,method="REML"))[3]
+
+system.time(b2&lt;-gam(y~s(x0,bs=bs)+s(x1,bs=bs)+s(x2,bs=bs,k=k),
+            family=poisson,data=dat,method="REML",control=ctrl))[3]
+
+## Poisson example on a cluster with 'bam'. 
+## Note that there is some overhead in initializing the 
+## computation on the cluster, associated with loading 
+## the Matrix package on each node. Sample sizes are low
+## here to keep example quick -- for such a small model
+## little or no advantage is likely to be seen.
+k &lt;- 13;set.seed(9)
+dat &lt;- gamSim(1,n=6000,dist="poisson",scale=.1)
+
+require(parallel)  
+nc &lt;- 2   ## cluster size, set for example portability
+if (detectCores()&gt;1) { ## no point otherwise
+  cl &lt;- makeCluster(nc) 
+  ## could also use makeForkCluster, but read warnings first!
+} else cl &lt;- NULL
+  
+system.time(b3 &lt;- bam(y ~ s(x0,bs=bs,k=7)+s(x1,bs=bs,k=7)+s(x2,bs=bs,k=k)
+            ,data=dat,family=poisson(),chunk.size=5000,cluster=cl))
+
+fv &lt;- predict(b3,cluster=cl) ## parallel prediction
+
+if (!is.null(cl)) stopCluster(cl)
+b3
+
+## Alternative, better scaling example, using the discrete option with bam...
+
+system.time(b4 &lt;- bam(y ~ s(x0,bs=bs,k=7)+s(x1,bs=bs,k=7)+s(x2,bs=bs,k=k)
+            ,data=dat,family=poisson(),discrete=TRUE,nthreads=2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

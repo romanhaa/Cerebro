@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prediction/Construction wrapper functions for GAM smooth...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for smoothCon {mgcv}"><tr><td>smoothCon {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prediction/Construction wrapper functions for GAM smooth terms</h2>
+
+<h3>Description</h3>
+
+<p> Wrapper functions for construction of and prediction from smooth
+terms in a GAM. The purpose of the wrappers is to allow user-transparant
+re-parameterization of smooth terms, in order to allow identifiability
+constraints to be absorbed into the parameterization of each term, if required.
+The routine also handles &lsquo;by&rsquo; variables and construction of identifiability constraints automatically, 
+although this behaviour can be over-ridden.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+smoothCon(object,data,knots=NULL,absorb.cons=FALSE,
+          scale.penalty=TRUE,n=nrow(data),dataX=NULL,
+          null.space.penalty=FALSE,sparse.cons=0,
+          diagonal.penalty=FALSE,apply.by=TRUE,modCon=0)
+PredictMat(object,data,n=nrow(data))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> is a smooth specification object or a smooth object.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame, model frame or list containing the values of the 
+(named) covariates at which the smooth term is to be 
+evaluated. If it's a list then <code>n</code> must be supplied.</p>
+</td></tr>
+<tr valign="top"><td><code>knots</code></td>
+<td>
+<p>An optional data frame supplying any knot locations to be
+supplied for basis construction.</p>
+</td></tr>
+<tr valign="top"><td><code>absorb.cons</code></td>
+<td>
+<p>Set to <code>TRUE</code> in order to have identifiability
+constraints absorbed into the basis.</p>
+</td></tr>
+<tr valign="top"><td><code>scale.penalty</code></td>
+<td>
+<p>should the penalty coefficient matrix be scaled to have
+approximately the same &lsquo;size&rsquo; as the inner product of the terms model matrix
+with itself? This can improve the performance of <code><a href="gamm.html">gamm</a></code> fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of values for each covariate, or if a covariate is a matrix, 
+the number of rows in that matrix: must be supplied explicitly if <code>data</code> is a list. </p>
+</td></tr>
+<tr valign="top"><td><code>dataX</code></td>
+<td>
+<p>Sometimes the basis should be set up using data in <code>data</code>, but the model matrix
+should be constructed with another set of data provided in <code>dataX</code> &mdash; <code>n</code> is assumed to 
+be the same for both. Facilitates smooth id's.</p>
+</td></tr>
+<tr valign="top"><td><code>null.space.penalty</code></td>
+<td>
+<p>Should an extra penalty be added to the smooth which will penalize the 
+components of the smooth in the penalty null space: provides a way of penalizing terms out of the model altogether.</p>
+</td></tr>
+<tr valign="top"><td><code>apply.by</code></td>
+<td>
+<p>set to <code>FALSE</code> to have basis setup exactly as in default case, but to return add an additional 
+matrix <code>X0</code> to the return object, containing the model matrix without the <code>by</code> variable, if a <code>by</code> 
+variable is present. Useful for <code>bam</code> discrete method setup.</p>
+</td></tr>
+<tr valign="top"><td><code>sparse.cons</code></td>
+<td>
+<p>If <code>0</code> then default sum to zero constraints are used. If <code>-1</code> then sweep and 
+drop sum to zero constraints are used (default with <code><a href="bam.html">bam</a></code>). If <code>1</code> then one
+coefficient is set to zero as constraint for sparse smooths. If <code>2</code> then sparse coefficient sum to zero 
+constraints are used for sparse smooths. None of these options has an effect if the smooth supplies its own 
+constraint.</p>
+</td></tr>
+<tr valign="top"><td><code>diagonal.penalty</code></td>
+<td>
+<p> If <code>TRUE</code> then the smooth is reparameterized to turn the penalty into an identity matrix, 
+with the final diagonal elements zeroed (corresponding to the penalty nullspace). May result in a matrix <code>diagRP</code> in the returned object for use by <code>PredictMat</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>modCon</code></td>
+<td>
+<p>force modification of any smooth supplied constraints. 0 - do nothing. 1 - delete supplied constraints, replacing with automatically generated ones. 2 - set fit and predict constraint to predict constraint. 3 - set fit and predict constraint to fit constraint.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> These wrapper functions exist to allow smooths specified using
+<code><a href="smooth.construct.html">smooth.construct</a></code> and <code><a href="Predict.matrix.html">Predict.matrix</a></code> method
+functions to be re-parameterized so that identifiability constraints are no
+longer required in fitting. This is done in a user transparent
+manner, but is typically of no importance in use of GAMs. The routine's 
+also handle <code>by</code> variables and will create default identifiability 
+constraints.
+</p>
+<p>If a user defined smooth constructor handles <code>by</code> variables itself, then its 
+returned smooth object should contain an object <code>by.done</code>. If this does not exist 
+then <code>smoothCon</code> will use the default code. Similarly if a user defined <code>Predict.matrix</code> 
+method handles <code>by</code> variables internally then the returned matrix should have a 
+<code>"by.done"</code> attribute.
+</p>
+<p>Default centering constraints, that terms should sum to zero over the covariates, are produced unless 
+the smooth constructor includes a matrix <code>C</code> of constraints. To have no constraints (in which case 
+you had better have a full rank penalty!) the matrix <code>C</code> should have no rows. There is an option to 
+use centering constraint that generate no, or limited infil, if the smoother has a sparse model matrix.
+</p>
+<p><code>smoothCon</code> returns a list of smooths because factor <code>by</code> variables result in multiple copies 
+of a smooth, each multiplied by the dummy variable associated with one factor level. <code>smoothCon</code> modifies 
+the smooth object labels in the presence of <code>by</code> variables, to ensure that they are unique, it also stores 
+the level of a by variable factor associated with a smooth, for later use by <code>PredictMat</code>.
+</p>
+<p>The parameterization used by <code><a href="gam.html">gam</a></code> can be controlled via
+<code><a href="gam.control.html">gam.control</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> From <code>smoothCon</code> a list of <code>smooth</code> objects returned by the
+appropriate <code><a href="smooth.construct.html">smooth.construct</a></code> method function. If constraints are
+to be absorbed then the objects will have  attributes <code>"qrc"</code> and
+<code>"nCons"</code>. <code>"nCons"</code> is the number of constraints. <code>"qrc"</code> is
+usually the qr decomposition of the constraint matrix (returned by
+<code><a href="../../Matrix/html/qr-methods.html">qr</a></code>), but if it is a single positive integer it is the index of the 
+coefficient to set to zero, and if it is a negative number then this indicates that 
+the parameters are to sum to zero. 
+</p>
+<p>For <code>predictMat</code> a matrix which will map the parameters associated with
+the smooth to the vector of values of the smooth evaluated at the covariate
+values given in <code>object</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+ 
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.control.html">gam.control</a></code>,
+<code><a href="smooth.construct.html">smooth.construct</a></code>, <code><a href="Predict.matrix.html">Predict.matrix</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## example of using smoothCon and PredictMat to set up a basis
+## to use for regression and make predictions using the result
+library(MASS) ## load for mcycle data.
+## set up a smoother...
+sm &lt;- smoothCon(s(times,k=10),data=mcycle,knots=NULL)[[1]]
+## use it to fit a regression spline model...
+beta &lt;- coef(lm(mcycle$accel~sm$X-1))
+with(mcycle,plot(times,accel)) ## plot data
+times &lt;- seq(0,60,length=200)  ## creat prediction times
+## Get matrix mapping beta to spline prediction at 'times'
+Xp &lt;- PredictMat(sm,data.frame(times=times))
+lines(times,Xp%*%beta) ## add smooth to plot
+
+## Same again but using a penalized regression spline of
+## rank 30....
+sm &lt;- smoothCon(s(times,k=30),data=mcycle,knots=NULL)[[1]]
+E &lt;- t(mroot(sm$S[[1]])) ## square root penalty
+X &lt;- rbind(sm$X,0.1*E) ## augmented model matrix
+y &lt;- c(mcycle$accel,rep(0,nrow(E))) ## augmented data
+beta &lt;- coef(lm(y~X-1)) ## fit penalized regression spline
+Xp &lt;- PredictMat(sm,data.frame(times=times)) ## prediction matrix
+with(mcycle,plot(times,accel)) ## plot data
+lines(times,Xp%*%beta) ## overlay smooth
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

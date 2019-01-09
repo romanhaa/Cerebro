@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transform an Allowable Formula for 'loglm' into one for...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for denumerate {MASS}"><tr><td>denumerate {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Transform an Allowable Formula for 'loglm' into one for 'terms'
+</h2>
+
+<h3>Description</h3>
+
+<p><code><a href="loglm.html">loglm</a></code> allows dimension numbers to be used in place of names in
+the formula.  <code>denumerate</code> modifies such a formula into one that
+<code><a href="../../stats/html/terms.html">terms</a></code> can process.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+denumerate(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A formula conforming to the conventions of <code><a href="loglm.html">loglm</a></code>, that is, it
+may allow dimension numbers to stand in for names when specifying
+a log-linear model.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The model fitting function <code><a href="loglm.html">loglm</a></code> fits log-linear models to
+frequency data using iterative proportional scaling.  To specify
+the model the user must nominate the margins in the data that
+remain fixed under the log-linear model.  It is convenient to
+allow the user to use dimension numbers, 1, 2, 3, ... for the
+first, second, third, ..., margins in a similar way to variable
+names.  As the model formula has to be parsed by <code><a href="../../stats/html/terms.html">terms</a></code>, which
+treats <code>1</code> in a special way and requires parseable variable names,
+these formulae have to be modified by giving genuine names for
+these margin, or dimension numbers.  <code>denumerate</code> replaces these
+numbers with names of a special form, namely <code>n</code> is replaced by
+<code>.vn</code>.  This allows <code>terms</code> to parse the formula in the usual way.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A linear model formula like that presented, except that where
+dimension numbers, say <code>n</code>, have been used to specify fixed
+margins these are replaced by names of the form <code>.vn</code> which may
+be processed by <code>terms</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="renumerate.html">renumerate</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+denumerate(~(1+2+3)^3 + a/b)
+## which gives ~ (.v1 + .v2 + .v3)^3 + a/b
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

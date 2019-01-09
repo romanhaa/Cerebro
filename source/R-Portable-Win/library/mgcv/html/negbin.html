@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM negative binomial families</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for negbin {mgcv}"><tr><td>negbin {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM negative binomial families</h2>
+
+<h3>Description</h3>
+
+<p>The <code>gam</code> modelling function is designed to be able to use 
+the <code><a href="negbin.html">negbin</a></code> family (a modification of MASS library <code>negative.binomial</code> family 
+by Venables and Ripley), or the <code><a href="negbin.html">nb</a></code> function designed for integrated estimation of 
+parameter <code>theta</code>. <i>&theta;</i> is the parameter such that <i>var(y) = &mu; + &mu;^2/&theta;</i>, where <i>&mu; = E(y)</i>.
+</p>
+<p>Two approaches to estimating <code>theta</code> are available (with <code><a href="gam.html">gam</a></code> only):
+</p>
+
+<ul>
+<li><p> With <code>negbin</code> then if &lsquo;performance iteration&rsquo; is used for smoothing parameter estimation 
+(see <code><a href="gam.html">gam</a></code>), then smoothing parameters are chosen by GCV and 
+<code>theta</code> is chosen in order to ensure that the Pearson estimate of the scale 
+parameter is as close as possible to 1, the value that the scale parameter should have.
+</p>
+</li>
+<li><p> If &lsquo;outer iteration&rsquo; is used for smoothing parameter selection with the <code>nb</code> family then 
+<code>theta</code> is estimated alongside the smoothing parameters by ML or REML.
+</p>
+</li></ul>
+
+<p>To use the first option, set the <code>optimizer</code> argument of <code><a href="gam.html">gam</a></code> to <code>"perf"</code> (it can sometimes fail to converge).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+negbin(theta = stop("'theta' must be specified"), link = "log")
+nb(theta = NULL, link = "log")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>Either i) a single value known value of theta or ii) two values of theta specifying the 
+endpoints of an interval over which to search for theta (this is an option only for <code>negbin</code>, and is deprecated). 
+For <code>nb</code> then a positive supplied <code>theta</code> is treated as a fixed known parameter, otherwise 
+it is estimated (the absolute value of a negative <code>theta</code> is taken as a starting value).</p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>The link function: one of <code>"log"</code>, <code>"identity"</code> or <code>"sqrt"</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>nb</code> allows estimation of the <code>theta</code> parameter alongside the model smoothing parameters, but is only usable with <code><a href="gam.html">gam</a></code> or <code><a href="bam.html">bam</a></code> (not <code>gamm</code>).
+</p>
+<p>For <code>negbin</code>, if a single value of <code>theta</code> is supplied then it is always taken as the known fixed value and this is useable with <code><a href="bam.html">bam</a></code> and <code><a href="gamm.html">gamm</a></code>. If <code>theta</code> is two 
+numbers (<code>theta[2]&gt;theta[1]</code>) then they are taken as specifying the range of values over which to search for 
+the optimal theta. This option is deprecated and should only be used with performance iteration estimation (see <code><a href="gam.html">gam</a></code> argument <code>optimizer</code>), in which case  the method 
+of estimation is to choose <i>theta</i>  so that the GCV (Pearson) estimate 
+of the scale parameter is one (since the scale parameter 
+is one for the negative binomial). In this case <i>theta</i> estimation is nested within the IRLS loop 
+used for GAM fitting. After each call to fit an iteratively weighted additive model to the IRLS pseudodata, 
+the <i>theta</i> estimate is updated. This is done by conditioning on all components of the current GCV/Pearson 
+estimator of the scale parameter except <i>theta</i> and then searching for the 
+<i>theta</i> which equates this conditional  estimator to one. The search is 
+a simple bisection search after an initial crude line search to bracket one. The search will 
+terminate at the upper boundary of the search region is a Poisson fit would have yielded an estimated 
+scale parameter &lt;1.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>negbin</code> an object inheriting from class <code>family</code>, with additional elements
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>dvar</code></td>
+<td>
+<p>the function giving the first derivative of the variance function w.r.t. <code>mu</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>d2var</code></td>
+<td>
+<p>the function giving the second derivative of the variance function w.r.t. <code>mu</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>getTheta</code></td>
+<td>
+<p>A function for retrieving the value(s) of theta. This also useful for retriving the 
+estimate of <code>theta</code> after fitting (see example).</p>
+</td></tr>
+</table>
+<p>For <code>nb</code> an object inheriting from class <code>extended.family</code>.
+</p>
+
+
+<h3>WARNINGS</h3>
+
+<p><code><a href="gamm.html">gamm</a></code> does not support <code>theta</code> estimation
+</p>
+<p>The negative binomial functions from the MASS library are no longer supported.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+modified from Venables and Ripley's <code>negative.binomial</code> family.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, B. and B.R. Ripley (2002) Modern Applied Statistics in S, Springer.
+</p>
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(3)
+n&lt;-400
+dat &lt;- gamSim(1,n=n)
+g &lt;- exp(dat$f/5)
+
+## negative binomial data... 
+dat$y &lt;- rnbinom(g,size=3,mu=g)
+## known theta fit ...
+b0 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=negbin(3),data=dat)
+plot(b0,pages=1)
+print(b0)
+
+## same with theta estimation...
+b &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=nb(),data=dat)
+plot(b,pages=1)
+print(b)
+b$family$getTheta(TRUE) ## extract final theta estimate
+
+
+## another example...
+set.seed(1)
+f &lt;- dat$f
+f &lt;- f - min(f)+5;g &lt;- f^2/10
+dat$y &lt;- rnbinom(g,size=3,mu=g)
+b2 &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3),family=nb(link="sqrt"),
+         data=dat,method="REML") 
+plot(b2,pages=1)
+print(b2)
+rm(dat)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

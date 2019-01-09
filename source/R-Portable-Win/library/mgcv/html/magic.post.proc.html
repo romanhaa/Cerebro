@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Auxilliary information from magic fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for magic.post.proc {mgcv}"><tr><td>magic.post.proc {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Auxilliary information from magic fit</h2>
+
+<h3>Description</h3>
+
+<p>Obtains Bayesian parameter covariance matrix, frequentist
+parameter estimator covariance matrix, estimated degrees of 
+freedom for each parameter and leading diagonal of influence/hat matrix, 
+for a penalized regression estimated by <code>magic</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+magic.post.proc(X,object,w=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p> is the model matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>is the list returned by <code>magic</code> after fitting the 
+model with model matrix <code>X</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>is the weight vector used in fitting, or the weight matrix used 
+in fitting (i.e. supplied to <code>magic</code>, if one was.). If <code>w</code> is a vector then its
+elements are typically proportional to reciprocal variances (but could even be negative). 
+If <code>w</code> is a matrix then 
+<code>t(w)%*%w</code> should typically give
+the inverse of the covariance matrix of the response data supplied to <code>magic</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ <p><code>object</code> contains <code>rV</code> (<i>V</i>, say), and 
+<code>scale</code> (<i>s</i>, say) which can be 
+used to obtain the require quantities as follows. The Bayesian covariance matrix of 
+the parameters is <i>VV's</i>. The vector of 
+estimated degrees of freedom for each parameter is the leading diagonal of 
+<i> VV'X'W'WX</i> 
+where <i>W</i> is either the 
+weight matrix <code>w</code> or the matrix <code>diag(w)</code>. The 
+hat/influence  matrix is given by 
+<i> WXVV'X'W'</i>
+.
+</p>
+<p>The frequentist parameter estimator covariance matrix is 
+<i> VV'X'W'WXVV's</i>: 
+it is sometimes useful for testing terms for equality to zero.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A list with three items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Vb</code></td>
+<td>
+<p>the Bayesian covariance matrix of the model parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>Ve</code></td>
+<td>
+<p>the frequentist covariance matrix for the parameter estimators.</p>
+</td></tr>
+<tr valign="top"><td><code>hat</code></td>
+<td>
+<p>the leading diagonal of the hat (influence) matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>edf</code></td>
+<td>
+<p>the array giving the estimated degrees of freedom associated 
+with each parameter.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="magic.html">magic</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

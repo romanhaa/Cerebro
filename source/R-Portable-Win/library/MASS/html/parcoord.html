@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parallel Coordinates Plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for parcoord {MASS}"><tr><td>parcoord {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Parallel Coordinates Plot
+</h2>
+
+<h3>Description</h3>
+
+<p>Parallel coordinates plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+parcoord(x, col = 1, lty = 1, var.label = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a matrix or data frame who columns represent variables.  Missing values
+are allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>A vector of colours, recycled as necessary for each observation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+
+<p>A vector of line types, recycled as necessary for each observation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>var.label</code></td>
+<td>
+
+<p>If <code>TRUE</code>, each variable's axis is labelled with maximum and
+minimum values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further graphics parameters which are passed to <code>matplot</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Side Effects</h3>
+
+<p>a parallel coordinates plots is drawn.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>B. D. Ripley.  Enhancements based on ideas and code by Fabian Scheipl.
+</p>
+
+
+<h3>References</h3>
+
+<p>Wegman, E. J. (1990) Hyperdimensional data analysis using parallel
+coordinates.
+<em>Journal of the American Statistical Association</em>
+<b>85</b>, 664&ndash;675.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+parcoord(state.x77[, c(7, 4, 6, 2, 5, 3)])
+
+ir &lt;- rbind(iris3[,,1], iris3[,,2], iris3[,,3])
+parcoord(log(ir)[, c(3, 4, 2, 1)], col = 1 + (0:149)%/%50)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

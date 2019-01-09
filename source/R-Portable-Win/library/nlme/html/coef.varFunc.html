@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: varFunc Object Coefficients</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for coef.varFunc {nlme}"><tr><td>coef.varFunc {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>varFunc Object Coefficients</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts the coefficients associated with the
+variance function structure represented by <code>object</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'varFunc'
+coef(object, unconstrained, allCoef, ...)
+## S3 replacement method for class 'varIdent'
+coef(object, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="varFunc.html">varFunc</a>"</code>
+representing a variance function structure.</p>
+</td></tr>
+<tr valign="top"><td><code>unconstrained</code></td>
+<td>
+<p>a logical value. If <code>TRUE</code> the coefficients
+are returned in unconstrained form (the same used in the optimization
+algorithm). If <code>FALSE</code> the coefficients are returned in
+&quot;natural&quot;, generally constrained form. Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>allCoef</code></td>
+<td>
+<p>a logical value. If <code>FALSE</code> only the coefficients
+which may vary during the optimization are returned. If <code>TRUE</code>
+all coefficients are returned. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a vector with the replacement values for the coefficients
+associated with <code>object</code>. It must be have the same length of
+<code>coef{object}</code> and must be given in unconstrained
+form. <code>Object</code> must be initialized before new values can be
+assigned to its coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector with the coefficients corresponding to <code>object</code>.
+</p>
+
+
+<h3>SIDE EFFECTS</h3>
+
+<p>On the left side of an assignment, sets the values of the coefficients
+of <code>object</code> to <code>value</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="varFunc.html">varFunc</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vf1 &lt;- varPower(1)
+coef(vf1)
+
+coef(vf1) &lt;- 2
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

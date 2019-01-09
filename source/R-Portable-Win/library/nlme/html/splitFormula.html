@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Split a Formula</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for splitFormula {nlme}"><tr><td>splitFormula {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Split a Formula</h2>
+
+<h3>Description</h3>
+
+<p>Splits the right hand side of <code>form</code> into a list of subformulas
+according to the presence of <code>sep</code>. The left hand side of
+<code>form</code>, if present, will be ignored. The length of the returned
+list will be equal to the number of occurrences of <code>sep</code> in
+<code>form</code> plus one. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+splitFormula(form, sep)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>a <code>formula</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>an optional character string specifying the separator to be
+used for splitting the formula. Defaults to <code>"/"</code>. </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list of formulas, corresponding to the split of <code>form</code>
+according to <code>sep</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/formula.html">formula</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+splitFormula(~ g1/g2/g3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Multinomial Log-linear Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multinom {nnet}"><tr><td>multinom {nnet}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit Multinomial Log-linear Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Fits multinomial log-linear models via neural networks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multinom(formula, data, weights, subset, na.action,
+         contrasts = NULL, Hess = FALSE, summ = 0, censored = FALSE,
+         model = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula expression as for regression models, of the form
+<code>response ~ predictors</code>. The response should be a factor or a
+matrix with K columns, which will be interpreted as counts for each of
+K classes.
+A log-linear model is fitted, with coefficients zero for the first
+class. An offset can be included: it should be a numeric matrix with K columns
+if the response is either a matrix with K columns or a factor with K &gt;= 2
+classes, or a numeric vector for a response factor with 2 levels.
+See the documentation of <code><a href="../../stats/html/formula.html">formula</a>()</code> for other details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>an optional data frame in which to interpret the variables occurring
+in <code>formula</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>optional case weights in fitting.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>expression saying which subset of the rows of the data should  be used
+in the fit. All observations are included by default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>a function to filter missing data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>a list of contrasts to be used for some or all of
+the factors appearing as variables in the model formula.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Hess</code></td>
+<td>
+
+<p>logical for whether the Hessian (the observed/expected information matrix)
+should be returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>summ</code></td>
+<td>
+
+<p>integer; if non-zero summarize by deleting duplicate rows and adjust weights.
+Methods 1 and 2 differ in speed (2 uses <code>C</code>); method 3 also combines rows
+with the same X and different Y, which changes the baseline for the
+deviance.
+</p>
+</td></tr>
+<tr valign="top"><td><code>censored</code></td>
+<td>
+
+<p>If Y is a matrix with <code>K</code> columns, interpret the entries as one
+for possible classes, zero for impossible classes, rather than as
+counts.
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>logical. If true, the model frame is saved as component <code>model</code>
+of the returned object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments for <code>nnet</code>
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p><code>multinom</code> calls <code><a href="nnet.html">nnet</a></code>.  The variables on the rhs of
+the formula should be roughly scaled to [0,1] or the fit will be slow
+or may not converge at all.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>nnet</code> object with additional components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>deviance</code></td>
+<td>
+
+<p>the residual deviance, compared to the full saturated model (that
+explains individual observations exactly).  Also, minus twice log-likelihood.
+</p>
+</td></tr>
+<tr valign="top"><td><code>edf</code></td>
+<td>
+
+<p>the (effective) number of degrees of freedom used by the model
+</p>
+</td></tr>
+<tr valign="top"><td><code>AIC</code></td>
+<td>
+
+<p>the AIC for this fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Hessian</code></td>
+<td>
+
+<p>(if <code>Hess</code> is true).
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>(if <code>model</code> is true).
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="nnet.html">nnet</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+options(contrasts = c("contr.treatment", "contr.poly"))
+library(MASS)
+example(birthwt)
+(bwt.mu &lt;- multinom(low ~ ., bwt))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nnet</em> version 7.3-12 <a href="00Index.html">Index</a>]</div>
+</body></html>

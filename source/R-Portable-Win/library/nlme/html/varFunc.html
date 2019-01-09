@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Variance Function Structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for varFunc {nlme}"><tr><td>varFunc {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Variance Function Structure</h2>
+
+<h3>Description</h3>
+
+<p>If <code>object</code> is a one-sided formula, it is used as the argument to
+<code>varFixed</code> and the resulting object is returned. Else, if
+<code>object</code> inherits from class <code>varFunc</code>, it is returned
+unchanged. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+varFunc(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>either an one-sided formula specifying a variance
+covariate, or an object inheriting from class <code>varFunc</code>,
+representing a variance function structure.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object from class <code>varFunc</code>, representing a variance function
+structure. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="summary.varFunc.html">summary.varFunc</a></code>,
+<code><a href="varFixed.html">varFixed</a></code>,
+<code><a href="varWeights.html">varWeights.varFunc</a></code>,
+<code><a href="coef.varFunc.html">coef.varFunc</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vf1 &lt;- varFunc(~age)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

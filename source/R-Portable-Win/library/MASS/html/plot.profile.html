@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plotting Functions for 'profile' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.profile {MASS}"><tr><td>plot.profile {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plotting Functions for 'profile' Objects</h2>
+
+<h3>Description</h3>
+
+<p><code><a href="../../graphics/html/plot.html">plot</a></code> and <code><a href="../../graphics/html/pairs.html">pairs</a></code> methods for objects of
+class <code>"profile"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'profile'
+plot(x, ...)
+## S3 method for class 'profile'
+pairs(x, colours = 2:3, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>"profile"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>colours</code></td>
+<td>
+<p>Colours to be used for the mean curves conditional on
+<code>x</code> and <code>y</code> respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is the main <code>plot</code> method for objects created by
+<code><a href="profile.glm.html">profile.glm</a></code>.  It can also be called on objects created
+by <code><a href="../../stats/html/profile.nls.html">profile.nls</a></code>, but they have a specific method,
+<code><a href="../../stats/html/plot.profile.nls.html">plot.profile.nls</a></code>.
+</p>
+<p>The <code>pairs</code> method shows, for each pair of parameters x and
+y, two curves intersecting at the maximum likelihood estimate, which
+give the loci of the points at which the tangents to the contours of
+the bivariate profile likelihood become vertical and horizontal,
+respectively.  In the case of an exactly bivariate normal profile
+likelihood, these two curves would be straight lines giving the
+conditional means of y|x and x|y, and the contours would be exactly
+elliptical.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Originally, D. M. Bates and W. N. Venables.  (For S in 1996.)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="profile.glm.html">profile.glm</a></code>, <code><a href="../../stats/html/profile.nls.html">profile.nls</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see ?profile.glm for an example using glm fits.
+
+## a version of example(profile.nls) from R &gt;= 2.8.0
+fm1 &lt;- nls(demand ~ SSasympOrig(Time, A, lrc), data = BOD)
+pr1 &lt;- profile(fm1, alpha = 0.1)
+MASS:::plot.profile(pr1)
+pairs(pr1) # a little odd since the parameters are highly correlated
+
+## an example from ?nls
+x &lt;- -(1:100)/10
+y &lt;- 100 + 10 * exp(x / 2) + rnorm(x)/10
+nlmod &lt;- nls(y ~  Const + A * exp(B * x), start=list(Const=100, A=10, B=1))
+pairs(profile(nlmod))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

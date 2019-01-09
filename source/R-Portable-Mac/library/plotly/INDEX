@@ -1,0 +1,74 @@
+TeX                     Render TeX in a plotly graph using MathJax
+add_annotations         Add an annotation(s) to a plot
+add_data                Add data to a plotly visualization
+add_fun                 Apply function to plot, without modifying data
+add_trace               Add trace(s) to a plotly visualization
+animation_opts          Animation configuration options
+api_create              Tools for working with plotly's REST API (v2)
+as.widget               Convert a plotly object to an htmlwidget object
+as_widget               Convert a list to a plotly htmlwidget object
+attrs_selected          Specify attributes of selection traces
+bbox                    Estimate bounding box of a rotated string
+colorbar                Modify the colorbar
+config                  Set the default configuration for plotly
+embed_notebook          Embed a plot as an iframe into a Jupyter
+                        Notebook
+event_data              Access plotly user input event data in shiny
+export                  Export a plotly graph to a static file
+geom2trace              Convert a "basic" geoms to a plotly.js trace.
+get_figure              Request a figure object
+gg2list                 Convert a ggplot to a list.
+ggplotly                Convert ggplot2 to plotly
+group2NA                Separate groups with missing values
+hide_colorbar           Hide color bar(s)
+hide_guides             Hide guides (legends and colorbars)
+hide_legend             Hide legend
+highlight               Query graphical elements in multiple linked
+                        views
+highlight_key           Highlight/query data based on primary key
+hobbs                   Hobbs data
+knit_print.api_grid     Embed a plotly grid as an iframe in a knitr doc
+knit_print.api_grid_local
+                        Embed a plotly grid as an iframe in a knitr doc
+knit_print.api_plot     Embed a plotly figure as an iframe in a knitr
+                        doc
+last_plot               Retrieve the last plot to be modified or
+                        created.
+layout                  Modify the layout of a plotly visualization
+mic                     Mic data
+offline                 Plotly Offline
+orca                    Static image export via orca
+partial_bundle          Use a partial bundle of plotly.js
+plot_dendro             Plot an interactive dendrogram
+plot_geo                Initiate a plotly-geo object
+plot_ly                 Initiate a plotly visualization
+plot_mapbox             Initiate a plotly-mapbox object
+plotly-shiny            Shiny bindings for plotly
+plotlyProxy             Modify a plotly object inside a shiny app
+plotly_IMAGE            Create a static image
+plotly_POST             Create/Modify plotly graphs
+plotly_build            'Build' (i.e., evaluate) a plotly object
+plotly_data             Obtain data associated with a plotly graph
+plotly_empty            Create a complete empty plotly graph.
+plotly_example          Run a plotly example(s)
+plotly_json             Inspect JSON sent to plotly.js
+print.api               Print method for a 'generic' API response
+print.api_grid          Print a plotly grid object
+print.api_grid_local    Print a plotly grid object
+print.api_plot          Print a plot on plotly's platform
+rangeslider             Add a range slider to the x-axis
+raster2uri              Convert a raster object to a data URI
+remove_typedarray_polyfill
+                        Remove TypedArray polyfill
+res_mn                  Minnesotan Indian Reservation Lands
+schema                  Acquire (and optionally display) plotly's plot
+                        schema
+showRGB                 View colors already formatted by toRGB()
+signup                  Create a new plotly account.
+style                   Modify trace(s)
+subplot                 View multiple plots in a single view
+toRGB                   Convert R colours to RGBA hexadecimal colour
+                        values
+toWebGL                 Convert trace types to WebGL
+to_basic                Convert a geom to a "basic" geom.
+wind                    Wind data

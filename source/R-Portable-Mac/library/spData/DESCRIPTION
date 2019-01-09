@@ -1,0 +1,35 @@
+Package: spData
+Title: Datasets for Spatial Analysis
+Version: 0.2.9.3
+Authors@R: c(person("Roger", "Bivand", role = "aut", email="Roger.Bivand@nhh.no", comment = c(ORCID = "0000-0003-2392-6140")),
+    person("Jakub", "Nowosad", role = c("aut", "cre"), email="nowosad.jakub@gmail.com", comment = c(ORCID = "0000-0002-1057-3721")),
+    person("Robin", "Lovelace", role = "aut", comment = c(ORCID = "0000-0001-5679-6536")),
+    person("Mark", "Monmonier", role = "ctb", comment = "author of the state.vbm dataset"), 
+    person("Greg", "Snow", role = "ctb", comment = "author of the state.vbm dataset")
+    )
+Description: Diverse spatial datasets for demonstrating, benchmarking and teaching spatial data analysis. 
+    It includes R data of class sf (defined by the package 'sf'), Spatial ('sp'), and nb ('spdep').
+    Unlike other spatial data packages such as 'rnaturalearth' and 'maps', 
+    it also contains data stored in a range of file formats including GeoJSON, ESRI Shapefile and GeoPackage. 
+    Some of the datasets are designed to illustrate specific analysis techniques.
+    cycle_hire() and cycle_hire_osm(), for example, is designed to illustrate point pattern analysis techniques.
+Depends: R (>= 3.3.0)
+Suggests: foreign, maptools, raster, rgdal, sf, sp, spDataLarge (>=
+        0.2.7.1), spdep
+License: CC0
+RoxygenNote: 6.0.1
+LazyData: true
+URL: https://github.com/Nowosad/spData
+BugReports: https://github.com/Nowosad/spData/issues
+Additional_repositories: https://nowosad.github.io/drat
+NeedsCompilation: no
+Packaged: 2018-08-01 14:56:07 UTC; jn
+Author: Roger Bivand [aut] (<https://orcid.org/0000-0003-2392-6140>),
+  Jakub Nowosad [aut, cre] (<https://orcid.org/0000-0002-1057-3721>),
+  Robin Lovelace [aut] (<https://orcid.org/0000-0001-5679-6536>),
+  Mark Monmonier [ctb] (author of the state.vbm dataset),
+  Greg Snow [ctb] (author of the state.vbm dataset)
+Maintainer: Jakub Nowosad <nowosad.jakub@gmail.com>
+Repository: CRAN
+Date/Publication: 2018-08-01 16:20:03 UTC
+Built: R 3.5.0; ; 2018-08-02 14:49:24 UTC; unix

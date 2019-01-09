@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert groupedData to a matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for asTable {nlme}"><tr><td>asTable {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert groupedData to a matrix</h2>
+
+<h3>Description</h3>
+
+<p>Create a tabular representation of the response in a balanced
+groupedData object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+asTable(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A balanced <code>groupedData</code> object</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A balanced groupedData object can be represented as a matrix or table
+of response values corresponding to the values of a primary covariate
+for each level of a grouping factor.  This function creates such a
+matrix representation of the data in <code>object</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix.  The data in the matrix are the values of the response.  The
+columns correspond to the distinct values of the primary covariate and
+are labelled as such.  The rows correspond to the distinct levels of
+the grouping factor and are labelled as such.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J. C. and Bates, D. M. (2000), <em>Mixed-Effects Models in S
+and S-PLUS</em>, Springer, New York.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="groupedData.html">groupedData</a></code>, <code><a href="isBalanced.html">isBalanced</a></code>,
+<code><a href="balancedGrouped.html">balancedGrouped</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+asTable(Orthodont)
+
+# Pinheiro and Bates, p. 109
+ergoStool.mat &lt;- asTable(ergoStool)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Classify Test Set from LVQ Codebook</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lvqtest {class}"><tr><td>lvqtest {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Classify Test Set from LVQ Codebook
+</h2>
+
+<h3>Description</h3>
+
+<p>Classify a test set by 1-NN from a specified LVQ codebook.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lvqtest(codebk, test)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>codebk</code></td>
+<td>
+
+<p>codebook object returned by other LVQ software
+</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+
+<p>matrix of test examples
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>Uses 1-NN to classify each test example against the codebook.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Factor of classification for each row of <code>x</code>
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lvqinit.html">lvqinit</a></code>, <code><a href="olvq1.html">olvq1</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The function is currently defined as
+function(codebk, test) knn1(codebk$x, test, codebk$cl)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

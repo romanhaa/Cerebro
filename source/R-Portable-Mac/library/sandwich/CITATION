@@ -1,0 +1,36 @@
+citHeader("To cite sandwich in publications use:")
+
+citEntry(entry="Article",
+         title = "Econometric Computing with HC and HAC Covariance Matrix Estimators",
+         author = personList(as.person("Achim Zeileis")),
+         journal      = "Journal of Statistical Software",
+         year         = "2004",
+	 volume       = "11",
+	 number       = "10",
+	 pages        = "1--17",
+         url          = "http://www.jstatsoft.org/v11/i10/",
+         
+         textVersion = 
+         paste("Achim Zeileis (2004).", 
+               "Econometric Computing with HC and HAC Covariance Matrix Estimators.",
+               "Journal of Statistical Software 11(10), 1-17.",
+	       "URL http://www.jstatsoft.org/v11/i10/.")
+)
+
+citEntry(entry        = "Article",
+         title        = "Object-Oriented Computation of Sandwich Estimators",
+         author       = "Achim Zeileis", 
+         journal      = "Journal of Statistical Software",
+         year         = "2006",
+	 volume       = "16",
+	 number       = "9",
+	 pages        = "1--16",
+         url          = "http://www.jstatsoft.org/v16/i09/.",
+         
+         textVersion = 
+         paste("Achim Zeileis (2006).", 
+               "Object-Oriented Computation of Sandwich Estimators.",
+               "Journal of Statistical Software 16(9), 1-16.",
+	       "URL http://www.jstatsoft.org/v16/i09/."),
+         header = "If sandwich is applied to models other than lm() also cite:"
+)

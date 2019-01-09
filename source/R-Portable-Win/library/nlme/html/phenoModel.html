@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model function for the Phenobarb data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for phenoModel {nlme}"><tr><td>phenoModel {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model function for the Phenobarb data</h2>
+
+<h3>Description</h3>
+
+<p>A model function for a model used with the <code>Phenobarb</code> data.
+This function uses compiled C code to improve execution speed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+phenoModel(Subject, time, dose, lCl, lV)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Subject</code></td>
+<td>
+<p>an integer vector of subject identifiers.  These should
+be sorted in increasing order.</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+<p>numeric. A vector of the times at which the sample was drawn or
+the drug administered (hr).
+</p>
+</td></tr>
+<tr valign="top"><td><code>dose</code></td>
+<td>
+<p>numeric. A vector of doses of drug administered
+(<i>&mu;</i>g/kg).
+</p>
+</td></tr>
+<tr valign="top"><td><code>lCl</code></td>
+<td>
+<p>numeric.  A vector of values of the natural log of the
+clearance parameter according to <code>Subject</code> and <code>time</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lV</code></td>
+<td>
+<p>numeric.  A vector of values of the natural log of the
+effective volume of distribution according to <code>Subject</code> and
+<code>time</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See the details section of <code><a href="Phenobarb.html">Phenobarb</a></code> for a description
+of the model function that <code>phenoModel</code> evaluates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a numeric vector of predicted phenobarbital concentrations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J. C. and Bates, D. M. (2000) <em>Mixed-effects Models in
+S and S-PLUS</em>, Springer. (section 6.4)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

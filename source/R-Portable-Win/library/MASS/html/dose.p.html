@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predict Doses for Binomial Assay model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dose.p {MASS}"><tr><td>dose.p {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Predict Doses for Binomial Assay model
+</h2>
+
+<h3>Description</h3>
+
+<p>Calibrate binomial assays, generalizing the calculation of LD50.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dose.p(obj, cf = 1:2, p = 0.5)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+
+<p>A fitted model object of class inheriting from <code>"glm"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cf</code></td>
+<td>
+
+<p>The terms in the coefficient vector giving the intercept and
+coefficient of (log-)dose
+</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+
+<p>Probabilities at which to predict the dose needed.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"glm.dose"</code> giving the prediction (attribute
+<code>"p"</code> and standard error (attribute <code>"SE"</code>) at each response
+probability.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em>
+Springer.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ldose &lt;- rep(0:5, 2)
+numdead &lt;- c(1, 4, 9, 13, 18, 20, 0, 2, 6, 10, 12, 16)
+sex &lt;- factor(rep(c("M", "F"), c(6, 6)))
+SF &lt;- cbind(numdead, numalive = 20 - numdead)
+budworm.lg0 &lt;- glm(SF ~ sex + ldose - 1, family = binomial)
+
+dose.p(budworm.lg0, cf = c(1,3), p = 1:3/4)
+dose.p(update(budworm.lg0, family = binomial(link=probit)),
+       cf = c(1,3), p = 1:3/4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

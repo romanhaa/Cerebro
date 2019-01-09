@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample Size of Dissimilarity Like Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sizeDiss {cluster}"><tr><td>sizeDiss {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample Size of Dissimilarity Like Object</h2>
+
+<h3>Description</h3>
+
+<p>Returns the number of observations (<em>sample size</em>) corresponding
+to a  dissimilarity like object, or equivalently,
+the number of rows or columns of a matrix
+when only the lower or upper triangular part (without diagonal) is given.
+</p>
+<p>It is nothing else but the inverse function of <i>f(n) = n(n-1)/2</i>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sizeDiss(d)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>any <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object with length (typically) <i>n(n-1)/2</i>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a number; <i>n</i> if <code>length(d) == n(n-1)/2</code>, <code>NA</code> otherwise.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="dissimilarity.object.html">dissimilarity.object</a></code> and also
+<code><a href="../../stats/html/dist.html">as.dist</a></code> for class <code>dissimilarity</code> and
+<code>dist</code> objects which have a <code>Size</code> attribute.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sizeDiss(1:10)# 5, since 10 == 5 * (5 - 1) / 2
+sizeDiss(1:9) # NA
+
+n &lt;- 1:100
+stopifnot(n == sapply( n*(n-1)/2, function(n) sizeDiss(logical(n))))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

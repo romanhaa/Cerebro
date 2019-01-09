@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Serializable Representations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Serializable Representations
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;repr&rsquo; version 0.15.0</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="repr-package.html">repr-package</a></td>
+<td>The repr package</td></tr>
+<tr><td style="width: 25%;"><a href="times-2repr.html">*2repr</a></td>
+<td>Lists mapping mime types ('mime2repr') or format names ('format2repr') to 'repr' functions</td></tr>
+<tr><td style="width: 25%;"><a href="times-2repr.html">format2repr</a></td>
+<td>Lists mapping mime types ('mime2repr') or format names ('format2repr') to 'repr' functions</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">html_dependencies</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="times-2repr.html">mime2repr</a></td>
+<td>Lists mapping mime types ('mime2repr') or format names ('format2repr') to 'repr' functions</td></tr>
+<tr><td style="width: 25%;"><a href="repr.html">repr</a></td>
+<td>Dynamic representation</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr-generics</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-options.html">repr-options</a></td>
+<td>repr options</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.data.table.html">repr_*.data.table</a></td>
+<td>Representation of data.table objects</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.factor.html">repr_*.factor</a></td>
+<td>Representations of factors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.function.html">repr_*.function</a></td>
+<td>Representations of functions</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.help_files_with_topic.html">repr_*.help_files_with_topic</a></td>
+<td>Representations of help</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_*.htmlwidget</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.list.html">repr_*.list</a></td>
+<td>Representations of lists</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_*.matrix/data.frame</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.packageIQR.html">repr_*.packageIQR</a></td>
+<td>packageIQR representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.recordedplot.html">repr_*.recordedplot</a></td>
+<td>Plot representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_*.shiny.tag</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_*.shiny.tag.list</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_*.vector</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_html</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_html.character</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_html.complex</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_html.data.frame</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.data.table.html">repr_html.data.table</a></td>
+<td>Representation of data.table objects</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_html.Date</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_html.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.factor.html">repr_html.factor</a></td>
+<td>Representations of factors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.function.html">repr_html.function</a></td>
+<td>Representations of functions</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.help_files_with_topic.html">repr_html.help_files_with_topic</a></td>
+<td>Representations of help</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_html.htmlwidget</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_html.integer</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.list.html">repr_html.list</a></td>
+<td>Representations of lists</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_html.logical</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_html.matrix</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_html.numeric</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.packageIQR.html">repr_html.packageIQR</a></td>
+<td>packageIQR representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_html.shiny.tag</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_html.shiny.tag.list</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_javascript</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_javascript.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_jpg</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_jpg.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.recordedplot.html">repr_jpg.recordedplot</a></td>
+<td>Plot representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_json</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_json.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_latex</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_latex.character</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_latex.complex</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_latex.data.frame</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.data.table.html">repr_latex.data.table</a></td>
+<td>Representation of data.table objects</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_latex.Date</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_latex.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.factor.html">repr_latex.factor</a></td>
+<td>Representations of factors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.function.html">repr_latex.function</a></td>
+<td>Representations of functions</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.help_files_with_topic.html">repr_latex.help_files_with_topic</a></td>
+<td>Representations of help</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_latex.integer</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.list.html">repr_latex.list</a></td>
+<td>Representations of lists</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_latex.logical</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_latex.matrix</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_latex.numeric</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_markdown</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_markdown.character</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_markdown.complex</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_markdown.data.frame</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_markdown.Date</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_markdown.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.factor.html">repr_markdown.factor</a></td>
+<td>Representations of factors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.function.html">repr_markdown.function</a></td>
+<td>Representations of functions</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_markdown.integer</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.list.html">repr_markdown.list</a></td>
+<td>Representations of lists</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_markdown.logical</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_markdown.matrix</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.vector.html">repr_markdown.numeric</a></td>
+<td>Representations of vectors</td></tr>
+<tr><td style="width: 25%;"><a href="repr-options.html">repr_option_defaults</a></td>
+<td>repr options</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_pdf</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_pdf.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.recordedplot.html">repr_pdf.recordedplot</a></td>
+<td>Plot representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_png</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_png.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.recordedplot.html">repr_png.recordedplot</a></td>
+<td>Plot representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_svg</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr-generics.html">repr_svg.default</a></td>
+<td>Representations for specific formats</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.recordedplot.html">repr_svg.recordedplot</a></td>
+<td>Plot representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_text.html">repr_text</a></td>
+<td>Text representation</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_text.data.frame</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.data.table.html">repr_text.data.table</a></td>
+<td>Representation of data.table objects</td></tr>
+<tr><td style="width: 25%;"><a href="repr_text.html">repr_text.default</a></td>
+<td>Text representation</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.help_files_with_topic.html">repr_text.help_files_with_topic</a></td>
+<td>Representations of help</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_text.htmlwidget</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.matrix-slash-data.frame.html">repr_text.matrix</a></td>
+<td>Tabular data representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.packageIQR.html">repr_text.packageIQR</a></td>
+<td>packageIQR representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.recordedplot.html">repr_text.recordedplot</a></td>
+<td>Plot representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_text.shiny.tag</a></td>
+<td>HTML widget representations</td></tr>
+<tr><td style="width: 25%;"><a href="repr_-times-.htmlwidget.html">repr_text.shiny.tag.list</a></td>
+<td>HTML widget representations</td></tr>
+</table>
+</body></html>

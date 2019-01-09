@@ -1,0 +1,283 @@
+NEWS/Changelog
+
+1.5-9	(2015-09-25)
+    o	work around bug #45376 in freetype 2.6.0 causing compilation
+	failure
+
+
+1.5-8	(2015-07-29)
+    o	fix a premature memory release in locator handling for
+	raster back-ends.
+
+
+1.5-7	(2015-07-27)
+    o	fix a segfault in CairoFontMatch() in case FcNameParse()
+	fails (closes #10)
+
+    o	image back-end can now provide custom locator if
+	a `locator` argument is passed to `Cairo()` with the desired
+	callback function. The callback function accepts `dev` argument
+	and should return either a numeric vector of length 2 (x, y)
+	or `NULL`. This is mainly useful for `type='raster'` passed to
+	external UI where that UI can provide locator capability.
+
+    o   add Cairo.snapshot() which is similar to recordPlot() but
+	also allows the retrieval of the last snapshot.
+
+
+1.5-6	(2014-06-26)
+    o	scale line width by the same amount as fonts such that
+	resolution changes are consistent even in that respect
+
+
+1.5-5	(2013-12-23)
+    o	fix onSave reporting incorrect page number for the last page
+	(introduced in 1.5-4, closes #6)
+
+    o	scale fonts unconditionally according to the dpi adjustment
+	(fixes issues with grid graphics and dpi changes)
+
+
+1.5-4	(2013-12-12)
+    o	fix invalid pointsize scaling if dpi auto-detection is used
+	(closes #1)
+
+    o	fix failure to emit final page in some multi-page settings
+	(closes #4)
+
+    o	the `res' parameter in CairoPNG(), CairoTIFF() and CairoJPEG()
+	it now passed down to Cairo() which now accepts `res' to
+	override the value of `dpi' if `res' is set to anyhting other
+	than NA or NULL. (closes #3)
+
+    o	release onSave callback function on close (closes #2)
+
+
+1.5-3	(2013-12-03)
+    o	remove compatibility layers to make R 3.x happy
+
+    o	adjust pointsize according to the dpi setting
+
+
+1.5-2	(2012-11-05)
+    o	added Cairo.onSave() callback which allows R code to be run
+	when Cairo finishes a page
+
+    o	added Cairo.serial() function which allows user code to check
+	whether the graphics have been updated
+
+    o	bugfix/update in Cairo connection patch (by Karl Millar)
+
+
+1.5-1	(2011-12-10)
+    o	add support for dev.hold()/dev.flush()
+
+    o	use new R 2.14.0 device capabilities advertizing feature
+
+    o	fix memory leak when setting fonts via CairoFonts()
+
+    o	explicitly request font anti-aliasing even if it is not the
+	surface default - in particular Windows has disabled font
+	anti-aliasing by default
+
+
+1.5-0	(2011-09-30)
+    o	fix swapped bold vs italic traits if freetype is not available
+
+    o	use Times font for symbols on Windows because Symbol font
+	doesn't seem to support Unicode
+
+    o	add support for poly-paths
+
+    o	add support for dev.capture()/grid.cap()
+
+    o	added new type "raster" that creates an image back-end without
+	any output file. It can be used in conjunction with
+	dev.capture() to create in-memory image representations, e.g.:
+	Cairo(type='raster')
+	plot(1:10, col=2)
+	p = writePNG(dev.capture(native=TRUE), raw())
+	will create a raw vector containg a PNG image.
+
+
+1.4-9	(2011-04-06)
+    o	force static built-in libraries on Windows to prevent Cairo
+	from picking up broken system libraries
+
+1.4-8	(2011-03-07)
+    o	spurious character in the 1.4-7 w32-backed source has made it
+	unusable on Windows. This is a re-packaging of 1.4-7 without
+	that spurious character.
+
+1.4-7	(2011-03-07)
+    o	fix a bug in raster support causing raster to be usable only
+	once
+
+    o	win backend: release and re-get DC on resize -- fixes resizing
+	issues in CairoWin() for some Windows versions
+
+1.4-6	(2011-02-10)
+    o	adds raster image support (courtesy of R core)
+
+    o	update Windows libcairo binary to cairo 1.10.2, use static
+	build to avoid DLL issues and add 64-bit binary
+
+1.4-5	(2009-07-16)
+    o	minor Windows configuration change
+
+    o	fix SET_VECTOR_ELT issue for R 2.9.0+
+
+1.4-4	(2008-10-17)
+    o	adapt to changes in R-devel (2.9.0-to-be), clean up warnings
+
+1.4-3	(2008-07-21)
+    o	make the use of an invalid font non-fatal
+
+    o	allow Cairo to compile on some older systems that don't have
+	trunc()
+
+    o	updated libcairo binary for Windows to 1.6.4 (from GTK+)
+
+1.4-2	(2008-04-03)
+    o	adapt to even more changes in R 2.7
+
+1.4-1	(2008-03-14)
+    o	adapt to R 2.7 changes
+
+1.4-0
+    o	fix DPI detection in X11 back-end and use 90dpi as a fallback
+
+    o	fix cra settings to be closer to what other devices use
+
+    o	CairoX11 no longer fixes DPI to 72, "auto" is now the default.
+	In addition, CairoWin and CairoX11 allow additional arguments
+	to ba passed to Cairo.
+
+1.3-5	(2007-08-27)
+    o	adapt to const char* CHARs in R-devel
+
+    o	fix a bug in CairoSVG (wrong argument name)
+
+    o	fix a bug in CairoPS (units were not set to "in" and
+	width/height had no defaults)
+
+    o	fix unintentional doubling of the .ps suffix
+
+1.3-4	(2007-05-10)
+    o	more fixes in flag-guessing
+
+    o	some vector backends (e.g. PDF, SVG) were falling back to
+	bitamp rasterization, we try to prevent this 
+
+    o	address expose issues with some X11 servers
+
+    o	add CairoSVG wrapper
+
+    o	add an unified way to register back-ends and get a list of all
+	supported types.
+
+    o	add Cairo.capabilities() function
+
+1.3-3	2007-04-25
+    o	improve detection of cairo and its dependencies
+
+    o	work around missing API such that cairo 1.0 can be used.
+	However, it is strongly encouraged to use cairo 1.2 or
+	possibly 1.4 as they contain important bugfixes.
+
+    o	fix page numbering to start at 1 (was 0) and update
+	documentation correspondingly
+
+1.3-2	2007-04-18
+    o	added format autodetection for tiff and png. The 32-bit
+	version of either format is used if the background
+	is not opaque.
+
+    o	fixed bug in the value returned by Cairo
+
+    o	added type and file attributes to the Cairo object
+
+    o	added (hidden, experimental) functions that allow direct
+	modification of image content in Cairo (.image, .ptr.to.raw
+	and .raw.to.ptr)
+
+1.3-1
+    o	change semantics of canvas and bg to match other devices:
+	canvas is used by devices that don't support any kind
+	of transparency in case bg is translucent
+
+    o	fixed data ordering issues in TIFF and JPEG output
+
+    o	added "compression" parameter to TIFF back-end which
+	now defaults to LZW compression
+
+1.3-0
+    o	add support for canvas and dpi specification
+
+    o	allow backends to detect native resolution
+
+    o	add support for custom parameters (e.g. quality for jpeg)
+
+1.2-1
+    o	improve rendering on bitmap devices by aligning straight lines
+	to the pixel grid and adding bleed to such fills.
+
+    o	added wrappers that take exactly the same parameters as
+	existing devices such as png, jpeg, pdf, postscript, X11 or
+	windows and map them to calls to Cairo. They can be used to
+	replace native devices by Cairo without the need to change
+	existing code.
+
+    o	added namespace
+
+1.2-0
+    o	additional interactive back ends: X11 (XLib) and win (Win32)
+
+    o	enhanced back-end API to support interactive back-ends
+
+    o	change default backgroud color to "white", because
+	alpha-blending doesn't work properly in cairo when painting on
+	purely transparent background.
+
+    o	change the way filenames are interpreted, use multi-file
+	printf convention as other devices do.
+
+    o	added support for jpeg and tiff image formats
+
+1.1-0
+    o	additional file/stream back-ends: svg, ps
+
+    o	enhanced back-end API
+
+1.0-0
+    o	fixed function names to not conflict with GDD
+
+0.1-5
+    o   added R connections patch support at config time.
+        see 
+	http://wiki.r-project.org/rwiki/doku.php?id=developers:r_connections_api
+
+0.1-4	(2006-12-07)
+    o	add pdf backend (Jeff Horner)
+
+    o	fix up backend infrastructure (Jeff Horner)
+
+0.1-3	(2006-12-06)
+    o	add freetype and fontconfig support (Jeff Horner)
+
+    o	fix memory leaks (Jeff Horner)
+
+    o	make transparent background default with bg="transparent"
+
+0.1-2	(2006-12-05)
+    o	add support for caps/joints (patch by Jeff Horner)
+
+    o	make rectangels to snap to grid (patch by Jeff Horner)
+
+    o	use transparent image background by default
+
+
+0.1-1	(2005-12-23)
+    o	first official release, image backend works, others are
+	waiting to be implemented by volunteers
+

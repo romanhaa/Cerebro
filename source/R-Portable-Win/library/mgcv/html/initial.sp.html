@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Starting values for multiple smoothing parameter estimation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for initial.sp {mgcv}"><tr><td>initial.sp {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Starting values for multiple smoothing parameter estimation</h2>
+
+<h3>Description</h3>
+
+<p> Finds initial smoothing parameter guesses for multiple smoothing
+parameter estimation. The idea is to find values such that the estimated
+degrees of freedom per penalized parameter should be well away from 0 and 1
+for each penalized parameter, thus ensuring that the values are in a region of
+parameter space where the smoothing parameter estimation criterion is varying
+substantially with smoothing parameter value. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+initial.sp(X,S,off,expensive=FALSE,XX=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>is the model matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>S</code></td>
+<td>
+<p> is a list of of penalty matrices. <code>S[[i]]</code> is the ith penalty matrix, but note
+that it is not stored as a full matrix, but rather as the smallest square matrix including all 
+the non-zero elements of the penalty matrix. Element 1,1 of <code>S[[i]]</code>  occupies 
+element <code>off[i]</code>, <code>off[i]</code> of the ith penalty matrix. Each <code>S[[i]]</code> must be 
+positive semi-definite.  </p>
+</td></tr>
+<tr valign="top"><td><code>off</code></td>
+<td>
+<p>is an array indicating the first parameter in the parameter vector that is 
+penalized by the penalty involving <code>S[[i]]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>expensive</code></td>
+<td>
+<p>if <code>TRUE</code> then the overall amount of smoothing is
+adjusted so that the average degrees of freedom per penalized parameter is
+exactly 0.5: this is numerically costly. </p>
+</td></tr>
+<tr valign="top"><td><code>XX</code></td>
+<td>
+<p>if <code>TRUE</code> then <code>X</code> contains <i>X'X</i>, rather than <i>X</i>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Basically uses a crude approximation to the estimated degrees of
+freedom per model coefficient, to try and find smoothing parameters which
+bound these e.d.f.'s away from 0 and 1.
+</p>
+<p>Usually only called by <code><a href="magic.html">magic</a></code> and <code><a href="gam.html">gam</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> An array of initial smoothing parameter estimates.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+  
+<p><code><a href="magic.html">magic</a></code>,
+<code><a href="gam.outer.html">gam.outer</a></code>,
+<code><a href="gam.html">gam</a></code>,
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

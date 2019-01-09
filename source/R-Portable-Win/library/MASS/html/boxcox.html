@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Box-Cox Transformations for Linear Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for boxcox {MASS}"><tr><td>boxcox {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Box-Cox Transformations for Linear Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes and optionally plots profile log-likelihoods for the
+parameter of the Box-Cox power transformation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+boxcox(object, ...)
+
+## Default S3 method:
+boxcox(object, lambda = seq(-2, 2, 1/10), plotit = TRUE,
+       interp, eps = 1/50, xlab = expression(lambda),
+       ylab = "log-Likelihood", ...)
+
+## S3 method for class 'formula'
+boxcox(object, lambda = seq(-2, 2, 1/10), plotit = TRUE,
+       interp, eps = 1/50, xlab = expression(lambda),
+       ylab = "log-Likelihood", ...)
+
+## S3 method for class 'lm'
+boxcox(object, lambda = seq(-2, 2, 1/10), plotit = TRUE,
+       interp, eps = 1/50, xlab = expression(lambda),
+       ylab = "log-Likelihood", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a formula or fitted model object.  Currently only <code>lm</code> and
+<code>aov</code> objects are handled.</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>vector of values of <code>lambda</code>
+&ndash; default <i>(-2, 2)</i> in steps of 0.1.</p>
+</td></tr>
+<tr valign="top"><td><code>plotit</code></td>
+<td>
+<p>logical which controls whether the result should be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>interp</code></td>
+<td>
+<p>logical which controls whether spline interpolation is
+used. Default to <code>TRUE</code> if plotting with <code>lambda</code> of
+length less than 100.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>Tolerance for <code>lambda = 0</code>; defaults to 0.02.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>defaults to <code>"lambda"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>defaults to <code>"log-Likelihood"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters to be used in the model fitting.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of the <code>lambda</code> vector and the computed profile
+log-likelihood vector, invisibly if the result is plotted.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>If <code>plotit = TRUE</code> plots log-likelihood <em>vs</em> <code>lambda</code> and
+indicates a 95% confidence interval about the maximum observed value
+of <code>lambda</code>. If <code>interp = TRUE</code>, spline interpolation is
+used to give a smoother plot.
+</p>
+
+
+<h3>References</h3>
+
+<p>Box, G. E. P. and Cox, D. R. (1964)
+An analysis of transformations (with discussion).
+<em>Journal of the Royal Statistical Society B</em>, <b>26</b>, 211&ndash;252.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+boxcox(Volume ~ log(Height) + log(Girth), data = trees,
+       lambda = seq(-0.25, 0.25, length = 10))
+
+boxcox(Days+1 ~ Eth*Sex*Age*Lrn, data = quine,
+       lambda = seq(-0.05, 0.45, len = 20))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,18 @@
+
+citEntry(entry="Article",
+         title = "Simultaneous Inference in General Parametric Models",
+         author = personList(as.person("Torsten Hothorn"),
+                             as.person("Frank Bretz"),
+                             as.person("Peter Westfall")),
+         journal      = "Biometrical Journal",
+         year         = "2008",
+         volume       = "50",
+         number       = "3",  
+         pages        = "346--363",
+         
+         textVersion =
+         paste("Torsten Hothorn, Frank Bretz and Peter Westfall (2008).", 
+               "Simultaneous Inference in General Parametric Models.",
+               "Biometrical Journal 50(3), 346--363."),
+         header = "Please cite the multcomp package by the following reference:"
+)

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Factors for person-year calculations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tcut {survival}"><tr><td>tcut {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Factors for person-year calculations</h2>
+
+<h3>Description</h3>
+
+<p>Attaches categories for person-year calculations to a variable without
+losing the underlying continuous representation
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tcut(x, breaks, labels, scale=1)
+## S3 method for class 'tcut'
+levels(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>numeric/date variable </p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>breaks between categories, which are right-continuous </p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>labels for categories </p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Multiply <code>x</code> and <code>breaks</code> by this.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>tcut</code>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../base/html/cut.html">cut</a></code>, <code><a href="pyears.html">pyears</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+mdy.date &lt;- function(m,d,y)
+   as.Date(paste(ifelse(y&lt;100, y+1900, y), m, d, sep='/'))
+temp1 &lt;- mdy.date(6,6,36)
+temp2 &lt;- mdy.date(6,6,55)# Now compare the results from person-years
+#
+temp.age &lt;- tcut(temp2-temp1, floor(c(-1, (18:31 * 365.24))),
+	labels=c('0-18', paste(18:30, 19:31, sep='-')))
+temp.yr  &lt;- tcut(temp2, mdy.date(1,1,1954:1965), labels=1954:1964)
+temp.time &lt;- 3700   #total days of fu
+py1 &lt;- pyears(temp.time ~ temp.age + temp.yr, scale=1) #output in days
+py1
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

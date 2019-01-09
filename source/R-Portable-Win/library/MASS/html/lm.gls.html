@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Linear Models by Generalized Least Squares</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lm.gls {MASS}"><tr><td>lm.gls {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit Linear Models by Generalized Least Squares
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit linear models by Generalized Least Squares
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lm.gls(formula, data, W, subset, na.action, inverse = FALSE,
+       method = "qr", model = FALSE, x = FALSE, y = FALSE,
+       contrasts = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula expression as for regression models, of the form
+<code>response ~ predictors</code>.
+See the documentation of <code>formula</code> for other details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>an optional data frame in which to interpret the variables occurring
+in <code>formula</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>W</code></td>
+<td>
+
+<p>a weight matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>expression saying which subset of the rows of the data should  be used
+in the fit. All observations are included by default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>a function to filter missing data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>inverse</code></td>
+<td>
+
+<p>logical: if true <code>W</code> specifies the inverse of the weight matrix: this
+is appropriate if a variance matrix is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>method to be used by <code>lm.fit</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>should the model frame be returned?
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>should the design matrix be returned?
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>should the response be returned?
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>a list of contrasts to be used for some or all of
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to <code><a href="../../stats/html/lmfit.html">lm.fit</a></code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The problem is transformed to uncorrelated form and passed to
+<code><a href="../../stats/html/lmfit.html">lm.fit</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"lm.gls"</code>, which is similar to an <code>"lm"</code>
+object.  There is no <code>"weights"</code> component, and only a few <code>"lm"</code>
+methods will work correctly.  As from version 7.1-22 the residuals and
+fitted values refer to the untransformed problem.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../nlme/html/gls.html">gls</a></code>, <code><a href="../../stats/html/lm.html">lm</a></code>, <code><a href="lm.ridge.html">lm.ridge</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

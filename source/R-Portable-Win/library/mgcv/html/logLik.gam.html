@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: AIC and Log likelihood for a fitted GAM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for logLik.gam {mgcv}"><tr><td>logLik.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>AIC and Log likelihood for a fitted GAM</h2>
+
+<h3>Description</h3>
+
+<p> Function to extract the log-likelihood for a fitted <code>gam</code>
+model (note that the models are usually fitted by penalized likelihood maximization). 
+Used by <code><a href="../../stats/html/AIC.html">AIC</a></code>. See details for more information on AIC computation.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+logLik(object,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> fitted model objects of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>un-used in this case</p>
+</td></tr> 
+</table>
+
+
+<h3>Details</h3>
+
+<p> Modification of <code>logLik.glm</code> which corrects the degrees of
+freedom for use with <code>gam</code> objects. 
+</p>
+<p>The function is provided so that <code><a href="../../stats/html/AIC.html">AIC</a></code> functions correctly with
+<code>gam</code> objects, and uses the appropriate degrees of freedom (accounting
+for penalization). See e.g. Wood, Pya and Saefken (2016) for a derivation of
+an appropriate AIC.
+</p>
+<p>There are two possibile AIC's that might be considered for use with GAMs. Marginal
+AIC is based on the marginal likelihood of the GAM, that is the likelihood based on
+treating penalized (e.g. spline) coefficients as random and integrating them out. The
+degrees of freedom is then the number of smoothing/variance parameters + the number
+of fixed effects. The problem with Marginal AIC is that marginal likelihood
+underestimates variance components/oversmooths, so that the approach favours simpler models
+excessively (substituting REML does not work, because REML is not comparable between models
+with different unpenalized/fixed components). Conditional AIC uses the likelihood of all
+the model coefficients, evaluated at the penalized MLE. The degrees of freedom to use then
+is the effective degrees of freedom for the model. However, Greven and Kneib (2010) show
+that the neglect of smoothing parameter uncertainty can lead to this conditional AIC being
+excessively likely to select larger models. Wood, Pya and Saefken (2016) propose a simple
+correction to the effective degrees of freedom to fix this problem. <code>mgcv</code> applies this
+correction whenever possible: that is when using <code>ML</code> or <code>REML</code> smoothing parameter
+selection with <code><a href="gam.html">gam</a></code> or <code><a href="bam.html">bam</a></code>. The correction
+is not computable when using the Extended Fellner Schall or BFGS optimizer (since the correction requires
+an estimate of the covariance matrix of the log smoothing parameters). 
+</p>
+
+
+<h3>Value</h3>
+
+<p> Standard <code>logLik</code> object: see <code><a href="../../stats/html/logLik.html">logLik</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> based directly on <code>logLik.glm</code></p>
+
+
+<h3>References</h3>
+
+<p>Greven, S., and Kneib, T. (2010), On the Behaviour of Marginal and
+Conditional AIC in Linear Mixed Models, Biometrika, 97, 773-789.
+</p>
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models (with discussion).
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R
+(2nd edition). Chapman and Hall/CRC Press.
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="../../stats/html/AIC.html">AIC</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

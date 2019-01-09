@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Panel Functions for levelplot and contourplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.levelplot {lattice}"><tr><td>F_1_panel.levelplot {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Panel Functions for levelplot and contourplot </h2>
+
+<h3>Description</h3>
+
+<p>These are the default panel functions for <code><a href="levelplot.html">levelplot</a></code> and
+<code>contourplot</code>.  Also documented is an alternative raster-based
+panel function for use with <code>levelplot</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.levelplot(x, y, z, 
+                subscripts,
+                at = pretty(z),
+                shrink,
+                labels,
+                label.style = c("mixed", "flat", "align"),
+                contour = FALSE,
+                region = TRUE,
+                col = add.line$col,
+                lty = add.line$lty,
+                lwd = add.line$lwd,
+                border = "transparent",
+                border.lty = 1,
+                border.lwd = 0.1,
+                ...,
+                col.regions = regions$col,
+                alpha.regions = regions$alpha,
+                identifier = "levelplot")
+panel.contourplot(...)
+
+panel.levelplot.raster(x, y, z, 
+                       subscripts,
+                       at = pretty(z),
+                       ...,
+                       col.regions = regions$col,
+                       alpha.regions = regions$alpha,
+                       interpolate = FALSE,
+                       identifier = "levelplot")
+
+
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y, z</code></td>
+<td>
+<p> Variables defining the plot. </p>
+</td></tr>
+<tr valign="top"><td><code>subscripts</code></td>
+<td>
+
+<p>Integer vector indicating what subset of <code>x</code>, <code>y</code> and
+<code>z</code> to draw.
+</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+
+<p>Numeric vector giving breakpoints along the range of
+<code>z</code>.  See <code><a href="levelplot.html">levelplot</a></code> for details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>shrink</code></td>
+<td>
+
+<p>Either a numeric vector of length 2 (meant to work as both x and y
+components), or a list with components x and y which are numeric
+vectors of length 2.  This allows the rectangles to be scaled
+proportional to the z-value. The specification can be made
+separately for widths (x) and heights (y).  The elements of the
+length 2 numeric vector gives the minimum and maximum proportion of
+shrinkage (corresponding to min and max of z).
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>Either a logical scalar indicating whether the labels are to be
+drawn, or a character or expression vector giving the labels
+associated with the <code>at</code> values.  Alternatively, <code>labels</code>
+can be a list with the following components:
+</p>
+
+<dl>
+<dt><code>labels</code>:</dt><dd><p> a character or expression vector giving the
+labels.  This can be omitted, in which case the defaults will be
+used. </p>
+</dd>
+<dt><code>col, cex, alpha</code>:</dt><dd><p> graphical parameters for label
+texts </p>
+</dd>
+<dt><code>fontfamily, fontface, font</code>:</dt><dd><p> font used for the
+labels </p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>label.style</code></td>
+<td>
+
+<p>Controls how label positions and rotation are determined.  A value
+of <code>"flat"</code> causes the label to be positioned where the contour
+is flattest, and the label is not rotated.  A value of
+<code>"align"</code> causes the label to be drawn as far from the
+boundaries as possible, and the label is rotated to align with the
+contour at that point.  The default is to mix these approaches,
+preferring the flattest location unless it is too close to the
+boundaries.
+</p>
+</td></tr>
+<tr valign="top"><td><code>contour</code></td>
+<td>
+
+<p>A logical flag, specifying whether contour lines should be drawn.
+</p>
+</td></tr>
+<tr valign="top"><td><code>region</code></td>
+<td>
+
+<p>A logical flag, specifying whether inter-contour regions should be
+filled with appropriately colored rectangles.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col, lty, lwd</code></td>
+<td>
+<p> Graphical parameters for contour lines. </p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p> Border color for rectangles used when <code>region=TRUE</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>border.lty, border.lwd</code></td>
+<td>
+<p> Graphical parameters for the border</p>
+</td></tr>
+</table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Extra parameters. </p>
+</td></tr>
+<tr valign="top"><td><code>col.regions</code></td>
+<td>
+
+<p>A vector of colors, or a function to produce a vecor of colors, to
+be used if <code>region=TRUE</code>.  Each interval defined by <code>at</code>
+is assigned a color, so the number of colors actually used is one
+less than the length of <code>at</code>.  See <code><a href="level.colors.html">level.colors</a></code>
+for details on how the color assignment is done.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha.regions</code></td>
+<td>
+
+<p>numeric scalar controlling transparency of facets
+</p>
+</td></tr>
+<tr valign="top"><td><code>interpolate</code></td>
+<td>
+<p> logical, passed to <code><a href="../../grid/html/grid.raster.html">grid.raster</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The same panel function is used for both <code>levelplot</code> and
+<code>contourplot</code> (which differ only in default values of some
+arguments). <code>panel.contourplot</code> is a simple wrapper to
+<code>panel.levelplot</code>.
+</p>
+<p>When <code>contour=TRUE</code>, the <code>contourLines</code> function is used to
+calculate the contour lines.
+</p>
+<p><code>panel.levelplot.raster</code> is an alternative panel function that
+uses the raster drawing abilities in R 2.11.0 and higher (through
+<code><a href="../../grid/html/grid.raster.html">grid.raster</a></code>).  It has fewer options (e.g., can only
+render data on an equispaced grid), but can be more efficient.  When
+using <code>panel.levelplot.raster</code>, it may be desirable to render the
+color key in the same way.  This is possible, but must be done
+separately; see <code><a href="levelplot.html">levelplot</a></code> for details.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="levelplot.html">levelplot</a></code>,
+<code><a href="level.colors.html">level.colors</a></code>,
+<code><a href="../../grDevices/html/contourLines.html">contourLines</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+require(grid)
+
+levelplot(rnorm(10) ~ 1:10 + sort(runif(10)), panel = panel.levelplot)
+
+suppressWarnings(plot(levelplot(rnorm(10) ~ 1:10 + sort(runif(10)),
+                                panel = panel.levelplot.raster,
+                                interpolate = TRUE)))
+
+levelplot(volcano, panel = panel.levelplot.raster)
+
+levelplot(volcano, panel = panel.levelplot.raster,
+          col.regions = topo.colors, cuts = 30, interpolate = TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

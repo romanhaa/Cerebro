@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Confidence Intervals for Model Parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for confint-MASS {MASS}"><tr><td>confint-MASS {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Confidence Intervals for Model Parameters
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes confidence intervals for one or more parameters in a fitted
+model.  Package <span class="pkg">MASS</span> adds methods for <code>glm</code> and <code>nls</code> fits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'glm'
+confint(object, parm, level = 0.95, trace = FALSE, ...)
+
+## S3 method for class 'nls'
+confint(object, parm, level = 0.95, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>a fitted model object.  Methods currently exist for the classes
+<code>"glm"</code>, <code>"nls"</code> and for profile objects from these classes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parm</code></td>
+<td>
+
+<p>a specification of which parameters are to be given confidence
+intervals, either a vector of numbers or a vector of names.  If
+missing, all parameters are considered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+
+<p>the confidence level required.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>logical.  Should profiling be traced?
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional argument(s) for methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code><a href="../../stats/html/confint.html">confint</a></code> is a generic function in package <code>stats</code>.
+</p>
+<p>These <code>confint</code> methods call the appropriate profile method,
+then find the confidence intervals by interpolation in the profile
+traces.  If the profile object is already available it should be used
+as the main argument rather than the fitted model object itself.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix (or vector) with columns giving lower and upper confidence
+limits for each parameter.  These will be labelled as (1 - level)/2 and
+1 - (1 - level)/2 in % (by default 2.5% and 97.5%).
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/confint.html">confint</a></code> (the generic and <code>"lm"</code> method),
+<code><a href="../../stats/html/profile.html">profile</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+expn1 &lt;- deriv(y ~ b0 + b1 * 2^(-x/th), c("b0", "b1", "th"),
+               function(b0, b1, th, x) {})
+
+wtloss.gr &lt;- nls(Weight ~ expn1(b0, b1, th, Days),
+   data = wtloss, start = c(b0=90, b1=95, th=120))
+
+expn2 &lt;- deriv(~b0 + b1*((w0 - b0)/b1)^(x/d0),
+         c("b0","b1","d0"), function(b0, b1, d0, x, w0) {})
+
+wtloss.init &lt;- function(obj, w0) {
+  p &lt;- coef(obj)
+  d0 &lt;-  - log((w0 - p["b0"])/p["b1"])/log(2) * p["th"]
+  c(p[c("b0", "b1")], d0 = as.vector(d0))
+}
+
+out &lt;- NULL
+w0s &lt;- c(110, 100, 90)
+for(w0 in w0s) {
+    fm &lt;- nls(Weight ~ expn2(b0, b1, d0, Days, w0),
+              wtloss, start = wtloss.init(wtloss.gr, w0))
+    out &lt;- rbind(out, c(coef(fm)["d0"], confint(fm, "d0")))
+  }
+dimnames(out) &lt;- list(paste(w0s, "kg:"),  c("d0", "low", "high"))
+out
+
+ldose &lt;- rep(0:5, 2)
+numdead &lt;- c(1, 4, 9, 13, 18, 20, 0, 2, 6, 10, 12, 16)
+sex &lt;- factor(rep(c("M", "F"), c(6, 6)))
+SF &lt;- cbind(numdead, numalive = 20 - numdead)
+budworm.lg0 &lt;- glm(SF ~ sex + ldose - 1, family = binomial)
+confint(budworm.lg0)
+confint(budworm.lg0, "ldose")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

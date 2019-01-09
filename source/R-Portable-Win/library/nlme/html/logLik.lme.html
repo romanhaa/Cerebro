@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Log-Likelihood of an lme Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for logLik.lme {nlme}"><tr><td>logLik.lme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Log-Likelihood of an lme Object</h2>
+
+<h3>Description</h3>
+
+<p>If <code>REML=FALSE</code>, returns the log-likelihood value of the linear
+mixed-effects model represented by <code>object</code> evaluated at the
+estimated  coefficients; else, the restricted log-likelihood evaluated
+at the estimated coefficients is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lme'
+logLik(object, REML, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="lme.html">lme</a>"</code>, representing
+a fitted linear mixed-effects model.</p>
+</td></tr>
+<tr valign="top"><td><code>REML</code></td>
+<td>
+<p>an optional logical value.  If <code>TRUE</code> the restricted
+log-likelihood is returned, else, if <code>FALSE</code>, the log-likelihood
+is returned. Defaults to the method of estimation used, that is
+<code>TRUE</code> if and only <code>object</code> was fitted with <code>method =
+     "REML"</code> (the default for these fitting functions) . </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>the (restricted) log-likelihood of the model represented by
+<code>object</code> evaluated at the estimated coefficients.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates</p>
+
+
+<h3>References</h3>
+
+<p>Harville, D.A. (1974) &ldquo;Bayesian Inference for Variance Components
+Using Only Error Contrasts&rdquo;, <em>Biometrika</em>, <b>61</b>, 383&ndash;385.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lme.html">lme</a></code>,<code><a href="gls.html">gls</a></code>,
+<code><a href="logLik.corStruct.html">logLik.corStruct</a></code>,
+<code><a href="logLik.glsStruct.html">logLik.glsStruct</a></code>,
+<code><a href="logLik.lmeStruct.html">logLik.lmeStruct</a></code>,
+<code><a href="logLik.lmList.html">logLik.lmList</a></code>,
+<code><a href="logLik.reStruct.html">logLik.reStruct</a></code>,
+<code><a href="logLik.varFunc.html">logLik.varFunc</a></code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(distance ~ Sex * age, Orthodont, random = ~ age, method = "ML")
+logLik(fm1)
+logLik(fm1, REML = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

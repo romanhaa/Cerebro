@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Panel Function for barchart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_1_panel.barchart {lattice}"><tr><td>F_1_panel.barchart {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Default Panel Function for barchart</h2>
+
+<h3>Description</h3>
+
+<p>Default panel function for <code>barchart</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.barchart(x, y, box.ratio = 1, box.width,
+               horizontal = TRUE,
+               origin = NULL, reference = TRUE,
+               stack = FALSE,
+               groups = NULL, 
+               col = if (is.null(groups)) plot.polygon$col
+                     else superpose.polygon$col,
+               border = if (is.null(groups)) plot.polygon$border
+                        else superpose.polygon$border,
+               lty = if (is.null(groups)) plot.polygon$lty
+                     else superpose.polygon$lty, 
+               lwd = if (is.null(groups)) plot.polygon$lwd
+                     else superpose.polygon$lwd,
+               ..., identifier = "barchart")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> Extent of Bars. By default, bars start at left of panel,
+unless <code>origin</code> is specified, in which case they start there.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p> Horizontal location of bars. Possibly a factor. </p>
+</td></tr>
+<tr valign="top"><td><code>box.ratio</code></td>
+<td>
+<p> Ratio of bar width to inter-bar space. </p>
+</td></tr>
+<tr valign="top"><td><code>box.width</code></td>
+<td>
+<p> Thickness of bars in absolute units; overrides
+<code>box.ratio</code>.  Useful for specifying thickness when the
+categorical variable is not a factor, as use of <code>box.ratio</code>
+alone cannot achieve a thickness greater than 1. </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>Logical flag. If FALSE, the plot is &lsquo;transposed&rsquo; in the sense
+that the behaviours of x and y are switched. x is now the
+&lsquo;factor&rsquo;.  Interpretation of other arguments change
+accordingly. See documentation of <code><a href="xyplot.html">bwplot</a></code> for a fuller
+explanation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>origin</code></td>
+<td>
+<p> The origin for the bars.  For grouped displays with
+<code>stack = TRUE</code>, this argument is ignored and the origin set to
+0.  Otherwise, defaults to <code>NULL</code>, in which case bars start at
+the left (or bottom) end of a panel.  This choice is somewhat
+unfortuntate, as it can be misleading, but is the default for
+historical reasons.  For tabular (or similar) data, <code>origin =
+      0</code> is usually more appropriate; if not, one should reconsider the
+use of a bar chart in the first place (dot plots are often a good
+alternative).
+</p>
+</td></tr>
+<tr valign="top"><td><code>reference</code></td>
+<td>
+<p> Logical, whether a reference line is to be drawn at
+the origin.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stack</code></td>
+<td>
+<p> logical, relevant when groups is non-null. If
+<code>FALSE</code> (the default), bars for different values of the
+grouping variable are drawn side by side, otherwise they are
+stacked.
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p> Optional grouping variable. </p>
+</td></tr>
+<tr valign="top"><td><code>col, border, lty, lwd</code></td>
+<td>
+
+<p>Graphical parameters for the bars. By default, the trellis parameter
+<code>plot.polygon</code> is used if there is no grouping variable, otherwise
+<code>superpose.polygon</code> is used.  <code>col</code> gives the fill color,
+<code>border</code> the border color, and <code>lty</code> and <code>lwd</code> the
+line type and width of the borders.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Extra arguments will be accepted but ignored. </p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A barchart is drawn in the panel. Note that most arguments controlling
+the display can be supplied to the high-level <code>barchart</code> call
+directly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">barchart</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+barchart(yield ~ variety | site, data = barley,
+         groups = year, layout = c(1,6), origin = 0,
+         ylab = "Barley Yield (bushels/acre)",
+         scales = list(x = list(abbreviate = TRUE,
+                                minlength = 5)))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dissimilarity Matrix Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dissimilarity.object {cluster}"><tr><td>dissimilarity.object {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dissimilarity Matrix Object</h2>
+
+<h3>Description</h3>
+
+<p>Objects of class <code>"dissimilarity"</code> representing the dissimilarity
+matrix of a dataset.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The dissimilarity matrix is symmetric, and hence its lower triangle
+(column wise) is represented as a vector to save storage space.
+If the object, is called <code>do</code>, and <code>n</code> the number of
+observations, i.e., <code>n &lt;- attr(do, "Size")</code>, then
+for <i>i &lt; j &lt;= n</i>, the dissimilarity between (row) i and j is
+<code>do[n*(i-1) - i*(i-1)/2 + j-i]</code>.
+The length of the vector is <i>n*(n-1)/2</i>, i.e., of order <i>n^2</i>.
+</p>
+<p><code>"dissimilarity"</code> objects also inherit from class
+<code><a href="../../stats/html/dist.html">dist</a></code> and can use <code>dist</code> methods, in
+particular, <code><a href="../../base/html/matrix.html">as.matrix</a></code>, such that <i>d(i,j)</i>
+from above is just <code>as.matrix(do)[i,j]</code>.
+</p>
+<p>The object has the following attributes:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Size</code></td>
+<td>
+<p>the number of observations in the dataset.</p>
+</td></tr>
+<tr valign="top"><td><code>Metric</code></td>
+<td>
+<p>the metric used for calculating the
+dissimilarities.  Possible values are &quot;euclidean&quot;, &quot;manhattan&quot;,
+&quot;mixed&quot; (if variables of different types were present in the
+dataset), and &quot;unspecified&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>Labels</code></td>
+<td>
+<p>optionally, contains the labels, if any, of the
+observations of the dataset.</p>
+</td></tr>
+<tr valign="top"><td><code>NA.message</code></td>
+<td>
+<p>optionally, if a dissimilarity could not be
+computed, because of too many missing values for some observations
+of the dataset.</p>
+</td></tr>
+<tr valign="top"><td><code>Types</code></td>
+<td>
+<p>when a mixed metric was used, the types for each
+variable as one-letter codes (as in the book, e.g. p.54):
+</p>
+
+<dl>
+<dt>A</dt><dd><p>Asymmetric binary</p>
+</dd>
+<dt>S</dt><dd><p>Symmetric  binary</p>
+</dd>
+<dt>N</dt><dd><p>Nominal (factor)</p>
+</dd>
+<dt>O</dt><dd><p>Ordinal (ordered factor)</p>
+</dd>
+<dt>I</dt><dd><p>Interval scaled (numeric)</p>
+</dd>
+<dt>T</dt><dd><p>raTio to be log transformed (positive numeric)</p>
+</dd>
+</dl>
+<p>.</p>
+</td></tr>
+</table>
+
+
+<h3>GENERATION</h3>
+
+<p><code><a href="daisy.html">daisy</a></code> returns this class of objects.
+Also the functions <code>pam</code>, <code>clara</code>, <code>fanny</code>,
+<code>agnes</code>, and <code>diana</code> return a <code>dissimilarity</code> object,
+as one component of their return objects.
+</p>
+
+
+<h3>METHODS</h3>
+
+<p>The <code>"dissimilarity"</code> class has methods for the following generic
+functions: <code>print</code>, <code>summary</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="daisy.html">daisy</a></code>, <code><a href="../../stats/html/dist.html">dist</a></code>,
+<code><a href="pam.html">pam</a></code>, <code><a href="clara.html">clara</a></code>, <code><a href="fanny.html">fanny</a></code>,
+<code><a href="agnes.html">agnes</a></code>, <code><a href="diana.html">diana</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

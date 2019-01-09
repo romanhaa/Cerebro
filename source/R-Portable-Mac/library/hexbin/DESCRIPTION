@@ -1,0 +1,24 @@
+Package: hexbin
+Version: 1.27.2
+Title: Hexagonal Binning Routines
+Author: Dan Carr <dcarr@voxel.galaxy.gmu.edu>, ported by Nicholas
+        Lewin-Koh and Martin Maechler <maechler@stat.math.ethz.ch>,
+		contains copies of lattice functions written by Deepayan Sarkar 
+		<deepayan.sarkar@r-project.org>
+Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+Depends: R (>= 2.0.1), methods
+Imports: lattice, grid, graphics, grDevices, stats, utils
+Suggests: marray, affy, Biobase, limma
+Description: Binning and plotting functions for hexagonal bins.
+Collate: lattice.R BTC.R BTY.R grid.hexagons.R grid.hexlegend.R hbox.R
+        hdiffplot.R hexbinList.R hexbinplot.R hexbin.s4.R hexpanel.R
+        hexplom.R hexPlotMA.R hexutil.R hexViewport.R HO.R LINGRAY.R
+        LOCS.R MAG.R RB.R smoothHexbin.R
+License: GPL-2
+NeedsCompilation: yes
+URL: http://github.com/edzer/hexbin
+Packaged: 2018-01-15 16:56:46 UTC; edzer
+Repository: CRAN
+Date/Publication: 2018-01-15 18:56:40 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-23 04:25:06 UTC; unix
+Archs: hexbin.so.dSYM

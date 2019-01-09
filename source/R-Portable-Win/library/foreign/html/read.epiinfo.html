@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read Epi Info Data Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.epiinfo {foreign}"><tr><td>read.epiinfo {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read Epi Info Data Files</h2>
+
+<h3>Description</h3>
+
+<p>Reads data files in the <code>.REC</code> format used by Epi Info versions 6
+and earlier and by EpiData.  Epi Info is a public domain database and
+statistics package produced by the US Centers for Disease Control
+and EpiData is a freely available data entry and validation system.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.epiinfo(file, read.deleted = FALSE, guess.broken.dates = FALSE,
+             thisyear = NULL, lower.case.names = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A filename, URL, or connection.</p>
+</td></tr>
+<tr valign="top"><td><code>read.deleted</code></td>
+<td>
+<p>Deleted records are read if <code>TRUE</code>, omitted
+if <code>FALSE</code> or replaced with <code>NA</code> if <code>NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>guess.broken.dates</code></td>
+<td>
+<p>Attempt to convert dates with 0 or 2 digit
+year information (see &lsquo;Details&rsquo;).</p>
+</td></tr>
+<tr valign="top"><td><code>thisyear</code></td>
+<td>
+<p>A 4-digit year to use for dates with no year. Defaults
+to the current year.</p>
+</td></tr>
+<tr valign="top"><td><code>lower.case.names</code></td>
+<td>
+<p>Convert variable names to lowercase?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Epi Info allows dates to be specified with no year or with a 2 or 4
+digits.  Dates with four-digit years are always converted to
+<code>Date</code> class.  With the <code>guess.broken.dates</code> option the function
+will attempt to convert two-digit years using the operating system's
+default method (see <a href="../../base/html/Dates.html">Date</a>) and will use the current
+year or the <code>thisyear</code> argument for dates with no year
+information.
+</p>
+<p>If <code>read.deleted</code> is <code>TRUE</code> the <code>"deleted"</code> attribute
+of the data frame indicates the deleted records.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Some later versions of Epi Info use the Microsoft Access file
+format to store data. That may be readable with the <span class="pkg">RODBC</span> package.
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.cdc.gov/epiinfo/">http://www.cdc.gov/epiinfo/</a>,
+<a href="http://www.epidata.dk">http://www.epidata.dk</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../base/html/DateTimeClasses.html">DateTimeClasses</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: ## That file is not available
+read.epiinfo("oswego.rec", guess.broken.dates = TRUE, thisyear = "1972")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

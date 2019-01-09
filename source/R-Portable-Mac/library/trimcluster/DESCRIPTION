@@ -1,0 +1,19 @@
+Package: trimcluster
+Title: Cluster Analysis with Trimming
+Version: 0.1-2.1
+Date: 2007-11-05
+Author: Christian Hennig <chrish@stats.ucl.ac.uk>
+Depends: R (>= 1.9.0)
+Suggests: fpc
+Description: Trimmed k-means clustering.
+Maintainer: ORPHANED
+License: GPL
+URL: http://www.homepages.ucl.ac.uk/~ucakche/
+Packaged: 2018-07-20 12:35:14 UTC; hornik
+Repository: CRAN
+Date/Publication: 2018-07-20 12:43:37 UTC
+NeedsCompilation: no
+X-CRAN-Original-Maintainer: Christian Hennig <chrish@stats.ucl.ac.uk>
+X-CRAN-Comment: Orphaned and corrected on 2018-07-20 as check problems
+        were not corrected despite reminders.
+Built: R 3.5.0; ; 2018-07-21 19:39:22 UTC; unix

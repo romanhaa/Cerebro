@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print a summary.pdMat Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.summary.pdMat {nlme}"><tr><td>print.summary.pdMat {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print a summary.pdMat Object</h2>
+
+<h3>Description</h3>
+
+<p>The standard deviations and correlations associated with the
+positive-definite matrix represented by <code>object</code> (considered as a
+variance-covariance matrix) are printed, together with the formula and
+the grouping level associated <code>object</code>, if any are present.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'summary.pdMat'
+print(x, sigma, rdig, Level, resid, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="summary.pdMat.html">summary.pdMat</a>"</code>,
+generally resulting from applying <code><a href="../../base/html/summary.html">summary</a></code> to an object
+inheriting from class <code>"<a href="pdMat.html">pdMat</a>"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>an optional numeric value used as a multiplier for
+the square-root factor of the positive-definite matrix represented by
+<code>object</code> (usually the estimated within-group standard deviation
+from a mixed-effects model). Defaults to 1.</p>
+</td></tr> 
+<tr valign="top"><td><code>rdig</code></td>
+<td>
+<p>an optional integer value with the number of significant
+digits to be used in printing correlations. Defaults to 3.</p>
+</td></tr>
+<tr valign="top"><td><code>Level</code></td>
+<td>
+<p>an optional character string with a description of the
+grouping level associated with <code>object</code> (generally corresponding
+to levels of grouping in a mixed-effects model). Defaults to NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>resid</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code> an extra row
+with the <code>"residual"</code> standard deviation given in <code>sigma</code>
+will be included in the output. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed to <code>print.default</code>; see
+the documentation on that method function.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="summary.pdMat.html">summary.pdMat</a></code>,<code><a href="pdMat.html">pdMat</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdCompSymm(3 * diag(2) + 1, form = ~age + age^2,
+         data = Orthodont)
+print(summary(pd1), sigma = 1.2, resid = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

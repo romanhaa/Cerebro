@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predict Method for Class 'mca'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.mca {MASS}"><tr><td>predict.mca {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Predict Method for Class 'mca'
+</h2>
+
+<h3>Description</h3>
+
+<p>Used to compute coordinates for additional rows or additional factors
+in a multiple correspondence analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'mca'
+predict(object, newdata, type = c("row", "factor"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>An object of class <code>"mca"</code>, usually the result of a call to <code>mca</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+
+<p>A data frame containing <em>either</em> additional rows of the factors used to
+fit <code>object</code> <em>or</em> additional factors for the cases used in the
+original fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>Are predictions required for further rows or for new factors?
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments from <code>predict</code>: unused.
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>If <code>type = "row"</code>, the coordinates for the additional rows.
+</p>
+<p>If <code>type = "factor"</code>, the coordinates of the column vertices for the
+levels of the new factors.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="mca.html">mca</a></code>, <code><a href="plot.mca.html">plot.mca</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

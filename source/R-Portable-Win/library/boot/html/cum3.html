@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate Third Order Cumulants</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cum3 {boot}"><tr><td>cum3 {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Calculate Third Order Cumulants
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates an estimate of the third cumulant, or skewness, of a vector. 
+Also, if more than one vector is specified, a product-moment of order 3 is
+estimated. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cum3(a, b = a, c = a, unbiased = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>a</code></td>
+<td>
+
+<p>A vector of observations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+
+<p>Another vector of observations,  if not supplied it is set to the value of <code>a</code>.
+If supplied then it must be the same length as <code>a</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>c</code></td>
+<td>
+
+<p>Another vector of observations,  if not supplied it is set to the value of <code>a</code>.
+If supplied then it must be the same length as <code>a</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>unbiased</code></td>
+<td>
+
+<p>A logical value indicating whether the unbiased estimator should be used.  
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The unbiased estimator uses a multiplier of <code>n/((n-1)*(n-2))</code> where <code>n</code> is
+the sample size, if <code>unbiased</code> is <code>FALSE</code> then a multiplier of <code>1/n</code> is used.
+This is multiplied by <code>sum((a-mean(a))*(b-mean(b))*(c-mean(c)))</code> to give the
+required estimate.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The required estimate.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

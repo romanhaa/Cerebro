@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simple Correspondence Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corresp {MASS}"><tr><td>corresp {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Simple Correspondence Analysis
+</h2>
+
+<h3>Description</h3>
+
+<p>Find the principal canonical correlation and corresponding row- and
+column-scores from a correspondence analysis of a two-way contingency
+table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+corresp(x, ...)
+
+## S3 method for class 'matrix'
+corresp(x, nf = 1, ...)
+
+## S3 method for class 'factor'
+corresp(x, y, ...)
+
+## S3 method for class 'data.frame'
+corresp(x, ...)
+
+## S3 method for class 'xtabs'
+corresp(x, ...)
+
+## S3 method for class 'formula'
+corresp(formula, data, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, formula</code></td>
+<td>
+
+<p>The function is generic, accepting various forms of the principal
+argument for specifying a two-way frequency table.  Currently accepted
+forms are matrices, data frames (coerced to frequency tables), objects
+of class <code>"<a href="../../stats/html/xtabs.html">xtabs</a>"</code> and formulae of the form <code>~ F1 + F2</code>,
+where <code>F1</code> and <code>F2</code> are factors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nf</code></td>
+<td>
+
+<p>The number of factors to be computed. Note that although 1 is the most
+usual, one school of thought takes the first two singular vectors for
+a sort of biplot.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a second factor for a cross-classification.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame against which to preferentially resolve
+variables in the formula.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>If the principal argument is a formula, a data frame may be specified
+as well from which variables in the formula are preferentially
+satisfied.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See Venables &amp; Ripley (2002).  The <code>plot</code> method produces a graphical
+representation of the table if <code>nf=1</code>, with the <em>areas</em> of circles
+representing the numbers of points.  If <code>nf</code> is two or more the
+<code>biplot</code> method is called, which plots the second and third columns of
+the matrices <code>A = Dr^(-1/2) U L</code> and <code>B = Dc^(-1/2) V L</code> where the
+singular value decomposition is <code>U L V</code>.  Thus the x-axis is the
+canonical correlation times the row and column scores.  Although this
+is called a biplot, it does <em>not</em> have any useful inner product
+relationship between the row and column scores.  Think of this as an
+equally-scaled plot with two unrelated sets of labels.  The origin is
+marked on the plot with a cross.  (For other versions of this plot see
+the book.)
+</p>
+
+
+<h3>Value</h3>
+
+<p>An list object of class <code>"correspondence"</code> for which
+<code>print</code>, <code>plot</code> and <code>biplot</code> methods are supplied.
+The main components are the canonical correlation(s) and the row
+and column scores.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+<p>Gower, J. C. and Hand, D. J. (1996)
+<em>Biplots.</em>  Chapman &amp; Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/svd.html">svd</a></code>, <code><a href="../../stats/html/princomp.html">princomp</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+(ct &lt;- corresp(~ Age + Eth, data = quine))
+plot(ct)
+
+corresp(caith)
+biplot(corresp(caith, nf = 2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parse Trellis formula</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for G_latticeParseFormula {lattice}"><tr><td>G_latticeParseFormula {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parse Trellis formula</h2>
+
+<h3>Description</h3>
+
+<p>this function is used by high level Lattice functions like
+<code>xyplot</code> to parse the formula argument and evaluate various
+components of the data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+latticeParseFormula(model, data, dimension = 2,
+                    subset = TRUE, groups = NULL,
+                    multiple, outer,
+                    subscripts,
+                    drop)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>the model/formula to be parsed.  This can be in either of two
+possible forms, one for 2d and one for 3d formulas, determined by
+the <code>dimension</code> argument. The 2d formulas are of the form
+<code>y ~ x| g1 * ... *gn</code>, and the 3d formulas are of the form
+<code>z ~ x * y | g1 * ...* gn</code>. In the first form, <code>y</code> may
+be omitted. The conditioning variables <code>g1, ...,gn</code> can be
+omitted in either case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> the environment/dataset where the variables in the 
+formula are evaluated.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dimension</code></td>
+<td>
+<p> dimension of the model, see above</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p> index for choosing a subset of the data frame </p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p> the grouping variable, if present</p>
+</td></tr>
+<tr valign="top"><td><code>multiple, outer</code></td>
+<td>
+
+<p>logicals, determining how a &lsquo;+&rsquo; in the y and x components of
+the formula are processed. See <code><a href="xyplot.html">xyplot</a></code> for details
+</p>
+</td></tr>
+<tr valign="top"><td><code>subscripts</code></td>
+<td>
+<p> logical, whether subscripts are to be calculated </p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>logical or list, similar to the <code>drop.unused.levels</code> argument
+in <code><a href="xyplot.html">xyplot</a></code>, indicating whether unused levels of
+conditioning factors and data variables that are factors are to be
+dropped.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p> returns a list with several components, including <code>left,
+    right, left.name, right.name, condition</code> for 2-D, and <code>left,
+    right.x, right.y, left.name, right.x.name, right.y.name, condition</code>
+for 3-D. Other possible components are groups, subscr
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saikat DebRoy, Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>, <code><a href="Lattice.html">Lattice</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

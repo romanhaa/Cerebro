@@ -1,0 +1,13 @@
+citHeader("To cite ape in a publication use:")
+
+citEntry(entry="Article",
+	title = "ape 5.0: an environment for modern phylogenetics and evolutionary analyses in {R}",
+        author = personList(as.person("E. Paradis"), as.person("K. Schliep")),
+	journal = "Bioinformatics",
+  	year = "2018",
+	volume = "xx",
+	pages = "xxx-xxx",
+
+        textVersion = "Paradis E. & Schliep K. 2018. ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R. Bioinformatics xx: xxx-xxx.")
+
+citFooter("As ape is evolving quickly, you may want to cite also its version number (found with 'library(help = ape)' or 'packageVersion(\"ape\")').")

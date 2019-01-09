@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Detect linear dependencies of one matrix on another</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fixDependence {mgcv}"><tr><td>fixDependence {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Detect linear dependencies of one matrix on another</h2>
+
+<h3>Description</h3>
+
+<p>Identifies columns of a matrix <code>X2</code> which are linearly
+dependent on columns of a matrix <code>X1</code>. Primarily of use in setting up 
+identifiability constraints for nested GAMs. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fixDependence(X1,X2,tol=.Machine$double.eps^.5,rank.def=0,strict=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X1</code></td>
+<td>
+<p> A matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>X2</code></td>
+<td>
+<p> A matrix, the columns of which may be partially linearly
+dependent on the columns of <code>X1</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>The tolerance to use when assessing linear dependence.</p>
+</td></tr>
+<tr valign="top"><td><code>rank.def</code></td>
+<td>
+<p>If the degree of rank deficiency in <code>X2</code>, given <code>X1</code>, 
+is known, then it can be supplied here, and <code>tol</code> is then ignored. 
+Unused unless positive and not greater than the number of columns in <code>X2</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>strict</code></td>
+<td>
+<p>if <code>TRUE</code> then only columns individually dependent on <code>X1</code> are detected,
+if <code>FALSE</code> then enough columns to make the reduced <code>X2</code> full rank and 
+independent of <code>X1</code> are detected.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The algorithm uses a simple approach based on QR decomposition: see
+Wood (2017, section 5.6.3) for details.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A vector of the columns of <code>X2</code> which are linearly dependent on
+columns of <code>X1</code> (or which need to be deleted to acheive independence and full rank 
+if <code>strict==FALSE</code>). <code>NULL</code> if the two matrices are independent.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+n&lt;-20;c1&lt;-4;c2&lt;-7
+X1&lt;-matrix(runif(n*c1),n,c1)
+X2&lt;-matrix(runif(n*c2),n,c2)
+X2[,3]&lt;-X1[,2]+X2[,4]*.1
+X2[,5]&lt;-X1[,1]*.2+X1[,2]*.04
+fixDependence(X1,X2)
+fixDependence(X1,X2,strict=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

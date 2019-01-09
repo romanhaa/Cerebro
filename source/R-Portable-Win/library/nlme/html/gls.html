@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Linear Model Using Generalized Least Squares</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gls {nlme}"><tr><td>gls {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit Linear Model Using Generalized Least Squares</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a linear model using generalized least
+squares. The errors are allowed to be correlated and/or have unequal
+variances.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gls(model, data, correlation, weights, subset, method, na.action,
+    control, verbose)
+## S3 method for class 'gls'
+update(object, model., ..., evaluate = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"gls"</code>, representing
+a generalized least squares fitted linear model.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>a two-sided linear formula object describing the
+model, with the response on the left of a <code>~</code> operator and the
+terms, separated by <code>+</code> operators, on the right.</p>
+</td></tr>
+<tr valign="top"><td><code>model.</code></td>
+<td>
+<p>Changes to the model &ndash; see <code><a href="../../stats/html/update.formula.html">update.formula</a></code> for
+details.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame containing the variables named in
+<code>model</code>, <code>correlation</code>, <code>weights</code>, and
+<code>subset</code>. By default the variables are taken from the
+environment from which <code>gls</code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+<p>an optional <code><a href="corClasses.html">corStruct</a></code> object describing the
+within-group correlation structure. See the documentation of
+<code><a href="corClasses.html">corClasses</a></code> for a description of the available <code>corStruct</code>
+classes. If a grouping variable is to be used, it must be specified in
+the <code>form</code> argument to the <code>corStruct</code>
+constructor. Defaults to <code>NULL</code>, corresponding to uncorrelated 
+errors.</p>
+</td></tr>  
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>an optional <code><a href="varFunc.html">varFunc</a></code> object or one-sided formula
+describing the within-group heteroscedasticity structure. If given as
+a formula, it is used as the argument to <code><a href="varFixed.html">varFixed</a></code>,
+corresponding to fixed variance weights. See the documentation on
+<code><a href="varClasses.html">varClasses</a></code> for a description of the available <code><a href="varFunc.html">varFunc</a></code>
+classes. Defaults to <code>NULL</code>, corresponding to homoscedastic
+errors.</p>
+</td></tr> 
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional expression indicating which subset of the rows of
+<code>data</code> should  be  used in the fit. This can be a logical
+vector, or a numeric vector indicating which observation numbers are
+to be included, or a  character  vector of the row names to be
+included.  All observations are included by default.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>a character string.  If <code>"REML"</code> the model is fit by
+maximizing the restricted log-likelihood.  If <code>"ML"</code> the
+log-likelihood is maximized.  Defaults to <code>"REML"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s.  The default action (<code><a href="../../stats/html/na.fail.html">na.fail</a></code>) causes
+<code>gls</code> to print an error message and terminate if there are any
+incomplete observations.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values for the estimation algorithm to
+replace the default values returned by the function <code><a href="glsControl.html">glsControl</a></code>.
+Defaults to an empty list.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code> information on
+the evolution of the iterative algorithm is printed. Default is
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+<tr valign="top"><td><code>evaluate</code></td>
+<td>
+<p>If <code>TRUE</code> evaluate the new call else return the call.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"gls"</code> representing the linear model
+fit. Generic functions such as <code>print</code>, <code>plot</code>, and 
+<code>summary</code> have methods to show the results of the fit. See
+<code><a href="glsObject.html">glsObject</a></code> for the components of the fit. The functions
+<code><a href="../../stats/html/residuals.html">resid</a></code>, <code><a href="../../stats/html/coef.html">coef</a></code> and <code><a href="../../stats/html/fitted.values.html">fitted</a></code>,
+can be used to extract some of its components. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>The different correlation structures available for the
+<code>correlation</code> argument are described in Box, G.E.P., Jenkins,
+G.M., and Reinsel G.C. (1994), Littel, R.C., Milliken, G.A., Stroup,
+W.W., and Wolfinger, R.D. (1996), and Venables, W.N. and Ripley,
+B.D. (2002). The use of variance functions for linear 
+and nonlinear models is presented in detail in Carroll, R.J. and Ruppert,
+D. (1988) and Davidian, M. and Giltinan, D.M. (1995).  
+</p>
+<p>Box, G.E.P., Jenkins, G.M., and Reinsel G.C. (1994) &quot;Time Series
+Analysis: Forecasting and Control&quot;, 3rd Edition, Holden-Day. 
+</p>
+<p>Carroll, R.J. and Ruppert, D. (1988) &quot;Transformation and Weighting in
+Regression&quot;, Chapman and Hall.
+</p>
+<p>Davidian, M. and Giltinan, D.M. (1995) &quot;Nonlinear Mixed Effects Models
+for Repeated Measurement Data&quot;, Chapman and Hall.
+</p>
+<p>Littel, R.C., Milliken, G.A., Stroup, W.W., and Wolfinger, R.D. (1996)
+&quot;SAS Systems for Mixed Models&quot;, SAS Institute.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer, esp. pp. 100, 461.  
+</p>
+<p>Venables, W.N. and Ripley, B.D. (2002) &quot;Modern Applied Statistics with
+S&quot;, 4th Edition, Springer-Verlag.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corClasses.html">corClasses</a></code>,
+<code><a href="glsControl.html">glsControl</a></code>,
+<code><a href="glsObject.html">glsObject</a></code>,
+<code><a href="glsStruct.html">glsStruct</a></code>,
+<code><a href="plot.gls.html">plot.gls</a></code>, 
+<code><a href="predict.gls.html">predict.gls</a></code>, 
+<code><a href="qqnorm.gls.html">qqnorm.gls</a></code>, 
+<code><a href="residuals.gls.html">residuals.gls</a></code>, 
+<code><a href="summary.gls.html">summary.gls</a></code>, 
+<code><a href="varClasses.html">varClasses</a></code>,
+<code><a href="varFunc.html">varFunc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# AR(1) errors within each Mare
+fm1 &lt;- gls(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), Ovary,
+           correlation = corAR1(form = ~ 1 | Mare))
+# variance increases as a power of the absolute fitted values
+fm2 &lt;- update(fm1, weights = varPower())
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simplex Method for Linear Programming Problems</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for simplex {boot}"><tr><td>simplex {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Simplex Method for Linear Programming Problems
+</h2>
+
+<h3>Description</h3>
+
+<p>This function will optimize the linear function <code>a%*%x</code> subject
+to the constraints <code>A1%*%x &lt;= b1</code>, <code>A2%*%x &gt;= b2</code>,
+<code>A3%*%x = b3</code> and <code>x &gt;= 0</code>.  Either maximization or
+minimization is possible but the default is minimization.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simplex(a, A1 = NULL, b1 = NULL, A2 = NULL, b2 = NULL, A3 = NULL,
+        b3 = NULL, maxi = FALSE, n.iter = n + 2 * m, eps = 1e-10)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>a</code></td>
+<td>
+
+<p>A vector of length <code>n</code> which gives the coefficients of the
+objective function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>A1</code></td>
+<td>
+
+<p>An <code>m1</code> by <code>n</code> matrix of coefficients for the <i>&lt;=</i> type of
+constraints.
+</p>
+</td></tr>
+<tr valign="top"><td><code>b1</code></td>
+<td>
+
+<p>A vector of length <code>m1</code> giving the right hand side of the <i>&lt;=</i>
+constraints. This argument is required if <code>A1</code> is given and
+ignored otherwise.  All values in <code>b1</code> must be non-negative.
+</p>
+</td></tr>
+<tr valign="top"><td><code>A2</code></td>
+<td>
+
+<p>An <code>m2</code> by <code>n</code> matrix of coefficients for the <i>&gt;=</i> type of
+constraints.
+</p>
+</td></tr>
+<tr valign="top"><td><code>b2</code></td>
+<td>
+
+<p>A vector of length <code>m2</code> giving the right hand side of the <i>&gt;=</i>
+constraints. This argument is required if <code>A2</code> is given and
+ignored otherwise.  All values in <code>b2</code> must be non-negative.
+Note that the constraints <code>x &gt;= 0</code> are included automatically
+and so should not be repeated here.
+</p>
+</td></tr>
+<tr valign="top"><td><code>A3</code></td>
+<td>
+
+<p>An <code>m3</code> by <code>n</code> matrix of coefficients for the equality
+constraints.
+</p>
+</td></tr>
+<tr valign="top"><td><code>b3</code></td>
+<td>
+
+<p>A vector of length <code>m3</code> giving the right hand side of equality
+constraints. This argument is required if <code>A3</code> is given and
+ignored otherwise.  All values in <code>b3</code> must be non-negative.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxi</code></td>
+<td>
+
+<p>A logical flag which specifies minimization if <code>FALSE</code>
+(default) and maximization otherwise.  If <code>maxi</code> is <code>TRUE</code>
+then the maximization problem is recast as a minimization problem by
+changing the objective function coefficients to their negatives.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.iter</code></td>
+<td>
+
+<p>The maximum number of iterations to be conducted in each phase of
+the simplex method.  The default is <code>n+2*(m1+m2+m3)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+
+<p>The floating point tolerance to be used in tests of equality.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The method employed by this function is the two phase tableau simplex
+method. If there are <i>&gt;=</i> or equality constraints an initial feasible
+solution is not easy to find.  To find a feasible solution an
+artificial variable is introduced into each <i>&gt;=</i> or equality
+constraint and an auxiliary objective function is defined as the sum
+of these artificial variables.  If a feasible solution to the set of
+constraints exists then the auxiliary objective will be minimized when
+all of the artificial variables are 0. These are then discarded and
+the original problem solved starting at the solution to the auxiliary
+problem.  If the only constraints are of the <i>&lt;=</i> form, the origin is
+a feasible solution and so the first stage can be omitted.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"simplex"</code>: see <code><a href="simplex.object.html">simplex.object</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The method employed here is suitable only for relatively small
+systems.  Also if possible the number of constraints should be reduced
+to a minimum in order to speed up the execution time which is
+approximately proportional to the cube of the number of constraints.
+In particular if there are any constraints of the form <code>x[i] &gt;=
+    b2[i]</code> they should be omitted by setting <code>x[i] = x[i]-b2[i]</code>,
+changing all the constraints and the objective function accordingly
+and then transforming back after the solution has been found.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gill, P.E., Murray, W. and Wright, M.H. (1991)
+<em>Numerical Linear Algebra and Optimization Vol. 1</em>. Addison-Wesley.
+</p>
+<p>Press, W.H., Teukolsky, S.A., Vetterling, W.T. and Flannery, B.P. (1992)
+<em>Numerical Recipes: The Art of Scientific Computing (Second Edition)</em>.
+Cambridge University Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# This example is taken from Exercise 7.5 of Gill, Murray and Wright (1991).
+enj &lt;- c(200, 6000, 3000, -200)
+fat &lt;- c(800, 6000, 1000, 400)
+vitx &lt;- c(50, 3, 150, 100)
+vity &lt;- c(10, 10, 75, 100)
+vitz &lt;- c(150, 35, 75, 5)
+simplex(a = enj, A1 = fat, b1 = 13800, A2 = rbind(vitx, vity, vitz),
+        b2 = c(600, 300, 550), maxi = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

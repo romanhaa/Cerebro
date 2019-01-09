@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find Maximum Position in Vector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for which.is.max {nnet}"><tr><td>which.is.max {nnet}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Find Maximum Position in Vector
+</h2>
+
+<h3>Description</h3>
+
+<p>Find the maximum position in a vector, breaking ties at random.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+which.is.max(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a vector
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>Ties are broken at random.
+</p>
+
+
+<h3>Value</h3>
+
+<p>index of a maximal value.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/maxCol.html">max.col</a></code>, <code><a href="../../base/html/which.min.html">which.max</a></code> which takes the first of ties.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: ## this is incomplete
+pred &lt;- predict(nnet, test)
+table(true, apply(pred, 1, which.is.max))
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nnet</em> version 7.3-12 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Low-level Options Controlling Behaviour of Lattice</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for C_04_lattice.options {lattice}"><tr><td>C_04_lattice.options {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Low-level Options Controlling Behaviour of Lattice </h2>
+
+<h3>Description</h3>
+
+<p>Functions to handle settings used by lattice.  Their main purpose is
+to make code maintainance easier, and users normally should not need
+to use these functions.  However, fine control at this level maybe
+useful in certain cases.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lattice.options(...)
+lattice.getOption(name)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p> character giving the name of a setting </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>new options can be defined, or existing ones modified, using one or
+more arguments of the form <code>name = value</code> or by passing a list
+of such tagged values.  Existing values can be retrieved by
+supplying the names (as character strings) of the components as
+unnamed arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions are modeled on <code>options</code> and <code>getOption</code>,
+and behave similarly for the most part.  Some of the available
+components are documented here, but not all.  The purpose of the ones
+not documented are either fairly obvious, or not of interest to the
+end-user.
+</p>
+
+<dl>
+<dt><code>panel.error</code></dt><dd>
+<p>A function, or <code>NULL</code>.  If the former, every call to the
+panel function will be wrapped inside <code><a href="../../base/html/conditions.html">tryCatch</a></code> with
+the specified function as an error handler.  The default is to use
+the <code><a href="print.trellis.html">panel.error</a></code> function.  This prevents the plot
+from failing due to errors in a single panel, and leaving the grid
+operations in an unmanageable state.  If set to <code>NULL</code>,
+errors in panel functions will not be caught using
+<code>tryCatch</code>.
+</p>
+</dd>
+<dt><code>save.object</code></dt><dd>
+<p>Logical flag indicating whether a <code>"trellis"</code> object should
+be saved when plotted for subsequent retrieval and further
+manipulation.  Defaults to <code>TRUE</code>.
+</p>
+</dd>
+<dt><code>layout.widths</code>, <code>layout.heights</code></dt><dd><p> Controls details
+of the default space allocation in the grid layout created in the
+course of plotting a <code>"trellis"</code> object.  Each named
+component is a list of arguments to the <span class="pkg">grid</span> function
+<code><a href="../../grid/html/unit.html">unit</a></code> (<code>x</code>, <code>units</code>, and optionally
+<code>data</code>).
+</p>
+<p>Usually not of interest to the end-user, who should instead use
+the similiarly named component in the graphical settings,
+modifiable using <code><a href="trellis.par.get.html">trellis.par.set</a></code>.
+</p>
+</dd>
+<dt><code>drop.unused.levels</code></dt><dd><p> A list of two components named
+<code>cond</code> and <code>data</code>, both logical flags.  The flags
+indicate whether the unused levels of factors (conditioning
+variables and primary variables respectively) will be dropped,
+which is usually relevant when a subsetting operation is performed
+or an 'interaction' is created.  See <code><a href="xyplot.html">xyplot</a></code> for more
+details.  Note that this does not control dropping of levels of
+the 'groups' argument.
+</p>
+</dd>
+<dt><code>legend.bbox</code></dt><dd>
+<p>A character string, either <code>"full"</code> or <code>"panel"</code>.  This
+determines the interpretation of <code>x</code> and <code>y</code> when
+<code>space="inside"</code> in <code>key</code> (determining the legend; see
+<code><a href="xyplot.html">xyplot</a></code>): either the full figure region ('&quot;full&quot;'),
+or just the region that bounds the panels and strips ('&quot;panel&quot;').
+</p>
+</dd>
+<dt><code>default.args</code></dt><dd><p> A list giving default values for various
+standard arguments: <code>as.table</code>, <code>aspect</code>,
+<code>between</code>, <code>skip</code>, <code>strip</code>,
+<code>xscale.components</code>, <code>yscale.components</code>, and
+<code>axis</code>.
+</p>
+</dd>
+<dt><code>highlight.gpar</code></dt><dd><p> A list giving arguments to
+<code><a href="../../grid/html/gpar.html">gpar</a></code> used to highlight a viewport chosen using
+<code><a href="interaction.html">trellis.focus</a></code>.
+</p>
+</dd>
+<dt><code>banking</code></dt><dd><p> The banking function. See
+<code><a href="banking.html">banking</a></code>. </p>
+</dd>
+<dt><code>axis.padding</code></dt><dd><p> List with components named
+<code>"numeric"</code> and <code>"factor"</code>, both scalar numbers.
+Panel limits are extended by this amount, to provide padding
+for numeric and factor scales respectively.  The value for
+numeric is multiplicative, whereas factor is additive. </p>
+</dd>
+<dt><code>skip.boundary.labels</code></dt><dd><p> Numeric scalar between 0 and 1.
+Tick marks that are too close to the limits are not drawn unless
+explicitly requested.  The limits are contracted by this
+proportion, and anything outside is skipped. </p>
+</dd>
+<dt><code>interaction.sep</code></dt><dd><p> The separator for creating
+interactions with the extended formula interface (see
+<code><a href="xyplot.html">xyplot</a></code>).
+</p>
+</dd>
+<dt><code>axis.units</code></dt><dd><p> List determining default units for axis
+components.  Should not be of interest to the end-user.
+</p>
+</dd>
+</dl>
+
+<p>In addition, there is an option for the default prepanel and panel
+function for each high-level function; e.g., <code>panel.xyplot</code> and
+<code>prepanel.default.xyplot</code> for <code><a href="xyplot.html">xyplot</a></code>.  The options
+for the others have similarly patterned names.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>lattice.getOption</code> returns the value of a single component,
+whereas <code>lattice.options</code> always returns a list with one or more
+named components.  When changing the values of components, the old
+values of the modified components are returned by
+<code>lattice.options</code>.  If called without any arguments, the full
+list is returned. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/options.html">options</a></code>, <code><a href="trellis.device.html">trellis.device</a></code>,
+<code><a href="trellis.par.get.html">trellis.par.get</a></code>, <code><a href="Lattice.html">Lattice</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+names(lattice.options())
+str(lattice.getOption("layout.widths"), max.level = 2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

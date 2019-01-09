@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Linear Correlation Structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corLin {nlme}"><tr><td>corLin {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Linear Correlation Structure</h2>
+
+<h3>Description</h3>
+
+<p>This function is a constructor for the <code>corLin</code> class,
+representing a linear spatial correlation structure. Letting
+<i>d</i> denote the range and <i>n</i> denote the nugget
+effect, the correlation between two observations a distance
+<i>r &lt; d</i> apart is <i>1-(r/d)</i> when no nugget effect
+is present and <i>(1-n)*(1-(r/d))</i> when a nugget
+effect is assumed. If <i>r &gt;= d</i> the correlation is
+zero. Objects created using this constructor must later be
+initialized using the appropriate <code>Initialize</code> method. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+corLin(value, form, nugget, metric, fixed)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>an optional vector with the parameter values in
+constrained form. If <code>nugget</code> is <code>FALSE</code>, <code>value</code> can
+have only one element, corresponding to the &quot;range&quot; of the
+linear correlation structure, which must be greater than
+zero. If <code>nugget</code> is <code>TRUE</code>, meaning that a nugget effect
+is present, <code>value</code> can contain one or two elements, the first
+being the &quot;range&quot; and the second the &quot;nugget effect&quot; (one minus the
+correlation between two observations taken arbitrarily close
+together); the first must be greater than zero and the second must be
+between zero and one. Defaults to <code>numeric(0)</code>, which results in
+a range of 90% of the minimum distance and a nugget effect of 0.1
+being assigned to the parameters when <code>object</code> is initialized.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>a one sided formula of the form <code>~ S1+...+Sp</code>, or
+<code>~ S1+...+Sp | g</code>, specifying spatial covariates <code>S1</code>
+through <code>Sp</code> and,  optionally, a grouping factor <code>g</code>. 
+When a grouping factor is present in <code>form</code>, the correlation
+structure is assumed to apply only to observations within the same
+grouping level; observations with different grouping levels are
+assumed to be uncorrelated. Defaults to <code>~ 1</code>, which corresponds
+to using the order of the observations in the data as a covariate,
+and no groups.</p>
+</td></tr>   
+<tr valign="top"><td><code>nugget</code></td>
+<td>
+<p>an optional logical value indicating whether a nugget
+effect is present. Defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+<p>an optional character string specifying the distance
+metric to be used. The currently available options are
+<code>"euclidean"</code> for the root sum-of-squares of distances;
+<code>"maximum"</code> for the maximum difference; and <code>"manhattan"</code>
+for the sum of the absolute differences. Partial matching of
+arguments is used, so only the first three characters need to be
+provided. Defaults to <code>"euclidean"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>an optional logical value indicating whether the
+coefficients should be allowed to vary in the optimization, or kept
+fixed at their initial value. Defaults to <code>FALSE</code>, in which case
+the coefficients are allowed to vary.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>corLin</code>, also inheriting from class
+<code>corSpatial</code>, representing a linear spatial correlation
+structure. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Cressie, N.A.C. (1993), &quot;Statistics for Spatial Data&quot;, J. Wiley &amp; Sons.
+</p>
+<p>Venables, W.N. and Ripley, B.D. (2002) &quot;Modern Applied Statistics with
+S&quot;, 4th Edition, Springer-Verlag.
+</p>
+<p>Littel, Milliken, Stroup, and Wolfinger (1996) &quot;SAS Systems for Mixed
+Models&quot;, SAS Institute.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Initialize.corStruct.html">Initialize.corStruct</a></code>,
+<code><a href="summary.corStruct.html">summary.corStruct</a></code>,
+<code><a href="../../stats/html/dist.html">dist</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sp1 &lt;- corLin(form = ~ x + y)
+
+# example lme(..., corLin ...)
+# Pinheiro and Bates, pp. 222-249
+fm1BW.lme &lt;- lme(weight ~ Time * Diet, BodyWeight,
+                   random = ~ Time)
+# p. 223
+fm2BW.lme &lt;- update(fm1BW.lme, weights = varPower())
+# p 246 
+fm3BW.lme &lt;- update(fm2BW.lme,
+           correlation = corExp(form = ~ Time))
+# p. 249
+fm7BW.lme &lt;- update(fm3BW.lme, correlation = corLin(form = ~ Time))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

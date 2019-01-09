@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Recursive Partitioning and Regression Trees</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rpart {rpart}"><tr><td>rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Recursive Partitioning and Regression Trees
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit a <code>rpart</code> model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rpart(formula, data, weights, subset, na.action = na.rpart, method,
+      model = FALSE, x = FALSE, y = TRUE, parms, control, cost, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a <a href="../../stats/html/formula.html">formula</a>, with a response but no interaction
+terms.  If this a a data frame, that is taken as the model frame
+(see <code><a href="../../stats/html/model.frame.html">model.frame</a>).</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame in which to interpret the variables
+named in the formula.</p>
+</td></tr> 
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>optional case weights.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional expression saying that only a subset of the
+rows of the data should be used in the fit.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>the default action deletes all observations for which
+<code>y</code> is missing, but keeps those in which one or more predictors
+are missing.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>one of <code>"anova"</code>, <code>"poisson"</code>, <code>"class"</code>
+or <code>"exp"</code>.  If <code>method</code> is missing then the routine tries
+to make an intelligent guess.
+If <code>y</code> is a survival object, then <code>method = "exp"</code> is assumed,
+if <code>y</code> has 2 columns then <code>method = "poisson"</code> is assumed,
+if <code>y</code> is a factor then <code>method = "class"</code> is assumed,
+otherwise <code>method = "anova"</code> is assumed.
+It is wisest to specify the method directly, especially as more
+criteria may added to the function in future.
+</p>
+<p>Alternatively, <code>method</code> can be a list of functions named
+<code>init</code>, <code>split</code> and <code>eval</code>.  Examples are given in
+the file &lsquo;<span class="file">tests/usersplits.R</span>&rsquo; in the sources, and in the
+vignettes &lsquo;User Written Split Functions&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>if logical: keep a copy of the model frame in the result?
+If the input value for <code>model</code> is a model frame (likely from an
+earlier call to the <code>rpart</code> function), then this frame is used
+rather than constructing new data.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>keep a copy of the <code>x</code> matrix in the result.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>keep a copy of the dependent variable in the result.  If
+missing and <code>model</code> is supplied this defaults to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>parms</code></td>
+<td>
+<p>optional parameters for the splitting function.<br />
+Anova splitting has no parameters.<br />
+Poisson splitting has a single parameter, the coefficient of variation of
+the prior distribution on the rates.  The default value is 1.<br />
+Exponential splitting has the same parameter as Poisson.<br />
+For classification splitting, the list can contain any of:
+the vector of prior probabilities (component <code>prior</code>), the loss matrix
+(component <code>loss</code>) or the splitting index (component
+<code>split</code>).  The priors must be positive and sum to 1.  The loss
+matrix must have zeros on the diagonal and positive off-diagonal
+elements.  The splitting index can be <code>gini</code> or
+<code>information</code>.  The default priors are proportional to the data
+counts, the losses default to 1, and the split defaults to
+<code>gini</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of options that control details of the
+<code>rpart</code> algorithm.  See <code><a href="rpart.control.html">rpart.control</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cost</code></td>
+<td>
+<p>a vector of non-negative costs, one for each variable in
+the model. Defaults to one for all variables.  These are scalings to
+be applied when considering splits, so the improvement on splitting
+on a variable is divided by its cost in deciding which split to
+choose.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to <code><a href="rpart.control.html">rpart.control</a></code> may also be
+specified in the call to <code>rpart</code>.  They are checked against the
+list of valid arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This differs from the <code>tree</code> function in S mainly in its handling
+of surrogate variables.  In most details it follows Breiman
+<em>et. al</em> (1984) quite closely.  <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package <span class="pkg">tree</span> provides a
+re-implementation of <code>tree</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>rpart</code>.  See <code><a href="rpart.object.html">rpart.object</a></code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Breiman L., Friedman J. H., Olshen R. A., and Stone, C. J. (1984)
+<em>Classification and Regression Trees.</em>
+Wadsworth.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rpart.control.html">rpart.control</a></code>, <code><a href="rpart.object.html">rpart.object</a></code>,
+<code><a href="summary.rpart.html">summary.rpart</a></code>, <code><a href="print.rpart.html">print.rpart</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
+fit2 &lt;- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis,
+              parms = list(prior = c(.65,.35), split = "information"))
+fit3 &lt;- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis,
+              control = rpart.control(cp = 0.05))
+par(mfrow = c(1,2), xpd = NA) # otherwise on some devices the text is clipped
+plot(fit)
+text(fit, use.n = TRUE)
+plot(fit2)
+text(fit2, use.n = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

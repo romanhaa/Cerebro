@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Survival Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Surv {survival}"><tr><td>Surv {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Create a Survival Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Create a survival object, usually used as a response variable in a model 
+formula. Argument matching is special for this function, see Details below.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Surv(time, time2, event,
+    type=c('right', 'left', 'interval', 'counting', 'interval2', 'mstate'),
+    origin=0)
+is.Surv(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>time</code></td>
+<td>
+
+<p>for right censored data, this is the follow up time.  For interval
+data, the first argument is the starting time for the interval. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>event</code></td>
+<td>
+
+<p>The status indicator, normally 0=alive, 1=dead.  Other choices are
+<code>TRUE</code>/<code>FALSE</code> (<code>TRUE</code> = death) or 1/2 (2=death). For
+interval censored data, the status indicator is 0=right censored,
+1=event at <code>time</code>, 2=left censored, 3=interval censored.
+For multiple enpoint data the event variable will be a factor,
+whose first level is treated as censoring.
+Although unusual, the event indicator can be omitted, in which case
+all subjects are assumed to have an event.
+</p>
+</td></tr>
+<tr valign="top"><td><code>time2</code></td>
+<td>
+
+<p>ending time of the interval for interval censored  or counting
+process data only.  Intervals are assumed to be open on the left and
+closed on the right, <code>(start, end]</code>.  For counting process
+data, <code>event</code> indicates whether an event occurred at the end of
+the interval.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>character string specifying the type of censoring. Possible values
+are <code>"right"</code>, <code>"left"</code>, <code>"counting"</code>,
+<code>"interval"</code>, <code>"interval2"</code> or <code>"mstate"</code>.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>origin</code></td>
+<td>
+
+<p>for counting process data, the hazard function origin.  This option
+was intended to be used in conjunction with a model containing
+time dependent
+strata in order to align the subjects properly when they cross over
+from one strata to another, but it has rarely proven useful.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>any R object.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When the <code>type</code> argument is missing the code assumes a type based
+on the following rules:
+</p>
+
+<ul>
+<li><p> If there are two unnamed arguments, they will match <code>time</code> and
+<code>event</code> in that order.  If there are three unnamed arguments
+they match <code>time</code>, <code>time2</code> and <code>event</code>.
+</p>
+</li>
+<li><p> If the event variable is a factor then type <code>mstate</code> is
+assumed.  Otherwise type <code>right</code> if there is no <code>time2</code>
+argument, and type <code>counting</code> if there is.
+</p>
+</li></ul>
+
+<p>As a consequence the <code>type</code> argument will normally be omitted.
+</p>
+<p>When the survival type is &quot;mstate&quot; then the status variable will be
+treated as a factor.  The first level of the factor is taken to
+represent censoring and remaining ones a transition to the given
+state.  (If the status variable is a factor then <code>mstate</code> is assumed.)
+</p>
+<p>Interval censored data can be represented in two ways.  For the first
+use <code>type = "interval"</code> and the codes shown above.  In that usage the
+value of the <code>time2</code> argument is ignored unless event=3.
+The second approach is to think of each observation as a time
+interval with (-infinity, t) for left censored, (t, infinity) for
+right censored, (t,t) for exact and (t1, t2) for an interval.
+This is the approach used for type = interval2.  Infinite values can
+be represented either by actual infinity (Inf) or NA.
+The second form has proven to be the more useful one.
+</p>
+<p>Presently, the only methods allowing interval censored data are the 
+parametric models computed by <code>survreg</code> and survival curves
+computed by <code>survfit</code>; for both of these, 
+the distinction between open and closed intervals
+is unimportant.  
+The distinction is important for counting process data and 
+the Cox model. 
+</p>
+<p>The function tries to distinguish between the use of 0/1 and 1/2 coding for 
+censored data via the condition 
+<code>if (max(status)==2)</code>. 
+If 1/2 coding is used and all the subjects are censored, it will 
+guess wrong.
+In any questionable case it is safer to use logical coding,
+e.g., <code>Surv(time, status==3)</code> would indicate that a <code>3</code> is
+the code for an event.
+For multi-state survival the status variable will be a factor, whose
+first level is assumed to correspond to censoring.
+</p>
+<p>Surv objects can be subscripted either as a vector, e.g.
+<code>x[1:3]</code> using a single subscript,
+in which case the <code>drop</code> argument is ignored and the result will be
+a survival object; 
+or as a matrix by using two subscripts.
+If the second subscript is missing and <code>drop=F</code>
+(the default),
+the result of the subscripting will be a Surv object, e.g., 
+<code>x[1:3,,drop=F]</code>,
+otherwise the result will be a matrix (or vector), in accordance with
+the default behavior for subscripting matrices. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>Surv</code>.  There are methods for <code>print</code>,
+<code>is.na</code>, and subscripting survival objects.   <code>Surv</code> objects
+are implemented as a matrix of 2 or 3 columns that has further
+attributes. These include the type (left censored, right censored,
+counting process, etc.) and labels for the states for multi-state
+objects.  Any attributes of the input arguments are also preserved
+in <code>inputAttributes</code>.  This may be useful for other packages that
+have attached further information to data items such as labels; none
+of the routines in the survival package make use of these
+values, however.
+</p>
+<p>In the case of <code>is.Surv</code>, a logical value <code>TRUE</code> if <code>x</code>
+inherits from class <code>"Surv"</code>, otherwise an <code>FALSE</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="coxph.html">coxph</a></code>,  
+<code><a href="survfit.html">survfit</a></code>,  
+<code><a href="survreg.html">survreg</a></code>.   
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+with(lung, Surv(time, status))
+Surv(heart$start, heart$stop, heart$event) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

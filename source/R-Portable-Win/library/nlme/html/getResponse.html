@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Response Variable from an Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getResponse {nlme}"><tr><td>getResponse {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Response Variable from an Object</h2>
+
+<h3>Description</h3>
+
+<p>This function is generic; method functions can be written to handle
+specific classes of objects. Classes which already have methods for
+this function include <code>data.frame</code>, <code>gls</code>, <code>lme</code>,
+and <code>lmList</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getResponse(object, form)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>any object</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional two-sided formula. Defaults to
+<code>formula(object)</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>will depend on the method function used; see the appropriate documentation.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getResponseFormula.html">getResponseFormula</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+getResponse(Orthodont)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

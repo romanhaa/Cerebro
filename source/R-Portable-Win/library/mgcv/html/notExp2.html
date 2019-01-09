@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Alternative to log parameterization for variance components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for notExp2 {mgcv}"><tr><td>notExp2 {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Alternative to log parameterization for variance components</h2>
+
+<h3>Description</h3>
+
+ <p><code>notLog2</code> and <code>notExp2</code> are alternatives to <code>log</code>
+and <code>exp</code> or <code><a href="notExp.html">notLog</a></code> and <code><a href="notExp.html">notExp</a></code> for
+re-parameterization of variance parameters. They are used by the
+<code><a href="pdTens.html">pdTens</a></code> and <code><a href="pdIdnot.html">pdIdnot</a></code> classes which in turn implement
+smooths for <code><a href="gamm.html">gamm</a></code>.
+</p>
+<p>The functions are typically used to ensure that smoothing parameters are
+positive, but the <code>notExp2</code> is not monotonic: rather it cycles between
+&lsquo;effective zero&rsquo; and &lsquo;effective infinity&rsquo; as its argument changes. The
+<code>notLog2</code> is the inverse function of the <code>notExp2</code> only over an
+interval centered on zero.
+</p>
+<p>Parameterizations using these functions ensure that estimated smoothing
+parameters remain positive, but also help to ensure that the likelihood is
+never indefinite: once a working parameter pushes a smoothing parameter below
+&lsquo;effetive zero&rsquo; or above &lsquo;effective infinity&rsquo; the cyclic nature of the
+<code>notExp2</code> causes the likelihood to decrease, where otherwise it might
+simply have flattened. 
+</p>
+<p>This parameterization is really just a numerical trick, in order to get
+<code>lme</code> to fit <code>gamm</code> models, without failing due to indefiniteness. 
+Note in particular that asymptotic results on the likelihood/REML criterion are 
+not invalidated by the trick,
+unless parameter estimates end up close to the effective zero or effective
+infinity: but if this is the case then the asymptotics would also have been invalid
+for a conventional monotonic parameterization.
+</p>
+<p>This reparameterization was made necessary by some modifications to the
+underlying optimization method in  <code>lme</code> introduced in nlme 3.1-62. It is
+possible that future releases will return to the <code><a href="notExp.html">notExp</a></code> parameterization.
+</p>
+<p>Note that you can reset &lsquo;effective zero&rsquo; and &lsquo;effective infinity&rsquo;: see below.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+notExp2(x,d=.Options$mgcv.vc.logrange,b=1/d)
+
+notLog2(x,d=.Options$mgcv.vc.logrange,b=1/d)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Argument array of real numbers (<code>notExp</code>) or positive real numbers (<code>notLog</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>the range of <code>notExp2</code> runs from <code>exp(-d)</code> to
+<code>exp(d)</code>. To change the range used by <code>gamm</code> reset
+<code>mgcv.vc.logrange</code> using <code><a href="../../base/html/options.html">options</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>determines the period of the cycle of <code>notExp2</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p> An array of function values evaluated at the supplied argument values.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="pdTens.html">pdTens</a></code>, <code><a href="pdIdnot.html">pdIdnot</a></code>,  <code><a href="gamm.html">gamm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Illustrate the notExp2 function:
+require(mgcv)
+x &lt;- seq(-50,50,length=1000)
+op &lt;- par(mfrow=c(2,2))
+plot(x,notExp2(x),type="l")
+lines(x,exp(x),col=2)
+plot(x,log(notExp2(x)),type="l")
+lines(x,log(exp(x)),col=2) # redundancy intended
+x &lt;- x/4
+plot(x,notExp2(x),type="l")
+lines(x,exp(x),col=2)
+plot(x,log(notExp2(x)),type="l")
+lines(x,log(exp(x)),col=2) # redundancy intended
+par(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

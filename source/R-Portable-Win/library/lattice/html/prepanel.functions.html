@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Useful Prepanel Function for Lattice</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_3_prepanel.functions {lattice}"><tr><td>F_3_prepanel.functions {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Useful Prepanel Function for Lattice</h2>
+
+<h3>Description</h3>
+
+<p>These are predefined prepanel functions available in Lattice.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+prepanel.lmline(x, y, ...)
+prepanel.qqmathline(x, y = x, distribution = qnorm,
+                    probs = c(0.25, 0.75), qtype = 7,
+                    groups, subscripts,
+                    ...) 
+prepanel.loess(x, y, span, degree, family, evaluation,
+               horizontal = FALSE, ...)
+prepanel.spline(x, y, npoints = 101, 
+                horizontal = FALSE, ...,
+                keep.data = FALSE)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>x and y values, numeric or factor</p>
+</td></tr>
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+<p> quantile function for theoretical
+distribution. This is automatically passed in when this is used as a
+prepanel function in <code>qqmath</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>qtype</code></td>
+<td>
+<p> type of <code><a href="../../stats/html/quantile.html">quantile</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>probs</code></td>
+<td>
+
+<p>numeric vector of length two, representing probabilities.  If used
+with <code>aspect="xy"</code>, the aspect ratio will be chosen to make the
+line passing through the corresponding quantile pairs as close to 45
+degrees as possible.
+</p>
+</td></tr>
+<tr valign="top"><td><code>span, degree, family, evaluation</code></td>
+<td>
+<p> Arguments controlling the
+underlying <code><a href="../../stats/html/loess.html">loess</a></code> smooth. </p>
+</td></tr>
+<tr valign="top"><td><code>horizontal, npoints</code></td>
+<td>
+<p> See documentation for corresponding panel
+function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>keep.data</code></td>
+<td>
+<p> Ignored. Present to capture argument of the same
+name in <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>groups, subscripts</code></td>
+<td>
+<p> See <code><a href="xyplot.html">xyplot</a></code>.  Whenever
+appropriate, calculations are done separately for each group and
+then combined.  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments.  These are passed on to other functions
+if appropriate (in particular, <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>), and
+ignored otherwise. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All these prepanel functions compute the limits to be large enough to
+contain all points as well as the relevant smooth.
+</p>
+<p>In addition, <code>prepanel.lmline</code> computes the <code>dx</code> and
+<code>dy</code> such that it reflects the slope of the linear regression
+line; for <code>prepanel.qqmathline</code>, this is the slope of the line
+passing through the quantile pairs specified by <code>probs</code>.  For
+<code>prepanel.loess</code> and <code>prepanel.spline</code>, <code>dx</code> and
+<code>dy</code> reflect the piecewise slopes of the nonlinear smooth.
+</p>
+
+
+<h3>Value</h3>
+
+<p>usually a list with components <code>xlim</code>, <code>ylim</code>, <code>dx</code> and
+<code>dy</code>, the first two being used to calculate panel axes limits,
+the last two for banking computations.  The form of these components
+are described under <code><a href="xyplot.html">xyplot</a></code>.  There are also several
+prepanel functions that serve as the default for high level functions,
+see <code><a href="prepanel.default.html">prepanel.default.xyplot</a></code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Lattice.html">Lattice</a>, <code><a href="xyplot.html">xyplot</a></code>, <code><a href="banking.html">banking</a></code>,
+<code><a href="panel.loess.html">panel.loess</a></code>, <code><a href="panel.spline.html">panel.spline</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

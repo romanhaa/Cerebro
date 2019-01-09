@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot an nmGroupedData Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.nmGroupedData {nlme}"><tr><td>plot.nmGroupedData {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot an nmGroupedData Object</h2>
+
+<h3>Description</h3>
+
+<p>The <code>groupedData</code> object is summarized by the values of the
+<code>displayLevel</code> grouping factor (or the combination of its values
+and the values of the covariate indicated in <code>preserve</code>, if any is
+present). The collapsed data is used to produce a new
+<code>groupedData</code> object, with grouping factor given by the
+<code>displayLevel</code> factor, which is plotted using the
+appropriate <code>plot</code> method for <code>groupedData</code> objects with
+single level of grouping. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'nmGroupedData'
+plot(x, collapseLevel, displayLevel, outer, inner,
+    preserve, FUN, subset, key, grid, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>nmGroupedData</code>,
+representing a <code>groupedData</code> object with multiple grouping
+factors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>collapseLevel</code></td>
+<td>
+<p>an optional positive integer or character string
+indicating the grouping level to use when collapsing the data. Level
+values increase from outermost to innermost grouping. Default is the
+highest or innermost level of grouping.
+</p>
+</td></tr>
+<tr valign="top"><td><code>displayLevel</code></td>
+<td>
+<p>an optional positive integer or character string
+indicating the grouping level to use for determining the panels in
+the Trellis display, when <code>outer</code> is missing. Default is
+<code>collapseLevel</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>outer</code></td>
+<td>
+<p>an optional logical value or one-sided formula,
+indicating covariates that are outer to the <code>displayLevel</code>
+grouping factor, which are used to determine the panels of the
+Trellis plot. If equal to <code>TRUE</code>, the <code>displayLevel</code>
+element <code>attr(object, "outer")</code> is used to indicate the 
+outer covariates. An outer covariate is invariant within the sets
+of rows defined by the grouping factor.  Ordering of the groups is
+done in such a way as to preserve adjacency of groups with the same
+value of the outer variables. Defaults to <code>NULL</code>, meaning that
+no outer covariates are to be used.
+</p>
+</td></tr>  
+<tr valign="top"><td><code>inner</code></td>
+<td>
+<p>an optional logical value or one-sided formula, indicating
+a covariate that is inner to the <code>displayLevel</code> grouping factor,
+which is used to associate points within each panel of the Trellis
+plot. If equal to <code>TRUE</code>, <code>attr(object, "outer")</code> is used
+to indicate the inner covariate. An inner covariate can change within
+the sets of rows defined by the grouping  factor. Defaults to
+<code>NULL</code>, meaning that no inner covariate  is present.  
+</p>
+</td></tr> 
+<tr valign="top"><td><code>preserve</code></td>
+<td>
+<p>an optional one-sided formula indicating a covariate
+whose levels should be preserved when collapsing the data according
+to the <code>collapseLevel</code> grouping factor. The collapsing factor is
+obtained by pasting together the levels of the <code>collapseLevel</code>
+grouping factor and the values of the covariate to be
+preserved. Default is <code>NULL</code>, meaning that no covariates need to
+be preserved.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>an optional summary function or a list of summary functions
+to be used for collapsing the data.  The function or functions are
+applied only to variables in <code>object</code> that vary within the
+groups defined by <code>collapseLevel</code>.  Invariant variables are 
+always summarized by group using the unique value that they assume
+within that group.  If <code>FUN</code> is a single
+function it will be applied to each non-invariant variable by group
+to produce the summary for that variable.  If <code>FUN</code> is a list of
+functions, the names in the list should designate classes of
+variables in the data such as <code>ordered</code>, <code>factor</code>, or
+<code>numeric</code>.  The indicated function will be applied to any
+non-invariant variables of that class.  The default functions to be
+used are <code>mean</code> for numeric factors, and <code>Mode</code> for both
+<code>factor</code> and <code>ordered</code>.  The <code>Mode</code> function, defined
+internally in <code>gsummary</code>, returns the modal or most popular
+value of the variable.  It is different from the <code>mode</code> function
+that returns the S-language mode of the variable.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional named list. Names can be either positive
+integers representing grouping levels, or names of grouping
+factors. Each element in the list is a vector indicating the levels
+of the corresponding grouping factor to be used for plotting the
+data. Default is <code>NULL</code>, meaning that all levels are
+used.</p>
+</td></tr> 
+<tr valign="top"><td><code>key</code></td>
+<td>
+<p>an optional logical value, or list. If <code>TRUE</code>, a legend
+is included at the top of the plot indicating which symbols (colors)
+correspond to which prediction levels. If <code>FALSE</code>, no legend
+is included. If given as a list, <code>key</code> is passed down as an
+argument to the <code>trellis</code> function generating the plots
+(<code>xyplot</code>). Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>an optional logical value indicating whether a grid should
+be added to plot. Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed to the Trellis plot function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a Trellis display of the data collapsed over the values of the
+<code>collapseLevel</code> grouping factor and grouped according to the
+<code>displayLevel</code> grouping factor. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Bates, D.M. and Pinheiro, J.C. (1997), &quot;Software Design for Longitudinal
+Data&quot;, in &quot;Modelling Longitudinal and Spatially Correlated Data:
+Methods, Applications and Future Directions&quot;, T.G. Gregoire (ed.),
+Springer-Verlag, New York.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="groupedData.html">groupedData</a></code>, <code><a href="collapse.groupedData.html">collapse.groupedData</a></code>,
+<code><a href="plot.nfnGroupedData.html">plot.nfnGroupedData</a></code>, <code><a href="plot.nffGroupedData.html">plot.nffGroupedData</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# no collapsing, panels by Dog
+plot(Pixel, display = "Dog", inner = ~Side)
+# collapsing by Dog, preserving day
+plot(Pixel, collapse = "Dog", preserve = ~day)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Internal Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rpart-internal {rpart}"><tr><td>rpart-internal {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Internal Functions 
+</h2>
+
+<h3>Description</h3>
+
+<p>Internal functions, only used by packages <span class="pkg">rpart</span> and <span class="pkg">ipred</span>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pred.rpart(fit, x)
+rpart.anova(y, offset, parms, wt)
+rpart.class(y, offset, parms, wt)
+rpart.matrix(frame)
+rpart.poisson(y, offset, parms, wt)
+rpartco(tree, parms)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fit</code></td>
+<td>
+<p>a tree fitted by <code>rpart</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a matrix of predictors.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the responses.</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>an offset, or <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>parms</code></td>
+<td>
+<p>a list of parameters, usually empty.</p>
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+<p>case weights.</p>
+</td></tr>
+<tr valign="top"><td><code>frame</code></td>
+<td>
+<p>model frame (from call to <code>rpart</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>tree</code></td>
+<td>
+<p>a tree fitted by <code>rpart</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For <code>rpartco</code> the x,y plotting coordinates of the nodes.
+</p>
+<p><code>rpart.anova</code>, <code>rpart.class</code> and
+<code>rpart.poisson</code> return a list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>(adjusting for <code>offset</code> if necessary),</p>
+</td></tr>
+<tr valign="top"><td><code>parms</code></td>
+<td>
+<p>as input,</p>
+</td></tr>
+<tr valign="top"><td><code>numresp</code></td>
+<td>
+<p>the number of responses,</p>
+</td></tr>
+<tr valign="top"><td><code>summary</code></td>
+<td>
+<p>a function to be invoked by <code><a href="summary.rpart.html">summary.rpart</a></code>,</p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>a function to be invoked by <code><a href="text.rpart.html">text.rpart</a></code>.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

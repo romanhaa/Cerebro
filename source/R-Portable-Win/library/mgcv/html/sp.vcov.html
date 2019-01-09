@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract smoothing parameter estimator covariance matrix from...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sp.vcov {mgcv}"><tr><td>sp.vcov {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract smoothing parameter estimator covariance matrix from (RE)ML GAM fit</h2>
+
+<h3>Description</h3>
+
+<p> Extracts the estimated covariance matrix for the log smoothing parameter
+estimates from a (RE)ML estimated <code>gam</code> object, provided the fit was with a method 
+that evaluated the required Hessian.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sp.vcov(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a fitted model object of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Just extracts the inverse of the hessian matrix of the negative (restricted) log likelihood w.r.t
+the log smoothing parameters, if this has been obtained as part of fitting. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> A matrix corresponding to the estimated covariance matrix of the log smoothing parameter estimators,
+if this can be extracted, otherwise <code>NULL</code>. If the scale parameter has been (RE)ML estimated (i.e. if the method was 
+<code>"ML"</code> or <code>"REML"</code> and the scale parameter was unknown) then the 
+last row and column relate to the log scale parameter.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2006) On confidence intervals for generalized additive models based on penalized regression splines. Australian and New Zealand Journal of Statistics. 48(4): 445-464.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.html">gam</a></code>, <code><a href="gam.vcomp.html">gam.vcomp</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+require(mgcv)
+n &lt;- 100
+x &lt;- runif(n);z &lt;- runif(n)
+y &lt;- sin(x*2*pi) + rnorm(n)*.2
+mod &lt;- gam(y~s(x,bs="cc",k=10)+s(z),knots=list(x=seq(0,1,length=10)),
+           method="REML")
+sp.vcov(mod)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract variance-covariance matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getVarCov {nlme}"><tr><td>getVarCov {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract variance-covariance matrix</h2>
+
+<h3>Description</h3>
+
+<p>Extract the variance-covariance matrix from a fitted model, such as a
+mixed-effects model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getVarCov(obj, ...)
+## S3 method for class 'lme'
+getVarCov(obj, individuals,
+    type = c("random.effects", "conditional", "marginal"), ...)
+## S3 method for class 'gls'
+getVarCov(obj, individual = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>A fitted model.  Methods are available for models fit by
+<code><a href="lme.html">lme</a></code> and by <code><a href="gls.html">gls</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>individuals</code></td>
+<td>
+<p>For models fit by <code><a href="lme.html">lme</a></code> a vector of
+levels of the grouping factor can be specified for the conditional
+or marginal variance-covariance matrices.</p>
+</td></tr>
+<tr valign="top"><td><code>individual</code></td>
+<td>
+<p>For models fit by <code><a href="gls.html">gls</a></code> the only type of
+variance-covariance matrix provided is the marginal
+variance-covariance of the responses by group.  The
+optional argument <code>individual</code> specifies the group of responses.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>For models fit by <code><a href="lme.html">lme</a></code> the <code>type</code>
+argument specifies the type of variance-covariance matrix, either
+<code>"random.effects"</code> for the random-effects variance-covariance
+(the default), or <code>"conditional"</code> for the conditional.
+variance-covariance of the responses or <code>"marginal"</code> for the
+the marginal variance-covariance of the responses.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Optional arguments for some methods, as described above</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A variance-covariance matrix or a list of variance-covariance matrices.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Mary Lindstrom <a href="mailto:lindstro@biostat.wisc.edu">lindstro@biostat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lme.html">lme</a></code>, <code><a href="gls.html">gls</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- lme(distance ~ age, data = Orthodont, subset = Sex == "Female")
+getVarCov(fm1)
+getVarCov(fm1, individual = "F01", type = "marginal")
+getVarCov(fm1, type = "conditional")
+fm2 &lt;- gls(follicles ~ sin(2*pi*Time) + cos(2*pi*Time), Ovary,
+           correlation = corAR1(form = ~ 1 | Mare))
+getVarCov(fm2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

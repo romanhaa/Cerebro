@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Agglomerative / Divisive Coefficient for 'hclust' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for coef.hclust {cluster}"><tr><td>coef.hclust {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Agglomerative / Divisive Coefficient for 'hclust' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Computes the &ldquo;agglomerative coefficient&rdquo; (aka &ldquo;divisive
+coefficient&rdquo; for <code><a href="diana.html">diana</a></code>), measuring the
+clustering structure of the dataset.
+</p>
+<p>For each observation i, denote by <i>m(i)</i> its dissimilarity to the
+first cluster it is merged with, divided by the dissimilarity of the
+merger in the final step of the algorithm.  The agglomerative
+coefficient is the average of all <i>1 - m(i)</i>.  It can also be seen
+as the average width (or the percentage filled) of the banner plot.
+</p>
+<p><code>coefHier()</code> directly interfaces to the underlying C code, and
+&ldquo;proves&rdquo; that <em>only</em> <code>object$heights</code> is needed to
+compute the coefficient.
+</p>
+<p>Because it grows with the number of observations, this measure should not
+be used to compare datasets of very different sizes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coefHier(object)
+coef.hclust(object, ...)
+## S3 method for class 'hclust'
+coef(object, ...)
+## S3 method for class 'twins'
+coef(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"hclust"</code> or <code>"twins"</code>,
+i.e., typically the result of
+<code><a href="../../stats/html/hclust.html">hclust</a>(.)</code>,<code><a href="agnes.html">agnes</a>(.)</code>, or <code><a href="diana.html">diana</a>(.)</code>.
+</p>
+<p>Since <code>coef.hclust</code> only uses <code>object$heights</code>, and
+<code>object$merge</code>, <code>object</code> can be any list-like object with
+appropriate <code>merge</code> and <code>heights</code> components.
+</p>
+<p>For <code>coefHier</code>, even only <code>object$heights</code> is needed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>currently unused potential further arguments</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a number specifying the <em>agglomerative</em> (or <em>divisive</em> for
+<code>diana</code> objects) coefficient as defined by Kaufman and Rousseeuw,
+see <code><a href="agnes.object.html">agnes.object</a> $ ac</code> or <code><a href="diana.html">diana.object</a> $ dc</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(agriculture)
+aa &lt;- agnes(agriculture)
+coef(aa) # really just extracts aa$ac
+coef(as.hclust(aa))# recomputes
+coefHier(aa)       # ditto
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

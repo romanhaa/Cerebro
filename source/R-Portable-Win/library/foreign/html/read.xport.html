@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read a SAS XPORT Format Library</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.xport {foreign}"><tr><td>read.xport {foreign}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read a SAS XPORT Format Library</h2>
+
+<h3>Description</h3>
+
+<p>Reads a file as a SAS XPORT format library and returns a list of
+data.frames.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.xport(file)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>character variable with the name of the file to read.  The
+file must be in SAS XPORT format.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If there is a more than one dataset in the XPORT format library, a named
+list of data frames, otherwise a data frame.  The columns of the data
+frames will be either numeric (corresponding to numeric in SAS) or
+factor (corresponding to character in SAS).  All SAS numeric missing
+values (including special missing values represented by <code>._</code>,
+<code>.A</code> to <code>.Z</code> by SAS) are mapped to <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> <code>NA</code>.
+</p>
+<p>Trailing blanks are removed from character columns before conversion to
+a factor.  Some sources claim that character missing values in SAS are
+represented by <code>' '</code> or <code>''</code>: these are not treated as <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+missing values.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Saikat DebRoy <a href="mailto:saikat@stat.wisc.edu">saikat@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>SAS Technical Support document TS-140:
+&ldquo;The Record Layout of a Data Set in SAS Transport (XPORT) Format&rdquo;
+available at
+<a href="https://support.sas.com/techsup/technote/ts140.pdf">https://support.sas.com/techsup/technote/ts140.pdf</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lookup.xport.html">lookup.xport</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: ## no XPORT file is installed
+read.xport("test.xpt")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>foreign</em> version 0.8-71 <a href="00Index.html">Index</a>]</div>
+</body></html>

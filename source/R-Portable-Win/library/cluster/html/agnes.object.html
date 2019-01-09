@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Agglomerative Nesting (AGNES) Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for agnes.object {cluster}"><tr><td>agnes.object {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Agglomerative Nesting (AGNES) Object</h2>
+
+<h3>Description</h3>
+
+<p>The objects of class <code>"agnes"</code>
+represent an agglomerative hierarchical clustering of a dataset.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A legitimate <code>agnes</code> object is a list with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>order</code></td>
+<td>
+
+<p>a vector giving a permutation of the original observations to allow
+for plotting, in the sense that the branches of a clustering tree
+will not cross.</p>
+</td></tr>
+<tr valign="top"><td><code>order.lab</code></td>
+<td>
+
+<p>a vector similar to <code>order</code>, but containing observation labels
+instead of observation numbers. This component is only available if
+the original observations were labelled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+
+<p>a vector with the distances between merging clusters at the successive
+stages.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ac</code></td>
+<td>
+
+<p>the agglomerative coefficient, measuring the clustering structure of the
+dataset.
+</p>
+<p>For each observation i, denote by m(i) its dissimilarity to the
+first cluster it is merged with, divided by the dissimilarity of the
+merger in the final step of the algorithm.  The <code>ac</code> is the
+average of all 1 - m(i). It can also be seen as the average width
+(or the percentage filled) of the banner plot.  Because <code>ac</code>
+grows with the number of observations, this measure should not
+be used to compare datasets of very different sizes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>merge</code></td>
+<td>
+
+<p>an (n-1) by 2 matrix, where n is the number of observations.  Row i
+of <code>merge</code> describes the merging of clusters at step i of the
+clustering.  If a number j in the row is negative, then the single
+observation |j| is merged at this stage.  If j is positive, then the
+merger is with the cluster formed at stage j of the algorithm.
+</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>an object of class <code>"dissimilarity"</code> (see
+<code><a href="dissimilarity.object.html">dissimilarity.object</a></code>), representing the total
+dissimilarity matrix of the dataset.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a matrix containing the original or standardized measurements, depending
+on the <code>stand</code> option of the function <code>agnes</code>. If a
+dissimilarity matrix was given as input structure, then this
+component is not available.
+</p>
+</td></tr>
+</table>
+
+
+<h3>GENERATION</h3>
+
+<p>This class of objects is returned from <code><a href="agnes.html">agnes</a></code>.
+</p>
+
+
+<h3>METHODS</h3>
+
+<p>The <code>"agnes"</code> class has methods for the following generic functions:
+<code>print</code>, <code>summary</code>, <code>plot</code>, and
+<code><a href="../../stats/html/dendrogram.html">as.dendrogram</a></code>.
+</p>
+<p>In addition, <code><a href="../../stats/html/cutree.html">cutree</a>(x, *)</code> can be used to &ldquo;cut&rdquo;
+the dendrogram in order to produce cluster assignments.
+</p>
+
+
+<h3>INHERITANCE</h3>
+
+<p>The class <code>"agnes"</code> inherits from <code>"twins"</code>.
+Therefore, the generic functions <code><a href="pltree.html">pltree</a></code> and
+<code><a href="../../stats/html/as.hclust.html">as.hclust</a></code> are available for <code>agnes</code> objects.
+After applying <code>as.hclust()</code>, all <em>its</em> methods are
+available, of course.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="agnes.html">agnes</a></code>, <code><a href="diana.html">diana</a></code>,
+<code><a href="../../stats/html/as.hclust.html">as.hclust</a></code>, <code><a href="../../stats/html/hclust.html">hclust</a></code>,
+<code><a href="plot.agnes.html">plot.agnes</a></code>, <code><a href="twins.object.html">twins.object</a></code>.
+</p>
+<p><code><a href="../../stats/html/cutree.html">cutree</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(agriculture)
+ag.ag &lt;- agnes(agriculture)
+class(ag.ag)
+pltree(ag.ag) # the dendrogram
+
+## cut the dendrogram -&gt; get cluster assignments:
+(ck3 &lt;- cutree(ag.ag, k = 3))
+(ch6 &lt;- cutree(as.hclust(ag.ag), h = 6))
+stopifnot(identical(unname(ch6), ck3))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

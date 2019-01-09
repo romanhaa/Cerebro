@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Histograms or Density Plots of Multiple Groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ldahist {MASS}"><tr><td>ldahist {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Histograms or Density Plots of Multiple Groups
+</h2>
+
+<h3>Description</h3>
+
+<p>Plot histograms or density plots of data on a single Fisher linear
+discriminant.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ldahist(data, g, nbins = 25, h, x0 = - h/1000, breaks,
+        xlim = range(breaks), ymax = 0, width,
+        type = c("histogram", "density", "both"),
+        sep = (type != "density"),
+        col = 5, xlab = deparse(substitute(data)), bty = "n", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>vector of data. Missing values (<code>NA</code>s) are allowed and omitted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>g</code></td>
+<td>
+
+<p>factor or vector giving groups, of the same length as <code>data</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nbins</code></td>
+<td>
+
+<p>Suggested number of bins to cover the whole range of the data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+
+<p>The bin width (takes precedence over <code>nbins</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>x0</code></td>
+<td>
+
+<p>Shift for the bins - the breaks are at <code>x0 + h * (..., -1, 0, 1, ...)</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+
+<p>The set of breakpoints to be used. (Usually omitted, takes precedence
+over <code>h</code> and <code>nbins</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+
+<p>The limits for the x-axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ymax</code></td>
+<td>
+
+<p>The upper limit for the y-axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+
+<p>Bandwidth for density estimates. If missing, the Sheather-Jones
+selector is used for each group separately.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>Type of plot.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+
+<p>Whether there is a separate plot for each group, or one combined plot.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>The colour number for the bar fill.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>label for the plot x-axis. By default, this will be the name of <code>data</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bty</code></td>
+<td>
+
+<p>The box type for the plot - defaults to none.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to <code>polygon</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Side Effects</h3>
+
+<p>Histogram and/or density plots are plotted on the current device.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.lda.html">plot.lda</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

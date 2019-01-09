@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract parameter (estimator) covariance matrix from GAM fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for vcov.gam {mgcv}"><tr><td>vcov.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract parameter (estimator) covariance matrix from GAM fit</h2>
+
+<h3>Description</h3>
+
+<p> Extracts the Bayesian posterior covariance matrix of the
+parameters or frequentist covariance matrix of the parameter estimators 
+from a fitted <code>gam</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+vcov(object, freq = FALSE, dispersion = NULL,unconditional=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> fitted model object of class <code>gam</code> as produced by <code>gam()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+ <p><code>TRUE</code> to return the frequentist covariance matrix of the
+parameter estimators, <code>FALSE</code> to return the Bayesian posterior covariance
+matrix of the parameters.</p>
+</td></tr> 
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+<p> a value for the dispersion parameter: not normally used.</p>
+</td></tr>
+<tr valign="top"><td><code>unconditional</code></td>
+<td>
+<p> if <code>TRUE</code> (and <code>freq==FALSE</code>) then the Bayesian 
+smoothing parameter 
+uncertainty corrected covariance matrix is returned, if available. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments, currently ignored.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Basically, just extracts <code>object$Ve</code> or <code>object$Vp</code> from a <code><a href="gamObject.html">gamObject</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A matrix corresponding to the estimated frequentist covariance matrix
+of the model parameter estimators/coefficients, or the estimated posterior
+covariance matrix of the parameters, depending on the argument <code>freq</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Henric Nilsson. 
+Maintained by Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2006) On confidence intervals for generalized additive models based on penalized regression splines. Australian and New Zealand Journal of Statistics. 48(4): 445-464.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.html">gam</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+require(mgcv)
+n &lt;- 100
+x &lt;- runif(n)
+y &lt;- sin(x*2*pi) + rnorm(n)*.2
+mod &lt;- gam(y~s(x,bs="cc",k=10),knots=list(x=seq(0,1,length=10)))
+diag(vcov(mod))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

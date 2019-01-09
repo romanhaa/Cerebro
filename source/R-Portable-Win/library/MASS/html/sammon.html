@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sammon's Non-Linear Mapping</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sammon {MASS}"><tr><td>sammon {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Sammon's Non-Linear Mapping
+</h2>
+
+<h3>Description</h3>
+
+<p>One form of non-metric multidimensional scaling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sammon(d, y = cmdscale(d, k), k = 2, niter = 100, trace = TRUE,
+       magic = 0.2, tol = 1e-4)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d</code></td>
+<td>
+
+<p>distance structure of the form returned by <code>dist</code>, or a full, symmetric
+matrix.  Data are assumed to be dissimilarities or relative distances,
+but must be positive except for self-distance.  This can contain missing
+values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>An initial configuration. If none is supplied, <code>cmdscale</code>
+is used to provide the classical solution.  (If there are missing
+values in <code>d</code>, an initial configuration must be provided.)  This
+must not have duplicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>The dimension of the configuration.
+</p>
+</td></tr>
+<tr valign="top"><td><code>niter</code></td>
+<td>
+
+<p>The maximum number of iterations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>Logical for tracing optimization. Default <code>TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>magic</code></td>
+<td>
+
+<p>initial value of the step size constant in diagonal Newton method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+
+<p>Tolerance for stopping, in units of stress.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This chooses a two-dimensional configuration to minimize the stress,
+the sum of squared differences between the input distances and those
+of the configuration, weighted by the distances, the whole sum being
+divided by the sum of input distances to make the stress scale-free.
+</p>
+<p>An iterative algorithm is used, which will usually converge in around
+50 iterations.  As this is necessarily an <i>O(n^2)</i> calculation, it is slow
+for large datasets.  Further, since the configuration is only determined
+up to rotations and reflections (by convention the centroid is at the
+origin), the result can vary considerably from machine to machine.
+In this release the algorithm has been modified by adding a step-length
+search (<code>magic</code>) to ensure that it always goes downhill.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Two components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>points</code></td>
+<td>
+
+<p>A two-column vector of the fitted configuration.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stress</code></td>
+<td>
+
+<p>The final stress achieved.
+</p>
+</td></tr></table>
+
+
+<h3>Side Effects</h3>
+
+<p>If trace is true, the initial stress and the current stress are printed
+out every 10 iterations.
+</p>
+
+
+<h3>References</h3>
+
+<p>Sammon, J. W. (1969)
+A non-linear mapping for data structure analysis.
+<em>IEEE Trans. Comput.</em>, <b>C-18</b> 401&ndash;409.
+</p>
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks</em>. Cambridge University Press.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>, <code><a href="isoMDS.html">isoMDS</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+swiss.x &lt;- as.matrix(swiss[, -1])
+swiss.sam &lt;- sammon(dist(swiss.x))
+plot(swiss.sam$points, type = "n")
+text(swiss.sam$points, labels = as.character(1:nrow(swiss.x)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

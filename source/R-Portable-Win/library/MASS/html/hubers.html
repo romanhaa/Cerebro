@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Huber Proposal 2 Robust Estimator of Location and/or Scale</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hubers {MASS}"><tr><td>hubers {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Huber Proposal 2 Robust Estimator of Location and/or Scale
+</h2>
+
+<h3>Description</h3>
+
+<p>Finds the Huber M-estimator for location with scale specified, scale
+with location specified, or both if neither is specified.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hubers(y, k = 1.5, mu, s, initmu = median(y), tol = 1e-06)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>vector y of data values
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>Winsorizes at <code>k</code> standard deviations
+</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+
+<p>specified location
+</p>
+</td></tr>
+<tr valign="top"><td><code>s</code></td>
+<td>
+
+<p>specified scale
+</p>
+</td></tr>
+<tr valign="top"><td><code>initmu</code></td>
+<td>
+
+<p>initial value of <code>mu</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+
+<p>convergence tolerance
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>list of location and scale estimates
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>mu</code></td>
+<td>
+
+<p>location estimate
+</p>
+</td></tr>
+<tr valign="top"><td><code>s</code></td>
+<td>
+
+<p>scale estimate
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Huber, P. J. (1981)
+<em>Robust Statistics.</em>
+Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="huber.html">huber</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+hubers(chem)
+hubers(chem, mu=3.68)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

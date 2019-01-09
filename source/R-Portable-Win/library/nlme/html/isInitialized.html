@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check if Object is Initialized</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for isInitialized {nlme}"><tr><td>isInitialized {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check if Object is Initialized</h2>
+
+<h3>Description</h3>
+
+<p>Checks if <code>object</code> has been initialized (generally through a call
+to <code>Initialize</code>), by searching for components and attributes
+which are modified during initialization.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isInitialized(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>any object requiring initialization.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a logical value indicating whether <code>object</code> has been
+initialized. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Initialize.html">Initialize</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdDiag(~age)
+isInitialized(pd1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,38 @@
+Package: multcomp
+Title: Simultaneous Inference in General Parametric Models
+Version: 1.4-8
+Date: 2017-11-08
+Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"), 
+                    email = "Torsten.Hothorn@R-project.org"), 
+        person("Frank", "Bretz", role = "aut"), 
+        person("Peter", "Westfall", role = "aut"),
+        person("Richard M.", "Heiberger", role = "ctb"),
+        person("Andre", "Schuetzenmeister", role = "ctb"),
+        person("Susan", "Scheibe", role = "ctb"))
+Description: Simultaneous tests and confidence intervals
+  for general linear hypotheses in parametric models, including 
+  linear, generalized linear, linear mixed effects, and survival models.
+  The package includes demos reproducing analyzes presented
+  in the book "Multiple Comparisons Using R" (Bretz, Hothorn, 
+  Westfall, 2010, CRC Press).
+Depends: stats, graphics, mvtnorm (>= 1.0-3), survival (>= 2.39-4),
+        TH.data (>= 1.0-2)
+Imports: sandwich (>= 2.3-0), codetools
+Suggests: lme4 (>= 0.999375-16), nlme, robustbase, coin, MASS, car,
+        foreign, xtable, lmtest, coxme (>= 2.2-1), SimComp, ISwR
+URL: http://multcomp.R-forge.R-project.org The publishers web page is
+        http://www.crcpress.com/product/isbn/9781584885740
+LazyData: yes
+License: GPL-2
+NeedsCompilation: no
+Packaged: 2017-11-08 12:53:58 UTC; hothorn
+Author: Torsten Hothorn [aut, cre],
+  Frank Bretz [aut],
+  Peter Westfall [aut],
+  Richard M. Heiberger [ctb],
+  Andre Schuetzenmeister [ctb],
+  Susan Scheibe [ctb]
+Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
+Repository: CRAN
+Date/Publication: 2017-11-08 17:12:36 UTC
+Built: R 3.5.0; ; 2018-04-22 09:12:00 UTC; unix

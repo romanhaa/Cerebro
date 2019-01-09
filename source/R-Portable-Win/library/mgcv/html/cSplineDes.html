@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate cyclic B spline basis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cSplineDes {mgcv}"><tr><td>cSplineDes {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate cyclic B spline basis</h2>
+
+<h3>Description</h3>
+
+<p> Uses <code>splineDesign</code> to set up the model matrix for a cyclic B-spline basis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cSplineDes(x, knots, ord = 4, derivs=0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> covariate values for smooth.</p>
+</td></tr>
+<tr valign="top"><td><code>knots</code></td>
+<td>
+<p>The knot locations: the range of these must include all the data.</p>
+</td></tr>
+<tr valign="top"><td><code>ord</code></td>
+<td>
+<p> order of the basis. 4 is a cubic spline basis. Must be &gt;1.</p>
+</td></tr>
+<tr valign="top"><td><code>derivs</code></td>
+<td>
+<p> order of derivative of the spline to evaluate, between 0 and <code>ord</code>-1. Recycled to length of <code>x</code>. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The routine is a wrapper that sets up a B-spline basis, where the basis functions wrap at the first and 
+last knot locations.</p>
+
+
+<h3>Value</h3>
+
+<p> A matrix with <code>length(x)</code> rows and <code>length(knots)-1</code> columns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="smooth.construct.ps.smooth.spec.html">cyclic.p.spline</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ require(mgcv)
+ ## create some x's and knots...
+ n &lt;- 200
+ x &lt;- 0:(n-1)/(n-1);k&lt;- 0:5/5
+ X &lt;- cSplineDes(x,k) ## cyclic spline design matrix
+ ## plot evaluated basis functions...
+ plot(x,X[,1],type="l"); for (i in 2:5) lines(x,X[,i],col=i)
+ ## check that the ends match up....
+ ee &lt;- X[1,]-X[n,];ee 
+ tol &lt;- .Machine$double.eps^.75
+ if (all.equal(ee,ee*0,tolerance=tol)!=TRUE) 
+   stop("cyclic spline ends don't match!")
+ 
+ ## similar with uneven data spacing...
+ x &lt;- sort(runif(n)) + 1 ## sorting just makes end checking easy
+ k &lt;- seq(min(x),max(x),length=8) ## create knots
+ X &lt;- cSplineDes(x,k) ## get cyclic spline model matrix  
+ plot(x,X[,1],type="l"); for (i in 2:ncol(X)) lines(x,X[,i],col=i)
+ ee &lt;- X[1,]-X[n,];ee ## do ends match??
+ tol &lt;- .Machine$double.eps^.75
+ if (all.equal(ee,ee*0,tolerance=tol)!=TRUE) 
+   stop("cyclic spline ends don't match!")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

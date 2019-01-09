@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: PostScript Presentation Plot of an Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for post.rpart {rpart}"><tr><td>post.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+PostScript Presentation Plot of an Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Generates a PostScript presentation plot of an <code>rpart</code> object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+post(tree, ...)
+
+## S3 method for class 'rpart'
+post(tree, title., 
+     filename = paste(deparse(substitute(tree)), ".ps", sep = ""), 
+     digits = getOption("digits") - 2, pretty = TRUE,
+     use.n = TRUE, horizontal = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tree</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the <code>rpart</code> function. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>title.</code></td>
+<td>
+
+<p>a title which appears at the top of the plot.  By default, the 
+name of the <code>rpart</code> endpoint is printed out. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+
+<p>ASCII file to contain the output.  By default, the name of the file is 
+the name of the object given by <code>rpart</code> (with the suffix <code>.ps</code> added). If 
+<code>filename = ""</code>, the plot appears on the current graphical device. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+
+<p>number of significant digits to include in numerical data. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>pretty</code></td>
+<td>
+
+<p>an integer denoting the extent to which factor levels will be 
+abbreviated in the character strings defining the splits; 
+(0) signifies no abbreviation of levels.  A <code>NULL</code> signifies using 
+elements of letters to represent the different factor levels.  The 
+default (<code>TRUE</code>) indicates the maximum possible abbreviation. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.n</code></td>
+<td>
+
+<p>Logical.  If <code>TRUE</code> (default), adds to label 
+(\#events level1/ \#events level2/etc. for method <code>class</code>, <code>n</code> for 
+method <code>anova</code>, and \#events/n for methods <code>poisson</code> and <code>exp</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>Logical.  If <code>TRUE</code> (default), plot is horizontal. If <code>FALSE</code>, plot 
+appears as landscape. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>other arguments to the <code>postscript</code> function. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The plot created uses the functions <code>plot.rpart</code> and <code>text.rpart</code> (with 
+the <code>fancy</code> option).  The settings were chosen because they looked 
+good to us, but other options may be better, depending on the <code>rpart</code> 
+object.   
+Users are encouraged to write their own function containing favorite 
+options. 
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>a plot of <code>rpart</code> is created using the <code>postscript</code> driver, or
+the current device if <code>filename = ""</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.rpart.html">plot.rpart</a></code>,  <code><a href="rpart.html">rpart</a></code>,  <code><a href="text.rpart.html">text.rpart</a></code>,  <code><a href="../../base/html/abbreviate.html">abbreviate</a></code>   
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+post(z.auto, file = "")   # display tree on active device
+   # now construct postscript version on file "pretty.ps"
+   # with no title
+post(z.auto, file = "pretty.ps", title = " ")
+z.hp &lt;- rpart(Mileage ~ Weight + HP, car.test.frame)
+post(z.hp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

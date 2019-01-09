@@ -1,0 +1,38 @@
+box                     Create a box for the main body of a dashboard
+dashboardBody           The main body of a dashboard page.
+dashboardHeader         Create a header for a dashboard page
+dashboardPage           Dashboard page
+dashboardSidebar        Create a dashboard sidebar.
+dropdownMenu            Create a dropdown menu to place in a dashboard
+                        header
+dropdownMenuOutput      Create a dropdown menu output (client side)
+infoBox                 Create an info box for the main body of a
+                        dashboard.
+menuItemOutput          Create a sidebar menu item output (client side)
+menuOutput              Create a dynamic menu output for shinydashboard
+                        (client side)
+messageItem             Create a message item to place in a dropdown
+                        message menu
+notificationItem        Create a notification item to place in a
+                        dropdown notification menu
+renderDropdownMenu      Create a dropdown menu output (server side;
+                        deprecated)
+renderMenu              Create dynamic menu output (server side)
+renderValueBox          Create an info or value box output (server
+                        side)
+shinydashboard          shinydashboard
+sidebarMenu             Create a dashboard sidebar menu and menu items.
+sidebarMenuOutput       Create a sidebar menu output (client side)
+sidebarSearchForm       Create a search form to place in a sidebar
+sidebarUserPanel        A panel displaying user information in a
+                        sidebar
+tabBox                  Create a tabbed box
+tabItem                 One tab to put inside a tab items container
+tabItems                A container for tab items
+taskItem                Create a task item to place in a dropdown task
+                        menu
+updateTabItems          Change the selected tab on the client
+valueBox                Create a value box for the main body of a
+                        dashboard.
+valueBoxOutput          Create an info or value box output (client
+                        side)

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predict from an lqs Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.lqs {MASS}"><tr><td>predict.lqs {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Predict from an lqs Fit
+</h2>
+
+<h3>Description</h3>
+
+<p>Predict from an resistant regression fitted by <code>lqs</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lqs'
+predict(object, newdata, na.action = na.pass, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>object inheriting from class <code>"lqs"</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+
+<p>matrix or data frame of cases to be predicted or, if <code>object</code>
+has a formula, a data frame with columns of the same names as the
+variables used.  A vector will be interpreted
+as a row vector.  If <code>newdata</code> is missing, an attempt will be
+made to retrieve the data used to fit the <code>lqs</code> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>function determining what should be done with missing
+values in <code>newdata</code>.  The default is to predict <code>NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to be passed from or to other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function
+<code>predict()</code> for class <code>lqs</code>.
+It can be invoked by calling <code>predict(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>predict.lqs(x)</code> regardless of the
+class of the object.
+</p>
+<p>Missing values in <code>newdata</code> are handled by returning <code>NA</code> if the
+linear fit cannot be evaluated. If <code>newdata</code> is omitted and
+the <code>na.action</code> of the fit omitted cases, these will be omitted on the
+prediction.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of predictions.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>B.D. Ripley</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="lqs.html">lqs</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+fm &lt;- lqs(stack.loss ~ ., data = stackloss, method = "S", nsamp = "exact")
+predict(fm, stackloss)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

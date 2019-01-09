@@ -1,0 +1,49 @@
+CHANGES IN VERSION 0.1.6
+------------------------
+ o treedata constructor <2017-12-20, Wed>
+ o treedata show method now supports treedata@file contains several file names <2017-12-20, Wed>
+ o optimize accessor of related nodes <2017-12-15, Fri>
+   + https://github.com/GuangchuangYu/tidytree/issues/4
+ o remove isTip column which can be computed easily and fixed typo in vignette <2017-12-15, Fri>
+
+CHANGES IN VERSION 0.1.5
+------------------------
+ o show and get.fields methods for treedata <2017-12-14, Thu>
+
+CHANGES IN VERSION 0.99.4
+------------------------
+ o for CRAN submission
+   + Bioconductor team has complex of using S4 and force contributor to using it.
+   + https://github.com/Bioconductor/Contributions/issues/578
+ o move treedata class definition and some generic method from treeio to tidytree,
+   since dependency of BioC devel pkg for a CRAN pkg seems not possible.
+   Those code will remove from treeio and import from tidytree when it is accepted.
+
+CHANGES IN VERSION 0.99.3
+------------------------
+ o valid.tbl_tree for checking tbl_tree object contains. <2017-12-13, Wed>
+
+CHANGES IN VERSION 0.99.1
+------------------------
+ o add tests for groupOTU and groupClade <2017-12-12, Tue>
+
+CHANGES IN VERSION 0.99.0
+------------------------
+ o fixed BiocCheck and ready to submit to Bioconductor <2017-12-12, Tue>
+
+CHANGES IN VERSION 0.0.3
+------------------------
+ o update vignette with examples of groupOTU and groupClade <2017-12-12, Tue>
+ o groupOTU & groupClade methods <2017-12-11, Mon>
+
+CHANGES IN VERSION 0.0.2
+------------------------
+ o mrca method <2017-12-08, Fri>
+ o access method for related nodes, including child, parent, offspring and ancestor <2017-12-07, Thu>
+   + test added by @arendsee
+ o remove fortify method, which should belong to ggtree <2017-12-07, Thu>
+ o re-implement as.data.frame to as_data_frame <2017-12-07, Thu>
+
+CHANGES IN VERSION 0.0.1
+------------------------
+ o as.data.frame & fortify method for treedata object <2016-12-06, Tue>

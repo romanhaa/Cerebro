@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Applying re-parameterization from log-determinant of penalty...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Sl.repara {mgcv}"><tr><td>Sl.repara {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Applying re-parameterization from log-determinant of penalty matrix to
+model matrix.</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL routine to apply re-parameterization from log-determinant of penalty matrix, <code>ldetS</code> to
+model matrix, <code>X</code>, blockwise.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Sl.repara(rp, X, inverse = FALSE, both.sides = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>rp</code></td>
+<td>
+<p>reparametrization.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>if <code>X</code> is a matrix it is assumed to be a model matrix 
+whereas if <code>X</code> is a vector it is assumed to be a parameter vector.</p>
+</td></tr>
+<tr valign="top"><td><code>inverse</code></td>
+<td>
+<p>if <code>TRUE</code> an inverse re-parametrization is performed.</p>
+</td></tr>
+<tr valign="top"><td><code>both.sides</code></td>
+<td>
+<p>if <code>inverse==TRUE</code> and <code>both.sides==FALSE</code> then
+the re-parametrization only applied to rhs, as appropriate for a choleski factor.
+If <code>both.sides==FALSE</code>, <code>X</code> is a vector and <code>inverse==FALSE</code> then <code>X</code> is
+taken as a coefficient vector (so re-parametrization is inverse of that for the model matrix).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A re-parametrized version of <code>X</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

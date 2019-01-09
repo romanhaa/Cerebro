@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cross-validation for Generalized Linear Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cv.glm {boot}"><tr><td>cv.glm {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Cross-validation for Generalized Linear Models
+</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the estimated K-fold cross-validation prediction 
+error for generalized linear models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cv.glm(data, glmfit, cost, K)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>A matrix or data frame containing the data.  The rows should be cases and
+the columns correspond to variables, one of which is the response.
+</p>
+</td></tr>
+<tr valign="top"><td><code>glmfit</code></td>
+<td>
+
+<p>An object of class <code>"glm"</code> containing the results of a generalized linear
+model fitted to <code>data</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cost</code></td>
+<td>
+
+<p>A function of two vector arguments specifying the cost function for the 
+cross-validation.  The first argument to <code>cost</code> should correspond to the
+observed responses and the second argument should correspond to the predicted
+or fitted responses from the generalized linear model.  <code>cost</code> must return a
+non-negative scalar value.  The default is the average squared error function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>K</code></td>
+<td>
+
+<p>The number of groups into which the data should be split to estimate the
+cross-validation prediction error.  The value of <code>K</code> must be such that all
+groups are of approximately equal size.  If the supplied value of <code>K</code> does
+not satisfy this criterion then it will be set to the closest integer which
+does and a warning is generated specifying the value of <code>K</code> used.  The default
+is to set <code>K</code> equal to the number of observations in <code>data</code> which gives the
+usual leave-one-out cross-validation.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The data is divided randomly into <code>K</code> groups.  For each group the generalized
+linear model is fit to <code>data</code> omitting that group, then the function <code>cost</code>
+is applied to the observed responses in the group that was omitted from the fit
+and the prediction made by the fitted models for those observations.
+</p>
+<p>When <code>K</code> is the number of observations leave-one-out cross-validation is used
+and all the possible splits of the data are used.  When <code>K</code> is less than
+the number of observations the <code>K</code> splits to be used are found by randomly
+partitioning the data into <code>K</code> groups of approximately equal size.  In this
+latter case a certain amount of bias is introduced.  This can be reduced by
+using a simple adjustment (see equation 6.48 in Davison and Hinkley, 1997).
+The second value returned in <code>delta</code> is the estimate adjusted by this method.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The returned value is a list with the following components.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>The original call to <code>cv.glm</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>K</code></td>
+<td>
+
+<p>The value of <code>K</code> used for the K-fold cross validation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+
+<p>A vector of length two.  The first component is the raw cross-validation
+estimate of prediction error.  The second component is the adjusted
+cross-validation estimate.  The adjustment is designed to compensate for the
+bias introduced by not using leave-one-out cross-validation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+
+<p>The value of <code>.Random.seed</code> when <code>cv.glm</code> was called. 
+</p>
+</td></tr></table>
+
+
+<h3>Side Effects</h3>
+
+<p>The value of <code>.Random.seed</code> is updated.
+</p>
+
+
+<h3>References</h3>
+
+<p>Breiman, L., Friedman, J.H., Olshen, R.A. and Stone, C.J. (1984)
+<em>Classification and Regression Trees</em>. Wadsworth.
+</p>
+<p>Burman, P. (1989) A comparative study of ordinary cross-validation, 
+<em>v</em>-fold cross-validation and repeated learning-testing methods.
+<em>Biometrika</em>, <b>76</b>, 503&ndash;514
+</p>
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Efron, B. (1986) How biased is the apparent error rate of a prediction rule?
+<em>Journal of the American Statistical Association</em>, <b>81</b>, 461&ndash;470.
+</p>
+<p>Stone, M.  (1974) Cross-validation choice and assessment of statistical
+predictions (with Discussion). 
+<em>Journal of the Royal Statistical Society, B</em>, <b>36</b>, 111&ndash;147.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/glm.html">glm</a></code>, <code><a href="glm.diag.html">glm.diag</a></code>, <code><a href="../../stats/html/predict.html">predict</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# leave-one-out and 6-fold cross-validation prediction error for 
+# the mammals data set.
+data(mammals, package="MASS")
+mammals.glm &lt;- glm(log(brain) ~ log(body), data = mammals)
+(cv.err &lt;- cv.glm(mammals, mammals.glm)$delta)
+(cv.err.6 &lt;- cv.glm(mammals, mammals.glm, K = 6)$delta)
+
+# As this is a linear model we could calculate the leave-one-out 
+# cross-validation estimate without any extra model-fitting.
+muhat &lt;- fitted(mammals.glm)
+mammals.diag &lt;- glm.diag(mammals.glm)
+(cv.err &lt;- mean((mammals.glm$y - muhat)^2/(1 - mammals.diag$h)^2))
+
+
+# leave-one-out and 11-fold cross-validation prediction error for 
+# the nodal data set.  Since the response is a binary variable an
+# appropriate cost function is
+cost &lt;- function(r, pi = 0) mean(abs(r-pi) &gt; 0.5)
+
+nodal.glm &lt;- glm(r ~ stage+xray+acid, binomial, data = nodal)
+(cv.err &lt;- cv.glm(nodal, nodal.glm, cost, K = nrow(nodal))$delta)
+(cv.11.err &lt;- cv.glm(nodal, nodal.glm, cost, K = 11)$delta)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

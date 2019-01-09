@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate nlmeStruct Fitted Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitted.nlmeStruct {nlme}"><tr><td>fitted.nlmeStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate nlmeStruct Fitted Values</h2>
+
+<h3>Description</h3>
+
+<p>The fitted values at level <i>i</i> are obtained by adding together the
+contributions from the estimated fixed effects and the estimated
+random effects at levels less or equal to <i>i</i> and evaluating the
+model function at the resulting estimated parameters. The resulting
+values estimate the predictions at level <i>i</i>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'nlmeStruct'
+fitted(object, level, conLin, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="nlmeStruct.html">nlmeStruct</a>"</code>,
+representing a list of mixed-effects model components, such as
+<code>reStruct</code>, <code>corStruct</code>, and <code>varFunc</code> objects, plus
+attributes  specifying the underlying nonlinear model and the
+response variable.</p>
+</td></tr> 
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>an optional integer vector giving the level(s) of grouping
+to be used in extracting the fitted values from <code>object</code>. Level
+values increase from outermost to innermost grouping, with
+level zero corresponding to the population fitted values. Defaults to
+the highest or innermost level of grouping.</p>
+</td></tr> 
+<tr valign="top"><td><code>conLin</code></td>
+<td>
+<p>an optional condensed linear model object, consisting of
+a list with components <code>"Xy"</code>, corresponding to a regression
+matrix (<code>X</code>) combined with a response vector (<code>y</code>), and 
+<code>"logLik"</code>, corresponding to the log-likelihood of the
+underlying nlme model. Defaults to <code>attr(object, "conLin")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments that could be given to this method.
+None are used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>if a single level of grouping is specified in <code>level</code>,
+the returned value is a vector with the fitted values at the desired
+level; else, when multiple grouping levels are specified in
+<code>level</code>, the returned object is a matrix with 
+columns given by the fitted values at different levels. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>This method function is generally only used inside <code>nlme</code> and 
+<code>fitted.nlme</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Bates, D.M. and Pinheiro, J.C. (1998) &quot;Computational methods for
+multilevel models&quot; available in PostScript or PDF formats at
+http://nlme.stat.wisc.edu/pub/NLME/
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="nlme.html">nlme</a></code>, <code><a href="residuals.nlmeStruct.html">residuals.nlmeStruct</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

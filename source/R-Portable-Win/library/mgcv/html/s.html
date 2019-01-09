@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Defining smooths in GAM formulae</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for s {mgcv}"><tr><td>s {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Defining smooths in GAM formulae</h2>
+
+<h3>Description</h3>
+
+<p> Function used in definition of smooth terms within
+<code>gam</code> model formulae. The function does not evaluate a (spline)
+smooth - it exists purely to help set up a model using spline based smooths.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>s(..., k=-1,fx=FALSE,bs="tp",m=NA,by=NA,xt=NULL,id=NULL,sp=NULL,pc=NULL)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> a list of variables that are the covariates that this
+smooth is a function of. Transformations whose form depends on
+the values of the data are best avoided here: e.g. <code>s(log(x))</code>
+is fine, but <code>s(I(x/sd(x)))</code> is not (see <code><a href="predict.gam.html">predict.gam</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p> the dimension of the basis used to represent the smooth term.
+The default depends on the number of variables that the smooth is a
+function of. <code>k</code> should not be less than the dimension of the
+null space of the penalty for the term (see
+<code><a href="null.space.dimension.html">null.space.dimension</a></code>), but will be reset if
+it is. See <code><a href="choose.k.html">choose.k</a></code> for further information.</p>
+</td></tr>
+<tr valign="top"><td><code>fx</code></td>
+<td>
+<p>indicates whether the term is a fixed d.f. regression
+spline (<code>TRUE</code>) or a penalized regression spline (<code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>bs</code></td>
+<td>
+<p>a two letter character string indicating the (penalized) smoothing basis to use.
+(eg <code>"tp"</code> for thin plate regression spline, <code>"cr"</code> for cubic regression spline).
+see <code><a href="smooth.terms.html">smooth.terms</a></code> for an over view of what is available.
+</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>The order of the penalty for this term (e.g. 2 for
+normal cubic spline penalty with 2nd derivatives when using 
+default t.p.r.s basis). <code>NA</code> signals
+autoinitialization. Only some smooth classes use this. The <code>"ps"</code> 
+class can use a 2 item array giving the basis and penalty order separately.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>a numeric or factor variable of the same dimension as each covariate. 
+In the numeric vector case the elements multiply the smooth, evaluated at the corresponding 
+covariate values (a &lsquo;varying coefficient model&rsquo; results). For the numeric <code>by</code> variable case the 
+resulting smooth is not usually subject to a centering constraint (so the <code>by variable</code> should 
+not be added as an additional main effect). 
+In the factor <code>by</code> variable case a replicate of the smooth is produced for
+each factor level (these smooths will be centered, so the factor usually needs to be added as 
+a main effect as well). See <code><a href="gam.models.html">gam.models</a></code> for further details. A <code>by</code> variable may also be a matrix 
+if covariates are matrices: in this case implements linear functional of a smooth 
+(see <code><a href="gam.models.html">gam.models</a></code> and <code><a href="linear.functional.terms.html">linear.functional.terms</a></code> for details).
+</p>
+</td></tr>
+<tr valign="top"><td><code>xt</code></td>
+<td>
+<p>Any extra information required to set up a particular basis. Used
+e.g. to set large data set handling behaviour for <code>"tp"</code> basis.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>A label or integer identifying this term in order to link its smoothing
+parameters to others of the same type. If two or more terms have the same 
+<code>id</code> then they will have the same smoothing paramsters, and, by default,
+the same bases (first occurance defines basis type, but data from all terms 
+used in basis construction). An <code>id</code> with a factor <code>by</code> variable causes the smooths
+at each factor level to have the same smoothing parameter.</p>
+</td></tr> 
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>any supplied smoothing parameters for this term. Must be an array of the same
+length as the number of penalties for this smooth. Positive or zero elements are taken as fixed 
+smoothing parameters. Negative elements signal auto-initialization. Over-rides values supplied in 
+<code>sp</code> argument to <code><a href="gam.html">gam</a></code>. Ignored by <code>gamm</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pc</code></td>
+<td>
+<p>If not <code>NULL</code>, signals a point constraint: the smooth should pass through zero at the
+point given here (as a vector or list with names corresponding to the smooth names). Never ignored
+if supplied. See <code><a href="identifiability.html">identifiability</a></code>. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function does not evaluate the variable arguments. To use this function to specify use of
+your own smooths, note the relationships between the inputs and the output object and see the example
+in <code><a href="smooth.construct.html">smooth.construct</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A class <code>xx.smooth.spec</code> object, where <code>xx</code> is a basis identifying code given by
+the <code>bs</code> argument of <code>s</code>. These <code>smooth.spec</code> objects define smooths and are turned into
+bases and penalties by <code>smooth.construct</code> method functions. 
+</p>
+<p>The returned object contains the following items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>term</code></td>
+<td>
+<p>An array of text strings giving the names of the covariates that 
+the term is a function of.</p>
+</td></tr>
+<tr valign="top"><td><code>bs.dim</code></td>
+<td>
+<p>The dimension of the basis used to represent the smooth.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>TRUE if the term is to be treated as a pure regression
+spline (with fixed degrees of freedom); FALSE if it is to be treated
+as a penalized regression spline</p>
+</td></tr>
+<tr valign="top"><td><code>dim</code></td>
+<td>
+<p>The dimension of the smoother - i.e. the number of
+covariates that it is a function of.</p>
+</td></tr>
+<tr valign="top"><td><code>p.order</code></td>
+<td>
+<p>The order of the t.p.r.s. penalty, or 0 for
+auto-selection of the penalty order.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>is the name of any <code>by</code> variable as text (<code>"NA"</code> for none).</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>A suitable text label for this smooth term.</p>
+</td></tr>
+<tr valign="top"><td><code>xt</code></td>
+<td>
+<p>The object passed in as argument <code>xt</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>An identifying label or number for the smooth, linking it to other
+smooths. Defaults to <code>NULL</code> for no linkage. </p>
+</td></tr>
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>array of smoothing parameters for the term (negative for
+auto-estimation). Defaults to <code>NULL</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2003) Thin plate regression splines. J.R.Statist.Soc.B 65(1):95-114
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="te.html">te</a></code>, <code><a href="gam.html">gam</a></code>, <code><a href="gamm.html">gamm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# example utilising `by' variables
+library(mgcv)
+set.seed(0)
+n&lt;-200;sig2&lt;-4
+x1 &lt;- runif(n, 0, 1);x2 &lt;- runif(n, 0, 1);x3 &lt;- runif(n, 0, 1)
+fac&lt;-c(rep(1,n/2),rep(2,n/2)) # create factor
+fac.1&lt;-rep(0,n)+(fac==1);fac.2&lt;-1-fac.1 # and dummy variables
+fac&lt;-as.factor(fac)
+f1 &lt;-  exp(2 * x1) - 3.75887
+f2 &lt;-  0.2 * x1^11 * (10 * (1 - x1))^6 + 10 * (10 * x1)^3 * (1 - x1)^10
+f&lt;-f1*fac.1+f2*fac.2+x2
+e &lt;- rnorm(n, 0, sqrt(abs(sig2)))
+y &lt;- f + e
+# NOTE: smooths will be centered, so need to include fac in model....
+b&lt;-gam(y~fac+s(x1,by=fac)+x2) 
+plot(b,pages=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

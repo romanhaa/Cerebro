@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model function for the Quinidine data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for quinModel {nlme}"><tr><td>quinModel {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model function for the Quinidine data</h2>
+
+<h3>Description</h3>
+
+<p>A model function for a model used with the <code>Quinidine</code> data.
+This function calls compiled C code.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+quinModel(Subject, time, conc, dose, interval, lV, lKa, lCl)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Subject</code></td>
+<td>
+
+<p>a factor identifying the patient on whom the data were collected.
+</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+
+<p>a numeric vector giving the time (hr) at which the drug was
+administered or the blood sample drawn.  This is measured
+from the time the patient entered the study.
+</p>
+</td></tr>
+<tr valign="top"><td><code>conc</code></td>
+<td>
+
+<p>a numeric vector giving the serum quinidine concentration (mg/L).
+</p>
+</td></tr>
+<tr valign="top"><td><code>dose</code></td>
+<td>
+
+<p>a numeric vector giving the dose of drug administered (mg).
+Although there were two different forms of quinidine
+administered, the doses were adjusted for differences in
+salt content by conversion to milligrams of quinidine base.
+</p>
+</td></tr>
+<tr valign="top"><td><code>interval</code></td>
+<td>
+
+<p>a numeric vector giving the when the drug has been given at
+regular intervals for a sufficiently long period of time to
+assume steady state behavior, the interval is recorded.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lV</code></td>
+<td>
+<p>numeric.  A vector of values of the natural log of the
+effective volume of distribution according to <code>Subject</code> and
+<code>time</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lKa</code></td>
+<td>
+<p>numeric.  A vector of values of the natural log of the
+absorption rate constant according to <code>Subject</code> and <code>time</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lCl</code></td>
+<td>
+<p>numeric.  A vector of values of the natural log of the
+clearance parameter according to <code>Subject</code> and <code>time</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See the details section of <code><a href="Quinidine.html">Quinidine</a></code> for a description
+of the model function that <code>quinModel</code> evaluates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a numeric vector of predicted quinidine concentrations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J. C. and Bates, D. M. (2000) <em>Mixed-effects Models in
+S and S-PLUS</em>, Springer. (section 8.2)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

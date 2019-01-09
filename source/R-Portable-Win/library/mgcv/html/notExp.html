@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions for better-than-log positive parameterization</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for notExp {mgcv}"><tr><td>notExp {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Functions for better-than-log positive parameterization</h2>
+
+<h3>Description</h3>
+
+<p> It is common practice in statistical optimization to use log-parameterizations when a 
+parameter ought to be positive. i.e. if an optimization parameter <code>a</code> should be non-negative then 
+we use <code>a=exp(b)</code> and optimize with respect to the unconstrained parameter <code>b</code>. This often works 
+well, but it does imply a rather limited working range for <code>b</code>: using 8 byte doubles, for example, 
+if <code>b</code>'s magnitude gets much above 700 then <code>a</code> overflows or underflows. This can cause 
+problems for numerical optimization methods. 
+</p>
+<p><code>notExp</code> is a monotonic function for mapping the real line into the positive real line with much less
+extreme underflow and overflow behaviour than <code>exp</code>. It is a piece-wise function, but is continuous 
+to second derivative: see the source code for the exact definition, and the example below to see what it 
+looks like.
+</p>
+<p><code>notLog</code> is the inverse function of <code>notExp</code>.
+</p>
+<p>The major use of these functions was originally to provide more robust
+<code>pdMat</code> classes for <code>lme</code> for use by <code><a href="gamm.html">gamm</a></code>. Currently
+the <code><a href="notExp2.html">notExp2</a></code> and <code><a href="notExp2.html">notLog2</a></code> functions are used in
+their place, as a result of changes to the nlme optimization routines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+notExp(x)
+
+notLog(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Argument array of real numbers (<code>notExp</code>) or positive real numbers (<code>notLog</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p> An array of function values evaluated at the supplied argument values.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="pdTens.html">pdTens</a></code>, <code><a href="pdIdnot.html">pdIdnot</a></code>,  <code><a href="gamm.html">gamm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Illustrate the notExp function: 
+## less steep than exp, but still monotonic.
+require(mgcv)
+x &lt;- -100:100/10
+op &lt;- par(mfrow=c(2,2))
+plot(x,notExp(x),type="l")
+lines(x,exp(x),col=2)
+plot(x,log(notExp(x)),type="l")
+lines(x,log(exp(x)),col=2) # redundancy intended
+x &lt;- x/4
+plot(x,notExp(x),type="l")
+lines(x,exp(x),col=2)
+plot(x,log(notExp(x)),type="l")
+lines(x,log(exp(x)),col=2) # redundancy intended
+par(op)
+range(notLog(notExp(x))-x) # show that inverse works!
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

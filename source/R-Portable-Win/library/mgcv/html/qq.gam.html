@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: QQ plots for gam model residuals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for qq.gam {mgcv}"><tr><td>qq.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>QQ plots for gam model residuals</h2>
+
+<h3>Description</h3>
+
+<p>Takes a fitted <code>gam</code> object produced by <code>gam()</code> and produces
+QQ plots of its residuals (conditional on the fitted model
+coefficients and scale parameter). If the model distributional
+assumptions are met then usually these plots should be close to a
+straight line (although discrete data can yield marked random
+departures from this line). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+qq.gam(object, rep=0, level=.9,s.rep=10,
+       type=c("deviance","pearson","response"),
+       pch=".", rl.col=2, rep.col="gray80", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> a fitted <code>gam</code> object as produced by <code>gam()</code> (or a <code>glm</code> object).</p>
+</td></tr>
+<tr valign="top"><td><code>rep</code></td>
+<td>
+<p>How many replicate datasets to generate to simulate quantiles
+of the residual distribution.  <code>0</code> results in an efficient
+simulation free method for direct calculation, if this is possible for
+the object family.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>If simulation is used for the quantiles, then reference intervals can be provided for the QQ-plot, this specifies the level. 
+0 or less for no intervals, 1 or more to simply plot the QQ plot for each replicate generated.</p>
+</td></tr>
+<tr valign="top"><td><code>s.rep</code></td>
+<td>
+<p>how many times to randomize uniform quantiles to data under direct computation.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>what sort of residuals should be plotted?  See
+<code><a href="residuals.gam.html">residuals.gam</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plot character to use. 19 is good.</p>
+</td></tr>
+<tr valign="top"><td><code>rl.col</code></td>
+<td>
+<p>color for the reference line on the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>rep.col</code></td>
+<td>
+<p>color for reference bands or replicate reference plots.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>extra graphics parameters to pass to plotting functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>QQ-plots of the the model residuals can be produced in one of two ways. The cheapest method generates reference quantiles by 
+associating a quantile of the uniform distribution with each datum, and feeding these uniform quantiles into the quantile function associated with each datum. The resulting quantiles are then used in place of each datum to generate approximate quantiles of residuals.
+The residual quantiles are averaged over <code>s.rep</code> randomizations of the uniform quantiles to data. 
+</p>
+<p>The second method is to use direct simulatation. For each replicate, data are simulated from the fitted model, and the corresponding residuals computed. This is repeated <code>rep</code> times.
+Quantiles are readily obtained from the empirical distribution of residuals so obtained. From this method reference bands are also computable.  
+</p>
+<p>Even if <code>rep</code> is set to zero, the routine will attempt to simulate quantiles if no quantile function is available for the family. If no random deviate generating function family is available (e.g. for the quasi families), then a normal QQ-plot is produced. The routine conditions on the fitted model coefficents and the scale parameter estimate. 
+</p>
+<p>The plots are very similar to those proposed in Ben and Yohai (2004), but are substantially cheaper to produce (the interpretation of 
+residuals for binary data in Ben and Yohai is not recommended).  
+</p>
+<p>Note that plots for raw residuals from fits to binary data contain almost no useful information 
+about model fit. Whether the residual is negative or positive is decided by whether the response is zero or one. The magnitude of the 
+residual, given its sign, is determined entirely by the fitted values. In consequence only the most gross violations of the model 
+are detectable from QQ-plots of residuals for binary data.
+To really check distributional assumptions from residuals for binary data you have to be able to group the data somehow. 
+Binomial models other than binary are ok.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>N.H. Augustin, E-A Sauleaub, S.N. Wood (2012) On quantile quantile plots for generalized linear models
+Computational Statistics &amp; Data Analysis. 56(8), 2404-2409.
+</p>
+<p>M.G. Ben and V.J. Yohai (2004) JCGS 13(1), 36-47.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="choose.k.html">choose.k</a></code>,  <code><a href="gam.html">gam</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(mgcv)
+## simulate binomial data...
+set.seed(0)
+n.samp &lt;- 400
+dat &lt;- gamSim(1,n=n.samp,dist="binary",scale=.33)
+p &lt;- binomial()$linkinv(dat$f) ## binomial p
+n &lt;- sample(c(1,3),n.samp,replace=TRUE) ## binomial n
+dat$y &lt;- rbinom(n,n,p)
+dat$n &lt;- n
+
+lr.fit &lt;- gam(y/n~s(x0)+s(x1)+s(x2)+s(x3)
+             ,family=binomial,data=dat,weights=n,method="REML")
+
+par(mfrow=c(2,2))
+## normal QQ-plot of deviance residuals
+qqnorm(residuals(lr.fit),pch=19,cex=.3)
+## Quick QQ-plot of deviance residuals
+qq.gam(lr.fit,pch=19,cex=.3)
+## Simulation based QQ-plot with reference bands 
+qq.gam(lr.fit,rep=100,level=.9)
+## Simulation based QQ-plot, Pearson resids, all
+## simulated reference plots shown...  
+qq.gam(lr.fit,rep=100,level=1,type="pearson",pch=19,cex=.2)
+
+## Now fit the wrong model and check....
+
+pif &lt;- gam(y~s(x0)+s(x1)+s(x2)+s(x3)
+             ,family=poisson,data=dat,method="REML")
+par(mfrow=c(2,2))
+qqnorm(residuals(pif),pch=19,cex=.3)
+qq.gam(pif,pch=19,cex=.3)
+qq.gam(pif,rep=100,level=.9)
+qq.gam(pif,rep=100,level=1,type="pearson",pch=19,cex=.2)
+
+## Example of binary data model violation so gross that you see a problem 
+## on the QQ plot...
+
+y &lt;- c(rep(1,10),rep(0,20),rep(1,40),rep(0,10),rep(1,40),rep(0,40))
+x &lt;- 1:160
+b &lt;- glm(y~x,family=binomial)
+par(mfrow=c(2,2))
+## Note that the next two are not necessarily similar under gross 
+## model violation...
+qq.gam(b)
+qq.gam(b,rep=50,level=1)
+## and a much better plot for detecting the problem
+plot(x,residuals(b),pch=19,cex=.3)
+plot(x,y);lines(x,fitted(b))
+
+## alternative model
+b &lt;- gam(y~s(x,k=5),family=binomial,method="ML")
+qq.gam(b)
+qq.gam(b,rep=50,level=1)
+plot(x,residuals(b),pch=19,cex=.3)
+plot(b,residuals=TRUE,pch=19,cex=.3)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

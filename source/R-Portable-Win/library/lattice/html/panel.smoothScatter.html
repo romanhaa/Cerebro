@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lattice panel function analogous to smoothScatter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_2_panel.smoothScatter {lattice}"><tr><td>F_2_panel.smoothScatter {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lattice panel function analogous to smoothScatter</h2>
+
+<h3>Description</h3>
+
+<p>This function allows the user to place <code>smoothScatter</code> plots in
+lattice graphics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.smoothScatter(x, y = NULL,
+                    nbin = 64, cuts = 255,
+                    bandwidth,
+                    colramp,
+                    nrpoints = 100,
+                    transformation = function(x) x^0.25,
+                    pch = ".",
+                    cex = 1, col="black",
+                    range.x,
+                    ...,
+                    raster = FALSE,
+                    subscripts,
+                    identifier = "smoothScatter")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Numeric vector containing x-values or n by 2 matrix containing x
+and y values.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Numeric vector containing y-values (optional). The length of <code>x</code>
+must be the same as that of <code>y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nbin</code></td>
+<td>
+<p>Numeric vector of length 1 (for both directions) or
+2 (for x and y separately) containing the number of equally spaced
+grid points for the density estimation.</p>
+</td></tr>
+<tr valign="top"><td><code>cuts</code></td>
+<td>
+<p> number of cuts defining the color gradient </p>
+</td></tr>
+<tr valign="top"><td><code>bandwidth</code></td>
+<td>
+<p>Numeric vector: the smoothing bandwidth.  If missing,
+these functions come up with a more or less useful guess.  This
+parameter then gets passed on to the function
+<code><a href="../../KernSmooth/html/bkde2D.html">bkde2D</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>colramp</code></td>
+<td>
+<p>Function accepting an integer <code>n</code> as an argument and
+returning <code>n</code> colors.</p>
+</td></tr>
+<tr valign="top"><td><code>nrpoints</code></td>
+<td>
+<p>Numeric vector of length 1 giving number of points to
+be superimposed on the density image. The first <code>nrpoints</code> points
+from those areas of lowest regional densities will be plotted. Adding
+points to the plot allows for the identification of outliers.
+If all points are to be plotted, choose <code>nrpoints = Inf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>transformation</code></td>
+<td>
+<p>Function that maps the density scale to the color scale.</p>
+</td></tr>
+<tr valign="top"><td><code>pch, cex</code></td>
+<td>
+<p> graphical parameters for the <code>nrpoints</code>
+&ldquo;outlying&rdquo; points shown in the display </p>
+</td></tr>
+<tr valign="top"><td><code>range.x</code></td>
+<td>
+<p>see  <code><a href="../../KernSmooth/html/bkde2D.html">bkde2D</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p><code><a href="../../graphics/html/points.html">points</a></code> color parameter</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments that are passed on to
+<code><a href="panel.levelplot.html">panel.levelplot</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>raster</code></td>
+<td>
+<p> logical; if <code>TRUE</code>,
+<code><a href="panel.levelplot.html">panel.levelplot.raster</a></code> is used, making potentially
+smaller output files. </p>
+</td></tr>
+<tr valign="top"><td><code>subscripts</code></td>
+<td>
+<p> ignored, but necessary for handling of ... in
+certain situations.  Likely to be removed in future. </p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This replicates the display part of the <code>smoothScatter</code>
+function by replacing standard graphics calls by grid-compatible ones.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function is called for its side effects, namely the production
+of the appropriate plots on a graphics device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:deepayan.sarkar@r-project.org">deepayan.sarkar@r-project.org</a> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+ddf &lt;- as.data.frame(matrix(rnorm(40000), ncol = 4) + 3 * rnorm(10000))
+ddf[, c(2,4)] &lt;- (-ddf[, c(2,4)])
+xyplot(V1 ~ V2 + V3, ddf, outer = TRUE,
+       panel = panel.smoothScatter, aspect = "iso")
+splom(ddf, panel = panel.smoothScatter, nbin = 64, raster = TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

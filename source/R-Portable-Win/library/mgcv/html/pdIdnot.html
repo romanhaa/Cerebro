@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Overflow proof pdMat class for multiples of the identity...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pdIdnot {mgcv}"><tr><td>pdIdnot {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Overflow proof pdMat class for multiples of the identity matrix</h2>
+
+<h3>Description</h3>
+
+<p> This set of functions is a modification of the  <code>pdMat</code> class <code>pdIdent</code>
+from library <code>nlme</code>. The modification is to replace the log parameterization used in <code>pdMat</code>
+with a <code><a href="notExp2.html">notLog2</a></code> parameterization, since the latter avoids
+indefiniteness in the likelihood and associated convergence problems: the
+parameters also relate to variances rather than standard deviations, for
+consistency with the <code><a href="pdTens.html">pdTens</a></code> class. The functions are particularly useful for
+working with Generalized Additive Mixed Models where variance parameters/smoothing parameters can
+be very large or very small, so that overflow or underflow can be a problem.
+</p>
+<p>These functions would not normally be called directly, although unlike the 
+<code><a href="pdTens.html">pdTens</a></code> class it is easy to do so.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pdIdnot(value = numeric(0), form = NULL, 
+       nam = NULL, data = sys.frame(sys.parent()))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Initialization values for parameters. Not normally used.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>A one sided formula specifying the random effects structure. </p>
+</td></tr>   
+<tr valign="top"><td><code>nam</code></td>
+<td>
+<p>a names argument, not normally used with this class.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>data frame in which to evaluate formula.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>The following functions are provided: <code>Dim.pdIndot</code>, <code>coef.pdIdnot</code>, <code>corMatrix.pdIdnot</code>, 
+<code>logDet.pdIdnot</code>, <code>pdConstruct.pdIdnot</code>, <code>pdFactor.pdIdnot</code>, <code>pdMatrix.pdIdnot</code>,
+<code>solve.pdIdnot</code>, <code>summary.pdIdnot</code>. (e.g. <code>mgcv:::coef.pdIdnot</code> to access.)
+</p>
+<p>Note that while the <code>pdFactor</code> and <code>pdMatrix</code> functions return the inverse of the scaled random 
+effect covariance matrix or its factor, the <code>pdConstruct</code> function is initialised with estimates of the 
+scaled covariance matrix itself.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A class <code>pdIdnot</code> object, or related quantities. See the <code>nlme</code> documentation for further details.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro J.C. and Bates, D.M. (2000) Mixed effects Models in S and S-PLUS. Springer
+</p>
+<p>The <code>nlme</code> source code.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="te.html">te</a></code>, <code><a href="pdTens.html">pdTens</a></code>, <code><a href="notExp2.html">notLog2</a></code>, <code><a href="gamm.html">gamm</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# see gamm
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

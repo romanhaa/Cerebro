@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Likelihood Ratio Tests for Negative Binomial GLMs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for anova.negbin {MASS}"><tr><td>anova.negbin {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Likelihood Ratio Tests for Negative Binomial GLMs
+</h2>
+
+<h3>Description</h3>
+
+<p>Method function to perform sequential likelihood ratio tests for Negative
+Binomial generalized linear models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'negbin'
+anova(object, ..., test = "Chisq")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>Fitted model object of class <code>"negbin"</code>, inheriting from
+classes <code>"glm"</code> and <code>"lm"</code>, specifying a Negative Binomial
+fitted GLM.  Typically the output of <code><a href="glm.nb.html">glm.nb</a>()</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Zero or more additional fitted model objects of class <code>"negbin"</code>.  They
+should form a nested sequence of models, but need not be specified in any
+particular order.
+</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+
+<p>Argument to match the <code>test</code> argument of <code><a href="../../stats/html/anova.glm.html">anova.glm</a></code>.
+Ignored (with a warning if changed) if a sequence of two or more
+Negative Binomial fitted model objects is specified, but possibly
+used if only one object is specified.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function
+<code>anova()</code> for class <code>"negbin"</code>.
+It can be invoked by calling <code>anova(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>anova.negbin(x)</code> regardless of the
+class of the object.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If only one fitted model object is specified, a sequential analysis of
+deviance table is given for the fitted model.  The <code>theta</code> parameter is kept
+fixed.  If more than one fitted model object is specified they must all be
+of class <code>"negbin"</code> and likelihood ratio tests are done of each model within
+the next.  In this case <code>theta</code> is assumed to have been re-estimated for each
+model.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="glm.nb.html">glm.nb</a></code>, <code><a href="negative.binomial.html">negative.binomial</a></code>, <code><a href="summary.negbin.html">summary.negbin</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+m1 &lt;- glm.nb(Days ~ Eth*Age*Lrn*Sex, quine, link = log)
+m2 &lt;- update(m1, . ~ . - Eth:Age:Lrn:Sex)
+anova(m2, m1)
+anova(m2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

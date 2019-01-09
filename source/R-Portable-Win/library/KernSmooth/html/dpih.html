@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Select a Histogram Bin Width</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dpih {KernSmooth}"><tr><td>dpih {KernSmooth}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Select a Histogram Bin Width 
+</h2>
+
+<h3>Description</h3>
+
+<p>Uses direct plug-in methodology to select the bin width of 
+a histogram.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dpih(x, scalest = "minim", level = 2L, gridsize = 401L, 
+     range.x = range(x), truncate = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>numeric vector containing the sample on which the
+histogram is to be constructed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scalest</code></td>
+<td>
+
+<p>estimate of scale.
+</p>
+<p><code>"stdev"</code> - standard deviation is used.
+</p>
+<p><code>"iqr"</code> - inter-quartile range divided by 1.349 is used.
+</p>
+<p><code>"minim"</code> - minimum of <code>"stdev"</code> and <code>"iqr"</code> is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+
+<p>number of levels of functional estimation used in the
+plug-in rule.
+</p>
+</td></tr>
+<tr valign="top"><td><code>gridsize</code></td>
+<td>
+
+<p>number of grid points used in the binned approximations
+to functional estimates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>range.x</code></td>
+<td>
+
+<p>range over which functional estimates are obtained.
+The default is the minimum and maximum data values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>truncate</code></td>
+<td>
+
+<p>if <code>truncate</code> is <code>TRUE</code> then observations outside
+of the interval specified by <code>range.x</code> are omitted.
+Otherwise, they are used to weight the extreme grid points.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The direct plug-in approach, where unknown functionals
+that appear in expressions for the asymptotically
+optimal bin width and bandwidths
+are replaced by kernel estimates, is used.
+The normal distribution is used to provide an
+initial estimate.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the selected bin width.
+</p>
+
+
+<h3>Background</h3>
+
+<p>This method for selecting the bin width of a histogram is
+described in Wand (1995). It is an extension of the
+normal scale rule of Scott (1979) and uses plug-in ideas
+from bandwidth selection for kernel density estimation
+(e.g. Sheather and Jones, 1991).
+</p>
+
+
+<h3>References</h3>
+
+<p>Scott, D. W. (1979). 
+On optimal and data-based histograms.
+<em>Biometrika</em>,
+<b>66</b>, 605&ndash;610.
+</p>
+<p>Sheather, S. J. and Jones, M. C. (1991).
+A reliable data-based bandwidth selection method for
+kernel density estimation.
+<em>Journal of the Royal Statistical Society, Series B</em>,
+<b>53</b>, 683&ndash;690. 
+</p>
+<p>Wand, M. P. (1995).
+Data-based choice of histogram binwidth.
+<em>The American Statistician</em>, <b>51</b>, 59&ndash;64.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/hist.html">hist</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(geyser, package="MASS")
+x &lt;- geyser$duration
+h &lt;- dpih(x)
+bins &lt;- seq(min(x)-h, max(x)+h, by=h)
+hist(x, breaks=bins)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>KernSmooth</em> version 2.23-15 <a href="00Index.html">Index</a>]</div>
+</body></html>

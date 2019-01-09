@@ -1,0 +1,55 @@
+Package: scatterD3
+Type: Package
+Title: D3 JavaScript Scatterplot from R
+Version: 0.8.2
+Date: 2018-03-09
+Authors@R: c(
+    person(
+      "Julien", "Barnier",
+      email = "julien.barnier@ens-lyon.fr",
+      role = c("aut", "cre")
+    ),
+    person(
+        "Kent", "Russell"
+        , role = c("aut", "ctb")
+        , email = "kent.russell@timelyportfolio.com"
+    ),
+    person(
+        "Mike", "Bostock"
+        , role = c("aut", "cph")
+        , comment = "d3.js library, http://d3js.org"
+    ),
+    person(
+        "Susie", "Lu"
+        , role = c("aut", "cph")
+        , comment = "d3-legend library, http://d3-legend.susielu.com/"
+    ),
+    person(
+        "Speros", "Kokenes"
+        , role = c("aut", "cph")
+        , comment = "d3-lasso-plugin library, https://github.com/skokenes/D3-Lasso-Plugin"
+    )
+  )
+Maintainer: Julien Barnier <julien.barnier@ens-lyon.fr>
+Description: Creates 'D3' 'JavaScript' scatterplots from 'R' with interactive
+    features : panning, zooming, tooltips, etc.
+License: GPL (>= 3)
+VignetteBuilder: knitr
+URL: https://github.com/juba/scatterD3
+BugReports: https://github.com/juba/scatterD3/issues
+LazyData: TRUE
+Enhances: shiny
+Imports: htmlwidgets, digest, ellipse
+Suggests: knitr, rmarkdown
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2018-03-10 10:17:25 UTC; julien
+Author: Julien Barnier [aut, cre],
+  Kent Russell [aut, ctb],
+  Mike Bostock [aut, cph] (d3.js library, http://d3js.org),
+  Susie Lu [aut, cph] (d3-legend library, http://d3-legend.susielu.com/),
+  Speros Kokenes [aut, cph] (d3-lasso-plugin library,
+    https://github.com/skokenes/D3-Lasso-Plugin)
+Repository: CRAN
+Date/Publication: 2018-03-10 17:01:24 UTC
+Built: R 3.5.0; ; 2018-04-24 01:19:17 UTC; unix

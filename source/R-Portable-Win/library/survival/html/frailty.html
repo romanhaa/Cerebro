@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Random effects terms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for frailty {survival}"><tr><td>frailty {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Random effects terms
+</h2>
+
+<h3>Description</h3>
+
+<p>The frailty function allows one to add a simple random effects term to
+a Cox or survreg model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+frailty(x, distribution="gamma", ...)
+frailty.gamma(x, sparse = (nclass &gt; 5), theta, df, eps = 1e-05,
+         method = c("em","aic", "df", "fixed"), ...) 
+frailty.gaussian(x, sparse = (nclass &gt; 5), theta, df,
+         method =c("reml","aic", "df", "fixed"), ...)
+frailty.t(x, sparse = (nclass &gt; 5), theta, df, eps = 1e-05, tdf = 5,
+         method = c("aic", "df", "fixed"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>the variable to be entered as a random effect.  
+It is always treated as a factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+
+<p>either the <code>gamma</code>, 
+<code>gaussian</code> or <code>t</code>
+distribution may be specified.
+The routines <code>frailty.gamma</code>,
+<code>frailty.gaussian</code> and 
+<code>frailty.t</code> do the actual work.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments for specific distribution, including (but not
+limited to) </p>
+</td></tr>
+<tr valign="top"><td><code>sparse</code></td>
+<td>
+
+<p>cutoff for using a sparse coding of the data matrix.  
+If the total number of levels of <code>x</code> is larger
+than this value, then a sparse matrix approximation is used.
+The correct cutoff is still a matter of exploration: if the number of
+levels is very large (thousands) then the non-sparse calculation may not be
+feasible in terms of both memory and compute time.
+Likewise, the accuracy of the sparse approximation appears to be related to
+the maximum proportion of subjects in any one class, being best when no
+one class has a large membership.
+</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+
+<p>if specified, this fixes the variance of the random effect.
+If not, the variance is a parameter, and a best solution is sought.
+Specifying this implies <code>method='fixed'</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+
+<p>if specified, this fixes the degrees of freedom for the random effect.
+Specifying this implies <code>method='df'</code>.
+Only one of <code>theta</code> or 
+<code>df</code> should be specified.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>the method used to select a solution for theta, the variance of the
+random effect.  
+The <code>fixed</code> corresponds to a user-specified
+value, and no iteration is done.
+The <code>df</code> selects the variance such that the
+degrees of freedom for the random effect matches a user specified value.
+The <code>aic</code> method seeks to 
+maximize Akaike's information criteria 
+2*(partial likelihood - df).
+The <code>em</code> and <code>reml</code>
+methods are specific to Cox models with gamma and gaussian random effects,
+respectively.
+Please see further discussion below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tdf</code></td>
+<td>
+
+<p>the degrees of freedom for the t-distribution.
+</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+
+<p>convergence criteria for the iteration on theta.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>frailty</code> plugs into the general penalized
+modeling framework provided by the <code>coxph</code> 
+and <code>survreg</code> routines.  
+This framework deals with likelihood, penalties, and degrees of freedom;
+these aspects work well with either parent routine.
+</p>
+<p>Therneau, Grambsch, and Pankratz show how maximum likelihood estimation for
+the Cox model with a gamma frailty can be accomplished using a general
+penalized routine, and Ripatti and Palmgren work through a similar argument
+for the Cox model with a gaussian frailty.  Both of these are specific to
+the Cox model.  
+Use of gamma/ml or gaussian/reml with 
+<code>survreg</code> does not lead to valid results. 
+</p>
+<p>The extensible structure of the penalized methods is such that the penalty
+function, such as <code>frailty</code> or
+<code>pspine</code>, is completely separate from the modeling
+routine.  The strength of this is that a user can plug in any penalization
+routine they choose.  A weakness is that it is very difficult for the
+modeling routine to know whether a sensible penalty routine has been
+supplied.
+</p>
+<p>Note that use of a frailty term implies a mixed effects model and use of
+a cluster term implies a GEE approach; these cannot be mixed.
+</p>
+<p>The <code>coxme</code> package has superseded
+this method.  It is faster, more stable, and more flexible.
+</p>
+
+
+<h3>Value</h3>
+
+<p>this function is used in the model statement of either
+<code>coxph</code> or <code>survreg</code>.
+It's results are used internally.
+</p>
+
+
+<h3>References</h3>
+
+<p>S Ripatti and J Palmgren, Estimation of multivariate frailty 
+models using penalized partial likelihood,
+Biometrics, 56:1016-1022, 2000.
+</p>
+<p>T Therneau, P Grambsch and VS Pankratz,
+Penalized survival models and frailty,
+J Computational and Graphical Statistics, 12:156-175, 2003.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="coxph.html">coxph</a>, <a href="survreg.html">survreg</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Random institutional effect
+coxph(Surv(time, status) ~ age + frailty(inst, df=4), lung)
+
+# Litter effects for the rats data
+rfit2a &lt;- survreg(Surv(time, status) ~ rx +
+                  frailty.gaussian(litter, df=13, sparse=FALSE), rats,
+                  subset= (sex=='f'))
+rfit2b &lt;- survreg(Surv(time, status) ~ rx +
+                  frailty.gaussian(litter, df=13, sparse=TRUE), rats,
+                  subset= (sex=='f'))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

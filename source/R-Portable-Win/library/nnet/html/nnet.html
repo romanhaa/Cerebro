@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Neural Networks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nnet {nnet}"><tr><td>nnet {nnet}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit Neural Networks
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit single-hidden-layer neural network, possibly with skip-layer connections.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nnet(x, ...)
+
+## S3 method for class 'formula'
+nnet(formula, data, weights, ...,
+     subset, na.action, contrasts = NULL)
+
+## Default S3 method:
+nnet(x, y, weights, size, Wts, mask,
+     linout = FALSE, entropy = FALSE, softmax = FALSE,
+     censored = FALSE, skip = FALSE, rang = 0.7, decay = 0,
+     maxit = 100, Hess = FALSE, trace = TRUE, MaxNWts = 1000,
+     abstol = 1.0e-4, reltol = 1.0e-8, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>A formula of the form <code>class ~ x1 + x2 + ...</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>matrix or data frame of <code>x</code> values for examples.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>matrix or data frame of target values for examples.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>(case) weights for each example &ndash; if missing defaults to 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+
+<p>number of units in the hidden layer. Can be zero if there are skip-layer units.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>Data frame from which variables specified in  <code>formula</code> are
+preferentially to be taken.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>An index vector specifying the cases to be used in the training
+sample.  (NOTE: If given, this argument must be named.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>A function to specify the action to be taken if <code>NA</code>s are found.
+The default action is for the procedure to fail.  An alternative is
+na.omit, which leads to rejection of cases with missing values on
+any required variable.  (NOTE: If given, this argument must be named.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>a list of contrasts to be used for some or all  of
+the  factors  appearing as variables in the model formula.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Wts</code></td>
+<td>
+
+<p>initial parameter vector. If missing chosen at random.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mask</code></td>
+<td>
+
+<p>logical vector indicating which parameters should be optimized (default all).
+</p>
+</td></tr>
+<tr valign="top"><td><code>linout</code></td>
+<td>
+
+<p>switch for linear output units. Default logistic output units.
+</p>
+</td></tr>
+<tr valign="top"><td><code>entropy</code></td>
+<td>
+
+<p>switch for entropy (= maximum conditional likelihood) fitting.
+Default by least-squares.
+</p>
+</td></tr>
+<tr valign="top"><td><code>softmax</code></td>
+<td>
+
+<p>switch for softmax (log-linear model) and maximum conditional
+likelihood fitting. <code>linout</code>, <code>entropy</code>, <code>softmax</code> and <code>censored</code> are mutually
+exclusive.
+</p>
+</td></tr>
+<tr valign="top"><td><code>censored</code></td>
+<td>
+
+<p>A variant on <code>softmax</code>, in which non-zero targets mean possible
+classes. Thus for <code>softmax</code> a row of <code>(0, 1, 1)</code> means one example
+each of classes 2 and 3, but for <code>censored</code> it means one example whose
+class is only known to be 2 or 3.
+</p>
+</td></tr>
+<tr valign="top"><td><code>skip</code></td>
+<td>
+
+<p>switch to add skip-layer connections from input to output.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rang</code></td>
+<td>
+
+<p>Initial random weights on [-<code>rang</code>, <code>rang</code>].  Value about 0.5 unless the
+inputs are large, in which case it should be chosen so that
+<code>rang</code> * max(<code>|x|</code>) is about 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>decay</code></td>
+<td>
+
+<p>parameter for weight decay.  Default 0.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+
+<p>maximum number of iterations. Default 100.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Hess</code></td>
+<td>
+
+<p>If true, the Hessian of the measure of fit at the best set of weights
+found is returned as component <code>Hessian</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>switch for tracing optimization. Default <code>TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>MaxNWts</code></td>
+<td>
+
+<p>The maximum allowable number of weights.  There is no intrinsic limit
+in the code, but increasing <code>MaxNWts</code> will probably allow fits that
+are very slow and time-consuming.
+</p>
+</td></tr>
+<tr valign="top"><td><code>abstol</code></td>
+<td>
+
+<p>Stop if the fit criterion falls below <code>abstol</code>, indicating an
+essentially perfect fit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reltol</code></td>
+<td>
+
+<p>Stop if the optimizer is unable to reduce the fit criterion by a
+factor of at least <code>1 - reltol</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>If the response in <code>formula</code> is a factor, an appropriate classification
+network is constructed; this has one output and entropy fit if the
+number of levels is two, and a number of outputs equal to the number
+of classes and a softmax output stage for more levels.  If the
+response is not a factor, it is passed on unchanged to <code>nnet.default</code>.
+</p>
+<p>Optimization is done via the BFGS method of <code><a href="../../stats/html/optim.html">optim</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>object of class <code>"nnet"</code> or <code>"nnet.formula"</code>.
+Mostly internal structure, but has components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>wts</code></td>
+<td>
+
+<p>the best set of weights found
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>value of fitting criterion plus weight decay term.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fitted.values</code></td>
+<td>
+
+<p>the fitted values for the training data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+
+<p>the residuals for the training data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>convergence</code></td>
+<td>
+
+<p><code>1</code> if the maximum number of iterations was reached, otherwise <code>0</code>.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks.</em> Cambridge.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="predict.nnet.html">predict.nnet</a></code>, <code><a href="nnet.Hess.html">nnetHess</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# use half the iris data
+ir &lt;- rbind(iris3[,,1],iris3[,,2],iris3[,,3])
+targets &lt;- class.ind( c(rep("s", 50), rep("c", 50), rep("v", 50)) )
+samp &lt;- c(sample(1:50,25), sample(51:100,25), sample(101:150,25))
+ir1 &lt;- nnet(ir[samp,], targets[samp,], size = 2, rang = 0.1,
+            decay = 5e-4, maxit = 200)
+test.cl &lt;- function(true, pred) {
+    true &lt;- max.col(true)
+    cres &lt;- max.col(pred)
+    table(true, cres)
+}
+test.cl(targets[-samp,], predict(ir1, ir[-samp,]))
+
+
+# or
+ird &lt;- data.frame(rbind(iris3[,,1], iris3[,,2], iris3[,,3]),
+        species = factor(c(rep("s",50), rep("c", 50), rep("v", 50))))
+ir.nn2 &lt;- nnet(species ~ ., data = ird, subset = samp, size = 2, rang = 0.1,
+               decay = 5e-4, maxit = 200)
+table(ird$species[-samp], predict(ir.nn2, ird[-samp,], type = "class"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nnet</em> version 7.3-12 <a href="00Index.html">Index</a>]</div>
+</body></html>

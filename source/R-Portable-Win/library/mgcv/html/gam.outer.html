@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Minimize GCV or UBRE score of a GAM using 'outer' iteration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.outer {mgcv}"><tr><td>gam.outer {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Minimize GCV or UBRE score of a GAM using &lsquo;outer&rsquo; iteration</h2>
+
+<h3>Description</h3>
+
+<p>Estimation of GAM smoothing parameters is most stable if
+optimization of the smoothness selection score (GCV, GACV, UBRE/AIC, REML, ML etc) 
+is outer to the penalized iteratively
+re-weighted least squares scheme used to estimate the model given smoothing 
+parameters.
+</p>
+<p>This routine optimizes a smoothness selection score in this way. Basically the 
+score is evaluated for each trial set of smoothing parameters by
+estimating the GAM for those smoothing parameters. The score is minimized
+w.r.t. the parameters numerically, using <code>newton</code> (default), <code>bfgs</code>, <code>optim</code> or <code>nlm</code>. Exact
+(first and second) derivatives of the score can be used by fitting with
+<code><a href="gam.fit3.html">gam.fit3</a></code>. This
+improves efficiency and reliability relative to relying on finite
+difference derivatives.  
+</p>
+<p>Not normally called directly, but rather a service routine for <code><a href="gam.html">gam</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gam.outer(lsp,fscale,family,control,method,optimizer,
+          criterion,scale,gamma,G,start=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>lsp</code></td>
+<td>
+<p>The log smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>fscale</code></td>
+<td>
+<p>Typical scale of the GCV or UBRE/AIC score.</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>the model family.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>control argument to pass to <code><a href="gam.fit.html">gam.fit</a></code> if pure
+finite differencing is being used.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>method argument to <code><a href="gam.html">gam</a></code> defining the smoothness criterion to use (but depending on whether or not scale known).</p>
+</td></tr>
+<tr valign="top"><td><code>optimizer</code></td>
+<td>
+<p>The argument to <code><a href="gam.html">gam</a></code> defining the numerical optimization method to use. </p>
+</td></tr>
+<tr valign="top"><td><code>criterion</code></td>
+<td>
+<p>Which smoothness selction criterion to use. One of <code>"UBRE"</code>,
+<code>"GCV"</code>, <code>"GACV"</code>, <code>"REML"</code> or <code>"P-REML"</code>.   </p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Supplied scale parameter. Positive indicates known.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p> The degree of freedom inflation factor for the GCV/UBRE/AIC score.</p>
+</td></tr>
+<tr valign="top"><td><code>G</code></td>
+<td>
+<p>List produced by <code>mgcv:::gam.setup</code>, containing most of what's
+needed to actually fit a GAM.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>starting parameter values.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments, typically for passing on to <code>gam.fit3</code> (ultimately).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>See Wood (2008) for full details on &lsquo;outer iteration&rsquo;.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2011) Fast stable restricted maximum likelihood 
+and marginal likelihood estimation of semiparametric generalized linear 
+models. Journal of the Royal Statistical Society (B) 73(1):3-36
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gam.fit3.html">gam.fit3</a></code>,  <code><a href="gam.html">gam</a></code>, <code><a href="magic.html">magic</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

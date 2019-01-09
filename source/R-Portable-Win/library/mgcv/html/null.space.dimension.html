@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The basis of the space of un-penalized functions for a TPRS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for null.space.dimension {mgcv}"><tr><td>null.space.dimension {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The basis of the space of un-penalized functions for a TPRS</h2>
+
+<h3>Description</h3>
+
+<p> The thin plate spline penalties give zero penalty to some
+functions. The space of these functions is spanned by a set of
+polynomial terms. <code>null.space.dimension</code> finds the dimension of this space, <i>M</i>, given
+the number of covariates that the smoother is a function of, <i>d</i>,
+and the order of the smoothing penalty, <i>m</i>. If <i>m</i> does not
+satisfy <i>2m&gt;d</i> then the smallest possible dimension
+for the null space is found given <i>d</i> and the requirement that
+the smooth should be visually smooth.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+null.space.dimension(d,m)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p> is a positive integer - the number of variables of which the
+t.p.s. is a function. </p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p> a non-negative integer giving the order of the penalty
+functional, or signalling that the default order should be used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Thin plate splines are only visually smooth if the order of the
+wiggliness penalty, <i>m</i>, satisfies <i>2m &gt;
+    d+1</i>. If <i>2m&lt;d+1</i> then this routine finds the smallest
+<i>m</i> giving visual smoothness
+for the given <i>d</i>, otherwise the supplied <i>m</i> is used. The null space dimension is given by:
+</p>
+<p><i>M=(m+d-1)!/(d!(m-1)!</i>
+</p>
+<p>which is the value returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An integer (array), the null space dimension
+<i>M</i>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2003) Thin plate regression splines. J.R.Statist.Soc.B 65(1):95-114
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="smooth.construct.tp.smooth.spec.html">tprs</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(mgcv)
+null.space.dimension(2,0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

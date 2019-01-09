@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Banking</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for G_banking {lattice}"><tr><td>G_banking {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Banking</h2>
+
+<h3>Description</h3>
+
+<p>Calculates banking slope
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+banking(dx, dy)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dx, dy</code></td>
+<td>
+<p> vector of consecutive x, y differences. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>banking</code> is the banking function used when
+<code>aspect = "xy"</code> in high level Trellis functions. It is usually not
+very meaningful except with <code>xyplot</code>.  It considers the
+absolute slopes (based on <code>dx</code> and <code>dy</code>) and returns a value
+which when adjusted by the panel scale limits will make the median of
+the above absolute slopes correspond to a 45 degree line.
+</p>
+<p>This function was inspired by the discussion of banking in the
+documentation for Trellis Graphics available at Bell Labs' website
+(see <code><a href="Lattice.html">Lattice</a></code>), but is most likely identical to an
+algorithm described by Cleveland et al (see below).  It is
+not clear (to the author) whether this is the algorithm used in
+S-PLUS.  Alternative banking rules, implemented as a similar function,
+can be used as a drop-in replacement by suitably modifying
+<code>lattice.options("banking")</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Cleveland, William S. and McGill, Marylyn E. and McGill, Robert (1988)
+&ldquo;The Shape Parameter of a Two-variable Graph&rdquo;, <em>Journal of
+the American Statistical Association</em>, <b>83</b>, 289&ndash;300.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code>, <code><a href="xyplot.html">xyplot</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## with and without banking
+
+plot &lt;- xyplot(sunspot.year ~ 1700:1988, xlab = "", type = "l",
+               scales = list(x = list(alternating = 2)),
+               main = "Yearly Sunspots")
+print(plot, position = c(0, .3, 1, .9), more = TRUE)
+print(update(plot, aspect = "xy", main = "", xlab = "Year"),
+      position = c(0, 0, 1, .3))
+
+## cut-and-stack plot (see also xyplot.ts)
+
+xyplot(sunspot.year ~ time(sunspot.year) | equal.count(time(sunspot.year)), 
+       xlab = "", type = "l", aspect = "xy", strip = FALSE,
+       scales = list(x = list(alternating = 2, relation = "sliced")),
+       as.table = TRUE, main = "Yearly Sunspots")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

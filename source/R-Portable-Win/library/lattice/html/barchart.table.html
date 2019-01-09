@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: table methods for barchart and dotplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_02_barchart.table {lattice}"><tr><td>B_02_barchart.table {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>table methods for barchart and dotplot</h2>
+
+<h3>Description</h3>
+
+<p>Contingency tables are often displayed using bar charts and dot plots.
+These methods operate directly on tables, bypassing the need to
+convert them to data frames for use with the formula interface.
+Matrices and arrays are also supported, by coercing them to tables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'table'
+barchart(x, data, groups = TRUE,
+         origin = 0, stack = TRUE, ..., horizontal = TRUE)
+
+## S3 method for class 'array'
+barchart(x, data, ...)
+
+## S3 method for class 'matrix'
+barchart(x, data, ...)
+
+## S3 method for class 'table'
+dotplot(x, data, groups = TRUE, ..., horizontal = TRUE)
+
+## S3 method for class 'array'
+dotplot(x, data, ...)
+
+## S3 method for class 'matrix'
+dotplot(x, data, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <code>table</code>, <code>array</code> or <code>matrix</code> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>Should not be specified. If specified, will be ignored with a
+warning.
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+
+<p>A logical flag, indicating whether to use the last dimension as a
+grouping variable in the display.
+</p>
+</td></tr>
+<tr valign="top"><td><code>origin, stack</code></td>
+<td>
+
+<p>Arguments to <code><a href="panel.barchart.html">panel.barchart</a></code>.  The defaults for the
+<code>table</code> method are different.
+</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+
+<p>Logical flag, indicating whether the plot should be horizontal (with
+the categorical variable on the y-axis) or vertical.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Other arguments, passed to the underlying <code>formula</code> method.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The first dimension is used as the variable on the categorical axis.
+The last dimension is optionally used as a grouping variable (to
+produce stacked barcharts by default).  All other dimensions are used
+as conditioning variables.  The order of these variables cannot be
+altered (except by permuting the original argument beforehand using
+<code><a href="../../base/html/t.html">t</a></code> or <code><a href="../../base/html/aperm.html">aperm</a></code>).  For more flexibility, use
+the formula method after converting the table to a data frame using
+the relevant <code><a href="../../base/html/table.html">as.data.frame</a></code> method.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">barchart</a></code>, <code><a href="../../base/html/t.html">t</a></code>, <code><a href="../../base/html/aperm.html">aperm</a></code>,
+<code><a href="../../base/html/table.html">table</a></code>, <code><a href="panel.barchart.html">panel.barchart</a></code>,
+<code><a href="Lattice.html">Lattice</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+barchart(Titanic, scales = list(x = "free"),
+         auto.key = list(title = "Survived"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 3d Scatter Plot and Wireframe Surface Plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_07_cloud {lattice}"><tr><td>B_07_cloud {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>3d Scatter Plot and Wireframe Surface Plot</h2>
+
+<h3>Description</h3>
+
+<p>Generic functions to draw 3d scatter plots and surfaces.  The
+<code>"formula"</code> methods do most of the actual work.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cloud(x, data, ...)
+wireframe(x, data, ...)
+
+## S3 method for class 'formula'
+cloud(x,
+      data,
+      allow.multiple = is.null(groups) || outer,
+      outer = FALSE,
+      auto.key = FALSE,
+      aspect = c(1,1),
+      panel.aspect = 1,
+      panel = lattice.getOption("panel.cloud"),
+      prepanel = NULL,
+      scales = list(),
+      strip = TRUE,
+      groups = NULL,
+      xlab,
+      ylab,
+      zlab,
+      xlim = if (is.factor(x)) levels(x) else range(x, finite = TRUE),
+      ylim = if (is.factor(y)) levels(y) else range(y, finite = TRUE),
+      zlim = if (is.factor(z)) levels(z) else range(z, finite = TRUE),
+      at,
+      drape = FALSE,
+      pretty = FALSE,
+      drop.unused.levels,
+      ...,
+      lattice.options = NULL,
+      default.scales =
+      list(distance = c(1, 1, 1),
+           arrows = TRUE,
+           axs = axs.default),
+      default.prepanel = lattice.getOption("prepanel.default.cloud"),
+      colorkey,
+      col.regions,
+      alpha.regions,
+      cuts = 70,
+      subset = TRUE,
+      axs.default = "r")
+
+## S3 method for class 'formula'
+wireframe(x,
+          data,
+          panel = lattice.getOption("panel.wireframe"),
+          default.prepanel = lattice.getOption("prepanel.default.wireframe"),
+          ...)
+
+## S3 method for class 'matrix'
+cloud(x, data = NULL, type = "h", 
+      zlab = deparse(substitute(x)), aspect, ...,
+      xlim, ylim, row.values, column.values)
+
+## S3 method for class 'table'
+cloud(x, data = NULL, groups = FALSE,
+      zlab = deparse(substitute(x)),
+      type = "h", ...)
+
+## S3 method for class 'matrix'
+wireframe(x, data = NULL,
+          zlab = deparse(substitute(x)), aspect, ...,
+          xlim, ylim, row.values, column.values)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The object on which method dispatch is carried out.
+</p>
+<p>For the <code>"formula"</code> methods, a formula of the form <code>z ~ x
+      * y | g1 * g2 * ...</code>, where <code>z</code> is a numeric response, and
+<code>x</code>, <code>y</code> are numeric values. <code>g1, g2, ...</code>, if
+present, are conditioning variables used for conditioning, and must
+be either factors or shingles. In the case of <code>wireframe</code>,
+calculations are based on the assumption that the <code>x</code> and
+<code>y</code> values are evaluated on a rectangular grid defined by their
+unique values.  The grid points need not be equally spaced.
+</p>
+<p>For <code>wireframe</code>, <code>x</code>, <code>y</code> and <code>z</code> may also be
+matrices (of the same dimension), in which case they are taken to
+represent a 3-D surface parametrized on a 2-D grid (e.g., a sphere).
+Conditioning is not possible with this feature. See details below.
+</p>
+<p>Missing values are allowed, either as <code>NA</code> values in the
+<code>z</code> vector, or missing rows in the data frame (note however
+that in that case the X and Y grids will be determined only by the
+available values). For a grouped display (producing multiple
+surfaces), missing rows are not allowed, but <code>NA</code>-s in <code>z</code>
+are.
+</p>
+<p>Both <code>wireframe</code> and <code>cloud</code> have methods for
+<code>matrix</code> objects, in which case <code>x</code> provides the
+<code>z</code> vector described above, while its rows and columns are
+interpreted as the <code>x</code> and <code>y</code> vectors respectively.  This
+is similar to the form used in <code>persp</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>for the <code>"formula"</code> methods, an optional data frame in which
+variables in the formula (as well as <code>groups</code> and
+<code>subset</code>, if any) are to be evaluated.  <code>data</code> should not
+be specified except when using the <code>"formula"</code> method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>row.values, column.values</code></td>
+<td>
+<p> Optional vectors of values that
+define the grid when <code>x</code> is a matrix.  <code>row.values</code> and
+<code>column.values</code> must have the same lengths as <code>nrow(x)</code>
+and <code>ncol(x)</code> respectively.  By default, row and column
+numbers. </p>
+</td></tr>
+<tr valign="top"><td><code>allow.multiple, outer, auto.key, prepanel, strip, groups, xlab,
+xlim, ylab, ylim, drop.unused.levels, lattice.options,
+default.scales, subset</code></td>
+<td>
+
+<p>These arguments are documented in the help page for
+<code><a href="xyplot.html">xyplot</a></code>.  For the <code>cloud.table</code> method,
+<code>groups</code> must be a logical indicating whether the last
+dimension should be used as a grouping variable as opposed to a
+conditioning variable.  This is only relevant if the table has more
+than 2 dimensions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>type of display in <code>cloud</code> (see <code><a href="panel.cloud.html">panel.3dscatter</a></code>
+for details).  Defaults to <code>"h"</code> for the <code>matrix</code> method.
+</p>
+</td></tr>
+<tr valign="top"><td><code>aspect, panel.aspect</code></td>
+<td>
+
+<p>Unlike other high level functions, <code>aspect</code> is taken to be a
+numeric vector of length 2, giving the relative aspects of the
+y-size/x-size and z-size/x-size of the enclosing cube.  The usual
+role of the <code>aspect</code> argument in determining the aspect ratio
+of the panel (see <code><a href="xyplot.html">xyplot</a></code> for details) is played by
+<code>panel.aspect</code>, except that it can only be a numeric value.
+</p>
+<p>For the <code>matrix</code> methods, the default y/x aspect is
+<code>ncol(x) / nrow(x)</code> and the z/x aspect is the smaller of the
+y/x aspect and 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>panel function used to create the display.  See
+<code><a href="panel.cloud.html">panel.cloud</a></code> for (non-trivial) details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>default.prepanel</code></td>
+<td>
+
+<p>Fallback prepanel function.  See <code><a href="xyplot.html">xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+
+<p>a list describing the scales.  As with other high level functions
+(see <code><a href="xyplot.html">xyplot</a></code> for details), this list can contain
+parameters in name=value form.  It can also contain components with
+the special names <code>x</code>, <code>y</code> and <code>z</code>, which can be
+similar lists with axis-specific values overriding the ones
+specified in <code>scales</code>. 
+</p>
+<p>The most common use for this argument is to set <code>arrows=FALSE</code>,
+which causes tick marks and labels to be used instead of arrows
+being drawn (the default).  Both can be suppressed by
+<code>draw=FALSE</code>.  Another special component is <code>distance</code>,
+which specifies the relative distance of the axis label from the
+bounding box.  If specified as a component of <code>scales</code> (as
+opposed to one of <code>scales$z</code> etc), this can be (and is recycled
+if not) a vector of length 3, specifying distances for the x, y and
+z labels respectively.
+</p>
+<p>Other components that work in the <code>scales</code> argument of
+<code>xyplot</code> etc. should also work here (as long as they make
+sense), including explicit specification of tick mark locations and
+labels.  (Not everything is implemented yet, but if you find
+something that should work but does not, feel free to bug the
+maintainer.)
+</p>
+<p>Note, however, that for these functions <code>scales</code> cannot contain
+information that is specific to particular panels.  If you really
+need that, consider using the <code>scales.3d</code> argument of
+<code>panel.cloud</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>axs.default</code></td>
+<td>
+
+<p>Unlike 2-D display functions, <code>cloud</code> does not expand the
+bounding box to slightly beyound the range of the data, even though
+it should.  This is primarily because this is the natural behaviour
+in <code>wireframe</code>, which uses the same code.  <code>axs.default</code>
+is intended to provide a different default for <code>cloud</code>.
+However, this feature has not yet been implemented.
+</p>
+</td></tr>
+<tr valign="top"><td><code>zlab</code></td>
+<td>
+
+<p>Specifies a label describing the z variable in ways similar to
+<code>xlab</code> and <code>ylab</code> (i.e. &ldquo;grob&rdquo;, character string,
+expression or list) in other high level functions.  Additionally, if
+<code>zlab</code> (and <code>xlab</code> and <code>ylab</code>) is a list, it can
+contain a component called <code>rot</code>, controlling the rotation for
+the label
+</p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+
+<p>limits for the z-axis. Similar to <code>xlim</code> and <code>ylim</code> in
+other high level functions
+</p>
+</td></tr>
+<tr valign="top"><td><code>drape</code></td>
+<td>
+
+<p>logical, whether the wireframe is to be draped in color. If
+<code>TRUE</code>, the height of a facet is used to determine its color in
+a manner similar to the coloring scheme used in
+<code><a href="levelplot.html">levelplot</a></code>.  Otherwise, the background color is used to
+color the facets.  This argument is ignored if <code>shade = TRUE</code>
+(see <code><a href="panel.cloud.html">panel.3dwire</a></code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>at, col.regions, alpha.regions</code></td>
+<td>
+
+<p>these arguments are analogous to those in
+<code><a href="levelplot.html">levelplot</a></code>. if <code>drape=TRUE</code>, <code>at</code> gives the
+vector of cutpoints where the colors change, and <code>col.regions</code>
+the vector of colors to be used in that case.  <code>alpha.regions</code>
+determines the alpha-transparency on supporting devices.  These are
+passed down to the panel function, and also used in the colorkey if
+appropriate.  The default for <code>col.regions</code> and
+<code>alpha.regions</code> is derived from the Trellis setting
+<code>"regions"</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>cuts</code></td>
+<td>
+
+<p>if <code>at</code> is unspecified, the approximate number of cutpoints if
+<code>drape=TRUE</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>pretty</code></td>
+<td>
+
+<p>whether automatic choice of cutpoints should be prettfied
+</p>
+</td></tr>
+<tr valign="top"><td><code>colorkey</code></td>
+<td>
+
+<p>logical indicating whether a color key should be drawn
+alongside, or a list describing such a key.  See
+<code><a href="levelplot.html">levelplot</a></code> for details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Any number of other arguments can be specified, and are passed to
+the panel function.  In particular, the arguments <code>distance</code>,
+<code>perspective</code>, <code>screen</code> and <code>R.mat</code> are very
+important in determining the 3-D display.  The argument <code>shade</code>
+can be useful for <code>wireframe</code> calls, and controls shading of
+the rendered surface.  These arguments are described in detail in
+the help page for <code><a href="panel.cloud.html">panel.cloud</a></code>.
+</p>
+<p>Additionally, an argument called <code>zoom</code> may be specified, which
+should be a numeric scalar to be interpreted as a scale factor by
+which the projection is magnified.  This can be useful to get the
+variable names into the plot.  This argument is actually only used
+by the default prepanel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions produce three dimensional plots in each panel (as long
+as the default panel functions are used).  The orientation is obtained
+as follows: the data are scaled to fall within a bounding box that is
+contained in the [-0.5, 0.5] cube (even smaller for non-default values
+of <code>aspect</code>).  The viewing direction is given by a sequence of
+rotations specified by the <code>screen</code> argument, starting from the
+positive Z-axis. The viewing point (camera) is located at a distance
+of <code>1/distance</code> from the origin. If <code>perspective=FALSE</code>,
+<code>distance</code> is set to 0 (i.e., the viewing point is at an infinite
+distance).
+</p>
+<p><code>cloud</code> draws a 3-D Scatter Plot, while <code>wireframe</code> draws a
+3-D surface (usually evaluated on a grid). Multiple surfaces can be
+drawn by <code>wireframe</code> using the <code>groups</code> argument (although
+this is of limited use because the display is incorrect when the
+surfaces intersect). Specifying <code>groups</code> with <code>cloud</code>
+results in a <code>panel.superpose</code>-like effect (via
+<code><a href="panel.cloud.html">panel.3dscatter</a></code>).
+</p>
+<p><code>wireframe</code> can optionally render the surface as being
+illuminated by a light source (no shadows though). Details can be
+found in the help page for <code><a href="panel.cloud.html">panel.3dwire</a></code>. Note that
+although arguments controlling these are actually arguments for the
+panel function, they can be supplied to <code>cloud</code> and
+<code>wireframe</code> directly.
+</p>
+<p>For single panel plots, <code>wireframe</code> can also plot parametrized
+3-D surfaces (i.e., functions of the form f(u,v) = (x(u,v), y(u,v),
+z(u,v)), where values of (u,v) lie on a rectangle. The simplest
+example of this sort of surface is a sphere parametrized by latitude
+and longitude. This can be achieved by calling <code>wireframe</code> with a
+formula <code>x</code> of the form <code>z~x*y</code>, where <code>x</code>, <code>y</code>
+and <code>z</code> are all matrices of the same dimension, representing the
+values of x(u,v), y(u,v) and z(u,v) evaluated on a discrete
+rectangular grid (the actual values of (u,v) are irrelevant).
+</p>
+<p>When this feature is used, the heights used to calculate <code>drape</code>
+colors or shading colors are no longer the <code>z</code> values, but the
+distances of <code>(x,y,z)</code> from the origin.
+</p>
+<p>Note that this feature does not work with <code>groups</code>,
+<code>subscripts</code>, <code>subset</code>, etc. Conditioning variables are also
+not supported in this case.
+</p>
+<p>The algorithm for identifying which edges of the bounding box are
+&lsquo;behind&rsquo; the points doesn't work in some extreme
+situations. Also, <code><a href="panel.cloud.html">panel.cloud</a></code> tries to figure out the
+optimal location of the arrows and axis labels automatically, but can
+fail on occasion (especially when the view is from &lsquo;below&rsquo; the
+data). This can be manually controlled by the <code>scpos</code> argument in
+<code><a href="panel.cloud.html">panel.cloud</a></code>.
+</p>
+<p>These and all other high level Trellis functions have several other
+arguments in common. These are extensively documented only in the
+help page for <code><a href="xyplot.html">xyplot</a></code>, which should be consulted to learn
+more detailed usage.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Note</h3>
+
+<p> There is a known problem with grouped <code>wireframe</code> displays
+when the (x, y) coordinates represented in the data do not represent
+the full evaluation grid.  The problem occurs whether the grouping is
+specified through the <code>groups</code> argument or through the formula
+interface, and currently causes memory access violations.  Depending
+on the circumstances, this is manifested either as a meaningless plot
+or a crash.  To work around the problem, it should be enough to have
+a row in the data frame for each grid point, with an <code>NA</code>
+response (<code>z</code>) in rows that were previously missing.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Sarkar, Deepayan (2008) <em>Lattice: Multivariate Data
+Visualization with R</em>, Springer.
+<a href="http://lmdvr.r-forge.r-project.org/">http://lmdvr.r-forge.r-project.org/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Lattice.html">Lattice</a></code> for an overview of the package, as well as 
+<code><a href="xyplot.html">xyplot</a></code>, <code><a href="levelplot.html">levelplot</a></code>,
+<code><a href="panel.cloud.html">panel.cloud</a></code>.
+</p>
+<p>For interaction, see <code><a href="interaction.html">panel.identify.cloud</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## volcano  ## 87 x 61 matrix
+wireframe(volcano, shade = TRUE,
+          aspect = c(61/87, 0.4),
+          light.source = c(10,0,10))
+
+g &lt;- expand.grid(x = 1:10, y = 5:15, gr = 1:2)
+g$z &lt;- log((g$x^g$gr + g$y^2) * g$gr)
+wireframe(z ~ x * y, data = g, groups = gr,
+          scales = list(arrows = FALSE),
+          drape = TRUE, colorkey = TRUE,
+          screen = list(z = 30, x = -60))
+
+cloud(Sepal.Length ~ Petal.Length * Petal.Width | Species, data = iris,
+      screen = list(x = -90, y = 70), distance = .4, zoom = .6)
+
+## cloud.table
+
+cloud(prop.table(Titanic, margin = 1:3),
+      type = c("p", "h"), strip = strip.custom(strip.names = TRUE),
+      scales = list(arrows = FALSE, distance = 2), panel.aspect = 0.7,
+      zlab = "Proportion")[, 1]
+
+## transparent axes
+
+par.set &lt;-
+    list(axis.line = list(col = "transparent"),
+         clip = list(panel = "off"))
+print(cloud(Sepal.Length ~ Petal.Length * Petal.Width, 
+            data = iris, cex = .8, 
+            groups = Species, 
+            main = "Stereo",
+            screen = list(z = 20, x = -70, y = 3),
+            par.settings = par.set,
+            scales = list(col = "black")),
+      split = c(1,1,2,1), more = TRUE)
+print(cloud(Sepal.Length ~ Petal.Length * Petal.Width,
+            data = iris, cex = .8, 
+            groups = Species,
+            main = "Stereo",
+            screen = list(z = 20, x = -70, y = 0),
+            par.settings = par.set,
+            scales = list(col = "black")),
+      split = c(2,1,2,1))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

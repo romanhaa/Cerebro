@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Getting log generalized determinant of penalty matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ldetS {mgcv}"><tr><td>ldetS {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Getting log generalized determinant of penalty matrices</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL function calculating the log generalized determinant of penalty matrix S stored blockwise in an Sl list
+(which is the output of <code>Sl.setup</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ldetS(Sl, rho, fixed, np, root = FALSE, repara = TRUE, nt = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Sl</code></td>
+<td>
+<p>the output of <code>Sl.setup</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rho</code></td>
+<td>
+<p>the log smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>an array indicating whether the smoothing parameters are fixed (or free).</p>
+</td></tr>
+<tr valign="top"><td><code>np</code></td>
+<td>
+<p>number of coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>root</code></td>
+<td>
+<p>indicates whether or not to return the matrix square root, E, of the total penalty S_tot.</p>
+</td></tr>
+<tr valign="top"><td><code>repara</code></td>
+<td>
+<p>if TRUE multi-term blocks will be re-parameterized using <code>gam.reparam</code>, and
+a re-parameterization object supplied in the returned object.</p>
+</td></tr>
+<tr valign="top"><td><code>nt</code></td>
+<td>
+<p>number of parallel threads to use.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list containing: </p>
+
+<ul>
+<li><p><code>ldetS</code>: the log-determinant of S. 
+</p>
+</li>
+<li><p><code>ldetS1</code>: the gradient of the log-determinant of S. 
+</p>
+</li>
+<li><p><code>ldetS2</code>: the Hessian of the log-determinant of S. 
+</p>
+</li>
+<li><p><code>Sl</code>: with modified rS terms, if needed and rho added to each block 
+</p>
+</li>
+<li><p><code>rp</code>:  a re-parameterization list. 
+</p>
+</li>
+<li><p><code>rp</code>:  E a total penalty square root such that <code>t(E)%*%E = S_tot</code> (if <code>root==TRUE</code>). 
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

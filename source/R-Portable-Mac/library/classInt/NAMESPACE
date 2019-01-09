@@ -1,0 +1,16 @@
+useDynLib(classInt)
+
+import(spData)
+importFrom(stats, quantile, kmeans, hclust, na.omit, dist, cutree, ecdf)
+importFrom(graphics, plot, abline, rect, par)
+importFrom(grDevices, colorRampPalette, nclass.Sturges)
+importFrom(e1071, bclust, clusters.bclust, centers.bclust)
+import(class)
+
+export(classIntervals, jenks.tests, findColours, findCols,
+   getBclustClassIntervals, getHclustClassIntervals, nPartitions,
+   classIntervals2shingle)
+
+S3method(plot, classIntervals)
+S3method(print, classIntervals)
+

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Finding stable orthogonal re-parameterization of the square...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.reparam {mgcv}"><tr><td>gam.reparam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Finding stable orthogonal re-parameterization of the square root penalty.</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL function for finding an orthogonal re-parameterization which avoids &quot;dominant machine zero leakage&quot; between
+components of the square root penalty.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gam.reparam(rS, lsp, deriv)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>rS</code></td>
+<td>
+<p>list of the square root penalties: last entry is root of 
+fixed penalty, if <code>fixed.penalty==TRUE</code> (i.e. <code>length(rS)&gt;length(sp)</code>). 
+The assumption here is that <code>rS[[i]]</code> are in a null space of total penalty already; 
+see e.g. <code>totalPenaltySpace</code> and <code>mini.roots</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lsp</code></td>
+<td>
+<p>vector of log smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>deriv</code></td>
+<td>
+<p>if <code>deriv==1</code> also the first derivative of the log-determinant of the penalty matrix 
+is returned, if <code>deriv&gt;1</code> also the second derivative is returned.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list containing </p>
+
+<ul>
+<li><p><code>S</code>: the total penalty matrix similarity transformed for stability.
+</p>
+</li>
+<li><p><code>rS</code>: the component square roots, transformed in the same way.
+</p>
+</li>
+<li><p><code>Qs</code>: the orthogonal transformation matrix <code>S = t(Qs)%*%S0%*%Qs</code>, where <code>S0</code> is the
+untransformed total penalty implied by <code>sp</code> and <code>rS</code> on input.
+</p>
+</li>
+<li><p><code>det</code>: log|S|.
+</p>
+</li>
+<li><p><code>det1</code>: dlog|S|/dlog(sp) if <code>deriv &gt;0</code>.
+</p>
+</li>
+<li><p><code>det2</code>: hessian of log|S| wrt log(sp) if <code>deriv&gt;1</code>.
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

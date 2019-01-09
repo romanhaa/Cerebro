@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Log Tweedie density evaluation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ldTweedie {mgcv}"><tr><td>ldTweedie {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Log Tweedie density evaluation</h2>
+
+<h3>Description</h3>
+
+<p>A function to evaluate the log of the Tweedie density for variance powers between 1 and 2, inclusive.
+Also evaluates first and second derivatives of log density w.r.t. its scale parameter, <code>phi</code>, and <code>p</code>, 
+or w.r.t. <code>rho=log(phi)</code> and <code>theta</code> where <code>p = (a+b*exp(theta))/(1+exp(theta))</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ldTweedie(y,mu=y,p=1.5,phi=1,rho=NA,theta=NA,a=1.001,b=1.999,all.derivs=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>values at which to evaluate density.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>corresponding means (either of same length as <code>y</code> or a single value).</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>the variance of <code>y</code> is proportional to its mean to the power <code>p</code>. <code>p</code> must
+be between 1 and 2. 1 is Poisson like (exactly Poisson if <code>phi=1</code>), 2 is gamma. </p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>The scale parameter. Variance of <code>y</code> is <code>phi*mu^p</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rho</code></td>
+<td>
+<p>optional log scale parameter. Over-rides <code>phi</code> if <code>theta</code> also supplied.</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>parameter such that  <code>p = (a+b*exp(theta))/(1+exp(theta))</code>. Over-rides <code>p</code> if <code>rho</code> 
+also supplied.</p>
+</td></tr>
+<tr valign="top"><td><code>a</code></td>
+<td>
+<p>lower limit parameter (&gt;1) used in definition of <code>p</code> from <code>theta</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>upper limit parameter (&lt;2) used in definition of <code>p</code> from <code>theta</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>all.derivs</code></td>
+<td>
+<p>if <code>TRUE</code> then derivatives w.r.t. <code>mu</code> are also returned. Only available with <code>rho</code> and
+<code>phi</code> parameterization.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> A Tweedie random variable with 1&lt;p&lt;2 is a sum of <code>N</code> gamma random variables 
+where <code>N</code> has a Poisson distribution. The p=1 case is a generalization of a Poisson distribution and is a discrete 
+distribution supported on integer multiples of the scale parameter. For 1&lt;p&lt;2 the distribution is supported on the 
+positive reals with a point mass at zero. p=2 is a gamma distribution. As p gets very close to 1 the continuous 
+distribution begins to converge on the discretely supported limit at p=1. 
+</p>
+<p><code>ldTweedie</code> is based on the series evaluation method of Dunn and Smyth (2005). Without 
+the restriction on <code>p</code> the calculation of Tweedie densities is less straightforward. If you really need this 
+case then the <code>tweedie</code> package is the place to start. 
+</p>
+<p>The <code>rho</code>, <code>theta</code> parameterization is useful for optimization of <code>p</code> and <code>phi</code>, in order to keep <code>p</code>
+bounded well away from 1 and 2, and <code>phi</code> positive. The derivatives near <code>p=1</code> tend to infinity.
+</p>
+<p>Note that if <code>p</code> and <code>phi</code> (or <code>theta</code> and <code>rho</code>) both contain only a single unique value, then the underlying
+code is able to use buffering to avoid repeated calls to expensive log gamma, di-gamma and tri-gamma functions (<code>mu</code> can still be a vector of different values). This is much faster than is possible when these parameters are vectors with different values. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> A matrix with 6 columns, or 10 if <code>all.derivs=TRUE</code>. The first is the log density of <code>y</code> (log probability if <code>p=1</code>). 
+The second and third are the first and second derivatives of the log density w.r.t. <code>phi</code>. 4th and 5th 
+columns are first and second derivative w.r.t. <code>p</code>, final column is second derivative w.r.t. <code>phi</code> and <code>p</code>.
+</p>
+<p>If <code>rho</code> and <code>theta</code> were supplied then derivatives are w.r.t. these. In this case, and if <code>all.derivs=TRUE</code> then the 7th colmn is the derivative w.r.t. <code>mu</code>, the 8th is the 2nd derivative w.r.t. <code>mu</code>, the 9th is the mixed derivative w.r.t. <code>theta</code> and<code>mu</code> and the 10th is the mixed derivative w.r.t. <code>rho</code> and <code>mu</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Dunn, P.K. and G.K. Smith (2005) Series evaluation of Tweedie exponential dispersion model densities. 
+Statistics and Computing 15:267-280
+</p>
+<p>Tweedie, M. C. K. (1984). An index which distinguishes between
+some important exponential families. Statistics: Applications and
+New Directions. Proceedings of the Indian Statistical Institute
+Golden Jubilee International Conference (Eds. J. K. Ghosh and J.
+Roy), pp. 579-604. Calcutta: Indian Statistical Institute.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(mgcv)
+  ## convergence to Poisson illustrated
+  ## notice how p&gt;1.1 is OK
+  y &lt;- seq(1e-10,10,length=1000)
+  p &lt;- c(1.0001,1.001,1.01,1.1,1.2,1.5,1.8,2)
+  phi &lt;- .5
+  fy &lt;- exp(ldTweedie(y,mu=2,p=p[1],phi=phi)[,1])
+  plot(y,fy,type="l",ylim=c(0,3),main="Tweedie density as p changes")
+  for (i in 2:length(p)) {
+    fy &lt;- exp(ldTweedie(y,mu=2,p=p[i],phi=phi)[,1])
+    lines(y,fy,col=i)
+  }
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

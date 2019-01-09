@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nonlinear Mixed-Effects Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nlme {nlme}"><tr><td>nlme {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Nonlinear Mixed-Effects Models</h2>
+
+<h3>Description</h3>
+
+<p>This generic function fits a nonlinear mixed-effects model in the
+formulation described in Lindstrom and Bates (1990) but allowing for nested
+random effects. The within-group errors are allowed to be correlated
+and/or have unequal variances. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nlme(model, data, fixed, random, groups, start, correlation, weights,
+     subset, method, na.action, naPattern, control, verbose)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>a nonlinear model formula, with the response on the left
+of a <code>~</code> operator and an expression involving parameters and
+covariates on the right, or an <code>nlsList</code> object.  If
+<code>data</code> is given, all names used in the formula should be
+defined as parameters or variables in the data frame. The method
+function <code>nlme.nlsList</code> is documented separately.</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame containing the variables named in
+<code>model</code>, <code>fixed</code>, <code>random</code>, <code>correlation</code>,
+<code>weights</code>, <code>subset</code>, and <code>naPattern</code>.  By default the
+variables are taken from the environment from which <code>nlme</code> is
+called.</p>
+</td></tr> 
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>a two-sided linear formula of the form
+<code>f1+...+fn~x1+...+xm</code>, or a list of two-sided formulas of the form
+<code>f1~x1+...+xm</code>, with possibly different models for different
+parameters. The <code>f1,...,fn</code> are the names of parameters included on
+the right hand side of <code>model</code> and the <code>x1+...+xm</code>
+expressions define linear models for these parameters (when the left
+hand side of the formula contains several parameters, they all are
+assumed to follow the same linear model, described by the right hand
+side expression).
+A <code>1</code> on the right hand side of the formula(s) indicates a single
+fixed effects for the corresponding parameter(s).</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+<p>optionally, any of the following: (i) a two-sided formula
+of the form <code>r1+...+rn~x1+...+xm | g1/.../gQ</code>, with
+<code>r1,...,rn</code> naming parameters included on the right
+hand side of <code>model</code>, <code>x1+...+xm</code> specifying the
+random-effects model for
+these parameters and <code>g1/.../gQ</code> the grouping structure
+(<code>Q</code> may be equal to 1, in which case no <code>/</code> is
+required). The random effects formula will be repeated 
+for all levels of grouping, in the case of multiple levels of
+grouping; (ii) a two-sided formula of the form
+<code>r1+...+rn~x1+..+xm</code>, a list of two-sided formulas of the form
+<code>r1~x1+...+xm</code>, with possibly different random-effects models
+for different parameters, a <code>pdMat</code> object with a two-sided
+formula, or list of two-sided formulas (i.e. a non-<code>NULL</code> value for
+<code>formula(random)</code>), or a list of pdMat objects with two-sided
+formulas, or lists of two-sided formulas. In this case, the grouping
+structure formula will be given in <code>groups</code>, or derived from the
+data used to fit the nonlinear mixed-effects model, which should
+inherit from class  <code>groupedData</code>,; (iii) a named list
+of formulas, lists of formulas, or <code>pdMat</code> objects as in (ii),
+with the grouping factors as names. The order of nesting will be
+assumed the same as the order of the order of the elements in the
+list; (iv) an <code>reStruct</code> object. See the documentation on
+<code>pdClasses</code> for a description of the available <code>pdMat</code>
+classes. Defaults to <code>fixed</code>, 
+resulting in all fixed effects having also random effects.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>an optional one-sided formula of the form <code>~g1</code>
+(single level of nesting) or <code>~g1/.../gQ</code> (multiple levels of
+nesting), specifying the partitions of the data over which the random
+effects vary. <code>g1,...,gQ</code> must evaluate to factors in
+<code>data</code>. The order of nesting, when multiple levels are present,
+is taken from left to right (i.e. <code>g1</code> is the first level,
+<code>g2</code> the second, etc.).</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>an optional numeric vector, or list of initial estimates
+for the fixed effects and random effects. If declared as a numeric
+vector, it is converted internally to a list with a single component
+<code>fixed</code>, given by the vector. The <code>fixed</code> component
+is required, unless the model function inherits from class
+<code>selfStart</code>, in which case initial values will be derived from a
+call to <code>nlsList</code>. An optional <code>random</code> component is used to specify
+initial values for the random effects and should consist of a matrix,
+or a list of matrices with length equal to the number of grouping
+levels. Each matrix should have as many rows as the number of groups
+at the corresponding level and as many columns as the number of
+random effects in that level.</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+<p>an optional <code>corStruct</code> object describing the
+within-group correlation structure. See the documentation of
+<code>corClasses</code> for a description of the available <code>corStruct</code>
+classes. Defaults to <code>NULL</code>, corresponding to no within-group
+correlations.</p>
+</td></tr> 
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>an optional <code>varFunc</code> object or one-sided formula
+describing the within-group heteroscedasticity structure. If given as
+a formula, it is used as the argument to <code>varFixed</code>,
+corresponding to fixed variance weights. See the documentation on
+<code>varClasses</code> for a description of the available <code>varFunc</code>
+classes. Defaults to <code>NULL</code>, corresponding to homoscedastic
+within-group errors.</p>
+</td></tr> 
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional expression indicating the subset of the rows of
+<code>data</code> that should be used in the fit. This can be a logical
+vector, or a numeric vector indicating which observation numbers are
+to be included, or a  character  vector of the row names to be
+included.  All observations are included by default.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>a character string.  If <code>"REML"</code> the model is fit by
+maximizing the restricted log-likelihood.  If <code>"ML"</code> the
+log-likelihood is maximized.  Defaults to <code>"ML"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function that indicates what should happen when the
+data contain <code>NA</code>s.  The default action (<code>na.fail</code>) causes
+<code>nlme</code> to print an error message and terminate if there are any
+incomplete observations.</p>
+</td></tr>
+<tr valign="top"><td><code>naPattern</code></td>
+<td>
+<p>an expression or formula object, specifying which returned
+values are to be regarded as missing.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values for the estimation algorithm to
+replace the default values returned by the function <code>nlmeControl</code>.
+Defaults to an empty list.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>an optional logical value. If <code>TRUE</code> information on
+the evolution of the iterative algorithm is printed. Default is
+<code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>nlme</code> representing the nonlinear
+mixed-effects model fit. Generic functions such as <code>print</code>,
+<code>plot</code> and <code>summary</code> have methods to show the results of the
+fit. See <code>nlmeObject</code> for the components of the fit. The functions
+<code>resid</code>, <code>coef</code>, <code>fitted</code>, <code>fixed.effects</code>, and
+<code>random.effects</code>  can be used to extract some of its components.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function does not do any scaling internally: the optimization will
+work best when the response is scaled so its variance is of the order
+of one.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>The model formulation and computational methods are described in
+Lindstrom, M.J. and Bates, D.M. (1990). The variance-covariance
+parametrizations are described in Pinheiro, J.C. and Bates., D.M.
+(1996).   The different correlation structures available for the
+<code>correlation</code> argument are described in Box, G.E.P., Jenkins,
+G.M., and Reinsel G.C. (1994), Littel, R.C., Milliken, G.A., Stroup,
+W.W., and Wolfinger, R.D. (1996), and Venables, W.N. and Ripley,
+B.D. (2002). The use of variance functions for linear and nonlinear
+mixed effects models is presented in detail in Davidian, M. and
+Giltinan, D.M. (1995).  
+</p>
+<p>Box, G.E.P., Jenkins, G.M., and Reinsel G.C. (1994) &quot;Time Series
+Analysis: Forecasting and Control&quot;, 3rd Edition, Holden-Day. 
+</p>
+<p>Davidian, M. and Giltinan, D.M. (1995) &quot;Nonlinear Mixed Effects Models
+for Repeated Measurement Data&quot;, Chapman and Hall.
+</p>
+<p>Laird, N.M. and Ware, J.H. (1982) &quot;Random-Effects Models for
+Longitudinal Data&quot;, Biometrics, 38, 963-974.  
+</p>
+<p>Littel, R.C., Milliken, G.A., Stroup, W.W., and Wolfinger, R.D. (1996)
+&quot;SAS Systems for Mixed Models&quot;, SAS Institute.
+</p>
+<p>Lindstrom, M.J. and Bates, D.M. (1990) &quot;Nonlinear Mixed Effects Models
+for Repeated Measures Data&quot;, Biometrics, 46, 673-687.
+</p>
+<p>Pinheiro, J.C. and Bates., D.M.  (1996) &quot;Unconstrained
+Parametrizations for Variance-Covariance Matrices&quot;, Statistics and
+Computing, 6, 289-296.
+</p>
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+<p>Venables, W.N. and Ripley, B.D. (2002) &quot;Modern Applied Statistics with
+S&quot;, 4th Edition, Springer-Verlag.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="nlmeControl.html">nlmeControl</a></code>, <code><a href="nlme.nlsList.html">nlme.nlsList</a></code>,
+<code><a href="nlmeObject.html">nlmeObject</a></code>, <code><a href="nlsList.html">nlsList</a></code>,
+<code><a href="nlmeStruct.html">nlmeStruct</a></code>,
+<code><a href="pdClasses.html">pdClasses</a></code>,
+<code><a href="reStruct.html">reStruct</a></code>, <code><a href="varFunc.html">varFunc</a></code>,
+<code><a href="corClasses.html">corClasses</a></code>, <code><a href="varClasses.html">varClasses</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fm1 &lt;- nlme(height ~ SSasymp(age, Asym, R0, lrc),
+            data = Loblolly,
+            fixed = Asym + R0 + lrc ~ 1,
+            random = Asym ~ 1,
+            start = c(Asym = 103, R0 = -8.5, lrc = -3.3))
+summary(fm1)
+fm2 &lt;- update(fm1, random = pdDiag(Asym + lrc ~ 1))
+summary(fm2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

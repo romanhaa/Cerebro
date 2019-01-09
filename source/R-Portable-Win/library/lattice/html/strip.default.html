@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Default Trellis Strip Function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for D_strip.default {lattice}"><tr><td>D_strip.default {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Default Trellis Strip Function</h2>
+
+<h3>Description</h3>
+
+<p><code>strip.default</code> is the function that draws the strips by default
+in Trellis plots.  Users can write their own strip functions, but most
+commonly this involves calling <code>strip.default</code> with a slightly
+different arguments.  <code>strip.custom</code> provides a convenient way to
+obtain new strip functions that differ from <code>strip.default</code> only
+in the default values of certain arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+strip.default(which.given,
+              which.panel,
+              var.name,
+              factor.levels,
+              shingle.intervals,
+              strip.names = c(FALSE, TRUE),
+              strip.levels = c(TRUE, FALSE),
+              sep = " : ",
+              style = 1,
+              horizontal = TRUE,
+              bg = trellis.par.get("strip.background")$col[which.given],
+              fg = trellis.par.get("strip.shingle")$col[which.given],
+              par.strip.text = trellis.par.get("add.text"))
+strip.custom(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>which.given</code></td>
+<td>
+<p> integer index specifying which of the conditioning
+variables this strip corresponds to. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>which.panel</code></td>
+<td>
+<p> vector of integers as long as the number of
+conditioning variables. The contents are indices specifying the
+current levels of each of the conditioning variables (thus, this
+would be unique for each distinct packet).  This is identical to the
+return value of <code><a href="panel.number.html">which.packet</a></code>, which is a more accurate
+name.
+</p>
+</td></tr>
+</table>
+
+
+
+
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>var.name</code></td>
+<td>
+<p> vector of character strings or expressions as long as
+the number of conditioning variables.  The contents are interpreted
+as names for the conditioning variables.  Whether they are shown on
+the strip depends on the values of <code>strip.names</code> and
+<code>style</code> (see below).  By default, the names are shown for
+shingles, but not for factors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>factor.levels</code></td>
+<td>
+<p> vector of character strings or expressions
+giving the levels of the conditioning variable currently being
+drawn.  For more than one conditioning variable, this will vary with
+<code>which.given</code>.  Whether these levels are shown on the strip
+depends on the values of <code>strip.levels</code> and <code>style</code> (see
+below).  <code>factor.levels</code> may be specified for both factors and
+shingles (despite the name), but by default they are shown only for
+factors.  If shown, the labels may optionally be abbreviated by
+specifying suitable components in <code>par.strip.text</code> (see
+<code><a href="xyplot.html">xyplot</a></code>)
+</p>
+</td></tr>
+<tr valign="top"><td><code>shingle.intervals</code></td>
+<td>
+<p>if the current strip corresponds to a shingle,
+this should be a 2-column matrix giving the levels of the shingle.
+(of the form that would be produced by <b>printing</b>
+<code>levels(shingle)</code>). Otherwise, it should be <code>NULL</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>strip.names</code></td>
+<td>
+<p> a logical vector of length 2, indicating whether
+or not the name of the conditioning variable that corresponds to the
+strip being drawn is to be written on the strip. The two components
+give the values for factors and shingles respectively.
+</p>
+<p>This argument is ignored for a factor when <code>style</code> is not one
+of 1 and 3.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strip.levels</code></td>
+<td>
+<p> a logical vector of length 2, indicating whether
+or not the level of the conditioning variable that corresponds to
+the strip being drawn is to be written on the strip.  The two
+components give the values for factors and shingles respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p> character or expression, serving as a separator if the
+name and level are both to be shown.
+</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p> integer, with values 1, 2, 3, 4 and 5 currently
+supported, controlling how the current level of a factor is encoded.
+Ignored for shingles (actually, when <code>shingle.intervals</code> is
+non-null.  
+</p>
+<p>The best way to find out what effect the value of <code>style</code> has
+is to try them out. Here is a short description: for a style value
+of 1, the strip is colored in the background color with the strip
+text (as determined by other arguments) centered on it. A value of 3
+is the same, except that a part of the strip is colored in the
+foreground color, indicating the current level of the factor. For
+styles 2 and 4, the part corresponding to the current level remains
+colored in the foreground color, however, for style = 2, the
+remaining part is not colored at all, whereas for 4, it is colored
+with the background color. For both these, the names of all the
+levels of the factor are placed on the strip from left to right.
+Styles 5 and 6 produce the same effect (they are subtly different in
+S, this implementation corresponds to 5), they are similar to style
+1, except that the strip text is not centered, it is instead
+positioned according to the current level.
+</p>
+<p>Note that unlike S-PLUS, the default value of <code>style</code> is 1.
+<code>strip.names</code> and <code>strip.levels</code> have no effect if
+<code>style</code> is not 1 or 3.
+</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p> logical, specifying whether the labels etc should
+be horizontal.  <code>horizontal=FALSE</code> is useful for strips on the
+left of panels using <code>strip.left=TRUE</code> </p>
+</td></tr>
+<tr valign="top"><td><code>par.strip.text</code></td>
+<td>
+<p> list with parameters controlling the text on
+each strip, with components <code>col</code>, <code>cex</code>, <code>font</code>,
+etc.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p> strip background color. </p>
+</td></tr>
+<tr valign="top"><td><code>fg</code></td>
+<td>
+<p> strip foreground color. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to be passed on to <code>strip.default</code>, overriding
+whatever value it would have normally assumed
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> default strip function for trellis functions. Useful 
+mostly because of the <code>style</code> argument &mdash; non-default styles
+are often more informative, especially when the names of the levels
+of the factor <code>x</code> are small. Traditional use is as
+<code>strip = function(...) strip.default(style=2,...)</code>, though
+this can be simplified by the use of <code>strip.custom</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>strip.default</code> is called for its side-effect, which is to draw a
+strip appropriate for multi-panel Trellis conditioning plots.
+<code>strip.custom</code> returns a function that is similar to
+<code>strip.default</code>, but with different defaults for the arguments
+specified in the call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>, <code><a href="Lattice.html">Lattice</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Traditional use
+xyplot(Petal.Length ~ Petal.Width | Species, iris,
+       strip = function(..., style) strip.default(..., style = 4))
+
+## equivalent call using strip.custom
+xyplot(Petal.Length ~ Petal.Width | Species, iris,
+       strip = strip.custom(style = 4))
+
+xyplot(Petal.Length ~ Petal.Width | Species, iris,
+       strip = FALSE,
+       strip.left = strip.custom(style = 4, horizontal = FALSE))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

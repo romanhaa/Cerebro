@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a compareFits Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.compareFits {nlme}"><tr><td>plot.compareFits {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot a compareFits Object</h2>
+
+<h3>Description</h3>
+
+<p>A Trellis <code>dotplot</code> of the values being compared, with different
+rows per group, is generated, with a different panel for each
+coefficient. Different symbols (colors) are used for each object being
+compared.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'compareFits'
+plot(x, subset, key, mark, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"<a href="compareFits.html">compareFits</a>"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>an optional logical or integer vector specifying which
+rows of <code>x</code> should be used in the plots. If missing, all
+rows are used.</p>
+</td></tr>
+<tr valign="top"><td><code>key</code></td>
+<td>
+<p>an optional logical value, or list. If <code>TRUE</code>, a legend
+is included at the top of the plot indicating which symbols (colors)
+correspond to which objects being compared. If <code>FALSE</code>, no legend
+is included. If given as a list, <code>key</code> is passed down as an
+argument to the <code>trellis</code> function generating the plots
+(<code>dotplot</code>). Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>mark</code></td>
+<td>
+<p>an optional numeric vector, of length equal to the number of
+coefficients being compared, indicating where vertical lines should
+be drawn in the plots. If missing, no lines are drawn.</p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optional arguments passed down to the <code>trellis</code>
+function generating the plots.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A Trellis <code>dotplot</code> of the values being compared, with rows
+determined by the groups and panels by the coefficients.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="compareFits.html">compareFits</a></code>, <code><a href="pairs.compareFits.html">pairs.compareFits</a></code>,
+<code><a href="../../lattice/html/xyplot.html">dotplot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+fm1 &lt;- lmList(Orthodont)
+fm2 &lt;- lme(Orthodont)
+plot(compareFits(coef(fm1), coef(fm2)))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

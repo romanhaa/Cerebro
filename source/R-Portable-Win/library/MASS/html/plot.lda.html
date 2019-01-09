@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for Class 'lda'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.lda {MASS}"><tr><td>plot.lda {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot Method for Class 'lda'
+</h2>
+
+<h3>Description</h3>
+
+<p>Plots a set of data on one, two or more linear discriminants.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lda'
+plot(x, panel = panel.lda, ..., cex = 0.7, dimen,
+     abbrev = FALSE, xlab = "LD1", ylab = "LD2")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object of class <code>"lda"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>the panel function used to plot the data.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to <code>pairs</code>, <code>ldahist</code> or <code>eqscplot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+
+<p>graphics parameter <code>cex</code> for labels on plots.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dimen</code></td>
+<td>
+
+<p>The number of linear discriminants to be used for the plot; if this
+exceeds the number determined by <code>x</code> the smaller value is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>abbrev</code></td>
+<td>
+
+<p>whether the group labels are abbreviated on the plots. If <code>abbrev &gt; 0</code>
+this gives <code>minlength</code> in the call to <code>abbreviate</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>label for the x axis
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+<p>label for the y axis
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function
+<code>plot()</code> for class <code>"lda"</code>.
+It can be invoked by calling <code>plot(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>plot.lda(x)</code> regardless of the
+class of the object.
+</p>
+<p>The behaviour is determined by the value of <code>dimen</code>. For
+<code>dimen &gt; 2</code>, a <code>pairs</code> plot is used. For <code>dimen = 2</code>, an
+equiscaled scatter plot is drawn. For <code>dimen = 1</code>, a set of
+histograms or density plots are drawn.  Use argument <code>type</code> to
+match <code>"histogram"</code> or <code>"density"</code> or <code>"both"</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pairs.lda.html">pairs.lda</a></code>, <code><a href="ldahist.html">ldahist</a></code>, <code><a href="lda.html">lda</a></code>, <code><a href="predict.lda.html">predict.lda</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM convergence and performance issues</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.convergence {mgcv}"><tr><td>gam.convergence {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM convergence and performance issues</h2>
+
+<h3>Description</h3>
+
+<p> When fitting GAMs there is a tradeoff between speed of 
+fitting and probability of fit convergence. The fitting methods used 
+by <code><a href="gam.html">gam</a></code> opt for certainty of convergence over speed of
+fit. <code><a href="bam.html">bam</a></code> opts for speed.
+</p>
+<p><code><a href="gam.html">gam</a></code> uses a nested iteration method (see <code><a href="gam.outer.html">gam.outer</a></code>), in
+which each trial set of smoothing parameters proposed by an outer Newton algorithm
+require an inner Newton algorithm (penalized iteratively re-weighted least squares, PIRLS)
+to find the corresponding best fit model coefficients. Implicit differentiation is used to
+find the derivatives of the coefficients with respect to log smoothing parameters, so that the
+derivatives of the smoothness selection criterion can be obtained, as required by the outer iteration.
+This approach is less expensive than it at first appears, since excellent starting values for the inner
+iteration are available as soon as the smoothing parameters start to converge. See Wood (2011) and Wood, Pya and Saefken (2016).  
+</p>
+<p><code><a href="bam.html">bam</a></code> uses an alternative approach similar to &lsquo;performance iteration&rsquo; or &lsquo;PQL&rsquo;. A single PIRLS iteration is run to find the model coefficients. At each step this requires the estimation of a working penalized linear model. Smoothing parameter selection is applied directly to this working model at each step (as if it were a Gaussian additive model). This approach is more straightforward to code and in principle less costly than the nested approach. However it is not guaranteed to converge, since the smoothness selection criterion is changing at each iteration. It is sometimes possible for the algorithm to cycle around a small set of smoothing parameter, coefficient combinations without ever converging. <code><a href="bam.html">bam</a></code> includes some checks to limit this behaviour, and the further checks in the algorithm used by <code>bam(...,discrete=TRUE)</code> actually guarantee convergence in some cases, but in general guarantees are not possible. See Wood, Goude and Shaw (2015) and  Wood et al. (2017). 
+</p>
+<p><code><a href="gam.html">gam</a></code> when used with &lsquo;general&rsquo; families (such as <code><a href="multinom.html">multinom</a></code> or <code>cox.ph</code>) can also use a potentially faster scheme based on the extended Fellner-Schall method (Wood and Fasiolo, 2017). This also operates with a single iteration and is not guaranteed to converge, theoretically. 
+</p>
+<p>There are three things that you can try to speed up GAM fitting. (i) if you have large 
+numbers of smoothing parameters in the generalized case, then try the <code>"bfgs"</code> method 
+option in <code><a href="gam.html">gam</a></code> argument <code>optimizer</code>: this can be faster than the default. (ii) Try using
+<code><a href="bam.html">bam</a></code>
+(iii) For large datasets it may be worth changing
+the smoothing basis to use <code>bs="cr"</code> (see <code><a href="s.html">s</a></code> for details)
+for 1-d smooths, and to use <code><a href="te.html">te</a></code> smooths in place of
+<code><a href="s.html">s</a></code> smooths for smooths of more than one variable. This is because
+the default thin plate regression spline basis <code>"tp"</code> is costly to set up
+for large datasets.
+</p>
+<p>If you have convergence problems, it's worth noting that a GAM is just a (penalized)
+GLM and the IRLS scheme used to estimate GLMs is not guaranteed to
+converge. Hence non convergence of a GAM may relate to a lack of stability in
+the basic IRLS scheme. Therefore it is worth trying to establish whether the IRLS iterations
+are capable of converging. To do this fit the problematic GAM with all smooth
+terms specified with <code>fx=TRUE</code> so that the smoothing parameters are all
+fixed at zero. If this &lsquo;largest&rsquo; model can converge then, then the maintainer 
+would quite like to know about your problem! If it doesn't converge, then its
+likely that your model is just too flexible for the IRLS process itself. Having tried
+increasing <code>maxit</code> in <code>gam.control</code>, there are several other
+possibilities for stabilizing the iteration. It is possible to try (i) setting lower bounds on the
+smoothing parameters using the <code>min.sp</code> argument of <code>gam</code>: this may
+or may not change the model being fitted; (ii)
+reducing the flexibility of the model by reducing the basis dimensions
+<code>k</code> in the specification of <code>s</code> and <code>te</code> model terms: this
+obviously changes the model being fitted somewhat.
+</p>
+<p>Usually, a major contributer to fitting difficulties is that the
+model is a very poor description of the data.  
+</p>
+<p>Please report convergence problems, especially if you there is no obvious pathology in the data/model that
+suggests convergence should fail. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Key References on this implementation:
+</p>
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models (with discussion).
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+<p>Wood, S.N. (2011) Fast stable restricted maximum likelihood 
+and marginal likelihood estimation of semiparametric generalized linear 
+models. Journal of the Royal Statistical Society (B) 73(1):3-36
+</p>
+<p>Wood, S.N., Goude, Y. &amp; Shaw S. (2015) Generalized additive models for large datasets. Journal of the Royal Statistical Society, Series C 64(1): 139-155.
+</p>
+<p>Wood, S.N., Li, Z., Shaddick, G. &amp; Augustin N.H. (2017) Generalized additive models for gigadata: modelling the UK black smoke network daily data. Journal of the American Statistical Association.
+</p>
+<p>Wood, S.N. and M. Fasiolo (2017) A generalized Fellner-Schall method for smoothing parameter optimization with application to Tweedie location, scale and shape models, Biometrics.
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

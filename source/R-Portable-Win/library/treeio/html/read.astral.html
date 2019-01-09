@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: read.astral</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.astral {treeio}"><tr><td>read.astral {treeio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>read.astral</h2>
+
+<h3>Description</h3>
+
+<p>parse ASTRAL output newick text
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.astral(file)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>ASTRAL Newick file</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>treedata object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Guangchuang Yu
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+tt &lt;- "((species1,(species2,species3)'[pp1=0.75;pp2=0.24;pp3=0.01]':1.2003685744180805)'[pp1=0.98;pp2=0.02;pp3=0]':0.9679599282730038,((species4,species5)'[pp1=0.88;pp2=0.11;pp3=0.01]':1.2454851536484994))"
+read.astral(textConnection(tt))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>treeio</em> version 1.4.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

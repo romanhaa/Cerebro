@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Method for Profiling glm Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for profile.glm {MASS}"><tr><td>profile.glm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Method for Profiling glm Objects</h2>
+
+<h3>Description</h3>
+
+<p>Investigates the profile log-likelihood function for a fitted model of
+class <code>"glm"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'glm'
+profile(fitted, which = 1:p, alpha = 0.01, maxsteps = 10,
+        del = zmax/5, trace = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+<p>the original fitted model object.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>the original model parameters which should be profiled.
+This can be a numeric or character vector.
+By default, all parameters are profiled.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>highest significance level allowed for the
+profile t-statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>maxsteps</code></td>
+<td>
+<p>maximum number of points to be used for profiling each
+parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>del</code></td>
+<td>
+<p>suggested change on the scale of the profile
+t-statistics.  Default value chosen to allow profiling at about
+10 parameter values.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>logical: should the progress of profiling be reported?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The profile t-statistic is defined as the square root of change in
+sum-of-squares divided by residual standard error with an
+appropriate sign.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of classes <code>"profile.glm"</code> and <code>"profile"</code> with an
+element for each parameter being profiled.  The elements are
+data-frames with two variables
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>par.vals</code></td>
+<td>
+<p>a matrix of parameter values for each fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>tau</code></td>
+<td>
+<p>the profile t-statistics.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Originally, D. M. Bates and W. N. Venables.  (For S in 1996.)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/glm.html">glm</a></code>, <code><a href="../../stats/html/profile.html">profile</a></code>, <code><a href="plot.profile.html">plot.profile</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+options(contrasts = c("contr.treatment", "contr.poly"))
+ldose &lt;- rep(0:5, 2)
+numdead &lt;- c(1, 4, 9, 13, 18, 20, 0, 2, 6, 10, 12, 16)
+sex &lt;- factor(rep(c("M", "F"), c(6, 6)))
+SF &lt;- cbind(numdead, numalive = 20 - numdead)
+budworm.lg &lt;- glm(SF ~ sex*ldose, family = binomial)
+pr1 &lt;- profile(budworm.lg)
+plot(pr1)
+pairs(pr1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

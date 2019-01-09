@@ -1,0 +1,47 @@
+This file is intended to clarify ownership and copyright: where
+possible individual files also carry brief copyright notices. 
+
+Copyrights
+==========
+
+Files: inst/shapes/baltim.*, inst/shapes/columbus.*, and inst/shapes/sids.* 
+are derived by permission from SAL data files
+prepared by Luc Anselin; they were downloaded from:
+
+http://geodacenter.asu.edu/sdata
+
+under the following conditions: "The data are provided as is, without 
+any warranties. Please make sure to give proper credit when using 
+them in any publications. Some of the data sets are purely illustrative 
+and should not be used for substantive research."
+
+***********************
+
+Files: data/afcon.rda, data/columbus.rda, data/nc.sids.rda 
+are derived by permission from SpaceStat data files
+prepared by Luc Anselin; they were downloaded from:
+
+http://www.spacestat.com/data.htm#data
+
+under the following conditions: "All data sets are provided as is,
+and no warranties, expressed or implied are made as to the correctness
+and fitness for a purpose. Proper citation of the source of the data in
+published work would be appreciated."
+
+File: data/eire.rda is derived from data sets made available by Michael
+Tiefelsdorf based on sources named in man/eire.Rd, and downloaded from:
+
+http://geog-www.sbs.ohio-state.edu/faculty/tiefelsdorf/GeoStat.htm
+
+File: data/auckland.rda is derived from data sets included with INFOMAP 
+in Bailey T, Gatrell A (1995) Interactive Spatial Data Analysis, Harlow: 
+Longman, and is used with permission of the authors.
+
+File: data/NY_data.rda  is derived from data sets for Waller, L. and
+C. Gotway (2004) Applied Spatial Statistics for Public Health Data,
+New York: John Wiley and Sons, and is used with permission of the authors.
+
+Other files in the data directory are derived from sources given on
+their help pages.
+
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Low Level Code Analysis Tools for R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for codetools {codetools}"><tr><td>codetools {codetools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Low Level Code Analysis Tools for R</h2>
+
+<h3>Description</h3>
+
+<p>These functions provide some tools for analysing R code.  Mainly
+indented to support the other tools in this package and byte code
+compilation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+collectLocals(e, collect) 
+collectUsage(fun, name = "&lt;anonymous&gt;", ...) 
+constantFold(e, env = NULL, fail = NULL) 
+findFuncLocals(formals, body) 
+findLocals(e, envir = .BaseEnv) 
+findLocalsList(elist, envir = .BaseEnv)
+flattenAssignment(e) 
+getAssignedVar(e) 
+isConstantValue(v, w) 
+makeCodeWalker(..., handler, call, leaf) 
+makeLocalsCollector(..., leaf, handler, isLocal, exit, collect) 
+makeUsageCollector(fun, ..., name, enterLocal, enterGlobal, enterInternal,
+                   startCollectLocals, finishCollectLocals, warn,
+                   signal)
+walkCode(e, w = makeCodeWalker()) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>e</code></td>
+<td>
+<p>R expression.</p>
+</td></tr>
+<tr valign="top"><td><code>elist</code></td>
+<td>
+<p>list of R expressions.</p>
+</td></tr>
+<tr valign="top"><td><code>v</code></td>
+<td>
+<p>R object.</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>closure.</p>
+</td></tr>
+<tr valign="top"><td><code>formals</code></td>
+<td>
+<p>formal arguments of a closure.</p>
+</td></tr>
+<tr valign="top"><td><code>body</code></td>
+<td>
+<p>body of a closure.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>character.</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p>character.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>environment.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>code walker.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>extra elements for code walker.</p>
+</td></tr>
+<tr valign="top"><td><code>collect</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>fail</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>handler</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>leaf</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>isLocal</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>exit</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>enterLocal</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>enterGlobal</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>enterInternal</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>startCollectLocals</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>finishCollectLocals</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>warn</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+<tr valign="top"><td><code>signal</code></td>
+<td>
+<p>function.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Luke Tierney</p>
+
+<hr /><div style="text-align: center;">[Package <em>codetools</em> version 0.2-15 <a href="00Index.html">Index</a>]</div>
+</body></html>

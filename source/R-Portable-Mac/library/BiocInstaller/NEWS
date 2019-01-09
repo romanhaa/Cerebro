@@ -1,0 +1,75 @@
+CHANGES IN VERSION 1.30.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() supports github repositories using the remotes
+    package, rather than devtools. This change should be transparent
+    to end users. (From Peter Hickey
+    https://github.com/Bioconductor/BiocInstaller/issues/4)
+
+CHANGES IN VERSION 1.28.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() supports full URLs, e.g., to archived Bioconductor
+    packages.
+
+    o Support MRAN (Microsoft R) archives.
+
+CHANGES IN VERSION 1.24.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() uses lib.loc= to find devtools, reports more
+    informatively why devtools fails to load
+
+    o biocLite() only offers to update non-masked packages
+
+    o biocLite() reports when packages in unwriteable directories are
+    out-of-date, but does not try (and fail) to update them.
+
+    o isDevel() returns TRUE if the version of BiocInstaller
+    corresponds to the development version of Bioconductor.
+
+CHANGES IN VERSION 1.20.0
+-------------------------
+
+BUG FIXES
+
+    o biocLite() uses lib.loc when calling update.packages
+
+CHANGES IN VERSION 1.18.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() supports github repositories (implicitly, 'packages'
+    following the 'maintainer/package' convention)
+
+CHANGES IN VERSION 1.14.0
+-------------------------
+
+NEW FEATURES
+
+    o biocUpdatePackages updates installed packages and their
+    dependencies.
+
+CHANGES IN VERSION 1.10.0
+-------------------------
+
+NEW FEATURES
+
+    o biocValid() checks that installed packages are consistent with
+    those available via biocLite().
+
+    o biocVersion() returns the version of Bioconductor expected with
+    this version of the BiocInstaller package.
+
+USER-VISIBLE CHANGES
+
+    o biocLite() invoked with no arguments updates currently installed
+    packages to their most-recent version.
+

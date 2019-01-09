@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Subscript a pdMat Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for [.pdMat {nlme}"><tr><td>[.pdMat {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Subscript a pdMat Object</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts sub-matrices from the positive-definite
+matrix represented by <code>x</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'pdMat'
+x[i, j, drop = TRUE]
+## S3 replacement method for class 'pdMat'
+x[i, j] &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="pdMat.html">pdMat</a>"</code> representing a
+positive-definite matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>i, j</code></td>
+<td>
+<p>optional subscripts applying respectively to the rows
+and columns of the positive-definite matrix represented by
+<code>object</code>. When <code>i</code> (<code>j</code>) is omitted, all rows (columns)
+are extracted.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>a logical value. If <code>TRUE</code>, single rows or columns are
+converted to vectors. If <code>FALSE</code> the returned value retains its
+matrix representation.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a vector, or matrix, with the replacement values for the
+relevant piece of the matrix represented by <code>x</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>i</code> and <code>j</code> are identical, the returned value will be
+<code>pdMat</code> object with the same class as <code>x</code>. Otherwise, the
+returned value will be a matrix. In the case a single row (or column)
+is selected, the returned value may be converted to a vector,
+according to the rules above.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/Extract.html">[</a></code>, <code><a href="pdMat.html">pdMat</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdSymm(diag(3))
+pd1[1, , drop = FALSE]
+pd1[1:2, 1:2] &lt;- 3 * diag(2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

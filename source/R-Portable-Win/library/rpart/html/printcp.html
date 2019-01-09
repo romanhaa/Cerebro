@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Displays CP table for Fitted Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for printcp {rpart}"><tr><td>printcp {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Displays CP table for Fitted Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Displays the <code>cp</code> table for fitted <code>rpart</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+printcp(x, digits = getOption("digits") - 2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result 
+of some function that produces an object with the same named 
+components as that returned by the <code>rpart</code> function. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+
+<p>the number of digits of numbers to print.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>Prints a table of optimal prunings based on a complexity parameter. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="summary.rpart.html">summary.rpart</a></code>,  <code><a href="rpart.object.html">rpart.object</a></code>   
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+printcp(z.auto)
+## Not run: 
+Regression tree:
+rpart(formula = Mileage ~ Weight, data = car.test.frame)
+
+Variables actually used in tree construction:
+[1] Weight
+
+Root node error: 1354.6/60 = 22.576
+
+        CP nsplit rel error  xerror     xstd 
+1 0.595349      0   1.00000 1.03436 0.178526
+2 0.134528      1   0.40465 0.60508 0.105217
+3 0.012828      2   0.27012 0.45153 0.083330
+4 0.010000      3   0.25729 0.44826 0.076998
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

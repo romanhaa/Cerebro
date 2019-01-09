@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM multinomial logistic regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multinom {mgcv}"><tr><td>multinom {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM multinomial logistic regression</h2>
+
+<h3>Description</h3>
+
+<p>Family for use with <code><a href="gam.html">gam</a></code>, implementing regression for categorical response data. Categories must be coded 0 to K, where K is a positive integer. <code><a href="gam.html">gam</a></code> should be called with a list of K formulae, one for each category except category zero (extra formulae for shared terms may also be supplied: see <code><a href="formula.gam.html">formula.gam</a></code>). The first formula also specifies the response variable.      
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multinom(K=1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>K</code></td>
+<td>
+<p>There are K+1 categories and K linear predictors. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model has K linear predictors, <i>h_j</i>, each dependent on smooth functions of predictor variables, in the usual way. If response variable, y, contains the class labels 0,...,K then the likelihood for y&gt;0 is <i>exp(h_y)/(1 + sum_j exp(h_j) )</i>. If y=0 the likelihood is <i>1/(1 + sum_j exp(h_j) )</i>. In the two class case this is just a binary logistic regression model. The implementation uses the approach to GAMLSS models described in Wood, Pya and Saefken (2016).
+</p>
+<p>The residuals returned for this model are simply the square root of -2 times the deviance for each observation, with a positive sign if the observed y is the most probable class for this observation, and a negative sign otherwise. 
+</p>
+<p>Use <code>predict</code> with <code>type="response"</code> to get the predicted probabilities in each category.
+</p>
+<p>Note that the model is not completely invariant to category relabelling, even if all linear predictors have the same form. Realistically this model is unlikely to be suitable for problems with large numbers of categories. Missing categories are not supported.   
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>general.family</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ocat.html">ocat</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+set.seed(6)
+## simulate some data from a three class model
+n &lt;- 1000
+f1 &lt;- function(x) sin(3*pi*x)*exp(-x)
+f2 &lt;- function(x) x^3
+f3 &lt;- function(x) .5*exp(-x^2)-.2
+f4 &lt;- function(x) 1
+x1 &lt;- runif(n);x2 &lt;- runif(n)
+eta1 &lt;- 2*(f1(x1) + f2(x2))-.5
+eta2 &lt;- 2*(f3(x1) + f4(x2))-1
+p &lt;- exp(cbind(0,eta1,eta2))
+p &lt;- p/rowSums(p) ## prob. of each category 
+cp &lt;- t(apply(p,1,cumsum)) ## cumulative prob.
+## simulate multinomial response with these probabilities
+## see also ?rmultinom
+y &lt;- apply(cp,1,function(x) min(which(x&gt;runif(1))))-1
+## plot simulated data...
+plot(x1,x2,col=y+3)
+
+## now fit the model...
+b &lt;- gam(list(y~s(x1)+s(x2),~s(x1)+s(x2)),family=multinom(K=2))
+plot(b,pages=1)
+gam.check(b)
+
+## now a simple classification plot...
+expand.grid(x1=seq(0,1,length=40),x2=seq(0,1,length=40)) -&gt; gr
+pp &lt;- predict(b,newdata=gr,type="response")
+pc &lt;- apply(pp,1,function(x) which(max(x)==x)[1])-1
+plot(gr,col=pc+3,pch=19)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

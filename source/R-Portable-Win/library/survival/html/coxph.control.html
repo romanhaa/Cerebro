@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ancillary arguments for controlling coxph fits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for coxph.control {survival}"><tr><td>coxph.control {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Ancillary arguments for controlling coxph fits</h2>
+
+<h3>Description</h3>
+
+<p>This is used to set various numeric parameters controlling a Cox model fit.
+Typically it would only be used in a call to <code>coxph</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coxph.control(eps = 1e-09, toler.chol = .Machine$double.eps^0.75,
+iter.max = 20, toler.inf = sqrt(eps), outer.max = 10, timefix=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>Iteration continues until the relative change in the log partial
+likelihood is less than eps.  Must be positive.</p>
+</td></tr>
+<tr valign="top"><td><code>toler.chol</code></td>
+<td>
+<p>Tolerance for detection of singularity during a Cholesky
+decomposition of the variance matrix, i.e., for detecting a redundant predictor
+variable.</p>
+</td></tr>
+<tr valign="top"><td><code>iter.max</code></td>
+<td>
+<p>Maximum number of iterations to attempt for convergence.</p>
+</td></tr>
+<tr valign="top"><td><code>toler.inf</code></td>
+<td>
+<p>Tolerance criteria for the warning message about a possible
+infinite coefficient value.</p>
+</td></tr>
+<tr valign="top"><td><code>outer.max</code></td>
+<td>
+<p>For a penalized coxph model, e.g. with pspline terms, there
+is an outer loop of iteration to determine the penalty parameters; maximum
+number of iterations for this outer loop.</p>
+</td></tr>
+<tr valign="top"><td><code>timefix</code></td>
+<td>
+<p>Resolve any near ties in the time variables.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See the vignette &quot;Roundoff error and tied times&quot; for a more
+detailed explanation of the <code>timefix</code> option.  In short, when
+time intervals are created via subtraction then two time intervals that are
+actually identical can appear to be different due to floating point
+round off error, which in turn can make <code>coxph</code> and
+<code>survfit</code> results dependent
+on things such as the order in which operations were done or the
+particular computer that they were run on.
+Such cases are unfortunatedly not rare in practice.
+The <code>timefix=TRUE</code> option adds
+logic similar to <code>all.equal</code> to ensure reliable results.
+In analysis of simulated data sets, however, where often by defintion there
+can be no duplicates, the option will often need to be set to 
+<code>FALSE</code> to avoid spurious merging of close numeric values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list containing the values of each of the above constants
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="coxph.html">coxph</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

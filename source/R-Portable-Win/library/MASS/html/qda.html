@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Quadratic Discriminant Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for qda {MASS}"><tr><td>qda {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Quadratic Discriminant Analysis
+</h2>
+
+<h3>Description</h3>
+
+<p>Quadratic discriminant analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+qda(x, ...)
+
+## S3 method for class 'formula'
+qda(formula, data, ..., subset, na.action)
+
+## Default S3 method:
+qda(x, grouping, prior = proportions,
+    method, CV = FALSE, nu, ...)
+
+## S3 method for class 'data.frame'
+qda(x, ...)
+
+## S3 method for class 'matrix'
+qda(x, grouping, ..., subset, na.action)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>A formula of the form <code>groups ~ x1 + x2 + ...</code>  That is, the
+response is the grouping factor and the right hand side specifies
+the (non-factor) discriminators.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>Data frame from which variables specified in <code>formula</code> are
+preferentially to be taken.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>(required if no formula is given as the principal argument.)
+a matrix or data frame or Matrix containing the explanatory variables.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grouping</code></td>
+<td>
+
+<p>(required if no formula principal argument is given.)
+a factor specifying the class for each observation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+
+<p>the prior probabilities of class membership.  If unspecified, the class
+proportions for the training set are used.  If specified, the
+probabilities should be specified in the order of the factor levels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>An index vector specifying the cases to be used in the training
+sample.  (NOTE: If given, this argument must be named.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>A function to specify the action to be taken if <code>NA</code>s are found.
+The default action is for the procedure to fail.  An alternative is
+na.omit, which leads to rejection of cases with missing values on
+any required variable.  (NOTE: If given, this argument must be named.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p><code>"moment"</code> for standard estimators of the mean and variance,
+<code>"mle"</code> for MLEs, <code>"mve"</code> to use <code>cov.mve</code>, or <code>"t"</code> for robust
+estimates based on a t distribution.
+</p>
+</td></tr>
+<tr valign="top"><td><code>CV</code></td>
+<td>
+
+<p>If true, returns results (classes and posterior probabilities) for
+leave-out-out cross-validation. Note that if the prior is estimated,
+the proportions in the whole dataset are used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nu</code></td>
+<td>
+
+<p>degrees of freedom for <code>method = "t"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>Uses a QR decomposition which will give an error message if the
+within-group variance is singular for any group.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"qda"</code> containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>prior</code></td>
+<td>
+
+<p>the prior probabilities used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>means</code></td>
+<td>
+
+<p>the group means.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+
+<p>for each group <code>i</code>, <code>scaling[,,i]</code> is an array which transforms observations
+so that within-groups covariance matrix is spherical.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ldet</code></td>
+<td>
+
+<p>a vector of half log determinants of the dispersion matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lev</code></td>
+<td>
+
+<p>the levels of the grouping factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+
+<p>(if formula is a formula)
+an object of mode expression and class term summarizing
+the  formula.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>the (matched) function call.
+</p>
+</td></tr>
+</table>
+<p>unless <code>CV=TRUE</code>, when the return value is a list with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>class</code></td>
+<td>
+
+<p>The MAP classification (a factor)
+</p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+
+<p>posterior probabilities for the classes
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+<p>Ripley, B. D. (1996)
+<em>Pattern Recognition and Neural Networks</em>. Cambridge University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="predict.qda.html">predict.qda</a></code>, <code><a href="lda.html">lda</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+tr &lt;- sample(1:50, 25)
+train &lt;- rbind(iris3[tr,,1], iris3[tr,,2], iris3[tr,,3])
+test &lt;- rbind(iris3[-tr,,1], iris3[-tr,,2], iris3[-tr,,3])
+cl &lt;- factor(c(rep("s",25), rep("c",25), rep("v",25)))
+z &lt;- qda(train, cl)
+predict(z,test)$class
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

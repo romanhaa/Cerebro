@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize a Fitted Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.rpart {rpart}"><tr><td>summary.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Summarize a Fitted Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns a detailed listing of a fitted <code>rpart</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+summary(object, cp = 0, digits = getOption("digits"), file, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be the result
+of some function that produces an object with the same named
+components as that returned by the <code>rpart</code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+
+<p>Number of significant digits to be used in the result.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cp</code></td>
+<td>
+
+<p>trim nodes with a complexity of less than <code>cp</code> from the listing.
+</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+
+<p>write the output to a given file name. (Full listings of a tree are
+often quite long).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to be passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function summary for class
+<code>"rpart"</code>.  It can be invoked by calling <code>summary</code>
+for an object of the appropriate class, or directly by calling
+<code>summary.rpart</code> regardless of the class of the object.
+</p>
+<p>It prints the call, the table shown by <code><a href="printcp.html">printcp</a></code>, the
+variable importance (summing to 100) and details for each node (the
+details depending on the type of tree).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/summary.html">summary</a></code>, <code><a href="rpart.object.html">rpart.object</a></code>, <code><a href="printcp.html">printcp</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## a regression tree
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+summary(z.auto)
+
+## a classification tree with multiple variables and surrogate splits.
+summary(rpart(Kyphosis ~ Age + Number + Start, data = kyphosis))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Data Frame Covariate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getCovariate.data.frame {nlme}"><tr><td>getCovariate.data.frame {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Data Frame Covariate</h2>
+
+<h3>Description</h3>
+
+<p>The right hand side of <code>form</code>, stripped of any conditioning
+expression (i.e. an expression following a <code>|</code> operator), is
+evaluated in <code>object</code>.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'data.frame'
+getCovariate(object, form, data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>data.frame</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>an optional formula specifying the covariate to be
+evaluated in <code>object</code>. Defaults to <code>formula(object)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>some methods for this generic require a separate data
+frame. Not used in this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>the value of the right hand side of <code>form</code>, stripped of
+any conditional expression, evaluated in <code>object</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getCovariateFormula.html">getCovariateFormula</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+getCovariate(Orthodont)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Obtaining (orthogonal) basis for null space and range of the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for totalPenaltySpace {mgcv}"><tr><td>totalPenaltySpace {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Obtaining (orthogonal) basis for null space and range of the penalty matrix</h2>
+
+<h3>Description</h3>
+
+<p>INTERNAL function to obtain (orthogonal) basis for the null space and
+range space of the penalty, and obtain actual null space dimension
+components are roughly rescaled to avoid any dominating.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+totalPenaltySpace(S, H, off, p)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>S</code></td>
+<td>
+<p>a list of penalty matrices, in packed form.</p>
+</td></tr>
+<tr valign="top"><td><code>H</code></td>
+<td>
+<p>the coefficient matrix of an user supplied fixed quadratic 
+penalty on the parameters of the GAM.</p>
+</td></tr>
+<tr valign="top"><td><code>off</code></td>
+<td>
+<p>a vector where the i-th element is the offset for the i-th matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>total number of parameters.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of matrix square roots such that <code>S[[i]]=B[[i]]%*%t(B[[i]])</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

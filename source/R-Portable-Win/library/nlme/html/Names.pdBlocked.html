@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Names of a pdBlocked Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Names.pdBlocked {nlme}"><tr><td>Names.pdBlocked {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Names of a pdBlocked Object</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts the first element of the <code>Dimnames</code>
+attribute, which contains the column names, for each block diagonal
+element in the matrix represented by <code>object</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'pdBlocked'
+Names(object, asList, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="pdBlocked.html">pdBlocked</a>"</code>
+representing a positive-definite matrix with block diagonal
+structure</p>
+</td></tr> 
+<tr valign="top"><td><code>asList</code></td>
+<td>
+<p>a logical value. If <code>TRUE</code> a <code>list</code> with the
+names for each block diagonal element is returned. If <code>FALSE</code>
+a character vector with all column names is returned. Defaults to
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>asList</code> is <code>FALSE</code>, a character vector with column names
+of the matrix represented by <code>object</code>; otherwise, if
+<code>asList</code> is <code>TRUE</code>, a list with components given by the
+column names of the individual block diagonal elements in the matrix
+represented by <code>object</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Names.html">Names</a></code>,
+<code><a href="Names.pdMat.html">Names.pdMat</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pd1 &lt;- pdBlocked(list(~Sex - 1, ~age - 1), data = Orthodont)
+Names(pd1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

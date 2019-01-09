@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Adaptive Numerical Integration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for area {MASS}"><tr><td>area {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Adaptive Numerical Integration
+</h2>
+
+<h3>Description</h3>
+
+<p>Integrate a function of one variable over a finite range using a
+recursive adaptive method.  This function is mainly for
+demonstration purposes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+area(f, a, b, ..., fa = f(a, ...), fb = f(b, ...),
+     limit = 10, eps = 1e-05)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>f</code></td>
+<td>
+
+<p>The integrand as an <code>S</code> function object.  The variable of integration must be
+the first argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>a</code></td>
+<td>
+
+<p>Lower limit of integration.
+</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+
+<p>Upper limit of integration.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments needed by the integrand.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fa</code></td>
+<td>
+
+<p>Function value at the lower limit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fb</code></td>
+<td>
+
+<p>Function value at the upper limit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>limit</code></td>
+<td>
+
+<p>Limit on the depth to which recursion is allowed to go.
+</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+
+<p>Error tolerance to control the process.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The method divides the interval in two and compares the values given by
+Simpson's rule and the trapezium rule.  If these are within eps of each
+other the Simpson's rule result is given, otherwise the process is applied
+separately to each half of the interval and the results added together.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The integral from <code>a</code> to <code>b</code> of <code>f(x)</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (1994)
+<em>Modern Applied Statistics with S-Plus.</em> Springer.
+pp. 105&ndash;110.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+area(sin, 0, pi)  # integrate the sin function from 0 to pi.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

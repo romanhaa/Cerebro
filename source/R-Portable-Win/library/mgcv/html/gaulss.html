@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gaussian location-scale model family</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gaulss {mgcv}"><tr><td>gaulss {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gaussian location-scale model family</h2>
+
+<h3>Description</h3>
+
+<p>The <code>gaulss</code> family implements Gaussian location scale additive models in which 
+the mean and the logb of the standard deviation (see details) can depend on additive smooth predictors. Useable 
+only with <code><a href="gam.html">gam</a></code>, the linear predictors are specified via a list of formulae.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gaulss(link=list("identity","logb"),b=0.01)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>two item list specifying the link for the mean and the standard deviation. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>The minumum standard deviation, for the <code>"logb"</code> link.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Used with <code><a href="gam.html">gam</a></code> to fit Gaussian location - scale models. <code>gam</code> is called with 
+a list containing 2 formulae, the first specifies the response on the left hand side and the structure of the linear predictor for the mean on the right hand side. The second is one sided, specifying the linear predictor for the standard deviation on the right hand side. 
+</p>
+<p>Link functions <code>"identity"</code>, <code>"inverse"</code>, <code>"log"</code> and <code>"sqrt"</code> are available for the mean. For the standard deviation only the <code>"logb"</code> link is implemented: <i>eta = log(sigma-b)</i> and <i>sigma = b + exp(eta)</i>. This link is designed to avoid singularities in the likelihood caused by the standard deviation tending to zero. Note that internally the family is parameterized in terms of the <i>tau=1/sigma</i>, i.e. the standard deviation of the precision, so the link and inverse link are coded to reflect this, however the reltaionships between the linear predictor and the standard deviation are as given above. 
+</p>
+<p>The fitted values for this family will be a two column matrix. The first column is the mean, and the second column is the inverse of the standard deviation. Predictions using <code><a href="predict.gam.html">predict.gam</a></code> will also produce 2 column matrices for <code>type</code> <code>"link"</code> and <code>"response"</code>. The second column when <code>type="response"</code> is again on the reciprocal standard deviation scale (i.e. the square root precision scale). The second column when <code>type="link"</code> is  <i>log(sigma-b)</i>. Also <code><a href="plot.gam.html">plot.gam</a></code> will plot smooths relating to <i>sigma</i> on the <i>log(sigma-b)</i> scale (so high values correspond to high standard deviation and low values to low standard deviation). Similarly the smoothing penalties are applied on the (log) standard deviation scale, not the log precision scale.
+</p>
+<p>The null deviance reported for this family is the sum of squares of the difference between the response and the mean response divided by the standard deviation of the response according to the model. The deviance is the sum of squares of residuals divided by model standard deviations. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object inheriting from class <code>general.family</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv);library(MASS)
+b &lt;- gam(list(accel~s(times,k=20,bs="ad"),~s(times)),
+            data=mcycle,family=gaulss())
+summary(b) 
+plot(b,pages=1,scale=0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

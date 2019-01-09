@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sorting order for Surv objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for xtfrm.Surv {survival}"><tr><td>xtfrm.Surv {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sorting order for Surv objects</h2>
+
+<h3>Description</h3>
+
+<p>Sort survival objects into a partial order, which is the same one
+used internally for many of the calculations.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Surv'
+xtfrm(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a <code>Surv</code> object</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This creates a partial ordering of survival objects.
+The result is sorted in time order, for tied pairs of times right censored
+events come after observed events (censor after death), and left
+censored events are sorted before observed events.
+For counting process data <code>(tstart, tstop, status)</code> the ordering
+is by stop time, status, and start time, again with censoring last.
+Interval censored data is sorted using the midpoint of each interval.
+</p>
+<p>The <code>xtfrm</code> routine is used internally by <code>order</code> and
+<code>sort</code>, so these results carry over to those routines.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector of integers which will have the same sort order as
+<code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/sort.html">sort</a></code>, <code><a href="../../base/html/order.html">order</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+test &lt;- c(Surv(c(10, 9,9, 8,8,8,7,5,5,4), rep(1:0, 5)), Surv(6.2, NA))
+test
+sort(test)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

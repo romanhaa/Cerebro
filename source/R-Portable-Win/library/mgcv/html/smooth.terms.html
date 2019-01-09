@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Smooth terms in GAM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for smooth.terms {mgcv}"><tr><td>smooth.terms {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Smooth terms in GAM</h2>
+
+<h3>Description</h3>
+
+<p>Smooth terms are specified in a <code><a href="gam.html">gam</a></code> formula using <code><a href="s.html">s</a></code>, <code><a href="te.html">te</a></code>, <code><a href="te.html">ti</a></code> 
+and <code><a href="t2.html">t2</a></code> terms. 
+Various smooth classes are available, for different modelling tasks, and users can add smooth classes 
+(see <code><a href="smooth.construct.html">user.defined.smooth</a></code>). What defines a smooth class is the basis used to represent 
+the smooth function and quadratic penalty (or multiple  penalties) used to penalize 
+the basis coefficients in order to control the degree of smoothness. Smooth classes are 
+invoked directly by <code>s</code> terms, or as building blocks for tensor product smoothing 
+via <code>te</code>, <code>ti</code> or <code>t2</code> terms (only smooth classes with single penalties can be used in tensor products). The smooths
+built into the <code>mgcv</code> package are all based one way or another on low rank versions of splines. For the full rank 
+versions see Wahba (1990).
+</p>
+<p>Note that smooths can be used rather flexibly in <code>gam</code> models. In particular the linear predictor of the GAM can 
+depend on (a discrete approximation to) any linear functional of a smooth term, using <code>by</code> variables and the 
+&lsquo;summation convention&rsquo; explained in <code><a href="linear.functional.terms.html">linear.functional.terms</a></code>.
+</p>
+<p>The single penalty built in smooth classes are summarized as follows
+</p>
+
+<dl>
+<dt>Thin plate regression splines</dt><dd><p><code>bs="tp"</code>. These are low rank isotropic smoothers of any number of covariates. By isotropic is 
+meant that rotation of the covariate co-ordinate system will not change the result of smoothing. By low rank is meant 
+that they have far fewer coefficients than there are data to smooth. They are reduced rank versions of the thin plate splines and use the thin plate spline penalty. They are the default
+smooth for <code>s</code> terms because there is a defined sense in which they are the optimal smoother of any given
+basis dimension/rank (Wood, 2003). Thin plate regression splines do not have &lsquo;knots&rsquo; 
+(at least not in any conventional sense): a truncated eigen-decomposition is used to achieve the rank reduction.  See <code><a href="smooth.construct.tp.smooth.spec.html">tprs</a></code> for further details. 
+</p>
+<p><code>bs="ts"</code> is as <code>"tp"</code> but with a modification to the smoothing penalty, so that the null space is also penalized slightly and the 
+whole term can therefore be shrunk to zero.</p>
+</dd>
+<dt>Duchon splines</dt><dd><p><code>bs="ds"</code>. These generalize thin plate splines. In particular, for any given number of covariates they 
+allow lower orders of derivative in the penalty than thin plate splines (and hence a smaller null space).
+See <code><a href="smooth.construct.ds.smooth.spec.html">Duchon.spline</a></code> for further details. 
+</p>
+</dd>
+<dt>Cubic regression splines</dt><dd><p><code>bs="cr"</code>. 
+These have a cubic spline basis defined by a modest sized 
+set of knots spread evenly through the 
+covariate values. They are penalized by the conventional intergrated square second derivative cubic spline penalty. 
+For details see <code><a href="smooth.construct.cr.smooth.spec.html">cubic.regression.spline</a></code> and e.g. Wood (2006a).
+</p>
+<p><code>bs="cs"</code> specifies a shrinkage version of <code>"cr"</code>.
+</p>
+<p><code>bs="cc"</code> specifies a cyclic cubic regression splines (see <a href="smooth.construct.cr.smooth.spec.html">cyclic.cubic.spline</a>). i.e. a penalized cubic regression splines whose ends match, up to second 
+derivative.</p>
+</dd>
+<dt>Splines on the sphere</dt><dd><p><code>bs="sos"</code>.
+These are two dimensional splines on a sphere. Arguments are latitude and longitude, and they are 
+the analogue of thin plate splines for the sphere. Useful for data sampled over a large portion of the globe, 
+when isotropy is appropriate. See <code><a href="smooth.construct.sos.smooth.spec.html">Spherical.Spline</a></code> for details.</p>
+</dd>
+<dt>P-splines</dt><dd><p><code>bs="ps"</code>. 
+These are P-splines as proposed by Eilers and Marx (1996). They combine a B-spline basis, with a discrete penalty
+on the basis coefficients, and any sane combination of penalty and basis order is allowed. Although this penalty has no exact interpretation in terms of function shape, in the way that the derivative penalties do, P-splines perform almost as well as conventional splines in many standard applications, and can perform better in particular cases where it is advantageous to mix different orders of basis and penalty.
+</p>
+<p><code>bs="cp"</code> gives a cyclic version of a P-spline (see <a href="smooth.construct.ps.smooth.spec.html">cyclic.p.spline</a>). </p>
+</dd>
+<dt>Random effects</dt><dd><p><code>bs="re"</code>. These are parametric terms penalized by a ridge penalty (i.e. the identity matrix). When such a smooth has multiple arguments 
+then it represents the parametric interaction of these arguments, with the coefficients penalized by a ridge penalty. The ridge penalty is equivalent to an 
+assumption that the coefficients are i.i.d. normal random effects. See <code><a href="smooth.construct.re.smooth.spec.html">smooth.construct.re.smooth.spec</a></code>.</p>
+</dd>
+<dt>Markov Random Fields</dt><dd><p><code>bs="mrf"</code>. These are popular when space is split up into discrete contiguous 
+geographic units (districts of a town, for example). In this case a simple smoothing penalty is constructed
+based on the neighbourhood structure of the geographic units. See <code><a href="smooth.construct.mrf.smooth.spec.html">mrf</a></code> for details and an example.</p>
+</dd>
+<dt>Gaussian process smooths</dt><dd><p><code>bs="gp"</code>. Gaussian process models with a variety of simple correlation functions can be represented as smooths. See <code><a href="smooth.construct.gp.smooth.spec.html">gp.smooth</a></code> for details.</p>
+</dd>
+<dt>Soap film smooths</dt><dd><p><code>bs="so"</code> (actually not single penaltied, but <code>bs="sw"</code> and <code>bs="sf"</code> allows splitting into single penalty components for use in tensor product smoothing). These are finite area smoothers designed to smooth within complicated geographical boundaries, where the boundary matters (e.g. you do not want to smooth across boundary features). See <code><a href="smooth.construct.so.smooth.spec.html">soap</a></code> for details.</p>
+</dd>
+</dl>
+
+<p>Broadly speaking the default penalized thin plate regression splines tend to give the best MSE performance, 
+but they are slower to set up than the other bases. The knot based penalized cubic regression splines
+(with derivative based penalties) usually come next in MSE performance, with the P-splines doing 
+just a little worse. However the P-splines are useful in non-standard situations.
+</p>
+<p>All the preceding classes (and any user defined smooths with single penalties) may be used as marginal 
+bases for tensor product smooths specified via <code><a href="te.html">te</a></code>, <code><a href="te.html">ti</a></code> or <code><a href="t2.html">t2</a></code> terms. Tensor 
+product smooths are smooth functions 
+of several variables where the basis is built up from tensor products of bases for smooths of fewer (usually one) 
+variable(s) (marginal bases). The multiple penalties for these smooths are produced automatically from the
+penalties of the marginal smooths. Wood (2006b) and Wood, Scheipl and Faraway (2012), give the general recipe for these constructions. 
+</p>
+
+<dl>
+<dt>te</dt><dd><p><code>te</code> smooths have one penalty per marginal basis, each of which is interpretable in a similar way to the marginal penalty from which it is derived. See Wood (2006b).</p>
+</dd>
+<dt>ti</dt><dd><p><code>ti</code> smooths exclude the basis functions associated with the &lsquo;main effects&rsquo; of the marginal smooths, plus interactions other than the highest order specified. These provide a stable an interpretable way of specifying models with main effects and interactions. For example if we are interested in linear predicto <i>f1(x) + f2(z) + f3(x,z)</i>, we might use model formula <code>y~s(x)+s(z)+ti(x,z)</code> or <code>y~ti(x)+ti(z)+ti(x,z)</code>. A similar construction involving <code>te</code> terms instead will be much less statsitically stable.</p>
+</dd>   
+<dt>t2</dt><dd><p><code>t2</code> uses an alternative tensor product construction that results in more penalties each having a simple non-overlapping structure allowing use with the  <code>gamm4</code> package. It is a natural generalization of the SS-ANOVA construction, but the penalties are a little harder to interpret. See Wood, Scheipl and Faraway (2012/13). </p>
+</dd>  
+</dl>
+
+<p>Tensor product smooths often perform better than isotropic smooths when the covariates of a smooth are not naturally
+on the same scale, so that their relative scaling is arbitrary. For example, if smoothing with repect to time and 
+distance, an isotropic smoother will give very different results if the units are cm and minutes compared to if the units are metres and seconds: a tensor product smooth will  give the same answer in both cases (see <code><a href="te.html">te</a></code> for an example of this). Note that <code>te</code> terms are knot based, and the thin plate splines seem to offer no advantage over cubic or P-splines as  marginal bases.
+</p>
+<p>Some further specialist smoothers that are not suitable for use in tensor products are also available.
+</p>
+
+<dl>
+<dt>Adaptive smoothers</dt><dd><p><code>bs="ad"</code>
+Univariate and bivariate adaptive smooths are available (see <code><a href="smooth.construct.ad.smooth.spec.html">adaptive.smooth</a></code>). 
+These are appropriate when the degree of smoothing should itself vary with the covariates to be smoothed, and the 
+data contain sufficient information to be able to estimate the appropriate variation. Because this flexibility is 
+achieved by splitting the penalty into several &lsquo;basis penalties&rsquo; these terms are not suitable as components of tensor 
+product smooths, and are not supported by <code>gamm</code>.</p>
+</dd>
+<dt>Factor smooth interactions</dt><dd><p><code>bs="fs"</code>
+Smooth factor interactions are often produced using <code>by</code> variables (see <code><a href="gam.models.html">gam.models</a></code>), but a special smoother
+class (see <code><a href="smooth.construct.fs.smooth.spec.html">factor.smooth.interaction</a></code>) is available for the case in which a smooth is required at each of a large number of factor levels (for example a smooth for each patient in a study), and each smooth should have the same smoothing parameter. The <code>"fs"</code> smoothers are set up to be efficient when used with <code><a href="gamm.html">gamm</a></code>, and have penalties on each null sapce component (i.e. they are fully &lsquo;random effects&rsquo;). 
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Wood &lt;simon.wood@r-project.org&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Eilers, P.H.C. and B.D. Marx (1996) Flexible Smoothing with B-splines and Penalties. 
+Statistical Science, 11(2):89-121
+</p>
+<p>Wahba (1990) Spline Models of Observational Data. SIAM 
+</p>
+<p>Wood, S.N. (2003) Thin plate regression splines. J.R.Statist.Soc.B 65(1):95-114
+</p>
+<p>Wood, S.N. (2006a) <em>Generalized Additive Models: an introduction with R</em>, CRC
+</p>
+<p>Wood, S.N. (2006b) Low rank scale invariant tensor product smooths for
+generalized additive mixed models. Biometrics 62(4):1025-1036
+</p>
+<p>Wood S.N., F. Scheipl and J.J. Faraway (2013) Straightforward intermediate rank tensor product smoothing
+in mixed models. Statistical Computing. 23(3), 341-360. [online 2012]
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="s.html">s</a></code>, <code><a href="te.html">te</a></code>, <code><a href="t2.html">t2</a></code> <code><a href="smooth.construct.tp.smooth.spec.html">tprs</a></code>,<code><a href="smooth.construct.ds.smooth.spec.html">Duchon.spline</a></code>, 
+<code><a href="smooth.construct.cr.smooth.spec.html">cubic.regression.spline</a></code>,<code><a href="smooth.construct.ps.smooth.spec.html">p.spline</a></code>, <code><a href="smooth.construct.mrf.smooth.spec.html">mrf</a></code>, <code><a href="smooth.construct.so.smooth.spec.html">soap</a></code>, 
+<code><a href="smooth.construct.sos.smooth.spec.html">Spherical.Spline</a></code>, <code><a href="smooth.construct.ad.smooth.spec.html">adaptive.smooth</a></code>, <code><a href="smooth.construct.html">user.defined.smooth</a></code>,
+<code><a href="smooth.construct.re.smooth.spec.html">smooth.construct.re.smooth.spec</a></code>, <code><a href="smooth.construct.gp.smooth.spec.html">smooth.construct.gp.smooth.spec</a></code>,<code><a href="smooth.construct.fs.smooth.spec.html">factor.smooth.interaction</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## see examples for gam and gamm
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

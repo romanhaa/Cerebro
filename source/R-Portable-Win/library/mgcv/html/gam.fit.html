@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GAM P-IRLS estimation with GCV/UBRE smoothness estimation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.fit {mgcv}"><tr><td>gam.fit {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GAM P-IRLS estimation with GCV/UBRE smoothness estimation</h2>
+
+<h3>Description</h3>
+
+<p> This is an internal function of package <code>mgcv</code>. It is a modification
+of the function <code>glm.fit</code>, designed to be called from <code>gam</code> when perfomance iteration is selected (not the default). The major
+modification is that rather than solving a weighted least squares problem at each IRLS step, 
+a weighted, penalized least squares problem
+is solved at each IRLS step with smoothing parameters associated with each penalty chosen by GCV or UBRE,
+using routine <code><a href="magic.html">magic</a></code>. 
+For further information on usage see code for <code>gam</code>. Some regularization of the 
+IRLS weights is also permitted as a way of addressing identifiability related problems (see 
+<code><a href="gam.control.html">gam.control</a></code>). Negative binomial parameter estimation is
+supported.
+</p>
+<p>The basic idea of estimating smoothing parameters at each step of the P-IRLS
+is due to Gu (1992), and is termed &lsquo;performance iteration&rsquo; or 'performance
+oriented iteration'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre> 
+
+gam.fit(G, start = NULL, etastart = NULL, 
+        mustart = NULL, family = gaussian(), 
+        control = gam.control(),gamma=1,
+        fixedSteps=(control$maxit+1),...) 
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>G</code></td>
+<td>
+<p>An object of the type returned by <code><a href="gam.html">gam</a></code> when <code>fit=FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>Initial values for the model coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>etastart</code></td>
+<td>
+<p>Initial values for the linear predictor.</p>
+</td></tr>
+<tr valign="top"><td><code>mustart</code></td>
+<td>
+<p>Initial values for the expected response.</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>The family object, specifying the distribution and link to use.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>Control option list as returned by <code><a href="gam.control.html">gam.control</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>Parameter which can be increased to up the cost of each effective degree of freedom in the
+GCV or AIC/UBRE objective.</p>
+</td></tr>
+<tr valign="top"><td><code>fixedSteps</code></td>
+<td>
+<p>How many steps to take: useful when only using this routine to get rough starting values for other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments: ignored.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of fit information.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Gu (1992) Cross-validating non-Gaussian data. J. Comput. Graph. Statist. 1:169-179
+</p>
+<p>Gu and Wahba (1991) Minimizing GCV/GML scores with multiple smoothing parameters via
+the Newton method. SIAM J. Sci. Statist. Comput. 12:383-398
+</p>
+<p>Wood, S.N. (2000)  Modelling and Smoothing Parameter Estimation
+with Multiple  Quadratic Penalties. J.R.Statist.Soc.B 62(2):413-428
+</p>
+<p>Wood, S.N. (2004) Stable and efficient multiple smoothing parameter estimation for
+generalized additive models. J. Amer. Statist. Ass. 99:637-686
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="gam.fit3.html">gam.fit3</a></code>,  <code><a href="gam.html">gam</a></code>, <code><a href="magic.html">magic</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

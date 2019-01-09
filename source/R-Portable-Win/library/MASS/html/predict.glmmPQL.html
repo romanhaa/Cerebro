@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predict Method for glmmPQL Fits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.glmmPQL {MASS}"><tr><td>predict.glmmPQL {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Predict Method for glmmPQL Fits</h2>
+
+<h3>Description</h3>
+
+<p>Obtains predictions from a fitted generalized linear model
+with random effects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'glmmPQL'
+predict(object, newdata = NULL, type = c("link", "response"),
+       level, na.action = na.pass, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a fitted object of class inheriting from <code>"glmmPQL"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>optionally, a data frame in which to look for variables with
+which to predict.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>the type of prediction required.  The default is on the
+scale of the linear predictors; the alternative <code>"response"</code>
+is on the scale of the response variable.  Thus for a default
+binomial model the default predictions are of log-odds (probabilities
+on logit scale) and <code>type = "response"</code> gives the predicted
+probabilities.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>an optional integer vector giving the level(s) of grouping
+to be used in obtaining the predictions. Level values increase from
+outermost to innermost grouping, with level zero corresponding to the
+population predictions. Defaults to the highest or innermost level of
+grouping.</p>
+</td></tr>  
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>function determining what should be done with missing
+values in <code>newdata</code>.  The default is to predict <code>NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If <code>level</code> is a single integer, a vector otherwise a data frame.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="glmmPQL.html">glmmPQL</a></code>, <code><a href="../../nlme/html/predict.lme.html">predict.lme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fit &lt;- glmmPQL(y ~ trt + I(week &gt; 2), random = ~1 |  ID,
+               family = binomial, data = bacteria)
+predict(fit, bacteria, level = 0, type="response")
+predict(fit, bacteria, level = 1, type="response")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

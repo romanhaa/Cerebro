@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Names from a formula</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Names.formula {nlme}"><tr><td>Names.formula {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Names from a formula</h2>
+
+<h3>Description</h3>
+
+<p>This method function returns the names of the terms corresponding to
+the right hand side of <code>object</code> (treated as a linear formula),
+obtained as the column names of the corresponding
+<code>model.matrix</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'formula'
+Names(object, data, exclude, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="../../stats/html/formula.html">formula</a>"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame containing the variables specified
+in <code>object</code>. By default the variables are taken from the
+environment from which <code>Names.formula</code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>an optional character vector with names to be excluded
+from the returned value. Default is <code>c("pi",".")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some methods for this generic require additional
+arguments.  None are used in this method.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>a character vector with the column names of the <code>model.matrix</code>
+corresponding to the right hand side of <code>object</code> which are not
+listed in <code>excluded</code>.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/model.matrix.html">model.matrix</a></code>, <code><a href="../../stats/html/terms.html">terms</a></code>,
+<code><a href="Names.html">Names</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Names(distance ~ Sex * age, data = Orthodont)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

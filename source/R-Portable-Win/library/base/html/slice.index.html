@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Slice Indexes in an Array</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for slice.index {base}"><tr><td>slice.index {base}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Slice Indexes in an Array</h2>
+
+<h3>Description</h3>
+
+<p>Returns a matrix of integers indicating the number of their slice in a
+given array.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+slice.index(x, MARGIN)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an array.  If <code>x</code> has no dimension attribute, it is
+considered a one-dimensional array.</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+<p>an integer giving the dimension number to slice by.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An integer array <code>y</code> with dimensions corresponding to those of
+<code>x</code> such that all elements of slice number <code>i</code> with respect
+to dimension <code>MARGIN</code> have value <code>i</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="row.html">row</a></code> and <code><a href="col.html">col</a></code> for determining row and column
+indexes; in fact, these are special cases of <code>slice.index</code>
+corresponding to <code>MARGIN</code> equal to 1 and 2, respectively when <code>x</code>
+is a matrix.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- array(1 : 24, c(2, 3, 4))
+slice.index(x, 2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>base</em> version 3.5.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

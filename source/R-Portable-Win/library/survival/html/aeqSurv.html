@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Adjudicate near ties in a Surv object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for aeqSurv {survival}"><tr><td>aeqSurv {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Adjudicate near ties in a Surv object</h2>
+
+<h3>Description</h3>
+
+<p>The check for tied survival times can fail due
+to floating point imprecision, which can make actual ties appear to
+be distinct values.
+Routines that depend on correct identification of ties pairs will then
+give incorrect results, e.g., a Cox model.
+This function rectifies these.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+aeqSurv(x, tolerance = sqrt(.Machine$double.eps))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a Surv object</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>the tolerance used to detect values that will
+be considered equal</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This routine is called by both <code>survfit</code> and <code>coxph</code> to
+deal with the issue of ties that get incorrectly broken due to
+floating point imprecision.  See the short vignette on tied times
+for a simple example.  Use the <code>timefix</code> argument of
+<code>survfit</code> or <code>coxph.control</code> to control the option
+if desired.
+</p>
+<p>The rule for &lsquo;equality&rsquo; is identical to that used by the
+<code>all.equal</code> routine.  Pairs of values that are within round off
+error of each other are replaced by the smaller value.
+An error message is generated if this process causes a 0 length
+time interval to be created.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>a Surv object identical to the original, but with ties restored.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="survfit.html">survfit</a></code>, <code><a href="coxph.control.html">coxph.control</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

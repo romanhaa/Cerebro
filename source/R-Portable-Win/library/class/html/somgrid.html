@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot SOM Fits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for somgrid {class}"><tr><td>somgrid {class}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot SOM Fits
+</h2>
+
+<h3>Description</h3>
+
+<p>Plotting functions for SOM results.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+somgrid(xdim = 8, ydim = 6, topo = c("rectangular", "hexagonal"))
+
+## S3 method for class 'somgrid'
+plot(x, type = "p", ...)
+
+## S3 method for class 'SOM'
+plot(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xdim, ydim</code></td>
+<td>
+<p>dimensions of the grid</p>
+</td></tr>
+<tr valign="top"><td><code>topo</code></td>
+<td>
+<p>the topology of the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>"somgrid"</code> or <code>"SOM"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>type, ...</code></td>
+<td>
+<p>graphical parameters.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The class <code>"somgrid"</code> records the coordinates of the grid to be
+used for (batch or on-line) SOM: this has a plot method.
+</p>
+<p>The plot method for class <code>"SOM"</code> plots a <code><a href="../../graphics/html/stars.html">stars</a></code>
+plot of the representative at each grid point.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>somgrid</code>, an object of class <code>"somgrid"</code>, a list with
+components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>pts</code></td>
+<td>
+<p>a two-column matrix giving locations for the grid points.</p>
+</td></tr>
+<tr valign="top"><td><code>xdim, ydim, topo</code></td>
+<td>
+<p>as in the arguments to <code>somgrid</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="batchSOM.html">batchSOM</a></code>, <code><a href="SOM.html">SOM</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>class</em> version 7.3-14 <a href="00Index.html">Index</a>]</div>
+</body></html>

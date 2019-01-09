@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Variance Function Weights</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for varWeights {nlme}"><tr><td>varWeights {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Variance Function Weights</h2>
+
+<h3>Description</h3>
+
+<p>The inverse of the standard deviations corresponding to the variance
+function structure represented by <code>object</code> are returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+varWeights(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>varFunc</code>,
+representing a variance function structure.</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>object</code> has a <code>weights</code> attribute, its value is
+returned; else <code>NULL</code> is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="logLik.varFunc.html">logLik.varFunc</a></code>, 
+<code><a href="varWeights.html">varWeights</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vf1 &lt;- varPower(form=~age)
+vf1 &lt;- Initialize(vf1, Orthodont)
+coef(vf1) &lt;- 0.3
+varWeights(vf1)[1:10]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

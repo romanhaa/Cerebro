@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Level plots and contour plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for B_06_levelplot {lattice}"><tr><td>B_06_levelplot {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Level plots and contour plots</h2>
+
+<h3>Description</h3>
+
+<p>Draws false color level plots and contour plots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+levelplot(x, data, ...)
+contourplot(x, data, ...)
+
+## S3 method for class 'formula'
+levelplot(x,
+          data,
+          allow.multiple = is.null(groups) || outer,
+          outer = TRUE,
+          aspect = "fill",
+          panel = if (useRaster) lattice.getOption("panel.levelplot.raster")
+                  else lattice.getOption("panel.levelplot"),
+          prepanel = NULL,
+          scales = list(),
+          strip = TRUE,
+          groups = NULL,
+          xlab,
+          xlim,
+          ylab,
+          ylim,
+          at,
+          cuts = 15,
+          pretty = FALSE,
+          region = TRUE,
+          drop.unused.levels =
+              lattice.getOption("drop.unused.levels"),
+          ...,
+          useRaster = FALSE,
+          lattice.options = NULL,
+          default.scales = list(),
+          default.prepanel =
+              lattice.getOption("prepanel.default.levelplot"),
+          colorkey = region,
+          col.regions,
+          alpha.regions,
+          subset = TRUE)
+
+## S3 method for class 'formula'
+contourplot(x,
+            data,
+            panel = lattice.getOption("panel.contourplot"),
+            default.prepanel =
+                lattice.getOption("prepanel.default.contourplot"),
+            cuts = 7,
+            labels = TRUE,
+            contour = TRUE,
+            pretty = TRUE,
+            region = FALSE,
+            ...)
+
+## S3 method for class 'table'
+levelplot(x, data = NULL, aspect = "iso", ..., xlim, ylim)
+
+## S3 method for class 'table'
+contourplot(x, data = NULL, aspect = "iso", ..., xlim, ylim)
+
+## S3 method for class 'matrix'
+levelplot(x, data = NULL, aspect = "iso",
+          ..., xlim, ylim,
+          row.values = seq_len(nrow(x)),
+          column.values = seq_len(ncol(x)))
+
+## S3 method for class 'matrix'
+contourplot(x, data = NULL, aspect = "iso",
+            ..., xlim, ylim,
+            row.values = seq_len(nrow(x)),
+            column.values = seq_len(ncol(x)))
+
+
+## S3 method for class 'array'
+levelplot(x, data = NULL, ...)
+
+## S3 method for class 'array'
+contourplot(x, data = NULL, ...)
+
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>for the <code>formula</code> method, a formula of the form <code>z ~ x * y
+      | g1 * g2 * ...</code>, where <code>z</code> is a numeric response, and
+<code>x</code>, <code>y</code> are numeric values evaluated on a rectangular
+grid.  <code>g1, g2, ...</code> are optional conditional variables, and
+must be either factors or shingles if present.
+</p>
+<p>Calculations are based on the assumption that all x and y values are
+evaluated on a grid (defined by their unique values). The function
+will not return an error if this is not true, but the display might
+not be meaningful.  However, the x and y values need not be equally
+spaced.
+</p>
+<p>Both <code>levelplot</code> and <code>wireframe</code> have methods for
+<code>matrix</code>, <code>array</code>, and <code>table</code> objects, in which case
+<code>x</code> provides the <code>z</code> vector described above, while its
+rows and columns are interpreted as the <code>x</code> and <code>y</code>
+vectors respectively.  This is similar to the form used in
+<code>filled.contour</code> and <code>image</code>.  For higher-dimensional
+arrays and tables, further dimensions are used as conditioning
+variables.  Note that the dimnames may be duplicated; this is
+handled by calling <code><a href="../../base/html/make.unique.html">make.unique</a></code> to make the names
+unique (although the original labels are used for the x- and
+y-axes).
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>For the <code>formula</code> methods, an optional data frame in which
+variables in the formula (as well as <code>groups</code> and
+<code>subset</code>, if any) are to be evaluated.  Usually ignored with a
+warning in other cases.
+</p>
+</td></tr>
+<tr valign="top"><td><code>row.values, column.values</code></td>
+<td>
+<p> Optional vectors of values that
+define the grid when <code>x</code> is a matrix.  <code>row.values</code> and
+<code>column.values</code> must have the same lengths as <code>nrow(x)</code>
+and <code>ncol(x)</code> respectively.  By default, row and column
+numbers. </p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+
+<p>panel function used to create the display, as described in
+<code><a href="xyplot.html">xyplot</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>aspect</code></td>
+<td>
+
+<p>For the <code>matrix</code> methods, the default aspect ratio is chosen to
+make each cell square.  The usual default is <code>aspect="fill"</code>,
+as described in <code><a href="xyplot.html">xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+
+<p>A numeric vector giving breakpoints along the range of
+<code>z</code>. Contours (if any) will be drawn at these heights, and the
+regions in between would be colored using <code>col.regions</code>.  In
+the latter case, values outside the range of <code>at</code> will not be
+drawn at all.  This serves as a way to limit the range of the data
+shown, similar to what a <code>zlim</code> argument might have been used
+for.  However, this also means that when supplying <code>at</code>
+explicitly, one has to be careful to include values outside the
+range of <code>z</code> to ensure that all the data are shown.
+</p>
+<p><code>at</code> can have length one only if <code>region=FALSE</code>.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.regions</code></td>
+<td>
+<p> color vector to be used if regions is TRUE. The
+general idea is that this should be a color vector of moderately
+large length (longer than the number of regions. By default this is
+100). It is expected that this vector would be gradually varying in
+color (so that nearby colors would be similar). When the colors are
+actually chosen, they are chosen to be equally spaced along this
+vector.  When there are more regions than colors in
+<code>col.regions</code>, the colors are recycled.  The actual color
+assignment is performed by <code><a href="level.colors.html">level.colors</a></code>, which is
+documented separately.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alpha.regions</code></td>
+<td>
+
+<p>numeric, specifying alpha transparency (works only on some devices)
+</p>
+</td></tr>
+<tr valign="top"><td><code>colorkey</code></td>
+<td>
+<p>logical specifying whether a color key is to be drawn
+alongside the plot, or a list describing the color key. The list may
+contain the following components:
+</p>
+
+<dl>
+<dt><code>space</code>:</dt><dd>
+<p>location of the colorkey, can be one of <code>"left"</code>,
+<code>"right"</code>, <code>"top"</code> and <code>"bottom"</code>.  Defaults to
+<code>"right"</code>.
+</p>
+</dd>
+<dt><code>x</code>, <code>y</code>:</dt><dd><p> location, currently unused </p>
+</dd>
+<dt><code>col</code>:</dt><dd>
+<p>A color ramp specification, as in the <code>col.regions</code>
+argument in <code><a href="level.colors.html">level.colors</a></code>
+</p>
+</dd>
+<dt><code>at</code>:</dt><dd>
+<p>numeric vector specifying where the colors change. must be of
+length 1 more than the col vector.
+</p>
+</dd>
+<dt><code>labels</code>:</dt><dd>
+<p>a character vector for labelling the <code>at</code> values, or more
+commonly, a list describing characteristics of the labels.  This
+list may include components <code>labels</code>, <code>at</code>,
+<code>cex</code>, <code>col</code>, <code>rot</code>, <code>font</code>, <code>fontface</code>
+and <code>fontfamily</code>.
+</p>
+</dd>
+<dt><code>tick.number</code>:</dt><dd><p> The approximate number of ticks desired. </p>
+</dd>
+<dt><code>tck</code>:</dt><dd><p> A (scalar) multipler for tick lengths. </p>
+</dd>
+<dt><code>corner</code>:</dt><dd><p> Interacts with x, y; currently unimplemented </p>
+</dd>
+<dt><code>width</code>:</dt><dd><p> The width of the key </p>
+</dd>
+<dt><code>height</code>:</dt><dd><p> The length of key as a fraction of the
+appropriate side of plot.
+</p>
+</dd> 
+<dt><code>raster</code>:</dt><dd><p> A logical flag indicating whether the
+colorkey should be rendered as a raster image using
+<code><a href="../../grid/html/grid.raster.html">grid.raster</a></code>.  See also
+<code><a href="panel.levelplot.html">panel.levelplot.raster</a></code>.
+</p>
+</dd>
+<dt><code>interpolate</code>:</dt><dd><p> Logical flag, passed to
+<code><a href="../../grid/html/grid.raster.html">rasterGrob</a></code> when <code>raster=TRUE</code>. </p>
+</dd>
+<dt><code>axis.line</code>:</dt><dd><p> A list giving graphical parameters for
+the color key boundary and tick marks.  Defaults to
+<code>trellis.par.get("axis.line")</code>.  </p>
+</dd>
+<dt><code>axis.text</code>:</dt><dd><p> A list giving graphical parameters for
+the tick mark labels on the color key.  Defaults to
+<code>trellis.par.get("axis.text")</code>.  </p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>contour</code></td>
+<td>
+
+<p>A logical flag, indicating whether to draw contour lines.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cuts</code></td>
+<td>
+
+<p>The number of levels the range of <code>z</code> would be divided into.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>Typically a logical indicating whether contour lines should be
+labelled, but other possibilities for more sophisticated control
+exists.  Details are documented in the help page for
+<code><a href="panel.levelplot.html">panel.levelplot</a></code>, to which this argument is passed on
+unchanged.  That help page also documents the <code>label.style</code>
+argument, which affects how the labels are rendered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pretty</code></td>
+<td>
+
+<p>A logical flag, indicating whether to use pretty cut locations and
+labels. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>region</code></td>
+<td>
+
+<p>A logical flag, indicating whether regions between contour lines
+should be filled as in a level plot.
+</p>
+</td></tr>
+<tr valign="top"><td><code>allow.multiple, outer, prepanel, scales, strip, groups, xlab,
+xlim, ylab, ylim, drop.unused.levels, lattice.options,
+default.scales, subset</code></td>
+<td>
+
+<p>These arguments are described in the help page for
+<code><a href="xyplot.html">xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>default.prepanel</code></td>
+<td>
+
+<p>Fallback prepanel function.  See <code><a href="xyplot.html">xyplot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments may be supplied.  Some are processed by
+<code>levelplot</code> or <code>contourplot</code>, and those that are
+unrecognized are passed on to the panel function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>useRaster</code></td>
+<td>
+
+<p>A logical flag indicating whether raster representations should be
+used, both for the false color image and the color key (if present).
+Effectively, setting this to <code>TRUE</code> changes the default panel
+function from <code><a href="panel.levelplot.html">panel.levelplot</a></code> to
+<code><a href="panel.levelplot.html">panel.levelplot.raster</a></code>, and sets the default value of
+<code>colorkey$raster</code> to <code>TRUE</code>.
+</p>
+<p>Note that <code><a href="panel.levelplot.html">panel.levelplot.raster</a></code> provides only a
+subset of the features of <code><a href="panel.levelplot.html">panel.levelplot</a></code>, but setting
+<code>useRaster=TRUE</code> will not check whether any of the additional
+features have been requested.
+</p>
+<p>Not all devices support raster images.  For devices that appear to
+lack support, <code>useRaster=TRUE</code> will be ignored with a warning.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These and all other high level Trellis functions have several
+arguments in common. These are extensively documented only in the
+help page for <code>xyplot</code>, which should be consulted to learn more
+detailed usage.
+</p>
+<p>Other useful arguments are mentioned in the help page for the default
+panel function <code><a href="panel.levelplot.html">panel.levelplot</a></code> (these are formally
+arguments to the panel function, but can be specified in the high
+level calls directly).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"trellis"</code>. The
+<code><a href="update.trellis.html">update</a></code> method can be used to
+update components of the object and the
+<code><a href="print.trellis.html">print</a></code> method (usually called by
+default) will plot it on an appropriate plotting device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Sarkar, Deepayan (2008) <em>Lattice: Multivariate Data
+Visualization with R</em>, Springer.
+<a href="http://lmdvr.r-forge.r-project.org/">http://lmdvr.r-forge.r-project.org/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>, <code><a href="Lattice.html">Lattice</a></code>,
+<code><a href="panel.levelplot.html">panel.levelplot</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- seq(pi/4, 5 * pi, length.out = 100)
+y &lt;- seq(pi/4, 5 * pi, length.out = 100)
+r &lt;- as.vector(sqrt(outer(x^2, y^2, "+")))
+grid &lt;- expand.grid(x=x, y=y)
+grid$z &lt;- cos(r^2) * exp(-r/(pi^3))
+levelplot(z~x*y, grid, cuts = 50, scales=list(log="e"), xlab="",
+          ylab="", main="Weird Function", sub="with log scales",
+          colorkey = FALSE, region = TRUE)
+
+
+#S-PLUS example
+require(stats)
+attach(environmental)
+ozo.m &lt;- loess((ozone^(1/3)) ~ wind * temperature * radiation,
+       parametric = c("radiation", "wind"), span = 1, degree = 2)
+w.marginal &lt;- seq(min(wind), max(wind), length.out = 50)
+t.marginal &lt;- seq(min(temperature), max(temperature), length.out = 50)
+r.marginal &lt;- seq(min(radiation), max(radiation), length.out = 4)
+wtr.marginal &lt;- list(wind = w.marginal, temperature = t.marginal,
+        radiation = r.marginal)
+grid &lt;- expand.grid(wtr.marginal)
+grid[, "fit"] &lt;- c(predict(ozo.m, grid))
+contourplot(fit ~ wind * temperature | radiation, data = grid,
+            cuts = 10, region = TRUE,
+            xlab = "Wind Speed (mph)",
+            ylab = "Temperature (F)",
+            main = "Cube Root Ozone (cube root ppb)")
+detach()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

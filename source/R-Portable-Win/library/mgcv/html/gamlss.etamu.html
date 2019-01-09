@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transform derivatives wrt mu to derivatives wrt linear...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gamlss.etamu {mgcv}"><tr><td>gamlss.etamu {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transform derivatives wrt mu to derivatives wrt linear predictor</h2>
+
+<h3>Description</h3>
+
+<p>Mainly intended for internal use in specifying location scale models.
+Let <code>g(mu) = lp</code>, where <code>lp</code> is the linear predictor, and <code>g</code> is the link
+function. Assume that we have calculated the derivatives of the log-likelihood wrt <code>mu</code>.
+This function uses the chain rule to calculate the derivatives of the log-likelihood wrt
+<code>lp</code>. See <code><a href="trind.generator.html">trind.generator</a></code> for array packing conventions. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gamlss.etamu(l1, l2, l3 = NULL, l4 = NULL, ig1, g2, g3 = NULL,
+  g4 = NULL, i2, i3 = NULL, i4 = NULL, deriv = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>l1</code></td>
+<td>
+<p>array of 1st order derivatives of log-likelihood wrt mu.</p>
+</td></tr>
+<tr valign="top"><td><code>l2</code></td>
+<td>
+<p>array of 2nd order derivatives of log-likelihood wrt mu.</p>
+</td></tr>
+<tr valign="top"><td><code>l3</code></td>
+<td>
+<p>array of 3rd order derivatives of log-likelihood wrt mu.</p>
+</td></tr>
+<tr valign="top"><td><code>l4</code></td>
+<td>
+<p>array of 4th order derivatives of log-likelihood wrt mu.</p>
+</td></tr>
+<tr valign="top"><td><code>ig1</code></td>
+<td>
+<p>reciprocal of the first derivative of the link function wrt the linear predictor.</p>
+</td></tr>
+<tr valign="top"><td><code>g2</code></td>
+<td>
+<p>array containing the 2nd order derivative of the link function wrt the linear predictor.</p>
+</td></tr>
+<tr valign="top"><td><code>g3</code></td>
+<td>
+<p>array containing the 3rd order derivative of the link function wrt the linear predictor.</p>
+</td></tr>
+<tr valign="top"><td><code>g4</code></td>
+<td>
+<p>array containing the 4th order derivative of the link function wrt the linear predictor.</p>
+</td></tr>
+<tr valign="top"><td><code>i2</code></td>
+<td>
+<p>two-dimensional index array, such that <code>l2[,i2[i,j]]</code> contains the partial w.r.t. params 
+indexed by i,j with no restriction on the index values (except that they are in 1,...,ncol(l1)).</p>
+</td></tr>
+<tr valign="top"><td><code>i3</code></td>
+<td>
+<p>third-dimensional index array, such that <code>l3[,i3[i,j,k]]</code> contains the partial w.r.t. params 
+indexed by i,j,k.</p>
+</td></tr>
+<tr valign="top"><td><code>i4</code></td>
+<td>
+<p>third-dimensional index array, such that <code>l4[,i4[i,j,k,l]]</code> contains the partial w.r.t. params 
+indexed by i,j,k,l.</p>
+</td></tr>
+<tr valign="top"><td><code>deriv</code></td>
+<td>
+<p>if <code>deriv==0</code> only first and second order derivatives will be calculated. If
+<code>deriv==1</code> the function goes up to 3rd order, and if <code>deriv==2</code> it provides
+also 4th order derivatives.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list where the arrays <code>l1</code>, <code>l2</code>, <code>l3</code>, <code>l4</code> contain the derivatives (up
+to order four) of the log-likelihood wrt the linear predictor.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon N. Wood &lt;simon.wood@r-project.org&gt;.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="trind.generator.html">trind.generator</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

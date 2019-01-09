@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Maximum-likelihood Fitting of Univariate Distributions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitdistr {MASS}"><tr><td>fitdistr {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Maximum-likelihood Fitting of Univariate Distributions
+</h2>
+
+<h3>Description</h3>
+
+<p>Maximum-likelihood fitting of univariate distributions, allowing
+parameters to be held fixed if desired.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fitdistr(x, densfun, start, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A numeric vector of length at least one containing only <a href="../../base/html/is.finite.html">finite</a> values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>densfun</code></td>
+<td>
+
+<p>Either a character string or a function returning a density evaluated
+at its first argument.
+</p>
+<p>Distributions <code>"beta"</code>, <code>"cauchy"</code>, <code>"chi-squared"</code>,
+<code>"exponential"</code>, <code>"gamma"</code>, <code>"geometric"</code>,
+<code>"log-normal"</code>, <code>"lognormal"</code>, <code>"logistic"</code>,
+<code>"negative binomial"</code>, <code>"normal"</code>, <code>"Poisson"</code>,
+<code>"t"</code> and <code>"weibull"</code> are recognised, case being ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+
+<p>A named list giving the parameters to be optimized with initial
+values.  This can be omitted for some of the named distributions and
+must be for others (see Details).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional parameters, either for <code>densfun</code> or for <code>optim</code>.
+In particular, it can be used to specify bounds via <code>lower</code> or
+<code>upper</code> or both.  If arguments of <code>densfun</code> (or the density
+function corresponding to a character-string specification) are included
+they will be held fixed.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>For the Normal, log-Normal, geometric, exponential and Poisson
+distributions the closed-form MLEs (and exact standard errors) are
+used, and <code>start</code> should not be supplied.
+</p>
+<p>For all other distributions, direct optimization of the log-likelihood
+is performed using <code><a href="../../stats/html/optim.html">optim</a></code>.  The estimated standard
+errors are taken from the observed information matrix, calculated by a
+numerical approximation.  For one-dimensional problems the Nelder-Mead
+method is used and for multi-dimensional problems the BFGS method,
+unless arguments named <code>lower</code> or <code>upper</code> are supplied (when
+<code>L-BFGS-B</code> is used) or <code>method</code> is supplied explicitly.
+</p>
+<p>For the <code>"t"</code> named distribution the density is taken to be the
+location-scale family with location <code>m</code> and scale <code>s</code>.
+</p>
+<p>For the following named distributions, reasonable starting values will
+be computed if <code>start</code> is omitted or only partially specified:
+<code>"cauchy"</code>, <code>"gamma"</code>, <code>"logistic"</code>,
+<code>"negative binomial"</code> (parametrized by <code>mu</code> and
+<code>size</code>), <code>"t"</code> and <code>"weibull"</code>.  Note that these
+starting values may not be good enough if the fit is poor: in
+particular they are not resistant to outliers unless the fitted
+distribution is long-tailed.
+</p>
+<p>There are <code><a href="../../base/html/print.html">print</a></code>, <code><a href="../../stats/html/coef.html">coef</a></code>, <code><a href="../../stats/html/vcov.html">vcov</a></code>
+and <code><a href="../../stats/html/logLik.html">logLik</a></code> methods for class <code>"fitdistr"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"fitdistr"</code>, a list with four components,
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>estimate</code></td>
+<td>
+<p>the parameter estimates,</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>the estimated standard errors,</p>
+</td></tr>
+<tr valign="top"><td><code>vcov</code></td>
+<td>
+<p>the estimated variance-covariance matrix, and</p>
+</td></tr>
+<tr valign="top"><td><code>loglik</code></td>
+<td>
+<p>the log-likelihood.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>Numerical optimization cannot work miracles: please note the comments
+in <code><a href="../../stats/html/optim.html">optim</a></code> on scaling data.  If the fitted parameters are
+far away from one, consider re-fitting specifying the control
+parameter <code>parscale</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## avoid spurious accuracy
+op &lt;- options(digits = 3)
+set.seed(123)
+x &lt;- rgamma(100, shape = 5, rate = 0.1)
+fitdistr(x, "gamma")
+## now do this directly with more control.
+fitdistr(x, dgamma, list(shape = 1, rate = 0.1), lower = 0.001)
+
+set.seed(123)
+x2 &lt;- rt(250, df = 9)
+fitdistr(x2, "t", df = 9)
+## allow df to vary: not a very good idea!
+fitdistr(x2, "t")
+## now do fixed-df fit directly with more control.
+mydt &lt;- function(x, m, s, df) dt((x-m)/s, df)/s
+fitdistr(x2, mydt, list(m = 0, s = 1), df = 9, lower = c(-Inf, 0))
+
+set.seed(123)
+x3 &lt;- rweibull(100, shape = 4, scale = 100)
+fitdistr(x3, "weibull")
+
+set.seed(123)
+x4 &lt;- rnegbin(500, mu = 5, theta = 4)
+fitdistr(x4, "Negative Binomial")
+options(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

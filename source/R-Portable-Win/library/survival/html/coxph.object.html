@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Proportional Hazards Regression Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for coxph.object {survival}"><tr><td>coxph.object {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Proportional Hazards Regression Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>This class of objects is returned by the <code>coxph</code> class of functions 
+to represent a fitted proportional hazards model. 
+Objects of this class have methods for the functions <code>print</code>, 
+<code>summary</code>, <code>residuals</code>, <code>predict</code> and <code>survfit</code>. 
+</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+
+<p>the vector of coefficients.
+If the model is over-determined there will be missing 
+values in the vector corresponding to the redundant columns in the model 
+matrix. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>var</code></td>
+<td>
+
+<p>the variance matrix of the coefficients.  Rows and columns corresponding to 
+any missing coefficients are set to zero. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>naive.var</code></td>
+<td>
+
+<p>this component will be present only if the <code>robust</code> option was true.  If so, 
+the <code>var</code> component will contain the robust estimate of variance, and this 
+component will contain the ordinary estimate. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>loglik</code></td>
+<td>
+
+<p>a vector of length 2 containing the log-likelihood with the initial values and 
+with the final values of the coefficients. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>score</code></td>
+<td>
+
+<p>value of the efficient score test, at the initial value of the coefficients. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>rscore</code></td>
+<td>
+
+<p>the robust log-rank statistic, if a robust variance was requested. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>wald.test</code></td>
+<td>
+
+<p>the Wald test of whether the final coefficients differ from the initial values. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>iter</code></td>
+<td>
+
+<p>number of iterations used. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>linear.predictors</code></td>
+<td>
+
+<p>the vector of linear predictors, one per subject.  Note that this
+vector has been centered, see <code>predict.coxph</code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+
+<p>the martingale residuals. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>means</code></td>
+<td>
+
+<p>vector of column means of the X matrix.  Subsequent survival curves are 
+adjusted to this value. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>the number of observations used in the fit. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>nevent</code></td>
+<td>
+
+<p>the number of events (usually deaths) used in the fit. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>concordance</code></td>
+<td>
+<p>the concordance, as computed by survConcordance.</p>
+</td></tr>
+<tr valign="top"><td><code>first</code></td>
+<td>
+<p>the first derivative vector at the solution.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>the vector of case weights, if one was used. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>the computation method used. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>the na.action attribute, if any, that was returned by the <code>na.action</code> 
+routine. 
+</p>
+<p>The object will also contain the following, for documentation see the <code>lm</code> 
+object: <code>terms</code>, <code>assign</code>, <code>formula</code>, <code>call</code>, and, optionally, <code>x</code>, <code>y</code>, 
+and/or <code>frame</code>. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Components</h3>
+
+<p>The following components must be included in a legitimate <code>coxph</code> 
+object. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="coxph.html">coxph</a></code>,  <code><a href="coxph.detail.html">coxph.detail</a></code>,  <code><a href="cox.zph.html">cox.zph</a></code>,  <code><a href="residuals.coxph.html">residuals.coxph</a></code>,  <code><a href="survfit.html">survfit</a></code>,  <code><a href="survreg.html">survreg</a></code>.   
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

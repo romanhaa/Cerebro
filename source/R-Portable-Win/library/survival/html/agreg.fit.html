@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cox model fitting functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for agreg.fit {survival}"><tr><td>agreg.fit {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cox model fitting functions</h2>
+
+<h3>Description</h3>
+
+<p>These are the the functions called by coxph that do the actual
+computation.
+In certain situations, e.g. a simulation, it may be advantageous to
+call these directly rather than the usual <code>coxph</code> call using
+a model formula.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+agreg.fit(x, y, strata, offset, init, control, weights, method,
+rownames, resid=TRUE, concordance=TRUE)
+coxph.fit(x, y, strata, offset, init, control, weights, method,
+rownames, resid=TRUE, concordance=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Matix of predictors.  This should <em>not</em> include an
+intercept.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a <code>Surv</code> object containing either 2 columns (coxph.fit)
+or 3 columns (agreg.fit).</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>a vector containing the stratification, or NULL</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>optional offset vector</p>
+</td></tr>
+<tr valign="top"><td><code>init</code></td>
+<td>
+<p>initial values for the coefficients</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>the result of a call to <code>coxph.control</code></p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>optional vector of weights</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>method for hanling ties, one of &quot;breslow&quot; or &quot;efron&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>rownames</code></td>
+<td>
+<p>this is only needed for a NULL model, in which case it
+contains the rownames (if any) of the original data.</p>
+</td></tr>
+<tr valign="top"><td><code>resid</code></td>
+<td>
+<p>compute and return residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>concordance</code></td>
+<td>
+<p>compute and return the concordance.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This routine does no checking that arguments are the proper length or
+type.
+Only use it if you know what you are doing!
+</p>
+<p>The <code>resid</code> and <code>concordance</code> arguments will save some compute
+time for calling routines that only need the likelihood,
+the generation of a permutation distribution for instance.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list containing results of the fit</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="coxph.html">coxph</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

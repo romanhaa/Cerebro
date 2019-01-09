@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Finite difference Hessian</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fdHess {nlme}"><tr><td>fdHess {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Finite difference Hessian</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an approximate Hessian and gradient of a scalar function
+using finite differences.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fdHess(pars, fun, ...,
+       .relStep = .Machine$double.eps^(1/3), minAbsPar = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pars</code></td>
+<td>
+<p>the numeric values of the parameters at which to evaluate the
+function <code>fun</code> and its derivatives.</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>a function depending on the parameters <code>pars</code> that
+returns a numeric scalar.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Optional additional arguments to <code>fun</code></p>
+</td></tr>
+<tr valign="top"><td><code>.relStep</code></td>
+<td>
+<p>The relative step size to use in the finite
+differences.  It defaults to the cube root of <code>.Machine$double.eps</code></p>
+</td></tr>
+<tr valign="top"><td><code>minAbsPar</code></td>
+<td>
+<p>The minimum magnitude of a parameter value that is
+considered non-zero.  It defaults to zero meaning that any non-zero
+value will be considered different from zero.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function uses a second-order response surface design known as a
+&ldquo;Koschal design&rdquo; to determine the parameter values at which the
+function is evaluated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>mean</code></td>
+<td>
+<p>the value of function <code>fun</code> evaluated at the
+parameter values <code>pars</code></p>
+</td></tr>
+<tr valign="top"><td><code>gradient</code></td>
+<td>
+<p>an approximate gradient (of length <code>length(pars)</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>Hessian</code></td>
+<td>
+<p>a matrix whose upper triangle contains an approximate Hessian.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+(fdH &lt;- fdHess(c(12.3, 2.34), function(x) x[1]*(1-exp(-0.4*x[2]))))
+stopifnot(length(fdH$ mean) == 1,
+          length(fdH$ gradient) == 2,
+          identical(dim(fdH$ Hessian), c(2L, 2L)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

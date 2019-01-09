@@ -1,0 +1,22 @@
+Package: prabclus
+Title: Functions for Clustering of Presence-Absence, Abundance and
+        Multilocus Genetic Data
+Version: 2.2-6
+Date: 2015-01-14
+Author: Christian Hennig <c.hennig@ucl.ac.uk>, 
+        Bernhard Hausdorf <Hausdorf@zoologie.uni-hamburg.de>
+Depends: R (>= 2.10), MASS, mclust
+Suggests: spdep, maptools, foreign, mvtnorm
+Description: Distance-based parametric bootstrap tests for clustering with 
+  spatial neighborhood information. Some distance measures, 
+  Clustering of presence-absence, abundance and multilocus genetical data 
+  for species delimitation, nearest neighbor 
+  based noise detection. Try package?prabclus for on overview. 
+Maintainer: Christian Hennig <c.hennig@ucl.ac.uk>
+License: GPL
+URL: http://www.homepages.ucl.ac.uk/~ucakche
+Packaged: 2015-01-14 18:16:04 UTC; chrish
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2015-01-14 22:49:24
+Built: R 3.5.0; ; 2018-04-23 16:17:38 UTC; unix

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate multivariate normal deviates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rmvn {mgcv}"><tr><td>rmvn {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate multivariate normal deviates</h2>
+
+<h3>Description</h3>
+
+<p> Generates multivariate normal random deviates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rmvn(n,mu,V)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of simulated vectors required.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>the mean of the vectors: either a single vector of length <code>p=ncol(V)</code> or an <code>n</code> by <code>p</code> matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>V</code></td>
+<td>
+<p>A positive semi definite covariance matrix.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Uses a &lsquo;square root&rsquo; of <code>V</code> to transform standard normal deviates to multivariate normal with the correct covariance matrix. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> An <code>n</code> row matrix, with each row being a draw from a multivariate normal density with covariance matrix <code>V</code> and mean vector <code>mu</code>. Alternatively each row may have a different mean vector if <code>mu</code> is a vector.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ldTweedie.html">ldTweedie</a></code>, <code><a href="Tweedie.html">Tweedie</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+V &lt;- matrix(c(2,1,1,2),2,2) 
+mu &lt;- c(1,3)
+n &lt;- 1000
+z &lt;- rmvn(n,mu,V)
+crossprod(sweep(z,2,colMeans(z)))/n ## observed covariance matrix
+colMeans(z) ## observed mu 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

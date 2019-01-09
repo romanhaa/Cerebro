@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scale parameter estimation in GAMs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gam.scale {mgcv}"><tr><td>gam.scale {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Scale parameter estimation in GAMs</h2>
+
+<h3>Description</h3>
+
+<p>Scale parameter estimation in <code><a href="gam.html">gam</a></code> depends on the type of <code>family</code>. For 
+extended families then the RE/ML estimate is used. For conventional exponential families, estimated by the default 
+outer iteration, the scale estimator can be controlled using argument <code>scale.est</code> in 
+<code><a href="gam.control.html">gam.control</a></code>. The options are <code>"fletcher"</code> (default), <code>"pearson"</code> or <code>"deviance"</code>. 
+The Pearson estimator is the (weighted) sum of squares of the pearson residuals, divided by the 
+effective residual degrees of freedom. The Fletcher (2012) estimator is an improved version of the Pearson estimator.
+The deviance estimator simply substitutes deviance residuals for Pearson residuals. 
+</p>
+<p>Usually the Pearson estimator is recommended for GLMs, since it is asymptotically unbiased. However, it can also be unstable at finite sample sizes, if a few Pearson residuals are very large. For example, a very low Poisson mean with a non zero count can give a huge Pearson residual, even though the deviance residual is much more modest. The Fletcher (2012) estimator is designed to reduce these problems.
+</p>
+<p>For performance iteration the Pearson estimator is always used.
+</p>
+<p><code><a href="gamm.html">gamm</a></code> uses the estimate of the scale parameter from the underlying call to <code>lme</code>. <code><a href="bam.html">bam</a></code> uses the REML estimator if the method is <code>"fREML"</code>. Otherwise the estimator is a Pearson estimator.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a> with help from Mark Bravington and David Peel</p>
+
+
+<h3>References</h3>
+
+<p>Fletcher, David J. (2012) Estimating overdispersion when fitting a generalized linear model to sparse data. Biometrika 99(1), 230-237.
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="gam.control.html">gam.control</a> </code> </p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

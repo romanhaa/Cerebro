@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Define tensor product smooths or tensor product interactions...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for te {mgcv}"><tr><td>te {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Define tensor product smooths or tensor product interactions in GAM formulae</h2>
+
+<h3>Description</h3>
+
+<p> Functions used for the definition of tensor product smooths and interactions within
+<code>gam</code> model formulae. <code>te</code> produces a full tensor product smooth, while <code>ti</code> 
+produces a tensor product interaction, appropriate when the main effects (and any lower 
+interactions) are also present.
+</p>
+<p>The functions do not evaluate the
+smooth - they exists purely to help set up a model using tensor product 
+based smooths. Designed to construct tensor products from any marginal
+smooths with a basis-penalty representation (with the restriction that each 
+marginal smooth must have only one penalty).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>te(..., k=NA,bs="cr",m=NA,d=NA,by=NA,fx=FALSE,
+              np=TRUE,xt=NULL,id=NULL,sp=NULL,pc=NULL)
+ti(..., k=NA,bs="cr",m=NA,d=NA,by=NA,fx=FALSE,
+              np=TRUE,xt=NULL,id=NULL,sp=NULL,mc=NULL,pc=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> a list of variables that are the covariates that this
+smooth is a function of. Transformations whose form depends on
+the values of the data are best avoided here: e.g. <code>te(log(x),z)</code>
+is fine, but <code>te(I(x/sd(x)),z)</code> is not (see <code><a href="predict.gam.html">predict.gam</a></code>). </p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p> the dimension(s) of the bases used to represent the smooth term.
+If not supplied then set to <code>5^d</code>. If supplied as a single number then this 
+basis dimension is used for each basis. If supplied as an array then the elements are
+the dimensions of the component (marginal) bases of the tensor
+product. See <code><a href="choose.k.html">choose.k</a></code> for further information.</p>
+</td></tr>
+<tr valign="top"><td><code>bs</code></td>
+<td>
+<p>array (or single character string) specifying the type for each 
+marginal basis. <code>"cr"</code> for cubic regression spline; <code>"cs"</code> for cubic
+regression spline with shrinkage; <code>"cc"</code> for periodic/cyclic 
+cubic regression spline; <code>"tp"</code> for thin plate regression spline;
+<code>"ts"</code> for t.p.r.s. with extra shrinkage. See <code><a href="smooth.terms.html">smooth.terms</a></code> for details 
+and full list. User defined bases can 
+also be used here (see <code><a href="smooth.construct.html">smooth.construct</a></code> for an example). If only one 
+basis code is given then this is used for all bases.</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>The order of the spline and its penalty (for smooth classes that use this) for each term. 
+If a single number is given  then it is used for all terms. A vector can be used to 
+supply a different <code>m</code> for each margin. For marginals that take vector <code>m</code> 
+(e.g. <code><a href="smooth.construct.ps.smooth.spec.html">p.spline</a></code> and <code><a href="smooth.construct.ds.smooth.spec.html">Duchon.spline</a></code>), then
+a list can be supplied, with a vector element for each margin. <code>NA</code> autoinitializes. 
+<code>m</code> is ignored by some bases (e.g. <code>"cr"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>array of marginal basis dimensions. For example if you want a smooth for 3 covariates 
+made up of a tensor product of a 2 dimensional t.p.r.s. basis and a 1-dimensional basis, then 
+set <code>d=c(2,1)</code>. Incompatibilities between built in basis types and dimension will be
+resolved by resetting the basis type.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>a numeric or factor variable of the same dimension as each covariate. 
+In the numeric vector case the elements multiply the smooth evaluated at the corresponding 
+covariate values (a &lsquo;varying coefficient model&rsquo; results). 
+In the factor case causes a replicate of the smooth to be produced for
+each factor level. See <code><a href="gam.models.html">gam.models</a></code> for further details. May also be a matrix 
+if covariates are matrices: in this case implements linear functional of a smooth 
+(see <code><a href="gam.models.html">gam.models</a></code> and <code><a href="linear.functional.terms.html">linear.functional.terms</a></code> for details).</p>
+</td></tr>
+<tr valign="top"><td><code>fx</code></td>
+<td>
+<p>indicates whether the term is a fixed d.f. regression
+spline (<code>TRUE</code>) or a penalized regression spline (<code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>np</code></td>
+<td>
+ <p><code>TRUE</code> to use the &lsquo;normal parameterization&rsquo; for a tensor
+product smooth. This represents any 1-d marginal smooths
+via parameters that are function values at &lsquo;knots&rsquo;,
+spread evenly through the data. The parameterization makes the penalties
+easily interpretable, however it can reduce numerical stability in some cases.</p>
+</td></tr>
+<tr valign="top"><td><code>xt</code></td>
+<td>
+<p>Either a single object, providing any extra information to be passed
+to each marginal basis constructor, or a list of such objects, one for each
+marginal basis. </p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>A label or integer identifying this term in order to link its smoothing
+parameters to others of the same type. If two or more smooth terms have the same 
+<code>id</code> then they will have the same smoothing paramsters, and, by default,
+the same bases (first occurance defines basis type, but data from all terms 
+used in basis construction).</p>
+</td></tr>
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>any supplied smoothing parameters for this term. Must be an array of the same
+length as the number of penalties for this smooth. Positive or zero elements are taken as fixed 
+smoothing parameters. Negative elements signal auto-initialization. Over-rides values supplied in 
+<code>sp</code> argument to <code><a href="gam.html">gam</a></code>. Ignored by <code>gamm</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>mc</code></td>
+<td>
+<p>For <code>ti</code> smooths you can specify which marginals should have centering constraints 
+applied, by supplying 0/1 or <code>FALSE</code>/<code>TRUE</code> values for each marginal in this vector. By default
+all marginals are constrained, which is what is appropriate for, e.g., functional ANOVA models. Note that
+<code>'ti'</code> only applies constraints to the marginals, so if you turn off all marginal constraints the term 
+will have no identifiability constraints. Only use this if you really understand how marginal constraints work. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>pc</code></td>
+<td>
+<p>If not <code>NULL</code>, signals a point constraint: the smooth should pass through zero at the
+point given here (as a vector or list with names corresponding to the smooth names). Never ignored
+if supplied. See <code><a href="identifiability.html">identifiability</a></code>. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Smooths of several covariates can be constructed from tensor products of the bases
+used to represent smooths of one (or sometimes more) of the covariates. To do this &lsquo;marginal&rsquo; bases
+are produced with associated model matrices and penalty matrices, and these are then combined in the
+manner described in <code><a href="tensor.prod.model.matrix.html">tensor.prod.model.matrix</a></code> and <code><a href="tensor.prod.model.matrix.html">tensor.prod.penalties</a></code>, to produce 
+a single model matrix for the smooth, but multiple penalties (one for each marginal basis). The basis dimension 
+of the whole smooth is the product of the basis dimensions of the marginal smooths.
+</p>
+<p>An option for operating with a single penalty (The Kronecker product of the marginal penalties) is provided, but 
+it is rarely of practical use, and is deprecated: the penalty is typically so rank deficient that 
+even the smoothest resulting model will have rather high estimated degrees of freedom. 
+</p>
+<p>Tensor product smooths are especially useful for representing functions of covariates measured in different units, 
+although they are typically not quite as nicely behaved as t.p.r.s. smooths for well scaled covariates.
+</p>
+<p>It is sometimes useful to investigate smooth models with a main-effects + interactions structure, for example
+</p>
+<p style="text-align: center;"><i>f_1(x)  + f_2(z) + f_3(x,z)</i></p>
+
+<p>This functional ANOVA decomposition is supported by <code>ti</code> terms, which produce tensor product interactions from which the main effects have been excluded, under the assumption that they will be included separately. For example the <code>~ ti(x) + ti(z) + ti(x,z)</code> would produce the above main effects + interaction structure. This is much better than attempting the same thing with <code>s</code>or <code>te</code> terms representing the interactions (although mgcv does not forbid it). Technically <code>ti</code> terms are very simple: they simply construct tensor product bases from marginal smooths to which identifiability constraints (usually sum-to-zero) have already been applied: correct nesting is then automatic (as with all interactions in a GLM framework). See Wood (2017, section 5.6.3).
+</p>
+<p>The &lsquo;normal parameterization&rsquo; (<code>np=TRUE</code>) re-parameterizes the marginal
+smooths of a tensor product smooth so that the parameters are function values
+at a set of points spread evenly through the range of values of the covariate
+of the smooth. This means that the penalty of the tensor product associated
+with any particular covariate direction can be interpreted as the penalty of
+the appropriate marginal smooth applied in that direction and averaged over
+the smooth. Currently this is only done for marginals of a single
+variable. This parameterization can reduce numerical stability  when used
+with marginal smooths other than <code>"cc"</code>, <code>"cr"</code> and <code>"cs"</code>: if
+this causes problems, set <code>np=FALSE</code>.
+</p>
+<p>Note that tensor product smooths should not be centred (have identifiability constraints imposed) 
+if any marginals would not need centering. The constructor for tensor product smooths 
+ensures that this happens.
+</p>
+<p>The function does not evaluate the variable arguments.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A class <code>tensor.smooth.spec</code> object defining a tensor product smooth
+to be turned into a basis and penalties by the <code>smooth.construct.tensor.smooth.spec</code> function. 
+</p>
+<p>The returned object contains the following items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>margin</code></td>
+<td>
+<p>A list of <code>smooth.spec</code> objects of the type returned by <code><a href="s.html">s</a></code>, 
+defining the basis from which the tensor product smooth is constructed.</p>
+</td></tr>
+<tr valign="top"><td><code>term</code></td>
+<td>
+<p>An array of text strings giving the names of the covariates that 
+the term is a function of.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>is the name of any <code>by</code> variable as text (<code>"NA"</code> for none).</p>
+</td></tr>
+<tr valign="top"><td><code>fx</code></td>
+<td>
+<p> logical array with element for each penalty of the term
+(tensor product smooths have multiple penalties). <code>TRUE</code> if the penalty is to 
+be ignored, <code>FALSE</code>, otherwise. </p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>A suitable text label for this smooth term.</p>
+</td></tr>
+<tr valign="top"><td><code>dim</code></td>
+<td>
+<p>The dimension of the smoother - i.e. the number of
+covariates that it is a function of.</p>
+</td></tr>
+<tr valign="top"><td><code>mp</code></td>
+<td>
+<p><code>TRUE</code> is multiple penalties are to be used (default).</p>
+</td></tr>
+<tr valign="top"><td><code>np</code></td>
+<td>
+<p><code>TRUE</code> to re-parameterize 1-D marginal smooths in terms of function
+values (defualt).</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>the <code>id</code> argument supplied to <code>te</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>the <code>sp</code> argument supplied to <code>te</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>inter</code></td>
+<td>
+<p><code>TRUE</code> if the term was generated by <code>ti</code>, <code>FALSE</code> otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>mc</code></td>
+<td>
+<p>the argument <code>mc</code> supplied to <code>ti</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N. (2006) Low rank scale invariant tensor product smooths for
+generalized additive mixed models. Biometrics 62(4):1025-1036
+</p>
+<p>Wood S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+and Hall/CRC Press.
+</p>
+<p><a href="http://www.maths.bris.ac.uk/~sw15190/">http://www.maths.bris.ac.uk/~sw15190/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="s.html">s</a></code>,<code><a href="gam.html">gam</a></code>,<code><a href="gamm.html">gamm</a></code>, 
+<code><a href="smooth.construct.tensor.smooth.spec.html">smooth.construct.tensor.smooth.spec</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# following shows how tensor pruduct deals nicely with 
+# badly scaled covariates (range of x 5% of range of z )
+require(mgcv)
+test1 &lt;- function(x,z,sx=0.3,sz=0.4) { 
+  x &lt;- x*20
+  (pi**sx*sz)*(1.2*exp(-(x-0.2)^2/sx^2-(z-0.3)^2/sz^2)+
+  0.8*exp(-(x-0.7)^2/sx^2-(z-0.8)^2/sz^2))
+}
+n &lt;- 500
+old.par &lt;- par(mfrow=c(2,2))
+x &lt;- runif(n)/20;z &lt;- runif(n);
+xs &lt;- seq(0,1,length=30)/20;zs &lt;- seq(0,1,length=30)
+pr &lt;- data.frame(x=rep(xs,30),z=rep(zs,rep(30,30)))
+truth &lt;- matrix(test1(pr$x,pr$z),30,30)
+f &lt;- test1(x,z)
+y &lt;- f + rnorm(n)*0.2
+b1 &lt;- gam(y~s(x,z))
+persp(xs,zs,truth);title("truth")
+vis.gam(b1);title("t.p.r.s")
+b2 &lt;- gam(y~te(x,z))
+vis.gam(b2);title("tensor product")
+b3 &lt;- gam(y~ ti(x) + ti(z) + ti(x,z))
+vis.gam(b3);title("tensor anova")
+
+## now illustrate partial ANOVA decomp...
+vis.gam(b3);title("full anova")
+b4 &lt;- gam(y~ ti(x) + ti(x,z,mc=c(0,1))) ## note z constrained!
+vis.gam(b4);title("partial anova")
+plot(b4)
+
+par(old.par)
+
+## now with a multivariate marginal....
+
+test2&lt;-function(u,v,w,sv=0.3,sw=0.4)  
+{ ((pi**sv*sw)*(1.2*exp(-(v-0.2)^2/sv^2-(w-0.3)^2/sw^2)+
+  0.8*exp(-(v-0.7)^2/sv^2-(w-0.8)^2/sw^2)))*(u-0.5)^2*20
+}
+n &lt;- 500
+v &lt;- runif(n);w&lt;-runif(n);u&lt;-runif(n)
+f &lt;- test2(u,v,w)
+y &lt;- f + rnorm(n)*0.2
+# tensor product of 2D Duchon spline and 1D cr spline
+m &lt;- list(c(1,.5),rep(0,0)) ## example of list form of m
+b &lt;- gam(y~te(v,w,u,k=c(30,5),d=c(2,1),bs=c("ds","cr"),m=m))
+op &lt;- par(mfrow=c(2,2))
+vis.gam(b,cond=list(u=0),color="heat",zlim=c(-0.2,3.5))
+vis.gam(b,cond=list(u=.33),color="heat",zlim=c(-0.2,3.5))
+vis.gam(b,cond=list(u=.67),color="heat",zlim=c(-0.2,3.5))
+vis.gam(b,cond=list(u=1),color="heat",zlim=c(-0.2,3.5))
+par(op)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

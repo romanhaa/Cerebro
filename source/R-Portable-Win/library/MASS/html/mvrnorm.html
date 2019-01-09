@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate from a Multivariate Normal Distribution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mvrnorm {MASS}"><tr><td>mvrnorm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulate from a Multivariate Normal Distribution</h2>
+
+<h3>Description</h3>
+
+<p>Produces one or more samples from the specified
+multivariate normal distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>the number of samples required.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>a vector giving the means of the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>Sigma</code></td>
+<td>
+<p>a positive-definite symmetric matrix specifying the
+covariance matrix of the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>tolerance (relative to largest variance) for numerical lack
+of positive-definiteness in <code>Sigma</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>empirical</code></td>
+<td>
+<p>logical. If true, mu and Sigma specify the empirical
+not population mean and covariance matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>EISPACK</code></td>
+<td>
+<p>logical: values other than <code>FALSE</code> are an error.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The matrix decomposition is done via <code>eigen</code>; although a Choleski
+decomposition might be faster, the eigendecomposition is
+stabler.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>n = 1</code> a vector of the same length as <code>mu</code>, otherwise an
+<code>n</code> by <code>length(mu)</code> matrix with one sample in each row.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>Causes creation of the dataset <code>.Random.seed</code> if it does
+not already exist, otherwise its value is updated.
+</p>
+
+
+<h3>References</h3>
+
+<p>B. D. Ripley (1987) <em>Stochastic Simulation.</em> Wiley. Page 98.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/Normal.html">rnorm</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Sigma &lt;- matrix(c(10,3,3,2),2,2)
+Sigma
+var(mvrnorm(n = 1000, rep(0, 2), Sigma))
+var(mvrnorm(n = 1000, rep(0, 2), Sigma, empirical = TRUE))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

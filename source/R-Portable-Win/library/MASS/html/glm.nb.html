@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit a Negative Binomial Generalized Linear Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glm.nb {MASS}"><tr><td>glm.nb {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Fit a Negative Binomial Generalized Linear Model
+</h2>
+
+<h3>Description</h3>
+
+<p>A modification of the system function <code><a href="../../stats/html/glm.html">glm</a>()</code> to include
+estimation of the additional parameter, <code>theta</code>, for a
+Negative Binomial generalized linear model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glm.nb(formula, data, weights, subset, na.action,
+       start = NULL, etastart, mustart,
+       control = glm.control(...), method = "glm.fit",
+       model = TRUE, x = FALSE, y = TRUE, contrasts = NULL, ...,
+       init.theta, link = log)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula, data, weights, subset, na.action, start, etastart,
+mustart, control, method, model, x, y, contrasts, ...</code></td>
+<td>
+
+<p>arguments for the <code><a href="../../stats/html/glm.html">glm</a>()</code> function.
+Note that these exclude <code>family</code> and <code>offset</code>
+(but <code><a href="../../stats/html/offset.html">offset</a>()</code> can be used).
+</p>
+</td></tr>
+<tr valign="top"><td><code>init.theta</code></td>
+<td>
+
+<p>Optional initial value for the theta parameter.  If omitted a moment
+estimator after an initial fit using a Poisson GLM is used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>link</code></td>
+<td>
+
+<p>The link function.  Currently must be one of <code>log</code>, <code>sqrt</code>
+or <code>identity</code>.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>An alternating iteration process is used.  For given <code>theta</code> the GLM
+is fitted using the same process as used by <code>glm()</code>.  For fixed means
+the <code>theta</code> parameter is estimated using score and information
+iterations.  The two are alternated until convergence of both. (The
+number of alternations and the number of iterations when estimating
+<code>theta</code> are controlled by the <code>maxit</code> parameter of
+<code>glm.control</code>.)
+</p>
+<p>Setting <code>trace &gt; 0</code> traces the alternating iteration
+process. Setting <code>trace &gt; 1</code> traces the <code>glm</code> fit, and
+setting <code>trace &gt; 2</code> traces the estimation of <code>theta</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A fitted model object of class <code>negbin</code> inheriting from <code>glm</code>
+and <code>lm</code>.  The object is like the output of <code>glm</code> but contains
+three additional components, namely <code>theta</code> for the ML estimate of
+theta, <code>SE.theta</code> for its approximate standard error (using
+observed rather than expected information), and <code>twologlik</code> for
+twice the log-likelihood function.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/glm.html">glm</a></code>, <code><a href="negative.binomial.html">negative.binomial</a></code>,
+<code><a href="anova.negbin.html">anova.negbin</a></code>, <code><a href="summary.negbin.html">summary.negbin</a></code>,
+<code><a href="theta.md.html">theta.md</a></code>
+</p>
+<p>There is a <code><a href="../../stats/html/simulate.html">simulate</a></code> method.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+quine.nb1 &lt;- glm.nb(Days ~ Sex/(Age + Eth*Lrn), data = quine)
+quine.nb2 &lt;- update(quine.nb1, . ~ . + Sex:Age:Lrn)
+quine.nb3 &lt;- update(quine.nb2, Days ~ .^4)
+anova(quine.nb1, quine.nb2, quine.nb3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

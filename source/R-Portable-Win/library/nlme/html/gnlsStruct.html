@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generalized Nonlinear Least Squares Structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gnlsStruct {nlme}"><tr><td>gnlsStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generalized Nonlinear Least Squares Structure</h2>
+
+<h3>Description</h3>
+
+<p>A generalized nonlinear least squares structure is a list of model
+components representing different sets of parameters in the nonlinear 
+model. A <code>gnlsStruct</code>  may contain <code>corStruct</code> and
+<code>varFunc</code> objects. <code>NULL</code> arguments are not included in the
+<code>gnlsStruct</code> list. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gnlsStruct(corStruct, varStruct)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>corStruct</code></td>
+<td>
+<p>an optional <code>corStruct</code> object, representing a
+correlation structure. Default is <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>varStruct</code></td>
+<td>
+<p>an optional <code>varFunc</code> object, representing a
+variance function structure. Default is <code>NULL</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list of model variance-covariance components determining the
+parameters to be estimated for the associated nonlinear model.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gnls.html">gnls</a></code>, <code><a href="corClasses.html">corClasses</a></code>,
+<code><a href="residuals.gnlsStruct.html">residuals.gnlsStruct</a></code>
+<code><a href="varFunc.html">varFunc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+gnls1 &lt;- gnlsStruct(corAR1(), varPower())
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

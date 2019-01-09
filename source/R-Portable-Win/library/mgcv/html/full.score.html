@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GCV/UBRE score for use within nlm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for full.score {mgcv}"><tr><td>full.score {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GCV/UBRE score for use within nlm</h2>
+
+<h3>Description</h3>
+
+<p> Evaluates GCV/UBRE score for a GAM, given smoothing
+parameters. The routine calls <code><a href="gam.fit.html">gam.fit</a></code> to fit the model, and is
+usually called by <code><a href="../../stats/html/nlm.html">nlm</a></code> to optimize the smoothing parameters. 
+</p>
+<p>This is basically a service routine for <code><a href="gam.html">gam</a></code>, and is not usually 
+called directly by users. It is only used in this context for GAMs fitted by
+outer iteration (see <code><a href="gam.outer.html">gam.outer</a></code>) when the the outer method is 
+<code>"nlm.fd"</code> (see <code><a href="gam.html">gam</a></code> argument <code>optimizer</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+full.score(sp,G,family,control,gamma,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>The logs of the smoothing parameters</p>
+</td></tr>
+<tr valign="top"><td><code>G</code></td>
+<td>
+<p>a list returned by <code>mgcv:::gam.setup</code></p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>The family object for the GAM.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list returned be <code><a href="gam.control.html">gam.control</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>the degrees of freedom inflation factor (usually 1).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments, typically for passing on to <code>gam.fit</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p> The value of the GCV/UBRE score, with attribute <code>"full.gam.object"</code>
+which is the full object returned by <code><a href="gam.fit.html">gam.fit</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

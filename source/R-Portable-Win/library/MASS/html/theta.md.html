@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Estimate theta of the Negative Binomial</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for theta.md {MASS}"><tr><td>theta.md {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Estimate theta of the Negative Binomial
+</h2>
+
+<h3>Description</h3>
+
+<p>Given the estimated mean vector, estimate <code>theta</code> of the
+Negative Binomial Distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+theta.md(y, mu, dfr, weights, limit = 20, eps = .Machine$double.eps^0.25)
+
+theta.ml(y, mu, n, weights, limit = 10, eps = .Machine$double.eps^0.25,
+         trace = FALSE)
+
+theta.mm(y, mu, dfr, weights, limit = 10, eps = .Machine$double.eps^0.25)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>Vector of observed values from the Negative Binomial.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+
+<p>Estimated mean vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>Number of data points (defaults to the sum of <code>weights</code>)
+</p>
+</td></tr>
+<tr valign="top"><td><code>dfr</code></td>
+<td>
+
+<p>Residual degrees of freedom (assuming <code>theta</code> known).  For
+a weighted fit this is the sum of the weights minus the number of
+fitted parameters.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>Case weights.  If missing, taken as 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>limit</code></td>
+<td>
+
+<p>Limit on the number of iterations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+
+<p>Tolerance to determine convergence.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>logical: should iteration progress be printed?
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>theta.md</code> estimates by equating the deviance to the residual
+degrees of freedom, an analogue of a moment estimator.
+</p>
+<p><code>theta.ml</code> uses maximum likelihood.
+</p>
+<p><code>theta.mm</code> calculates the moment estimator of <code>theta</code> by
+equating the Pearson chi-square
+<i>sum((y-mu)^2/(mu+mu^2/theta))</i>
+to the residual degrees of freedom.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The required estimate of <code>theta</code>, as a scalar.
+For <code>theta.ml</code>, the standard error is given as attribute <code>"SE"</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="glm.nb.html">glm.nb</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+quine.nb &lt;- glm.nb(Days ~ .^2, data = quine)
+theta.md(quine$Days, fitted(quine.nb), dfr = df.residual(quine.nb))
+theta.ml(quine$Days, fitted(quine.nb))
+theta.mm(quine$Days, fitted(quine.nb), dfr = df.residual(quine.nb))
+
+## weighted example
+yeast &lt;- data.frame(cbind(numbers = 0:5, fr = c(213, 128, 37, 18, 3, 1)))
+fit &lt;- glm.nb(numbers ~ 1, weights = fr, data = yeast)
+summary(fit)
+mu &lt;- fitted(fit)
+theta.md(yeast$numbers, mu, dfr = 399, weights = yeast$fr)
+theta.ml(yeast$numbers, mu, limit = 15, weights = yeast$fr)
+theta.mm(yeast$numbers, mu, dfr = 399, weights = yeast$fr)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

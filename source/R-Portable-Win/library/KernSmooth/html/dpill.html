@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Select a Bandwidth for Local Linear Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dpill {KernSmooth}"><tr><td>dpill {KernSmooth}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Select a Bandwidth for Local Linear Regression
+</h2>
+
+<h3>Description</h3>
+
+<p>Use direct plug-in methodology to select the bandwidth
+of a local linear Gaussian kernel regression estimate, as described
+by Ruppert, Sheather and Wand (1995). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dpill(x, y, blockmax = 5, divisor = 20, trim = 0.01, proptrun = 0.05, 
+      gridsize = 401L, range.x, truncate = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>numeric vector of x data.
+Missing values are not accepted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>numeric vector of y data.
+This must be same length as <code>x</code>, and
+missing values are not accepted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>blockmax</code></td>
+<td>
+
+<p>the maximum number of blocks of the data for construction
+of an initial parametric estimate. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>divisor</code></td>
+<td>
+
+<p>the value that the sample size is divided by to determine
+a lower limit on the number of blocks of the data for
+construction of an initial parametric estimate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trim</code></td>
+<td>
+
+<p>the proportion of the sample trimmed from each end in the
+<code>x</code> direction before application of the plug-in methodology.
+</p>
+</td></tr>
+<tr valign="top"><td><code>proptrun</code></td>
+<td>
+
+<p>the proportion of the range of <code>x</code> at each end truncated in the
+functional estimates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>gridsize</code></td>
+<td>
+
+<p>number of equally-spaced grid points over which the
+function is to be estimated.
+</p>
+</td></tr>
+<tr valign="top"><td><code>range.x</code></td>
+<td>
+
+<p>vector containing the minimum and maximum values of <code>x</code> at which to
+compute the estimate.
+For density estimation the default is the minimum and maximum data values
+with 5% of the range added to each end.
+For regression estimation the default is the minimum and maximum data values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>truncate</code></td>
+<td>
+
+<p>logical flag: if <code>TRUE</code>, data with <code>x</code> values outside the
+range specified by <code>range.x</code> are ignored.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>The direct plug-in approach, where unknown functionals
+that appear in expressions for the asymptotically
+optimal bandwidths
+are replaced by kernel estimates, is used.
+The kernel is the standard normal density.
+Least squares quartic fits over blocks of data are used to 
+obtain an initial estimate. Mallow's <i>Cp</i> is used to select
+the number of blocks.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the selected bandwidth.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>If there are severe irregularities (i.e. outliers, sparse regions)
+in the <code>x</code> values then the local polynomial smooths required for the
+bandwidth selection algorithm may become degenerate and the function
+will crash. Outliers in the <code>y</code> direction may lead to deterioration
+of the quality of the selected bandwidth.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ruppert, D., Sheather, S. J. and Wand, M. P. (1995).
+An effective bandwidth selector for local least squares
+regression.
+<em>Journal of the American Statistical Association</em>,
+<b>90</b>, 1257&ndash;1270.
+</p>
+<p>Wand, M. P. and Jones, M. C. (1995).
+<em>Kernel Smoothing.</em>
+Chapman and Hall, London.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/ksmooth.html">ksmooth</a></code>, <code><a href="locpoly.html">locpoly</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(geyser, package = "MASS")
+x &lt;- geyser$duration
+y &lt;- geyser$waiting
+plot(x, y)
+h &lt;- dpill(x, y)
+fit &lt;- locpoly(x, y, bandwidth = h)
+lines(fit)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>KernSmooth</em> version 2.23-15 <a href="00Index.html">Index</a>]</div>
+</body></html>

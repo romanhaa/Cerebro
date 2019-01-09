@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Matrix of a corStruct Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for as.matrix.corStruct {nlme}"><tr><td>as.matrix.corStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Matrix of a corStruct Object</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts the correlation matrix, or list of
+correlation matrices, associated with <code>object</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'corStruct'
+as.matrix(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object inheriting from class <code>"<a href="corClasses.html">corStruct</a>"</code>,
+representing a correlation structure.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If the correlation structure includes a grouping factor, the returned
+value will be a list with components given by the correlation
+matrices for each group. Otherwise, the returned value will be a
+matrix representing the correlation structure associated with
+<code>object</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J. C. and Bates, D. M. (2000), <em>Mixed-Effects Models in S
+and S-PLUS</em>, Springer, New York.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corClasses.html">corClasses</a></code>, <code><a href="corMatrix.html">corMatrix</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cst1 &lt;- corAR1(form = ~1|Subject)
+cst1 &lt;- Initialize(cst1, data = Orthodont)
+as.matrix(cst1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

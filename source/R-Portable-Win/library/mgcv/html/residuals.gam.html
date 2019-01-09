@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generalized Additive Model residuals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for residuals.gam {mgcv}"><tr><td>residuals.gam {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generalized Additive Model residuals</h2>
+
+<h3>Description</h3>
+
+<p>Returns residuals for a fitted <code>gam</code> model
+object. Pearson, deviance, working and response residuals are
+available. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gam'
+residuals(object, type = "deviance",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> a <code>gam</code> fitted model object. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>the type of residuals wanted. Usually one of 
+<code>"deviance"</code>, <code>"pearson"</code>,<code>"scaled.pearson"</code>, 
+<code>"working"</code>, or <code>"response"</code>.  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Response residuals are the raw residuals (data minus fitted
+values). Scaled Pearson residuals are raw residuals divided by the standard
+deviation of the data according to the model mean variance
+relationship and estimated scale parameter. Pearson residuals are the same, but multiplied by the square root 
+of the scale parameter (so they are independent of the scale parameter):
+(<i>(y-m)/V(m)^0.5</i>, where  <i>y</i> is data <i>m</i> 
+is model fitted value and <i>V</i> is model mean-variance relationship.). Both are provided since not all texts 
+agree on the definition of Pearson residuals. Deviance residuals simply
+return the deviance residuals defined by the model family. Working
+residuals are the residuals returned from model fitting at convergence.
+</p>
+<p>Families can supply their own residual function, which is used in place of the standard 
+function if present, (e.g. <code><a href="coxph.html">cox.ph</a></code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p> A vector of residuals.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+   <p><code><a href="gam.html">gam</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the Volume of Planar Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for volume.ellipsoid {cluster}"><tr><td>volume.ellipsoid {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the Volume of Planar Object</h2>
+
+<h3>Description</h3>
+
+<p>Compute the volume of a planar object.
+This is a generic function and a method for <code>ellipsoid</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'ellipsoid'
+volume(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object the volume of which is wanted; for the
+<code>ellipsoid</code> method, an object of that class (see
+<code><a href="ellipsoidhull.html">ellipsoidhull</a></code> or the example below).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a number, the volume of the given <code>object</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ellipsoidhull.html">ellipsoidhull</a></code> for spanning ellipsoid computation.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## example(ellipsoidhull) # which defines `ellipsoid' object &lt;namefoo&gt;
+
+myEl &lt;- structure(list(cov = rbind(c(3,1),1:2), loc = c(0,0), d2 = 10),
+                   class = "ellipsoid")
+volume(myEl)# i.e. "area" here (d = 2)
+myEl # also mentions the "volume"
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

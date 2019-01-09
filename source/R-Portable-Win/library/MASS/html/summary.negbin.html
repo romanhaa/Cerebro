@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary Method Function for Objects of Class 'negbin'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for summary.negbin {MASS}"><tr><td>summary.negbin {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Summary Method Function for Objects of Class 'negbin'
+</h2>
+
+<h3>Description</h3>
+
+<p>Identical to <code>summary.glm</code>, but with three lines of additional output: the
+ML estimate of theta, its standard error, and twice the log-likelihood
+function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'negbin'
+summary(object, dispersion = 1, correlation = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>fitted model object of class <code>negbin</code> inheriting from <code>glm</code> and <code>lm</code>.
+Typically the output of <code>glm.nb</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+
+<p>as for <code>summary.glm</code>, with a default of 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+
+<p>as for <code>summary.glm</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed to or from other methods.
+</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p><code>summary.glm</code> is used to produce the majority of the output and supply the
+result.
+This function is a method for the generic function
+<code>summary()</code> for class <code>"negbin"</code>.
+It can be invoked by calling <code>summary(x)</code> for an
+object <code>x</code> of the appropriate class, or directly by
+calling <code>summary.negbin(x)</code> regardless of the
+class of the object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>As for <code>summary.glm</code>; the additional lines of output are not included in
+the resultant object.
+</p>
+
+
+<h3>Side Effects</h3>
+
+<p>A summary table is produced as for <code>summary.glm</code>, with the additional
+information described above.
+</p>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/summary.html">summary</a></code>, <code><a href="glm.nb.html">glm.nb</a></code>, <code><a href="negative.binomial.html">negative.binomial</a></code>, <code><a href="anova.negbin.html">anova.negbin</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+summary(glm.nb(Days ~ Eth*Age*Lrn*Sex, quine, link = log))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

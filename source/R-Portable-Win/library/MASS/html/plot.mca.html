@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for Objects of Class 'mca'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.mca {MASS}"><tr><td>plot.mca {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot Method for Objects of Class 'mca'
+</h2>
+
+<h3>Description</h3>
+
+<p>Plot a multiple correspondence analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'mca'
+plot(x, rows = TRUE, col, cex = par("cex"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object of class <code>"mca"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rows</code></td>
+<td>
+
+<p>Should the coordinates for the rows be plotted, or just the vertices
+for the levels?
+</p>
+</td></tr>
+<tr valign="top"><td><code>col, cex</code></td>
+<td>
+
+<p>The colours and <code>cex</code> to be used for the row points and level vertices
+respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional parameters to <code>plot</code>.
+</p>
+</td></tr></table>
+
+
+<h3>References</h3>
+
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="mca.html">mca</a></code>, <code><a href="predict.mca.html">predict.mca</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+plot(mca(farms, abbrev = TRUE))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

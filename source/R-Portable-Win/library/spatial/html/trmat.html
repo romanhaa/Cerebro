@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate Trend Surface over a Grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for trmat {spatial}"><tr><td>trmat {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Evaluate Trend Surface over a Grid
+</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate trend surface over a grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trmat(obj, xl, xu, yl, yu, n)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+
+<p>object returned by <code>surf.ls</code> or <code>surf.gls</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>xl</code></td>
+<td>
+
+<p>limits of the rectangle for grid
+</p>
+</td></tr>
+<tr valign="top"><td><code>xu</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>yl</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>yu</code></td>
+<td>
+
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>use <code>n</code>  x  <code>n</code> grid within the rectangle
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>list with components <code>x</code>, <code>y</code> and <code>z</code> suitable for <code>contour</code> and <code>image</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="surf.ls.html">surf.ls</a></code>, <code><a href="surf.gls.html">surf.gls</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(topo, package="MASS")
+topo.kr &lt;- surf.ls(2, topo)
+trsurf &lt;- trmat(topo.kr, 0, 6.5, 0, 6.5, 50)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,250 @@
+## Historical record of SVN commits 2009-2017, CVS commits up to 2009
+
+2017-04-14 11:31  rsbivand
+
+	* DESCRIPTION, src/init.c: added registration
+
+2015-09-28 17:49  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2015-09-28 17:49  rsbivand
+
+	* ChangeLog, DESCRIPTION: tidy
+
+2015-06-28 12:14  rsbivand
+
+	* DESCRIPTION, NAMESPACE: CRAN
+	  _R_CHECK_CODE_USAGE_WITH_ONLY_BASE_ATTACHED_=true NAMESPACE tidy
+
+2015-04-13 15:28  rsbivand
+
+	* svn2cl.xsl: move to distributed svn2cl
+
+2015-01-10 14:20  rsbivand
+
+	* data/jenks71.rda: rebuild jenks71.rda
+
+2015-01-10 14:19  rsbivand
+
+	* DESCRIPTION, data/jenks71.rda: rebuild jenks71.rda
+
+2015-01-06 12:03  rsbivand
+
+	* DESCRIPTION: tidy
+
+2015-01-06 12:02  rsbivand
+
+	* DESCRIPTION: tidy
+
+2015-01-06 09:32  rsbivand
+
+	* ChangeLog, inst/ChangeLog, man/classIntervals.Rd: improvements to
+	  jenks documentation
+
+2015-01-05 20:00  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2015-01-05 20:00  rsbivand
+
+	* DESCRIPTION, man/classIntervals.Rd: improvements to jenks
+	  documentation
+
+2014-04-06 17:05  rsbivand
+
+	* ChangeLog: close ring in Polygon
+
+2013-08-30 11:55  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2013-08-30 11:54  rsbivand
+
+	* .Rbuildignore, ChangeLog, inst/ChangeLog: tidy
+
+2013-08-29 14:26  rsbivand
+
+	* DESCRIPTION, NAMESPACE: tidy
+
+2013-07-28 19:37  rsbivand
+
+	* DESCRIPTION, NAMESPACE: thinning load depends
+
+2013-06-22 14:40  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2013-06-22 14:39  rsbivand
+
+	* man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
+	  man/jenks.tests.Rd: help line lengths
+
+2013-06-22 14:33  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2013-06-22 14:33  rsbivand
+
+	* DESCRIPTION: tidy
+
+2013-06-22 14:31  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2013-06-12 10:46  rsbivand
+
+	* man/classIntervals.Rd, man/findColours.Rd: add more documentation
+	  on cutlabels= argument
+
+2013-02-07 10:43  rsbivand
+
+	* R/classInt.R: handle non-integer GRASS parameters more
+	  forgivingly
+
+2012-11-05 17:05  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2012-11-05 17:04  rsbivand
+
+	* DESCRIPTION: tidy
+
+2012-07-22 13:30  rsbivand
+
+	* DESCRIPTION: Authors@R classInt
+
+2012-07-16 13:50  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2012-07-16 13:49  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd, tests,
+	  tests/test_Unique.R, tests/test_Unique.Rout.save: adding unique
+	  revisions, documentation and tests
+
+2012-07-05 17:42  rsbivand
+
+	* DESCRIPTION: add unique label option, check intervalClusure
+
+2012-07-05 17:41  rsbivand
+
+	* R/classInt.R, man/classIntervals.Rd: add unique label option,
+	  check intervalClusure
+
+2011-11-21 10:34  rsbivand
+
+	* R/classInt.R, man/classIntervals.Rd: change jenks storage mode to
+	  double
+
+2011-11-14 10:58  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2011-11-10 07:30  rsbivand
+
+	* ChangeLog, inst/ChangeLog: dots in fixed style
+
+2011-11-10 07:29  rsbivand
+
+	* DESCRIPTION, R/classInt.R: dots in fixed style
+
+2011-10-21 15:56  rsbivand
+
+	* DESCRIPTION, R/classInt.R: classInt NA handling
+
+2011-05-26 21:22  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: block Inf
+	  warning in print.classIntervals
+
+2011-02-22 16:37  rsbivand
+
+	* ChangeLog: tidy
+
+2011-02-22 16:24  rsbivand
+
+	* oChangeLog, svn2cl.xsl: tidy
+
+2011-02-22 16:18  rsbivand
+
+	* .: tidy
+2009-12-21 10:09  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: classInterval
+	  to shingle
+
+2009-10-20 10:22  rsbivand
+
+	* ChangeLog, inst/ChangeLog: argument passing
+
+2009-10-20 10:19  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: argument
+	  passing
+
+2009-09-17 10:19  rsbivand
+
+	* DESCRIPTION, man/classIntervals.Rd, man/findColours.Rd,
+	  ChangeLog: fix documentation links
+
+2009-05-25 12:20  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd,
+	  man/findColours.Rd, ChangeLog: representation update 2
+
+2009-05-25 08:17  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: representation
+	  overhaul 1
+
+2009-05-12 10:33  rsbivand
+
+	* ChangeLog: tidy
+
+2009-05-12 10:33  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: correction to
+	  jenks style intervals
+
+2008-01-18 22:40  rsbivand
+
+	* DESCRIPTION: jenks
+
+2007-11-21 19:13  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: Jenks
+
+2007-09-04 14:49  rsbivand
+
+	* ChangeLog: Changelog
+
+2007-08-24 09:20  rsbivand
+
+	* DESCRIPTION, man/classIntervals.Rd: methods Rd
+
+2006-12-07 19:19  rsbivand
+
+	* DESCRIPTION, src/fish1.f: E300
+
+2006-03-20 09:30  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/classInt.R, man/classIntervals.Rd,
+	  man/findColours.Rd, src/fish1.f: 1-5
+
+2006-03-10 14:13  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/classInt.R, data/jenks71.rda,
+	  man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
+	  man/getBclustClassIntervals.Rd, man/jenks.tests.Rd,
+	  man/jenks71.Rd: Initial revision
+
+2006-03-10 14:13  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/classInt.R, data/jenks71.rda,
+	  man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
+	  man/getBclustClassIntervals.Rd, man/jenks.tests.Rd,
+	  man/jenks71.Rd: initial import
+
+

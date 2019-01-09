@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Robust Fitting of Linear Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlm {MASS}"><tr><td>rlm {MASS}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Robust Fitting of Linear Models
+</h2>
+
+<h3>Description</h3>
+
+<p>Fit a linear model by robust regression using an M estimator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlm(x, ...)
+
+## S3 method for class 'formula'
+rlm(formula, data, weights, ..., subset, na.action,
+    method = c("M", "MM", "model.frame"),
+    wt.method = c("inv.var", "case"),
+    model = TRUE, x.ret = TRUE, y.ret = FALSE, contrasts = NULL)
+
+## Default S3 method:
+rlm(x, y, weights, ..., w = rep(1, nrow(x)),
+    init = "ls", psi = psi.huber,
+    scale.est = c("MAD", "Huber", "proposal 2"), k2 = 1.345,
+    method = c("M", "MM"), wt.method = c("inv.var", "case"),
+    maxit = 20, acc = 1e-4, test.vec = "resid", lqs.control = NULL)
+
+psi.huber(u, k = 1.345, deriv = 0)
+psi.hampel(u, a = 2, b = 4, c = 8, deriv = 0)
+psi.bisquare(u, c = 4.685, deriv = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+
+<p>a formula of the form <code>y ~ x1 + x2 + ...</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>data frame from which variables specified in <code>formula</code> are
+preferentially to be taken.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+
+<p>a vector of prior weights for each case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>An index vector specifying the cases to be used in fitting.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+
+<p>A function to specify the action to be taken if <code>NA</code>s are found.
+The &lsquo;factory-fresh&rsquo; default action in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> is
+<code><a href="../../stats/html/na.fail.html">na.omit</a></code>, and can be changed by
+<code><a href="../../base/html/options.html">options</a>(na.action=)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a matrix or data frame containing the explanatory variables.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>the response: a vector of length the number of rows of <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>currently either M-estimation or MM-estimation or (for the
+<code>formula</code> method only) find the model frame.  MM-estimation
+is M-estimation with Tukey's biweight initialized by a specific
+S-estimator.  See the &lsquo;Details&rsquo; section.
+</p>
+</td></tr>
+<tr valign="top"><td><code>wt.method</code></td>
+<td>
+
+<p>are the weights case weights (giving the relative importance of case,
+so a weight of 2 means there are two of these) or the inverse of the
+variances, so a weight of two means this error is half as variable?
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>should the model frame be returned in the object?
+</p>
+</td></tr>
+<tr valign="top"><td><code>x.ret</code></td>
+<td>
+
+<p>should the model matrix be returned in the object?
+</p>
+</td></tr>
+<tr valign="top"><td><code>y.ret</code></td>
+<td>
+
+<p>should the response be returned in the object?
+</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+
+<p>optional contrast specifications: see <code><a href="../../stats/html/lm.html">lm</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+
+<p>(optional) initial down-weighting for each case.
+</p>
+</td></tr>
+<tr valign="top"><td><code>init</code></td>
+<td>
+
+<p>(optional) initial values for the coefficients OR a method to find
+initial values OR the result of a fit with a <code>coef</code> component.  Known
+methods are <code>"ls"</code> (the default) for an initial least-squares fit
+using weights <code>w*weights</code>, and <code>"lts"</code> for an unweighted
+least-trimmed squares fit with 200 samples.
+</p>
+</td></tr>
+<tr valign="top"><td><code>psi</code></td>
+<td>
+
+<p>the psi function is specified by this argument.  It must give
+(possibly by name) a function <code>g(x, ..., deriv)</code> that for
+<code>deriv=0</code> returns psi(x)/x and for <code>deriv=1</code> returns
+psi'(x).  Tuning constants will be passed in via <code>...</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scale.est</code></td>
+<td>
+
+<p>method of scale estimation: re-scaled MAD of the residuals (default)
+or Huber's proposal 2 (which can be selected by either <code>"Huber"</code>
+or <code>"proposal 2"</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>k2</code></td>
+<td>
+
+<p>tuning constant used for Huber proposal 2 scale estimation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+
+<p>the limit on the number of IWLS iterations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>acc</code></td>
+<td>
+
+<p>the accuracy for the stopping criterion.
+</p>
+</td></tr>
+<tr valign="top"><td><code>test.vec</code></td>
+<td>
+
+<p>the stopping criterion is based on changes in this vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments to be passed to <code>rlm.default</code> or to the <code>psi</code>
+function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lqs.control</code></td>
+<td>
+
+<p>An optional list of control values for <code><a href="lqs.html">lqs</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>u</code></td>
+<td>
+
+<p>numeric vector of evaluation points.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k, a, b, c</code></td>
+<td>
+
+<p>tuning constants.
+</p>
+</td></tr>
+<tr valign="top"><td><code>deriv</code></td>
+<td>
+
+<p><code>0</code> or <code>1</code>: compute values of the psi function or of its
+first derivative.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Fitting is done by iterated re-weighted least squares (IWLS).
+</p>
+<p>Psi functions are supplied for the Huber, Hampel and Tukey bisquare
+proposals as <code>psi.huber</code>, <code>psi.hampel</code> and
+<code>psi.bisquare</code>. Huber's corresponds to a convex optimization
+problem and gives a unique solution (up to collinearity). The other
+two will have multiple local minima, and a good starting point is
+desirable.
+</p>
+<p>Selecting <code>method = "MM"</code> selects a specific set of options which
+ensures that the estimator has a high breakdown point. The initial set
+of coefficients and the final scale are selected by an S-estimator
+with <code>k0 = 1.548</code>; this gives (for <i>n &gt;&gt; p</i>)
+breakdown point 0.5.
+The final estimator is an M-estimator with Tukey's biweight and fixed
+scale that will inherit this breakdown point provided <code>c &gt; k0</code>;
+this is true for the default value of <code>c</code> that corresponds to
+95% relative efficiency at the normal.  Case weights are not
+supported for <code>method = "MM"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"rlm"</code> inheriting from <code>"lm"</code>.
+Note that the <code>df.residual</code> component is deliberately set to
+<code>NA</code> to avoid inappropriate estimation of the residual scale from
+the residual mean square by <code>"lm"</code> methods.
+</p>
+<p>The additional components not in an <code>lm</code> object are
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>s</code></td>
+<td>
+
+<p>the robust scale estimate used
+</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+
+<p>the weights used in the IWLS process
+</p>
+</td></tr>
+<tr valign="top"><td><code>psi</code></td>
+<td>
+
+<p>the psi function with parameters substituted
+</p>
+</td></tr>
+<tr valign="top"><td><code>conv</code></td>
+<td>
+
+<p>the convergence criteria at each iteration
+</p>
+</td></tr>
+<tr valign="top"><td><code>converged</code></td>
+<td>
+
+<p>did the IWLS converge?
+</p>
+</td></tr>
+<tr valign="top"><td><code>wresid</code></td>
+<td>
+
+<p>a working residual, weighted for <code>"inv.var"</code> weights only.
+</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>P. J. Huber (1981)
+<em>Robust Statistics</em>.
+Wiley.
+</p>
+<p>F. R. Hampel, E. M. Ronchetti, P. J. Rousseeuw and W. A. Stahel (1986)
+<em>Robust Statistics: The Approach based on Influence Functions</em>.
+Wiley.
+</p>
+<p>A. Marazzi (1993)
+<em>Algorithms, Routines and S Functions for Robust Statistics</em>.
+Wadsworth &amp; Brooks/Cole.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em>  Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/lm.html">lm</a></code>, <code><a href="lqs.html">lqs</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+summary(rlm(stack.loss ~ ., stackloss))
+rlm(stack.loss ~ ., stackloss, psi = psi.hampel, init = "lts")
+rlm(stack.loss ~ ., stackloss, psi = psi.bisquare)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>MASS</em> version 7.3-50 <a href="00Index.html">Index</a>]</div>
+</body></html>

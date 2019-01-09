@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrapping of Time Series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tsboot {boot}"><tr><td>tsboot {boot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Bootstrapping of Time Series
+</h2>
+
+<h3>Description</h3>
+
+<p>Generate <code>R</code> bootstrap replicates of a statistic applied to a
+time series.  The replicate time series can be generated using fixed
+or random block lengths or can be model based replicates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tsboot(tseries, statistic, R, l = NULL, sim = "model",
+       endcorr = TRUE, n.sim = NROW(tseries), orig.t = TRUE,
+       ran.gen, ran.args = NULL, norm = TRUE, ...,
+       parallel = c("no", "multicore", "snow"),
+       ncpus = getOption("boot.ncpus", 1L), cl = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tseries</code></td>
+<td>
+
+<p>A univariate or multivariate time series.
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>A function which when applied to <code>tseries</code> returns a vector
+containing the statistic(s) of interest.  Each time <code>statistic</code> is
+called it is passed a time series of length <code>n.sim</code> which is of the
+same class as the original <code>tseries</code>.  Any other arguments which
+<code>statistic</code> takes must remain constant for each bootstrap replicate
+and should be supplied through the ... argument to <code>tsboot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>A positive integer giving the number of bootstrap replicates required.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>sim</code></td>
+<td>
+
+<p>The type of simulation required to generate the replicate time series.  The
+possible input values are <code>"model"</code> (model based resampling),
+<code>"fixed"</code> (block resampling with fixed block lengths of
+<code>l</code>), <code>"geom"</code> (block resampling with block lengths
+having a geometric distribution with mean <code>l</code>) or
+<code>"scramble"</code> (phase scrambling).
+</p>
+</td></tr>
+<tr valign="top"><td><code>l</code></td>
+<td>
+
+<p>If <code>sim</code> is <code>"fixed"</code> then <code>l</code> is the fixed block
+length used in generating the replicate time series.  If <code>sim</code> is
+<code>"geom"</code> then <code>l</code> is the mean of the geometric distribution
+used to generate the block lengths. <code>l</code> should be a positive
+integer less than the length of <code>tseries</code>.  This argument is not
+required when <code>sim</code> is <code>"model"</code> but it is required for all
+other simulation types.
+</p>
+</td></tr>
+<tr valign="top"><td><code>endcorr</code></td>
+<td>
+
+<p>A logical variable indicating whether end corrections are to be
+applied when <code>sim</code> is <code>"fixed"</code>.  When <code>sim</code> is
+<code>"geom"</code>, <code>endcorr</code> is automatically set to <code>TRUE</code>;
+<code>endcorr</code> is not used when <code>sim</code> is <code>"model"</code> or
+<code>"scramble"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.sim</code></td>
+<td>
+
+<p>The length of the simulated time series.  Typically this will be equal
+to the length of the original time series but there are situations when
+it will be larger.  One obvious situation is if prediction is required.
+Another situation in which <code>n.sim</code> is larger than the original
+length is if <code>tseries</code> is a residual time series from fitting some
+model to the original time series. In this case, <code>n.sim</code> would
+usually be the length of the original time series.
+</p>
+</td></tr>
+<tr valign="top"><td><code>orig.t</code></td>
+<td>
+
+<p>A logical variable which indicates whether <code>statistic</code> should be
+applied to <code>tseries</code> itself as well as the bootstrap replicate
+series.  If <code>statistic</code> is expecting a longer time series than
+<code>tseries</code> or if applying <code>statistic</code> to <code>tseries</code> will
+not yield any useful information then <code>orig.t</code> should be set to
+<code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ran.gen</code></td>
+<td>
+
+<p>This is a function of three arguments.  The first argument is a time
+series.  If <code>sim</code> is <code>"model"</code> then it will always be
+<code>tseries</code> that is passed.  For other simulation types it is the
+result of selecting <code>n.sim</code> observations from <code>tseries</code> by
+some scheme and converting the result back into a time series of the
+same form as <code>tseries</code> (although of length <code>n.sim</code>).  The
+second argument to <code>ran.gen</code> is always the value <code>n.sim</code>, and
+the third argument is <code>ran.args</code>, which is used to supply any other
+objects needed by <code>ran.gen</code>.  If <code>sim</code> is <code>"model"</code> then
+the generation of the replicate time series will be done in
+<code>ran.gen</code> (for example through use of <code><a href="../../stats/html/arima.sim.html">arima.sim</a></code>).
+For the other simulation types <code>ran.gen</code> is used for
+&lsquo;post-blackening&rsquo;.  The default is that the function simply returns
+the time series passed to it.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ran.args</code></td>
+<td>
+
+<p>This will be supplied to <code>ran.gen</code> each time it is called.  If
+<code>ran.gen</code> needs any extra arguments then they should be
+supplied as components of <code>ran.args</code>. Multiple arguments may be
+passed by making <code>ran.args</code> a list.  If <code>ran.args</code> is
+<code>NULL</code> then it should not be used within <code>ran.gen</code> but
+note that <code>ran.gen</code> must still have its third argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>norm</code></td>
+<td>
+
+<p>A logical argument indicating whether normal margins should be used
+for phase scrambling.  If <code>norm</code> is <code>FALSE</code> then margins
+corresponding to the exact empirical margins are used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Extra named arguments to <code>statistic</code> may be supplied here.
+Beware of partial matching to the arguments of <code>tsboot</code> listed above.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parallel, ncpus, cl</code></td>
+<td>
+
+<p>See the help for <code><a href="boot.html">boot</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>sim</code> is <code>"fixed"</code> then each replicate time series is
+found by taking blocks of length <code>l</code>, from the original time
+series and putting them end-to-end until a new series of length
+<code>n.sim</code> is created.  When <code>sim</code> is <code>"geom"</code> a similar
+approach is taken except that now the block lengths are generated from
+a geometric distribution with mean <code>l</code>.  Post-blackening can be
+carried out on these replicate time series by including the function
+<code>ran.gen</code> in the call to <code>tsboot</code> and having <code>tseries</code>
+as a time series of residuals.
+</p>
+<p>Model based resampling is very similar to the parametric bootstrap and
+all simulation must be in one of the user specified functions.  This
+avoids the complicated problem of choosing the block length but relies
+on an accurate model choice being made.
+</p>
+<p>Phase scrambling is described in Section 8.2.4 of Davison and Hinkley
+(1997).  The types of statistic for which this method produces
+reasonable results is very limited and the other methods seem to do
+better in most situations.  Other types of resampling in the frequency
+domain can be accomplished using the function <code>boot</code> with the
+argument <code>sim = "parametric"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"boot"</code> with the following components.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>t0</code></td>
+<td>
+
+<p>If <code>orig.t</code> is <code>TRUE</code> then <code>t0</code> is the result of
+<code>statistic(tseries,...{})</code> otherwise it is <code>NULL</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+
+<p>The results of applying <code>statistic</code> to the replicate time series. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+
+<p>The value of <code>R</code> as supplied to <code>tsboot</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tseries</code></td>
+<td>
+
+<p>The original time series.
+</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+
+<p>The function <code>statistic</code> as supplied.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sim</code></td>
+<td>
+
+<p>The simulation type used in generating the replicates.
+</p>
+</td></tr>
+<tr valign="top"><td><code>endcorr</code></td>
+<td>
+
+<p>The value of <code>endcorr</code> used.  The value is meaningful only when
+<code>sim</code> is <code>"fixed"</code>; it is ignored for model based simulation
+or phase scrambling and is always set to <code>TRUE</code> if <code>sim</code> is
+<code>"geom"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.sim</code></td>
+<td>
+
+<p>The value of <code>n.sim</code> used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>l</code></td>
+<td>
+
+<p>The value of <code>l</code> used for block based resampling.  This will be
+<code>NULL</code> if block based resampling was not used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ran.gen</code></td>
+<td>
+
+<p>The <code>ran.gen</code> function used for generating the series or for
+&lsquo;post-blackening&rsquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ran.args</code></td>
+<td>
+
+<p>The extra arguments passed to <code>ran.gen</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+
+<p>The original call to <code>tsboot</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Davison, A.C. and Hinkley, D.V. (1997) 
+<em>Bootstrap Methods and Their Application</em>. Cambridge University Press.
+</p>
+<p>Kunsch, H.R. (1989) The jackknife and the bootstrap for general stationary
+observations. <em>Annals of Statistics</em>, <b>17</b>, 1217&ndash;1241.
+</p>
+<p>Politis, D.N. and Romano, J.P. (1994) The stationary bootstrap. 
+<em>Journal of the American Statistical Association</em>, <b>89</b>, 1303&ndash;1313.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boot.html">boot</a></code>, <code><a href="../../stats/html/arima.sim.html">arima.sim</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+lynx.fun &lt;- function(tsb) {
+     ar.fit &lt;- ar(tsb, order.max = 25)
+     c(ar.fit$order, mean(tsb), tsb)
+}
+
+# the stationary bootstrap with mean block length 20
+lynx.1 &lt;- tsboot(log(lynx), lynx.fun, R = 99, l = 20, sim = "geom")
+
+# the fixed block bootstrap with length 20
+lynx.2 &lt;- tsboot(log(lynx), lynx.fun, R = 99, l = 20, sim = "fixed")
+
+# Now for model based resampling we need the original model
+# Note that for all of the bootstraps which use the residuals as their
+# data, we set orig.t to FALSE since the function applied to the residual
+# time series will be meaningless.
+lynx.ar &lt;- ar(log(lynx))
+lynx.model &lt;- list(order = c(lynx.ar$order, 0, 0), ar = lynx.ar$ar)
+lynx.res &lt;- lynx.ar$resid[!is.na(lynx.ar$resid)]
+lynx.res &lt;- lynx.res - mean(lynx.res)
+
+lynx.sim &lt;- function(res,n.sim, ran.args) {
+     # random generation of replicate series using arima.sim 
+     rg1 &lt;- function(n, res) sample(res, n, replace = TRUE)
+     ts.orig &lt;- ran.args$ts
+     ts.mod &lt;- ran.args$model
+     mean(ts.orig)+ts(arima.sim(model = ts.mod, n = n.sim,
+                      rand.gen = rg1, res = as.vector(res)))
+}
+
+lynx.3 &lt;- tsboot(lynx.res, lynx.fun, R = 99, sim = "model", n.sim = 114,
+                 orig.t = FALSE, ran.gen = lynx.sim, 
+                 ran.args = list(ts = log(lynx), model = lynx.model))
+
+#  For "post-blackening" we need to define another function
+lynx.black &lt;- function(res, n.sim, ran.args) {
+     ts.orig &lt;- ran.args$ts
+     ts.mod &lt;- ran.args$model
+     mean(ts.orig) + ts(arima.sim(model = ts.mod,n = n.sim,innov = res))
+}
+
+# Now we can run apply the two types of block resampling again but this
+# time applying post-blackening.
+lynx.1b &lt;- tsboot(lynx.res, lynx.fun, R = 99, l = 20, sim = "fixed",
+                  n.sim = 114, orig.t = FALSE, ran.gen = lynx.black, 
+                  ran.args = list(ts = log(lynx), model = lynx.model))
+
+lynx.2b &lt;- tsboot(lynx.res, lynx.fun, R = 99, l = 20, sim = "geom",
+                  n.sim = 114, orig.t = FALSE, ran.gen = lynx.black, 
+                  ran.args = list(ts = log(lynx), model = lynx.model))
+
+# To compare the observed order of the bootstrap replicates we
+# proceed as follows.
+table(lynx.1$t[, 1])
+table(lynx.1b$t[, 1])
+table(lynx.2$t[, 1])
+table(lynx.2b$t[, 1])
+table(lynx.3$t[, 1])
+# Notice that the post-blackened and model-based bootstraps preserve
+# the true order of the model (11) in many more cases than the others.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>boot</em> version 1.3-20 <a href="00Index.html">Index</a>]</div>
+</body></html>

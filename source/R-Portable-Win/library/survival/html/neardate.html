@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the index of the closest value in data set 2, for each...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for neardate {survival}"><tr><td>neardate {survival}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Find the index of the closest value in data set 2, for each entry in
+data set one.
+</h2>
+
+<h3>Description</h3>
+
+<p>A common task in medical work is to find the closest lab value to some
+index date, for each subject.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+neardate(id1, id2, y1, y2, best = c("after", "prior"),
+nomatch = NA_integer_)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>id1</code></td>
+<td>
+<p>vector of subject identifiers for the index group</p>
+</td></tr>
+<tr valign="top"><td><code>id2</code></td>
+<td>
+<p>vector of identifiers for the reference group</p>
+</td></tr>
+<tr valign="top"><td><code>y1</code></td>
+<td>
+<p>normally a vector of dates for the index group,
+but any orderable data type is allowed</p>
+</td></tr>
+<tr valign="top"><td><code>y2</code></td>
+<td>
+<p>reference set of dates</p>
+</td></tr>
+<tr valign="top"><td><code>best</code></td>
+<td>
+<p>if <code>best='prior'</code> find the index of the first
+y2 value less than or equal to
+the target y1 value, for each subject.
+If <code>best='after'</code> find the first y2 value which is greater than
+or equal to the target y1 value, for each subject.</p>
+</td></tr>
+<tr valign="top"><td><code>nomatch</code></td>
+<td>
+<p>the value to return for items without a match</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This routine is closely related to <code>match</code> and to
+<code>findInterval</code>, the first of which finds exact matches and
+the second closest matches.  This finds the closest matching date
+within sets of exactly matching identifiers.  
+Closest date matching is often needed in clinical studies.  For
+example data set 1 might contain the subject identifier and the date
+of some procedure and data set set 2 has the dates and values for
+laboratory tests, and the query is to find the first
+test value after the intervention but no closer than 7 days.
+</p>
+<p>The <code>id1</code> and <code>id2</code> arguments are similar to <code>match</code> in
+that we are searching for instances of <code>id1</code> that will be found
+in <code>id2</code>, and the result is the same length as <code>id1</code>.
+However, instead of returning the first match with <code>id2</code> this
+routine returns the one that best matches with respect to <code>y1</code>.
+</p>
+<p>The <code>y1</code> and <code>y2</code> arguments need not be dates, the function
+works for any data type such that the expression
+<code>c(y1, y2)</code> gives a sensible, sortable result.
+Be careful about matching Date and DateTime values and the impact of
+time zones, however, see <code><a href="../../base/html/as.POSIXlt.html">as.POSIXct</a></code>. 
+If <code>y1</code> and <code>y2</code> are not of the same class the user is
+on their own.
+Since there exist pairs of unmatched data types where the result could
+be sensible, the routine will in this case proceed under the assumption
+that &quot;the user knows what they are doing&quot;.  Caveat emptor.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the index of the matching observations in the second data set, or
+the <code>nomatch</code> value for no successful match</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Terry Therneau</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/match.html">match</a></code>, <code><a href="../../base/html/findInterval.html">findInterval</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data1 &lt;- data.frame(id = 1:10,
+                    entry.dt = as.Date(paste("2011", 1:10, "5", sep='-')))
+temp1 &lt;- c(1,4,5,1,3,6,9, 2,7,8,12,4,6,7,10,12,3)
+data2 &lt;- data.frame(id = c(1,1,1,2,2,4,4,5,5,5,6,8,8,9,10,10,12),
+                    lab.dt = as.Date(paste("2011", temp1, "1", sep='-')),
+                    chol = round(runif(17, 130, 280)))
+
+#first cholesterol on or after enrollment
+indx1 &lt;- neardate(data1$id, data2$id, data1$entry.dt, data2$lab.dt)
+data2[indx1, "chol"]
+
+# Closest one, either before or after. 
+# 
+indx2 &lt;- neardate(data1$id, data2$id, data1$entry.dt, data2$lab.dt, 
+                   best="prior")
+ifelse(is.na(indx1), indx2, # none after, take before
+       ifelse(is.na(indx2), indx1, #none before
+       ifelse(abs(data2$lab.dt[indx2]- data1$entry.dt) &lt;
+              abs(data2$lab.dt[indx1]- data1$entry.dt), indx2, indx1)))
+
+# closest date before or after, but no more than 21 days prior to index
+indx2 &lt;- ifelse((data1$entry.dt - data2$lab.dt[indx2]) &gt;21, NA, indx2)
+ifelse(is.na(indx1), indx2, # none after, take before
+       ifelse(is.na(indx2), indx1, #none before
+       ifelse(abs(data2$lab.dt[indx2]- data1$entry.dt) &lt;
+              abs(data2$lab.dt[indx1]- data1$entry.dt), indx2, indx1)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>survival</em> version 2.42-6 <a href="00Index.html">Index</a>]</div>
+</body></html>

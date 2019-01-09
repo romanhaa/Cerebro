@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Hexagonal Binning Routines</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Hexagonal Binning Routines
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;hexbin&rsquo; version 1.27.2</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="colramp.html">BTC</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">BTY</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="hexList.html">coerce-method</a></td>
+<td>Conditional Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">ColorRamps</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="erode.hexbin.html">erode</a></td>
+<td>Erosion of a Hexagon Count Image</td></tr>
+<tr><td style="width: 25%;"><a href="erode.hexbin.html">erode-method</a></td>
+<td>Erosion of a Hexagon Count Image</td></tr>
+<tr><td style="width: 25%;"><a href="erode.hexbin.html">erode.hexbin</a></td>
+<td>Erosion of a Hexagon Count Image</td></tr>
+<tr><td style="width: 25%;"><a href="erode.hexbin.html">erodebin-class</a></td>
+<td>Erosion of a Hexagon Count Image</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP-class.html">getFig-method</a></td>
+<td>Formal class "hexVP" of a Hexagon Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="getHMedian.html">getHMedian</a></td>
+<td>Get coordiantes of the median cell after the erode operation</td></tr>
+<tr><td style="width: 25%;"><a href="getHMedian.html">getHMedian-method</a></td>
+<td>Get coordiantes of the median cell after the erode operation</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP-class.html">getMargins-method</a></td>
+<td>Formal class "hexVP" of a Hexagon Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP-class.html">getPlt-method</a></td>
+<td>Formal class "hexVP" of a Hexagon Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP-class.html">getXscale-method</a></td>
+<td>Formal class "hexVP" of a Hexagon Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP-class.html">getYscale-method</a></td>
+<td>Formal class "hexVP" of a Hexagon Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="gplot.hexbin.html">gplot.hexbin</a></td>
+<td>Plotting Hexagon Cells with a Legend</td></tr>
+<tr><td style="width: 25%;"><a href="grid.hexagons.html">grid.hexagons</a></td>
+<td>Add Hexagon Cells to Plot</td></tr>
+<tr><td style="width: 25%;"><a href="grid.hexlegend.html">grid.hexlegend</a></td>
+<td>Add a Legend to a Hexbin Plot</td></tr>
+<tr><td style="width: 25%;"><a href="hboxplot.html">hboxplot</a></td>
+<td>2-D Generalization of Boxplot</td></tr>
+<tr><td style="width: 25%;"><a href="hcell2xy.html">hcell2xy</a></td>
+<td>Compute X and Y Coordinates for Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="hcell2xy.html">hcell2xy-method</a></td>
+<td>Compute X and Y Coordinates for Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="hcell2xyInt.html">hcell2xyInt</a></td>
+<td>Change cell ids to 2d integer coordinate system</td></tr>
+<tr><td style="width: 25%;"><a href="hdiffplot.html">hdiffplot</a></td>
+<td>Plot of Domain and Median Differences of Two "hexbin" Objects</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">heat.ob</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="hexbin.html">hexbin</a></td>
+<td>Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="hexbin.html">hexbin-class</a></td>
+<td>Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="hexList.html">hexbinList-class</a></td>
+<td>Conditional Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="hexbinplot.html">hexbinplot</a></td>
+<td>Trellis Hexbin Displays</td></tr>
+<tr><td style="width: 25%;"><a href="hexbinplot.html">hexbinplot.formula</a></td>
+<td>Trellis Hexbin Displays</td></tr>
+<tr><td style="width: 25%;"><a href="hexpolygon.html">hexcoords</a></td>
+<td>Hexagon Coordinates and Polygon Drawing</td></tr>
+<tr><td style="width: 25%;"><a href="hexGraphPaper.html">hexGraphPaper</a></td>
+<td>Create a Hexgon Grid</td></tr>
+<tr><td style="width: 25%;"><a href="hexbinplot.html">hexlegendGrob</a></td>
+<td>Trellis Hexbin Displays</td></tr>
+<tr><td style="width: 25%;"><a href="hexList.html">hexList</a></td>
+<td>Conditional Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="hexMA.loess.html">hexMA.loess</a></td>
+<td>Add Loess Fit to Hexplot</td></tr>
+<tr><td style="width: 25%;"><a href="hexplom.html">hexplom</a></td>
+<td>Hexbin Plot Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="hexplom.html">hexplom.data.frame</a></td>
+<td>Hexbin Plot Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="hexplom.html">hexplom.formula</a></td>
+<td>Hexbin Plot Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="hexplom.html">hexplom.matrix</a></td>
+<td>Hexbin Plot Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="hexpolygon.html">hexpolygon</a></td>
+<td>Hexagon Coordinates and Polygon Drawing</td></tr>
+<tr><td style="width: 25%;"><a href="hexTapply.html">hexTapply</a></td>
+<td>Apply function to data from each hexagon bin.</td></tr>
+<tr><td style="width: 25%;"><a href="hexViewport.html">hexViewport</a></td>
+<td>Compute a Grid Viewport for Hexagon / Hexbin Graphics</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP-class.html">hexVP-class</a></td>
+<td>Formal class "hexVP" of a Hexagon Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="hexVP.abline.html">hexVP.abline</a></td>
+<td>Add a Straight Line to a HexPlot</td></tr>
+<tr><td style="width: 25%;"><a href="hexMA.loess.html">hexVP.loess</a></td>
+<td>Add Loess Fit to Hexplot</td></tr>
+<tr><td style="width: 25%;"><a href="hexGraphPaper.html">hgridcent</a></td>
+<td>Create a Hexgon Grid</td></tr>
+<tr><td style="width: 25%;"><a href="hsmooth-methods.html">hsmooth</a></td>
+<td>Hexagon Bin Smoothing: Generic hsmooth() and Methods</td></tr>
+<tr><td style="width: 25%;"><a href="hsmooth-methods.html">hsmooth-method</a></td>
+<td>Hexagon Bin Smoothing: Generic hsmooth() and Methods</td></tr>
+<tr><td style="width: 25%;"><a href="hsmooth-methods.html">hsmooth-methods</a></td>
+<td>Hexagon Bin Smoothing: Generic hsmooth() and Methods</td></tr>
+<tr><td style="width: 25%;"><a href="inout.hex.html">inout.hex</a></td>
+<td>Check points for inclusion</td></tr>
+<tr><td style="width: 25%;"><a href="hexbin.html">integer or NULL-class</a></td>
+<td>Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">LinGray</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">LinOCS</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="list2hexList.html">list2hexList</a></td>
+<td>Convert list to hexList</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">magent</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="NHANES.html">NHANES</a></td>
+<td>NHANES Data : National Health and Nutrition Examination Survey</td></tr>
+<tr><td style="width: 25%;"><a href="optShape.html">optShape</a></td>
+<td>Optimal Shape Parameter for Hexbin Viewport</td></tr>
+<tr><td style="width: 25%;"><a href="hexbinplot.html">panel.hexbinplot</a></td>
+<td>Trellis Hexbin Displays</td></tr>
+<tr><td style="width: 25%;"><a href="panel.hexboxplot.html">panel.hexboxplot</a></td>
+<td>Boxplot for hexbin lattice plot</td></tr>
+<tr><td style="width: 25%;"><a href="panel.hexgrid.html">panel.hexgrid</a></td>
+<td>Hexagonal grid for a lattice plot</td></tr>
+<tr><td style="width: 25%;"><a href="panel.hexloess.html">panel.hexloess</a></td>
+<td>Loess line for hexbin lattice plot</td></tr>
+<tr><td style="width: 25%;"><a href="hexplom.html">panel.hexplom</a></td>
+<td>Hexbin Plot Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="colramp.html">plinrain</a></td>
+<td>Color Ramps on Perceptually Linear Scales</td></tr>
+<tr><td style="width: 25%;"><a href="gplot.hexbin.html">plot-method</a></td>
+<td>Plotting Hexagon Cells with a Legend</td></tr>
+<tr><td style="width: 25%;"><a href="plotMAhex.html">plotMAhex</a></td>
+<td>MA-plot using hexagon bins</td></tr>
+<tr><td style="width: 25%;"><a href="hexbinplot.html">prepanel.hexbinplot</a></td>
+<td>Trellis Hexbin Displays</td></tr>
+<tr><td style="width: 25%;"><a href="pushHexport.html">pushHexport</a></td>
+<td>Push a Hexagon Viewport ("hexVP")</td></tr>
+<tr><td style="width: 25%;"><a href="hexbin.html">show-method</a></td>
+<td>Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="smooth.hexbin.html">smooth.hexbin</a></td>
+<td>Hexagon Bin Smoothing</td></tr>
+<tr><td style="width: 25%;"><a href="smooth.hexbin.html">smoothbin-class</a></td>
+<td>Hexagon Bin Smoothing</td></tr>
+<tr><td style="width: 25%;"><a href="hexbin.html">summary-method</a></td>
+<td>Bivariate Binning into Hexagon Cells</td></tr>
+<tr><td style="width: 25%;"><a href="old-classes.html">unit-class</a></td>
+<td>Class "unit" and "viewport" as S4 classes</td></tr>
+<tr><td style="width: 25%;"><a href="old-classes.html">viewport-class</a></td>
+<td>Class "unit" and "viewport" as S4 classes</td></tr>
+</table>
+</body></html>

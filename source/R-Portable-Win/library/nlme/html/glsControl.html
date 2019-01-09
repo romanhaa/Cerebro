@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Control Values for gls Fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for glsControl {nlme}"><tr><td>glsControl {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Control Values for gls Fit</h2>
+
+<h3>Description</h3>
+
+<p>The values supplied in the function call replace the defaults and a
+list with all possible arguments is returned. The returned list is
+used as the <code>control</code> argument to the <code>gls</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+glsControl(maxIter, msMaxIter, tolerance, msTol, msVerbose,
+           singular.ok, returnObject = FALSE, apVar, .relStep,
+           opt = c("nlminb", "optim"), optimMethod,
+           minAbsParApVar, natural, sigma = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>maxIter</code></td>
+<td>
+<p>maximum number of iterations for the <code>gls</code>
+optimization algorithm. Default is 50.</p>
+</td></tr>
+<tr valign="top"><td><code>msMaxIter</code></td>
+<td>
+<p>maximum number of iterations
+for the optimization step inside the <code>gls</code>
+optimization. Default is 50.</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>tolerance for the convergence criterion in the
+<code>gls</code> algorithm. Default is 1e-6.</p>
+</td></tr>
+<tr valign="top"><td><code>msTol</code></td>
+<td>
+<p>tolerance for the convergence criterion of the first outer
+iteration when <code>optim</code> is used.  Default is 1e-7.</p>
+</td></tr>
+<tr valign="top"><td><code>msVerbose</code></td>
+<td>
+<p>a logical value passed as the <code>trace</code> argument to
+<code>ms</code> (see documentation on that function). Default is
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>singular.ok</code></td>
+<td>
+<p>a logical value indicating whether non-estimable
+coefficients (resulting from linear dependencies among the columns of
+the regression matrix) should be allowed. Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>returnObject</code></td>
+<td>
+<p>a logical value indicating whether the fitted
+object should be returned when the maximum number of iterations is
+reached without convergence of the algorithm. Default is
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>apVar</code></td>
+<td>
+<p>a logical value indicating whether the approximate
+covariance matrix of the variance-covariance parameters should be
+calculated.  Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.relStep</code></td>
+<td>
+<p>relative step for numerical derivatives
+calculations. Default is <code>.Machine$double.eps^(1/3)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>opt</code></td>
+<td>
+<p>the optimizer to be used, either <code>"<a href="../../stats/html/nlminb.html">nlminb</a>"</code> (the
+current default) or <code>"<a href="../../stats/html/optim.html">optim</a>"</code> (the previous default).</p>
+</td></tr>
+<tr valign="top"><td><code>optimMethod</code></td>
+<td>
+<p>character - the optimization method to be used with
+the <code><a href="../../stats/html/optim.html">optim</a></code> optimizer. The default is
+<code>"BFGS"</code>.  An alternative is <code>"L-BFGS-B"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>minAbsParApVar</code></td>
+<td>
+<p>numeric value - minimum absolute parameter value
+in the approximate variance calculation.  The default is <code>0.05</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>natural</code></td>
+<td>
+<p>logical.  Should the natural parameterization be used
+for the approximate variance calculations?  Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>optionally a positive number to fix the residual error at.
+If <code>NULL</code>, as by default, or <code>0</code>, sigma is estimated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a list with components for each of the possible arguments.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a>; the
+<code>sigma</code> option: Siem Heisterkamp and Bert van Willigen.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gls.html">gls</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# decrease the maximum number iterations in the optimization call and
+# request that information on the evolution of the ms iterations be printed
+glsControl(msMaxIter = 20, msVerbose = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fitted gam object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gamObject {mgcv}"><tr><td>gamObject {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fitted gam object</h2>
+
+<h3>Description</h3>
+
+<p>A fitted GAM object returned by function <code>gam</code> and of class
+<code>"gam"</code> inheriting from classes <code>"glm"</code> and <code>"lm"</code>. Method
+functions <code>anova</code>, <code>logLik</code>, <code>influence</code>, <code>plot</code>,
+<code>predict</code>, <code>print</code>, <code>residuals</code> and <code>summary</code> exist for
+this class.
+</p>
+<p>All compulsory elements of <code>"glm"</code> and <code>"lm"</code> objects are present,
+but the fitting method for a GAM is different to a linear model or GLM, so
+that the elements relating to the QR decomposition of the model matrix are
+absent.
+</p>
+
+
+<h3>Value</h3>
+
+<p> A <code>gam</code> object has the following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>aic</code></td>
+<td>
+<p>AIC of the fitted model: bear in mind that the degrees of freedom
+used to calculate this are the effective degrees of freedom of the model, and
+the likelihood is evaluated at the maximum of the penalized likelihood in most
+cases, not at the MLE.</p>
+</td></tr>
+<tr valign="top"><td><code>assign</code></td>
+<td>
+<p>Array whose elements indicate which model term (listed in
+<code>pterms</code>) each parameter relates to: applies only to non-smooth terms.</p>
+</td></tr>
+<tr valign="top"><td><code>boundary</code></td>
+<td>
+<p>did parameters end up at boundary of parameter space?</p>
+</td></tr> 
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>the matched call (allows <code>update</code> to be used with <code>gam</code> objects, for example). </p>
+</td></tr>
+<tr valign="top"><td><code>cmX</code></td>
+<td>
+<p>column means of the model matrix (with elements corresponding to smooths set to zero )
+&mdash; useful for componentwise CI calculation.</p>
+</td></tr>
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>the coefficients of the fitted model. Parametric
+coefficients are  first, followed  by coefficients for each
+spline term in turn.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>the <code>gam</code> control list used in the fit.</p>
+</td></tr>
+<tr valign="top"><td><code>converged</code></td>
+<td>
+<p>indicates whether or not the iterative fitting method converged.</p>
+</td></tr> 
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>the original supplied data argument (for class <code>"glm"</code> compatibility). 
+Only included if <code><a href="gam.html">gam</a></code> <code>control</code> argument element 
+<code>keepData</code> is set to <code>TRUE</code> (default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>db.drho</code></td>
+<td>
+<p>matrix of first derivatives of model coefficients w.r.t. log smoothing parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>deviance</code></td>
+<td>
+<p>model deviance (not penalized deviance).</p>
+</td></tr>
+<tr valign="top"><td><code>df.null</code></td>
+<td>
+<p>null degrees of freedom.</p>
+</td></tr> 
+<tr valign="top"><td><code>df.residual</code></td>
+<td>
+<p>effective residual degrees of freedom of the model.</p>
+</td></tr>
+<tr valign="top"><td><code>edf</code></td>
+<td>
+<p>estimated degrees of freedom for each model parameter. Penalization
+means that many of these are less than 1.</p>
+</td></tr>
+<tr valign="top"><td><code>edf1</code></td>
+<td>
+<p>similar, but using alternative estimate of EDF. Useful for testing.</p>
+</td></tr>
+<tr valign="top"><td><code>edf2</code></td>
+<td>
+<p>if estimation is by ML or REML then an edf that accounts for smoothing parameter
+uncertainty can be computed, this is it. <code>edf1</code> is a heuristic upper bound for <code>edf2</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>family object specifying distribution and link used.</p>
+</td></tr>
+<tr valign="top"><td><code>fitted.values</code></td>
+<td>
+<p>fitted model predictions of expected value for each
+datum.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>the model formula.</p>
+</td></tr>
+<tr valign="top"><td><code>full.sp</code></td>
+<td>
+<p>full array of smoothing parameters multiplying penalties (excluding any contribution 
+from <code>min.sp</code> argument to <code>gam</code>). May be larger than <code>sp</code> if some terms share 
+smoothing parameters, and/or some smoothing parameter values were supplied in the <code>sp</code> argument
+of <code><a href="gam.html">gam</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>F</code></td>
+<td>
+<p>Degrees of freedom matrix. This may be removed at some point, and should probably not be used.</p>
+</td></tr>
+<tr valign="top"><td><code>gcv.ubre</code></td>
+<td>
+<p>The minimized smoothing parameter selection score: GCV, UBRE(AIC), GACV, negative log marginal 
+likelihood or negative log restricted likelihood.</p>
+</td></tr>
+<tr valign="top"><td><code>hat</code></td>
+<td>
+<p>array of elements from the leading diagonal of the &lsquo;hat&rsquo; (or &lsquo;influence&rsquo;) matrix. 
+Same length as response data vector.</p>
+</td></tr>
+<tr valign="top"><td><code>iter</code></td>
+<td>
+<p>number of iterations of P-IRLS taken to get convergence.</p>
+</td></tr>
+<tr valign="top"><td><code>linear.predictors</code></td>
+<td>
+<p>fitted model prediction of link function of
+expected value for  each datum.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>One of <code>"GCV"</code> or <code>"UBRE"</code>, <code>"REML"</code>, <code>"P-REML"</code>, <code>"ML"</code>,
+<code>"P-ML"</code>, <code>"PQL"</code>, <code>"lme.ML"</code> or <code>"lme.REML"</code>, depending on the fitting
+criterion used.</p>
+</td></tr>
+<tr valign="top"><td><code>mgcv.conv</code></td>
+<td>
+<p> A list of convergence diagnostics relating to the
+<code>"magic"</code> parts of smoothing parameter estimation - this will not be very meaningful for pure <code>"outer"</code>
+estimation of smoothing parameters. The items are: <code>full.rank</code>, The apparent rank of the problem given the model matrix and 
+constraints; <code>rank</code>, The numerical rank of the problem;
+<code>fully.converged</code>, <code>TRUE</code> is multiple GCV/UBRE converged by meeting 
+convergence criteria and <code>FALSE</code> if method stopped with a steepest descent step 
+failure; <code>hess.pos.def</code>Was the hessian of the GCV/UBRE score positive definite at 
+smoothing parameter estimation convergence?; <code>iter</code> How many iterations were required to find the smoothing parameters?
+<code>score.calls</code>, and how many times did the GCV/UBRE score have to be
+evaluated?; <code>rms.grad</code>, root mean square of the gradient of the GCV/UBRE score at 
+convergence.
+</p>
+</td></tr> </table>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>min.edf</code></td>
+<td>
+<p>Minimum possible degrees of freedom for whole model.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>model frame containing all variables needed in original model fit.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>The <code><a href="../../stats/html/na.action.html">na.action</a></code> used in fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>nsdf</code></td>
+<td>
+<p>number of parametric, non-smooth, model terms including the
+intercept.</p>
+</td></tr>
+<tr valign="top"><td><code>null.deviance</code></td>
+<td>
+<p>deviance for single parameter model.</p>
+</td></tr> 
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>model offset.</p>
+</td></tr>
+<tr valign="top"><td><code>optimizer</code></td>
+<td>
+<p><code>optimizer</code> argument to <code><a href="gam.html">gam</a></code>, or <code>"magic"</code> if it's a pure 
+additive model.</p>
+</td></tr>
+<tr valign="top"><td><code>outer.info</code></td>
+<td>
+<p>If &lsquo;outer&rsquo; iteration has been used to fit the model (see
+<code><a href="gam.html">gam</a></code> argument <code>optimizer</code>) then this is present and contains whatever was
+returned by the optimization routine used (currently <code><a href="../../stats/html/nlm.html">nlm</a></code> or <code><a href="../../stats/html/optim.html">optim</a></code>). </p>
+</td></tr>
+<tr valign="top"><td><code>paraPen</code></td>
+<td>
+<p>If the <code>paraPen</code> argument to <code><a href="gam.html">gam</a></code> was used then this provides
+information on the parametric penalties. <code>NULL</code> otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>pred.formula</code></td>
+<td>
+<p>one sided formula containing variables needed for prediction, used by <code>predict.gam</code></p>
+</td></tr>
+<tr valign="top"><td><code>prior.weights</code></td>
+<td>
+<p>prior weights on observations.</p>
+</td></tr> 
+<tr valign="top"><td><code>pterms</code></td>
+<td>
+<p><code>terms</code> object for strictly parametric part of model.</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+<p>Factor R from QR decomposition of weighted model matrix, unpivoted to be in
+same column order as model matrix (so need not be upper triangular).</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>apparent rank of fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>reml.scale</code></td>
+<td>
+<p>The scale (RE)ML scale parameter estimate, if (P-)(RE)ML used 
+for smoothness estimation. </p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>the working residuals for the fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>rV</code></td>
+<td>
+<p>If present, <code>rV%*%t(rV)*sig2</code> gives the estimated Bayesian covariance matrix.</p>
+</td></tr> 
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>when present, the scale (as <code>sig2</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>scale.estimated</code></td>
+<td>
+ <p><code>TRUE</code> if the scale parameter was estimated, <code>FALSE</code> otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>sig2</code></td>
+<td>
+<p>estimated or supplied variance/scale parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p>list of smooth objects, containing the basis information for each term in the 
+model formula in the order in which they appear. These smooth objects are what gets returned by
+the <code><a href="smooth.construct.html">smooth.construct</a></code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>estimated smoothing parameters for the model. These are the underlying smoothing
+parameters, subject to optimization. For the full set of smoothing parameters multiplying the 
+penalties see <code>full.sp</code>. Divide the scale parameter by the smoothing parameters to get,
+variance components, but note that this is not valid for smooths that have used rescaling to 
+improve conditioning.</p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+<p><code>terms</code> object of <code>model</code> model frame.</p>
+</td></tr>
+<tr valign="top"><td><code>var.summary</code></td>
+<td>
+<p>A named list of summary information on the predictor variables. If
+a parametric variable is a matrix, then the summary is a one row matrix, containing the 
+observed data value closest to the column median, for each matrix column. If the variable 
+is a factor the then summary is the modal factor level, returned as a factor, with levels 
+corresponding to those of the data. For numerics and matrix arguments of smooths, the summary 
+is the mean, nearest observed value to median and maximum, as a numeric vector. Used by 
+<code><a href="vis.gam.html">vis.gam</a></code>, in particular. </p>
+</td></tr>
+<tr valign="top"><td><code>Ve</code></td>
+<td>
+<p>frequentist estimated covariance matrix for the parameter
+estimators. Particularly useful for testing whether terms are zero. Not so
+useful for CI's as smooths are usually biased.</p>
+</td></tr>
+<tr valign="top"><td><code>Vp</code></td>
+<td>
+<p>estimated covariance matrix for the parameters. This is a Bayesian
+posterior covariance matrix that results from adopting a particular Bayesian
+model of the smoothing process. Paricularly useful for creating
+credible/confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>Vc</code></td>
+<td>
+<p>Under ML or REML smoothing parameter estimation it is possible to correct the covariance
+matrix <code>Vp</code> for smoothing parameter uncertainty. This is the corrected version.
+</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>final weights used in IRLS iteration.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>response data.</p>
+</td></tr>
+</table>
+
+
+<h3>WARNINGS </h3>
+
+<p> This model object is different to that described in
+Chambers and Hastie (1993) in order to allow smoothing parameter estimation etc.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+
+
+<h3>References</h3>
+
+<p>A Key Reference on this implementation:
+</p>
+<p>Wood, S.N. (2017) Generalized Additive Models: An Introduction with R (2nd edition). Chapman
+&amp; Hall/ CRC, Boca Raton, Florida
+</p>
+<p>Key Reference on GAMs generally:
+</p>
+<p>Hastie (1993) in Chambers and Hastie (1993) Statistical Models in S. Chapman
+and Hall.
+</p>
+<p>Hastie and Tibshirani (1990) Generalized Additive Models. Chapman and Hall.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gam.html">gam</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

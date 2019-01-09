@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Correlation Structure Classes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corClasses {nlme}"><tr><td>corClasses {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Correlation Structure Classes</h2>
+
+<h3>Description</h3>
+
+<p>Standard classes of correlation structures (<code>corStruct</code>)
+available in the <code>nlme</code> package. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>Available standard classes:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>corAR1</code></td>
+<td>
+<p>autoregressive process of order 1.</p>
+</td></tr>
+<tr valign="top"><td><code>corARMA</code></td>
+<td>
+<p>autoregressive moving average process, with arbitrary
+orders for the autoregressive and moving average components.</p>
+</td></tr>
+<tr valign="top"><td><code>corCAR1</code></td>
+<td>
+<p>continuous autoregressive process (AR(1) process for a
+continuous time covariate).</p>
+</td></tr>
+<tr valign="top"><td><code>corCompSymm</code></td>
+<td>
+<p>compound symmetry structure corresponding to a
+constant correlation.</p>
+</td></tr>
+<tr valign="top"><td><code>corExp</code></td>
+<td>
+<p>exponential spatial correlation.</p>
+</td></tr>
+<tr valign="top"><td><code>corGaus</code></td>
+<td>
+<p>Gaussian spatial correlation.</p>
+</td></tr>
+<tr valign="top"><td><code>corLin</code></td>
+<td>
+<p>linear spatial correlation.</p>
+</td></tr>
+<tr valign="top"><td><code>corRatio</code></td>
+<td>
+<p>Rational quadratics spatial correlation.</p>
+</td></tr>
+<tr valign="top"><td><code>corSpher</code></td>
+<td>
+<p>spherical spatial correlation.</p>
+</td></tr>
+<tr valign="top"><td><code>corSymm</code></td>
+<td>
+<p>general correlation matrix, with no additional
+structure.</p>
+</td></tr> 
+</table>
+
+
+<h3>Note</h3>
+
+<p>Users may define their own <code>corStruct</code> classes by specifying a
+<code>constructor</code> function and, at a minimum, methods for the
+functions <code>corMatrix</code> and <code>coef</code>. For
+examples of these functions, see the methods for classes <code>corSymm</code>
+and <code>corAR1</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="corAR1.html">corAR1</a></code>, <code><a href="corARMA.html">corARMA</a></code>,
+<code><a href="corCAR1.html">corCAR1</a></code>, <code><a href="corCompSymm.html">corCompSymm</a></code>,
+<code><a href="corExp.html">corExp</a></code>, <code><a href="corGaus.html">corGaus</a></code>,
+<code><a href="corLin.html">corLin</a></code>,
+<code><a href="corRatio.html">corRatio</a></code>, <code><a href="corSpher.html">corSpher</a></code>,
+<code><a href="corSymm.html">corSymm</a></code>,
+<code><a href="summary.corStruct.html">summary.corStruct</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

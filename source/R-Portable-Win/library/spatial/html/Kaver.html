@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Average K-functions from Simulations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Kaver {spatial}"><tr><td>Kaver {spatial}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Average K-functions from Simulations
+</h2>
+
+<h3>Description</h3>
+
+<p>Forms the average of a series of (usually simulated) K-functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Kaver(fs, nsim, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fs</code></td>
+<td>
+
+<p>full scale for K-fn
+</p>
+</td></tr>
+<tr valign="top"><td><code>nsim</code></td>
+<td>
+
+<p>number of simulations
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to simulate one point process object
+</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>list with components <code>x</code> and <code>y</code> of the average K-fn on L-scale.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ripley, B. D. (1981) <em>Spatial Statistics.</em> Wiley.
+</p>
+<p>Venables, W. N. and Ripley, B. D. (2002)
+<em>Modern Applied Statistics with S.</em> Fourth edition.  Springer.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Kfn.html">Kfn</a></code>, <code><a href="Kenvl.html">Kenvl</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+towns &lt;- ppinit("towns.dat")
+par(pty="s")
+plot(Kfn(towns, 40), type="b")
+plot(Kfn(towns, 10), type="b", xlab="distance", ylab="L(t)")
+for(i in 1:10) lines(Kfn(Psim(69), 10))
+lims &lt;- Kenvl(10,100,Psim(69))
+lines(lims$x,lims$lower, lty=2, col="green")
+lines(lims$x,lims$upper, lty=2, col="green")
+lines(Kaver(10,25,Strauss(69,0.5,3.5)),  col="red")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>spatial</em> version 7.3-11 <a href="00Index.html">Index</a>]</div>
+</body></html>

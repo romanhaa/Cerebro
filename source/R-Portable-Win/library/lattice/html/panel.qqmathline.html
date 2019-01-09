@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Useful panel function with qqmath</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for F_2_panel.qqmathline {lattice}"><tr><td>F_2_panel.qqmathline {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Useful panel function with qqmath</h2>
+
+<h3>Description</h3>
+
+<p>Useful panel function with qqmath. Draws a line passing through the
+points (usually) determined by the .25 and .75 quantiles of the sample
+and the theoretical distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+panel.qqmathline(x, y = x,
+                 distribution = qnorm,
+                 probs = c(0.25, 0.75),
+                 qtype = 7,
+                 groups = NULL, 
+                 ...,
+                 identifier = "qqmathline")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> The original sample, possibly reduced to a fewer number of
+quantiles, as determined by the <code>f.value</code> argument to
+<code>qqmath</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>an alias for <code>x</code> for backwards compatibility
+</p>
+</td></tr>
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+
+<p>quantile function for reference theoretical distribution.
+</p>
+</td></tr>
+<tr valign="top"><td><code>probs</code></td>
+<td>
+
+<p>numeric vector of length two, representing probabilities.
+Corresponding quantile pairs define the line drawn.
+</p>
+</td></tr>
+<tr valign="top"><td><code>qtype</code></td>
+<td>
+
+<p>the <code>type</code> of quantile computation used in
+<code><a href="../../stats/html/quantile.html">quantile</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+
+<p>optional grouping variable.  If non-null, a line will be drawn for
+each group.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>identifier</code></td>
+<td>
+
+<p>A character string that is prepended to the names of grobs
+that are created by this panel function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="prepanel.functions.html">prepanel.qqmathline</a></code>,
+<code><a href="qqmath.html">qqmath</a></code>,
+<code><a href="../../stats/html/quantile.html">quantile</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

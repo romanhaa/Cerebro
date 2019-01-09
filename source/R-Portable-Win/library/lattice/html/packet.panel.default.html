@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Associating Packets with Panels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for G_packet.panel.default {lattice}"><tr><td>G_packet.panel.default {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Associating Packets with Panels</h2>
+
+<h3>Description</h3>
+
+<p>When a <code>"trellis"</code> object is plotted, panels are always drawn in
+an order such that columns vary the fastest, then rows and then pages.
+An optional function can be specified that determines, given the
+column, row and page and other relevant information, the packet (if
+any) which should be used in that panel.  The function documented here
+implements the default behaviour, which is to match panel order with
+packet order, determined by varying the first conditioning variable
+the fastest, then the second, and so on.  This matching is performed
+after any reordering and/or permutation of the conditioning variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+packet.panel.default(layout, condlevels, page, row, column,
+                     skip, all.pages.skip = TRUE) 
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>layout</code></td>
+<td>
+<p> the <code>layout</code> argument in high level functions,
+suitably standardized.  </p>
+</td></tr>
+<tr valign="top"><td><code>condlevels</code></td>
+<td>
+<p> a list of levels of conditioning variables, after
+relevant permutations and/or reordering of levels </p>
+</td></tr>
+<tr valign="top"><td><code>page, row, column</code></td>
+<td>
+<p> the location of the panel in the coordinate
+system of pages, rows and columns.  </p>
+</td></tr>
+<tr valign="top"><td><code>skip</code></td>
+<td>
+<p> the <code>skip</code> argument in high level functions </p>
+</td></tr>
+<tr valign="top"><td><code>all.pages.skip</code></td>
+<td>
+<p> whether <code>skip</code> should be replicated over
+all pages.  If <code>FALSE</code>, <code>skip</code> will be replicated to be
+only as long as the number of positions on a page, and that
+template will be used for all pages. </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A suitable combination of levels of the conditioning variables in the
+form of a numeric vector as long as the number of conditioning
+variables, with each element an integer indexing the levels of the
+corresponding variable.  Specifically, if the return value is
+<code>p</code>, then the <code>i</code>-th conditioning variable will have level
+<code>condlevels[[i]][p[i]]</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="Lattice.html">Lattice</a></code>, <code><a href="xyplot.html">xyplot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+packet.panel.page &lt;- function(n)
+{
+    ## returns a function that when used as the 'packet.panel'
+    ## argument in print.trellis plots page number 'n' only
+    function(layout, page, ...) {
+        stopifnot(layout[3] == 1)
+        packet.panel.default(layout = layout, page = n, ...)
+    }
+}
+
+data(mtcars)
+HP &lt;- equal.count(mtcars$hp, 6)
+p &lt;- 
+    xyplot(mpg ~ disp | HP * factor(cyl),
+           mtcars, layout = c(0, 6, 1))
+
+print(p, packet.panel = packet.panel.page(1))
+print(p, packet.panel = packet.panel.page(2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

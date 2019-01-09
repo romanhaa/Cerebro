@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract corStruct Object Covariate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getCovariate.corStruct {nlme}"><tr><td>getCovariate.corStruct {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract corStruct Object Covariate</h2>
+
+<h3>Description</h3>
+
+<p>This method function extracts the covariate(s) associated with
+<code>object</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'corStruct'
+getCovariate(object, form, data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object inheriting from class <code>corStruct</code>
+representing a correlation structure.</p>
+</td></tr>
+<tr valign="top"><td><code>form</code></td>
+<td>
+<p>this argument is included to make the method function
+compatible with the generic. It will be assigned the value of
+<code>formula(object)</code> and should not be modified.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame in which to evaluate the variables
+defined in <code>form</code>, in case <code>object</code> is not initialized and
+the covariate needs to be evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>when the correlation structure does not include a grouping factor, the
+returned value will be a vector or a matrix with the covariate(s)
+associated with <code>object</code>. If a grouping factor is present, the
+returned value will be a list of vectors or matrices with the
+covariate(s) corresponding to each grouping level.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>References</h3>
+
+<p>Pinheiro, J.C., and Bates, D.M. (2000) &quot;Mixed-Effects Models
+in S and S-PLUS&quot;, Springer.  
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getCovariate.html">getCovariate</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cs1 &lt;- corAR1(form = ~ 1 | Subject)
+getCovariate(cs1, data = Orthodont)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

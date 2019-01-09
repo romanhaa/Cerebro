@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predictions from a Fitted Rpart Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.rpart {rpart}"><tr><td>predict.rpart {rpart}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Predictions from a Fitted Rpart Object 
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns a vector of predicted responses from a fitted <code>rpart</code> object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rpart'
+predict(object, newdata,
+       type = c("vector", "prob", "class", "matrix"),
+       na.action = na.pass, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>fitted model object of class <code>"rpart"</code>.  This is assumed to be
+the result of some function that produces an object with the same named 
+components as that returned by the <code>rpart</code> function. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+
+<p>data frame containing the values at which predictions are required. 
+The predictors referred to in the right side of
+<code>formula(object)</code> must be present by name in <code>newdata</code>.
+If missing, the fitted values are returned. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>character string denoting the type of predicted value returned.  If
+the <code>rpart</code> object is a classification tree, then the default is to
+return <code>prob</code> predictions, a matrix whose columns are the
+probability of the first, second, etc. class.  (This agrees with the
+default behavior of <code><a href="../../tree/html/tree.html">tree</a></code>).  Otherwise, a vector
+result is returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function to determine what should be done with
+missing values in <code>newdata</code>.  The default is to pass them down
+the tree using surrogates in the way selected when the model was built.
+Other possibilities are <code><a href="../../stats/html/na.fail.html">na.omit</a></code> and <code><a href="../../stats/html/na.fail.html">na.fail</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments passed to or from other methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is a method for the generic function predict for class
+<code>"rpart"</code>. It can be invoked by calling <code>predict</code> for an object
+of the appropriate class, or directly by calling <code>predict.rpart</code>
+regardless of the class of the object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A new object is obtained by
+dropping <code>newdata</code> down the object.  For factor predictors, if an
+observation contains a level not used to grow the tree, it is left at
+the deepest possible node and <code>frame$yval</code> at the node is the
+prediction.
+</p>
+<p>If <code>type = "vector"</code>:<br />
+vector of predicted responses.
+For regression trees this is the mean response at the node, for Poisson
+trees it is the estimated response rate, and for classification trees
+it is the predicted class (as a number).
+</p>
+<p>If <code>type = "prob"</code>:<br />
+(for a classification tree) a matrix of class probabilities.
+</p>
+<p>If <code>type = "matrix"</code>:<br /> a matrix of the full responses
+(<code>frame$yval2</code> if this exists, otherwise <code>frame$yval</code>).  For
+regression trees, this is the mean response, for Poisson trees it is
+the response rate and the number of events at that node in the fitted
+tree, and for classification trees it is the concatenation of at least
+the predicted class, the class counts at that node in the fitted tree,
+and the class probabilities (some versions of <span class="pkg">rpart</span> may contain
+further columns).
+</p>
+<p>If <code>type = "class"</code>:<br />
+(for a classification tree) a factor of classifications based on the
+responses.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/predict.html">predict</a></code>,  <code><a href="rpart.object.html">rpart.object</a></code>   
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z.auto &lt;- rpart(Mileage ~ Weight, car.test.frame)
+predict(z.auto)
+
+fit &lt;- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis)
+predict(fit, type = "prob")   # class probabilities (default)
+predict(fit, type = "vector") # level numbers
+predict(fit, type = "class")  # factor
+predict(fit, type = "matrix") # level number, class frequencies, probabilities
+
+sub &lt;- c(sample(1:50, 25), sample(51:100, 25), sample(101:150, 25))
+fit &lt;- rpart(Species ~ ., data = iris, subset = sub)
+fit
+table(predict(fit, iris[-sub,], type = "class"), iris[-sub, "Species"])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rpart</em> version 4.1-13 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bivariate Cluster Plot (clusplot) Default Method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clusplot.default {cluster}"><tr><td>clusplot.default {cluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bivariate Cluster Plot (clusplot) Default Method</h2>
+
+<h3>Description</h3>
+
+<p>Creates a bivariate plot visualizing a partition (clustering) of the data. All
+observation are represented by points in the plot, using principal
+components or multidimensional scaling. Around each cluster an ellipse
+is drawn.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+clusplot(x, clus, diss = FALSE,
+          s.x.2d = mkCheckX(x, diss), stand = FALSE,
+          lines = 2, shade = FALSE, color = FALSE,
+          labels= 0, plotchar = TRUE,
+          col.p = "dark green", col.txt = col.p,
+          col.clus = if(color) c(2, 4, 6, 3) else 5, cex = 1, cex.txt = cex,
+          span = TRUE,
+          add = FALSE,
+          xlim = NULL, ylim = NULL,
+          main = paste("CLUSPLOT(", deparse(substitute(x)),")"),
+          sub = paste("These two components explain",
+             round(100 * var.dec, digits = 2), "% of the point variability."),
+          xlab = "Component 1", ylab = "Component 2",
+          verbose = getOption("verbose"),
+          ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix or data frame, or dissimilarity matrix, depending on
+the value of the <code>diss</code> argument.
+</p>
+<p>In case of a matrix (alike), each row corresponds to an observation,
+and each column corresponds to a variable.  All variables must be
+numeric.  Missing values (<code><a href="../../base/html/NA.html">NA</a></code>s) are allowed.  They are
+replaced by the median of the corresponding variable.  When some
+variables or some observations contain only missing values, the
+function stops with a warning message.
+</p>
+<p>In case of a dissimilarity matrix, <code>x</code> is the output of
+<code><a href="daisy.html">daisy</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code> or a symmetric matrix.  Also,
+a vector of length <i>n*(n-1)/2</i> is allowed (where <i>n</i> is the
+number of observations), and will be interpreted in the same way as
+the output of the above-mentioned functions.  Missing values (NAs)
+are not allowed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>clus</code></td>
+<td>
+
+<p>a vector of length n representing a clustering of <code>x</code>.  For
+each observation the vector lists the number or name of the cluster
+to which it has been assigned. <code>clus</code> is often the clustering
+component of the output of <code><a href="pam.html">pam</a></code>, <code><a href="fanny.html">fanny</a></code> or
+<code><a href="clara.html">clara</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>diss</code></td>
+<td>
+
+<p>logical indicating if <code>x</code> will be considered as a dissimilarity
+matrix or a matrix of observations by variables (see <code>x</code>
+arugment above).</p>
+</td></tr>
+<tr valign="top"><td><code>s.x.2d</code></td>
+<td>
+<p>a <code><a href="../../base/html/list.html">list</a></code> with components named <code>x</code> (a <i>n x 2</i> matrix; typically something like principal components of
+original data), <code>labs</code> and <code>var.dec</code>.</p>
+</td></tr></table>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>stand</code></td>
+<td>
+
+<p>logical flag: if true, then the representations of the n observations in the
+2-dimensional plot are standardized.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lines</code></td>
+<td>
+
+<p>integer out of <code>0, 1, 2</code>, used to obtain an idea of the
+distances between ellipses.  The distance between two ellipses E1
+and E2 is measured along the line connecting the centers <i>m1</i>
+and <i>m2</i> of the two ellipses.
+</p>
+<p>In case E1 and E2 overlap on the line through <i>m1</i> and <i>m2</i>,
+no line is drawn.  Otherwise, the result depends on the value of
+<code>lines</code>: If
+</p>
+
+<dl>
+<dt>lines = 0,</dt><dd><p>no distance lines will appear on the plot;</p>
+</dd>
+<dt>lines = 1,</dt><dd><p>the line segment between <i>m1</i> and <i>m2</i> is drawn;</p>
+</dd>
+<dt>lines = 2,</dt><dd><p>a line segment between the boundaries of E1 and
+E2 is drawn (along the line connecting <i>m1</i> and <i>m2</i>).</p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>shade</code></td>
+<td>
+
+<p>logical flag: if TRUE, then the ellipses are shaded in relation to their
+density. The density is the number of points in the cluster divided by the
+area of the ellipse.
+</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+
+<p>logical flag: if TRUE, then the ellipses are colored with respect to their
+density. With increasing density, the colors are light blue, light
+green, red and purple.  To see these colors on the graphics device, an
+appropriate color scheme should be selected (we recommend a white
+background).</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>integer code, currently one of 0,1,2,3,4 and 5.  If
+</p>
+
+<dl>
+<dt>labels= 0,</dt><dd><p>no labels are placed in the plot;</p>
+</dd>
+<dt>labels= 1,</dt><dd><p>points and ellipses can be identified in the plot (see
+<code><a href="../../graphics/html/identify.html">identify</a></code>);</p>
+</dd>
+<dt>labels= 2,</dt><dd><p>all points and ellipses are labelled in the plot;</p>
+</dd>
+<dt>labels= 3,</dt><dd><p>only the points are labelled in the plot;</p>
+</dd>
+<dt>labels= 4,</dt><dd><p>only the ellipses are labelled in the plot.</p>
+</dd>
+<dt>labels= 5,</dt><dd><p>the ellipses are labelled in the plot, and
+points can be identified.</p>
+</dd>
+</dl>
+
+<p>The levels of the vector <code>clus</code> are taken as labels for the
+clusters.  The labels
+of the points are the rownames of <code>x</code> if <code>x</code> is matrix like.
+Otherwise (<code>diss = TRUE</code>), <code>x</code> is a vector, point labels
+can be attached to <code>x</code> as a &quot;Labels&quot; attribute
+(<code>attr(x,"Labels")</code>), as is done for the output of
+<code><a href="daisy.html">daisy</a></code>.
+</p>
+<p>A possible <code><a href="../../base/html/names.html">names</a></code> attribute of <code>clus</code> will not
+be taken into account.
+</p>
+</td></tr>
+<tr valign="top"><td><code>plotchar</code></td>
+<td>
+
+<p>logical flag: if TRUE, then the plotting symbols differ for points belonging
+to different clusters.
+</p>
+</td></tr>
+<tr valign="top"><td><code>span</code></td>
+<td>
+
+<p>logical flag: if TRUE, then each cluster is represented by the ellipse with
+smallest area containing all its points. (This is a special case of the
+minimum volume ellipsoid.)<br />
+If FALSE, the ellipse is based on the mean and covariance matrix of the
+same points.  While this is faster to compute, it often yields a much
+larger ellipse.
+</p>
+<p>There are also some special cases:  When a cluster consists of only
+one point, a tiny circle is drawn around it.  When the points of a
+cluster fall on a straight line, <code>span=FALSE</code> draws a narrow
+ellipse around it and <code>span=TRUE</code> gives the exact line segment.
+</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>logical indicating if ellipses (and labels if <code>labels</code>
+is true) should be <em>added</em> to an already existing plot.  If
+false, neither a <code><a href="../../graphics/html/title.html">title</a></code> or sub title, see <code>sub</code>,
+is written.</p>
+</td></tr>
+<tr valign="top"><td><code>col.p</code></td>
+<td>
+<p>color code(s) used for the observation points.</p>
+</td></tr>
+<tr valign="top"><td><code>col.txt</code></td>
+<td>
+<p>color code(s) used for the labels (if <code>labels &gt;= 2</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>col.clus</code></td>
+<td>
+<p>color code for the ellipses (and their labels);
+only one if color is false (as per default).</p>
+</td></tr>
+<tr valign="top"><td><code>cex, cex.txt</code></td>
+<td>
+<p>character <b>ex</b>pansion (size), for the point
+symbols and point labels, respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p>numeric vectors of length 2, giving the x- and y-
+ranges as in <code><a href="../../graphics/html/plot.default.html">plot.default</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>main title for the plot; by default, one is constructed.</p>
+</td></tr>
+<tr valign="top"><td><code>sub</code></td>
+<td>
+<p>sub title for the plot; by default, one is constructed.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>x- and y- axis labels for the plot, with defaults.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>a logical indicating, if there should be extra
+diagnostic output; mainly for &lsquo;debugging&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further graphical parameters may also be supplied, see
+<code><a href="../../graphics/html/par.html">par</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>clusplot</code> uses function calls
+<code><a href="../../stats/html/princomp.html">princomp</a>(*, cor = (ncol(x) &gt; 2))</code> or
+<code><a href="../../stats/html/cmdscale.html">cmdscale</a>(*, add=TRUE)</code>, respectively, depending on
+<code>diss</code> being false or true.  These functions are data reduction
+techniques to represent the data in a bivariate plot.
+</p>
+<p>Ellipses are then drawn to indicate the clusters.  The further layout of the
+plot is determined by the optional arguments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An invisible list with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Distances</code></td>
+<td>
+
+<p>When <code>lines</code> is 1 or 2 we optain a k by k matrix (k is the number of
+clusters).  The element in <code>[i,j]</code> is the distance between ellipse
+i and ellipse j.<br />
+If <code>lines = 0</code>, then the value of this component is <code>NA</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Shading</code></td>
+<td>
+
+<p>A vector of length k (where k is the number of clusters), containing the
+amount of shading per cluster. Let y be a vector where element i is the
+ratio between the number of points in cluster i and the area of ellipse i.
+When the cluster i is a line segment, y[i] and the density of the cluster are
+set to <code>NA</code>. Let z be the sum of all the elements of y without the NAs.
+Then we put shading = y/z *37 + 3 .
+</p>
+</td></tr>
+</table>
+
+
+<h3>Side Effects</h3>
+
+<p>a visual display of the clustering is plotted on the current graphics device.
+</p>
+
+
+<h3>Note</h3>
+
+<p>When we have 4 or fewer clusters, then the <code>color=TRUE</code> gives
+every cluster a different color.  When there are more than 4 clusters,
+clusplot uses the function <code><a href="pam.html">pam</a></code> to cluster the
+densities into 4 groups such that ellipses with nearly the same
+density get the same color.  <code>col.clus</code> specifies the colors used.
+</p>
+<p>The <code>col.p</code> and <code>col.txt</code> arguments, added for <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>,
+are recycled to have length the number of observations.
+If <code>col.p</code> has more than one value, using <code>color = TRUE</code> can
+be confusing because of a mix of point and ellipse colors.
+</p>
+
+
+<h3>References</h3>
+
+<p>Pison, G., Struyf, A. and Rousseeuw, P.J. (1999)
+Displaying a Clustering with CLUSPLOT,
+<em>Computational Statistics and Data Analysis</em>, <b>30</b>, 381&ndash;392.<br />
+
+
+
+</p>
+<p>Kaufman, L. and Rousseeuw, P.J. (1990).
+<em>Finding Groups in Data: An Introduction to Cluster Analysis.</em>
+Wiley, New York.
+</p>
+<p>Struyf, A., Hubert, M. and Rousseeuw, P.J. (1997).
+Integrating Robust Clustering Techniques in S-PLUS,
+<em>Computational Statistics and Data Analysis</em>, <b>26</b>, 17-37.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/princomp.html">princomp</a></code>, <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>, <code><a href="pam.html">pam</a></code>,
+<code><a href="clara.html">clara</a></code>, <code><a href="daisy.html">daisy</a></code>, <code><a href="../../graphics/html/par.html">par</a></code>,
+<code><a href="../../graphics/html/identify.html">identify</a></code>, <code><a href="../../MASS/html/cov.mve.html">cov.mve</a></code>,
+<code><a href="clusplot.partition.html">clusplot.partition</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## plotting votes.diss(dissimilarity) in a bivariate plot and
+## partitioning into 2 clusters
+data(votes.repub)
+votes.diss &lt;- daisy(votes.repub)
+pamv &lt;- pam(votes.diss, 2, diss = TRUE)
+clusplot(pamv, shade = TRUE)
+## is the same as
+votes.clus &lt;- pamv$clustering
+clusplot(votes.diss, votes.clus, diss = TRUE, shade = TRUE)
+## Now look at components 3 and 2 instead of 1 and 2:
+str(cMDS &lt;- cmdscale(votes.diss, k=3, add=TRUE))
+clusplot(pamv, s.x.2d = list(x=cMDS$points[, c(3,2)],
+                             labs=rownames(votes.repub), var.dec=NA),
+         shade = TRUE, col.p = votes.clus,
+         sub="", xlab = "Component 3", ylab = "Component 2")
+
+clusplot(pamv, col.p = votes.clus, labels = 4)# color points and label ellipses
+# "simple" cheap ellipses: larger than minimum volume:
+# here they are *added* to the previous plot:
+clusplot(pamv, span = FALSE, add = TRUE, col.clus = "midnightblue")
+
+## Setting a small *label* size:
+clusplot(votes.diss, votes.clus, diss = TRUE, labels = 3, cex.txt = 0.6)
+
+if(dev.interactive()) { #  uses identify() *interactively* :
+  clusplot(votes.diss, votes.clus, diss = TRUE, shade = TRUE, labels = 1)
+  clusplot(votes.diss, votes.clus, diss = TRUE, labels = 5)# ident. only points
+}
+
+## plotting iris (data frame) in a 2-dimensional plot and partitioning
+## into 3 clusters.
+data(iris)
+iris.x &lt;- iris[, 1:4]
+cl3 &lt;- pam(iris.x, 3)$clustering
+op &lt;- par(mfrow= c(2,2))
+clusplot(iris.x, cl3, color = TRUE)
+U &lt;- par("usr")
+## zoom in :
+rect(0,-1, 2,1, border = "orange", lwd=2)
+clusplot(iris.x, cl3, color = TRUE, xlim = c(0,2), ylim = c(-1,1))
+box(col="orange",lwd=2); mtext("sub region", font = 4, cex = 2)
+##  or zoom out :
+clusplot(iris.x, cl3, color = TRUE, xlim = c(-4,4), ylim = c(-4,4))
+mtext("`super' region", font = 4, cex = 2)
+rect(U[1],U[3], U[2],U[4], lwd=2, lty = 3)
+
+# reset graphics
+par(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cluster</em> version 2.0.7-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

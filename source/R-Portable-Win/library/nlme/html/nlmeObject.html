@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fitted nlme Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nlmeObject {nlme}"><tr><td>nlmeObject {nlme}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fitted nlme Object</h2>
+
+<h3>Description</h3>
+
+<p>An object returned by the <code><a href="nlme.html">nlme</a></code> function, inheriting from class
+<code>"nlme"</code>, also inheriting from class <code>"lme"</code>, and representing a
+fitted nonlinear mixed-effects model. Objects of this class have
+methods for the generic functions  <code>anova</code>, <code>coef</code>,
+<code>fitted</code>, <code>fixed.effects</code>, <code>formula</code>, <code>getGroups</code>,
+<code>getResponse</code>, <code>intervals</code>, <code>logLik</code>, <code>pairs</code>,
+<code>plot</code>, <code>predict</code>, <code>print</code>, <code>random.effects</code>,
+<code>residuals</code>, <code>summary</code>, and <code>update</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The following components must be included in a legitimate <code>"nlme"</code>
+object.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>apVar</code></td>
+<td>
+<p>an approximate covariance matrix for the
+variance-covariance coefficients. If <code>apVar = FALSE</code> in the
+control values used in the call to <code>nlme</code>, this component is
+<code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>a list containing an image of the <code>nlme</code> call that
+produced the object.</p>
+</td></tr>
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>a list with two components, <code>fixed</code> and
+<code>random</code>, where the first is a vector containing the estimated
+fixed effects and the second is a list of matrices with the estimated
+random effects for each level of grouping. For each matrix in the
+<code>random</code> list, the columns refer to the random effects and the
+rows to the groups.</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+<p>a list with the contrasts used to represent factors
+in the fixed effects formula  and/or random effects formula. This
+information is important for making predictions from a new data
+frame in which not all levels of the original factors are
+observed. If no factors are used in the nlme model, this component
+will be an empty list.</p>
+</td></tr>
+<tr valign="top"><td><code>dims</code></td>
+<td>
+<p>a list with basic dimensions used in the nlme fit,
+including the components <code>N</code> - the number of observations in
+the data, <code>Q</code> - the number of grouping levels, <code>qvec</code> -
+the number of random effects at each level from innermost to
+outermost (last two values are equal to zero and correspond to the
+fixed effects and the response), <code>ngrps</code> - the number of groups
+at each level from innermost to outermost (last two values are one
+and correspond to the fixed effects and the response), and
+<code>ncol</code> - the number of columns in the model matrix for each
+level of grouping from innermost to outermost (last two values are
+equal to the number of fixed effects and one).</p>
+</td></tr>
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+<p>a data frame with the fitted values as columns. The
+leftmost column corresponds to the population fixed effects
+(corresponding to the fixed effects only) and successive columns
+from left to right correspond to increasing levels of grouping.</p>
+</td></tr>
+<tr valign="top"><td><code>fixDF</code></td>
+<td>
+<p>a list with components <code>X</code> and <code>terms</code>
+specifying the denominator degrees of freedom for, respectively,
+t-tests for the individual fixed effects and F-tests for the
+fixed-effects terms in the models.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>a data frame with the grouping factors as
+columns. The grouping level increases from left to right.</p>
+</td></tr>
+<tr valign="top"><td><code>logLik</code></td>
+<td>
+<p>the (restricted) log-likelihood at convergence.</p>
+</td></tr>
+<tr valign="top"><td><code>map</code></td>
+<td>
+<p>a list with components <code>fmap</code>, <code>rmap</code>,
+<code>rmapRel</code>, and <code>bmap</code>, specifying various mappings for the
+fixed and random effects, used to generate predictions from the
+fitted object.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the estimation method: either <code>"ML"</code> for maximum
+likelihood, or <code>"REML"</code> for restricted maximum likelihood.</p>
+</td></tr>
+<tr valign="top"><td><code>modelStruct</code></td>
+<td>
+<p>an object inheriting from class <code>nlmeStruct</code>,
+representing a list of mixed-effects model components, such
+as <code>reStruct</code>, <code>corStruct</code>, and <code>varFunc</code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>numIter</code></td>
+<td>
+<p>the number of iterations used in the iterative
+algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>a data frame with the residuals as columns. The
+leftmost column corresponds to the population residuals
+and successive columns from left to right correspond to increasing
+levels of grouping.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>the estimated within-group error standard deviation.</p>
+</td></tr>
+<tr valign="top"><td><code>varFix</code></td>
+<td>
+<p>an approximate covariance matrix of the
+fixed effects estimates.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>José Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="nlme.html">nlme</a></code>, <code>nlmeStruct</code></p>
+
+<hr /><div style="text-align: center;">[Package <em>nlme</em> version 3.1-137 <a href="00Index.html">Index</a>]</div>
+</body></html>

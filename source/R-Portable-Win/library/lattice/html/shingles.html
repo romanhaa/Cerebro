@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: shingles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for C_07_shingles {lattice}"><tr><td>C_07_shingles {lattice}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>shingles</h2>
+
+<h3>Description</h3>
+
+<p>Functions to handle shingles
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+shingle(x, intervals=sort(unique(x)))
+equal.count(x, ...)
+as.shingle(x)
+is.shingle(x)
+
+## S3 method for class 'shingle'
+plot(x, panel, xlab, ylab, ...)
+
+## S3 method for class 'shingle'
+print(x, showValues = TRUE, ...)
+
+## S3 method for class 'shingleLevel'
+as.character(x, ...)
+
+## S3 method for class 'shingleLevel'
+print(x, ...)
+
+## S3 method for class 'shingle'
+summary(object, showValues = FALSE, ...)
+
+
+
+## S3 method for class 'shingle'
+x[subset, drop = FALSE]
+as.factorOrShingle(x, subset, drop)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>numeric variable or R object, shingle in <code>plot.shingle</code> and
+<code>x[]</code>. An object (list of intervals) of class &quot;shingleLevel&quot; in
+<code>print.shingleLevel</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> shingle object to be summarized</p>
+</td></tr>
+<tr valign="top"><td><code>showValues</code></td>
+<td>
+<p> logical, whether to print the numeric part. If
+FALSE, only the intervals are printed</p>
+</td></tr>
+</table>
+
+
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>intervals</code></td>
+<td>
+<p> numeric vector or matrix with 2 columns</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>logical vector</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>whether redundant shingle levels are to be dropped</p>
+</td></tr>
+<tr valign="top"><td><code>panel, xlab, ylab</code></td>
+<td>
+<p> standard Trellis arguments (see
+<code><a href="xyplot.html">xyplot</a></code> ) </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> other arguments, passed down as appropriate.  For
+example, extra arguments to <code>equal.count</code> are passed on to
+<code>co.intervals</code>.  graphical parameters can be passed as
+arguments to the <code>plot</code> method.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A shingle is a data structure used in Trellis, and is a generalization
+of factors to &lsquo;continuous&rsquo; variables.  It consists of a numeric
+vector along with some possibly overlapping intervals. These intervals
+are the &lsquo;levels&rsquo; of the shingle.  The <code>levels</code> and
+<code>nlevels</code> functions, usually applicable to factors, also work on
+shingles.  The implementation of shingles is slightly different from
+S.
+</p>
+<p>There are print methods for shingles, as well as for printing the
+result of <code>levels()</code> applied to a shingle.  For use in labelling,
+the <code>as.character</code> method can be used to convert levels of a
+shingle to character strings.
+</p>
+<p><code>equal.count</code> converts <code>x</code> to a shingle using the equal
+count algorithm.  This is essentially a wrapper around
+<code>co.intervals</code>.  All arguments are passed to <code>co.intervals</code>.
+</p>
+<p><code>shingle</code> creates a shingle using the given <code>intervals</code>. If
+<code>intervals</code> is a vector, these are used to form 0 length
+intervals.
+</p>
+<p><code>as.shingle</code> returns <code>shingle(x)</code> if <code>x</code> is not a
+shingle.
+</p>
+<p><code>is.shingle</code> tests whether <code>x</code> is a shingle.
+</p>
+<p><code>plot.shingle</code> displays the ranges of shingles via
+rectangles. <code>print.shingle</code> and <code>summary.shingle</code> describe
+the shingle object.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>x$intervals</code> for <code>levels.shingle(x)</code>, 
+logical for <code>is.shingle</code>, an object of class <code>"trellis"</code> for
+<code>plot</code> (printed by default by <code>print.trellis</code>), and 
+an object of class <code>"shingle"</code> for the others.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xyplot.html">xyplot</a></code>,
+<code><a href="../../graphics/html/coplot.html">co.intervals</a></code>, <code><a href="Lattice.html">Lattice</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+z &lt;- equal.count(rnorm(50))
+plot(z)
+print(z)
+print(levels(z))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lattice</em> version 0.20-35 <a href="00Index.html">Index</a>]</div>
+</body></html>

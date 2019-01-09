@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Zero inflated Poisson location-scale model family</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ziplss {mgcv}"><tr><td>ziplss {mgcv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Zero inflated Poisson location-scale model family</h2>
+
+<h3>Description</h3>
+
+<p>The <code>ziplss</code> family implements a zero inflated Poisson model in which one linear predictor 
+controls the probability of presence  and the other controls the mean given  presence.
+Useable only with <code><a href="gam.html">gam</a></code>, the linear predictors are specified via a list of formulae. 
+Should be used with care: simply having a large number of zeroes is not an indication of zero inflation. 
+</p>
+<p>Requires integer count data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ziplss(link=list("identity","identity"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>two item list specifying the link - currently only identity links are possible, as 
+parameterization is directly in terms of log of Poisson response and logit of probability of presence.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Used with <code><a href="gam.html">gam</a></code> to fit 2 stage zero inflated Poisson models. <code>gam</code> is called with 
+a list containing 2 formulae, the first specifies the response on the left hand side and the structure of the linear predictor for the Poisson parameter on the right hand side. The second is one sided, specifying the linear predictor for the probability of presence on the right hand side. 
+</p>
+<p>The fitted values for this family will be a two column matrix. The first column is the log of the Poisson parameter, 
+and the second column is the complimentary log log of probability of presnece.. 
+Predictions using <code><a href="predict.gam.html">predict.gam</a></code> will also produce 2 column matrices for <code>type</code> 
+<code>"link"</code> and <code>"response"</code>.
+</p>
+<p>The null deviance computed for this model assumes that a single probability of presence and a single Poisson parameter 
+are estimated. 
+</p>
+<p>For data with large areas of covariate space over which the response is zero it may be advisable to use low order penalties to 
+avoid problems. For 1D smooths uses e.g. <code>s(x,m=1)</code> and for isotropic smooths use <code><a href="smooth.construct.ds.smooth.spec.html">Duchon.spline</a></code>s in place of thin plaste terms with order 1 penalties, e.g <code>s(x,z,m=c(1,.5))</code> &mdash; such smooths penalize towards constants, thereby avoiding extreme estimates when the data are uninformative.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object inheriting from class <code>general.family</code>.
+</p>
+
+
+<h3>WARNINGS </h3>
+
+<p>Zero inflated models are often over-used. Having lots of zeroes in the data does not in itself imply zero inflation. Having too many zeroes *given the model mean* may imply zero inflation. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Wood, S.N., N. Pya and B. Saefken (2016), Smoothing parameter and
+model selection for general smooth models.
+Journal of the American Statistical Association 111, 1548-1575
+<a href="http://dx.doi.org/10.1080/01621459.2016.1180986">http://dx.doi.org/10.1080/01621459.2016.1180986</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(mgcv)
+## simulate some data...
+f0 &lt;- function(x) 2 * sin(pi * x); f1 &lt;- function(x) exp(2 * x)
+f2 &lt;- function(x) 0.2 * x^11 * (10 * (1 - x))^6 + 10 * 
+            (10 * x)^3 * (1 - x)^10
+n &lt;- 500;set.seed(5)
+x0 &lt;- runif(n); x1 &lt;- runif(n)
+x2 &lt;- runif(n); x3 &lt;- runif(n)
+
+## Simulate probability of potential presence...
+eta1 &lt;- f0(x0) + f1(x1) - 3
+p &lt;- binomial()$linkinv(eta1) 
+y &lt;- as.numeric(runif(n)&lt;p) ## 1 for presence, 0 for absence
+
+## Simulate y given potentially present (not exactly model fitted!)...
+ind &lt;- y&gt;0
+eta2 &lt;- f2(x2[ind])/3
+y[ind] &lt;- rpois(exp(eta2),exp(eta2))
+
+## Fit ZIP model... 
+b &lt;- gam(list(y~s(x2)+s(x3),~s(x0)+s(x1)),family=ziplss())
+b$outer.info ## check convergence
+
+summary(b) 
+plot(b,pages=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mgcv</em> version 1.8-24 <a href="00Index.html">Index</a>]</div>
+</body></html>

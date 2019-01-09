@@ -1,0 +1,21 @@
+Package: modeltools
+Title: Tools and Classes for Statistical Models
+Date: 2018-07-16
+Version: 0.2-22
+Author: Torsten Hothorn, Friedrich Leisch, Achim Zeileis 
+Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
+Description: A collection of tools to deal with statistical models. 
+  The functionality is experimental and the user interface is likely to
+  change in the future. The documentation is rather terse, but packages `coin'
+  and `party' have some working examples. However, if you find the
+  implemented ideas interesting we would be very interested in a discussion
+  of this proposal. Contributions are more than welcome!
+Depends: stats, stats4
+Imports: methods
+LazyLoad: yes
+License: GPL-2
+NeedsCompilation: no
+Packaged: 2018-07-16 13:56:35 UTC; hothorn
+Repository: CRAN
+Date/Publication: 2018-07-16 16:44:58 UTC
+Built: R 3.5.1; ; 2018-07-18 07:35:06 UTC; windows

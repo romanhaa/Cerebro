@@ -1,0 +1,9 @@
+useDynLib(RSclient)
+# old client
+export(RSassign, RSattach, RSclose, RSconnect, RSdetach, RSeval, RSevalDetach, RSlogin, RSshutdown, RSserverEval, RSserverSource)
+# new client
+export(RS.connect, RS.eval, RS.eval.qap, RS.close, RS.switch, RS.authkey, RS.login, RS.collect, RS.assign, RS.oobCallbacks)
+export(RS.server.eval, RS.server.source, RS.server.shutdown)
+S3method(print, RserveConnection)
+S3method("!=", RserveConnection)
+S3method("==", RserveConnection)
