@@ -1,0 +1,24 @@
+Package: BiocManager
+Title: Access the Bioconductor Project Package Repository
+Description: A convenient tool to install and update Bioconductor packages.
+Version: 1.30.4
+Authors@R: c(
+    person("Martin", "Morgan", email = "martin.morgan@roswellpark.org",
+        role = "aut", comment = c(ORCID = "0000-0002-5874-8148")),
+    person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
+        role = c("ctb", "cre"), comment = c(ORCID = "0000-0002-3242-0582")))
+Depends: R (>= 3.5.0)
+Imports: utils
+Suggests: BiocStyle, BiocVersion, remotes, testthat, knitr, withr
+BugReports: https://github.com/Bioconductor/BiocManager/issues
+VignetteBuilder: knitr
+License: Artistic-2.0
+RoxygenNote: 6.1.0
+NeedsCompilation: no
+Packaged: 2018-11-12 18:11:22 UTC; mr148
+Author: Martin Morgan [aut] (<https://orcid.org/0000-0002-5874-8148>),
+  Marcel Ramos [ctb, cre] (<https://orcid.org/0000-0002-3242-0582>)
+Maintainer: Marcel Ramos <marcel.ramos@roswellpark.org>
+Repository: CRAN
+Date/Publication: 2018-11-13 08:40:10 UTC
+Built: R 3.5.0; ; 2018-11-14 13:10:34 UTC; unix

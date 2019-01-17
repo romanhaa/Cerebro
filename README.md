@@ -59,6 +59,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Upload current state.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
+* [ ] Format average UMI and expressed gene counts.
 
 ## Changelog
 
