@@ -56,11 +56,14 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 
 ## To Do
 
-* [ ] Upload current state.
+* [x] Upload current state.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
 * [ ] Format average UMI and expressed gene counts.
-* [ ] Don't scroll menu on the left.
+* [x] Don't scroll menu on the left.
+* [ ] Replace old app names.
+* [ ] Write `Cerebro` in bold and with bigger letters
+* [ ] Logo inside app?
 
 ## Changelog
 
