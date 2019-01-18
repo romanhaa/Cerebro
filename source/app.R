@@ -55,14 +55,14 @@
 ##          - apoptotic score           vector
 ##          - cell cycle (Regev)        vector
 ##          - cell cycle (Cyclone)      vector
-## - most.expressed.genes:              list
-##          - by.sample:                data frame
-##          - by.cluster:               data frame
-## - marker.genes:                      list
-##          - by.sample:                data frame
-##          - by.sample.annotation:     list of data frames
-##          - by.cluster:               data frame
-##          - by.cluster.annotation:    list of data frames
+## - most_expressed_genes:              list
+##          - by_sample:                data frame
+##          - by_cluster:               data frame
+## - marker_genes:                      list
+##          - by_sample:                data frame
+##          - by_sample.annotation:     list of data frames
+##          - by_cluster:               data frame
+##          - by_cluster.annotation:    list of data frames
 ## - expression:                        sparse expression matrix (seurat@data)
 ##----------------------------------------------------------------------------##
 
@@ -524,10 +524,9 @@ server <- function(input, output, session) {
     )
   })
 
-
   ##--------------------------------------------------------------------------##
 
-  output$samples_table <- DT::renderDataTable({
+  output$samples_by_cluster_table <- DT::renderDataTable({
     sample_data()$samples$by_cluster %>%
     DT::datatable(
       filter = "none",
@@ -546,10 +545,10 @@ server <- function(input, output, session) {
     )
   })
 
-  observeEvent(input$samples_table_info, {
+  observeEvent(input$samples_by_cluster_table_info, {
     showModal(
-      modalDialog(samples_table_info_text,
-        title = samples_table_info_title, easyClose = TRUE, footer = NULL
+      modalDialog(samples_by_cluster_table_info_text,
+        title = samples_by_cluster_table_info_title, easyClose = TRUE, footer = NULL
       )
     )
   })
@@ -558,7 +557,7 @@ server <- function(input, output, session) {
 
   # UI element for bar plot of samples by cluster
   output$samples_by_cluster_UI <- renderUI({
-    if ( sample_data()$clusters$count > 1 ) {
+    if ( nrow(sample_data()$clusters$overview) > 1 ) {
       plotly::plotlyOutput("samples_by_cluster_plot")
     } else {
       textOutput("samples_by_cluster_text")
@@ -568,7 +567,7 @@ server <- function(input, output, session) {
   # bar plot of samples by cluster
   output$samples_by_cluster_plot <- plotly::renderPlotly({
     sample_data()$samples$by_cluster %>%
-    select(-"total_cell_count") %>%
+    select(-total_cell_count) %>%
     reshape2::melt(id.vars = "sample") %>%
     rename(cluster = variable, cells = value) %>%
     left_join(
@@ -595,7 +594,9 @@ server <- function(input, output, session) {
   })
 
   # alternative text output for bar plot of samples by cluster
-  output$samples_by_cluster_text <- renderText({ "Only 1 cluster in this data set." })
+  output$samples_by_cluster_text <- renderText({
+      "Only 1 cluster in this data set."
+    })
 
   observeEvent(input$samples_by_cluster_info, {
     showModal(
@@ -611,7 +612,7 @@ server <- function(input, output, session) {
   # box plot of number of transcripts per sample
   output$samples_box_nUMI <- plotly::renderPlotly({
     plotly::plot_ly(
-      sample_data()$cells[ , c("sample", "nUMI") ],
+      sample_data()$cells,
       x = ~sample,
       y = ~nUMI,
       type = "box",
@@ -645,7 +646,7 @@ server <- function(input, output, session) {
   # box plot of number of expressed genes per sample
   output$samples_box_nGene <- plotly::renderPlotly({
     plotly::plot_ly(
-      sample_data()$cells[ , c("sample", "nGene") ],
+      sample_data()$cells,
       x = ~sample,
       y = ~nGene,
       type = "box",
@@ -676,10 +677,11 @@ server <- function(input, output, session) {
   })
 
   ##--------------------------------------------------------------------------##
+
   # box plot of percentage of mitochondrial gene expression per sample
   output$samples_box_percent_mt <- plotly::renderPlotly({
     plotly::plot_ly(
-      sample_data()$cells[ , c("sample", "percent_mt") ],
+      sample_data()$cells,
       x = ~sample,
       y = ~percent_mt,
       type = "box",
@@ -715,7 +717,7 @@ server <- function(input, output, session) {
   # box plot of percentage of ribosomal gene expression per sample
   output$samples_box_percent_ribo <- plotly::renderPlotly({
     plotly::plot_ly(
-      sample_data()$cells[ , c("sample", "percent_ribo") ],
+      sample_data()$cells,
       x = ~sample,
       y = ~percent_ribo,
       type = "box",
@@ -748,19 +750,18 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
   
   # UI element for bar plot of samples by cell cycle (Regev)
-  output$samples_by_cell_cycle_Regev_UI <- renderUI(
-    if ( !is.null(sample_data()$cells$cell_cycle_Regev) ) {
+  output$samples_by_cell_cycle_Regev_UI <- renderUI({
+    if ( !is.null(sample_data()$samples$by_cell_cycle_Regev) ) {
       plotly::plotlyOutput("samples_by_cell_cycle_Regev_plot")
     } else {
       textOutput("samples_by_cell_cycle_Regev_text")
     }
-  )
+  })
 
   # bar plot of samples by cell cycle (Regev)  
   output$samples_by_cell_cycle_Regev_plot <- plotly::renderPlotly({
-
     sample_data()$samples$by_cell_cycle_Regev %>%
-    select(-"total_cell_count") %>%
+    select(-total_cell_count) %>%
     reshape2::melt(id.vars = "sample") %>%
     rename(phase = variable, cells = value) %>%
     mutate(
@@ -806,19 +807,18 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
   
   # UI element for bar plot of samples by cell cycle (Cyclone)
-  output$samples_by_cell_cycle_Cyclone_UI <- renderUI(
-    if ( !is.null(sample_data()$cells$cell_cycle_Cyclone) ) {
+  output$samples_by_cell_cycle_Cyclone_UI <- renderUI({
+    if ( !is.null(sample_data()$samples$by_cell_cycle_Cyclone) ) {
       plotly::plotlyOutput("samples_by_cell_cycle_Cyclone_plot")
     } else {
       textOutput("samples_by_cell_cycle_Cyclone_text")
     }
-  )
+  })
 
   # bar plot of samples by cell cycle (Cyclone)
   output$samples_by_cell_cycle_Cyclone_plot <- plotly::renderPlotly({
-
     sample_data()$samples$by_cell_cycle_Cyclone %>%
-    select(-"total_cell_count") %>%
+    select(-total_cell_count) %>%
     reshape2::melt(id.vars = "sample") %>%
     rename(phase = variable, cells = value) %>%
     mutate(
@@ -863,9 +863,9 @@ server <- function(input, output, session) {
   }) 
 
 
-  ##----------------------------------------------------------------------------##
+  ##--------------------------------------------------------------------------##
   ## Panel: Clusters.
-  ##----------------------------------------------------------------------------##
+  ##--------------------------------------------------------------------------##
   ## Expected data:
   ## - sample_data()$samples$count
   ## - sample_data()$clusters$overview$cluster
@@ -877,96 +877,74 @@ server <- function(input, output, session) {
   ## - sample_data()$cells$percent_ribo
   ## - sample_data()$cells$cell_cycle_Regev (optional)
   ## - sample_data()$cells$cell_cycle_Cyclone (optional)
-  ##----------------------------------------------------------------------------##
+  ##--------------------------------------------------------------------------##
 
   ##--------------------------------------------------------------------------##
-  # cell counts by cluster and sample
-  output$clusters.table <- DT::renderDataTable({
-    table           <- as.data.frame(table(sample_data()$cells$cluster))
-    colnames(table) <- c('cluster', 'total_cell_count')
-    table$cluster   <- as.character(table$cluster)
-    for ( i in sample_data()$samples$overview$sample ) {
-      counts           <- as.data.frame(table(sample_data()$cells$cluster[ which(sample_data()$cells$sample == i) ]))
-      counts[,1]       <- NULL
-      colnames(counts) <- c(i)
-      table            <- cbind(table, counts)
-    }
-    if ( sample_data()$samples$count > 1 ) {
-      DT::datatable(
-        data               = table,
-        filter             = 'none',
-        selection          = 'multiple',
-        escape             = FALSE,
-        autoHideNavigation = TRUE,
-        colnames           = c('Cluster', '# of cells', colnames(table)[ 3:length(table) ]),
-        rownames           = FALSE,
-        class              = 'cell-border stripe',
-        options            = list(
-          scrollX    = TRUE,
-          sDom       = '<"top">lrt<"bottom">ip',
-          lengthMenu = c(20, 30, 50, 100),
-          pageLength = 20)
-      )
+
+  # UI element for cluster tree
+  output$clusters_tree_UI <- renderUI({
+    if ( !is.null(sample_data()$clusters$tree) ) {
+      plotOutput("clusters_tree_plot")
     } else {
-      DT::datatable(
-        data               = table,
-        filter             = 'none',
-        selection          = 'multiple',
-        escape             = FALSE,
-        autoHideNavigation = TRUE,
-        colnames           = c('Cluster', '# of cells'),
-        rownames           = FALSE,
-        class              = 'cell-border stripe',
-        options            = list(
-          scrollX    = TRUE,
-          sDom       = '<"top">lrt<"bottom">ip',
-          lengthMenu = c(20, 30, 50, 100),
-          pageLength = 20)
-      )
+      textOutput("clusters_tree_text")
     }
   })
 
-  observeEvent(input$clusters.table.info, {
+  output$clusters_tree_plot <- renderPlot({
+    library("ggtree")
+    tree <- sample_data()$clusters$tree
+    tree$tip.label <- paste0("Cluster ", tree$tip.label)
+    colors_tree <- colors[1:length(tree$tip.label)]
+    ggplot(tree, aes(x, y)) + 
+      ggplot2::scale_y_reverse() +
+      xlim(0, max(tree$edge.length * 1.1)) +
+      geom_tree() +
+      theme_tree() +
+      geom_tiplab(size = 5, hjust = -0.2) +
+      geom_tippoint(color = colors_tree, shape = 16, size = 6)
+  })
+
+  output$clusters_tree_text <- renderText({ "Data not available." })
+
+  observeEvent(input$clusters_tree_info, {
     showModal(
       modalDialog(
-        title='Overview of clusters', easyClose=TRUE, footer=NULL,
-        p('Table of clusters (by row) stratified by sample (columns).')
+        title = "Cluster tree", easyClose = TRUE, footer = NULL,
+        p("Cluster tree reflecting the similarity of clusters based on their expression profiles. Instead of using the expression values, the correlation is calculated using the user-specified number of principal components (see 'Sample info' tab on the left).")
       )
     )
   })
 
   ##--------------------------------------------------------------------------##
 
-  # UI element for cluster tree
-  output$clusters.tree.UI <- renderUI(
-    if ( !is.null(sample_data()$clusters$tree) ) {
-      plotOutput('clusters.tree.plot')
-    } else {
-      textOutput('clusters.tree.text')
-    }
-  )
-
-  output$clusters.tree.plot <- renderPlot({
-    library('ggtree')
-    tree <- sample_data()$clusters$tree
-    tree$tip.label <- paste0('Cluster ', tree$tip.label)
-    colors.tree <- colors[1:length(tree$tip.label)]
-    ggplot(tree, aes(x, y)) + 
-      ggplot2::scale_y_reverse() +
-      xlim(0, max(tree$edge.length*1.1)) +
-      geom_tree() +
-      theme_tree() +
-      geom_tiplab(size=5, hjust=-0.2) +
-      geom_tippoint(color=colors.tree, shape=16, size=6)
+  # cell counts by cluster and sample
+  output$clusters_by_sample <- DT::renderDataTable({
+    sample_data()$clusters$by_sample %>%
+    rename(
+      Cluster = cluster,
+      "# of cells" = total_cell_count
+    ) %>%
+    DT::datatable(
+      filter = "none",
+      selection = "multiple",
+      escape = FALSE,
+      autoHideNavigation = TRUE,
+      rownames = FALSE,
+      class = "cell-border stripe",
+      options = list(
+        scrollX = TRUE,
+        sDom = '<"top">lrt<"bottom">ip',
+        lengthMenu = c(20, 30, 50, 100),
+        pageLength = 20
+      )
+    )
   })
 
-  output$clusters.tree.text <- renderText({ 'Data not available.' })
-
-  observeEvent(input$clusters.tree.info, {
+  observeEvent(input$clusters_by_sample_info, {
     showModal(
       modalDialog(
-        title='Cluster tree', easyClose=TRUE, footer=NULL,
-        p('Cluster tree reflecting the similarity of clusters based on their expression profiles. Instead of using the expression values, the correlation is calculated using the user-specified number of principal components (see "Sample info" tab on the left).')
+        title = "Overview of clusters", easyClose = TRUE, footer = NULL,
+        p("Table of clusters (by row) stratified by sample (columns).")
       )
     )
   })
@@ -974,57 +952,53 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # UI element for bar plot of clusters by sample
-  output$clusters.by.sample.UI <- renderUI(
-    if ( sample_data()$samples$count > 1 ) {
-      plotly::plotlyOutput('clusters.by.sample.plot')
+  output$clusters_by_sample_UI <- renderUI({
+    if ( nrow(sample_data()$samples$overview) > 1 ) {
+      plotly::plotlyOutput("clusters_by_sample_plot")
     } else {
-      textOutput('clusters.by.sample.text')
+      textOutput("clusters_by_sample_text")
     }
-  )
+  })
 
   # bar plot of clusters by sample
-  output$clusters.by.sample.plot <- plotly::renderPlotly({
-    table           <- as.data.frame(table(sample_data()$cells$cluster))
-    colnames(table) <- c('cluster', 'total_cell_count')
-    table$cluster   <- as.character(table$cluster)
-    for ( i in sample_data()$samples$overview$sample ) {
-      counts           <- as.data.frame(table(sample_data()$cells$cluster[ which(sample_data()$cells$sample == i) ]))
-      counts[,1]       <- NULL
-      colnames(counts) <- c(i)
-      table            <- cbind(table, counts)
-    }
-    table <- table[,c('cluster', 'total_cell_count', sample_data()$samples$overview$sample)]
-    temp <- reshape2::melt(table[ , c(1,3:length(table)) ], id.vars='cluster')
-    colnames(temp) <- c('cluster','sample','cells')
-    temp$cluster <- factor(temp$cluster, levels=sample_data()$clusters$overview$cluster)
-    temp$total <- 0
-    for ( i in sample_data()$clusters$overview$cluster ) {
-      temp$total[ which(temp$cluster == i) ] <- table$total_cell_count[ which(table$cluster == i) ] #sample_data()$clusters$by.sample$total_cell_count[ which(sample_data()$clusters$by.sample$cluster == i) ]
-    }
-    temp$pct <- temp$cells / temp$total
-    plotly::plot_ly(temp,
-      x         = ~cluster,
-      y         = ~pct*100,
-      type      = 'bar',
-      color     = ~sample,
-      colors    = colors[ 1:sample_data()$samples$count ],
-      text      = ~pct*100,
-      hoverinfo = 'name+y') %>%
+  output$clusters_by_sample_plot <- plotly::renderPlotly({
+    sample_data()$clusters$by_sample %>%
+    select(-total_cell_count) %>%
+    reshape2::melt(id.vars = "cluster") %>%
+    rename(sample = variable, cells = value) %>%
+    left_join(
+      .,
+      sample_data()$clusters$by_sample[ , c("cluster", "total_cell_count") ],
+      by = "cluster"
+    ) %>%
+    mutate(pct = cells / total_cell_count) %>%
+    plotly::plot_ly(
+      x = ~cluster,
+      y = ~pct*100,
+      type = "bar",
+      color = ~sample,
+      colors = sample_data()$samples$colors,
+      text = ~pct*100,
+      hoverinfo = "name+y"
+    ) %>%
     plotly::layout(
-      xaxis     = list(title=''),
-      yaxis     = list(title='Percentage (%)', hoverformat='.2f'),
-      barmode   = 'stack',
-      hovermode = 'compare') 
+      xaxis = list(title = ""),
+      yaxis = list(title = "Percentage (%)", hoverformat = ".2f"),
+      barmode = "stack",
+      hovermode = "compare"
+    )
   })
 
   # alternative text for bar plot of clusters by sample
-  output$clusters.by.sample.text <- renderText({ 'Only 1 sample in this data set.' })
+  output$clusters_by_sample_text <- renderText({
+      "Only 1 sample in this data set."
+    })
 
-  observeEvent(input$clusters.by.sample.info, {
+  observeEvent(input$clusters_by_sample_info, {
     showModal(
       modalDialog(
-        title='Clusters by samples', easyClose=TRUE, footer=NULL,
-        p('Percentage bar plot representation of the table shown above. Allows to see which samples contribute most strongly to each cluster. Samples can be removed from the plot by clicking on them in the legend.')
+        title = "Clusters by samples", easyClose = TRUE, footer = NULL,
+        p("Percentage bar plot representation of the table shown above. Allows to see which samples contribute most strongly to each cluster. Samples can be removed from the plot by clicking on them in the legend.")
       )
     )
   })
@@ -1032,30 +1006,33 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot of number of transcripts per cluster
-  output$clusters.box.nUMI <- plotly::renderPlotly({
-    plotly::plot_ly(sample_data()$cells[ , c('cluster', 'nUMI') ],
-      x          = ~cluster,
-      y          = ~nUMI,
-      type       = 'box',
-      color      = ~cluster,
-      colors     = colors[ 1:sample_data()$clusters$count ],
-      source     = 'subset',
+  output$clusters_box_nUMI <- plotly::renderPlotly({
+    plotly::plot_ly(
+      sample_data()$cells,
+      x = ~cluster,
+      y = ~nUMI,
+      type = "box",
+      color = ~cluster,
+      colors = sample_data()$clusters$colors,
+      source = "subset",
       showlegend = FALSE,
-      hoverinfo  = 'y',
-      marker     = list(size=5)) %>%
+      hoverinfo = "y",
+      marker = list(size = 5)
+    ) %>%
     plotly::layout(
-      title     = '',
-      xaxis     = list(title=''), 
-      yaxis     = list(title='Number of UMIs', type='log', hoverformat='.2f'),
-      dragmode  = 'select',
-      hovermode = 'compare')
+      title = "",
+      xaxis = list(title = ""), 
+      yaxis = list(title = "Number of UMIs", type = "log", hoverformat = ".2f"),
+      dragmode = "select",
+      hovermode = "compare"
+    )
   })
 
-  observeEvent(input$clusters.box.nUMI.info, {
+  observeEvent(input$clusters_box_nUMI_info, {
     showModal(
       modalDialog(
-        title='Number of transcripts', easyClose=TRUE, footer=NULL,
-        p('Box plot of the number of transcripts (UMIs) found in each cluster.')
+        title = "Number of transcripts", easyClose = TRUE, footer = NULL,
+        p("Box plot of the number of transcripts (UMIs) found in each cluster.")
       )
     )
   })
@@ -1063,30 +1040,34 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot of number of expressed genes per cluster
-  output$clusters.box.nGene <- plotly::renderPlotly({
-    plotly::plot_ly(sample_data()$cells[ , c('cluster', 'nGene') ],
-      x          = ~cluster, 
-      y          = ~nGene,
-      type       = 'box',
-      color      = ~cluster,
-      colors     = colors[ 1:sample_data()$clusters$count ],
-      source     = 'subset',
+  output$clusters_box_nGene <- plotly::renderPlotly({
+    plotly::plot_ly(
+      sample_data()$cells,
+      x = ~cluster, 
+      y = ~nGene,
+      type = "box",
+      color = ~cluster,
+      colors = sample_data()$clusters$colors,
+      source = "subset",
       showlegend = FALSE,
-      hoverinfo  = 'y',
-      marker     = list(size=5)) %>%
+      hoverinfo = "y",
+      marker = list(size = 5)
+    ) %>%
     plotly::layout(
-      title     = '',
-      xaxis     = list(title=''),
-      yaxis     = list(title='Number of expressed genes', type='log', hoverformat='.2f'),
-      dragmode  = 'select',
-      hovermode = 'compare')
+      title = "",
+      xaxis = list(title =""),
+      yaxis = list(title = "Number of expressed genes", type = "log",
+          hoverformat = ".2f"),
+      dragmode = "select",
+      hovermode = "compare"
+    )
   })
 
-  observeEvent(input$clusters.box.nGene.info, {
+  observeEvent(input$clusters_box_nGene_info, {
     showModal(
       modalDialog(
-        title='Number of expressed genes', easyClose=TRUE, footer=NULL,
-        p('Box plot of the number of expressed genes found in each cluster.')
+        title = "Number of expressed genes", easyClose = TRUE, footer = NULL,
+        p("Box plot of the number of expressed genes found in each cluster.")
       )
     )
   })
@@ -1094,30 +1075,35 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot of percentage of mitochondrial gene expression per cluster
-  output$clusters.box.percent_mt <- plotly::renderPlotly({
-    plotly::plot_ly(sample_data()$cells[ , c('cluster', 'percent_mt') ],
-      x          = ~cluster,
-      y          = ~percent_mt,
-      type       = 'box',
-      color      = ~cluster,
-      colors     = colors[ 1:sample_data()$clusters$count ],
-      source     = 'subset',
+  output$clusters_box_percent_mt <- plotly::renderPlotly({
+    plotly::plot_ly(
+      sample_data()$cells,
+      x = ~cluster,
+      y = ~percent_mt,
+      type = "box",
+      color = ~cluster,
+      colors = sample_data()$clusters$colors,
+      source = "subset",
       showlegend = FALSE,
-      hoverinfo  = 'y',
-      marker     = list(size = 5)) %>%
+      hoverinfo = "y",
+      marker = list(size = 5)
+    ) %>%
     plotly::layout(
-      title     = '',
-      xaxis     = list(title=''),
-      yaxis     = list(title='Percentage of mitochondrial gene expression', range=c(0, 1), hoverformat='.2f'),
-      dragmode  = 'select',
-      hovermode = 'compare')
+      title = "",
+      xaxis = list(title = ""),
+      yaxis = list(title = "Percentage of mitochondrial gene expression",
+        range = c(0, 1), hoverformat = ".2f"),
+      dragmode = "select",
+      hovermode = "compare"
+    )
   })
 
-  observeEvent(input$clusters.box.percent_mt.info, {
+  observeEvent(input$clusters_box_percent_mt_info, {
     showModal(
       modalDialog(
-        title='Mitochondrial gene expression', easyClose=TRUE, footer=NULL,
-        p('Box plot of the percentage of mitochondrial gene expression found in each cluster. This reflects the contribution of mitochondrial transcripts to the entire transcriptome in each cell. A list of all genes considered to be mitochondrial can be found in the "Sample info" tab on the left.')
+        title = "Mitochondrial gene expression", easyClose = TRUE,
+        footer = NULL,
+        p("Box plot of the percentage of mitochondrial gene expression found in each cluster. This reflects the contribution of mitochondrial transcripts to the entire transcriptome in each cell. A list of all genes considered to be mitochondrial can be found in the 'Sample info' tab on the left.")
       )
     )
   })
@@ -1125,30 +1111,34 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot of percentage of ribosomal gene expression per cluster
-  output$clusters.box.percent_ribo <- plotly::renderPlotly({
-    plotly::plot_ly(sample_data()$cells[ , c('cluster', 'percent_ribo') ],
-      x          = ~cluster,
-      y          = ~percent_ribo,
-      type       = 'box',
-      color      = ~cluster,
-      colors     = colors[ 1:sample_data()$clusters$count ],
-      source     = 'subset',
+  output$clusters_box_percent_ribo <- plotly::renderPlotly({
+    plotly::plot_ly(
+      sample_data()$cells,
+      x = ~cluster,
+      y = ~percent_ribo,
+      type = "box",
+      color = ~cluster,
+      colors = sample_data()$clusters$colors,
+      source = "subset",
       showlegend = FALSE,
-      hoverinfo  = 'y',
-      marker     = list(size=5)) %>%
+      hoverinfo = "y",
+      marker = list(size = 5)
+    ) %>%
     plotly::layout(
-      title     = '',
-      xaxis     = list(title=''),
-      yaxis     = list(title='Percentage of ribosomal gene expression', range=c(0, 1), hoverformat='.2f'),
-      dragmode  = 'select',
-      hovermode = 'compare')
+      title = "",
+      xaxis = list(title = ""),
+      yaxis = list(title = "Percentage of ribosomal gene expression",
+        range = c(0, 1), hoverformat = ".2f"),
+      dragmode = "select",
+      hovermode = "compare"
+    )
   })
 
-  observeEvent(input$clusters.box.percent_ribo.info, {
+  observeEvent(input$clusters_box_percent_ribo_info, {
     showModal(
       modalDialog(
-        title='Ribosomal gene expression', easyClose=TRUE, footer=NULL,
-        p('Box plot of the percentage of ribosomal gene expression found in each cluster. This reflects the contribution of ribosomal transcripts to the entire transcriptome in each cell. A list of all genes considered to be ribosomal can be found in the "Sample info" tab on the left.')
+        title = "Ribosomal gene expression", easyClose = TRUE, footer = NULL,
+        p("Box plot of the percentage of ribosomal gene expression found in each cluster. This reflects the contribution of ribosomal transcripts to the entire transcriptome in each cell. A list of all genes considered to be ribosomal can be found in the 'Sample info' tab on the left.")
       )
     )
   })
@@ -1156,59 +1146,56 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # UI element for bar plot of clusters by cell cycle (Regev)
-  output$clusters.by.cell_cycle_Regev.UI <- renderUI(
-    if ( !is.null(sample_data()$cells$cell_cycle_Regev) ) {
-      plotly::plotlyOutput('clusters.by.cell_cycle_Regev.plot')
+  output$clusters_by_cell_cycle_Regev_UI <- renderUI({
+    if ( !is.null(sample_data()$clusters$by_cell_cycle_Regev) ) {
+      plotly::plotlyOutput("clusters_by_cell_cycle_Regev_plot")
     } else {
-      textOutput('clusters.by.cell_cycle_Regev.text')
+      textOutput("clusters_by_cell_cycle_Regev_text")
     }
-  )
+  })
 
   # bar plot of clusters by cell cycle (Regev)
-  output$clusters.by.cell_cycle_Regev.plot <- plotly::renderPlotly({
-    table           <- as.data.frame(table(sample_data()$cells$cluster))
-    colnames(table) <- c('cluster', 'total_cell_count')
-    table$cluster   <- as.character(table$cluster)
-    for ( i in sample_data()$clusters$overview$cluster ) {
-      table[ which(table$cluster == i) , 'G1'  ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & sample_data()$cells$cell_cycle_Regev == 'G1')  ])
-      table[ which(table$cluster == i) , 'S'   ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & sample_data()$cells$cell_cycle_Regev == 'S')   ])
-      table[ which(table$cluster == i) , 'G2M' ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & sample_data()$cells$cell_cycle_Regev == 'G2M') ])
-    }
-    temp <- reshape2::melt(table[ , c(1,3:length(table)) ], id.vars='cluster')
-    colnames(temp) <- c('cluster','phase','cells')
-    temp$cluster <- factor(temp$cluster, levels=sample_data()$clusters$overview$cluster)
-    temp$phase <- factor(temp$phase, levels=c('G1','S','G2M'))
-    temp$total <- 0
-
-    for ( i in table$cluster ) {
-      temp$total[ which(temp$cluster == i) ] <- table$total_cell_count[ which(table$cluster == i) ]
-    }
-
-    temp$pct <- temp$cells / temp$total
-
-    plotly::plot_ly(temp,
-      x         = ~cluster,
-      y         = ~pct*100,
-      type      = 'bar',
-      color     = ~phase,
-      colors    = c('#45aaf2','#f1c40f','#e74c3c'),
-      text      = ~pct*100,
-      hoverinfo = 'name+y') %>%
+  output$clusters_by_cell_cycle_Regev_plot <- plotly::renderPlotly({
+    sample_data()$clusters$by_cell_cycle_Regev %>%
+    select(-total_cell_count) %>%
+    reshape2::melt(id.vars = "cluster") %>%
+    rename(phase = variable, cells = value) %>%
+    mutate(
+      phase = factor(phase, levels = c("G1", "S", "G2M")),
+    ) %>%
+    left_join(
+      .,
+      sample_data()$clusters$by_cell_cycle_Regev[ , c("cluster", "total_cell_count") ],
+      by = "cluster"
+    ) %>%
+    mutate(pct = cells / total_cell_count) %>%
+    plotly::plot_ly(
+      x = ~cluster,
+      y = ~pct*100,
+      type = "bar",
+      color = ~phase,
+      colors = cell_cycle_colorset,
+      text = ~pct*100,
+      hoverinfo = "name+y"
+    ) %>%
     plotly::layout(
-      xaxis     = list(title=''),
-      yaxis     = list(title='Percentage (%)', hoverformat='.2f'),
-      barmode   = 'stack',
-      hovermode = 'compare') 
+      xaxis = list(title = ""),
+      yaxis = list(title = "Percentage (%)", hoverformat = ".2f"),
+      barmode = "stack",
+      hovermode = "compare"
+    ) 
   })
 
   # alternative text for bar plot of clusters by cell cycle (Regev)
-  output$clusters.by.cell_cycle_Regev.text <- renderText({ 'Data not available.' })
+  output$clusters_by_cell_cycle_Regev_text <- renderText({
+      "Data not available."
+    })
 
-  observeEvent(input$clusters.by.cell_cycle_Regev.info, {
+  observeEvent(input$clusters_by_cell_cycle_Regev_info, {
     showModal(
       modalDialog(
-        title='Cell cycle analysis (Regev)', easyClose=TRUE, footer=NULL,
-        p('Cell cycle distribution by cluster using the method embedded in the Seurat framework. For each cell, it calculates scores for both G2M and S phase based on lists of genes (see "Sample info" tab on the left) and assigns the cell cycle phase on the basis of these scores.')
+        title = "Cell cycle analysis (Regev)", easyClose = TRUE, footer = NULL,
+        p("Cell cycle distribution by cluster using the method embedded in the Seurat framework. For each cell, it calculates scores for both G2M and S phase based on lists of genes (see 'Sample info' tab on the left) and assigns the cell cycle phase on the basis of these scores.")
       )
     )
   })
@@ -1216,137 +1203,158 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # UI element for bar plot of clusters by cell cycle (Cyclone)
-  output$clusters.by.cell_cycle_Cyclone.UI <- renderUI(
+  output$clusters_by_cell_cycle_Cyclone_UI <- renderUI(
     if ( !is.null(sample_data()$cells$cell_cycle_Cyclone) ) {
-      plotly::plotlyOutput('clusters.by.cell_cycle_Cyclone.plot')
+      plotly::plotlyOutput("clusters_by_cell_cycle_Cyclone_plot")
     } else {
-      textOutput('clusters.by.cell_cycle_Cyclone.text')
+      textOutput("clusters_by_cell_cycle_Cyclone_text")
     }
   )
 
   # bar plot of clusters by cell cycle (Cyclone)
-  output$clusters.by.cell_cycle_Cyclone.plot <- plotly::renderPlotly({
-    table           <- as.data.frame(table(sample_data()$cells$cluster))
-    colnames(table) <- c('cluster', 'total_cell_count')
-    table$cluster   <- as.character(table$cluster)
-    for ( i in sample_data()$clusters$overview$cluster ) {
-      table[ which(table$cluster == i) , 'G1'  ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & sample_data()$cells$cell_cycle_Cyclone == 'G1')  ])
-      table[ which(table$cluster == i) , 'S'   ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & sample_data()$cells$cell_cycle_Cyclone == 'S')   ])
-      table[ which(table$cluster == i) , 'G2M' ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & sample_data()$cells$cell_cycle_Cyclone == 'G2M') ])
-      table[ which(table$cluster == i) , '-'   ] <- length(sample_data()$cells$cluster[ which(sample_data()$cells$cluster == i & ( is.na(sample_data()$cells$cell_cycle_Cyclone) | sample_data()$cells$cell_cycle_Cyclone == '-') ) ])
-    }
-    temp <- reshape2::melt(table[ , c(1,3:length(table)) ], id.vars='cluster')
-    colnames(temp) <- c('cluster','phase','cells')
-    temp$cluster <- factor(temp$cluster, levels=sample_data()$clusters$overview$cluster)
-    temp$phase <- factor(temp$phase, levels=c('G1','S','G2M','-'))
-    temp$total <- 0
-
-    for ( i in table$cluster ) {
-      temp$total[ which(temp$cluster == i) ] <- table$total_cell_count[ which(table$cluster == i) ]
-    }
-
-    temp$pct <- temp$cells / temp$total
-
-    plotly::plot_ly(temp, 
-      x         = ~cluster,
-      y         = ~pct*100,
-      type      = 'bar',
-      color     = ~phase,
-      colors    = c('#45aaf2','#f1c40f','#e74c3c', '#7f8c8d'),
-      text      = ~pct*100,
-      hoverinfo = 'name+y') %>%
+  output$clusters_by_cell_cycle_Cyclone_plot <- plotly::renderPlotly({
+    sample_data()$clusters$by_cell_cycle_Cyclone %>%
+    select(-total_cell_count) %>%
+    reshape2::melt(id.vars = "cluster") %>%
+    rename(phase = variable, cells = value) %>%
+    mutate(
+      phase = factor(phase, levels = c("G1", "S", "G2M", "-")),
+    ) %>%
+    left_join(
+      .,
+      sample_data()$clusters$by_cell_cycle_Cyclone[ , c("cluster", "total_cell_count") ],
+      by = "cluster"
+    ) %>%
+    mutate(pct = cells / total_cell_count) %>%
+    plotly::plot_ly( 
+      x = ~cluster,
+      y = ~pct*100,
+      type = "bar",
+      color = ~phase,
+      colors = cell_cycle_colorset,
+      text = ~pct*100,
+      hoverinfo = "name+y"
+    ) %>%
     plotly::layout(
-      xaxis     = list(title=''),
-      yaxis     = list(title='Percentage (%)', hoverformat='.2f'), 
-      barmode   = 'stack',
-      hovermode = 'compare')
-  })
-
-  # alternative text for bar plot of clusters by cell cycle (Cyclone)
-  output$clusters.by.cell_cycle_Cyclone.text <- renderText({ 'Data not available.' })
-
-  observeEvent(input$clusters.by.cell_cycle_Cyclone.info, {
-    showModal(
-      modalDialog(
-        title='Cell cycle analysis (Cyclone)', easyClose=TRUE, footer=NULL,
-        p('Cell cycle distribution by cluster using the machine learning-based Cyclone method published by Scialdone et al (2015). It assigns the cell cycle phase based on scores calculated using relative expression of lists of gene pairs. In contrast to the Seurat/Regev method, scores are calculated for G1 and G2M phase. Cells with a low score for both are assigned S phase.')
-      )
+      xaxis = list(title = ""),
+      yaxis = list(title = "Percentage (%)", hoverformat = ".2f"), 
+      barmode = "stack",
+      hovermode = "compare"
     )
   })
 
+  # alternative text for bar plot of clusters by cell cycle (Cyclone)
+  output$clusters_by_cell_cycle_Cyclone_text <- renderText({
+      "Data not available."
+    })
+
+  observeEvent(input$clusters_by_cell_cycle_Cyclone_info, {
+    showModal(
+      modalDialog(
+        title = "Cell cycle analysis (Cyclone)", easyClose = TRUE,
+        footer = NULL,
+        p("Cell cycle distribution by cluster using the machine learning-based Cyclone method published by Scialdone et al (2015). It assigns the cell cycle phase based on scores calculated using relative expression of lists of gene pairs. In contrast to the Seurat/Regev method, scores are calculated for G1 and G2M phase. Cells with a low score for both are assigned S phase.")
+      )
+    )
+  })
 
   ##----------------------------------------------------------------------------##
   ## Panel: Top expressed genes.
   ##----------------------------------------------------------------------------##
   ## Expected data:
   ## - sample_data()$samples$overview$sample
-  ## - sample_data()$most.expressed.genes$by.sample
+  ## - sample_data()$most_expressed_genes$by_sample
   ## - sample_data()$clusters$overview$cluster
-  ## - sample_data()$most.expressed.genes$by.cluster
+  ## - sample_data()$most_expressed_genes$by_cluster
   ##----------------------------------------------------------------------------##
+
+  ##--------------------------------------------------------------------------##
+
   # by sample
-  output$top.expressed.genes.by.sample.UI <- renderUI(
-    if ( !is.null(sample_data()$most.expressed.genes$by.sample) ) {
+  output$top_expressed_genes_by_sample_UI <- renderUI({
+    if ( !is.null(sample_data()$most_expressed_genes$by_sample) ) {
       fluidRow(
         column(12,
-          selectInput('top.expressed.genes.by.sample.input', label=NULL,
+          selectInput("top_expressed_genes_by_sample_input", label = NULL,
             choices = sample_data()$samples$overview$sample),
-          DT::dataTableOutput('top.expressed.genes.by.sample.table.present')
+          DT::dataTableOutput("top_expressed_genes_by_sample_table_present")
         )
       )
     } else {
-      textOutput('top.expressed.genes.by.sample.table.missing')
+      textOutput("top_expressed_genes_by_sample_table_missing")
     }
-  )
+  })
 
-  output$top.expressed.genes.by.sample.table.present <- DT::renderDataTable(server=FALSE, {
-    req(input$top.expressed.genes.by.sample.input)
-    table <- sample_data()$most.expressed.genes$by.sample[ which(sample_data()$most.expressed.genes$by.sample$sample == input$top.expressed.genes.by.sample.input) , ]
-    if (sum(table$pct > 1)) {
-      table$pct <- table$pct / 100
-    }
-    table$pct <- round(table$pct, digits=4)
-    colnames(table) <- c('Sample', 'Gene', '% of total expression')
-    table$'% of total expression' <- formattable::percent(table$'% of total expression')
-    table <- formattable::formattable(table, list(
-      'Sample' = formattable::color_tile(colors[ which(sample_data()$samples$overview$sample == input$top.expressed.genes.by.sample.input) ],colors[ which(sample_data()$samples$overview$sample == input$top.expressed.genes.by.sample.input) ]),
-      '% of total expression' = formattable::color_bar('pink')
-    ))
-    formattable::as.datatable(table,
-      filter             = 'none',
-      selection          = 'multiple',
-      escape             = FALSE,
+  output$top_expressed_genes_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
+    req(input$top_expressed_genes_by_sample_input)
+    sample_data()$most_expressed_genes$by_sample %>%
+    filter(sample == input$top_expressed_genes_by_sample_input) %>%
+    mutate(pct = formattable::percent(round(pct/100, digits = 4))) %>%
+    rename(
+      Sample = sample,
+      Gene = gene,
+      "% of total expression" = pct
+    ) %>%
+    formattable::formattable(
+      list(
+        "Sample" = formattable::color_tile(
+            colors[ which(sample_data()$samples$overview$sample == input$top_expressed_genes_by_sample_input) ],
+            colors[ which(sample_data()$samples$overview$sample == input$top_expressed_genes_by_sample_input) ]
+          ),
+        "% of total expression" = formattable::color_bar("pink")
+      )
+    ) %>%
+    formattable::as.datatable(
+      filter = "none",
+      selection = "multiple",
+      escape = FALSE,
       autoHideNavigation = TRUE,
-      rownames           = FALSE,
-      extensions         = c('Buttons'),
-      class              = 'cell-border stripe',
-      options            = list(
-        dom        = 'Bfrtip',
+      rownames = FALSE,
+      extensions = c("Buttons"),
+      class = "cell-border stripe",
+      options = list(
+        dom = "Bfrtip",
         lengthMenu = c(15, 30, 50, 100),
         pageLength = 15,
-        buttons    = list(
-          'colvis', 
+        buttons = list(
+          "colvis", 
            list(
-             extend  = 'collection',
-             text    = 'Download',
+             extend = "collection",
+             text = "Download",
              buttons = list(
-              list(extend='csv',   filename='top_expressed_genes_per_sample', title='Top expressed genes per sample'),
-              list(extend='excel', filename='top_expressed_genes_per_sample', title='Top expressed genes per sample'),
-              list(extend='pdf',   filename='top_expressed_genes_per_sample', title='Top expressed genes per sample')
+              list(
+                extend = "csv",
+                filename = "top_expressed_genes_per_sample",
+                title = "Top expressed genes per sample"
+              ),
+              list(
+                extend = "excel",
+                filename = "top_expressed_genes_per_sample",
+                title = "Top expressed genes per sample"
+              ),
+              list(
+                extend = "pdf",
+                filename = "top_expressed_genes_per_sample",
+                title = "Top expressed genes per sample"
+              )
             )
           )
         )
       )
-    ) %>% DT::formatStyle('% of total expression', textAlign='right')
+    ) %>%
+    DT::formatStyle("% of total expression", textAlign = "right")
   })
 
-  output$top.expressed.genes.by.sample.table.missing <- renderText({ 'Data not available.' })
+  output$top_expressed_genes_by_sample_table_missing <- renderText({
+      "Data not available."
+    })
 
-  observeEvent(input$top.expressed.genes.by.sample.info, {
+  observeEvent(input$top_expressed_genes_by_sample_info, {
     showModal(
       modalDialog(
-        title='Top expressed genes per sample', easyClose=TRUE, footer=NULL,
-        p('Table of top 100 most expressed genes in each sample. For example, if gene XY contributes with 5% to the total expression, that means 5% of all transcripts found in all cells of this sample come from that respective gene. These lists can help to identify/verify the dominant cell types.')
+        title = "Top expressed genes per sample", easyClose = TRUE,
+        footer = NULL,
+        p("Table of top 100 most expressed genes in each sample. For example, if gene XY contributes with 5% to the total expression, that means 5% of all transcripts found in all cells of this sample come from that respective gene. These lists can help to identify/verify the dominant cell types.")
       )
     )
   })
@@ -1354,71 +1362,93 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # by cluster
-  output$top.expressed.genes.by.cluster.UI <- renderUI(
-    if ( !is.null(sample_data()$most.expressed.genes$by.cluster) ) {
+  output$top_expressed_genes_by_cluster_UI <- renderUI({
+    if ( !is.null(sample_data()$most_expressed_genes$by_cluster) ) {
       fluidRow(
         column(12,
-          selectInput('top.expressed.genes.by.cluster.input', label=NULL, choices=sample_data()$clusters$overview$cluster),
-          DT::dataTableOutput('top.expressed.genes.by.cluster.table.present')
+          selectInput("top_expressed_genes_by_cluster_input", label = NULL,
+          choices = sample_data()$clusters$overview$cluster),
+          DT::dataTableOutput("top_expressed_genes_by_cluster_table_present")
         )
       )
     } else {
-      textOutput('top.expressed.genes.by.cluster.table.missing')
+      textOutput("top_expressed_genes_by_cluster_table_missing")
     }
-  )
+  })
 
-  output$top.expressed.genes.by.cluster.table.present <- DT::renderDataTable(server=FALSE, {
-    req(input$top.expressed.genes.by.cluster.input)
-    table <- sample_data()$most.expressed.genes$by.cluster[ which(sample_data()$most.expressed.genes$by.cluster$cluster == input$top.expressed.genes.by.cluster.input) , ]
-    if (sum(table$pct > 1)) {
-      table$pct <- table$pct / 100
-    }
-    table$pct <- round(table$pct, digits=4)
-    colnames(table) <- c('Cluster', 'Gene', '% of total expression')
-    table$'% of total expression' <- formattable::percent(table$'% of total expression')
-    table <- formattable::formattable(table, list(
-      'Cluster' = formattable::color_tile(colors[ which(sample_data()$clusters$overview$cluster == input$top.expressed.genes.by.cluster.input) ],colors[ which(sample_data()$clusters$overview$cluster == input$top.expressed.genes.by.cluster.input) ]),
-      '% of total expression' = formattable::color_bar('pink')
-    ))
-    formattable::as.datatable(table,
-      filter             = 'none',
-      selection          = 'multiple',
-      escape             = FALSE,
+  output$top_expressed_genes_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
+    req(input$top_expressed_genes_by_cluster_input)
+    sample_data()$most_expressed_genes$by_cluster %>%
+    filter(cluster == input$top_expressed_genes_by_cluster_input) %>%
+    mutate(pct = formattable::percent(round(pct/100, digits = 4))) %>%
+    rename(
+      Cluster = cluster,
+      Gene = gene,
+      "% of total expression" = pct
+    ) %>%
+    formattable::formattable(
+      list(
+        "Cluster" = formattable::color_tile(
+            colors[ which(sample_data()$clusters$overview$cluster == input$top_expressed_genes_by_cluster_input) ],
+            colors[ which(sample_data()$clusters$overview$cluster == input$top_expressed_genes_by_cluster_input) ]
+          ),
+        "% of total expression" = formattable::color_bar("pink")
+      )
+    ) %>%
+    formattable::as.datatable(
+      filter = "none",
+      selection = "multiple",
+      escape = FALSE,
       autoHideNavigation = TRUE,
-      rownames           = FALSE,
-      extensions         = c('Buttons'),
-      class              = 'cell-border stripe',
-      options            = list(
-        dom        = 'Bfrtip',
+      rownames = FALSE,
+      extensions = c("Buttons"),
+      class = "cell-border stripe",
+      options = list(
+        dom = "Bfrtip",
         lengthMenu = c(15, 30, 50, 100),
         pageLength = 15,
-        buttons    = list(
-          'colvis', 
+        buttons = list(
+          "colvis", 
            list(
-             extend  = 'collection',
-             text    = 'Download',
+             extend = "collection",
+             text = "Download",
              buttons = list(
-              list(extend='csv',   filename='top_expressed_genes_per_cluster', title='Top expressed genes per cluster'),
-              list(extend='excel', filename='top_expressed_genes_per_cluster', title='Top expressed genes per cluster'),
-              list(extend='pdf',   filename='top_expressed_genes_per_cluster', title='Top expressed genes per cluster')
+              list(
+                extend = "csv",
+                filename = "top_expressed_genes_per_cluster",
+                title = "Top expressed genes per cluster"
+              ),
+              list(
+                extend = "excel",
+                filename = "top_expressed_genes_per_cluster",
+                title = "Top expressed genes per cluster"
+              ),
+              list(
+                extend = "pdf",
+                filename = "top_expressed_genes_per_cluster",
+                title = "Top expressed genes per cluster"
+              )
             )
           )
         )
       )
-    ) %>% DT::formatStyle('% of total expression', textAlign='right')
+    ) %>%
+    DT::formatStyle("% of total expression", textAlign = "right")
   })
 
-  output$top.expressed.genes.by.cluster.table.missing <- renderText({ 'Data not available.' })
+  output$top_expressed_genes_by_cluster_table_missing <- renderText({
+      "Data not available."
+    })
 
-  observeEvent(input$top.expressed.genes.by.cluster.info, {
+  observeEvent(input$top_expressed_genes_by_cluster_info, {
     showModal(
       modalDialog(
-        title='Top expressed genes per cluster', easyClose=TRUE, footer=NULL,
-        p('Table of top 100 most expressed genes in each cluster. For example, if gene XY contributes with 5% to the total expression, that means 5% of all transcripts found in all cells of this cluster come from that respective gene. These lists can help to identify/verify the dominant cell types.')
+        title = "Top expressed genes per cluster", easyClose = TRUE,
+        footer = NULL,
+        p("Table of top 100 most expressed genes in each cluster. For example, if gene XY contributes with 5% to the total expression, that means 5% of all transcripts found in all cells of this cluster come from that respective gene. These lists can help to identify/verify the dominant cell types.")
       )
     )
   })
-
 
   ##----------------------------------------------------------------------------##
   ## Panel: Marker genes.
@@ -1426,109 +1456,133 @@ server <- function(input, output, session) {
   ## Expected data:
   ## - sample_data()$samples$overview$sample
   ## - sample_data()$samples$count
-  ## - sample_data()$marker.genes$by.sample (optional)
+  ## - sample_data()$marker_genes$by_sample (optional)
   ## - sample_data()$clusters$overview$cluster
   ## - sample_data()$clusters$count
-  ## - sample_data()$marker.genes$by.cluster (optional)
+  ## - sample_data()$marker_genes$by_cluster (optional)
   ##----------------------------------------------------------------------------##
+
+  ##--------------------------------------------------------------------------##
+
   # by sample
-  output$marker.genes.by.sample.UI <- renderUI(
-    if ( sample_data()$samples$count > 1 & !is.null(sample_data()$marker.genes$by.sample) ) {
+  output$marker_genes_by_sample_UI <- renderUI({
+    if ( nrow(sample_data()$samples$overview) > 1 & !is.null(sample_data()$marker_genes$by_sample) ) {
       fluidRow(
         column(12,
-          selectInput('marker.genes.by.sample.input', label=NULL, choices=sample_data()$samples$overview$sample),
-          DT::dataTableOutput('marker.genes.by.sample.table.present')
+          selectInput(
+            "marker_genes_by_sample_input", label = NULL,
+            choices = sample_data()$samples$overview$sample
+          ),
+          DT::dataTableOutput("marker_genes_by_sample_table_present")
         )
       )
     } else {
-      textOutput('marker.genes.by.sample.table.missing')
+      textOutput("marker_genes_by_sample_table_missing")
     }
-  )
+  })
 
-  output$marker.genes.by.sample.table.present <- DT::renderDataTable(server=FALSE, {
-    req(input$marker.genes.by.sample.input)
-    if ('on_cell_surface' %in% colnames(sample_data()$marker.genes$by.sample)) {
-      table <- sample_data()$marker.genes$by.sample[ which(sample_data()$marker.genes$by.sample$sample == input$marker.genes.by.sample.input) , c(2,4,5,6,7,8) ]
-      colnames(table) <- c('Gene', 'avg. logFC', '% cells in this sample', '% cells in other samples', 'adj. p-value', 'present on cell surface')
-      table$'avg. logFC' <- round(table$'avg. logFC', digits=3)
-      table$'% cells in this sample' <- formattable::percent(table$'% cells in this sample')
-      table$'% cells in other samples' <- formattable::percent(table$'% cells in other samples')
+  output$marker_genes_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
+    req(input$marker_genes_by_sample_input)
+    if ( "on_cell_surface" %in% colnames(sample_data()$marker_genes$by_sample) ) {
+      table <- sample_data()$marker_genes$by_sample[ which(sample_data()$marker_genes$by_sample$sample == input$marker_genes_by_sample_input) , c(2,4,5,6,7,8) ]
+      colnames(table) <- c("Gene", "avg. logFC", "% cells in this sample", "% cells in other samples", "adj. p-value", "present on cell surface")
+      table$"avg. logFC" <- round(table$"avg. logFC", digits=3)
+      table$"% cells in this sample" <- formattable::percent(table$"% cells in this sample")
+      table$"% cells in other samples" <- formattable::percent(table$"% cells in other samples")
       table <- table %>%
-      mutate('adj. p-value'=formatC(table$'adj. p-value', format='e', digits=3)) %>%
+      mutate("adj. p-value"=formatC(table$"adj. p-value", format="e", digits=3)) %>%
       formattable::formattable(list(
-        'avg. logFC' = formattable::color_tile('white', 'orange'),
-        '% cells in this sample' = formattable::color_bar('pink'),
-        '% cells in other samples' = formattable::color_bar('pink'),
-        'present on cell surface' = formattable::formatter('span', style=x~style(color=ifelse(x, 'green', 'red')))
+        "avg. logFC" = formattable::color_tile("white", "orange"),
+        "% cells in this sample" = formattable::color_bar("pink"),
+        "% cells in other samples" = formattable::color_bar("pink"),
+        "present on cell surface" = formattable::formatter("span", style=x~style(color=ifelse(x, "green", "red")))
       ))
-    } else if ( tolower(sample_data()$parameters$organism) %in% c('hg','mm') ) {
-      if ( !exists('genes.surface') ) {
-        genes.surface <- read.table(paste0('resources/genes_surface_', tolower(sample_data()$parameters$organism), '.txt'), sep='\t', header=FALSE, stringsAsFactors=FALSE)[,1]
+    } else if ( tolower(sample_data()$experiment$organism) %in% c("hg","mm") ) {
+      if ( !exists("genes_surface") ) {
+        genes_surface <- read.table(paste0("resources/genes_surface_", tolower(sample_data()$experiment$organism), ".txt"), sep="\t", header=FALSE, stringsAsFactors=FALSE)[,1]
       }
-      table <- sample_data()$marker.genes$by.sample[ which(sample_data()$marker.genes$by.sample$sample == input$marker.genes.by.sample.input) , c(2,4,5,6,7) ]
-      table$surface <- table$gene %in% genes.surface
-      colnames(table) <- c('Gene', 'avg. logFC', '% cells in this sample', '% cells in other samples', 'adj. p-value', 'present on cell surface')
-      table$'avg. logFC' <- round(table$'avg. logFC', digits=3)
-      table$'% cells in this sample' <- formattable::percent(table$'% cells in this sample')
-      table$'% cells in other samples' <- formattable::percent(table$'% cells in other samples')
+      table <- sample_data()$marker_genes$by_sample[ which(sample_data()$marker_genes$by_sample$sample == input$marker_genes_by_sample_input) , c(2,4,5,6,7) ]
+      table$surface <- table$gene %in% genes_surface
+      colnames(table) <- c("Gene", "avg. logFC", "% cells in this sample", "% cells in other samples", "adj. p-value", "present on cell surface")
+      table$"avg. logFC" <- round(table$"avg. logFC", digits=3)
+      table$"% cells in this sample" <- formattable::percent(table$"% cells in this sample")
+      table$"% cells in other samples" <- formattable::percent(table$"% cells in other samples")
       table <- table %>%
-      mutate('adj. p-value'=formatC(table$'adj. p-value', format='e', digits=3)) %>%
+      mutate("adj. p-value"=formatC(table$"adj. p-value", format="e", digits=3)) %>%
       formattable::formattable(list(
-        'avg. logFC' = formattable::color_tile('white', 'orange'),
-        '% cells in this sample' = formattable::color_bar('pink'),
-        '% cells in other samples' = formattable::color_bar('pink'),
-        'present on cell surface' = formattable::formatter('span', style=x~style(color=ifelse(x, 'green', 'red')))
+        "avg. logFC" = formattable::color_tile("white", "orange"),
+        "% cells in this sample" = formattable::color_bar("pink"),
+        "% cells in other samples" = formattable::color_bar("pink"),
+        "present on cell surface" = formattable::formatter("span", style=x~style(color=ifelse(x, "green", "red")))
       ))
     } else {
-      table <- sample_data()$marker.genes$by.sample[ which(sample_data()$marker.genes$by.sample$sample == input$marker.genes.by.sample.input) , c(2,4,5,6,7) ]
-      colnames(table) <- c('Gene', 'avg. logFC', '% cells in this sample', '% cells in other samples', 'adj. p-value')
-      table$'avg. logFC' <- round(table$'avg. logFC', digits=3)
-      table$'% cells in this sample' <- formattable::percent(table$'% cells in this sample')
-      table$'% cells in other samples' <- formattable::percent(table$'% cells in other samples')
+      table <- sample_data()$marker_genes$by_sample[ which(sample_data()$marker_genes$by_sample$sample == input$marker_genes_by_sample_input) , c(2,4,5,6,7) ]
+      colnames(table) <- c("Gene", "avg. logFC", "% cells in this sample", "% cells in other samples", "adj. p-value")
+      table$"avg. logFC" <- round(table$"avg. logFC", digits=3)
+      table$"% cells in this sample" <- formattable::percent(table$"% cells in this sample")
+      table$"% cells in other samples" <- formattable::percent(table$"% cells in other samples")
       table <- table %>%
-      mutate('adj. p-value'=formatC(table$'adj. p-value', format='e', digits=3)) %>%
+      mutate("adj. p-value"=formatC(table$"adj. p-value", format="e", digits=3)) %>%
       formattable::formattable(list(
-        'avg. logFC' = formattable::color_tile('white', 'orange'),
-        '% cells in this sample' = formattable::color_bar('pink'),
-        '% cells in other samples' = formattable::color_bar('pink')
+        "avg. logFC" = formattable::color_tile("white", "orange"),
+        "% cells in this sample" = formattable::color_bar("pink"),
+        "% cells in other samples" = formattable::color_bar("pink")
       ))
     }
-    formattable::as.datatable(table,
-      filter             = 'top',
-      selection          = 'multiple',
-      escape             = FALSE,
+    formattable::as.datatable(
+      table,
+      filter = "top",
+      selection = "multiple",
+      escape = FALSE,
       autoHideNavigation = TRUE,
-      rownames           = FALSE,
-      extensions         = c('Buttons'),
-      class              = 'cell-border stripe',
-      options            = list(
-        dom        = 'Bfrtip',
+      rownames = FALSE,
+      extensions = c("Buttons"),
+      class = "cell-border stripe",
+      options = list(
+        dom = "Bfrtip",
         lengthMenu = c(15, 30, 50, 100),
         pageLength = 15,
-        buttons    = list(
-          'colvis', 
+        buttons = list(
+          "colvis", 
           list(
-            extend  = 'collection',
-            text    = 'Download',
+            extend = "collection",
+            text = "Download",
             buttons = list(
-              list(extend='csv',   filename='marker_genes_by_sample', title='Marker genes by sample'),
-              list(extend='excel', filename='marker_genes_by_sample', title='Marker genes by sample'),
-              list(extend='pdf',   filename='marker_genes_by_sample', title='Marker genes by sample')
+              list(
+                extend = "csv",
+                filename = "marker_genes_by_sample",
+                title = "Marker genes by sample"
+              ),
+              list(
+                extend = "excel",
+                filename = "marker_genes_by_sample",
+                title = "Marker genes by sample"
+              ),
+              list(
+                extend = "pdf",
+                filename = "marker_genes_by_sample",
+                title = "Marker genes by sample"
+              )
             )
           )
         )
       )
     ) %>% 
-    DT::formatStyle(columns=c('avg. logFC','% cells in this sample', '% cells in other samples', 'adj. p-value'), textAlign='right')
+    DT::formatStyle(
+      columns = c("avg. logFC", "% cells in this sample", "% cells in other samples", "adj. p-value"),
+      textAlign = "right"
+    )
   })
 
-  output$marker.genes.by.sample.table.missing <- renderText({ 'Only 1 sample in this data set or data not available.' })
+  output$marker_genes_by_sample_table_missing <- renderText({
+      "Only 1 sample in this data set or data not available."
+    })
 
-  observeEvent(input$marker.genes.by.sample.info, {
+  observeEvent(input$marker_genes_by_sample_info, {
     showModal(
       modalDialog(
-        title='Marker genes per sample', easyClose=TRUE, footer=NULL,
-        p('Shown here are the marker genes identified for each sample - resembling bulk RNA-seq. These genes should help to identify the cell type in this sample or find new markers to purify it. In this analysis, each sample is compared to all other samples combined. Only genes with a positive average log-fold change of at least 0.25 are reported - meaning only over-expressed genes are shown. Also, marker genes must be expressed in at least 70% of the cells of the respective sample. Statistical analysis is performed using a classical t-test as it has been shown to be very accurate in single cell RNA-seq. Finally, if data is available, the last column reports for each gene if it is associated with gene ontology term GO:0009986 which is an indicator that the respective gene is present on the cell surface (which could make it more interesting to purify a given population).')
+        title = "Marker genes per sample", easyClose = TRUE, footer = NULL,
+        p("Shown here are the marker genes identified for each sample - resembling bulk RNA-seq. These genes should help to identify the cell type in this sample or find new markers to purify it. In this analysis, each sample is compared to all other samples combined. Only genes with a positive average log-fold change of at least 0.25 are reported - meaning only over-expressed genes are shown. Also, marker genes must be expressed in at least 70% of the cells of the respective sample. Statistical analysis is performed using a classical t-test as it has been shown to be very accurate in single cell RNA-seq. Finally, if data is available, the last column reports for each gene if it is associated with gene ontology term GO:0009986 which is an indicator that the respective gene is present on the cell surface (which could make it more interesting to purify a given population).")
       )
     )
   })
@@ -1536,105 +1590,125 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # by cluster
-  output$marker.genes.by.cluster.UI <- renderUI(
-    if ( sample_data()$clusters$count > 1 & !is.null(sample_data()$marker.genes$by.cluster) ) {
+  output$marker_genes_by_cluster_UI <- renderUI({
+    if ( nrow(sample_data()$clusters$overview) > 1 & !is.null(sample_data()$marker_genes$by_cluster) ) {
       fluidRow(
         column(12,
-          selectInput('marker.genes.by.cluster.input', label=NULL, choices=sample_data()$clusters$overview$cluster),
-          DT::dataTableOutput('marker.genes.by.cluster.table.present')
+          selectInput(
+            "marker_genes_by_cluster_input", label = NULL,
+            choices = sample_data()$clusters$overview$cluster
+          ),
+          DT::dataTableOutput("marker_genes_by_cluster_table_present")
         )
       )
     } else {
-      textOutput('marker.genes.by.cluster.table.missing')
+      textOutput("marker_genes_by_cluster_table_missing")
     }
-  )
+  })
 
-  output$marker.genes.by.cluster.table.present <- DT::renderDataTable(server=FALSE, {
-    req(input$marker.genes.by.cluster.input)
-    if ('on_cell_surface' %in% colnames(sample_data()$marker.genes$by.cluster)) {
-      table <- sample_data()$marker.genes$by.cluster[ which(sample_data()$marker.genes$by.cluster$cluster == input$marker.genes.by.cluster.input) , c(2,4,5,6,7,8) ]
-      colnames(table) <- c('Gene', 'avg. logFC', '% cells in this cluster', '% cells in other clusters', 'adj. p-value', 'present on cell surface')
-      table$'avg. logFC' <- round(table$'avg. logFC', digits=3)
-      table$'% cells in this cluster' <- formattable::percent(table$'% cells in this cluster')
-      table$'% cells in other clusters' <- formattable::percent(table$'% cells in other clusters')
-      table <- table %>% mutate('adj. p-value'=formatC(table$'adj. p-value', format='e', digits=3)) %>%
+  output$marker_genes_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
+    req(input$marker_genes_by_cluster_input)
+    if ("on_cell_surface" %in% colnames(sample_data()$marker_genes$by_cluster)) {
+      table <- sample_data()$marker_genes$by_cluster[ which(sample_data()$marker_genes$by_cluster$cluster == input$marker_genes_by_cluster_input) , c(2,4,5,6,7,8) ]
+      colnames(table) <- c("Gene", "avg. logFC", "% cells in this cluster", "% cells in other clusters", "adj. p-value", "present on cell surface")
+      table$"avg. logFC" <- round(table$"avg. logFC", digits=3)
+      table$"% cells in this cluster" <- formattable::percent(table$"% cells in this cluster")
+      table$"% cells in other clusters" <- formattable::percent(table$"% cells in other clusters")
+      table <- table %>% mutate("adj. p-value"=formatC(table$"adj. p-value", format="e", digits=3)) %>%
       formattable::formattable(list(
-        'avg. logFC' = formattable::color_tile('white', 'orange'),
-        '% cells in this cluster' = formattable::color_bar('pink'),
-        '% cells in other clusters' = formattable::color_bar('pink'),
-        'present on cell surface' = formattable::formatter('span', style=x~style(color=ifelse(x, 'green', 'red')))
+        "avg. logFC" = formattable::color_tile("white", "orange"),
+        "% cells in this cluster" = formattable::color_bar("pink"),
+        "% cells in other clusters" = formattable::color_bar("pink"),
+        "present on cell surface" = formattable::formatter("span", style=x~style(color=ifelse(x, "green", "red")))
       ))
-    } else if ( tolower(sample_data()$parameters$organism) %in% c('hg','mm') ) {
-      if ( !exists('genes.surface') ) {
-        genes.surface <- read.table(paste0('resources/genes_surface_', tolower(sample_data()$parameters$organism), '.txt'), sep='\t', header=FALSE, stringsAsFactors=FALSE)[,1]
+    } else if ( tolower(sample_data()$experiment$organism) %in% c("hg","mm") ) {
+      if ( !exists("genes_surface") ) {
+        genes_surface <- read.table(paste0("resources/genes_surface_", tolower(sample_data()$experiment$organism), ".txt"), sep="\t", header=FALSE, stringsAsFactors=FALSE)[,1]
       }
-      table <- sample_data()$marker.genes$by.cluster[ which(sample_data()$marker.genes$by.cluster$cluster == input$marker.genes.by.cluster.input) , c(2,4,5,6,7) ]
-      table$surface <- table$gene %in% genes.surface
-      colnames(table) <- c('Gene', 'avg. logFC', '% cells in this cluster', '% cells in other clusters', 'adj. p-value', 'present on cell surface')
-      table$'avg. logFC' <- round(table$'avg. logFC', digits=3)
-      table$'% cells in this cluster' <- formattable::percent(table$'% cells in this cluster')
-      table$'% cells in other clusters' <- formattable::percent(table$'% cells in other clusters')
+      table <- sample_data()$marker_genes$by_cluster[ which(sample_data()$marker_genes$by_cluster$cluster == input$marker_genes_by_cluster_input) , c(2,4,5,6,7) ]
+      table$surface <- table$gene %in% genes_surface
+      colnames(table) <- c("Gene", "avg. logFC", "% cells in this cluster", "% cells in other clusters", "adj. p-value", "present on cell surface")
+      table$"avg. logFC" <- round(table$"avg. logFC", digits=3)
+      table$"% cells in this cluster" <- formattable::percent(table$"% cells in this cluster")
+      table$"% cells in other clusters" <- formattable::percent(table$"% cells in other clusters")
       table <- table %>%
-      mutate('adj. p-value'=formatC(table$'adj. p-value', format='e', digits=3)) %>%
+      mutate("adj. p-value"=formatC(table$"adj. p-value", format="e", digits=3)) %>%
       formattable::formattable(list(
-        'avg. logFC' = formattable::color_tile('white', 'orange'),
-        '% cells in this cluster' = formattable::color_bar('pink'),
-        '% cells in other clusters' = formattable::color_bar('pink'),
-        'present on cell surface' = formattable::formatter('span', style=x~style(color=ifelse(x, 'green', 'red')))
+        "avg. logFC" = formattable::color_tile("white", "orange"),
+        "% cells in this cluster" = formattable::color_bar("pink"),
+        "% cells in other clusters" = formattable::color_bar("pink"),
+        "present on cell surface" = formattable::formatter("span", style=x~style(color=ifelse(x, "green", "red")))
       ))
     } else {
-      table <- sample_data()$marker.genes$by.cluster[ which(sample_data()$marker.genes$by.cluster$cluster == input$marker.genes.by.cluster.input) , c(2,4,5,6,7) ]
-      colnames(table) <- c('Gene', 'avg. logFC', '% cells in this cluster', '% cells in other clusters', 'adj. p-value')
-      table$'avg. logFC' <- round(table$'avg. logFC', digits=3)
-      table$'% cells in this cluster' <- formattable::percent(table$'% cells in this cluster')
-      table$'% cells in other clusters' <- formattable::percent(table$'% cells in other clusters')
-      table <- table %>% mutate('adj. p-value'=formatC(table$'adj. p-value', format='e', digits=3)) %>%
+      table <- sample_data()$marker_genes$by_cluster[ which(sample_data()$marker_genes$by_cluster$cluster == input$marker_genes_by_cluster_input) , c(2,4,5,6,7) ]
+      colnames(table) <- c("Gene", "avg. logFC", "% cells in this cluster", "% cells in other clusters", "adj. p-value")
+      table$"avg. logFC" <- round(table$"avg. logFC", digits=3)
+      table$"% cells in this cluster" <- formattable::percent(table$"% cells in this cluster")
+      table$"% cells in other clusters" <- formattable::percent(table$"% cells in other clusters")
+      table <- table %>% mutate("adj. p-value"=formatC(table$"adj. p-value", format="e", digits=3)) %>%
       formattable::formattable(list(
-        'avg. logFC' = formattable::color_tile('white', 'orange'),
-        '% cells in this cluster' = formattable::color_bar('pink'),
-        '% cells in other clusters' = formattable::color_bar('pink')
+        "avg. logFC" = formattable::color_tile("white", "orange"),
+        "% cells in this cluster" = formattable::color_bar("pink"),
+        "% cells in other clusters" = formattable::color_bar("pink")
       ))
     }
-    formattable::as.datatable(table,
-      filter             = 'top',
-      selection          = 'multiple',
-      escape             = FALSE,
+    formattable::as.datatable(
+      table,
+      filter = "top",
+      selection = "multiple",
+      escape = FALSE,
       autoHideNavigation = TRUE,
-      rownames           = FALSE,
-      extensions         = c('Buttons'),
-      class              = 'cell-border stripe',
-      options            = list(
-        dom        = 'Bfrtip',
+      rownames = FALSE,
+      extensions = c("Buttons"),
+      class = "cell-border stripe",
+      options = list(
+        dom = "Bfrtip",
         lengthMenu = c(15, 30, 50, 100),
         pageLength = 15,
-        buttons    = list(
-          'colvis', 
+        buttons = list(
+          "colvis", 
           list(
-            extend  = 'collection',
-            text    = 'Download',
+            extend = "collection",
+            text = "Download",
             buttons = list(
-              list(extend='csv',   filename='marker_genes_by_cluster', title='Marker genes by cluster'),
-              list(extend='excel', filename='marker_genes_by_cluster', title='Marker genes by cluster'),
-              list(extend='pdf',   filename='marker_genes_by_cluster', title='Marker genes by cluster')
+              list(
+                extend = "csv",
+                filename = "marker_genes_by_cluster",
+                title = "Marker genes by cluster"
+              ),
+              list(
+                extend = "excel",
+                filename = "marker_genes_by_cluster",
+                title = "Marker genes by cluster"
+              ),
+              list(
+                extend = "pdf",
+                filename = "marker_genes_by_cluster",
+                title = "Marker genes by cluster"
+              )
             )
           )
         )
       )
     ) %>% 
-    DT::formatStyle(columns=c('avg. logFC','% cells in this cluster', '% cells in other clusters', 'adj. p-value'), textAlign='right')
-  })
-
-  output$marker.genes.by.cluster.table.missing <- renderText({ 'Only 1 cluster in this data set or data not available.' })
-
-  observeEvent(input$marker.genes.by.cluster.info, {
-    showModal(
-      modalDialog(
-        title='Marker genes per cluster', easyClose=TRUE, footer=NULL,
-        p('Shown here are the marker genes identified for each cluster. These genes should help to identify the cell type in this cluster or find new markers to purify it. In this analysis, each cluster is compared to all other clusters combined. Only genes with a positive average log-fold change of at least 0.25 are reported - meaning only over-expressed genes are shown. Also, marker genes must be expressed in at least 70% of the cells of the respective cluster. Statistical analysis is performed using a classical t-test as it has been shown to be very accurate in single cell RNA-seq. Finally, if data is available, the last column reports for each gene if it is associated with gene ontology term GO:0009986 which is an indicator that the respective gene is present on the cell surface (which could make it more interesting to purify a given population).')
-      )
+    DT::formatStyle(
+      columns = c("avg. logFC", "% cells in this cluster", "% cells in other clusters", "adj. p-value"),
+      textAlign = "right"
     )
   })
 
+  output$marker_genes_by_cluster_table_missing <- renderText({
+      "Only 1 cluster in this data set or data not available."
+    })
+
+  observeEvent(input$marker_genes_by_cluster_info, {
+    showModal(
+      modalDialog(
+        title = "Marker genes per cluster", easyClose = TRUE, footer = NULL,
+        p("Shown here are the marker genes identified for each cluster. These genes should help to identify the cell type in this cluster or find new markers to purify it. In this analysis, each cluster is compared to all other clusters combined. Only genes with a positive average log-fold change of at least 0.25 are reported - meaning only over-expressed genes are shown. Also, marker genes must be expressed in at least 70% of the cells of the respective cluster. Statistical analysis is performed using a classical t-test as it has been shown to be very accurate in single cell RNA-seq. Finally, if data is available, the last column reports for each gene if it is associated with gene ontology term GO:0009986 which is an indicator that the respective gene is present on the cell surface (which could make it more interesting to purify a given population).")
+      )
+    )
+  })
 
   ##----------------------------------------------------------------------------##
   ## Panel: Enriched pathways
@@ -1645,12 +1719,12 @@ server <- function(input, output, session) {
   ## - sample_data()$samples$overview$sample
   ## - sample_data()$clusters$count
   ## - sample_data()$clusters$overview$cluster
-  ## - sample_data()$marker.genes$by.sample.annotation (optional)
-  ## - sample_data()$marker.genes$by.cluster.annotation (optional)
+  ## - sample_data()$marker_genes$by_sample.annotation (optional)
+  ## - sample_data()$marker_genes$by_cluster.annotation (optional)
   ##----------------------------------------------------------------------------##
   # by sample
-  output$enriched.pathways.by.sample.UI <- renderUI(
-    if ( sample_data()$samples$count > 1 & !is.null(sample_data()$marker.genes$by.sample.annotation) ) {    
+  output$enriched.pathways.by_sample.UI <- renderUI(
+    if ( sample_data()$samples$count > 1 & !is.null(sample_data()$marker_genes$by_sample.annotation) ) {    
       tagList(
         fluidRow(
           column(4,
@@ -1664,19 +1738,19 @@ server <- function(input, output, session) {
         ),
         fluidRow(
           column(12,
-            DT::dataTableOutput('enriched.pathways.by.sample.table.present')
+            DT::dataTableOutput('enriched.pathways.by_sample.table.present')
           )
         )
       )
     } else {
-      textOutput('enriched.pathways.by.sample.table.missing')
+      textOutput('enriched.pathways.by_sample.table.missing')
     }
   )
 
-  output$enriched.pathways.by.sample.table.present <- DT::renderDataTable(server=FALSE, {
+  output$enriched.pathways.by_sample.table.present <- DT::renderDataTable(server=FALSE, {
     req(input$enriched.pathways.select.sample)
     req(input$enriched.pathways.select.db.for.sample)
-    sample_data()$marker.genes$by.sample.annotation[[ input$enriched.pathways.select.sample ]][[ input$enriched.pathways.select.db.for.sample ]][ , c(1,2,3,4,8,9) ] %>%
+    sample_data()$marker_genes$by_sample.annotation[[ input$enriched.pathways.select.sample ]][[ input$enriched.pathways.select.db.for.sample ]][ , c(1,2,3,4,8,9) ] %>%
     mutate(P.value=formatC(P.value, format='e', digits=3)) %>%
     mutate(Adjusted.P.value=formatC(Adjusted.P.value, format='e', digits=3)) %>%
     mutate(Combined.Score=formatC(Combined.Score, format='f', digits=2)) %>%
@@ -1713,9 +1787,9 @@ server <- function(input, output, session) {
     DT::formatStyle(columns=c('Combined.Score'), textAlign='right')
   })
 
-  output$enriched.pathways.by.sample.table.missing <- renderText({ 'Only 1 sample in this data set or data not available.' })
+  output$enriched.pathways.by_sample.table.missing <- renderText({ 'Only 1 sample in this data set or data not available.' })
 
-  observeEvent(input$enriched.pathways.by.sample.info, {
+  observeEvent(input$enriched.pathways.by_sample.info, {
     showModal(
       modalDialog(
         title='Enriched pathways by sample', easyClose=TRUE, footer=NULL,
@@ -1727,8 +1801,8 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # by cluster
-  output$enriched.pathways.by.cluster.UI <- renderUI(
-    if ( sample_data()$clusters$count > 1 & !is.null(sample_data()$marker.genes$by.cluster.annotation) ) {    
+  output$enriched.pathways.by_cluster.UI <- renderUI(
+    if ( sample_data()$clusters$count > 1 & !is.null(sample_data()$marker_genes$by_cluster.annotation) ) {    
       tagList(
         fluidRow(
           column(4,
@@ -1742,19 +1816,19 @@ server <- function(input, output, session) {
         ),
         fluidRow(
           column(12,
-            DT::dataTableOutput('enriched.pathways.by.cluster.table.present')
+            DT::dataTableOutput('enriched.pathways.by_cluster.table.present')
           )
         )
       )
     } else {
-      textOutput('enriched.pathways.by.cluster.table.missing')
+      textOutput('enriched.pathways.by_cluster.table.missing')
     }
   )
 
-  output$enriched.pathways.by.cluster.table.present <- DT::renderDataTable(server=FALSE, {
+  output$enriched.pathways.by_cluster.table.present <- DT::renderDataTable(server=FALSE, {
     req(input$enriched.pathways.select.cluster)
     req(input$enriched.pathways.select.db.for.cluster)
-    sample_data()$marker.genes$by.cluster.annotation[[ input$enriched.pathways.select.cluster ]][[ input$enriched.pathways.select.db.for.cluster ]][ , c(1,2,3,4,8,9) ] %>%
+    sample_data()$marker_genes$by_cluster.annotation[[ input$enriched.pathways.select.cluster ]][[ input$enriched.pathways.select.db.for.cluster ]][ , c(1,2,3,4,8,9) ] %>%
     mutate(P.value=formatC(P.value, format='e', digits=3)) %>%
     mutate(Combined.Score=formatC(Combined.Score, format='f', digits=2)) %>%
     mutate(Adjusted.P.value=formatC(Adjusted.P.value, format='e', digits=3)) %>%
@@ -1791,9 +1865,9 @@ server <- function(input, output, session) {
     DT::formatStyle(columns=c('Combined.Score'), textAlign='right')
   })
 
-  output$enriched.pathways.by.cluster.table.missing <- renderText({ 'Only 1 cluster in this data set or data not available.' })
+  output$enriched.pathways.by_cluster.table.missing <- renderText({ 'Only 1 cluster in this data set or data not available.' })
 
-  observeEvent(input$enriched.pathways.by.cluster.info, {
+  observeEvent(input$enriched.pathways.by_cluster.info, {
     showModal(
       modalDialog(
         title='Enriched pathways by cluster', easyClose=TRUE, footer=NULL,
@@ -2017,7 +2091,7 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot by sample
-  output$expression.by.sample <- plotly::renderPlotly({
+  output$expression.by_sample <- plotly::renderPlotly({
     cells_to_display <- which(grepl(sample_data()$cells$sample, pattern=paste0('^', sample_data()$samples$overview$sample, '$', collapse='|')) == TRUE )
     if ( length(genesToPlot()$genes.to.display.present) == 0 ) {
       expression.levels <- 0
@@ -2045,7 +2119,7 @@ server <- function(input, output, session) {
       hovermode = 'compare')
   })
 
-  observeEvent(input$expression.by.sample.info, {
+  observeEvent(input$expression.by_sample.info, {
     showModal(
       modalDialog(
         title='Expression levels by sample', easyClose=TRUE, footer=NULL,
@@ -2057,7 +2131,7 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot by cluster
-  output$expression.by.cluster <- plotly::renderPlotly({
+  output$expression.by_cluster <- plotly::renderPlotly({
     cells_to_display <- which(grepl(sample_data()$cells$sample, pattern=paste0('^', sample_data()$samples$overview$sample, '$', collapse='|')) == TRUE )
     if ( length(genesToPlot()$genes.to.display.present) == 0 ) {
       expression.levels <- 0
@@ -2085,7 +2159,7 @@ server <- function(input, output, session) {
       hovermode = 'compare')
   })
 
-  observeEvent(input$expression.by.cluster.info, {
+  observeEvent(input$expression.by_cluster.info, {
     showModal(
       modalDialog(
         title='Expression levels by cluster', easyClose=TRUE, footer=NULL,
@@ -2328,7 +2402,7 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot by sample
-  output$geneSetExpression.by.sample <- plotly::renderPlotly({
+  output$geneSetExpression.by_sample <- plotly::renderPlotly({
     cells_to_display <- which(grepl(sample_data()$cells$sample, pattern=paste0('^', sample_data()$samples$overview$sample, '$', collapse='|')) == TRUE )
     if ( length(geneSetData()$genes.to.display.present) == 0 ) {
       expression.levels <- 0
@@ -2356,7 +2430,7 @@ server <- function(input, output, session) {
       hovermode = 'compare')
   })
 
-  observeEvent(input$geneSetExpression.by.sample.info, {
+  observeEvent(input$geneSetExpression.by_sample.info, {
     showModal(
       modalDialog(
         title='Expression levels by sample', easyClose=TRUE, footer=NULL,
@@ -2368,7 +2442,7 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
 
   # box plot by cluster
-  output$geneSetExpression.by.cluster <- plotly::renderPlotly({
+  output$geneSetExpression.by_cluster <- plotly::renderPlotly({
     cells_to_display <- which(grepl(sample_data()$cells$sample, pattern=paste0('^', sample_data()$samples$overview$sample, '$', collapse='|')) == TRUE )
     if ( length(geneSetData()$genes.to.display.present) == 0 ) {
       expression.levels <- 0
@@ -2396,7 +2470,7 @@ server <- function(input, output, session) {
       hovermode = 'compare')
   })
 
-  observeEvent(input$geneSetExpression.by.cluster.info, {
+  observeEvent(input$geneSetExpression.by_cluster.info, {
     showModal(
       modalDialog(
         title='Expression levels by cluster', easyClose=TRUE, footer=NULL,
@@ -2542,306 +2616,465 @@ server <- function(input, output, session) {
 ## UI.
 ##----------------------------------------------------------------------------##
 ui <- dashboardPage(
-  dashboardHeader(title='Single Cell Browser'),
+  dashboardHeader(title="Single Cell Browser"),
   dashboardSidebar(
-    tags$head(tags$style(HTML('.content-wrapper {overflow-x: scroll;}'))),
+    tags$head(tags$style(HTML(".content-wrapper {overflow-x: scroll;}"))),
     sidebarMenu(
-      sidebarMenuOutput('sidebar_menu')
+      sidebarMenuOutput("sidebar_menu")
     )
   ),
   dashboardBody(
-    tags$script(HTML("$('body').addClass('fixed');")),
+    tags$script(HTML('$(body").addClass("fixed");')),
     tabItems(
-      tabItem(tabName='loadData',
+      tabItem(tabName = "loadData",
         fluidRow(
           column(12,
-            titlePanel('Load data'),
-            fileInput(inputId     = 'RDS_file',
-                      label       = 'Choose RDS file...',
-                      multiple    = FALSE,
-                      accept      = c('.rds'),
-                      width       = NULL,
-                      buttonLabel = 'Browse...',
-                      placeholder = 'No file selected')
+            titlePanel("Load data"),
+            fileInput(
+              inputId = "RDS_file", label = "Choose RDS file...",
+              multiple = FALSE, accept = c(".rds"), width = NULL,
+              buttonLabel = "Browse...", placeholder = "No file selected")
           )
         )
       ),
-      tabItem(tabName='overview',
+      tabItem(tabName = "overview",
         tagList(
           fluidRow(
-            column(width=3, offset=0, style='padding: 0px;',
-              box(title='Input parameters', status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
+            column(width = 3, offset = 0, style = "padding: 0px;",
+              box(
+                title = "Input parameters", status = "primary",
+                solidHeader = TRUE, width = 12, collapsible = TRUE,
                   tagList(
-                    uiOutput('overview_UI'),
-                    uiOutput('overview_scales')
+                    uiOutput("overview_UI"),
+                    uiOutput("overview_scales")
                   )
               )
             ),
-            column(width=9, offset=0, style='padding: 0px;',
-              box(title=tagList(p('Dimensional reduction', style='padding-right: 5px; display: inline'),
-                                actionButton(inputId='overview_projection_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.', style='margin-right: 5px'),
-                                actionButton(inputId='overview_projection_export', label='export to PDF', icon=NULL, class='btn-xs', title='Export dimensional reduction to PDF file.')),
-                                #shinyFiles::shinyDirButton(id='overview_projection_export', label='export to PDF', icon=NULL, class='btn-xs', title='Choose directory to export plot to.')),
-                  status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-                  scatterD3::scatterD3Output('overview.projection', height='720px')
+            column(width = 9, offset = 0, style = "padding: 0px;",
+              box(
+                title = tagList(
+                  p("Dimensional reduction",
+                    style = "padding-right: 5px; display: inline"
+                  ),
+                  actionButton(
+                    inputId = "overview_projection_info", label = "info",
+                    icon = NULL, class = "btn-xs",
+                    title = "Show additional information for this panel.",
+                    style = "margin-right: 5px"
+                  ),
+                  actionButton(
+                    inputId = "overview_projection_export",
+                    label = "export to PDF", icon = NULL, class = "btn-xs",
+                    title = "Export dimensional reduction to PDF file."
+                  )
+                ),
+                status = "primary", solidHeader = TRUE, width = 12,
+                collapsible = TRUE,
+                scatterD3::scatterD3Output(
+                  "overview.projection", height = "720px"
+                )
               )
             )
           )
         )
       ),
-      tabItem(tabName='samples',
-        box(title=tagList(p('Overview of samples', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_table_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            DT::dataTableOutput('samples_overview')
+      tabItem(tabName = "samples",
+        box(
+          title = tagList(
+            p("Overview of samples",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_table_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          DT::dataTableOutput("samples_overview")
         ),
-        box(title=tagList(p('Samples by cluster', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_by_cluster_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            DT::dataTableOutput('samples_by_cluster_table'),
-            uiOutput('samples_by_cluster_UI')
+        box(
+          title = tagList(
+            p("Samples by cluster",
+              style = "padding-right: 5px; display: inline"),
+            actionButton(
+              inputId = "samples_by_cluster_info",
+              label = "info", icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          DT::dataTableOutput("samples_by_cluster_table"),
+          uiOutput("samples_by_cluster_UI")
         ),
-        # box(title=tagList(p('Samples by clusters', style='padding-right: 5px; display: inline'),
-        #                   actionButton(inputId='samples_by_cluster_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-        #     status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-        #     uiOutput('samples_by_cluster_UI')
-        # ),
-        box(title=tagList(p('Number of transcripts', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_box_nUMI_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('samples_box_nUMI')
+        box(
+          title = tagList(
+            p("Number of transcripts",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_box_nUMI_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("samples_box_nUMI")
         ),
-        box(title=tagList(p('Number of expressed genes', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_box_nGene_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('samples_box_nGene')
+        box(
+          title = tagList(
+            p("Number of expressed genes",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_box_nGene_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("samples_box_nGene")
         ),
-        box(title=tagList(p('Mitochondrial gene expression', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_box_percent_mt_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('samples_box_percent_mt')
+        box(
+          title = tagList(
+            p("Mitochondrial gene expression",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_box_percent_mt_info",
+              label = "info", icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("samples_box_percent_mt")
         ),
-        box(title=tagList(p('Ribosomal gene expression', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_box_percent_ribo_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('samples_box_percent_ribo')
+        box(
+          title = tagList(
+            p("Ribosomal gene expression",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_box_percent_ribo_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("samples_box_percent_ribo")
         ),
-        box(title=tagList(p('Cell cycle analysis (Regev)', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_by_cell_cycle_Regev_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('samples_by_cell_cycle_Regev_UI')
+        box(
+          title = tagList(
+            p("Cell cycle analysis (Regev)",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_by_cell_cycle_Regev_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("samples_by_cell_cycle_Regev_UI")
         ),
-        box(title=tagList(p('Cell cycle analysis (Cyclone)', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='samples_by_cell_cycle_Cyclone_info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('samples_by_cell_cycle_Cyclone_UI')
+        box(
+          title = tagList(
+            p("Cell cycle analysis (Cyclone)",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "samples_by_cell_cycle_Cyclone_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("samples_by_cell_cycle_Cyclone_UI")
         )
       ),
-      tabItem(tabName='clusters',
-        box(title=tagList(p('Overview of clusters', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.table.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            DT::dataTableOutput('clusters.table')
+      tabItem(tabName="clusters",
+        box(
+          title = tagList(
+            p("Cluster tree", style = "padding-right: 5px; display: inline"),
+            actionButton(
+              inputId = "clusters_tree_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("clusters_tree_UI")
         ),
-        box(title=tagList(p('Cluster tree', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.tree.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('clusters.tree.UI')
+        box(
+          title = tagList(
+            p(
+              "Clusters by samples",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "clusters_by_sample_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          DT::dataTableOutput("clusters_by_sample"),
+          uiOutput("clusters_by_sample_UI")
         ),
-        box(title=tagList(p('Clusters by samples', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.by.sample.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('clusters.by.sample.UI')
+        box(
+          title = tagList(
+            p(
+              "Number of transcripts",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "clusters_box_nUMI_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("clusters_box_nUMI")
         ),
-        box(title=tagList(p('Number of transcripts', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.box.nUMI.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('clusters.box.nUMI')
+        box(
+          title = tagList(
+            p(
+              "Number of expressed genes",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "clusters_box_nGene_info", label = "info", icon = NULL,
+              class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("clusters_box_nGene")
         ),
-        box(title=tagList(p('Number of expressed genes', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.box.nGene.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('clusters.box.nGene')
+        box(
+          title = tagList(
+            p(
+              "Mitochondrial gene expression",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "clusters_box_percent_mt_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("clusters_box_percent_mt")
         ),
-        box(title=tagList(p('Mitochondrial gene expression', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.box.percent_mt.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('clusters.box.percent_mt')
+        box(
+          title = tagList(
+            p(
+              "Ribosomal gene expression",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "clusters_box_percent_ribo_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          plotly::plotlyOutput("clusters_box_percent_ribo")
         ),
-        box(title=tagList(p('Ribosomal gene expression', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.box.percent_ribo.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            plotly::plotlyOutput('clusters.box.percent_ribo')
+        box(
+          title = tagList(
+            p(
+              "Cell cycle analysis (Regev)",
+              style="padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "clusters_by_cell_cycle_Regev_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("clusters_by_cell_cycle_Regev_UI")
         ),
-        box(title=tagList(p('Cell cycle analysis (Regev)', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.by.cell_cycle_Regev.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('clusters.by.cell_cycle_Regev.UI')
-        ),
-        box(title=tagList(p('Cell cycle analysis (Cyclone)', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='clusters.by.cell_cycle_Cyclone.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('clusters.by.cell_cycle_Cyclone.UI')
+        box(title=tagList(p("Cell cycle analysis (Cyclone)", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="clusters_by_cell_cycle_Cyclone_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("clusters_by_cell_cycle_Cyclone_UI")
         )
       ),
-      tabItem(tabName='topExpressedGenes',
-        box(title=tagList(p('Top expressed genes per sample', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='top.expressed.genes.by.sample.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('top.expressed.genes.by.sample.UI')
+      tabItem(tabName="topExpressedGenes",
+        box(title=tagList(p("Top expressed genes per sample", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="top_expressed_genes_by_sample_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("top_expressed_genes_by_sample_UI")
         ),
-        box(title=tagList(p('Top expressed genes per cluster', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='top.expressed.genes.by.cluster.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('top.expressed.genes.by.cluster.UI')
+        box(title=tagList(p("Top expressed genes per cluster", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="top_expressed_genes_by_cluster_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("top_expressed_genes_by_cluster_UI")
         )
       ),
-      tabItem(tabName='markerGenes',
-        box(title=tagList(p('Marker genes per sample', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='marker.genes.by.sample.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('marker.genes.by.sample.UI')
+      tabItem(tabName="markerGenes",
+        box(title=tagList(p("Marker genes per sample", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="marker_genes_by_sample_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("marker_genes_by_sample_UI")
         ),
-        box(title=tagList(p('Marker genes per cluster', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='marker.genes.by.cluster.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('marker.genes.by.cluster.UI')
+        box(title=tagList(p("Marker genes per cluster", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="marker_genes_by_cluster_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("marker_genes_by_cluster_UI")
         )
       ),
-      tabItem(tabName='enrichedPathways',
-        box(title=tagList(p('Enriched pathways by sample', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='enriched.pathways.by.sample.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('enriched.pathways.by.sample.UI')
+      tabItem(tabName="enrichedPathways",
+        box(title=tagList(p("Enriched pathways by sample", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="enriched.pathways.by_sample.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("enriched.pathways.by_sample.UI")
         ),
-        box(title=tagList(p('Enriched pathways by cluster', style='padding-right: 5px; display: inline'),
-                          actionButton(inputId='enriched.pathways.by.cluster.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-            status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput('enriched.pathways.by.cluster.UI')
+        box(title=tagList(p("Enriched pathways by cluster", style="padding-right: 5px; display: inline"),
+                          actionButton(inputId="enriched.pathways.by_cluster.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+            uiOutput("enriched.pathways.by_cluster.UI")
         )
       ),
-      tabItem(tabName='geneExpression',
+      tabItem(tabName="geneExpression",
         tagList(
           fluidRow(
-            column(width=3, offset=0, style='padding: 0px;',
-              box(title='Input parameters', status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
+            column(width=3, offset=0, style="padding: 0px;",
+              box(title="Input parameters", status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
                   tagList(
-                    uiOutput('expression.UI'),
-                    uiOutput('expression.scales')
+                    uiOutput("expression.UI"),
+                    uiOutput("expression.scales")
                   )
               )
             ),
-            column(width=9, offset=0, style='padding: 0px;',
-              box(title=tagList(p('Dimensional reduction', style='padding-right: 5px; display: inline'),
-                                actionButton(inputId='expression.projection.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.', style='margin-right: 5px'),
-                                actionButton(inputId='expression.projection.export', label='export to PDF', icon=NULL, class='btn-xs', title='Export dimensional reduction to PDF file.')),
-                  status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
+            column(width=9, offset=0, style="padding: 0px;",
+              box(title=tagList(p("Dimensional reduction", style="padding-right: 5px; display: inline"),
+                                actionButton(inputId="expression.projection.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.", style="margin-right: 5px"),
+                                actionButton(inputId="expression.projection.export", label="export to PDF", icon=NULL, class="btn-xs", title="Export dimensional reduction to PDF file.")),
+                  status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
                   tagList(
-                    scatterD3::scatterD3Output('expression.projection', height='720px'),
+                    scatterD3::scatterD3Output("expression.projection", height="720px"),
                     tags$br(),
-                    htmlOutput('expression.genes.displayed')
+                    htmlOutput("expression.genes.displayed")
                   )
               )
             )
           ),
           fluidRow(
-            box(title=tagList(p('Expression levels by sample', style='padding-right: 5px; display: inline'),
-                              actionButton(inputId='expression.by.sample.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-                status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput('expression.by.sample')
+            box(title=tagList(p("Expression levels by sample", style="padding-right: 5px; display: inline"),
+                              actionButton(inputId="expression.by_sample.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+                plotly::plotlyOutput("expression.by_sample")
             )
           ),
           fluidRow(
-            box(title=tagList(p('Expression levels by cluster', style='padding-right: 5px; display: inline'),
-                              actionButton(inputId='expression.by.cluster.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-                status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput('expression.by.cluster')
+            box(title=tagList(p("Expression levels by cluster", style="padding-right: 5px; display: inline"),
+                              actionButton(inputId="expression.by_cluster.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+                plotly::plotlyOutput("expression.by_cluster")
             )
           )
         )
       ),
-      tabItem(tabName='geneSetExpression',
+      tabItem(tabName="geneSetExpression",
         tagList(
           fluidRow(
-            column(width=3, offset=0, style='padding:0px;',
-              box(title='Input parameters', status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
+            column(width=3, offset=0, style="padding:0px;",
+              box(title="Input parameters", status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
                   tagList(
-                    uiOutput('geneSetExpression.UI'),
-                    uiOutput('geneSetExpression.scales')
+                    uiOutput("geneSetExpression.UI"),
+                    uiOutput("geneSetExpression.scales")
                   )
               )
             ),
-            column(width=9, offset=0, style='padding:0px;',
-              box(title=tagList(p('Dimensional reduction', style='padding-right: 5px; display: inline'),
-                                actionButton(inputId='geneSetExpression.projection.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.', style='margin-right: 5px'),
-                                actionButton(inputId='geneSetExpression.projection.export', label='export to PDF', icon=NULL, class='btn-xs', title='Export dimensional reduction to PDF file.')),
-                  status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
+            column(width=9, offset=0, style="padding:0px;",
+              box(title=tagList(p("Dimensional reduction", style="padding-right: 5px; display: inline"),
+                                actionButton(inputId="geneSetExpression.projection.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.", style="margin-right: 5px"),
+                                actionButton(inputId="geneSetExpression.projection.export", label="export to PDF", icon=NULL, class="btn-xs", title="Export dimensional reduction to PDF file.")),
+                  status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
                   tagList(
-                    scatterD3::scatterD3Output('geneSetExpression.projection', height='720px'),
+                    scatterD3::scatterD3Output("geneSetExpression.projection", height="720px"),
                     tags$br(),
-                    htmlOutput('geneSetExpression.genes.displayed')
+                    htmlOutput("geneSetExpression.genes.displayed")
                   )
               )
             )
           ),
           fluidRow(
-            box(title=tagList(p('Expression levels by sample', style='padding-right: 5px; display: inline'),
-                              actionButton(inputId='geneSetExpression.by.sample.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-                status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput('geneSetExpression.by.sample')
+            box(title=tagList(p("Expression levels by sample", style="padding-right: 5px; display: inline"),
+                              actionButton(inputId="geneSetExpression.by_sample.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+                plotly::plotlyOutput("geneSetExpression.by_sample")
             )
           ),
           fluidRow(
-            box(title=tagList(p('Expression levels by cluster', style='padding-right: 5px; display: inline'),
-                              actionButton(inputId='geneSetExpression.by.cluster.info', label='info', icon=NULL, class='btn-xs', title='Show additional information for this panel.')),
-                status='primary', solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput('geneSetExpression.by.cluster')
+            box(title=tagList(p("Expression levels by cluster", style="padding-right: 5px; display: inline"),
+                              actionButton(inputId="geneSetExpression.by_cluster.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
+                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
+                plotly::plotlyOutput("geneSetExpression.by_cluster")
             )
           )
         )
       ),
-      tabItem(tabName='geneIdConversion',
-        box(title='Convert gene ID <-> gene symbol', status='primary', solidHeader=TRUE, width=12, collapsible=FALSE,
+      tabItem(tabName="geneIdConversion",
+        box(title="Convert gene ID <-> gene symbol", status="primary", solidHeader=TRUE, width=12, collapsible=FALSE,
           tagList(
-            selectInput('geneIdConversion.organism', 'Organism:', choices=c('mouse', 'human')),
-            DT::dataTableOutput('gene_info')
+            selectInput("geneIdConversion.organism", "Organism:", choices=c("mouse", "human")),
+            DT::dataTableOutput("gene_info")
           )
         )
       ),
-      tabItem(tabName='info',
+      tabItem(tabName="info",
         fluidPage(
           fluidRow(
             column(12,
-              titlePanel('Information about samples and analysis'),
-              htmlOutput('sample.info.general')
-              #htmlOutput('sample.info.R')
-              # htmlOutput('info.data.version'),      # data.version
-              # htmlOutput('info.data.type'),         # data.type
-              # htmlOutput('info.project.name'),      # project.name
-              # htmlOutput('info.organism'),          # organism
-              # htmlOutput('info.reference.version'), # reference.version
-              # htmlOutput('info.annotation'),        # annotation
-              # htmlOutput('info.annotation.type'),   # annotation.type
-              # htmlOutput('info.min.genes'),         # min.genes
-              # htmlOutput('info.vars.to.regress'),   # vars.to.regress
-              # htmlOutput('info.number.PCs'),        # number.PCs
-              # htmlOutput('info.tsne.perplexity'),   # tsne.perplexity
-              # htmlOutput('info.enrichr.dbs'),       # enrichr.dbs
-              # htmlOutput('info.genes.mt'),          # genes.mt
-              # htmlOutput('info.genes.ribo'),        # genes.ribo
-              # htmlOutput('info.genes.apoptosis'),   # genes.apoptosis
-              # htmlOutput('info.genes.S'),           # genes.S
-              # htmlOutput('info.genes.G2M')          # genes.G2M
+              titlePanel("Information about samples and analysis"),
+              htmlOutput("sample.info.general")
+              #htmlOutput("sample.info.R")
+              # htmlOutput("info.data.version"),      # data.version
+              # htmlOutput("info.data.type"),         # data.type
+              # htmlOutput("info.project.name"),      # project.name
+              # htmlOutput("info.organism"),          # organism
+              # htmlOutput("info.reference.version"), # reference.version
+              # htmlOutput("info.annotation"),        # annotation
+              # htmlOutput("info.annotation.type"),   # annotation.type
+              # htmlOutput("info.min.genes"),         # min.genes
+              # htmlOutput("info.vars.to.regress"),   # vars.to.regress
+              # htmlOutput("info.number.PCs"),        # number.PCs
+              # htmlOutput("info.tsne.perplexity"),   # tsne.perplexity
+              # htmlOutput("info.enrichr.dbs"),       # enrichr.dbs
+              # htmlOutput("info.genes.mt"),          # genes.mt
+              # htmlOutput("info.genes.ribo"),        # genes.ribo
+              # htmlOutput("info.genes.apoptosis"),   # genes.apoptosis
+              # htmlOutput("info.genes.S"),           # genes.S
+              # htmlOutput("info.genes.G2M")          # genes.G2M
             )
           )
         )
       ),
-      tabItem(tabName='about',
+      tabItem(tabName="about",
         fluidPage(
           fluidRow(
             column(12,
-              titlePanel('About this application'),
-              htmlOutput('about')
+              titlePanel("About this application"),
+              htmlOutput("about")
             )
           )
         )
