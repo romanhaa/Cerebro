@@ -64,6 +64,9 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Replace old app names.
 * [ ] Write `Cerebro` in bold and with bigger letters
 * [ ] Logo inside app?
+* [ ] Is there a more robust way to match gene (set) expression values to cells without assuming that columns in `expression` are in the same order as rows in `cells`?
+* [ ] When choosing a gene set it first shows all cells in black because it can't find the genes.
+* [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
 
 ## Changelog
 

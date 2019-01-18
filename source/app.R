@@ -9,64 +9,6 @@
 ##----------------------------------------------------------------------------##
 
 ##----------------------------------------------------------------------------##
-## Data to be loaded is stored in this structure.
-##----------------------------------------------------------------------------##
-## Header
-## - version                            e.g. '1.1'
-## - type                               'transcriptomics'
-##
-## Specific info
-## - parameters                         list
-##          - project.name              character
-##          - organism                  e.g. 'mm'
-##          - reference.version         e.g. 'mm10'
-##          - annotation                e.g. 'GENCODE'
-##          - annotation.type           name or ID
-##          - enrichr_dbs               list of databases queried using enrichR
-##          - min.genes                 integer
-##          - vars.to.regress           vector
-##          - numberPCs                 integer
-##          - tsne.perplexity           integer
-## - gene_lists                         list
-##          - genes.mt                  vector
-##          - genes.ribo                vector
-##          - genes.apoptosis           vector
-##          - genes.S                   vector
-##          - genes.G2M                 vector
-## - samples                            list
-##          - names                     named vector
-##          - count                     integer
-##          - names.long                vector
-##          - table.before.filtering    data frame
-##          - table.after.filtering     data frame
-## - clusters                           list
-##          - names                     vector
-##          - count                     integer
-## - cells:                             data frame
-##          - coordinates of tSNE       data frame (2 columns x # of cells)
-##          - coordinates of UMAP       data frame (2 columns x # of cells)
-##          - cell indices              vector
-##          - sample                    vector
-##          - cluster                   vector
-##          - nUMI                      vector
-##          - nGene                     vector
-##          - percent_mt                vector
-##          - percent_ribo              vector
-##          - apoptotic score           vector
-##          - cell cycle (Regev)        vector
-##          - cell cycle (Cyclone)      vector
-## - most_expressed_genes:              list
-##          - by_sample:                data frame
-##          - by_cluster:               data frame
-## - marker_genes:                      list
-##          - by_sample:                data frame
-##          - by_sample_annotation:     list of data frames
-##          - by_cluster:               data frame
-##          - by_cluster_annotation:    list of data frames
-## - expression:                        sparse expression matrix (seurat@data)
-##----------------------------------------------------------------------------##
-
-##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
 if (grepl(tolower(Sys.info()['sysname']), pattern='^win')) {
@@ -83,17 +25,15 @@ if (grepl(tolower(Sys.info()['sysname']), pattern='^win')) {
 
 }
 
-print(.libPaths())
-
 ##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
 if ( !is.element(el = "BiocManager", set = rownames(installed.packages())) ) {
-    install.packages(
-      "BiocManager",
-      repos = "http://cran.us.r-project.org",
-      dependencies = TRUE
-    )
+  install.packages(
+    "BiocManager",
+    repos = "http://cran.us.r-project.org",
+    dependencies = TRUE
+  )
 }
 
 ##----------------------------------------------------------------------------##
@@ -151,7 +91,7 @@ mode <- ifelse(file.exists("resources/data.rds"), "boxed", "open")
 ##----------------------------------------------------------------------------##
 ## Allow upload of files up to 400 MB.
 ##----------------------------------------------------------------------------##
-options(shiny.maxRequestSize=400*1024^2) 
+options(shiny.maxRequestSize = 400*1024^2) 
 
 ##----------------------------------------------------------------------------##
 ## Color management.
@@ -172,7 +112,7 @@ colors <- c(colors_dutch, colors_spanish)
 
 cell_cycle_colorset <- setNames(
     c("#45aaf2","#f1c40f","#e74c3c", "#7f8c8d"),
-    c("G1","S","G2M","-")
+    c("G1",     "S",      "G2M",     "-")
   )
 
 ##----------------------------------------------------------------------------##
@@ -186,33 +126,98 @@ server <- function(input, output, session) {
   output$sidebar_menu <- renderMenu({
     if ( mode == "open" ) {
       sidebarMenu(id = "sidebar",
-        menuItem("Load data", tabName = "loadData", icon=icon("spinner"), selected=TRUE),
-        menuItem("Overview", tabName = "overview", icon=icon("binoculars")),
-        menuItem("Samples", tabName = "samples", icon=icon("star")),
-        menuItem("Clusters", tabName = "clusters", icon=icon("braille")),
-        menuItem("Top expressed genes", tabName = "topExpressedGenes", icon=icon("bullhorn")),
-        menuItem("Marker genes", tabName = "markerGenes", icon=icon("magnet")),
-        menuItem("Enriched pathways", tabName = "enrichedPathways", icon=icon("sitemap")),
-        menuItem("Gene expression", tabName = "geneExpression", icon=icon("signal")),
-        menuItem("Gene set expression", tabName = "geneSetExpression", icon=icon("list")),
-        menuItem("Gene ID conversion", tabName = "geneIdConversion", icon=icon("barcode")),
-        menuItem("Sample info", tabName = "info", icon=icon("info")),
-        menuItem("About", tabName = "about", icon=icon("at"))
+        menuItem(
+          "Load data", tabName = "loadData",
+          icon = icon("spinner"), selected = TRUE
+        ),
+        menuItem(
+          "Overview", tabName = "overview",
+          icon = icon("binoculars")
+        ),
+        menuItem(
+          "Samples", tabName = "samples",
+          icon = icon("star")
+        ),
+        menuItem(
+          "Clusters", tabName = "clusters",
+          icon = icon("braille")
+        ),
+        menuItem(
+          "Top expressed genes", tabName = "topExpressedGenes",
+          icon = icon("bullhorn")
+        ),
+        menuItem(
+          "Marker genes", tabName = "markerGenes",
+          icon = icon("magnet")
+        ),
+        menuItem(
+          "Enriched pathways", tabName = "enrichedPathways",
+          icon = icon("sitemap")
+        ),
+        menuItem(
+          "Gene expression", tabName = "geneExpression",
+          icon = icon("signal")
+        ),
+        menuItem(
+          "Gene set expression", tabName = "geneSetExpression",
+          icon = icon("list")
+        ),
+        menuItem(
+          "Gene ID conversion", tabName = "geneIdConversion",
+          icon = icon("barcode")
+        ),
+        menuItem(
+          "Sample info", tabName = "info",
+          icon = icon("info")
+        ),
+        menuItem(
+          "About", tabName = "about",
+          icon = icon("at")
+        )
       )
     } else {
-      sidebarMenu(id="sidebar",
-        menuItem("Load data", tabName="loadData", icon=icon("spinner")),
-        menuItem("Overview", tabName="overview", icon=icon("binoculars"), selected=TRUE),
-        menuItem("Samples", tabName="samples", icon=icon("star")),
-        menuItem("Clusters", tabName="clusters", icon=icon("braille")),
-        menuItem("Top expressed genes", tabName="topExpressedGenes", icon=icon("bullhorn")),
-        menuItem("Marker genes", tabName="markerGenes", icon=icon("magnet")),
-        menuItem("Enriched pathways", tabName="enrichedPathways", icon=icon("sitemap")),
-        menuItem("Gene expression", tabName="geneExpression", icon=icon("signal")),
-        menuItem("Gene set expression", tabName="geneSetExpression", icon=icon("list")),
-        menuItem("Gene ID conversion", tabName="geneIdConversion", icon=icon("barcode")),
-        menuItem("Sample info", tabName="info", icon=icon("info")),
-        menuItem("About", tabName="about", icon=icon("at"))
+      sidebarMenu(id = "sidebar",
+        menuItem(
+          "Load data", tabName = "loadData", icon = icon("spinner")
+        ),
+        menuItem(
+          "Overview", tabName = "overview", icon = icon("binoculars"),
+          selected = TRUE
+        ),
+        menuItem(
+          "Samples", tabName = "samples", icon = icon("star")
+        ),
+        menuItem(
+          "Clusters", tabName = "clusters", icon = icon("braille")
+        ),
+        menuItem(
+          "Top expressed genes", tabName = "topExpressedGenes",
+          icon = icon("bullhorn")
+        ),
+        menuItem(
+          "Marker genes", tabName = "markerGenes", icon = icon("magnet")
+        ),
+        menuItem(
+          "Enriched pathways", tabName = "enrichedPathways",
+          icon = icon("sitemap")
+        ),
+        menuItem(
+          "Gene expression", tabName = "geneExpression", icon = icon("signal")
+        ),
+        menuItem(
+          "Gene set expression", tabName = "geneSetExpression",
+          icon = icon("list")
+        ),
+        menuItem(
+          "Gene ID conversion", tabName = "geneIdConversion",
+          icon = icon("barcode")
+        ),
+        menuItem(
+          "Sample info", tabName = "info", icon = icon("info")
+        ),
+        menuItem(
+          "About", tabName = "about", icon = icon("at")
+        )
       )
     }
   })
@@ -228,29 +233,16 @@ server <- function(input, output, session) {
       sample_data <- readRDS("resources/example.rds")
     } else {
       req(input$RDS_file)
-#      input_file <- input$RDS_file
-#      sample_data <- readRDS(input_file$datapath)
       sample_data <- readRDS(input$RDS_file$datapath)
     }
 
-    return(sample_data)
+    sample_data
   })
 
   ##--------------------------------------------------------------------------##
   ## Panel: Overview.
   ##--------------------------------------------------------------------------##
-  ## Expected data:
-  ## - sample_data()$projections
-  ## - sample_data()$cells$sample
-  ## - sample_data()$cells$cluster
-  ## - sample_data()$cells$nUMI
-  ## - sample_data()$cells$nGene
-  ## - sample_data()$cells$percent_mt
-  ## - sample_data()$cells$percent_ribo
-  ## - sample_data()$samples$overview$sample
-  ## - sample_data()$samples$count
-  ## - sample_data()$clusters$overview$cluster
-  ## - sample_data()$clusters$count
+
   ##--------------------------------------------------------------------------##
 
   output$overview_UI <- renderUI({
@@ -319,11 +311,6 @@ server <- function(input, output, session) {
     req(input$overview_clusters_to_display)
     req(input$overview_projection_scale_x_manual_range)
 
-    # samples_cols <- colors[ 1:sample_data()$samples$count ]
-    # samples_colorset <- setNames(samples_cols, sample_data()$samples$overview$sample)
-    # clusters_cols <- colors[ 1:sample_data()$clusters$count ]
-    # clusters_colorset <- setNames(clusters_cols, unname(sample_data()$clusters$overview$cluster))
-    
     # define which projection should be plotted
     if ( is.null(input$overview_projection_to_display) || is.na(input$overview_projection_to_display) ) {
       projection_to_display <- names(sample_data()$projections)[1]
@@ -347,8 +334,14 @@ server <- function(input, output, session) {
 
     # define which cells should be plotted
     cells_to_display <- which(
-        grepl(sample_data()$cells$sample, pattern=paste0("^", samples_to_display, "$", collapse="|")) == TRUE & 
-        grepl(sample_data()$cells$cluster, pattern=paste0("^", clusters_to_display, "$", collapse="|")) == TRUE
+        grepl(
+          sample_data()$cells$sample,
+          pattern = paste0("^", samples_to_display, "$", collapse="|")
+        ) & 
+        grepl(
+          sample_data()$cells$cluster,
+          pattern = paste0("^", clusters_to_display, "$", collapse="|")
+        )
       )
 
     # extract cells to plot
@@ -387,8 +380,14 @@ server <- function(input, output, session) {
       y = to_plot[ , 2 ],
       xlab = colnames(to_plot)[ 1 ],
       ylab = colnames(to_plot)[ 2 ],
-      xlim = c(input$overview_projection_scale_x_manual_range[1], input$overview_projection_scale_x_manual_range[2]),
-      ylim = c(input$overview_projection_scale_y_manual_range[1], input$overview_projection_scale_y_manual_range[2]),
+      xlim = c(
+          input$overview_projection_scale_x_manual_range[1],
+          input$overview_projection_scale_x_manual_range[2]
+        ),
+      ylim = c(
+          input$overview_projection_scale_y_manual_range[1],
+          input$overview_projection_scale_y_manual_range[2]
+        ),
       point_size = input$overview_projection_cell_size,
       col_var = col_var,
       col_lab = input$overview_projection_cell_color,
@@ -408,7 +407,12 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$overview_projection_info, {
-    showModal(modalDialog(overview_projection_info_text, title=overview_projection_info_title, easyClose=TRUE, footer=NULL))
+    showModal(
+      modalDialog(
+        overview_projection_info_text,
+        title = overview_projection_info_title, easyClose = TRUE, footer = NULL
+      )
+    )
   })
 
   observeEvent(input$overview_projection_export, {
@@ -417,21 +421,36 @@ server <- function(input, output, session) {
     projection_to_display <- input$overview_projection_to_display
     samples_to_display <- input$overview_samples_to_display
     clusters_to_display <- input$overview_clusters_to_display
-    cells_to_display <- which(grepl(sample_data()$cells$sample, pattern=paste0("^", samples_to_display, "$", collapse="|")) == TRUE & grepl(sample_data()$cells$cluster, pattern=paste0("^", clusters_to_display, "$", collapse="|")) == TRUE)
+    cells_to_display <- which(
+        grepl(
+          sample_data()$cells$sample,
+          pattern = paste0("^", samples_to_display, "$", collapse = "|")
+        ) &
+        grepl(
+          sample_data()$cells$cluster,
+          pattern = paste0("^", clusters_to_display, "$", collapse = "|")
+        )
+      )
     to_plot <- cbind(
         sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
         sample_data()$cells[ cells_to_display , ]
       )
     to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
-    xlim <- c(input$overview_projection_scale_x_manual_range[1], input$overview_projection_scale_x_manual_range[2])
-    ylim <- c(input$overview_projection_scale_y_manual_range[1], input$overview_projection_scale_y_manual_range[2])
+    xlim <- c(
+        input$overview_projection_scale_x_manual_range[1],
+        input$overview_projection_scale_x_manual_range[2]
+      )
+    ylim <- c(
+        input$overview_projection_scale_y_manual_range[1],
+        input$overview_projection_scale_y_manual_range[2]
+      )
 
     if ( is.factor(to_plot[,input$overview_projection_cell_color]) | is.character(to_plot[,input$overview_projection_cell_color]) ) {
       if ( input$overview_projection_cell_color == "sample" ) {
-        cols <- setNames(colors[ 1:sample_data()$samples$count ], sample_data()$samples$overview$sample)
+        cols <- sample_data()$samples$colors
       } else if ( input$overview_projection_cell_color == "cluster" ) {
-        cols <- setNames(colors[ 1:sample_data()$clusters$count ], unname(sample_data()$clusters$overview$cluster))
+        cols <- sample_data()$clusters$colors
       } else if ( input$overview_projection_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
         cols <- cell_cycle_colorset
       } else if ( is.factor(to_plot[,input$overview_projection_cell_color]) ) {
@@ -439,24 +458,46 @@ server <- function(input, output, session) {
       } else {
         cols <- colors
       }
-      p <- ggplot(to_plot, aes_q(x=as.name(colnames(to_plot)[1]), y=as.name(colnames(to_plot)[2]), colour=as.name(input$overview_projection_cell_color))) +
-           geom_point() +
-           scale_colour_manual(values=cols) +
-           lims(x=xlim, y=ylim) +
-           theme_bw()
+      p <- ggplot(
+          to_plot,
+          aes_q(
+            x = as.name(colnames(to_plot)[1]),
+            y = as.name(colnames(to_plot)[2]),
+            colour = as.name(input$overview_projection_cell_color)
+          )
+        ) +
+        geom_point() +
+        scale_colour_manual(values = cols) +
+        lims(x = xlim, y = ylim) +
+        theme_bw()
     } else {
-      p <- ggplot(to_plot, aes_q(x=as.name(colnames(to_plot)[1]), y=as.name(colnames(to_plot)[2]), colour=as.name(input$overview_projection_cell_color))) +
-           geom_point() +
-           viridis::scale_colour_viridis(guide=guide_colorbar(frame.colour="black", ticks.colour="black")) +
-           lims(x=xlim, y=ylim) +
-           theme_bw()
+      p <- ggplot(
+          to_plot,
+          aes_q(
+            x = as.name(colnames(to_plot)[1]),
+            y = as.name(colnames(to_plot)[2]),
+            colour = as.name(input$overview_projection_cell_color)
+          )
+        ) +
+        geom_point() +
+        viridis::scale_colour_viridis(
+          guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
+        ) +
+        lims(x = xlim, y = ylim) +
+        theme_bw()
     }
 
     out_filename <- paste0(
         plot_export_path, "Cerebro_",
-        gsub(sample_data()$experiment$experiment_name, pattern=" ", replacement="_"),
+        gsub(
+          sample_data()$experiment$experiment_name,
+          pattern = " ", replacement = "_"
+        ),
         "_overview_", input$overview_projection_to_display, "_by_",
-        gsub(input$overview_projection_cell_color, pattern="\\.", replacement="_"),
+        gsub(
+          input$overview_projection_cell_color,
+          pattern = "\\.", replacement = "_"
+        ),
         ".pdf"
       )
 
@@ -483,28 +524,26 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
   ## Panel: Samples.
   ##--------------------------------------------------------------------------##
-  ## Expected data:
-  ## - sample_data()$samples$overview$sample
-  ## - sample_data()$cells$sample
-  ## - sample_data()$cells$nUMI
-  ## - sample_data()$cells$nGene
-  ## - sample_data()$cells$percent_mt
-  ## - sample_data()$cells$percent_ribo
-  ## - sample_data()$cells$cell_cycle_Regev (optional)
-  ## - sample_data()$cells$cell_cycle_Cyclone (optional)
-  ##--------------------------------------------------------------------------##
 
   ##--------------------------------------------------------------------------##
 
   output$samples_overview <- DT::renderDataTable({
     sample_data()$samples$overview %>%
+    rename(
+      Sample = sample,
+      Color = color,
+      "# of cells" = number_of_cells
+    ) %>%
+    mutate(
+      "Mean number of UMI" = round(mean_nUMI, digits = 1),
+      "Mean number of expressed genes" = round(mean_nGene, digits = 1)
+    ) %>%
+    select(-c(path, data_type, mean_nUMI, mean_nGene)) %>%    
     DT::datatable(
-      data = .,
       filter = "none",
       selection = "multiple",
       escape = FALSE,
       autoHideNavigation = TRUE,
-#      colnames = c("Sample", "# of cells", colnames(table)[ 3:ncol(table) ]),
       rownames = FALSE,
       class = "cell-border stripe",
       options = list(
@@ -528,12 +567,15 @@ server <- function(input, output, session) {
 
   output$samples_by_cluster_table <- DT::renderDataTable({
     sample_data()$samples$by_cluster %>%
+    rename(
+      Sample = sample,
+      "# of cells" = total_cell_count
+    ) %>%
     DT::datatable(
       filter = "none",
       selection = "multiple",
       escape = FALSE,
       autoHideNavigation = TRUE,
-      colnames = c("Sample", "# of cells", colnames(.)[ 3:ncol(.) ]),
       rownames = FALSE,
       class = "cell-border stripe",
       options = list(
@@ -548,7 +590,8 @@ server <- function(input, output, session) {
   observeEvent(input$samples_by_cluster_table_info, {
     showModal(
       modalDialog(samples_by_cluster_table_info_text,
-        title = samples_by_cluster_table_info_title, easyClose = TRUE, footer = NULL
+        title = samples_by_cluster_table_info_title, easyClose = TRUE,
+        footer = NULL
       )
     )
   })
@@ -2058,12 +2101,16 @@ server <- function(input, output, session) {
     if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
       to_plot$level <- 0
     } else if ( length(genesToPlot()$genes_to_display_present) == 1 ) {
-      to_plot$level <- sample_data()$expression[ which(rownames(sample_data()$expression) == genesToPlot()$genes_to_display_present) , cells_to_display ]
+      to_plot$level <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ]
     } else {
-      to_plot$level <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", genesToPlot()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      to_plot$level <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ] %>%
+        colMeans() %>%
+        as.vector()
     }
     if ( input$expression_plotting_order == "Random" ) {
-      to_plot <- to_plot[ sample(1:length(to_plot$level), length(to_plot$level)) , ]
+      to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
     } else if ( input$expression_plotting_order == "Highest expression on top" ) {
       to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
     }
@@ -2152,7 +2199,8 @@ server <- function(input, output, session) {
           sample_data()$experiment$experiment_name, "_gene_expression_none"
         )
     } else if ( length(genesToPlot()$genes_to_display_present) == 1 ) {
-      to_plot$level <- sample_data()$expression[ which(rownames(sample_data()$expression) == genesToPlot()$genes_to_display_present) , cells_to_display ]
+      to_plot$level <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ]
       out_filename <- paste0(
           plot_export_path, "Cerebro_",
           sample_data()$experiment$experiment_name, "_gene_expression_",
@@ -2160,7 +2208,10 @@ server <- function(input, output, session) {
           input$expression_projection_to_display
         )
     } else {
-      to_plot$level <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", genesToPlot()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      to_plot$level <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ] %>%
+        colMeans() %>%
+        as.vector()
       out_filename <- paste0(
           plot_export_path, "Cerebro_",
           sample_data()$experiment$experiment_name, "_gene_expression_",
@@ -2170,7 +2221,7 @@ server <- function(input, output, session) {
     }
 
     if ( input$expression_plotting_order == "Random" ) {
-      to_plot <- to_plot[ sample(1:length(to_plot$level), length(to_plot$level)) , ]
+      to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
       out_filename <- paste0(out_filename, "_random_order.pdf")
     } else if ( input$expression_plotting_order == "Highest expression on top" ) {
       to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
@@ -2217,13 +2268,16 @@ server <- function(input, output, session) {
 
   # box plot by sample
   output$expression_by_sample <- plotly::renderPlotly({
-    cells_to_display <- which(grepl(sample_data()$cells$sample, pattern = paste0("^", sample_data()$samples$overview$sample, "$", collapse = "|")) == TRUE )
     if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
       expression_levels <- 0
     } else if ( length(genesToPlot()$genes_to_display_present) == 1 ) {
-      expression_levels <- sample_data()$expression[ which(rownames(sample_data()$expression) == genesToPlot()$genes_to_display_present) , cells_to_display ]
+      expression_levels <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , ]
     } else {
-      expression_levels <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", genesToPlot()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      expression_levels <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , ] %>%
+        colMeans() %>%
+        as.vector()
     }
     data.frame(
       "sample" = sample_data()$cells[ , "sample" ],
@@ -2249,7 +2303,7 @@ server <- function(input, output, session) {
     )
   })
 
-  observeEvent(input$expression_by_sample.info, {
+  observeEvent(input$expression_by_sample_info, {
     showModal(
       modalDialog(
         title = "Expression levels by sample", easyClose = TRUE, footer = NULL,
@@ -2262,13 +2316,16 @@ server <- function(input, output, session) {
 
   # box plot by cluster
   output$expression_by_cluster <- plotly::renderPlotly({
-    cells_to_display <- which(grepl(sample_data()$cells$sample, pattern = paste0("^", sample_data()$samples$overview$sample, "$", collapse = "|")) == TRUE )
     if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
       expression_levels <- 0
     } else if ( length(genesToPlot()$genes_to_display_present) == 1 ) {
-      expression_levels <- sample_data()$expression[ which(rownames(sample_data()$expression) == genesToPlot()$genes_to_display_present) , cells_to_display ]
+      expression_levels <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , ]
     } else {
-      expression_levels <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern = paste0("^", genesToPlot()$genes_to_display_present, "$", collapse = "|"))) , cells_to_display ])))
+      expression_levels <- genesToPlot()$genes_to_display_present %>%
+        sample_data()$expression[ . , ] %>%
+        colMeans() %>%
+        as.vector()
     }
     data.frame(
       "cluster" = sample_data()$cells[ , "cluster" ],
@@ -2294,7 +2351,7 @@ server <- function(input, output, session) {
     )
   })
 
-  observeEvent(input$expression_by_cluster.info, {
+  observeEvent(input$expression_by_cluster_info, {
     showModal(
       modalDialog(
         title = "Expression levels by cluster", easyClose = TRUE, footer = NULL,
@@ -2304,7 +2361,7 @@ server <- function(input, output, session) {
   })
 
   ##--------------------------------------------------------------------------##
-  ## Panel: Gene set expression_
+  ## Panel: Gene set expression
   ##--------------------------------------------------------------------------##
   ## Expected data:
   ## - sample_data()$parameters$organism
@@ -2345,7 +2402,7 @@ server <- function(input, output, session) {
       geneSetData$genes_to_display_present <- geneSetData$genes_to_display_here[ which(!is.na(geneSetData$genes_to_display_here)) ]
       geneSetData$genes_to_display_missing <- geneSetData$genes_to_display[ which(is.na(geneSetData$genes_to_display_here)) ]
     }
-    return(geneSetData)
+    geneSetData
   })
 
   # show which genes are in the data set and which aren"t
@@ -2448,22 +2505,34 @@ server <- function(input, output, session) {
     samples_to_display <- input$geneSetexpression_samples_to_display
     clusters_to_display <- input$geneSetexpression_clusters_to_display
     cells_to_display <- which(
-        grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) &
-        grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|"))
+        grepl(
+          sample_data()$cells$sample,
+          pattern = paste0("^", samples_to_display, "$", collapse = "|")
+        ) &
+        grepl(
+          sample_data()$cells$cluster,
+          pattern = paste0("^", clusters_to_display, "$", collapse = "|")
+        )
       )
     to_plot <- cbind(
         sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
         sample_data()$cells[ cells_to_display , ]
       )
+
     if ( length(geneSetData()$genes_to_display_present) == 0 ) {
       to_plot$level <- 0
     } else if ( length(geneSetData()$genes_to_display_present) == 1 ) {
-      to_plot$level <- sample_data()$expression[ which(rownames(sample_data()$expression) == geneSetData()$genes_to_display_present) , cells_to_display ]
+      to_plot$level <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ]
     } else {
-      to_plot$level <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", geneSetData()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      to_plot$level <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ] %>%
+        colMeans() %>%
+        as.vector()
     }
+
     if ( input$geneSetexpression_plotting_order == "Random" ) {
-      to_plot <- to_plot[ sample(1:length(to_plot$level), length(to_plot$level)) , ]
+      to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
     } else if ( input$geneSetexpression_plotting_order == "Highest expression on top" ) {
       to_plot <- to_plot[ order(to_plot$level, decreasing=FALSE) , ]
     }
@@ -2523,8 +2592,14 @@ server <- function(input, output, session) {
     samples_to_display <- input$geneSetexpression_samples_to_display
     clusters_to_display <- input$geneSetexpression_clusters_to_display
     cells_to_display <- which(
-        grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) &
-        grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|"))
+        grepl(
+          sample_data()$cells$sample,
+          pattern = paste0("^", samples_to_display, "$", collapse = "|")
+        ) &
+        grepl(
+          sample_data()$cells$cluster,
+          pattern = paste0("^", clusters_to_display, "$", collapse = "|")
+        )
       )
     to_plot <- cbind(
         sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
@@ -2543,9 +2618,13 @@ server <- function(input, output, session) {
     if ( length(geneSetData()$genes_to_display_present) == 0 ) {
       to_plot$level <- 0
     } else if ( length(geneSetData()$genes_to_display_present) == 1 ) {
-      to_plot$level <- sample_data()$expression[ which(rownames(sample_data()$expression) == geneSetData()$genes_to_display_present) , cells_to_display ]
+      to_plot$level <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ]
     } else {
-      to_plot$level <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", geneSetData()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      to_plot$level <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , cells_to_display ] %>%
+        colMeans() %>%
+        as.vector()
     }
 
     out_filename <- paste0(
@@ -2555,7 +2634,7 @@ server <- function(input, output, session) {
       )
 
     if ( input$geneSetexpression_plotting_order == "Random" ) {
-      to_plot <- to_plot[ sample(1:length(to_plot$level), length(to_plot$level)) , ]
+      to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
       out_filename <- paste0(out_filename, "_random_order.pdf")
     } else if ( input$geneSetexpression_plotting_order == "Highest expression on top" ) {
       to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
@@ -2601,15 +2680,16 @@ server <- function(input, output, session) {
 
   # box plot by sample
   output$geneSetexpression_by_sample <- plotly::renderPlotly({
-    cells_to_display <- which(
-        grepl(sample_data()$cells$sample, pattern = paste0("^", sample_data()$samples$overview$sample, "$", collapse = "|"))
-      )
     if ( length(geneSetData()$genes_to_display_present) == 0 ) {
       expression_levels <- 0
     } else if ( length(geneSetData()$genes_to_display_present) == 1 ) {
-      expression_levels <- sample_data()$expression[ which(rownames(sample_data()$expression) == geneSetData()$genes_to_display_present) , cells_to_display ]
+      expression_levels <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , ]
     } else {
-      expression_levels <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", geneSetData()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      expression_levels <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , ] %>%
+        colMeans() %>%
+        as.vector()
     }
     data.frame(
       "sample" = sample_data()$cells[ , "sample" ],
@@ -2648,18 +2728,16 @@ server <- function(input, output, session) {
 
   # box plot by cluster
   output$geneSetexpression_by_cluster <- plotly::renderPlotly({
-    cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", sample_data()$samples$overview$sample, "$", collapse="|")
-        )
-      )
     if ( length(geneSetData()$genes_to_display_present) == 0 ) {
       expression_levels <- 0
     } else if ( length(geneSetData()$genes_to_display_present) == 1 ) {
-      expression_levels <- sample_data()$expression[ which(rownames(sample_data()$expression) == geneSetData()$genes_to_display_present) , cells_to_display ]
+      expression_levels <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , ]
     } else {
-      expression_levels <- as.vector(colMeans(as.matrix(sample_data()$expression[ which(grepl(rownames(sample_data()$expression), pattern=paste0("^", geneSetData()$genes_to_display_present, "$", collapse="|"))) , cells_to_display ])))
+      expression_levels <- geneSetData()$genes_to_display_present %>%
+        sample_data()$expression[ . , ] %>%
+        colMeans() %>%
+        as.vector()
     }
     data.frame(
       "cluster" = sample_data()$cells[ , "cluster" ],
@@ -2730,26 +2808,54 @@ server <- function(input, output, session) {
   output$sample_info_general <- renderText({
     info <- paste0(
         "<ul>",
-          "<li><b>Experiment name:</b> ", sample_data()$experiment$experiment_name,
-          "<li><b>Organism:</b> ", sample_data()$experiment$organism,
-          "<li><b>Samples:</b> ", paste0(sample_data()$samples$overview$sample, collapse = ", "),
-          "<li><b># of clusters found:</b> ", nrow(sample_data()$clusters$overview),
-          "<li><b>Min. cells:</b> ", sample_data()$parameters$discard_genes_expressed_in_fewer_cells_than,
-          "<li><b>Keep mitochondrial genes:</b> ", sample_data()$parameters$keep_mitochondrial_genes,
-          "<li><b>Variables to regress:</b> ", sample_data()$parameters$variables_to_regress_out,
-          "<li><b>Number of principal components:</b> ", sample_data()$parameters$number_PCs,
-          "<li><b>tSNE perplexity:</b> ", sample_data()$parameters$tSNE_perplexity,
-          "<li><b>Cluster resolution:</b> ", sample_data()$parameters$cluster_resolution,
-          "<li><b>enrichR databases:</b> ", paste0(sample_data()$parameters$enrichr_dbs, collapse = ", "),
-          "<li><b>Mitochondrial genes:</b> ", paste0(sample_data()$gene_lists$mitochondrial_genes, collapse = ", "),
-          "<li><b>Ribosomal genes:</b> ", paste0(sample_data()$gene_lists$ribosomal_genes, collapse = ", "),
-          "<li><b>Genes used for apoptotic score:</b> ", paste0(sample_data()$gene_lists$apoptosis_genes, collapse = ", "),
-          "<li><b>S phase genes:</b> ", paste0(sample_data()$gene_lists$S_phase_genes, collapse = ", "),
-          "<li><b>G2M phase genes:</b> ", paste0(sample_data()$gene_lists$G2M_phase_genes, collapse = ", "),
-          "<li><b>Min/max # of UMI:</b> ", paste0(sample_data()$parameters$filtering$UMI_min, " / ", sample_data()$parameters$filtering$UMI_max),
-          "<li><b>Min/max # of expressed genes:</b> ", paste0(sample_data()$parameters$filtering$genes_min, " / ", sample_data()$parameters$filtering$genes_max),
-          "<li><b>Min/max % of mitochonrial genes:</b> ", paste0(sample_data()$parameters$filtering$percent_mt_min, " / ", sample_data()$parameters$filtering$percent_mt_min),
-          "<li><b>Min/max % of ribosomal genes:</b> ", paste0(sample_data()$parameters$filtering$percent_ribo_min, " / ", sample_data()$parameters$filtering$percent_ribo_min),
+          "<li><b>Experiment name:</b> ",
+          sample_data()$experiment$experiment_name,
+          "<li><b>Organism:</b> ",
+          sample_data()$experiment$organism,
+          "<li><b>Samples:</b> ",
+          paste0(sample_data()$samples$overview$sample, collapse = ", "),
+          "<li><b># of clusters found:</b> ",
+          nrow(sample_data()$clusters$overview),
+          "<li><b>Min. cells:</b> ",
+          sample_data()$parameters$discard_genes_expressed_in_fewer_cells_than,
+          "<li><b>Keep mitochondrial genes:</b> ",
+          sample_data()$parameters$keep_mitochondrial_genes,
+          "<li><b>Variables to regress:</b> ",
+          sample_data()$parameters$variables_to_regress_out,
+          "<li><b>Number of principal components:</b> ",
+          sample_data()$parameters$number_PCs,
+          "<li><b>tSNE perplexity:</b> ",
+          sample_data()$parameters$tSNE_perplexity,
+          "<li><b>Cluster resolution:</b> ",
+          sample_data()$parameters$cluster_resolution,
+          "<li><b>enrichR databases:</b> ",
+          paste0(sample_data()$parameters$enrichr_dbs, collapse = ", "),
+          "<li><b>Mitochondrial genes:</b> ",
+          paste0(sample_data()$gene_lists$mitochondrial_genes, collapse = ", "),
+          "<li><b>Ribosomal genes:</b> ",
+          paste0(sample_data()$gene_lists$ribosomal_genes, collapse = ", "),
+          "<li><b>Genes used for apoptotic score:</b> ",
+          paste0(sample_data()$gene_lists$apoptosis_genes, collapse = ", "),
+          "<li><b>S phase genes:</b> ",
+          paste0(sample_data()$gene_lists$S_phase_genes, collapse = ", "),
+          "<li><b>G2M phase genes:</b> ",
+          paste0(sample_data()$gene_lists$G2M_phase_genes, collapse = ", "),
+          "<li><b>Min/max # of UMI:</b> ",
+          paste0(
+            sample_data()$parameters$filtering$UMI_min, " / ",
+            sample_data()$parameters$filtering$UMI_max),
+          "<li><b>Min/max # of expressed genes:</b> ",
+          paste0(
+            sample_data()$parameters$filtering$genes_min, " / ",
+            sample_data()$parameters$filtering$genes_max),
+          "<li><b>Min/max % of mitochonrial genes:</b> ",
+          paste0(
+            sample_data()$parameters$filtering$percent_mt_min, " / ",
+            sample_data()$parameters$filtering$percent_mt_min),
+          "<li><b>Min/max % of ribosomal genes:</b> ",
+          paste0(
+            sample_data()$parameters$filtering$percent_ribo_min, " / ",
+            sample_data()$parameters$filtering$percent_ribo_min),
         "</ul>"
       )
     info_R_raw <- sample_data()$technical_info$R
@@ -3151,118 +3257,241 @@ ui <- dashboardPage(
         )
       ),
       tabItem(tabName = "markerGenes",
-        box(title=tagList(p("Marker genes per sample", style="padding-right: 5px; display: inline"),
-                          actionButton(inputId="marker_genes_by_sample_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput("marker_genes_by_sample_UI")
+        box(
+          title = tagList(
+            p("Marker genes per sample",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "marker_genes_by_sample_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("marker_genes_by_sample_UI")
         ),
-        box(title=tagList(p("Marker genes per cluster", style="padding-right: 5px; display: inline"),
-                          actionButton(inputId="marker_genes_by_cluster_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput("marker_genes_by_cluster_UI")
+        box(
+          title = tagList(
+            p("Marker genes per cluster",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "marker_genes_by_cluster_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("marker_genes_by_cluster_UI")
         )
       ),
-      tabItem(tabName="enrichedPathways",
-        box(title=tagList(p("Enriched pathways by sample", style="padding-right: 5px; display: inline"),
-                          actionButton(inputId="enriched_pathways_by_sample_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput("enriched_pathways_by_sample_UI")
+      tabItem(tabName = "enrichedPathways",
+        box(
+          title = tagList(
+            p("Enriched pathways by sample",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "enriched_pathways_by_sample_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("enriched_pathways_by_sample_UI")
         ),
-        box(title=tagList(p("Enriched pathways by cluster", style="padding-right: 5px; display: inline"),
-                          actionButton(inputId="enriched_pathways_by_cluster_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-            status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-            uiOutput("enriched_pathways_by_cluster_UI")
+        box(
+          title = tagList(
+            p("Enriched pathways by cluster",
+              style = "padding-right: 5px; display: inline"
+            ),
+            actionButton(
+              inputId = "enriched_pathways_by_cluster_info", label = "info",
+              icon = NULL, class = "btn-xs",
+              title = "Show additional information for this panel."
+            )
+          ),
+          status = "primary", solidHeader = TRUE, width = 12,
+          collapsible = TRUE,
+          uiOutput("enriched_pathways_by_cluster_UI")
         )
       ),
-      tabItem(tabName="geneExpression",
+      tabItem(tabName = "geneExpression",
         tagList(
           fluidRow(
-            column(width=3, offset=0, style="padding: 0px;",
-              box(title="Input parameters", status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                  tagList(
-                    uiOutput("expression_UI"),
-                    uiOutput("expression_scales")
-                  )
+            column(width = 3, offset = 0, style = "padding: 0px;",
+              box(
+                title = "Input parameters", status = "primary",
+                solidHeader = TRUE, width = 12, collapsible = TRUE,
+                tagList(
+                  uiOutput("expression_UI"),
+                  uiOutput("expression_scales")
+                )
               )
             ),
-            column(width=9, offset=0, style="padding: 0px;",
-              box(title=tagList(p("Dimensional reduction", style="padding-right: 5px; display: inline"),
-                                actionButton(inputId="expression_projection_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.", style="margin-right: 5px"),
-                                actionButton(inputId="expression_projection_export", label="export to PDF", icon=NULL, class="btn-xs", title="Export dimensional reduction to PDF file.")),
-                  status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                  tagList(
-                    scatterD3::scatterD3Output("expression_projection", height="720px"),
-                    tags$br(),
-                    htmlOutput("expression_genes_displayed")
+            column(width = 9, offset = 0, style = "padding: 0px;",
+              box(
+                title = tagList(
+                  p("Dimensional reduction",
+                    style = "padding-right: 5px; display: inline"
+                  ),
+                  actionButton(
+                    inputId = "expression_projection_info", label = "info",
+                    icon = NULL, class = "btn-xs",
+                    title = "Show additional information for this panel.",
+                    style = "margin-right: 5px"
+                  ),
+                  actionButton(
+                    inputId = "expression_projection_export",
+                    label = "export to PDF", icon = NULL, class = "btn-xs",
+                    title = "Export dimensional reduction to PDF file."
                   )
+                ),
+                status = "primary", solidHeader = TRUE, width = 12,
+                collapsible = TRUE,
+                tagList(
+                  scatterD3::scatterD3Output(
+                    "expression_projection", height = "720px"
+                  ),
+                  tags$br(),
+                  htmlOutput("expression_genes_displayed")
+                )
               )
             )
           ),
           fluidRow(
-            box(title=tagList(p("Expression levels by sample", style="padding-right: 5px; display: inline"),
-                              actionButton(inputId="expression_by_sample.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput("expression_by_sample")
+            box(
+              title = tagList(
+                p("Expression levels by sample",
+                  style = "padding-right: 5px; display: inline"
+                ),
+                actionButton(
+                  inputId = "expression_by_sample_info", label = "info",
+                  icon = NULL, class = "btn-xs",
+                  title = "Show additional information for this panel."
+                )
+              ),
+              status = "primary", solidHeader = TRUE, width = 12,
+              collapsible = TRUE,
+              plotly::plotlyOutput("expression_by_sample")
             )
           ),
           fluidRow(
-            box(title=tagList(p("Expression levels by cluster", style="padding-right: 5px; display: inline"),
-                              actionButton(inputId="expression_by_cluster.info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput("expression_by_cluster")
+            box(
+              title = tagList(
+                p("Expression levels by cluster",
+                  style = "padding-right: 5px; display: inline"
+                ),
+                actionButton(
+                  inputId = "expression_by_cluster_info", label = "info",
+                  icon = NULL, class = "btn-xs",
+                  title = "Show additional information for this panel."
+                )
+              ),
+              status = "primary", solidHeader = TRUE, width = 12,
+              collapsible = TRUE,
+              plotly::plotlyOutput("expression_by_cluster")
             )
           )
         )
       ),
-      tabItem(tabName="geneSetExpression",
+      tabItem(tabName = "geneSetExpression",
         tagList(
           fluidRow(
-            column(width=3, offset=0, style="padding:0px;",
-              box(title="Input parameters", status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                  tagList(
-                    uiOutput("geneSetexpression_UI"),
-                    uiOutput("geneSetexpression_scales")
-                  )
+            column(width = 3, offset = 0, style = "padding:0px;",
+              box(
+                title = "Input parameters", status = "primary",
+                solidHeader = TRUE, width = 12, collapsible = TRUE,
+                tagList(
+                  uiOutput("geneSetexpression_UI"),
+                  uiOutput("geneSetexpression_scales")
+                )
               )
             ),
-            column(width=9, offset=0, style="padding:0px;",
-              box(title=tagList(p("Dimensional reduction", style="padding-right: 5px; display: inline"),
-                                actionButton(inputId="geneSetexpression_projection_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.", style="margin-right: 5px"),
-                                actionButton(inputId="geneSetexpression_projection_export", label="export to PDF", icon=NULL, class="btn-xs", title="Export dimensional reduction to PDF file.")),
-                  status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                  tagList(
-                    scatterD3::scatterD3Output("geneSetexpression_projection", height="720px"),
-                    tags$br(),
-                    htmlOutput("geneSetexpression_genes_displayed")
+            column(width = 9, offset = 0, style = "padding:0px;",
+              box(
+                title = tagList(
+                  p("Dimensional reduction",
+                    style = "padding-right: 5px; display: inline"
+                  ),
+                  actionButton(
+                    inputId = "geneSetexpression_projection_info",
+                    label = "info", icon = NULL, class = "btn-xs",
+                    title = "Show additional information for this panel.",
+                    style = "margin-right: 5px"
+                  ),
+                  actionButton(
+                    inputId = "geneSetexpression_projection_export",
+                    label = "export to PDF", icon = NULL, class = "btn-xs",
+                    title = "Export dimensional reduction to PDF file."
                   )
+                ),
+                status = "primary", solidHeader = TRUE, width = 12,
+                collapsible = TRUE,
+                tagList(
+                  scatterD3::scatterD3Output(
+                    "geneSetexpression_projection", height = "720px"
+                  ),
+                  tags$br(),
+                  htmlOutput("geneSetexpression_genes_displayed")
+                )
               )
             )
           ),
           fluidRow(
-            box(title=tagList(p("Expression levels by sample", style="padding-right: 5px; display: inline"),
-                              actionButton(inputId="geneSetexpression_by_sample_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput("geneSetexpression_by_sample")
+            box(
+              title = tagList(
+                p("Expression levels by sample",
+                  style = "padding-right: 5px; display: inline"
+                ),
+                actionButton(
+                  inputId = "geneSetexpression_by_sample_info", label = "info",
+                  icon = NULL, class = "btn-xs",
+                  title = "Show additional information for this panel."
+                )
+              ),
+              status = "primary", solidHeader = TRUE, width = 12,
+              collapsible = TRUE,
+              plotly::plotlyOutput("geneSetexpression_by_sample")
             )
           ),
           fluidRow(
-            box(title=tagList(p("Expression levels by cluster", style="padding-right: 5px; display: inline"),
-                              actionButton(inputId="geneSetexpression_by_cluster_info", label="info", icon=NULL, class="btn-xs", title="Show additional information for this panel.")),
-                status="primary", solidHeader=TRUE, width=12, collapsible=TRUE,
-                plotly::plotlyOutput("geneSetexpression_by_cluster")
+            box(
+              title = tagList(
+                p("Expression levels by cluster",
+                style = "padding-right: 5px; display: inline"
+                ),
+                actionButton(
+                  inputId = "geneSetexpression_by_cluster_info", label = "info",
+                  icon = NULL, class = "btn-xs",
+                  title = "Show additional information for this panel."
+                )
+              ),
+              status = "primary", solidHeader = TRUE, width = 12,
+              collapsible = TRUE,
+              plotly::plotlyOutput("geneSetexpression_by_cluster")
             )
           )
         )
       ),
-      tabItem(tabName="geneIdConversion",
-        box(title="Convert gene ID <-> gene symbol", status="primary", solidHeader=TRUE, width=12, collapsible=FALSE,
+      tabItem(tabName = "geneIdConversion",
+        box(
+          title = "Convert gene ID <-> gene symbol", status = "primary",
+          solidHeader = TRUE, width = 12, collapsible = FALSE,
           tagList(
-            selectInput("geneIdConversion_organism", "Organism:", choices=c("mouse", "human")),
+            selectInput(
+              "geneIdConversion_organism", "Organism:",
+              choices = c("mouse", "human")
+            ),
             DT::dataTableOutput("gene_info")
           )
         )
       ),
-      tabItem(tabName="info",
+      tabItem(tabName = "info",
         fluidPage(
           fluidRow(
             column(12,
@@ -3272,7 +3501,7 @@ ui <- dashboardPage(
           )
         )
       ),
-      tabItem(tabName="about",
+      tabItem(tabName = "about",
         fluidPage(
           fluidRow(
             column(12,
