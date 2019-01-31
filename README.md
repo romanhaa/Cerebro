@@ -69,6 +69,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] When choosing a gene set it first shows all cells in black because it can't find the genes.
 * [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
 * [ ] Display message when no enriched pathways were found.
+* [ ] Move to z-score instead of log-counts?
 
 ## Changelog
 
