@@ -63,7 +63,7 @@ function createWindow () {
 
   loading.once('show', () => {
     log.info('show loading')
-    mainWindow = new BrowserWindow({webPreferences:{nodeIntegration:false}, show:false, width: 1200, height: 800, title:'Single Cell Browser'})
+    mainWindow = new BrowserWindow({webPreferences:{nodeIntegration:false}, show:false, width: 1200, height: 800, title:'Cerebro'})
 
     mainWindow.webContents.once('dom-ready', () => {
       log.info('mainWindow loaded')

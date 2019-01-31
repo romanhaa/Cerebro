@@ -909,18 +909,6 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
   ## Panel: Clusters.
   ##--------------------------------------------------------------------------##
-  ## Expected data:
-  ## - sample_data()$samples$count
-  ## - sample_data()$clusters$overview$cluster
-  ## - sample_data()$clusters$tree
-  ## - sample_data()$cells$cluster
-  ## - sample_data()$cells$nUMI
-  ## - sample_data()$cells$nGene
-  ## - sample_data()$cells$percent_mt
-  ## - sample_data()$cells$percent_ribo
-  ## - sample_data()$cells$cell_cycle_Regev (optional)
-  ## - sample_data()$cells$cell_cycle_Cyclone (optional)
-  ##--------------------------------------------------------------------------##
 
   ##--------------------------------------------------------------------------##
 
@@ -2910,7 +2898,9 @@ server <- function(input, output, session) {
 ## UI.
 ##----------------------------------------------------------------------------##
 ui <- dashboardPage(
-  dashboardHeader(title = "Cerebro"),
+  dashboardHeader(
+    title = span("Cerebro ", style = "color: white; font-size: 28px; font-weight: bold")
+  ),
   dashboardSidebar(
     tags$head(tags$style(HTML(".content-wrapper {overflow-x: scroll;}"))),
     sidebarMenu(
