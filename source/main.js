@@ -125,7 +125,7 @@ function cleanUpApplication(){
   }
 }
 
-// 
+//
 function setMainMenu() {
   const template = [{
       label: 'Cerebro',
