@@ -104,6 +104,11 @@ function createWindow () {
       cleanUpApplication()
     })
 
+    // prevent CSS code from appearing in application window title
+    mainWindow.on('page-title-updated', function(e) {
+      e.preventDefault()
+    });
+
   })
 
   loading.show()
@@ -123,9 +128,9 @@ function cleanUpApplication(){
 // 
 function setMainMenu() {
   const template = [{
-      label: 'Application',
+      label: 'Cerebro',
       submenu: [
-        { label: 'About Application', role: 'about' },
+        { label: 'About', role: 'about' },
         { type: 'separator' },
         { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
       ]}, {

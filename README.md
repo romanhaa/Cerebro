@@ -57,19 +57,19 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 ## To Do
 
 * [x] Upload current state.
+* [x] Don't scroll menu on the left.
+* [x] Replace old app names.
+* [x] Write `Cerebro` in bold and with bigger letters.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
 * [ ] Format average UMI and expressed gene counts.
-* [x] Don't scroll menu on the left.
-* [x] Replace old app names.
-* [ ] Write `Cerebro` in bold and with bigger letters.
-    * Done but CSS code in title when starting through npm. Has to be tested after building application.
 * [ ] Logo inside app?
 * [ ] Is there a more robust way to match gene (set) expression values to cells without assuming that columns in `expression` are in the same order as rows in `cells`?
 * [ ] When choosing a gene set it first shows all cells in black because it can't find the genes.
 * [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
 * [ ] Display message when no enriched pathways were found.
 * [ ] Move to z-score instead of log-counts?
+    * Not possible because occupy much more data.
 
 ## Changelog
 
