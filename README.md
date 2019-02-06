@@ -74,6 +74,12 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Check where hallmark gene sets would appear in pathway enrichement.
 * [ ] Make it that when typing in the gene expression box that one has to hit return to start the plot, otherwise it is really slow.
 * [ ] Add parameters of marker gene detection to info tab.
+* [ ] Include links to useful pages.
+  * How UMAP works: <https://umap-learn.readthedocs.io/en/latest/how_umap_works.html>
+  * How to interpret distances in UMAP : <https://github.com/lmcinnes/umap/issues/92>
+  * How to effectively use t-SNE: <https://distill.pub/2016/misread-tsne/>
+  * How to interpret distances in t-SNE: <https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne>
+  
 
 ## Changelog
 
