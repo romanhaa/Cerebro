@@ -70,6 +70,10 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Display message when no enriched pathways were found.
 * [ ] Move to z-score instead of log-counts?
     * Not possible because occupy much more data.
+* [ ] Allow to plot subset of cells to make it faster.
+* [ ] Check where hallmark gene sets would appear in pathway enrichement.
+* [ ] Make it that when typing in the gene expression box that one has to hit return to start the plot, otherwise it is really slow.
+* [ ] Add parameters of marker gene detection to info tab.
 
 ## Changelog
 
