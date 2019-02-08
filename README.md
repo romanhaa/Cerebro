@@ -79,7 +79,8 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * How to interpret distances in UMAP : <https://github.com/lmcinnes/umap/issues/92>
   * How to effectively use t-SNE: <https://distill.pub/2016/misread-tsne/>
   * How to interpret distances in t-SNE: <https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne>
-  
+* [ ] Make generic function that can take any Seurat object and extract at least enough information for display in Cerebro.
+  * Maybe adjustments to Cerebro is necessary (display message if data is not available).
 
 ## Changelog
 

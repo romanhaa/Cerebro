@@ -248,32 +248,64 @@ server <- function(input, output, session) {
   output$overview_UI <- renderUI({
     tagList(
       selectInput("overview_projection_to_display", label = "Projection",
-        choices = names(sample_data()$projections)),
-      selectInput("overview_projection_cell_color", label = "Color cells by",
-        choices = names(sample_data()$cells)[! names(sample_data()$cells) %in% c("cell_barcode")]),
-      checkboxInput("overview_projection_ellipses",
-        label = "Confidence ellipses",
-        value = FALSE),
-      shinyWidgets::pickerInput("overview_samples_to_display",
+        choices = names(sample_data()$projections)
+      ),
+      shinyWidgets::pickerInput(
+        "overview_samples_to_display",
         label = "Samples to display",
         choices = sample_data()$samples$overview$sample,
         selected = sample_data()$samples$overview$sample,
         options = list("actions-box" = TRUE),
-        multiple = TRUE),
-      shinyWidgets::pickerInput("overview_clusters_to_display",
+        multiple = TRUE
+      ),
+      shinyWidgets::pickerInput(
+        "overview_clusters_to_display",
         label = "Clusters to display",
         choices = sample_data()$clusters$overview$cluster,
         selected = sample_data()$clusters$overview$cluster,
         options = list("actions-box" = TRUE),
-        multiple = TRUE),
-      selectInput("overview_projection_cell_size_variable",
+        multiple = TRUE
+      ),
+      sliderInput(
+        "overview_percentage_cells_to_show",
+        label = "Show % of cells",
+        min = 10,
+        max = 100,
+        step = 10,
+        value = 100
+      ),
+      selectInput(
+        "overview_cell_color",
+        label = "Color cells by",
+        choices = names(sample_data()$cells)[! names(sample_data()$cells) %in% c("cell_barcode")]
+      ),
+      selectInput(
+        "overview_cell_size_variable",
         label = "Change point size by",
         choices = c("None", "nUMI", "nGene"),
-        selected = "None"),
-      sliderInput("overview_projection_cell_size", label = "Point size",
-        min = 0, max = 50, value = 15, step = 1),
-      sliderInput("overview_projection_cell_opacity", label = "Point opacity",
-        min = 0, max = 1, value = 1, step = 0.05)
+        selected = "None"
+      ),
+      sliderInput(
+        "overview_cell_size_value",
+        label = "Point size",
+        min = 0,
+        max = 50,
+        value = 15,
+        step = 1
+      ),
+      checkboxInput(
+        "overview_show_ellipses",
+        label = "Confidence ellipses",
+        value = FALSE
+      ),
+      sliderInput(
+        "overview_cell_opacity",
+        label = "Point opacity",
+        min = 0,
+        max = 1,
+        value = 1,
+        step = 0.05
+      )
     )
   })
 
@@ -286,13 +318,15 @@ server <- function(input, output, session) {
     range_y_min <- round(min(sample_data()$projections[[ projection_to_display ]][,2])*1.1)
     range_y_max <- round(max(sample_data()$projections[[ projection_to_display ]][,2])*1.1)
     tagList(
-      sliderInput("overview_projection_scale_x_manual_range",
+      sliderInput(
+        "overview_scale_x_manual_range",
         label = "X axis",
         min = range_x_min,
         max = range_x_max,
         value = c(range_x_min, range_x_max)
       ),
-      sliderInput("overview_projection_scale_y_manual_range",
+      sliderInput(
+        "overview_scale_y_manual_range",
         label = "Y axis",
         min = range_y_min,
         max = range_y_max,
@@ -303,13 +337,13 @@ server <- function(input, output, session) {
 
   ##--------------------------------------------------------------------------##
 
-  output$overview.projection <- scatterD3::renderScatterD3({
+  output$overview_projection <- scatterD3::renderScatterD3({
 
     # don't do anything before these inputs are selected
     req(input$overview_projection_to_display)
     req(input$overview_samples_to_display)
     req(input$overview_clusters_to_display)
-    req(input$overview_projection_scale_x_manual_range)
+    req(input$overview_scale_x_manual_range)
 
     # define which projection should be plotted
     if ( is.null(input$overview_projection_to_display) || is.na(input$overview_projection_to_display) ) {
@@ -344,6 +378,14 @@ server <- function(input, output, session) {
         )
       )
 
+    # randomly remove cells
+    if ( input$overview_percentage_cells_to_show < 100 ) {
+      number_of_cells_to_plot <- ceiling(
+        input$overview_percentage_cells_to_show / 100 * length(cells_to_display)
+      )
+      cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+    }
+
     # extract cells to plot
     to_plot <- cbind(
         sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
@@ -352,27 +394,27 @@ server <- function(input, output, session) {
     to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
     # define variable used to color cells by
-    col_var <- to_plot[ , input$overview_projection_cell_color ]
+    col_var <- to_plot[ , input$overview_cell_color ]
 
     # define colors
-    if ( is.null(input$overview_projection_cell_color) || is.na(input$overview_projection_cell_color) ) {
+    if ( is.null(input$overview_cell_color) || is.na(input$overview_cell_color) ) {
       colors <- NULL
-    } else if ( input$overview_projection_cell_color == "sample" ) {
+    } else if ( input$overview_cell_color == "sample" ) {
       colors <- sample_data()$samples$colors
-    } else if ( input$overview_projection_cell_color == "cluster" ) {
+    } else if ( input$overview_cell_color == "cluster" ) {
       colors <- sample_data()$clusters$colors
-    } else if ( input$overview_projection_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+    } else if ( input$overview_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
       colors <- cell_cycle_colorset
-    } else if ( is.factor(to_plot[,input$overview_projection_cell_color]) ) {
-      colors <- setNames(colors[1:length(levels(to_plot[,input$overview_projection_cell_color]))], levels(to_plot[,input$overview_projection_cell_color]))
-    } else if ( is.character(to_plot[,input$overview_projection_cell_color]) ) {
+    } else if ( is.factor(to_plot[,input$overview_cell_color]) ) {
+      colors <- setNames(colors[1:length(levels(to_plot[,input$overview_cell_color]))], levels(to_plot[,input$overview_cell_color]))
+    } else if ( is.character(to_plot[,input$overview_cell_color]) ) {
       colors <- colors
     } else {
       colors <- NULL
     }
 
     # define variable used for cell size
-    size_var <- if ( input$overview_projection_cell_size_variable == "None" ) NULL else to_plot[ , input$overview_projection_cell_size_variable ]
+    size_var <- if ( input$overview_cell_size_variable == "None" ) NULL else to_plot[ , input$overview_cell_size_variable ]
 
     # plot
     scatterD3::scatterD3(
@@ -381,20 +423,20 @@ server <- function(input, output, session) {
       xlab = colnames(to_plot)[ 1 ],
       ylab = colnames(to_plot)[ 2 ],
       xlim = c(
-          input$overview_projection_scale_x_manual_range[1],
-          input$overview_projection_scale_x_manual_range[2]
+          input$overview_scale_x_manual_range[1],
+          input$overview_scale_x_manual_range[2]
         ),
       ylim = c(
-          input$overview_projection_scale_y_manual_range[1],
-          input$overview_projection_scale_y_manual_range[2]
+          input$overview_scale_y_manual_range[1],
+          input$overview_scale_y_manual_range[2]
         ),
-      point_size = input$overview_projection_cell_size,
+      point_size = input$overview_cell_size_value,
       col_var = col_var,
-      col_lab = input$overview_projection_cell_color,
+      col_lab = input$overview_cell_color,
       colors = colors,
-      ellipses = input$overview_projection_ellipses,
+      ellipses = input$overview_show_ellipses,
       size_var = size_var,
-      point_opacity = input$overview_projection_cell_opacity,
+      point_opacity = input$overview_cell_opacity,
       transitions = FALSE,
       menu = FALSE,
       tooltip_text  = paste0(
@@ -438,23 +480,23 @@ server <- function(input, output, session) {
     to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
     xlim <- c(
-        input$overview_projection_scale_x_manual_range[1],
-        input$overview_projection_scale_x_manual_range[2]
+        input$overview_scale_x_manual_range[1],
+        input$overview_scale_x_manual_range[2]
       )
     ylim <- c(
-        input$overview_projection_scale_y_manual_range[1],
-        input$overview_projection_scale_y_manual_range[2]
+        input$overview_scale_y_manual_range[1],
+        input$overview_scale_y_manual_range[2]
       )
 
-    if ( is.factor(to_plot[,input$overview_projection_cell_color]) | is.character(to_plot[,input$overview_projection_cell_color]) ) {
-      if ( input$overview_projection_cell_color == "sample" ) {
+    if ( is.factor(to_plot[,input$overview_cell_color]) | is.character(to_plot[,input$overview_cell_color]) ) {
+      if ( input$overview_cell_color == "sample" ) {
         cols <- sample_data()$samples$colors
-      } else if ( input$overview_projection_cell_color == "cluster" ) {
+      } else if ( input$overview_cell_color == "cluster" ) {
         cols <- sample_data()$clusters$colors
-      } else if ( input$overview_projection_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+      } else if ( input$overview_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
         cols <- cell_cycle_colorset
-      } else if ( is.factor(to_plot[,input$overview_projection_cell_color]) ) {
-        cols <- setNames(colors[1:length(levels(to_plot[,input$overview_projection_cell_color]))], levels(to_plot[,input$overview_projection_cell_color]))
+      } else if ( is.factor(to_plot[,input$overview_cell_color]) ) {
+        cols <- setNames(colors[1:length(levels(to_plot[,input$overview_cell_color]))], levels(to_plot[,input$overview_cell_color]))
       } else {
         cols <- colors
       }
@@ -463,7 +505,7 @@ server <- function(input, output, session) {
           aes_q(
             x = as.name(colnames(to_plot)[1]),
             y = as.name(colnames(to_plot)[2]),
-            colour = as.name(input$overview_projection_cell_color)
+            colour = as.name(input$overview_cell_color)
           )
         ) +
         geom_point() +
@@ -476,7 +518,7 @@ server <- function(input, output, session) {
           aes_q(
             x = as.name(colnames(to_plot)[1]),
             y = as.name(colnames(to_plot)[2]),
-            colour = as.name(input$overview_projection_cell_color)
+            colour = as.name(input$overview_cell_color)
           )
         ) +
         geom_point() +
@@ -495,7 +537,7 @@ server <- function(input, output, session) {
         ),
         "_overview_", input$overview_projection_to_display, "_by_",
         gsub(
-          input$overview_projection_cell_color,
+          input$overview_cell_color,
           pattern = "\\.", replacement = "_"
         ),
         ".pdf"
@@ -2006,12 +2048,17 @@ server <- function(input, output, session) {
  # UI
   output$expression_UI <- renderUI({
     tagList(
-      selectInput("expression_projection_to_display", label = "Projection:",
-        choices = names(sample_data()$projections)
-      ),
-      textAreaInput("expression_genes_input", label = "Gene(s):",
+      textAreaInput(
+        "expression_genes_input",
+        label = "Gene(s):",
         value = "",
-        placeholder = "Insert genes here."
+        placeholder = "Insert genes here.",
+        resize = "vertical"
+      ),
+      selectInput(
+        "expression_projection_to_display",
+        label = "Projection:",
+        choices = names(sample_data()$projections)
       ),
       shinyWidgets::pickerInput(
         "expression_samples_to_display",
@@ -2029,10 +2076,18 @@ server <- function(input, output, session) {
         options = list("actions-box" = TRUE),
         multiple = TRUE
       ),
+      sliderInput(
+        "expression_percentage_cells_to_show",
+        label = "Show % of cells",
+        min = 10,
+        max = 100,
+        step = 10,
+        value = 100
+      ),
       selectInput("expression_plotting_order", label = "Plotting order:",
         choices = c("Random", "Highest expression on top")
       ),
-      sliderInput("expression_projection_dot.size", label = "Point size:",
+      sliderInput("expression_projection_dot_size", label = "Point size:",
         min = 0, max = 50, value = 25, step = 1
       ),
       sliderInput("expression_projection_opacity", label = "Point opacity:",
@@ -2082,6 +2137,13 @@ server <- function(input, output, session) {
         grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE & 
         grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|")) == TRUE
       )
+    # randomly remove cells
+    if ( input$expression_percentage_cells_to_show < 100 ) {
+      number_of_cells_to_plot <- ceiling(
+        input$expression_percentage_cells_to_show / 100 * length(cells_to_display)
+      )
+      cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+    }
     to_plot <- cbind(
         sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
         sample_data()$cells[ cells_to_display , ]
@@ -2115,7 +2177,7 @@ server <- function(input, output, session) {
           input$expression_projection_scale_y_manual_range[1],
           input$expression_projection_scale_y_manual_range[2]
         ),
-      point_size = input$expression_projection_dot.size,
+      point_size = input$expression_projection_dot_size,
       col_var = to_plot$level,
       col_lab = "Gene expression",
       col_continuous = TRUE,
@@ -2423,12 +2485,12 @@ server <- function(input, output, session) {
   output$geneSetexpression_UI <- renderUI({
     tagList(
       selectInput(
-        "geneSetexpression_projection_to_display", label = "Projection:",
-        choices = names(sample_data()$projections)
-      ),
-      selectInput(
         "geneSetexpression_select_geneSet", label = "Gene set:",
         choices = c("-", unique(geneSets()$gs_name)), selected = "-"
+      ),
+      selectInput(
+        "geneSetexpression_projection_to_display", label = "Projection:",
+        choices = names(sample_data()$projections)
       ),
       shinyWidgets::pickerInput(
         "geneSetexpression_samples_to_display", label = "Samples to display:",
@@ -2442,12 +2504,19 @@ server <- function(input, output, session) {
         selected = sample_data()$clusters$overview$cluster,
         options = list("actions-box"=TRUE), multiple = TRUE
       ),
+      sliderInput("geneSetexpression_percentage_cells_to_show",
+        label = "Show % of cells",
+        min = 10,
+        max = 100,
+        step = 10,
+        value = 100
+      ),
       selectInput(
         "geneSetexpression_plotting_order", label = "Plotting order:",
         choices = c("Random", "Highest expression on top")
       ),
       sliderInput(
-        "geneSetexpression_projection_dot.size", label = "Point size:",
+        "geneSetexpression_projection_dot_size", label = "Point size:",
         min = 0, max = 50, value = 25, step = 1
       ),
       sliderInput(
@@ -2502,6 +2571,13 @@ server <- function(input, output, session) {
           pattern = paste0("^", clusters_to_display, "$", collapse = "|")
         )
       )
+    # randomly remove cells
+    if ( input$geneSetexpression_percentage_cells_to_show < 100 ) {
+      number_of_cells_to_plot <- ceiling(
+        input$geneSetexpression_percentage_cells_to_show / 100 * length(cells_to_display)
+      )
+      cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+    }
     to_plot <- cbind(
         sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
         sample_data()$cells[ cells_to_display , ]
@@ -2537,7 +2613,7 @@ server <- function(input, output, session) {
           input$geneSetexpression_projection_scale_y_manual_range[1],
           input$geneSetexpression_projection_scale_y_manual_range[2]
         ),
-      point_size = input$geneSetexpression_projection_dot.size,
+      point_size = input$geneSetexpression_projection_dot_size,
       col_var = to_plot$level,
       col_lab = "Gene expression",
       col_continuous = TRUE,
@@ -2955,7 +3031,7 @@ ui <- dashboardPage(
                 status = "primary", solidHeader = TRUE, width = 12,
                 collapsible = TRUE,
                 scatterD3::scatterD3Output(
-                  "overview.projection", height = "720px"
+                  "overview_projection", height = "720px"
                 )
               )
             )
