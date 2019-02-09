@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Joshua Kunst" />
+
+
+<title>Charting Maps</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Charting Maps</h1>
+<h4 class="author"><em>Joshua Kunst</em></h4>
+
+
+
+<div id="basics" class="section level2">
+<h2>Basics</h2>
+<p>The easiest way to chart a map with highcharter is using <code>hcmap</code> function. Select a map (a url) from the highmaps collection <a href="https://code.highcharts.com/mapdata/" class="uri">https://code.highcharts.com/mapdata/</a>. and use the url as a map in <code>hcmap</code> function. This will download the map and create a  object using the info as a <code>mapData</code> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hcmap</span>(<span class="st">&quot;countries/nz/nz-all&quot;</span>)
+<span class="kw">hcmap</span>(<span class="st">&quot;custom/usa-and-canada&quot;</span>, <span class="dt">showInLegend =</span> <span class="ot">FALSE</span>)
+<span class="kw">hcmap</span>(<span class="st">&quot;countries/us/us-ca-all&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text =</span> <span class="st">&quot;California&quot;</span>)</code></pre></div>
+<p><strong>Note</strong>: <em>The copyright information is added to the chart credits by default, but please be aware that you will have to display this information somewhere else if you choose to disable chart credits. Copyright information for each map can be found as properties in the GeoJSON and Javascript files</em>.</p>
+</div>
+<div id="choropleths" class="section level2">
+<h2>Choropleths</h2>
+<p>What about add data to get a choropleth? Every map downloaded from the highcharts maps collection have keys to join data. There are 2 functions to help to know what are the regions coded to know how to join the map and data:</p>
+<ul>
+<li><code>download_map_data</code>: Download the geojson data from the highcharts collection.</li>
+<li><code>get_data_from_map</code>: Get the properties for each region in the map, as the keys from the map data.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(dplyr)
+
+mapdata &lt;-<span class="st"> </span><span class="kw">get_data_from_map</span>(<span class="kw">download_map_data</span>(<span class="st">&quot;countries/us/us-all&quot;</span>))
+<span class="kw">glimpse</span>(mapdata)
+
+<span class="kw">set.seed</span>(<span class="dv">1234</span>)
+
+data_fake &lt;-<span class="st"> </span>mapdata <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="dt">code =</span> <span class="st">`</span><span class="dt">hc-a2</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">value =</span> <span class="fl">1e5</span> <span class="op">*</span><span class="st"> </span><span class="kw">abs</span>(<span class="kw">rt</span>(<span class="kw">nrow</span>(.), <span class="dt">df =</span> <span class="dv">10</span>)))
+
+<span class="kw">glimpse</span>(data_fake)</code></pre></div>
+<p>If we compare this 2 data frames the <code>hc-key</code> is same code that <code>code</code>. So we’ll use these columns as keys:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hcmap</span>(<span class="st">&quot;countries/us/us-all&quot;</span>, <span class="dt">data =</span> data_fake, <span class="dt">value =</span> <span class="st">&quot;value&quot;</span>,
+      <span class="dt">joinBy =</span> <span class="kw">c</span>(<span class="st">&quot;hc-a2&quot;</span>, <span class="st">&quot;code&quot;</span>), <span class="dt">name =</span> <span class="st">&quot;Fake data&quot;</span>,
+      <span class="dt">dataLabels =</span> <span class="kw">list</span>(<span class="dt">enabled =</span> <span class="ot">TRUE</span>, <span class="dt">format =</span> <span class="st">&quot;{point.name}&quot;</span>),
+      <span class="dt">borderColor =</span> <span class="st">&quot;#FAFAFA&quot;</span>, <span class="dt">borderWidth =</span> <span class="fl">0.1</span>,
+      <span class="dt">tooltip =</span> <span class="kw">list</span>(<span class="dt">valueDecimals =</span> <span class="dv">2</span>, <span class="dt">valuePrefix =</span> <span class="st">&quot;$&quot;</span>, <span class="dt">valueSuffix =</span> <span class="st">&quot;USD&quot;</span>)) </code></pre></div>
+</div>
+<div id="adding-more-data" class="section level2">
+<h2>Adding More Data</h2>
+<p>With highcharter is possible add data as points or bubbles. For this it is necessary a data frame with <code>lat</code>, <code>lon</code> columns, and <code>name</code>, <code>z</code> are optional:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cities &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;London&quot;</span>, <span class="st">&quot;Birmingham&quot;</span>, <span class="st">&quot;Glasgow&quot;</span>, <span class="st">&quot;Liverpool&quot;</span>),
+  <span class="dt">lat =</span> <span class="kw">c</span>(<span class="fl">51.507222</span>, <span class="fl">52.483056</span>, <span class="fl">55.858</span>, <span class="fl">53.4</span>),
+  <span class="dt">lon =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.1275</span>, <span class="op">-</span><span class="fl">1.893611</span>, <span class="op">-</span><span class="fl">4.259</span>, <span class="op">-</span><span class="dv">3</span>),
+  <span class="dt">z =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>)
+)
+
+<span class="kw">hcmap</span>(<span class="st">&quot;countries/gb/gb-all&quot;</span>, <span class="dt">showInLegend =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">data =</span> cities, <span class="dt">type =</span> <span class="st">&quot;mapbubble&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;Cities&quot;</span>, <span class="dt">maxSize =</span> <span class="st">'10%'</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_mapNavigation</span>(<span class="dt">enabled =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Another example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airports &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://commondatastorage.googleapis.com/ckannet-storage/2012-07-09T214020/global_airports.csv&quot;</span>)
+airports &lt;-<span class="st"> </span><span class="kw">filter</span>(airports, country <span class="op">==</span><span class="st"> &quot;Australia&quot;</span>, name <span class="op">!=</span><span class="st"> &quot;Roma Street Railway Station&quot;</span>)
+
+airports &lt;-<span class="st"> </span><span class="kw">rename</span>(airports, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude)
+
+<span class="kw">glimpse</span>(airports)
+
+<span class="kw">hcmap</span>(<span class="st">&quot;countries/au/au-all&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;Australia&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">data =</span> airports, <span class="dt">type =</span> <span class="st">&quot;mappoint&quot;</span>,
+                <span class="dt">name =</span> <span class="st">&quot;Airports&quot;</span>, <span class="dt">maxSize =</span> <span class="st">&quot;10&quot;</span>, 
+                 <span class="dt">tooltip =</span> <span class="kw">list</span>(<span class="dt">pointFormat =</span> <span class="st">&quot;{point.name}: {point.altitude:,.0f} feets&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">hc_chart</span>(<span class="dt">zoomType =</span> <span class="st">&quot;xy&quot;</span>)</code></pre></div>
+</div>
+<div id="advanced-maps" class="section level2">
+<h2>Advanced Maps</h2>
+<p>Sometime you will need to use other source of maps. You can load geojson as a list. For example a good resource for geojson countries is <a href="https://github.com/johan/world.geo.json" class="uri">https://github.com/johan/world.geo.json</a>. Just ensure use <code>geojson = TRUE</code> to internally transform the list in a format usable for highcharts.</p>
+<p>Let’s download some geojson file and make a map.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">getContent &lt;-<span class="st"> </span><span class="cf">function</span>(url) {
+  <span class="kw">library</span>(httr)
+  <span class="kw">content</span>(<span class="kw">GET</span>(url))
+}
+
+world &lt;-<span class="st"> </span><span class="kw">getContent</span>(<span class="st">&quot;https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json&quot;</span>)
+<span class="co"># is text</span>
+world &lt;-<span class="st"> </span>jsonlite<span class="op">::</span><span class="kw">fromJSON</span>(world, <span class="dt">simplifyVector =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># http://cedeusdata.geosteiniger.cl/layers/geonode:mundo_corrientes_maritimas</span>
+marine &lt;-<span class="st"> </span><span class="kw">getContent</span>(<span class="st">&quot;http://cedeusdata.geosteiniger.cl/geoserver/wfs?srsName=EPSG%3A4326&amp;typename=geonode%3Amundo_corrientes_maritimas&amp;outputFormat=json&amp;version=1.0.0&amp;service=WFS&amp;request=GetFeature&quot;</span>)
+<span class="co"># marine &lt;- geojsonio::as.json(marine)</span>
+
+
+<span class="co"># http://cedeusdata.geosteiniger.cl/layers/geonode:mundo_limites_placas</span>
+plates &lt;-<span class="st"> </span><span class="kw">getContent</span>(<span class="st">&quot;http://cedeusdata.geosteiniger.cl/geoserver/wfs?srsName=EPSG%3A4326&amp;typename=geonode%3Amundo_limites_placas&amp;outputFormat=json&amp;version=1.0.0&amp;service=WFS&amp;request=GetFeature&quot;</span>)
+<span class="co"># plates &lt;- geojsonio::as.json(plates)</span>
+
+<span class="co"># http://cedeusdata.geosteiniger.cl/layers/geonode:mundo_volcanes</span>
+volcano &lt;-<span class="st"> </span><span class="kw">getContent</span>(<span class="st">&quot;http://cedeusdata.geosteiniger.cl/geoserver/wfs?srsName=EPSG%3A4326&amp;typename=geonode%3Amundo_volcanes&amp;outputFormat=json&amp;version=1.0.0&amp;service=WFS&amp;request=GetFeature&quot;</span>)
+<span class="co"># volcano &lt;- geojsonio::as.json(volcano)</span></code></pre></div>
+<p>The data is ready. Remember you can keep using the rest of the API to customize your map.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">highchart</span>(<span class="dt">type =</span> <span class="st">&quot;map&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_chart</span>(<span class="dt">backgroundColor =</span> <span class="st">&quot;#161C20&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">mapData =</span> world, <span class="dt">showInLegend =</span> <span class="ot">FALSE</span>, <span class="dt">nullColor =</span> <span class="st">&quot;#424242&quot;</span>,
+                <span class="dt">borderWidth =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">data =</span> marine, <span class="dt">type =</span> <span class="st">&quot;mapline&quot;</span>, <span class="dt">geojson =</span> <span class="ot">TRUE</span>,
+                <span class="dt">color =</span> <span class="st">&quot;#2980b9&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;Marine currents&quot;</span>,
+                <span class="dt">tooltip =</span> <span class="kw">list</span>(<span class="dt">pointFormat =</span> <span class="st">&quot;{point.properties.NOMBRE}&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">data =</span> plates, <span class="dt">type =</span> <span class="st">&quot;mapline&quot;</span>, <span class="dt">lineWidth =</span> <span class="dv">2</span>, <span class="dt">zIndex =</span> <span class="op">-</span><span class="dv">1</span>,
+                <span class="dt">geojson =</span> <span class="ot">TRUE</span>,
+                <span class="dt">color =</span> <span class="st">&quot;#d35400&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;Plates&quot;</span>,
+                <span class="dt">tooltip =</span> <span class="kw">list</span>(<span class="dt">pointFormat =</span> <span class="st">&quot;{point.properties.TIPO}&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">data =</span> volcano, <span class="dt">type =</span> <span class="st">&quot;mappoint&quot;</span>,
+                <span class="dt">color =</span> <span class="kw">hex_to_rgba</span>(<span class="st">&quot;#f1c40f&quot;</span>, <span class="fl">0.4</span>),
+                <span class="dt">geojson =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">&quot;Volcanos&quot;</span>,
+                <span class="dt">tooltip =</span> <span class="kw">list</span>(<span class="dt">pointFormat =</span> <span class="st">&quot;{point.properties.NOMBRE}&quot;</span>),
+                <span class="dt">marker =</span> <span class="kw">list</span>(<span class="dt">lineWidth =</span> <span class="dv">0</span>, <span class="dt">radius =</span> <span class="dv">2</span>))</code></pre></div>
+</div>
+<div id="geojsonio-package" class="section level2">
+<h2><code>geojsonio</code> Package</h2>
+<p>Highcharts support <code>geo_json</code> classes from the <code>geojsonio</code> package. So you can use <code>hc_add_series</code> as usual without use <code>geojson = TRUE</code> parameter/argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(geojsonio)
+
+ausgeojson &lt;-<span class="st"> </span>httr<span class="op">::</span><span class="kw">GET</span>(<span class="st">&quot;https://raw.githubusercontent.com/johan/world.geo.json/master/countries/AUS.geo.json&quot;</span>)
+ausgeojson &lt;-<span class="st"> </span>httr<span class="op">::</span><span class="kw">content</span>(ausgeojson)
+ausgeojson &lt;-<span class="st"> </span>jsonlite<span class="op">::</span><span class="kw">fromJSON</span>(ausgeojson, <span class="dt">simplifyVector =</span> <span class="ot">FALSE</span>)
+ausgeojson &lt;-<span class="st"> </span>geojsonio<span class="op">::</span><span class="kw">as.json</span>(ausgeojson)
+<span class="kw">class</span>(ausgeojson)
+
+<span class="co"># http://openflights.org/data.html</span>
+airports &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://commondatastorage.googleapis.com/ckannet-storage/2012-07-09T214020/global_airports.csv&quot;</span>)
+airports &lt;-<span class="st"> </span><span class="kw">filter</span>(airports, country <span class="op">==</span><span class="st"> &quot;Australia&quot;</span>, name <span class="op">!=</span><span class="st"> &quot;Roma Street Railway Station&quot;</span>)
+
+airp_geojson &lt;-<span class="st"> </span><span class="kw">geojson_json</span>(airports, <span class="dt">lat =</span> <span class="st">&quot;latitude&quot;</span>, <span class="dt">lon =</span> <span class="st">&quot;longitude&quot;</span>)
+<span class="kw">class</span>(airp_geojson)
+
+<span class="kw">highchart</span>(<span class="dt">type =</span> <span class="st">&quot;map&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">mapData =</span> ausgeojson, <span class="dt">showInLegend =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">hc_add_series</span>(<span class="dt">data =</span> airp_geojson, <span class="dt">type =</span> <span class="st">&quot;mappoint&quot;</span>,
+                <span class="dt">dataLabels =</span> <span class="kw">list</span>(<span class="dt">enabled =</span> <span class="ot">FALSE</span>),
+                <span class="dt">name =</span> <span class="st">&quot;Airports&quot;</span>, <span class="dt">tooltip =</span> <span class="kw">list</span>(<span class="dt">pointFormat =</span> <span class="st">&quot;{point.name}&quot;</span>)) </code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

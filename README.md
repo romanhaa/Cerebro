@@ -60,6 +60,9 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [x] Don't scroll menu on the left.
 * [x] Replace old app names.
 * [x] Write `Cerebro` in bold and with bigger letters.
+* [x] Split UI and server into different files.
+* [x] Check if colMeans can be improved.
+  * Runs in C, super fast already.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
 * [ ] Format average UMI and expressed gene counts.
@@ -81,6 +84,10 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * How to interpret distances in t-SNE: <https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne>
 * [ ] Make generic function that can take any Seurat object and extract at least enough information for display in Cerebro.
   * Maybe adjustments to Cerebro is necessary (display message if data is not available).
+  * Define what data is available and what isn't if extracting from Seurat object.
+* [ ] Adjust default data that is loaded in the app.
+* [ ] Try highcharter for scatter plots.
+* [ ] Disable zoom in scatterD3.
 
 ## Changelog
 

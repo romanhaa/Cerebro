@@ -1,0 +1,51 @@
+Package: highcharter
+Type: Package
+Version: 0.7.0
+Title: A Wrapper for the 'Highcharts' Library
+Description: A wrapper for the 'Highcharts' library including
+    shortcut functions to plot R objects. 'Highcharts'
+    <http://www.highcharts.com/> is a charting library offering
+    numerous chart types with a simple configuration syntax.
+Authors@R: c(
+  person("Joshua", "Kunst", role = c("aut", "cre"), email = "jbkunst@gmail.com"),
+  person("Nuno", "Agostinho", role = c("ctb"), comment  = "hchart.survfit, densities and hc_add_series_scatter"),
+  person("Danton", "Noriega", role = c("ctb"), comment  = "hcaes_"),
+  person("Martin John ", "Hadley", role = c("ctb"), comment  = "hc_add_event_point improvement"),
+  person("Eduardo", "Flores", role = c("ctb"), comment  = "First version hc_add_series_df_tidy"),
+  person("Dean", "Kilfoyle", role = c("ctb"), comment  = "First version hc_add_series_boxplot"),
+  person("Adline", "Dsilva", role = c("ctb"), comment  = "First version Matrix heatmap"),
+  person("Kamil", "Slowikowski", role = c("ctb"), comment = c(ORCID = "0000-0002-2843-6370")),
+  person("Christian", "Minich", role = c("ctb"), comment  = "hcaes mutate_mapping improvement"),
+  person("Jonathan", "Armond", role = c("ctb"), comment = "mutate_mapping bugfix")
+  )
+URL: http://jkunst.com/highcharter
+BugReports: https://github.com/jbkunst/highcharter/issues
+License: MIT + file LICENSE
+RoxygenNote: 6.1.1
+Encoding: UTF-8
+Depends: R (>= 2.10)
+Imports: htmlwidgets, magrittr, purrr, rlist, assertthat, zoo, dplyr
+        (>= 0.7.0), tibble (>= 1.1), stringr, broom, xts, quantmod,
+        tidyr, htmltools, jsonlite, igraph, lubridate, crosstalk, yaml,
+        rlang(>= 0.1.1), whisker
+Suggests: knitr, rmarkdown, survival, ggplot2, httr, viridisLite,
+        shiny, MASS, gapminder
+VignetteBuilder: knitr
+LazyData: true
+NeedsCompilation: no
+Packaged: 2019-01-15 16:23:07 UTC; jkunstf
+Author: Joshua Kunst [aut, cre],
+  Nuno Agostinho [ctb] (hchart.survfit, densities and
+    hc_add_series_scatter),
+  Danton Noriega [ctb] (hcaes_),
+  Martin John Hadley [ctb] (hc_add_event_point improvement),
+  Eduardo Flores [ctb] (First version hc_add_series_df_tidy),
+  Dean Kilfoyle [ctb] (First version hc_add_series_boxplot),
+  Adline Dsilva [ctb] (First version Matrix heatmap),
+  Kamil Slowikowski [ctb] (<https://orcid.org/0000-0002-2843-6370>),
+  Christian Minich [ctb] (hcaes mutate_mapping improvement),
+  Jonathan Armond [ctb] (mutate_mapping bugfix)
+Maintainer: Joshua Kunst <jbkunst@gmail.com>
+Repository: CRAN
+Date/Publication: 2019-01-15 16:50:03 UTC
+Built: R 3.5.2; ; 2019-01-16 05:31:22 UTC; unix
