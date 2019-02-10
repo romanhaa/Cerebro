@@ -85,6 +85,21 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Make generic function that can take any Seurat object and extract at least enough information for display in Cerebro.
   * Maybe adjustments to Cerebro is necessary (display message if data is not available).
   * Define what data is available and what isn't if extracting from Seurat object.
+  * Absolute minimum of data required:
+    * Sample information
+      * experiment name
+      * organism
+    * Meta data (object@meta.data) (column names can be specified in function call)
+      * sample
+      * cluster
+      * nUMI
+      * nGene
+    * Expression data (object@data)
+    * Dimensional reduction (at least 1, more is ok as well):
+      * Either t-SNE or UMAP, not PCA.
+  * Optional extras
+    * Meta data
+      * cell cycle (specify as function parameter)
 * [ ] Adjust default data that is loaded in the app.
 * [ ] Try highcharter for scatter plots.
 * [ ] Disable zoom in scatterD3.

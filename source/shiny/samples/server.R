@@ -235,7 +235,7 @@ output$samples_box_percent_mt_plot <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~sample,
-    y = ~percent_mt,
+    y = ~percent_mt*100,
     type = "box",
     color = ~sample,
     colors = sample_data()$samples$colors,
@@ -248,7 +248,7 @@ output$samples_box_percent_mt_plot <- plotly::renderPlotly({
     title = "",
     xaxis = list(title = ""),
     yaxis = list(title = "Percentage of mitochondrial gene expression",
-      range = c(0,1), hoverformat = ".2f"),
+      range = c(0,100), hoverformat = ".2f"),
     dragmode = "select",
     hovermode = "compare"
   )
@@ -283,7 +283,7 @@ output$samples_box_percent_ribo_plot <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~sample,
-    y = ~percent_ribo,
+    y = ~percent_ribo*100,
     type = "box",
     color = ~sample,
     colors = sample_data()$samples$colors,
@@ -296,7 +296,7 @@ output$samples_box_percent_ribo_plot <- plotly::renderPlotly({
     title = "",
     xaxis = list(title = ""),
     yaxis = list(title = "Percentage of ribosomal gene expression",
-      range = c(0,1), hoverformat = ".2f"),
+      range = c(0,100), hoverformat = ".2f"),
     dragmode = "select",
     hovermode = "compare"
   )
