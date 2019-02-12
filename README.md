@@ -103,6 +103,8 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Adjust default data that is loaded in the app.
 * [ ] Try highcharter for scatter plots.
 * [ ] Disable zoom in scatterD3.
+* [ ] Fix order of clusters.
+* [ ] Check what's going on with missing strings in sample info / analysis info.
 
 ## Changelog
 
