@@ -203,100 +203,102 @@ output$overview_projection <- scatterD3::renderScatterD3({
       "<b>Sample</b>: ", to_plot[ , "sample" ], "<br/>",
       "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
       "<b>nUMI</b>: ", to_plot[ , "nUMI" ], "<br/>",
-      "<b>nGene</b>: ", to_plot[ , "nGene" ], "<br/>",
-      "<b>Expr. MT</b>: ", format(to_plot[ , "percent_mt" ]*100, digits=1), "%<br/>",
-      "<b>Expr. ribo</b>: ", format(to_plot[ , "percent_ribo" ]*100, digits=1), "%<br/>"))
+      "<b>nGene</b>: ", to_plot[ , "nGene" ], "<br/>"
+    )
+  )
+#      "<b>Expr. MT</b>: ", format(to_plot[ , "percent_mt" ]*100, digits=1), "%<br/>",
+#      "<b>Expr. ribo</b>: ", format(to_plot[ , "percent_ribo" ]*100, digits=1), "%<br/>"))
 })
 
-output$overview_projection_highcharter <- renderHighchart({
+# output$overview_projection_highcharter <- renderHighchart({
 
-  # don't do anything before these inputs are selected
-  req(input$overview_projection_to_display)
-  req(input$overview_samples_to_display)
-  req(input$overview_clusters_to_display)
-  req(input$overview_scale_x_manual_range)
+#   # don't do anything before these inputs are selected
+#   req(input$overview_projection_to_display)
+#   req(input$overview_samples_to_display)
+#   req(input$overview_clusters_to_display)
+#   req(input$overview_scale_x_manual_range)
 
-  # define which projection should be plotted
-  if ( is.null(input$overview_projection_to_display) || is.na(input$overview_projection_to_display) ) {
-    projection_to_display <- names(sample_data()$projections)[1]
-  } else {
-    projection_to_display <- input$overview_projection_to_display
-  }
+#   # define which projection should be plotted
+#   if ( is.null(input$overview_projection_to_display) || is.na(input$overview_projection_to_display) ) {
+#     projection_to_display <- names(sample_data()$projections)[1]
+#   } else {
+#     projection_to_display <- input$overview_projection_to_display
+#   }
   
-  # define which samples should be plotted
-  if ( is.null(input$overview_samples_to_display) || is.na(input$overview_samples_to_display) ) {
-    samples_to_display <- sample_data()$samples$overview$sample
-  } else {
-    samples_to_display <- input$overview_samples_to_display
-  }
+#   # define which samples should be plotted
+#   if ( is.null(input$overview_samples_to_display) || is.na(input$overview_samples_to_display) ) {
+#     samples_to_display <- sample_data()$samples$overview$sample
+#   } else {
+#     samples_to_display <- input$overview_samples_to_display
+#   }
 
-  # define which clusters should be plotted
-  if ( is.null(input$overview_clusters_to_display) || is.na(input$overview_clusters_to_display) ) {
-    clusters_to_display <- sample_data()$clusters$overview$cluster
-  } else {
-    clusters_to_display <- input$overview_clusters_to_display
-  }
+#   # define which clusters should be plotted
+#   if ( is.null(input$overview_clusters_to_display) || is.na(input$overview_clusters_to_display) ) {
+#     clusters_to_display <- sample_data()$clusters$overview$cluster
+#   } else {
+#     clusters_to_display <- input$overview_clusters_to_display
+#   }
 
-  # define which cells should be plotted
-  cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", samples_to_display, "$", collapse="|")
-      ) & 
-      grepl(
-        sample_data()$cells$cluster,
-        pattern = paste0("^", clusters_to_display, "$", collapse="|")
-      )
-    )
+#   # define which cells should be plotted
+#   cells_to_display <- which(
+#       grepl(
+#         sample_data()$cells$sample,
+#         pattern = paste0("^", samples_to_display, "$", collapse="|")
+#       ) & 
+#       grepl(
+#         sample_data()$cells$cluster,
+#         pattern = paste0("^", clusters_to_display, "$", collapse="|")
+#       )
+#     )
 
-  # randomly remove cells
-  if ( input$overview_percentage_cells_to_show < 100 ) {
-    number_of_cells_to_plot <- ceiling(
-      input$overview_percentage_cells_to_show / 100 * length(cells_to_display)
-    )
-    cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
-  }
+#   # randomly remove cells
+#   if ( input$overview_percentage_cells_to_show < 100 ) {
+#     number_of_cells_to_plot <- ceiling(
+#       input$overview_percentage_cells_to_show / 100 * length(cells_to_display)
+#     )
+#     cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+#   }
 
-  # extract cells to plot
-  to_plot <- cbind(
-      sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
-      sample_data()$cells[ cells_to_display , ]
-    )
-  to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
+#   # extract cells to plot
+#   to_plot <- cbind(
+#       sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
+#       sample_data()$cells[ cells_to_display , ]
+#     )
+#   to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
-  # define variable used to color cells by
-  col_var <- to_plot[ , input$overview_cell_color ]
+#   # define variable used to color cells by
+#   col_var <- to_plot[ , input$overview_cell_color ]
 
-  # define colors
-  if ( is.null(input$overview_cell_color) || is.na(input$overview_cell_color) ) {
-    colors <- NULL
-  } else if ( input$overview_cell_color == "sample" ) {
-    colors <- sample_data()$samples$colors
-  } else if ( input$overview_cell_color == "cluster" ) {
-    colors <- sample_data()$clusters$colors
-  } else if ( input$overview_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
-    colors <- cell_cycle_colorset
-  } else if ( is.factor(to_plot[,input$overview_cell_color]) ) {
-    colors <- setNames(colors[1:length(levels(to_plot[,input$overview_cell_color]))], levels(to_plot[,input$overview_cell_color]))
-  } else if ( is.character(to_plot[,input$overview_cell_color]) ) {
-    colors <- colors
-  } else {
-    colors <- NULL
-  }
+#   # define colors
+#   if ( is.null(input$overview_cell_color) || is.na(input$overview_cell_color) ) {
+#     colors <- NULL
+#   } else if ( input$overview_cell_color == "sample" ) {
+#     colors <- sample_data()$samples$colors
+#   } else if ( input$overview_cell_color == "cluster" ) {
+#     colors <- sample_data()$clusters$colors
+#   } else if ( input$overview_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+#     colors <- cell_cycle_colorset
+#   } else if ( is.factor(to_plot[,input$overview_cell_color]) ) {
+#     colors <- setNames(colors[1:length(levels(to_plot[,input$overview_cell_color]))], levels(to_plot[,input$overview_cell_color]))
+#   } else if ( is.character(to_plot[,input$overview_cell_color]) ) {
+#     colors <- colors
+#   } else {
+#     colors <- NULL
+#   }
 
-  # define variable used for cell size
-  size_var <- if ( input$overview_cell_size_variable == "None" ) NULL else to_plot[ , input$overview_cell_size_variable ]
+#   # define variable used for cell size
+#   size_var <- if ( input$overview_cell_size_variable == "None" ) NULL else to_plot[ , input$overview_cell_size_variable ]
 
-  # plot
-  data.frame(
-    x = to_plot[ , 1 ],
-    y = to_plot[ , 2 ],
-    color = col_var
-  ) %>%
-  hchart("scatter", hcaes(x, y, color = color)) %>%
-  hc_colors(sample_data()$samples$colors)
+#   # plot
+#   data.frame(
+#     x = to_plot[ , 1 ],
+#     y = to_plot[ , 2 ],
+#     color = col_var
+#   ) %>%
+#   hchart("scatter", hcaes(x, y, color = color)) %>%
+#   hc_colors(sample_data()$samples$colors)
 
-})
+# })
 
 observeEvent(input$overview_projection_info, {
   showModal(

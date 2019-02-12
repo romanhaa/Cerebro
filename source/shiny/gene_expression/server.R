@@ -179,8 +179,10 @@ output$expression_projection <- scatterD3::renderScatterD3({
       "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
       "<b>nUMI</b>: ", to_plot[ , "nUMI" ], "<br/>",
       "<b>nGene</b>: ", to_plot[ , "nGene" ], "<br/>",
-      "<b>Expr. MT</b>: ", format(to_plot[ , "percent_mt"   ]*100, digits = 1), "%<br/>",
-      "<b>Expr. ribo</b>: ", format(to_plot[ , "percent_ribo" ]*100, digits = 1), "%<br/>"))
+      # "<b>Expr. MT</b>: ", format(to_plot[ , "percent_mt"   ]*100, digits = 1), "%<br/>",
+      # "<b>Expr. ribo</b>: ", format(to_plot[ , "percent_ribo" ]*100, digits = 1), "%<br/>"
+    )
+  )
 })
 
 observeEvent(input$expression_projection_info, {
