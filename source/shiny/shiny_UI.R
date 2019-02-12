@@ -30,18 +30,18 @@ ui <- dashboardPage(
   dashboardBody(
     tags$script(HTML('$("body").addClass("fixed");')),
     tabItems(
-      tab_load_data#,
-      # tab_overview,
-      # tab_samples,
-      # tab_clusters,
-      # tab_most_expressed_genes,
-      # tab_marker_genes,
-      # tab_enriched_pathways,
-      # tab_gene_expression,
-      # tab_gene_set_expression,
-      # tab_gene_id_conversion,
-      # tab_analysis_info,
-      # tab_about
+      tab_load_data,
+      tab_overview,
+      tab_samples,
+      tab_clusters,
+      tab_most_expressed_genes,
+      tab_marker_genes,
+      tab_enriched_pathways,
+      tab_gene_expression,
+      tab_gene_set_expression,
+      tab_gene_id_conversion,
+      tab_analysis_info,
+      tab_about
     )
   )
 )
