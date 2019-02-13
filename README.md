@@ -105,6 +105,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Disable zoom in scatterD3.
 * [ ] Fix order of clusters.
 * [ ] Check what's going on with missing strings in sample info / analysis info.
+* [ ] Format cell number on load page to have comma separation.
 
 ## Changelog
 
