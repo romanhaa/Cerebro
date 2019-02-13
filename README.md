@@ -63,6 +63,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [x] Split UI and server into different files.
 * [x] Check if colMeans can be improved.
   * Runs in C, super fast already.
+* [x] Format cell number on load page to have comma separation.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
 * [ ] Format average UMI and expressed gene counts.
@@ -105,7 +106,6 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Disable zoom in scatterD3.
 * [ ] Fix order of clusters.
 * [ ] Check what's going on with missing strings in sample info / analysis info.
-* [ ] Format cell number on load page to have comma separation.
 
 ## Changelog
 
