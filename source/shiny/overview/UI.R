@@ -32,10 +32,10 @@ tab_overview <- tabItem(
             ),
             status = "primary", solidHeader = TRUE, width = 12,
             collapsible = TRUE,
-            scatterD3::scatterD3Output(
-              "overview_projection", height = "720px"
-            )
-            # highcharter::highchartOutput("overview_projection_highcharter")
+            # scatterD3::scatterD3Output(
+            #   "overview_projection", height = "720px"
+            # ),
+            plotly::plotlyOutput("overview_projection_plotly")
           )
         )
       )

@@ -7,8 +7,8 @@ tab_gene_set_expression <- tabItem(
             title = "Input parameters", status = "primary",
             solidHeader = TRUE, width = 12, collapsible = TRUE,
             tagList(
-              uiOutput("geneSetexpression_UI"),
-              uiOutput("geneSetexpression_scales")
+              uiOutput("geneSetExpression_UI"),
+              uiOutput("geneSetExpression_scales")
             )
           )
         ),
@@ -19,13 +19,13 @@ tab_gene_set_expression <- tabItem(
                 style = "padding-right: 5px; display: inline"
               ),
               actionButton(
-                inputId = "geneSetexpression_projection_info",
+                inputId = "geneSetExpression_projection_info",
                 label = "info", icon = NULL, class = "btn-xs",
                 title = "Show additional information for this panel.",
                 style = "margin-right: 5px"
               ),
               actionButton(
-                inputId = "geneSetexpression_projection_export",
+                inputId = "geneSetExpression_projection_export",
                 label = "export to PDF", icon = NULL, class = "btn-xs",
                 title = "Export dimensional reduction to PDF file."
               )
@@ -34,10 +34,10 @@ tab_gene_set_expression <- tabItem(
             collapsible = TRUE,
             tagList(
               scatterD3::scatterD3Output(
-                "geneSetexpression_projection", height = "720px"
+                "geneSetExpression_projection", height = "720px"
               ),
               tags$br(),
-              htmlOutput("geneSetexpression_genes_displayed")
+              htmlOutput("geneSetExpression_genes_displayed")
             )
           )
         )
@@ -49,14 +49,14 @@ tab_gene_set_expression <- tabItem(
               style = "padding-right: 5px; display: inline"
             ),
             actionButton(
-              inputId = "geneSetexpression_by_sample_info", label = "info",
+              inputId = "geneSetExpression_by_sample_info", label = "info",
               icon = NULL, class = "btn-xs",
               title = "Show additional information for this panel."
             )
           ),
           status = "primary", solidHeader = TRUE, width = 12,
           collapsible = TRUE,
-          plotly::plotlyOutput("geneSetexpression_by_sample")
+          plotly::plotlyOutput("geneSetExpression_by_sample")
         )
       ),
       fluidRow(
@@ -66,14 +66,14 @@ tab_gene_set_expression <- tabItem(
             style = "padding-right: 5px; display: inline"
             ),
             actionButton(
-              inputId = "geneSetexpression_by_cluster_info", label = "info",
+              inputId = "geneSetExpression_by_cluster_info", label = "info",
               icon = NULL, class = "btn-xs",
               title = "Show additional information for this panel."
             )
           ),
           status = "primary", solidHeader = TRUE, width = 12,
           collapsible = TRUE,
-          plotly::plotlyOutput("geneSetexpression_by_cluster")
+          plotly::plotlyOutput("geneSetExpression_by_cluster")
         )
       )
     )

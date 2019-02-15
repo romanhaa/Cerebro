@@ -70,6 +70,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [x] Change color scale in scatterD3 and export functions to `YlGnBu`.
   * Required adding `d3-scale-chromatic.v.0.3.min.js` to scatterD3 and change object name inside.
   * Eventually consider making this a variable to choose by user, e.g. blue vs red scale.
+* [x] Fix order of clusters.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
 * [ ] Format average UMI and expressed gene counts.
@@ -110,8 +111,13 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Adjust default data that is loaded in the app.
 * [ ] Try highcharter for scatter plots.
 * [ ] Update scatterD3?
-* [ ] Fix order of clusters. What is this?
 * [ ] Check what's going on with missing strings in sample info / analysis info.
+* [ ] Make scatterD3 changes also for R in Windows.
+* [ ] Check if `require()` could be a way to make startup faster.
+* [ ] Make list of what to ask Hadley.
+  * Is is ok to use `require()` in this case?
+  * What skills are necessary for RStudio employees?
+  * Idea to speed up plots with so many cells?
 
 ## Changelog
 

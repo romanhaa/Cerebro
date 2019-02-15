@@ -1,10 +1,12 @@
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 ## Panel: Most expressed genes.
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Sample.
+##----------------------------------------------------------------------------##
 
-# by sample
+# UI element
 output$most_expressed_genes_by_sample_UI <- renderUI({
   if ( !is.null(sample_data()$most_expressed_genes$by_sample) ) {
     fluidRow(
@@ -19,6 +21,7 @@ output$most_expressed_genes_by_sample_UI <- renderUI({
   }
 })
 
+# table
 output$most_expressed_genes_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
   req(input$most_expressed_genes_by_sample_input)
   sample_data()$most_expressed_genes$by_sample %>%
@@ -79,10 +82,12 @@ output$most_expressed_genes_by_sample_table_present <- DT::renderDataTable(serve
   DT::formatStyle("% of total expression", textAlign = "right")
 })
 
+# alternative text
 output$most_expressed_genes_by_sample_table_missing <- renderText({
     "Data not available."
   })
 
+# info box
 observeEvent(input$most_expressed_genes_by_sample_info, {
   showModal(
     modalDialog(
@@ -93,9 +98,11 @@ observeEvent(input$most_expressed_genes_by_sample_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Cluster.
+##----------------------------------------------------------------------------##
 
-# by cluster
+# UI element
 output$most_expressed_genes_by_cluster_UI <- renderUI({
   if ( !is.null(sample_data()$most_expressed_genes$by_cluster) ) {
     fluidRow(
@@ -110,6 +117,7 @@ output$most_expressed_genes_by_cluster_UI <- renderUI({
   }
 })
 
+# table
 output$most_expressed_genes_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
   req(input$most_expressed_genes_by_cluster_input)
   sample_data()$most_expressed_genes$by_cluster %>%
@@ -170,10 +178,12 @@ output$most_expressed_genes_by_cluster_table_present <- DT::renderDataTable(serv
   DT::formatStyle("% of total expression", textAlign = "right")
 })
 
+# alternative text
 output$most_expressed_genes_by_cluster_table_missing <- renderText({
     "Data not available."
   })
 
+# info box
 observeEvent(input$most_expressed_genes_by_cluster_info, {
   showModal(
     modalDialog(

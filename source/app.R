@@ -65,10 +65,10 @@ for ( package in required_packages_CRAN ) {
 ##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
-library("dplyr")
-library("formattable")
-library("shiny")
-library("shinydashboard")
+require("dplyr")
+require("formattable")
+require("shiny")
+require("shinydashboard")
 #require("highcharter")
 
 ##----------------------------------------------------------------------------##

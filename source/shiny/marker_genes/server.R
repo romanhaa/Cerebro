@@ -3,8 +3,10 @@
 ##--------------------------------------------------------------------------##
 
 ##--------------------------------------------------------------------------##
+## Sample.
+##--------------------------------------------------------------------------##
 
-# by sample
+# UI element
 output$marker_genes_by_sample_UI <- renderUI({
   if ( nrow(sample_data()$samples$overview) > 1 & !is.null(sample_data()$marker_genes$by_sample) ) {
     fluidRow(
@@ -21,6 +23,7 @@ output$marker_genes_by_sample_UI <- renderUI({
   }
 })
 
+# table
 output$marker_genes_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
   req(input$marker_genes_by_sample_input)
   if ( "on_cell_surface" %in% colnames(sample_data()$marker_genes$by_sample) ) {
@@ -114,10 +117,12 @@ output$marker_genes_by_sample_table_present <- DT::renderDataTable(server = FALS
   )
 })
 
+# alternative text
 output$marker_genes_by_sample_table_missing <- renderText({
     "Only 1 sample in this data set or data not available."
   })
 
+# info box
 observeEvent(input$marker_genes_by_sample_info, {
   showModal(
     modalDialog(
@@ -129,8 +134,10 @@ observeEvent(input$marker_genes_by_sample_info, {
 })
 
 ##--------------------------------------------------------------------------##
+## Cluster.
+##--------------------------------------------------------------------------##
 
-# by cluster
+# UI element
 output$marker_genes_by_cluster_UI <- renderUI({
   if ( nrow(sample_data()$clusters$overview) > 1 & !is.null(sample_data()$marker_genes$by_cluster) ) {
     fluidRow(
@@ -147,6 +154,7 @@ output$marker_genes_by_cluster_UI <- renderUI({
   }
 })
 
+# table
 output$marker_genes_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
   req(input$marker_genes_by_cluster_input)
   if ("on_cell_surface" %in% colnames(sample_data()$marker_genes$by_cluster)) {
@@ -238,10 +246,12 @@ output$marker_genes_by_cluster_table_present <- DT::renderDataTable(server = FAL
   )
 })
 
+# alternative text
 output$marker_genes_by_cluster_table_missing <- renderText({
     "Only 1 cluster in this data set or data not available."
   })
 
+# info box
 observeEvent(input$marker_genes_by_cluster_info, {
   showModal(
     modalDialog(

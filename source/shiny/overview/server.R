@@ -1,10 +1,10 @@
-
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 ## Panel: Overview.
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 
-##--------------------------------------------------------------------------##
-
+##----------------------------------------------------------------------------##
+## UI elements.
+##----------------------------------------------------------------------------##
 output$overview_UI <- renderUI({
   tagList(
     selectInput("overview_projection_to_display", label = "Projection",
@@ -13,16 +13,16 @@ output$overview_UI <- renderUI({
     shinyWidgets::pickerInput(
       "overview_samples_to_display",
       label = "Samples to display",
-      choices = sample_data()$samples$overview$sample,
-      selected = sample_data()$samples$overview$sample,
+      choices = levels(sample_data()$cells$sample),
+      selected = levels(sample_data()$cells$sample),
       options = list("actions-box" = TRUE),
       multiple = TRUE
     ),
     shinyWidgets::pickerInput(
       "overview_clusters_to_display",
       label = "Clusters to display",
-      choices = sample_data()$clusters$overview$cluster,
-      selected = sample_data()$clusters$overview$cluster,
+      choices = levels(sample_data()$cells$cluster),
+      selected = levels(sample_data()$cells$cluster),
       options = list("actions-box" = TRUE),
       multiple = TRUE
     ),
@@ -69,8 +69,9 @@ output$overview_UI <- renderUI({
   )
 })
 
-##--------------------------------------------------------------------------##
-
+##----------------------------------------------------------------------------##
+## UI elements for X and Y limits in projection.
+##----------------------------------------------------------------------------##
 output$overview_scales <- renderUI({
   projection_to_display <- if ( is.null(input$overview_projection_to_display) || is.na(input$overview_projection_to_display) ) names(sample_data()$projections)[1] else input$overview_projection_to_display
   range_x_min <- round(min(sample_data()$projections[[ projection_to_display ]][,1])*1.1)
@@ -95,8 +96,9 @@ output$overview_scales <- renderUI({
   )
 })
 
-##--------------------------------------------------------------------------##
-
+##----------------------------------------------------------------------------##
+## Projection.
+##----------------------------------------------------------------------------##
 output$overview_projection <- scatterD3::renderScatterD3({
 
   # don't do anything before these inputs are selected
@@ -211,6 +213,98 @@ output$overview_projection <- scatterD3::renderScatterD3({
   )
 })
 
+output$overview_projection_plotly <- plotly::renderPlotly({
+  # don't do anything before these inputs are selected
+  req(input$overview_projection_to_display)
+  req(input$overview_samples_to_display)
+  req(input$overview_clusters_to_display)
+  req(input$overview_scale_x_manual_range)
+
+  # define which projection should be plotted
+  if ( is.null(input$overview_projection_to_display) || is.na(input$overview_projection_to_display) ) {
+    projection_to_display <- names(sample_data()$projections)[1]
+  } else {
+    projection_to_display <- input$overview_projection_to_display
+  }
+  
+  # define which samples should be plotted
+  if ( is.null(input$overview_samples_to_display) || is.na(input$overview_samples_to_display) ) {
+    samples_to_display <- sample_data()$samples$overview$sample
+  } else {
+    samples_to_display <- input$overview_samples_to_display
+  }
+
+  # define which clusters should be plotted
+  if ( is.null(input$overview_clusters_to_display) || is.na(input$overview_clusters_to_display) ) {
+    clusters_to_display <- sample_data()$clusters$overview$cluster
+  } else {
+    clusters_to_display <- input$overview_clusters_to_display
+  }
+
+  # define which cells should be plotted
+  cells_to_display <- which(
+      grepl(
+        sample_data()$cells$sample,
+        pattern = paste0("^", samples_to_display, "$", collapse="|")
+      ) & 
+      grepl(
+        sample_data()$cells$cluster,
+        pattern = paste0("^", clusters_to_display, "$", collapse="|")
+      )
+    )
+
+  # randomly remove cells
+  if ( input$overview_percentage_cells_to_show < 100 ) {
+    number_of_cells_to_plot <- ceiling(
+      input$overview_percentage_cells_to_show / 100 * length(cells_to_display)
+    )
+    cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+  }
+
+  # extract cells to plot
+  to_plot <- cbind(
+      sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
+      sample_data()$cells[ cells_to_display , ]
+    )
+  to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
+
+  # define variable used to color cells by
+  col_var <- to_plot[ , input$overview_cell_color ]
+
+  str(to_plot)
+
+  # define colors
+  if ( is.null(input$overview_cell_color) || is.na(input$overview_cell_color) ) {
+    colors <- NULL
+  } else if ( input$overview_cell_color == "sample" ) {
+    colors <- sample_data()$samples$colors
+  } else if ( input$overview_cell_color == "cluster" ) {
+    colors <- sample_data()$clusters$colors
+  } else if ( input$overview_cell_color %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+    colors <- cell_cycle_colorset
+  } else if ( is.factor(to_plot[,input$overview_cell_color]) ) {
+    colors <- setNames(colors[1:length(levels(to_plot[,input$overview_cell_color]))], levels(to_plot[,input$overview_cell_color]))
+  } else if ( is.character(to_plot[,input$overview_cell_color]) ) {
+    colors <- colors
+  } else {
+    colors <- NULL
+  }
+
+  # define variable used for cell size
+  size_var <- if ( input$overview_cell_size_variable == "None" ) NULL else to_plot[ , input$overview_cell_size_variable ]
+
+  plotly::plot_ly(
+    to_plot,
+    x = ~tSNE1,
+    y = ~tSNE2,
+    color = ~sample,
+    type = "scatter"
+  )# %>%
+  #plotly::toWebGL()
+})
+
+
+
 # output$overview_projection_highcharter <- highcharter::renderHighchart({
 
 #   # don't do anything before these inputs are selected
@@ -301,6 +395,9 @@ output$overview_projection <- scatterD3::renderScatterD3({
 
 # })
 
+##----------------------------------------------------------------------------##
+## Info button.
+##----------------------------------------------------------------------------##
 observeEvent(input$overview_projection_info, {
   showModal(
     modalDialog(
@@ -311,6 +408,9 @@ observeEvent(input$overview_projection_info, {
   )
 })
 
+##----------------------------------------------------------------------------##
+## Export projection.
+##----------------------------------------------------------------------------##
 observeEvent(input$overview_projection_export, {
   library("ggplot2")
 

@@ -1,10 +1,12 @@
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 ## Panel: Enriched pathways
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Samples.
+##----------------------------------------------------------------------------##
 
-# by sample
+# UI element
 output$enriched_pathways_by_sample_UI <- renderUI({
   if ( nrow(sample_data()$samples$overview) > 1 & !is.null(sample_data()$marker_genes$by_sample_annotation) ) {    
     tagList(
@@ -29,6 +31,7 @@ output$enriched_pathways_by_sample_UI <- renderUI({
   }
 })
 
+# table
 output$enriched_pathways_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
   req(input$enriched_pathways_select_sample)
   req(input$enriched_pathways_select_db_for_sample)
@@ -90,10 +93,12 @@ output$enriched_pathways_by_sample_table_present <- DT::renderDataTable(server =
   DT::formatStyle(columns = c("combined score"), textAlign = "right")
 })
 
+# alternative text
 output$enriched_pathways_by_sample_table_missing <- renderText({
     "Only 1 sample in this data set or data not available."
   })
 
+# info box
 observeEvent(input$enriched_pathways_by_sample_info, {
   showModal(
     modalDialog(
@@ -104,9 +109,11 @@ observeEvent(input$enriched_pathways_by_sample_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Clusters.
+##----------------------------------------------------------------------------##
 
-# by cluster
+# UI element
 output$enriched_pathways_by_cluster_UI <- renderUI({
   if ( nrow(sample_data()$clusters$overview) > 1 & !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {    
     tagList(
@@ -131,6 +138,7 @@ output$enriched_pathways_by_cluster_UI <- renderUI({
   }
 })
 
+# table
 output$enriched_pathways_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
   req(input$enriched_pathways_select_cluster)
   req(input$enriched_pathways_select_db_for_cluster)
@@ -191,10 +199,12 @@ output$enriched_pathways_by_cluster_table_present <- DT::renderDataTable(server 
   DT::formatStyle(columns = c("combined score"), textAlign = "right")
 })
 
+# alternative text
 output$enriched_pathways_by_cluster_table_missing <- renderText({
     "Only 1 cluster in this data set or data not available."
   })
 
+# info box
 observeEvent(input$enriched_pathways_by_cluster_info, {
   showModal(
     modalDialog(

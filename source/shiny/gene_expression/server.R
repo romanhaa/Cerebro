@@ -1,8 +1,10 @@
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 ## Panel: Gene expression
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 
-# reactive data
+##----------------------------------------------------------------------------##
+## Reactive data: Genes from user.
+##----------------------------------------------------------------------------##
 genesToPlot <- reactive({
   genesToPlot <- list()
   if ( is.null(input$expression_genes_input) ) {
@@ -33,8 +35,9 @@ output$expression_genes_displayed <- renderText({
   )
 })
 
-##--------------------------------------------------------------------------##
-# UI
+##----------------------------------------------------------------------------##
+## UI elements for projection.
+##----------------------------------------------------------------------------##
 output$expression_UI <- renderUI({
   tagList(
     textAreaInput(
@@ -85,6 +88,9 @@ output$expression_UI <- renderUI({
   )
 })
 
+##----------------------------------------------------------------------------##
+## UI element for X and Y scales in projection.
+##----------------------------------------------------------------------------##
 output$expression_scales <- renderUI({
   projection_to_display <- if ( is.null(input$expression_projection_to_display) || is.na(input$expression_projection_to_display) ) names(sample_data()$projections)[1] else input$expression_projection_to_display
   range_x_min <- round(
@@ -111,9 +117,9 @@ output$expression_scales <- renderUI({
   )
 })
 
-##--------------------------------------------------------------------------##
-
-# projection with scatterD3
+##----------------------------------------------------------------------------##
+## Projection.
+##----------------------------------------------------------------------------##
 output$expression_projection <- scatterD3::renderScatterD3({
   req(input$expression_projection_to_display)
   req(input$expression_samples_to_display)
@@ -185,6 +191,9 @@ output$expression_projection <- scatterD3::renderScatterD3({
   )
 })
 
+##----------------------------------------------------------------------------##
+## Info box.
+##----------------------------------------------------------------------------##
 observeEvent(input$expression_projection_info, {
   showModal(
     modalDialog(
@@ -195,6 +204,9 @@ observeEvent(input$expression_projection_info, {
   )
 })
 
+##----------------------------------------------------------------------------##
+## Export function.
+##----------------------------------------------------------------------------##
 observeEvent(input$expression_projection_export, {
   library("ggplot2")
 
@@ -299,9 +311,11 @@ observeEvent(input$expression_projection_export, {
   }
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Expression by sample.
+##----------------------------------------------------------------------------##
 
-# box plot by sample
+# box plot
 output$expression_by_sample <- plotly::renderPlotly({
   if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
     expression_levels <- 0
@@ -338,6 +352,7 @@ output$expression_by_sample <- plotly::renderPlotly({
   )
 })
 
+# info box
 observeEvent(input$expression_by_sample_info, {
   showModal(
     modalDialog(
@@ -348,9 +363,11 @@ observeEvent(input$expression_by_sample_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Expression by cluster.
+##----------------------------------------------------------------------------##
 
-# box plot by cluster
+# box plot
 output$expression_by_cluster <- plotly::renderPlotly({
   if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
     expression_levels <- 0
@@ -387,6 +404,7 @@ output$expression_by_cluster <- plotly::renderPlotly({
   )
 })
 
+# info box
 observeEvent(input$expression_by_cluster_info, {
   showModal(
     modalDialog(

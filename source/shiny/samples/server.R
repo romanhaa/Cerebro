@@ -39,11 +39,13 @@
 #   )
 # })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## Samples by clusters: table + bar plot.
+##----------------------------------------------------------------------------##
 
-# UI element for bar plot of samples by cluster
+# UI element
 output$samples_by_cluster_UI <- renderUI({
-  if ( nrow(sample_data()$clusters$overview) > 1 ) {
+  if ( nrow(sample_data()$clusters$overview) > 100 ) {
     tagList(
       DT::dataTableOutput("samples_by_cluster_table"),
       plotly::plotlyOutput("samples_by_cluster_plot")
@@ -53,7 +55,7 @@ output$samples_by_cluster_UI <- renderUI({
   }
 })
 
-# table of samples by cluster
+# table
 output$samples_by_cluster_table <- DT::renderDataTable({
   sample_data()$samples$by_cluster %>%
   rename(
@@ -76,7 +78,7 @@ output$samples_by_cluster_table <- DT::renderDataTable({
   )
 })
 
-# bar plot of samples by cluster
+# bar plot
 output$samples_by_cluster_plot <- plotly::renderPlotly({
   sample_data()$samples$by_cluster %>%
   select(-total_cell_count) %>%
@@ -105,11 +107,12 @@ output$samples_by_cluster_plot <- plotly::renderPlotly({
   )
 })
 
-# alternative text output for bar plot of samples by cluster
+# alternative text
 output$samples_by_cluster_text <- renderText({
     "Only 1 cluster in this data set."
   })
 
+# info button
 observeEvent(input$samples_by_cluster_info, {
   showModal(
     modalDialog(
@@ -120,9 +123,11 @@ observeEvent(input$samples_by_cluster_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## nUMI
+##----------------------------------------------------------------------------##
 
-# UI element for bar plot of samples by cluster
+# UI element
 output$samples_box_nUMI_UI <- renderUI({
   if ( "nUMI" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("samples_box_nUMI_plot")
@@ -131,7 +136,7 @@ output$samples_box_nUMI_UI <- renderUI({
   }
 })
 
-# box plot of number of transcripts per sample
+# box plot
 output$samples_box_nUMI_plot <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
@@ -154,11 +159,12 @@ output$samples_box_nUMI_plot <- plotly::renderPlotly({
   )
 })
 
-# alternative text output for bar plot of samples by cluster
+# alternative text
 output$samples_box_nUMI_text <- renderText({
     "Column with number of transcript per cell not available."
   })
 
+# info button
 observeEvent(input$samples_box_nUMI_info, {
   showModal(
     modalDialog(
@@ -169,9 +175,11 @@ observeEvent(input$samples_box_nUMI_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## nGene
+##----------------------------------------------------------------------------##
 
-# UI element for bar plot of samples by cluster
+# UI element
 output$samples_box_nGene_UI <- renderUI({
   if ( "nGene" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("samples_box_nGene_plot")
@@ -180,7 +188,7 @@ output$samples_box_nGene_UI <- renderUI({
   }
 })
 
-# box plot of number of expressed genes per sample
+# box plot
 output$samples_box_nGene_plot <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
@@ -204,11 +212,12 @@ output$samples_box_nGene_plot <- plotly::renderPlotly({
   )
 })
 
-# alternative text output for bar plot of samples by cluster
+# alternative text
 output$samples_box_nGene_text <- renderText({
     "Column with number of expressed genes per cell not available."
   })
 
+# info button
 observeEvent(input$samples_box_nGene_info, {
   showModal(
     modalDialog(
@@ -219,9 +228,11 @@ observeEvent(input$samples_box_nGene_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## percent_mt
+##----------------------------------------------------------------------------##
 
-# UI element for bar plot of samples by cluster
+# UI element
 output$samples_box_percent_mt_UI <- renderUI({
   if ( "percent_mt" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("samples_box_percent_mt_plot")
@@ -230,7 +241,7 @@ output$samples_box_percent_mt_UI <- renderUI({
   }
 })
 
-# box plot of percentage of mitochondrial gene expression per sample
+# box plot
 output$samples_box_percent_mt_plot <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
@@ -254,10 +265,12 @@ output$samples_box_percent_mt_plot <- plotly::renderPlotly({
   )
 })
 
+# alternative text
 output$samples_box_percent_mt_text <- renderText({
     "Column with percentage of mitochondrial expression not available."
   })
 
+# info button
 observeEvent(input$samples_box_percent_mt_info, {
   showModal(
     modalDialog(
@@ -268,8 +281,11 @@ observeEvent(input$samples_box_percent_mt_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## percent_ribo
+##----------------------------------------------------------------------------##
 
+# UI element
 output$samples_box_percent_ribo_UI <- renderUI({
   if ( "percent_ribo" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("samples_box_percent_ribo_plot")
@@ -278,7 +294,7 @@ output$samples_box_percent_ribo_UI <- renderUI({
   }
 })
 
-# box plot of percentage of ribosomal gene expression per sample
+# box plot
 output$samples_box_percent_ribo_plot <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
@@ -302,10 +318,12 @@ output$samples_box_percent_ribo_plot <- plotly::renderPlotly({
   )
 })
 
+# alternative text
 output$samples_box_percent_ribo_text <- renderText({
     "Column with percentage of ribosomal expression not available."
   })
 
+# info button
 observeEvent(input$samples_box_percent_ribo_info, {
   showModal(
     modalDialog(
@@ -316,9 +334,11 @@ observeEvent(input$samples_box_percent_ribo_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## cell cycle: Seurat
+##----------------------------------------------------------------------------##
 
-# UI element for bar plot of samples by cell cycle (Regev)
+# UI element
 output$samples_by_cell_cycle_Regev_UI <- renderUI({
   if ( !is.null(sample_data()$samples$by_cell_cycle_Regev) ) {
     plotly::plotlyOutput("samples_by_cell_cycle_Regev_plot")
@@ -327,7 +347,7 @@ output$samples_by_cell_cycle_Regev_UI <- renderUI({
   }
 })
 
-# bar plot of samples by cell cycle (Regev)  
+# bar plot
 output$samples_by_cell_cycle_Regev_plot <- plotly::renderPlotly({
   sample_data()$samples$by_cell_cycle_Regev %>%
   select(-total_cell_count) %>%
@@ -359,11 +379,12 @@ output$samples_by_cell_cycle_Regev_plot <- plotly::renderPlotly({
   ) 
 })
 
-# alternative text for bar plot of samples by cell cycle (Regev)  
+# alternative text
 output$samples_by_cell_cycle_Regev_text <- renderText({
     "Data not available."
   })
 
+# info button
 observeEvent(input$samples_by_cell_cycle_Regev_info, {
   showModal(
     modalDialog(
@@ -374,9 +395,11 @@ observeEvent(input$samples_by_cell_cycle_Regev_info, {
   )
 })
 
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## cell cycle: Cyclone
+##----------------------------------------------------------------------------##
 
-# UI element for bar plot of samples by cell cycle (Cyclone)
+# UI element
 output$samples_by_cell_cycle_Cyclone_UI <- renderUI({
   if ( !is.null(sample_data()$samples$by_cell_cycle_Cyclone) ) {
     plotly::plotlyOutput("samples_by_cell_cycle_Cyclone_plot")
@@ -385,7 +408,7 @@ output$samples_by_cell_cycle_Cyclone_UI <- renderUI({
   }
 })
 
-# bar plot of samples by cell cycle (Cyclone)
+# bar plot
 output$samples_by_cell_cycle_Cyclone_plot <- plotly::renderPlotly({
   sample_data()$samples$by_cell_cycle_Cyclone %>%
   select(-total_cell_count) %>%
@@ -417,11 +440,12 @@ output$samples_by_cell_cycle_Cyclone_plot <- plotly::renderPlotly({
   ) 
 })
 
-# alternative text for bar plot of samples by cell cycle (Cyclone)
+# alternative text
 output$samples_by_cell_cycle_Cyclone_text <- renderText({
     "Data not available."
   })
 
+# info button
 observeEvent(input$samples_by_cell_cycle_Cyclone_info, {
   showModal(
     modalDialog(

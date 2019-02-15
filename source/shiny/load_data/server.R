@@ -1,36 +1,8 @@
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 ## Tab: Load data.
-##--------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 
-output$load_data_experiment_name <- renderValueBox({
-  # valueBox(
-  #   value = if ( !is.null(sample_data()$experiment$experiment_name)) sample_data()$experiment$experiment_name else "-",
-  #   subtitle = "Experiment",
-  #   color = "green"
-  # )
-  box(
-    title = "Experiment",
-    width = 5,
-    background = "light-blue",
-    sample_data()$experiment$experiment_name
-  )
-})
-
-output$load_data_organism <- renderValueBox({
-  # valueBox(
-  #   value = if ( !is.null(sample_data()$experiment$organism)) sample_data()$experiment$organism else "-",
-  #   subtitle = "Organism",
-  #   color = "orange",
-  #   icon = icon("car")
-  # )
-  box(
-    title = "Organism",
-    width = 5,
-    background = "light-blue",
-    sample_data()$experiment$organism
-  )
-})
-
+# number of cells
 output$load_data_number_of_cells <- renderValueBox({
   valueBox(
     value = if ( !is.null(sample_data()) ) formatC(nrow(sample_data()$cells), format = "f", big.mark = ",", digits = 0) else 0,
@@ -39,6 +11,7 @@ output$load_data_number_of_cells <- renderValueBox({
   )
 })
 
+# number of samples
 output$load_data_number_of_samples <- renderValueBox({
   valueBox(
     value = if ( !is.null(sample_data()) ) length(unique(sample_data()$cells$sample)) else 0,
@@ -47,6 +20,7 @@ output$load_data_number_of_samples <- renderValueBox({
   )
 })
 
+# number of clusters
 output$load_data_number_of_clusters <- renderValueBox({
   valueBox(
     value = if ( !is.null(sample_data()) ) length(unique(sample_data()$cells$cluster)) else 0,
@@ -54,3 +28,25 @@ output$load_data_number_of_clusters <- renderValueBox({
     color = "light-blue"
   )
 })
+
+# experiment name
+output$load_data_experiment_name <- renderValueBox({
+  box(
+    title = "Experiment",
+    width = 5,
+    background = "light-blue",
+    sample_data()$experiment$experiment_name
+  )
+})
+
+# organism
+output$load_data_organism <- renderValueBox({
+  box(
+    title = "Organism",
+    width = 5,
+    background = "light-blue",
+    sample_data()$experiment$organism
+  )
+})
+
+
