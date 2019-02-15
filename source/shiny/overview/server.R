@@ -50,7 +50,7 @@ output$overview_UI <- renderUI({
       label = "Point size",
       min = 0,
       max = 50,
-      value = 25,
+      value = 40,
       step = 1
     ),
     checkboxInput(
@@ -204,7 +204,9 @@ output$overview_projection <- scatterD3::renderScatterD3({
     tooltip_text = paste0(
       "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br/>",
       "<b>Sample</b>: ", to_plot[ , "sample" ], "<br/>",
-      "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>"
+      "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
+      "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br/>",
+      "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0), "<br/>"
     )
   )
 })
@@ -357,34 +359,33 @@ observeEvent(input$overview_projection_export, {
         aes_q(
           x = as.name(colnames(to_plot)[1]),
           y = as.name(colnames(to_plot)[2]),
-          colour = as.name(input$overview_cell_color)
+          fill = as.name(input$overview_cell_color)
         )
       ) +
-      geom_point() +
-      scale_colour_manual(values = cols) +
+      geom_point(shape = 21, size = 3, stroke = 0.2, color = "#c4c4c4") +
+      scale_fill_manual(values = cols) +
       lims(x = xlim, y = ylim) +
       theme_bw()
   } else {
-    color_scale_min <- min(to_plot[input$overview_cell_color])-((max(to_plot[input$overview_cell_color])-min(to_plot[input$overview_cell_color]))/10)
+    # color_scale_min <- min(to_plot[input$overview_cell_color])-((max(to_plot[input$overview_cell_color])-min(to_plot[input$overview_cell_color]))/10)
     # if ( color_scale_min < 0 ) {
     #   color_scale_min <- 0
     # }
-    # color_scale_min <- min(to_plot[input$overview_cell_color])
+    color_scale_min <- min(to_plot[input$overview_cell_color])
     color_scale_max <- max(to_plot[input$overview_cell_color])
     p <- ggplot(
         to_plot,
         aes_q(
           x = as.name(colnames(to_plot)[1]),
           y = as.name(colnames(to_plot)[2]),
-          colour = as.name(input$overview_cell_color)
+          fill = as.name(input$overview_cell_color)
         )
       ) +
-      geom_point() +
-      scale_colour_distiller(
+      geom_point(shape = 21, size = 3, stroke = 0.2, color = "#c4c4c4") +
+      scale_fill_distiller(
         palette = "YlGnBu",
         direction = 1,
-        guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"),
-        limits = c(color_scale_min, color_scale_max)
+        guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
       ) +
       lims(x = xlim, y = ylim) +
       theme_bw()

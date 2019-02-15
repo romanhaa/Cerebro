@@ -33,7 +33,7 @@ output$load_data_organism <- renderValueBox({
 
 output$load_data_number_of_cells <- renderValueBox({
   valueBox(
-    value = if ( !is.null(sample_data()) ) formatC(nrow(sample_data()$cells), format="f", big.mark=",", digits=0) else 0,
+    value = if ( !is.null(sample_data()) ) formatC(nrow(sample_data()$cells), format = "f", big.mark = ",", digits = 0) else 0,
     subtitle = "cells",
     color = "light-blue"
   )

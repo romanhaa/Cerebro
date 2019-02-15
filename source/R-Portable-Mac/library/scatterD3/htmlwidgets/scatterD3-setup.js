@@ -190,8 +190,8 @@ function setup_scales (dims, settings, data) {
     }
     // Continuous color scale
     if (settings.col_continuous) {
-	scales.color = d3v4.scaleSequential(d3v4["interpolate"+"YlOrRd"])
-//	    .domain([d3v4.min(data, function(d) { return(d.col_var);} )-((d3v4.max(data, function(d) { return(d.col_var);} )-d3v4.min(data, function(d) { return(d.col_var);} ))/10),
+	scales.color = d3v4.scaleSequential(d3v4["interpolate"+"YlGnBu"])
+	    // .domain([d3v4.min(data, function(d) { return(d.col_var);} )-((d3v4.max(data, function(d) { return(d.col_var);} )-d3v4.min(data, function(d) { return(d.col_var);} ))/10),
         .domain([d3v4.min(data, function(d) { return(d.col_var);} ),
 		     d3v4.max(data, function(d) { return(d.col_var);} )]);
     }

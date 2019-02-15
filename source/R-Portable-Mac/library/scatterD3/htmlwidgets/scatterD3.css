@@ -148,6 +148,9 @@
 
 .scatterD3 .dot {
     cursor: default;
+    stroke: #c4c4c4;
+    stroke-width: 1px;
+    shape-rendering: auto;
 }
 
 .scatterD3 .point-label {

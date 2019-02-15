@@ -93,7 +93,7 @@ output$geneSetexpression_UI <- renderUI({
     ),
     sliderInput(
       "geneSetexpression_projection_dot_size", label = "Point size:",
-      min = 0, max = 50, value = 25, step = 1
+      min = 0, max = 50, value = 40, step = 1
     ),
     sliderInput(
       "geneSetexpression_projection_opacity", label = "Point opacity:",
@@ -279,19 +279,15 @@ observeEvent(input$geneSetexpression_projection_export, {
       aes_q(
         x = as.name(colnames(to_plot)[1]),
         y = as.name(colnames(to_plot)[2]),
-        colour = as.name("level")
+        fill = as.name("level")
       )
     ) +
-    geom_point() +
-    scale_colour_distiller(
+    geom_point(shape = 21, size = 3, stroke = 0.2, color = "#c4c4c4") +
+    scale_fill_distiller(
       palette = "YlGnBu",
       direction = 1,
       name = "Average\nlog-normalised\nexpression",
-      guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"),
-      limits = c(
-        min(to_plot$level)-((max(to_plot$level)-min(to_plot$level))/10),
-        max(to_plot$level)
-      )
+      guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
     ) +
     lims(x = xlim, y = ylim) +
     theme_bw()

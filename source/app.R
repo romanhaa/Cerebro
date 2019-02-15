@@ -97,32 +97,6 @@ source("shiny/gene_set_expression/info.txt")
 options(shiny.maxRequestSize = 400*1024^2) 
 
 ##----------------------------------------------------------------------------##
-## Color management.
-##----------------------------------------------------------------------------##
-# Dutch palette from flatuicolors.com
-colors_dutch <- c(
-    "#FFC312","#C4E538","#12CBC4","#FDA7DF","#ED4C67",
-    "#F79F1F","#A3CB38","#1289A7","#D980FA","#B53471",
-    "#EE5A24","#009432","#0652DD","#9980FA","#833471",
-    "#EA2027","#006266","#1B1464","#5758BB","#6F1E51"
-  )
-
-# Spanish palette from flatuicolors.com
-colors_spanish <- c(
-    "#40407a","#706fd3","#f7f1e3","#34ace0","#33d9b2",
-    "#2c2c54","#474787","#aaa69d","#227093","#218c74",
-    "#ff5252","#ff793f","#d1ccc0","#ffb142","#ffda79",
-    "#b33939","#cd6133","#84817a","#cc8e35","#ccae62"
-  )
-
-colors <- c(colors_dutch, colors_spanish)
-
-cell_cycle_colorset <- setNames(
-    c("#45aaf2", "#f1c40f", "#e74c3c", "#7f8c8d"),
-    c("G1",      "S",       "G2M",     "-")
-  )
-
-##----------------------------------------------------------------------------##
 ## App.
 ##----------------------------------------------------------------------------##
 source("shiny/shiny_UI.R", local = TRUE)

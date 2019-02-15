@@ -5,6 +5,7 @@ dependencies:
     script:
       - d3-4.13.0.min.js
       - d3-legend.min.js
+      - d3-scale-chromatic.v0.3.min.js
   - name: d3.lasso-plugin
     version: 1.0.0
     src: htmlwidgets/lib/d3-lasso-plugin
