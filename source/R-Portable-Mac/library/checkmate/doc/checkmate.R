@@ -65,6 +65,7 @@ f <- function(x) {
 #  })
 
 ## ----dev="svg",fig.width=6,fig.height=4,dependson="init",eval=requireNamespace("microbenchmark", quietly = TRUE)----
+library(checkmate)
 library(ggplot2)
 library(microbenchmark)
 
@@ -78,7 +79,7 @@ autoplot(mb)
 
 ## ----dev="svg",fig.width=6,fig.height=4,eval=requireNamespace("microbenchmark", quietly = TRUE)----
 x = runif(1000)
-r = function(x) stopifnot(is.numeric(x) && length(x) == 1000 && all(!is.na(x) & x >= 0 & x <= 1))
+r = function(x) stopifnot(is.numeric(x), length(x) == 1000, all(!is.na(x) & x >= 0 & x <= 1))
 cm = function(x) assertNumeric(x, len = 1000, any.missing = FALSE, lower = 0, upper = 1)
 cmq = function(x) qassert(x, "N1000[0,1]")
 mb = microbenchmark(r(x), cm(x), cmq(x))
@@ -87,7 +88,7 @@ autoplot(mb)
 
 ## ----dev="svg",fig.width=6,fig.height=4,eval=requireNamespace("microbenchmark", quietly = TRUE)----
 x = sample(letters, 10000, replace = TRUE)
-r = function(x) stopifnot(is.character(x) && !any(is.na(x)) && all(nchar(x) > 0))
+r = function(x) stopifnot(is.character(x), !any(is.na(x)), all(nchar(x) > 0))
 cm = function(x) assertCharacter(x, any.missing = FALSE, min.chars = 1)
 cmq = function(x) qassert(x, "S+[1,]")
 mb = microbenchmark(r(x), cm(x), cmq(x))
@@ -107,6 +108,16 @@ autoplot(mb)
 # checkmate tries to stop as early as possible
 x$a[1] = NA
 mb = microbenchmark(r(x), cm(x), cmq(x))
+print(mb)
+autoplot(mb)
+
+## ----dev="svg",fig.width=6,fig.height=4,eval=requireNamespace("microbenchmark", quietly = TRUE)----
+N = 10000
+x.altrep = seq_len(N) # this is an ALTREP in R version >= 3.5.0
+x.sexp = c(x.altrep)  # this is a regular SEXP OTOH
+r = function(x) stopifnot(is.integer(x), !any(is.na(x)), !is.unsorted(x))
+cm = function(x) assertInteger(x, any.missing = FALSE, sorted = TRUE)
+mb = microbenchmark(r(x.sexp), cm(x.sexp), r(x.altrep), cm(x.altrep))
 print(mb)
 autoplot(mb)
 
@@ -140,6 +151,14 @@ print(testSquareMatrix)
 # For expectations:
 expect_square_matrix = makeExpectationFunction(checkSquareMatrix)
 print(expect_square_matrix)
+
+## ---- eval = FALSE, hilang = "c"-----------------------------------------
+#  SEXP qassert(SEXP x, const char *rule, const char *name);
+#  Rboolean qtest(SEXP x, const char *rule);
+
+## ---- eval = FALSE, hilang = "c"-----------------------------------------
+#  #include <checkmate.h>
+#  #include <checkmate_stub.c>
 
 ## ------------------------------------------------------------------------
 sessionInfo()

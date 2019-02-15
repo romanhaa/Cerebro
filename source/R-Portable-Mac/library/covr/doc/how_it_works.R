@@ -24,7 +24,7 @@ env$f1 <- function() 2
 env$f2() == 3
 
 ## ------------------------------------------------------------------------
-# an object to analyse
+# an object to analyze
 f1 <- function(x) { x + 1 }
 # get results with no unit tests
 c1 <- function_coverage(fun = f1, code = NULL)

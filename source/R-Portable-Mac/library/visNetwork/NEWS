@@ -1,3 +1,22 @@
+visNetwork 2.0.5
+--------------------------------------------------------------------------------
+  * Fix clustering functions using level
+  * add input$network_highlight_color_id and input$network_highlight_label_id 
+  * #266 : enabled custom manipulation
+  * collapse : can keep coordinates and set label suffix
+  * add sort argument to selectedBy
+  * Fix passing icon using visGroup and proxy
+  * Fix passing margin to nodes
+  * Fix bug passing character to visTree
+  * #290 : Fix legend using only one group
+
+visNetwork 2.0.4
+--------------------------------------------------------------------------------
+  * Update to fontAwesome 4.7.0
+  * Fix node's id bug on collapse
+  * add 'main' argument to 'selectedBy' and 'nodesIdSelection'
+  * add sparkline graphics in visTree
+  
 visNetwork 2.0.3
 --------------------------------------------------------------------------------
   * Fix CRAN VIGNETTE BUILDER

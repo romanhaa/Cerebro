@@ -1,6 +1,7 @@
 ##----------------------------------------------------------------------------##
 ## Panel: Gene id/symbol conversion.
 ##----------------------------------------------------------------------------##
+
 output$gene_info <- DT::renderDataTable({
   if ( input$geneIdConversion_organism == "mouse" ) {
     conversion_table <- read.table("resources/mm10_gene_ID_name.txt",

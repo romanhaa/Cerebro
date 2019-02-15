@@ -1,3 +1,59 @@
+Changes in Version 2.5-0
+
+  o Enhanced vignette("sandwich-CL", package = "sandwich") by better describing
+    the background of clustered covariances and being more precise in the mathematical
+    notation. Documentation for the new features (see below, e.g., the formula cluster
+    specification and the vcovBS() methods) has been added.
+
+  o In vcovCL(), vcovPL(), vcovPC(), and vcovBS(), the "cluster" argument (and
+    potentially also "order.by") can be specified by a formula - provided that
+    expand.model.frame(x, cluster) works for the model object x.
+    
+  o The "cluster" and/or "order.by" are processed accordingly if observations
+    were dropped in the NA processing of the model object x (provided x$na.action
+    is available).
+    
+  o New dedicated vcovBS() method for "lm" objects that (a) provides many more
+    bootstrapping techniques applicable to linear models (e.g., residual-based
+    or wild bootstrap), (b) computes the bootstrap coefficients more efficiently
+    with lm.fit() or qr.coef() rather than update().
+
+  o New dedicated vcovBS() method for "glm" objects that uses "xy" bootstrap
+    like the default method but uses glm.fit() instead of update() and hence
+    is slightly faster.
+
+  o All vcovBS() methods (default, glm, and lm) facilitate parallel bootstrapping
+    by changing the "applyfun" from the default lapply(). By setting "cores"
+    parallel::parLapply (on Windows) or parallel::mclapply() (otherwise)
+    are used.
+
+  o Default handling of missing parameter estimates in vcovBS() changed
+    from "everything" to "pairwise.complete.obs" and allow modification
+    of cov(..., use = ...). This is relevant if not all parameters can be
+    re-estimated on the bootstrap samples, e.g., for dummy variables of
+    relatively rare events.
+
+  o Fix of a bug in vcovHC.mlm (reported by James Pustejovsky). The off-diagonal
+    values of the vcovHC were computed without preserving the sign of the
+    underlying residuals. This issue did not affect the diagonal because
+    the underlying cross product amounts to squaring all values - but it does
+    matter for the off-diagonal. Also, type="const" was disabled in this
+    scenario and vcov(...) is simply used instead of vcovHC(..., type = "const").
+
+  o Bug fix in vcovCL/meatCL for multi-way clustering (reported by Brian Tsay).
+    If patterns of levels in one clustering variable also occured in another
+    clustering variable, their interactions were sometimes not computed
+    correctly.
+
+  o In vcovCL() for multi-way clustering without cluster adjustment, all
+    cluster adjustment factors are omitted entirely. In previous versions they
+    were scaled with (Gmin - 1)/Gmin, where Gmin is the minimal number of
+    clusters across clustering dimensions.
+  
+  o meatHC() and meatHAC() now pass their "..." argument to estfun(), just
+    as meatCL(), meatPL(), and meatPC() do as well.
+
+
 Changes in Version 2.4-0
 
   o Various flavors of clustered sandwich estimators in vcovCL(), panel

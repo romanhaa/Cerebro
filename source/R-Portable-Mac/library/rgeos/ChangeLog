@@ -1,3 +1,110 @@
+2018-10-22 07:10  rsbivand
+
+	* DESCRIPTION, configure, configure.ac: Debian stretch GEOS version
+	  configure issue
+
+2018-10-18 11:38  rsbivand
+
+	* man/utility-functions.Rd: tidy
+
+2018-10-18 11:34  rsbivand
+
+	* DESCRIPTION: tidy
+
+2018-10-18 11:30  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2018-09-13 11:00  rsbivand
+
+	* R/AAA.R, src/init.c, src/rgeos.c, src/rgeos.h: attempted version
+	  check
+
+2018-09-12 18:16  rsbivand
+
+	* src/rgeos.c, src/rgeos_R2geos.c: tidy after -Wall
+
+2018-09-12 08:49  rsbivand
+
+	* configure, configure.ac: switch geos-config to cclibs from libs
+
+2018-08-30 15:48  rsbivand
+
+	* DESCRIPTION, configure, configure.ac, src/rgeos.c, src/rgeos.h,
+	  src/rgeos_R2geos.c, src/rgeos_coord.c, src/rgeos_topology.c,
+	  src/rgeos_topology_binary.c, tests/leak_by_exception.R,
+	  tests/leak_by_exception.Rout.save: testing leaks by exceptions
+
+2018-06-08 06:48  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2018-06-08 06:47  rsbivand
+
+	* ChangeLog, configure: tidy
+
+2018-06-03 21:05  rsbivand
+
+	* DESCRIPTION, src/rgeos.c, src/rgeos_geos2R.c: rchk fixes, mostly
+	  MAKE_CLASS
+
+2018-06-01 11:39  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2018-06-01 11:38  rsbivand
+
+	* DESCRIPTION, LICENSE.note: add LICENSE.note
+
+2018-05-29 18:13  rsbivand
+
+	* DESCRIPTION: tidy
+
+2018-05-29 17:40  rsbivand
+
+	* NAMESPACE, R/bbox2SP.R: tidy
+
+2018-05-28 12:14  rsbivand
+
+	* src/rgeos.c, src/rgeos_validate.c: trying to fix rchk and
+	  valgrind issues
+
+2018-05-21 17:57  rsbivand
+
+	* R/bbox2SP.R, man/bbox2SP.rd: corrected bbox2SP
+
+2018-04-27 12:36  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/bbox2SP.R, man/bbox2SP.rd: add bbox2SP
+
+2018-04-08 13:34  rsbivand
+
+	* DESCRIPTION, configure: gcc 8 correction
+
+2018-04-07 21:25  edzer
+
+	* src/rgeos.c: see https://github.com/r-spatial/sf/issues/694
+
+2017-10-30 12:01  rsbivand
+
+	* configure: tidy
+
+2017-10-30 12:00  rsbivand
+
+	* DESCRIPTION: tidy
+
+2017-10-24 13:42  rsbivand
+
+	* man/utility-functions.Rd: tidy
+
+2017-10-23 18:57  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/AAA.R: add extSoftVersion
+
+2017-09-25 10:53  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2017-09-25 10:51  rsbivand
 
 	* configure: updating for stricter autoconf

@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;scales&rsquo; version 0.5.0</h2>
+</div><h2>Documentation for package &lsquo;scales&rsquo; version 1.0.0</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 </ul>
@@ -32,6 +32,7 @@
 <a href="#I">I</a>
 <a href="#L">L</a>
 <a href="#M">M</a>
+<a href="#N">N</a>
 <a href="#O">O</a>
 <a href="#P">P</a>
 <a href="#R">R</a>
@@ -69,9 +70,9 @@
 
 <table width="100%">
 <tr><td style="width: 25%;"><a href="boxcox_trans.html">boxcox_trans</a></td>
-<td>Box-Cox power transformation.</td></tr>
+<td>Box-Cox &amp; modulus transformations.</td></tr>
 <tr><td style="width: 25%;"><a href="brewer_pal.html">brewer_pal</a></td>
-<td>Color Brewer palette (discrete).</td></tr>
+<td>Colour Brewer palette (discrete).</td></tr>
 </table>
 
 <h2><a name="C">-- C --</a></h2>
@@ -84,19 +85,19 @@
 <tr><td style="width: 25%;"><a href="col2hcl.html">col2hcl</a></td>
 <td>Modify standard R colour in hcl colour space.</td></tr>
 <tr><td style="width: 25%;"><a href="colour_ramp.html">colour_ramp</a></td>
-<td>Fast color interpolation</td></tr>
+<td>Fast colour interpolation</td></tr>
 <tr><td style="width: 25%;"><a href="col_numeric.html">col_bin</a></td>
-<td>Color mapping</td></tr>
+<td>Colour mapping</td></tr>
 <tr><td style="width: 25%;"><a href="col_numeric.html">col_factor</a></td>
-<td>Color mapping</td></tr>
+<td>Colour mapping</td></tr>
 <tr><td style="width: 25%;"><a href="col_numeric.html">col_numeric</a></td>
-<td>Color mapping</td></tr>
+<td>Colour mapping</td></tr>
 <tr><td style="width: 25%;"><a href="col_numeric.html">col_quantile</a></td>
-<td>Color mapping</td></tr>
-<tr><td style="width: 25%;"><a href="comma_format.html">comma</a></td>
-<td>Comma formatter: format number with commas separating thousands.</td></tr>
-<tr><td style="width: 25%;"><a href="comma_format.html">comma_format</a></td>
-<td>Comma formatter: format number with commas separating thousands.</td></tr>
+<td>Colour mapping</td></tr>
+<tr><td style="width: 25%;"><a href="number_format.html">comma</a></td>
+<td>Number formatters</td></tr>
+<tr><td style="width: 25%;"><a href="number_format.html">comma_format</a></td>
+<td>Number formatters</td></tr>
 <tr><td style="width: 25%;"><a href="Range.html">ContinuousRange</a></td>
 <td>Mutable ranges.</td></tr>
 <tr><td style="width: 25%;"><a href="cscale.html">cscale</a></td>
@@ -109,7 +110,7 @@
 <tr><td style="width: 25%;"><a href="date_breaks.html">date_breaks</a></td>
 <td>Regularly spaced dates.</td></tr>
 <tr><td style="width: 25%;"><a href="date_format.html">date_format</a></td>
-<td>Formatted dates.</td></tr>
+<td>Formatted dates and times.</td></tr>
 <tr><td style="width: 25%;"><a href="date_trans.html">date_trans</a></td>
 <td>Transformation for dates (class Date).</td></tr>
 <tr><td style="width: 25%;"><a href="dichromat_pal.html">dichromat_pal</a></td>
@@ -119,7 +120,7 @@
 <tr><td style="width: 25%;"><a href="Range.html">DiscreteRange</a></td>
 <td>Mutable ranges.</td></tr>
 <tr><td style="width: 25%;"><a href="div_gradient_pal.html">div_gradient_pal</a></td>
-<td>Diverging colour gradient (continous).</td></tr>
+<td>Diverging colour gradient (continuous).</td></tr>
 <tr><td style="width: 25%;"><a href="dollar_format.html">dollar</a></td>
 <td>Currency formatter: round to nearest cent and display dollar sign.</td></tr>
 <tr><td style="width: 25%;"><a href="dollar_format.html">dollar_format</a></td>
@@ -143,14 +144,14 @@
 
 <table width="100%">
 <tr><td style="width: 25%;"><a href="format_format.html">format_format</a></td>
-<td>Format with using any arguments to 'format'.</td></tr>
+<td>Format with using any arguments to 'format()'.</td></tr>
 </table>
 
 <h2><a name="G">-- G --</a></h2>
 
 <table width="100%">
 <tr><td style="width: 25%;"><a href="gradient_n_pal.html">gradient_n_pal</a></td>
-<td>Arbitrary colour gradient palette (continous).</td></tr>
+<td>Arbitrary colour gradient palette (continuous).</td></tr>
 <tr><td style="width: 25%;"><a href="grey_pal.html">grey_pal</a></td>
 <td>Grey scale palette (discrete).</td></tr>
 </table>
@@ -201,8 +202,23 @@
 <td>Manual palette (manual).</td></tr>
 <tr><td style="width: 25%;"><a href="math_format.html">math_format</a></td>
 <td>Add arbitrary expression to a label. The symbol that will be replace by the label value is '.x'.</td></tr>
+<tr><td style="width: 25%;"><a href="boxcox_trans.html">modulus_trans</a></td>
+<td>Box-Cox &amp; modulus transformations.</td></tr>
 <tr><td style="width: 25%;"><a href="muted.html">muted</a></td>
 <td>Mute standard colour.</td></tr>
+</table>
+
+<h2><a name="N">-- N --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="number_format.html">number</a></td>
+<td>Number formatters</td></tr>
+<tr><td style="width: 25%;"><a href="number_bytes_format.html">number_bytes</a></td>
+<td>Bytes formatter: convert to byte measurement and display symbol.</td></tr>
+<tr><td style="width: 25%;"><a href="number_bytes_format.html">number_bytes_format</a></td>
+<td>Bytes formatter: convert to byte measurement and display symbol.</td></tr>
+<tr><td style="width: 25%;"><a href="number_format.html">number_format</a></td>
+<td>Number formatters</td></tr>
 </table>
 
 <h2><a name="O">-- O --</a></h2>
@@ -210,7 +226,13 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="ordinal_format.html">ordinal</a></td>
 <td>Ordinal formatter: add ordinal suffixes (-st, -nd, -rd, -th) to numbers.</td></tr>
+<tr><td style="width: 25%;"><a href="ordinal_format.html">ordinal_english</a></td>
+<td>Ordinal formatter: add ordinal suffixes (-st, -nd, -rd, -th) to numbers.</td></tr>
 <tr><td style="width: 25%;"><a href="ordinal_format.html">ordinal_format</a></td>
+<td>Ordinal formatter: add ordinal suffixes (-st, -nd, -rd, -th) to numbers.</td></tr>
+<tr><td style="width: 25%;"><a href="ordinal_format.html">ordinal_french</a></td>
+<td>Ordinal formatter: add ordinal suffixes (-st, -nd, -rd, -th) to numbers.</td></tr>
+<tr><td style="width: 25%;"><a href="ordinal_format.html">ordinal_spanish</a></td>
 <td>Ordinal formatter: add ordinal suffixes (-st, -nd, -rd, -th) to numbers.</td></tr>
 </table>
 
@@ -221,16 +243,22 @@
 <td>Generic plot scaling methods</td></tr>
 <tr><td style="width: 25%;"><a href="parse_format.html">parse_format</a></td>
 <td>Parse a text label to produce expressions for plotmath.</td></tr>
-<tr><td style="width: 25%;"><a href="percent_format.html">percent</a></td>
-<td>Percent formatter: multiply by one hundred and display percent sign.</td></tr>
-<tr><td style="width: 25%;"><a href="percent_format.html">percent_format</a></td>
-<td>Percent formatter: multiply by one hundred and display percent sign.</td></tr>
+<tr><td style="width: 25%;"><a href="number_format.html">percent</a></td>
+<td>Number formatters</td></tr>
+<tr><td style="width: 25%;"><a href="number_format.html">percent_format</a></td>
+<td>Number formatters</td></tr>
 <tr><td style="width: 25%;"><a href="pretty_breaks.html">pretty_breaks</a></td>
-<td>Pretty breaks. Uses default R break algorithm as implemented in 'pretty'.</td></tr>
+<td>Pretty breaks. Uses default R break algorithm as implemented in 'pretty()'.</td></tr>
 <tr><td style="width: 25%;"><a href="probability_trans.html">probability_trans</a></td>
 <td>Probability transformation.</td></tr>
 <tr><td style="width: 25%;"><a href="probability_trans.html">probit_trans</a></td>
 <td>Probability transformation.</td></tr>
+<tr><td style="width: 25%;"><a href="pseudo_log_trans.html">pseudo_log_trans</a></td>
+<td>Pseudo-log transformation</td></tr>
+<tr><td style="width: 25%;"><a href="pvalue_format.html">pvalue</a></td>
+<td>p-values formatter</td></tr>
+<tr><td style="width: 25%;"><a href="pvalue_format.html">pvalue_format</a></td>
+<td>p-values formatter</td></tr>
 </table>
 
 <h2><a name="R">-- R --</a></h2>
@@ -241,10 +269,12 @@
 <tr><td style="width: 25%;"><a href="reciprocal_trans.html">reciprocal_trans</a></td>
 <td>Reciprocal transformation.</td></tr>
 <tr><td style="width: 25%;"><a href="regular_minor_breaks.html">regular_minor_breaks</a></td>
-<td>Minor breaks Places minor breaks between major breaks.</td></tr>
+<td>Minor breaks. Places minor breaks between major breaks.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale.html">rescale</a></td>
 <td>Rescale continuous vector to have specified minimum and maximum.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale.html">rescale.Date</a></td>
+<td>Rescale continuous vector to have specified minimum and maximum.</td></tr>
+<tr><td style="width: 25%;"><a href="rescale.html">rescale.dist</a></td>
 <td>Rescale continuous vector to have specified minimum and maximum.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale.html">rescale.integer64</a></td>
 <td>Rescale continuous vector to have specified minimum and maximum.</td></tr>
@@ -260,6 +290,8 @@
 <td>Rescale vector to have specified minimum, midpoint, and maximum.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale_mid.html">rescale_mid.Date</a></td>
 <td>Rescale vector to have specified minimum, midpoint, and maximum.</td></tr>
+<tr><td style="width: 25%;"><a href="rescale_mid.html">rescale_mid.dist</a></td>
+<td>Rescale vector to have specified minimum, midpoint, and maximum.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale_mid.html">rescale_mid.integer64</a></td>
 <td>Rescale vector to have specified minimum, midpoint, and maximum.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale_mid.html">rescale_mid.logical</a></td>
@@ -269,7 +301,7 @@
 <tr><td style="width: 25%;"><a href="rescale_mid.html">rescale_mid.POSIXt</a></td>
 <td>Rescale vector to have specified minimum, midpoint, and maximum.</td></tr>
 <tr><td style="width: 25%;"><a href="rescale_none.html">rescale_none</a></td>
-<td>Don't peform rescaling</td></tr>
+<td>Don't perform rescaling</td></tr>
 <tr><td style="width: 25%;"><a href="rescale_pal.html">rescale_pal</a></td>
 <td>Rescale palette (continuous).</td></tr>
 <tr><td style="width: 25%;"><a href="reverse_trans.html">reverse_trans</a></td>
@@ -286,7 +318,7 @@
 <tr><td style="width: 25%;"><a href="scientific_format.html">scientific_format</a></td>
 <td>Scientific formatter.</td></tr>
 <tr><td style="width: 25%;"><a href="seq_gradient_pal.html">seq_gradient_pal</a></td>
-<td>Sequential colour gradient palette (continous).</td></tr>
+<td>Sequential colour gradient palette (continuous).</td></tr>
 <tr><td style="width: 25%;"><a href="shape_pal.html">shape_pal</a></td>
 <td>Shape palette (discrete).</td></tr>
 <tr><td style="width: 25%;"><a href="show_col.html">show_col</a></td>
@@ -302,6 +334,8 @@
 <h2><a name="T">-- T --</a></h2>
 
 <table width="100%">
+<tr><td style="width: 25%;"><a href="date_format.html">time_format</a></td>
+<td>Formatted dates and times.</td></tr>
 <tr><td style="width: 25%;"><a href="time_trans.html">time_trans</a></td>
 <td>Transformation for date-times (class POSIXt).</td></tr>
 <tr><td style="width: 25%;"><a href="train_continuous.html">train_continuous</a></td>
@@ -323,8 +357,8 @@
 <h2><a name="U">-- U --</a></h2>
 
 <table width="100%">
-<tr><td style="width: 25%;"><a href="unit_format.html">unit_format</a></td>
-<td>Add units to the labels</td></tr>
+<tr><td style="width: 25%;"><a href="number_format.html">unit_format</a></td>
+<td>Number formatters</td></tr>
 </table>
 
 <h2><a name="V">-- V --</a></h2>

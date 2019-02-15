@@ -1,0 +1,58 @@
+Package: freetypeharfbuzz
+Title: Deterministic Computation of Text Box Metrics
+Version: 0.2.5
+Authors@R: c(
+    person("Lionel", "Henry", ,"lionel@rstudio.com", c("aut", "cre")),
+    person("RStudio", role = "cph"),
+    person("David", "Turner", role = "aut", comment = "FreeType library"),
+    person("Robert", "Wilhelm", role = "aut", comment = "FreeType library"),
+    person("Werner", "Wilhelm", role = "aut", comment = "FreeType library"),
+    person("Behdad", "Esfahbod", role = "aut", comment = "Harfbuzz library"),
+    person("Simon", "Hausmann", role = "aut", comment = "Harfbuzz library"),
+    person("Martin", "Hosken", role = "aut", comment = "Harfbuzz library"),
+    person("Jonathan", "Kew", role = "aut", comment = "Harfbuzz library"),
+    person("Lars", "Knoll", role = "aut", comment = "Harfbuzz library"),
+    person("Werner", "Lemberg", role = "aut", comment = "Harfbuzz library"),
+    person("Roozbeh", "Pournader", role = "aut", comment = "Harfbuzz library"),
+    person("Owen", "Taylor", role = "aut", comment = "Harfbuzz library"),
+    person("David", "Turner", role = "aut", comment = "Harfbuzz library"),
+    person("Red Hat", role = "cph", comment = "Harfbuzz library")
+    )
+Description: Unlike other tools that dynamically link to the 'Cairo'
+    stack, 'freetypeharfbuzz' is statically linked to specific
+    versions of the 'FreeType' and 'harfbuzz' libraries (2.9 and 1.7.6
+    respectively). This ensures deterministic computation of text box
+    extents for situations where reproducible results are crucial (for
+    instance unit tests of graphics).
+Depends: R (>= 3.2)
+Imports: fontquiver
+Suggests: covr, testthat
+SystemRequirements: GNU make
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Biarch: true
+RoxygenNote: 6.1.0
+NeedsCompilation: yes
+Packaged: 2018-10-21 22:49:35 UTC; lionel
+Author: Lionel Henry [aut, cre],
+  RStudio [cph],
+  David Turner [aut] (FreeType library),
+  Robert Wilhelm [aut] (FreeType library),
+  Werner Wilhelm [aut] (FreeType library),
+  Behdad Esfahbod [aut] (Harfbuzz library),
+  Simon Hausmann [aut] (Harfbuzz library),
+  Martin Hosken [aut] (Harfbuzz library),
+  Jonathan Kew [aut] (Harfbuzz library),
+  Lars Knoll [aut] (Harfbuzz library),
+  Werner Lemberg [aut] (Harfbuzz library),
+  Roozbeh Pournader [aut] (Harfbuzz library),
+  Owen Taylor [aut] (Harfbuzz library),
+  David Turner [aut] (Harfbuzz library),
+  Red Hat [cph] (Harfbuzz library)
+Maintainer: Lionel Henry <lionel@rstudio.com>
+Repository: CRAN
+Date/Publication: 2018-10-30 15:50:14 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-10-31 16:09:20 UTC; unix
+Archs: freetypeharfbuzz.so.dSYM

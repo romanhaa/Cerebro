@@ -50,15 +50,15 @@
 
 #pragma GCC diagnostic push
 // 'var' defined but not used
-// #pragma GCC diagnostic ignored "-Wunused-variable"
+//#pragma GCC diagnostic ignored "-Wunused-variable"
 // unused parameter 'arg'
-// #pragma GCC diagnostic ignored "-Wunused-parameter"
+//#pragma GCC diagnostic ignored "-Wunused-parameter"
 // missing initializer for member var
-// #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+//#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 #if (__GNUC__ * 100 + __GNUC_MINOR__) >= 407
 // typedef 'foo' locally defined but not used
-// #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
 
 #endif

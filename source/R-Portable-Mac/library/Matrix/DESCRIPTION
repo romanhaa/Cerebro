@@ -1,13 +1,13 @@
 Package: Matrix
-Version: 1.2-14
-Date: 2018-04-06
+Version: 1.2-15
+Date: 2018-09-15
 Priority: recommended
 Title: Sparse and Dense Matrix Classes and Methods
 Contact: Doug and Martin <Matrix-authors@R-project.org>
 Maintainer: Martin Maechler <mmaechler+Matrix@gmail.com>
 Authors@R: c(person("Douglas","Bates", role="aut")
- , person("Martin","Maechler", email="mmaechler+Matrix@gmail.com",
-           role = c("aut","cre"))
+ , person("Martin","Maechler", role = c("aut","cre"), email="mmaechler+Matrix@gmail.com",
+          comment = c(ORCID = "0000-0002-8685-9910"))
  , person("Timothy A.", "Davis", role="ctb",
            comment = c("SuiteSparse and 'cs' C libraries, notably CHOLMOD, AMD;
 		       collaborators listed in
@@ -35,9 +35,9 @@ License: GPL (>= 2) | file LICENCE
 URL: http://Matrix.R-forge.R-project.org/
 BugReports: https://r-forge.r-project.org/tracker/?group_id=61
 NeedsCompilation: yes
-Packaged: 2018-04-06 21:34:14 UTC; maechler
+Packaged: 2018-10-26 07:17:47 UTC; maechler
 Author: Douglas Bates [aut],
-  Martin Maechler [aut, cre],
+  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
   Timothy A. Davis [ctb] (SuiteSparse and 'cs' C libraries, notably
     CHOLMOD, AMD; collaborators listed in dir(pattern =
     '^[A-Z]+[.]txt$', full.names=TRUE, system.file('doc',
@@ -47,5 +47,6 @@ Author: Douglas Bates [aut],
     Regents of the University of California),
   R Core Team [ctb] (base R matrix implementation)
 Repository: CRAN
-Date/Publication: 2018-04-13 08:04:48 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-24 18:41:31 UTC; unix
+Date/Publication: 2018-11-01 18:30:04 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-11-02 12:07:59 UTC; unix
+Archs: Matrix.so.dSYM

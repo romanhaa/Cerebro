@@ -1,20 +1,29 @@
  NEWS/ChangeLog for rJava
 --------------------------
 
-0.9-9	(released to CRAN)
-    o	Work around a bug of Oracle's Java on Linux which caps the stack of
-        R at 2M.  The bug leads to segfaults in recursive computations (not
-        an R error as R doesn't know the stack size has been reduced).  The
-        workaround can be disabled via environment variable
-        RJAVA_JVM_STACK_WORKAROUND=0, which may produce better results with
-        memory access checkers (ASAN, valgrind), because the workaround
-        detects the new stack size by trying to access inaccessible memory. 
-        This JVM behavior was a workaround for an issue in old Linux systems
-        (JDK-4466587) and is going to be fixed in Java 10.
+0.9-9	2017-10-11
+    o	add support for --disable-Xrs configure option in case java -Xrs
+	is so broken that it cannot even be tested - reportedly the case
+	with Docker (see #63).
 
-    o   Java 9 only supports versions >= 1.6, so change many Makefiles to 1.6.
+    o	add optional class.loader= argument to .jnew() which allows to
+	use a custom loader in special cases.
 
-0.9-8	2016-01-07
+    o	change target to 1.6 and higher since Java 1.9 breaks when asked
+	to compile anything older than that. There is no technical reason,
+	so you can still build 1.2/1.4 targets by reverting 992828b and
+	using a JDK that won't break on 1.4 targets.
+
+    o	Process events on Widnows while in rniIndle. (#23)
+
+    o	Add a work-around for a bug in Oracle Java on Linux which causes
+	segfaults due to stack truncation. (#102)
+
+    o	Work around a change in registry location on Windows for Oracle
+	Java 1.9. (#120)
+
+
+0.9-8	2016-01-06
     o	Work around a bug on Oracle's Java on OS X by pre-loading jli
 
     o	Work around DYLD_FALLBACK_LIBRARY_PATH being dropped in OS X 10.11

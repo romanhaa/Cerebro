@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;sf&rsquo; version 0.6-3</h2>
+</div><h2>Documentation for package &lsquo;sf&rsquo; version 0.7-2</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -139,6 +139,10 @@
 <td>functions to interact with gdal not meant to be called directly by users (but e.g. by stars::st_stars)</td></tr>
 <tr><td style="width: 25%;"><a href="gdal.html">gdal_metadata</a></td>
 <td>functions to interact with gdal not meant to be called directly by users (but e.g. by stars::st_stars)</td></tr>
+<tr><td style="width: 25%;"><a href="gdal.html">gdal_polygonize</a></td>
+<td>functions to interact with gdal not meant to be called directly by users (but e.g. by stars::st_stars)</td></tr>
+<tr><td style="width: 25%;"><a href="gdal.html">gdal_rasterize</a></td>
+<td>functions to interact with gdal not meant to be called directly by users (but e.g. by stars::st_stars)</td></tr>
 <tr><td style="width: 25%;"><a href="gdal.html">gdal_read</a></td>
 <td>functions to interact with gdal not meant to be called directly by users (but e.g. by stars::st_stars)</td></tr>
 <tr><td style="width: 25%;"><a href="gdal.html">gdal_subdatasets</a></td>
@@ -160,7 +164,7 @@
 <tr><td style="width: 25%;"><a href="geos_unary.html">geos_unary</a></td>
 <td>Geometric unary operations on simple feature geometry sets</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">get_key_pos</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="tidyverse.html">group_by.sf</a></td>
 <td>Tidyverse methods for sf objects</td></tr>
 </table>
@@ -187,6 +191,8 @@
 <td>Check if driver is available</td></tr>
 <tr><td style="width: 25%;"><a href="is_driver_can.html">is_driver_can</a></td>
 <td>Check if a driver can perform an action</td></tr>
+<tr><td style="width: 25%;"><a href="is_geometry_column.html">is_geometry_column</a></td>
+<td>Check if the columns could be of a coercable type for sf</td></tr>
 </table>
 
 <h2><a name="L">-- L --</a></h2>
@@ -237,31 +243,31 @@
 <tr><td style="width: 25%;"><a href="tibble.html">pillar_shaft.sfc</a></td>
 <td>Summarize simple feature type for tibble</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sf</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_CIRCULARSTRING</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_GEOMETRY</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_GEOMETRYCOLLECTION</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_LINESTRING</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_MULTILINESTRING</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_MULTIPOINT</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_MULTIPOLYGON</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_POINT</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfc_POLYGON</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot.sfg</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">plot_sf</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="prefix_map.html">prefix_map</a></td>
 <td>Map prefix to driver</td></tr>
 <tr><td style="width: 25%;"><a href="sf.html">print.sf</a></td>
@@ -305,7 +311,7 @@
 <tr><td style="width: 25%;"><a href="sf-deprecated.html">sf-deprecated</a></td>
 <td>Deprecated functions in 'sf'</td></tr>
 <tr><td style="width: 25%;"><a href="plot.html">sf.colors</a></td>
-<td>Plot sf object</td></tr>
+<td>plot sf object</td></tr>
 <tr><td style="width: 25%;"><a href="sfc.html">sfc</a></td>
 <td>Create simple feature geometry list column</td></tr>
 <tr><td style="width: 25%;"><a href="sf_extSoftVersion.html">sf_extSoftVersion</a></td>
@@ -496,6 +502,10 @@
 <td>Geometric binary predicates on pairs of simple feature geometry sets</td></tr>
 <tr><td style="width: 25%;"><a href="st_crop.html">st_crop</a></td>
 <td>crop an sf object to a specific rectangle</td></tr>
+<tr><td style="width: 25%;"><a href="st_crop.html">st_crop.sf</a></td>
+<td>crop an sf object to a specific rectangle</td></tr>
+<tr><td style="width: 25%;"><a href="st_crop.html">st_crop.sfc</a></td>
+<td>crop an sf object to a specific rectangle</td></tr>
 <tr><td style="width: 25%;"><a href="geos_binary_pred.html">st_crosses</a></td>
 <td>Geometric binary predicates on pairs of simple feature geometry sets</td></tr>
 <tr><td style="width: 25%;"><a href="st_crs.html">st_crs</a></td>
@@ -530,6 +540,8 @@
 <td>Compute geometric measurements</td></tr>
 <tr><td style="width: 25%;"><a href="st_drivers.html">st_drivers</a></td>
 <td>Get GDAL drivers</td></tr>
+<tr><td style="width: 25%;"><a href="st_geometry.html">st_drop_geometry</a></td>
+<td>Get, set, or replace geometry from an sf object</td></tr>
 <tr><td style="width: 25%;"><a href="geos_binary_pred.html">st_equals</a></td>
 <td>Geometric binary predicates on pairs of simple feature geometry sets</td></tr>
 <tr><td style="width: 25%;"><a href="geos_binary_pred.html">st_equals_exact</a></td>
@@ -587,13 +599,23 @@
 <tr><td style="width: 25%;"><a href="st_line_sample.html">st_line_sample</a></td>
 <td>Sample points on a linear geometry</td></tr>
 <tr><td style="width: 25%;"><a href="st_make_grid.html">st_make_grid</a></td>
-<td>Make a rectangular grid over the bounding box of a sf or sfc object</td></tr>
+<td>Create a regular tesselation over the bounding box of an sf or sfc object</td></tr>
 <tr><td style="width: 25%;"><a href="st.html">st_multilinestring</a></td>
 <td>Create simple feature from a numeric vector, matrix or list</td></tr>
 <tr><td style="width: 25%;"><a href="st.html">st_multipoint</a></td>
 <td>Create simple feature from a numeric vector, matrix or list</td></tr>
 <tr><td style="width: 25%;"><a href="st.html">st_multipolygon</a></td>
 <td>Create simple feature from a numeric vector, matrix or list</td></tr>
+<tr><td style="width: 25%;"><a href="st_nearest_feature.html">st_nearest_feature</a></td>
+<td>get index of nearest feature</td></tr>
+<tr><td style="width: 25%;"><a href="st_nearest_points.html">st_nearest_points</a></td>
+<td>get nearest points between pairs of geometries</td></tr>
+<tr><td style="width: 25%;"><a href="st_nearest_points.html">st_nearest_points.sf</a></td>
+<td>get nearest points between pairs of geometries</td></tr>
+<tr><td style="width: 25%;"><a href="st_nearest_points.html">st_nearest_points.sfc</a></td>
+<td>get nearest points between pairs of geometries</td></tr>
+<tr><td style="width: 25%;"><a href="st_nearest_points.html">st_nearest_points.sfg</a></td>
+<td>get nearest points between pairs of geometries</td></tr>
 <tr><td style="width: 25%;"><a href="geos_unary.html">st_node</a></td>
 <td>Geometric unary operations on simple feature geometry sets</td></tr>
 <tr><td style="width: 25%;"><a href="geos_binary_pred.html">st_overlaps</a></td>
@@ -614,9 +636,9 @@
 <td>Transform or convert coordinates of simple feature</td></tr>
 <tr><td style="width: 25%;"><a href="st_read.html">st_read</a></td>
 <td>Read simple features or layers from file or database</td></tr>
-<tr><td style="width: 25%;"><a href="st_read.html">st_read.DBIObject</a></td>
+<tr><td style="width: 25%;"><a href="st_read.html">st_read.character</a></td>
 <td>Read simple features or layers from file or database</td></tr>
-<tr><td style="width: 25%;"><a href="st_read.html">st_read.default</a></td>
+<tr><td style="width: 25%;"><a href="st_read.html">st_read.DBIObject</a></td>
 <td>Read simple features or layers from file or database</td></tr>
 <tr><td style="width: 25%;"><a href="sf-deprecated.html">st_read_db</a></td>
 <td>Deprecated functions in 'sf'</td></tr>
@@ -675,6 +697,8 @@
 <tr><td style="width: 25%;"><a href="st_transform.html">st_wrap_dateline.sfg</a></td>
 <td>Transform or convert coordinates of simple feature</td></tr>
 <tr><td style="width: 25%;"><a href="st_write.html">st_write</a></td>
+<td>Write simple features object to file or database</td></tr>
+<tr><td style="width: 25%;"><a href="st_write.html">st_write.data.frame</a></td>
 <td>Write simple features object to file or database</td></tr>
 <tr><td style="width: 25%;"><a href="st_write.html">st_write.sf</a></td>
 <td>Write simple features object to file or database</td></tr>

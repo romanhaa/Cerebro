@@ -150,6 +150,7 @@ stri_match_first	stri_match
 stri_match_first_regex	stri_match
 stri_match_last	stri_match
 stri_match_last_regex	stri_match
+stri_na2empty	stri_na2empty
 stri_numbytes	stri_numbytes
 stri_opts_brkiter	stri_opts_brkiter
 stri_opts_collator	stri_opts_collator
@@ -167,6 +168,7 @@ stri_rand_shuffle	stri_rand_shuffle
 stri_rand_strings	stri_rand_strings
 stri_read_lines	stri_read_lines
 stri_read_raw	stri_read_raw
+stri_remove_empty	stri_remove_empty
 stri_replace	stri_replace
 stri_replace_all	stri_replace
 stri_replace_all_charclass	stri_replace
@@ -212,6 +214,7 @@ stri_subset_fixed	stri_subset
 stri_subset_fixed<-	stri_subset
 stri_subset_regex	stri_subset
 stri_subset_regex<-	stri_subset
+stri_sub_replace	stri_sub
 stri_timezone_get	stri_timezone_set
 stri_timezone_info	stri_timezone_info
 stri_timezone_list	stri_timezone_list

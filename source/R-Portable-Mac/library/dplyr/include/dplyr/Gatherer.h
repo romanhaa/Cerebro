@@ -236,6 +236,8 @@ inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
     return new ConstantGathererImpl<CPLXSXP>(x, n);
   case VECSXP:
     return new ConstantGathererImpl<VECSXP>(x, n);
+  case RAWSXP:
+    return new ConstantGathererImpl<RAWSXP>(x, n);
   default:
     break;
   }
@@ -250,6 +252,10 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
 
   if (Rf_inherits(first, "POSIXlt")) {
     bad_col(name, "is of unsupported class POSIXlt");
+  }
+
+  if (Rf_inherits(first, "data.frame")) {
+    bad_col(name, "is of unsupported class data.frame");
   }
 
   check_supported_type(first, name);

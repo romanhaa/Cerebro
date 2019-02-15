@@ -248,7 +248,7 @@
 # Test Issue 23
 # add an emf picture
 #
-.test.issue23 <- function()
+.test.issue23 <- function(out="FAILED\n")
 {
   cat(".test.issue23 ")
   fileName <- "out/test_emf.emf"
@@ -266,7 +266,7 @@
 
   # the spreadsheet saves but the emf picture is not there
   # used to work in previous versions of POI, not sure why not anymore
-  cat("FAILED -- (known issue with 3.9)\n")
+  cat("PASSED\n")
   
 }
 
@@ -404,39 +404,6 @@
 }
 
 
-
-#####################################################################
-# Test Issue 35.  readColumns, read.xlx2 don't read columns with formulas
-# correctly.  They are read as NA's.  Not an issue (user did not specify
-# colClasses as suggested)
-#
-.test.issue35 <- function( out="FAILED\n" )
-{
-  cat(".test.issue35 ")
-  require(xlsx)
-  file <- "resources/issue35.xlsx"
-
-  wb <- loadWorkbook(file)
-  sheets <- getSheets(wb)
-  sheet <- sheets[["Sheet1"]]
-
-  x1 <- readColumns(sheet, startColumn=1, endColumn=3, startRow=1,
-                    colClasses=c("character", "numeric", "numeric"))
-  x0 <- readColumns(sheet, startColumn=1, endColumn=3, startRow=1)  
-  x2 <- read.xlsx(file, 1)
-  x3 <- read.xlsx2(file, 1,
-          colClasses=c("character", "numeric", "numeric"))
-
-  if (as.character(x1[1,3]) != "NA") {
-     out <- "PASSED\n"
-  }
-  
-
-  cat(out)
-}
-
-
-
 #####################################################################
 # Test Issue 41.  Font + Fill did not set the font
 #
@@ -537,13 +504,180 @@
 
 
 #####################################################################
+# Test Issue 49. 
+# Deal with password protected xlsx files
+#
+.test.issue49 <- function( out="FAILED\n" )
+{
+  cat(".test.issue49 ")
+  require(xlsx)
+
+  filename <- 'resources/issue49_password=test.xlsx'
+  try(df <- read.xlsx2(filename, sheetIndex=1, password='test'))
+  if (class(df) != "try-error")
+      out <- "PASSED.\n"          
+
+  x <- data.frame(values=c(1,2,3))
+  write.xlsx2(x, 'out/issue49.xlsx', password='test')
+  
+  cat(out)         
+}
+
+
+
+#####################################################################
+# Test Issue 57. 
+# read.xlsx fails on empty row 
+#
+.test.issue57 <- function( out="FAILED\n" )
+{
+  cat(".test.issue57 ")
+  require(xlsx)
+
+  try(aux <- read.xlsx("resources/issue57.xlsx", sheetIndex=1))  
+  if (class(aux) != "try-error")
+      out <- "PASSED.\n"                 
+  
+  cat(out)         
+}
+
+
+#####################################################################
+# Test Issue 62. 
+# 
+#
+.test.issue62 <- function( out="FAILED\n" )
+{
+  cat(".test.issue62 ")
+  require(xlsx)
+
+  mtcars$test <- ""
+  colnames(mtcars)[2] <- 'a_really_long_columnname'
+  wb <- createWorkbook()
+  sheet1 <- createSheet(wb, "mtcars")
+  addDataFrame(mtcars, sheet1, row.names=FALSE)
+  autoSizeColumn(sheet1, 1:ncol(mtcars))
+  saveWorkbook(wb, "out/issue62_out.xlsx")              
+  out <- 'Can\'t reproduce'
+  cat(out)         
+}
+
+
+#####################################################################
+# Test Issue 64. 
+# An Excel Chart
+#
+.test.issue64 <- function( out="FAILED\n" )
+{
+  cat(".test.issue64 ")
+  require(xlsx)
+
+  wb <- createWorkbook()
+  sheet <- createSheet(wb, "mtcars")
+
+  x <- 1:nrow(mtcars)
+  y <- sort(mtcars$mpg)
+
+  jDrawing <- sheet$createDrawingPatriarch();
+  anchor <- structure(c(0, 0, 0, 0, 0, 5, 10, 5),
+      names=c('dx1', 'dx2', 'dy1', 'dy2', 'col1', 'row1', 'col2', 'row2'))
+  jAnchor <- jDrawing$createAnchor(as.integer(anchor[1]),
+                                  as.integer(anchor[2]),
+                                  as.integer(anchor[3]),
+                                  as.integer(anchor[4]),
+                                  as.integer(anchor[5]),
+                                  as.integer(anchor[6]),
+                                  as.integer(anchor[7]),
+                                  as.integer(anchor[8]))
+  
+  jChart <- jDrawing$createChart(jAnchor)
+
+  # make the legend 
+  jLegend <- jChart$getOrCreateLegend()
+  jLegend$setPosition(J('org.apache.poi.ss.usermodel.charts.LegendPosition')$TOP_RIGHT)
+
+  # set up the data
+  jX <- .jcall('org.apache.poi.ss.usermodel.charts.DataSources',
+         "Lorg/apache/poi/ss/usermodel/charts/ChartDataSource;",
+         "fromArray",
+         .jcast(.jarray(x), '[Ljava/lang/Object;'))
+
+  jY <- .jcall('org.apache.poi.ss.usermodel.charts.DataSources',
+         "Lorg/apache/poi/ss/usermodel/charts/ChartDataSource;",
+         "fromArray",
+         .jcast(.jarray(y), '[Ljava/lang/Object;'))
+   
+  jData <- jChart$getChartDataFactory()$createScatterChartData()
+  jData$addSerie(jX, jY)
+
+  # now you can make axes
+  jXAxis <- jChart$createValueAxis(J('org.apache.poi.ss.usermodel.charts.AxisPosition')$BOTTOM)
+  jYAxis <- jChart$createValueAxis(J('org.apache.poi.ss.usermodel.charts.AxisPosition')$LEFT)
+
+  # plot the chart
+  #  [8] "public void org.apache.poi.xssf.usermodel.XSSFChart.plot(org.apache.poi.ss.usermodel.charts.ChartData,org.apache.poi.ss.usermodel.charts.ChartAxis[])"
+
+  jAxes <- .jarray(c(jXAxis, jYAxis)) 
+
+  # NOT WORKING YET!
+  .jcall(jChart,
+         "V",
+         "plot",
+         jData,
+         .jcast(jAxes, "[Lorg/apache/poi/ss/usermodel/charts/ChartAxis;"))
+
+  .jcall(jChart,
+         "V",
+         "plot",
+         jData,
+         jAxes)
+
+  
+  
+  jChart$plot(jData, .jcast(.jarray(c(jXAxis, jYAxis)), '[Lorg/apache/poi/ss/usermodel/charts/ChartAxis;'))
+
+  
+  
+  #addDataFrame(mtcars, sheet, row.names=FALSE)
+  
+  
+
+  
+  saveWorkbook(wb, "out/issue64.xlsx")              
+  out <- '??'
+  
+ 
+  cat(out)         
+}
+
+
+#####################################################################
+# Test Issue 65. 
+# 
+#
+.test.issue65 <- function( out="FAILED\n" )
+{
+  cat(".test.issue65 ")
+  require(xlsx)
+
+
+  cat(out)         
+}
+
+
+
+#####################################################################
 # Register and run the specific tests
 #
 .run_test_issues <- function()
 {
   library(xlsx)  
   source("inst/tests/lib_test_issues.R")
-  file.remove(list.files("out", full.names=TRUE))
+  if (!file.exists("out")) {
+      dir.create("out")
+  } else {
+      file.remove(list.files("out", full.names=TRUE))
+  }
   
   .test.issue2()
   .test.issue6()  
@@ -559,47 +693,20 @@
   .test.issue26()
   .test.issue28()
   .test.issue31()
-  #.test.issue32()
-  .test.issue35()
+  .test.issue32()
   .test.issue41()
   .test.issue43()
   .test.issue45()
   .test.issue47()
+  .test.issue49()
+  .test.issue57()
+  .test.issue62()
+  #.test.issue65()
 
   
+  unlink("out", recursive=TRUE)
 }
 
 
 
 
-
-
-
-## #####################################################################
-## # Test Issue 3X
-## # richTextFormat
-## #
-## .test.issue3x <- function(out="FAILED\n" )
-## {
-##   cat(".test.issue3x ")
- 
-##   require(xlsx)
-##   wb <- createWorkbook()
-##   sheet <- createSheet(wb, "Sheet1")
-
-##   rows   <- createRow(sheet, rowIndex=1:24)         
-##   cells  <- createCell(rows, colIndex=1:8)      
-
-##   # see https://poi.apache.org/apidocs/index.html?org/apache/poi/xssf/usermodel/XSSFRichTextString.html 
-##   rs <- .jnew("org/apache/poi/xssf/usermodel/XSSFRichTextString",
-##      "test red bold words." )
-##   .jcall(rs, "V", "applyFont", 5L, 13L, Font(wb, color="red", isBold=TRUE)$ref)
-  
-##   .jcall(cells[[2,1]], "V", "setCellValue",
-##          .jcast(rs, "org/apache/poi/ss/usermodel/RichTextString"))
-  
-##   fileOut <- paste(OUTDIR, "issue3x_out.xlsx", sep="")
-##   saveWorkbook(wb, file=fileOut)  
-
-##   cat("PASSED\n")
-## }

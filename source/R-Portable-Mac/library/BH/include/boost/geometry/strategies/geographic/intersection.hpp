@@ -1,6 +1,8 @@
 // Boost.Geometry
 
-// Copyright (c) 2016-2017, Oracle and/or its affiliates.
+// Copyright (c) 2017 Adam Wulkiewicz, Lodz, Poland.
+
+// Copyright (c) 2016-2018, Oracle and/or its affiliates.
 // Contributed and/or modified by Adam Wulkiewicz, on behalf of Oracle
 
 // Use, modification and distribution is subject to the Boost Software License,
@@ -15,7 +17,6 @@
 #include <boost/geometry/core/cs.hpp>
 #include <boost/geometry/core/access.hpp>
 #include <boost/geometry/core/radian_access.hpp>
-#include <boost/geometry/core/srs.hpp>
 #include <boost/geometry/core/tags.hpp>
 
 #include <boost/geometry/algorithms/detail/assign_values.hpp>
@@ -32,6 +33,8 @@
 #include <boost/geometry/geometries/concepts/segment_concept.hpp>
 
 #include <boost/geometry/policies/robustness/segment_ratio.hpp>
+
+#include <boost/geometry/srs/spheroid.hpp>
 
 #include <boost/geometry/strategies/geographic/area.hpp>
 #include <boost/geometry/strategies/geographic/distance.hpp>
@@ -106,7 +109,6 @@ struct geographic_segments
     {
         typedef area::geographic
             <
-                typename point_type<Geometry>::type,
                 FormulaPolicy,
                 Order,
                 Spheroid,
@@ -152,34 +154,8 @@ struct geographic_segments
     template <typename CoordinateType, typename SegmentRatio>
     struct segment_intersection_info
     {
-        typedef typename select_most_precise
-            <
-                CoordinateType, double
-            >::type promoted_type;
-
-        promoted_type comparable_length_a() const
-        {
-            return robust_ra.denominator();
-        }
-
-        promoted_type comparable_length_b() const
-        {
-            return robust_rb.denominator();
-        }
-
         template <typename Point, typename Segment1, typename Segment2>
-        void assign_a(Point& point, Segment1 const& a, Segment2 const& b) const
-        {
-            assign(point, a, b);
-        }
-        template <typename Point, typename Segment1, typename Segment2>
-        void assign_b(Point& point, Segment1 const& a, Segment2 const& b) const
-        {
-            assign(point, a, b);
-        }
-
-        template <typename Point, typename Segment1, typename Segment2>
-        void assign(Point& point, Segment1 const& a, Segment2 const& b) const
+        void calculate(Point& point, Segment1 const& a, Segment2 const& b) const
         {
             if (ip_flag == ipi_inters)
             {
@@ -257,7 +233,16 @@ struct geographic_segments
     {
         bool is_a_reversed = get<1>(a1) > get<1>(a2);
         bool is_b_reversed = get<1>(b1) > get<1>(b2);
-                           
+        /*
+        typename coordinate_type<Point1>::type
+            const a1_lon = get<0>(a1),
+            const a2_lon = get<0>(a2);
+        typename coordinate_type<Point2>::type
+            const b1_lon = get<0>(b1),
+            const b2_lon = get<0>(b2);
+        bool is_a_reversed = a1_lon > a2_lon || a1_lon == a2_lon && get<1>(a1) > get<1>(a2);
+        bool is_b_reversed = b1_lon > b2_lon || b1_lon == b2_lon && get<1>(b1) > get<1>(b2);
+        */                 
         if (is_a_reversed)
         {
             std::swap(a1, a2);
@@ -449,7 +434,7 @@ private:
                 if (res_a1_a2.distance <= res_b1_b2.distance)
                 {
                     calculate_collinear_data(a1, a2, b1, b2, res_a1_a2, res_a1_b1, res_a1_b2, dist_a1_a2, dist_a1_b1);
-                    calculate_collinear_data(a1, a2, b1, b2, res_a1_a2, res_a1_b2, res_a1_b1, dist_a1_a2, dist_a1_b2);
+                    calculate_collinear_data(a1, a2, b2, b1, res_a1_a2, res_a1_b2, res_a1_b1, dist_a1_a2, dist_a1_b2);
                     dist_b1_b2 = dist_a1_b2 - dist_a1_b1;
                     dist_b1_a1 = -dist_a1_b1;
                     dist_b1_a2 = dist_a1_a2 - dist_a1_b1;
@@ -457,7 +442,7 @@ private:
                 else
                 {
                     calculate_collinear_data(b1, b2, a1, a2, res_b1_b2, res_b1_a1, res_b1_a2, dist_b1_b2, dist_b1_a1);
-                    calculate_collinear_data(b1, b2, a1, a2, res_b1_b2, res_b1_a2, res_b1_a1, dist_b1_b2, dist_b1_a2);
+                    calculate_collinear_data(b1, b2, a2, a1, res_b1_b2, res_b1_a2, res_b1_a1, dist_b1_b2, dist_b1_a2);
                     dist_a1_a2 = dist_b1_a2 - dist_b1_a1;
                     dist_a1_b1 = -dist_b1_a1;
                     dist_a1_b2 = dist_b1_b2 - dist_b1_a1;
@@ -635,48 +620,48 @@ private:
                                                 ResultInverse const& res_a1_b1,     // in
                                                 ResultInverse const& res_a1_b2,     // in
                                                 CalcT& dist_a1_a2,                  // out
-                                                CalcT& dist_a1_bi,                  // out
+                                                CalcT& dist_a1_b1,                  // out
                                                 bool degen_neq_coords = false)      // in
     {
         dist_a1_a2 = res_a1_a2.distance;
 
-        dist_a1_bi = res_a1_b1.distance;
+        dist_a1_b1 = res_a1_b1.distance;
         if (! same_direction(res_a1_b1.azimuth, res_a1_a2.azimuth))
         {
-            dist_a1_bi = -dist_a1_bi;
+            dist_a1_b1 = -dist_a1_b1;
         }
 
-        // if i1 is close to a1 and b1 or b2 is equal to a1
-        if (is_endpoint_equal(dist_a1_bi, a1, b1, b2))
+        // if b1 is close a1
+        if (is_endpoint_equal(dist_a1_b1, a1, b1))
         {
-            dist_a1_bi = 0;
+            dist_a1_b1 = 0;
             return true;
         }
-        // or i1 is close to a2 and b1 or b2 is equal to a2
-        else if (is_endpoint_equal(dist_a1_a2 - dist_a1_bi, a2, b1, b2))
+        // if b1 is close a2
+        else if (is_endpoint_equal(dist_a1_a2 - dist_a1_b1, a2, b1))
         {
-            dist_a1_bi = dist_a1_a2;
+            dist_a1_b1 = dist_a1_a2;
             return true;
         }
 
-        // check the other endpoint of a very short segment near the pole
+        // check the other endpoint of degenerated segment near a pole
         if (degen_neq_coords)
         {
             static CalcT const c0 = 0;
             if (math::equals(res_a1_b2.distance, c0))
             {
-                dist_a1_bi = 0;
+                dist_a1_b1 = 0;
                 return true;
             }
             else if (math::equals(dist_a1_a2 - res_a1_b2.distance, c0))
             {
-                dist_a1_bi = dist_a1_a2;
+                dist_a1_b1 = dist_a1_a2;
                 return true;
             }
         }
 
         // or i1 is on b
-        return segment_ratio<CalcT>(dist_a1_bi, dist_a1_a2).on_segment();
+        return segment_ratio<CalcT>(dist_a1_b1, dist_a1_a2).on_segment();
     }
 
     template <typename Point1, typename Point2, typename CalcT, typename ResultInverse, typename Spheroid_>
@@ -900,11 +885,11 @@ private:
 
     template <typename CalcT, typename P1, typename P2>
     static inline bool is_endpoint_equal(CalcT const& dist,
-                                         P1 const& ai, P2 const& b1, P2 const& b2)
+                                         P1 const& ai, P2 const& b1)
     {
         static CalcT const c0 = 0;
         using geometry::detail::equals::equals_point_point;
-        return is_near(dist) && (equals_point_point(ai, b1) || equals_point_point(ai, b2) || math::equals(dist, c0));
+        return is_near(dist) && (math::equals(dist, c0) || equals_point_point(ai, b1));
     }
 
     template <typename CalcT>

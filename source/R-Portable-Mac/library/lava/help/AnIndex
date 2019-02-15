@@ -13,6 +13,8 @@ backdoor	backdoor
 baptize	baptize
 beta.lvm	sim
 binomial.lvm	sim
+binomial.rd	binomial.rd
+binomial.rr	binomial.rd
 blockdiag	blockdiag
 bmd	bmd
 bmidata	bmidata
@@ -79,7 +81,7 @@ distribution	sim
 distribution.lvm	sim
 distribution<-	sim
 distribution<-.lvm	sim
-dmvn	internal
+dmvn0	internal
 dsep	dsep.lvm
 dsep.lvm	dsep.lvm
 edgelabels	labels-set
@@ -138,6 +140,7 @@ heavytail	sim
 heavytail<-	sim
 hubble	hubble
 hubble2	hubble2
+Identical	internal
 idplot	click
 igraph.lvm	internal
 iid	iid
@@ -164,7 +167,6 @@ kappa.multinomial	multinomial
 kappa.table	multinomial
 kill	rmvar
 kill<-	rmvar
-km	km
 ksmooth2	ksmooth2
 labels	labels-set
 labels.graphNEL	labels-set
@@ -212,6 +214,7 @@ moments	gof
 moments.lvm	gof
 multigroup	internal
 multinomial	multinomial
+mvn.lvm	sim
 mvnmix	mvnmix
 na.pass0	internal
 NA2x	NA2x
@@ -222,7 +225,7 @@ nodecolor<-.default	labels-set
 nonlinear	twostage.lvmfit
 nonlinear<-	twostage.lvmfit
 normal.lvm	sim
-NR	internal
+NR	NR
 nsem	nsem
 odds	diagtest
 offdiag	revdiag
@@ -233,7 +236,6 @@ OR	diagtest
 ordinal	ordinal-set
 ordinal<-	ordinal-set
 ordreg	ordreg
-Org	Org
 p.correct	closed.testing
 parameter	internal
 parameter<-	constrain-set
@@ -287,7 +289,7 @@ revdiag<-	revdiag
 riskcomp	diagtest
 rmvar	rmvar
 rmvar<-	rmvar
-rmvn	internal
+rmvn0	internal
 roots	children
 rot2D	rotate2
 rot3D	rotate2
@@ -341,6 +343,7 @@ twostage.estimate	twostage.lvmfit
 twostage.lvm	twostage.lvmfit
 twostage.lvm.mixture	twostage.lvmfit
 twostage.lvmfit	twostage.lvmfit
+twostageCV	twostageCV
 uniform.lvm	sim
 updatelvm	internal
 variance	covariance
@@ -356,6 +359,7 @@ wait	wait
 waitclick	wait
 weibull.lvm	sim
 Weights	internal
+wkm	wkm
 wrapvec	wrapvec
 x2NA	NA2x
 zibreg	zibreg

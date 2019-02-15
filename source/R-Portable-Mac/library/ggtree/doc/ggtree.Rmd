@@ -1,8 +1,8 @@
 ---
 title: "ggtree: a phylogenetic tree viewer for different types of tree annotations"
-author: "Guangchuang Yu and Tommy Tsan-Yuk Lam\\
+author: "Guangchuang Yu\\
 
-        School of Public Health, The University of Hong Kong"
+        School of Basic Medical Sciences, Southern Medical University"
 date: "`r Sys.Date()`"
 bibliography: ggtree.bib
 biblio-style: apalike
@@ -48,12 +48,15 @@ Biocpkg <- function (pkg) {
 
 # Citation
 
-If you use `r Biocpkg('ggtree')` in published research, please cite:
+If you use `r Biocpkg('ggtree')` in published research, please cite the most appropriate paper(s) from this list:
 
-__G Yu__, DK Smith, H Zhu, Y Guan, TTY Lam^\*^. ggtree: an R package for
+1. __G Yu__, DK Smith, H Zhu, Y Guan, TTY Lam^\*^. ggtree: an R package for
 visualization and annotation of phylogenetic trees with their covariates and
 other associated data. __*Methods in Ecology and Evolution*__. 2017, 8(1):28-36.
 doi: [10.1111/2041-210X.12628](https://doi.org/10.1111/2041-210X.12628).
+2. __G Yu__^\*^, TTY Lam, H Zhu, Y Guan^\*^. Two methods for mapping and visualizing associated data on phylogeny using ggtree. __*Molecular Biology and Evolution*__, 2018, 35(2):3041-3043.
+doi: [10.1093/molbev/msy194](https://doi.org/10.1093/molbev/msy194).
+
 
 
 # Introduction
@@ -192,7 +195,8 @@ knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T)
 ```
 
 `r Biocpkg('ggtree')` supports creating phylomoji using Emoji fonts, please
-refer to the [Phylomoji](https://guangchuangyu.github.io/software/ggtree/vignettes/phylomoji.html) vignette.
+refer to the
+[Phylomoji](https://guangchuangyu.github.io/software/ggtree/vignettes/phylomoji.html) vignette.
 
 
 `r Biocpkg('ggtree')` integrates [phylopic](http://phylopic.org/) database and silhouette images of organisms can
@@ -243,8 +247,6 @@ For questions, please post
 to [google group](https://groups.google.com/forum/#!forum/bioc-ggtree). Users
 are highly recommended to subscribe to the [mailing list](https://groups.google.com/forum/#!forum/bioc-ggtree).
 
-
-For Chinese user, you can follow me on [WeChat (微信)](https://guangchuangyu.github.io/blog_images/biobabble.jpg).
 
 
 # Session info

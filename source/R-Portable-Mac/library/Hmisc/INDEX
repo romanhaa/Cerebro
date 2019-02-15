@@ -73,6 +73,7 @@ getZip                  Open a Zip File From a URL.
 ggfreqScatter           Frequency Scatterplot
 hdquantile              Harrell-Davis Distribution-Free Quantile
                         Estimator
+hidingTOC               Moving and Hiding Table of Contents
 hist.data.frame         Histograms for Variables in a Data Frame
 histbackback            Back to Back Histograms
 histboxp                Use plotly to Draw Stratified Spike Histogram
@@ -118,6 +119,7 @@ partition               Patitions an object into different sets
 pc1                     First Principal Component
 plotCorrPrecision       Plot Precision of Estimate of Pearson
                         Correlation Coefficient
+plotlyM                 plotly Multiple
 plsmo                   Plot smoothed estimates
 popower                 Power and Sample Size for Ordinal Response
 print.char.list         prints a list of lists in a visually readable

@@ -9,3 +9,21 @@ import(
   MASS,
   mclust
 )
+
+# register
+# print.alleleobject print.comprabclust print.nnclean print.prab
+#  print.prabclust print.summary.prabtest summary.prabtest
+S3method(print, alleleobject)
+S3method(print, comprabclust)
+S3method(print, nnclean)
+S3method(print, prab)
+S3method(print, prabclust)
+S3method(print, summary.prabtest)
+S3method(summary, prabtest)
+
+importFrom("grDevices", "grey")
+importFrom("graphics", "abline", "box", "hist", "lines", "plot")
+importFrom("stats", "as.dist", "chisq.test", "cmdscale", "coef",
+             "cutree", "dist", "hclust", "lm", "mad", "median", "pnorm",
+             "ppois", "rnorm", "runif")
+importFrom("utils", "read.table", "write.table")

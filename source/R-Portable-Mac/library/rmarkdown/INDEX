@@ -41,6 +41,7 @@ pandoc_available        Check pandoc availability and version
 pandoc_citeproc_convert
                         Convert a bibliograpy file
 pandoc_convert          Convert a document with pandoc
+pandoc_exec             Get the path of the pandoc executable
 pandoc_options          Pandoc options for an output format
 pandoc_path_arg         Transform path for passing to pandoc
 pandoc_self_contained_html

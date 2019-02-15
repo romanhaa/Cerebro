@@ -37,7 +37,7 @@ namespace runtime {
 // **************             runtime::param_error             ************** //
 // ************************************************************************** //
 
-class param_error : public std::exception {
+class BOOST_SYMBOL_VISIBLE param_error : public std::exception {
 public:
     ~param_error() BOOST_NOEXCEPT_OR_NOTHROW {}
 
@@ -55,7 +55,7 @@ protected:
 
 //____________________________________________________________________________//
 
-class init_error : public param_error {
+class BOOST_SYMBOL_VISIBLE init_error : public param_error {
 protected:
     explicit    init_error( cstring param_name ) : param_error( param_name ) {}
     ~init_error() BOOST_NOEXCEPT_OR_NOTHROW {}
@@ -70,7 +70,7 @@ protected:
 //____________________________________________________________________________//
 
 template<typename Derived, typename Base>
-class specific_param_error : public Base {
+class BOOST_SYMBOL_VISIBLE specific_param_error : public Base {
 protected:
     explicit    specific_param_error( cstring param_name ) : Base( param_name ) {}
     ~specific_param_error() BOOST_NOEXCEPT_OR_NOTHROW {}
@@ -86,7 +86,7 @@ public:
     {
         this->msg.append( val );
 
-        return reinterpret_cast<Derived&&>(*this);
+        return static_cast<Derived&&>(*this);
     }
 
     //____________________________________________________________________________//
@@ -96,7 +96,7 @@ public:
     {
         this->msg.append( unit_test::utils::string_cast( val ) );
 
-        return reinterpret_cast<Derived&&>(*this);
+        return static_cast<Derived&&>(*this);
     }
 
     //____________________________________________________________________________//
@@ -155,7 +155,7 @@ SPECIFIC_EX_TYPE( missing_req_arg, input_error );
 
 #undef SPECIFIC_EX_TYPE
 
-class ambiguous_param : public specific_param_error<ambiguous_param, input_error> {
+class BOOST_SYMBOL_VISIBLE ambiguous_param : public specific_param_error<ambiguous_param, input_error> {
 public:
 #ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
     explicit    ambiguous_param( std::vector<cstring>&& amb_candidates )

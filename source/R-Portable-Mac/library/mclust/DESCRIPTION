@@ -1,15 +1,18 @@
 Package: mclust
-Version: 5.4.1
-Date: 2018-06-27
+Version: 5.4.2
+Date: 2018-11-17
 Title: Gaussian Mixture Modelling for Model-Based Clustering,
         Classification, and Density Estimation
 Description: Gaussian finite mixture models fitted via EM algorithm for model-based clustering, classification, and density estimation, including Bayesian regularization, dimension reduction for visualisation, and resampling-based inference.
 Authors@R: c(person("Chris", "Fraley", role = "aut"),
              person("Adrian E.", "Raftery", role = "aut"),
              person("Luca", "Scrucca", role = c("aut", "cre"),
-                    email = "luca.scrucca@unipg.it"),
-             person("Thomas Brendan", "Murphy", role = "ctb"),
-             person("Michael", "Fop", role = "ctb"))
+                    email = "luca.scrucca@unipg.it",
+                    comment = c(ORCID = "0000-0003-3826-0484")),
+             person("Thomas Brendan", "Murphy", role = "ctb",
+                    comment = c(ORCID = "0000-0002-5668-7046")),
+             person("Michael", "Fop", role = "ctb",
+                    comment = c(ORCID = "0000-0003-3936-2757")))
 Depends: R (>= 3.0)
 Imports: stats, utils, graphics, grDevices
 Suggests: knitr (>= 1.12), rmarkdown (>= 0.9), mix (>= 1.0), geometry
@@ -21,13 +24,13 @@ Repository: CRAN
 ByteCompile: true
 LazyLoad: yes
 NeedsCompilation: yes
-Packaged: 2018-06-27 11:23:35 UTC; luca
+Packaged: 2018-11-17 09:25:12 UTC; luca
 Author: Chris Fraley [aut],
   Adrian E. Raftery [aut],
-  Luca Scrucca [aut, cre],
-  Thomas Brendan Murphy [ctb],
-  Michael Fop [ctb]
+  Luca Scrucca [aut, cre] (<https://orcid.org/0000-0003-3826-0484>),
+  Thomas Brendan Murphy [ctb] (<https://orcid.org/0000-0002-5668-7046>),
+  Michael Fop [ctb] (<https://orcid.org/0000-0003-3936-2757>)
 Maintainer: Luca Scrucca <luca.scrucca@unipg.it>
-Date/Publication: 2018-06-27 14:58:17 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-06-28 04:28:49 UTC; unix
+Date/Publication: 2018-11-17 11:50:08 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-11-18 12:51:11 UTC; unix
 Archs: mclust.so.dSYM

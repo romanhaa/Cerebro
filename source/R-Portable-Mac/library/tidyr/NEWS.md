@@ -1,3 +1,15 @@
+# tidyr 0.8.2
+
+* `separate()` now accepts `NA` as a column name in the `into` argument to
+  denote columns which are omitted from the result. (@markdly, #397).
+
+* Minor updates to ensure compatibility with dependencies.
+
+# tidyr 0.8.1
+
+* `unnest()` weakens test of "atomicity" to restore previous behaviour when
+  unnesting factors and dates (#407).
+
 # tidyr 0.8.0
 
 ## Breaking changes
@@ -49,7 +61,7 @@
   can replace `NULL` in list-columns. It throws a better error message if
   you attempt to replace with something other than length 1.
 
-* `separate()` now longer checks that `...` is empty, allowing methods to make
+* `separate()` no longer checks that `...` is empty, allowing methods to make
   use of it. This check was added in tidyr 0.4.0 (2016-02-02) to deprecate
   previous behaviour where `...` was passed to `strsplit()`.
 

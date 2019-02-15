@@ -1,3 +1,7 @@
+##----------------------------------------------------------------------------##
+## Panel: Overview.
+##----------------------------------------------------------------------------##
+
 tab_overview <- tabItem(
     tabName = "overview",
     tagList(
@@ -35,7 +39,7 @@ tab_overview <- tabItem(
             # scatterD3::scatterD3Output(
             #   "overview_projection", height = "720px"
             # ),
-            plotly::plotlyOutput("overview_projection_plotly")
+            plotly::plotlyOutput("overview_projection_plotly", height = "720px")
           )
         )
       )

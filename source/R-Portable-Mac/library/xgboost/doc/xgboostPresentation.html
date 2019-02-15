@@ -1,310 +1,181 @@
 <!DOCTYPE html>
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>XGBoost R Tutorial</title>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
-  }
-};
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Styles for R syntax highlighter -->
+<meta name="author" content="Tianqi Chen, Tong He, Michaël Benesty" />
+
+
+<title>Xgboost presentation</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-   pre .operator,
-   pre .paren {
-     color: rgb(104, 118, 135)
-   }
-
-   pre .literal {
-     color: #990073
-   }
-
-   pre .number {
-     color: #099;
-   }
-
-   pre .comment {
-     color: #998;
-     font-style: italic
-   }
-
-   pre .keyword {
-     color: #900;
-     font-weight: bold
-   }
-
-   pre .identifier {
-     color: rgb(0, 0, 0);
-   }
-
-   pre .string {
-     color: #d14;
-   }
-</style>
-
-<!-- R syntax highlighter -->
-<script type="text/javascript">
-var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
-hljs.initHighlightingOnLoad();
-</script>
-
-
-
-<style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
-}
-
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
-}
-
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
-}
-
-h1 {
-   font-size:2.2em;
-}
-
-h2 {
-   font-size:1.8em;
-}
-
-h3 {
-   font-size:1.4em;
-}
-
-h4 {
-   font-size:1.0em;
-}
-
-h5 {
-   font-size:0.9em;
-}
-
-h6 {
-   font-size:0.8em;
-}
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
-}
-
-pre, img {
-  max-width: 100%;
-}
-pre {
-  overflow-x: auto;
-}
-pre code {
-   display: block; padding: 0.5em;
-}
-
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
-}
-
-code[class] {
-  background-color: #F8F8F8;
-}
-
-table, td, th {
-  border: none;
-}
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
-}
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
-}
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
-}
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Amargin%3A%200%20auto%3B%0Abackground%2Dcolor%3A%20white%3B%0A%0A%2F%20font%2Dfamily%3AGeorgia%2C%20Palatino%2C%20serif%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Book%20Antiqua%22%2C%20Palatino%2C%20serif%3B%0A%2F%20font%2Dfamily%3AArial%2C%20Helvetica%2C%20sans%2Dserif%3B%0A%2F%20font%2Dfamily%3ATahoma%2C%20Verdana%2C%20Geneva%2C%20sans%2Dserif%3B%0A%2F%20font%2Dfamily%3ACourier%2C%20monospace%3B%0A%2F%20font%2Dfamily%3A%22Times%20New%20Roman%22%2C%20Times%2C%20serif%3B%0A%09color%3A%20%23333333%3B%20%0A%2F%20color%3A%20%23000000%3B%20%0A%2F%20color%3A%20%23666666%3B%20%09%2F%20color%3A%20%23E3E3E3%3B%20%0A%2F%20color%3A%20white%3B%20line%2Dheight%3A%20100%25%3B%0Amax%2Dwidth%3A%20800px%3B%0Apadding%3A%2010px%3B%0Afont%2Dsize%3A%2017px%3B%0Atext%2Dalign%3A%20justify%3B%0Atext%2Djustify%3A%20inter%2Dword%3B%0A%7D%0Ap%20%7B%0Aline%2Dheight%3A%20150%25%3B%0A%2F%20max%2Dwidth%3A%20540px%3B%0Amax%2Dwidth%3A%20960px%3B%0Amargin%2Dbottom%3A%205px%3B%0Afont%2Dweight%3A%20400%3B%20%2F%20color%3A%20%23333333%0A%7D%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%0Afont%2Dweight%3A%20400%3B%0Amargin%2Dtop%3A%2035px%3B%0Amargin%2Dbottom%3A%2015px%3B%0Apadding%2Dtop%3A%2010px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%2070px%3B%0Acolor%3A%20%23606AAA%3B%0Afont%2Dsize%3A230%25%3B%0Afont%2Dvariant%3Asmall%2Dcaps%3B%0Apadding%2Dbottom%3A20px%3B%0Awidth%3A100%25%3B%0Aborder%2Dbottom%3A1px%20solid%20%23606AAA%3B%0A%7D%0Ah2%20%7B%0Afont%2Dsize%3A160%25%3B%0A%7D%0Ah3%20%7B%0Afont%2Dsize%3A130%25%3B%0A%7D%0Ah4%20%7B%0Afont%2Dsize%3A120%25%3B%0Afont%2Dvariant%3Asmall%2Dcaps%3B%0A%7D%0Ah5%20%7B%0Afont%2Dsize%3A120%25%3B%0A%7D%0Ah6%20%7B%0Afont%2Dsize%3A120%25%3B%0Afont%2Dvariant%3Asmall%2Dcaps%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%23606AAA%3B%0Amargin%3A%200%3B%0Apadding%3A%200%3B%0Avertical%2Dalign%3A%20baseline%3B%0A%7D%0Aa%3Ahover%20%7B%0Atext%2Ddecoration%3A%20blink%3B%0Acolor%3A%20green%3B%0A%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20gray%3B%0A%7D%0Aul%2C%20ol%20%7B%0Apadding%3A%200%3B%0Amargin%3A%200px%200px%200px%2050px%3B%0A%7D%0Aul%20%7B%0Alist%2Dstyle%2Dtype%3A%20square%3B%0Alist%2Dstyle%2Dposition%3A%20inside%3B%0A%7D%0Ali%20%7B%0Aline%2Dheight%3A150%25%20%7D%0Ali%20ul%2C%20li%20ul%20%7B%0Amargin%2Dleft%3A%2024px%3B%0A%7D%0Apre%20%7B%0Apadding%3A%200px%2010px%3B%0Amax%2Dwidth%3A%20800px%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20Andale%20Mono%2C%20monospace%2C%20courrier%20new%3B%0Aline%2Dheight%3A%201%2E5%3B%0Afont%2Dsize%3A%2015px%3B%0Abackground%3A%20%23F8F8F8%3B%0Aborder%2Dradius%3A%204px%3B%0Apadding%3A%205px%3B%0Adisplay%3A%20inline%2Dblock%3B%0Amax%2Dwidth%3A%20800px%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%0A%7D%0Ali%20code%2C%20p%20code%20%7B%0Abackground%3A%20%23CDCDCD%3B%0Acolor%3A%20%23606AAA%3B%0Apadding%3A%200px%205px%200px%205px%3B%0A%7D%0Acode%2Er%2C%20code%2Ecpp%20%7B%0Adisplay%3A%20block%3B%0Aword%2Dwrap%3A%20break%2Dword%3B%0Aborder%3A%201px%20solid%20%23606AAA%3B%20%7D%0Aaside%20%7B%0Adisplay%3A%20block%3B%0Afloat%3A%20right%3B%0Awidth%3A%20390px%3B%0A%7D%0Ablockquote%20%7B%0Aborder%2Dleft%3A%2E5em%20solid%20%23606AAA%3B%0Abackground%3A%20%23F8F8F8%3B%0Apadding%3A%200em%201em%200em%201em%3B%0Amargin%2Dleft%3A10px%3B%0Amax%2Dwidth%3A%20500px%3B%0A%7D%0Ablockquote%20cite%20%7B%0Aline%2Dheight%3A10px%3B%0Acolor%3A%23bfbfbf%3B%0A%7D%0Ablockquote%20cite%3Abefore%20%7B%0A%2Fcontent%3A%20%27%5C2014%20%5C00A0%27%3B%0A%7D%0Ablockquote%20p%2C%20blockquote%20li%20%7B%20color%3A%20%23666%3B%0A%7D%0Ahr%20%7B%0A%2F%20width%3A%20540px%3B%0Atext%2Dalign%3A%20left%3B%0Amargin%3A%200%20auto%200%200%3B%0Acolor%3A%20%23999%3B%0A%7D%0A%0Atable%20%7B%0Awidth%3A%20100%25%3B%0Aborder%2Dtop%3A%201px%20solid%20%23919699%3B%0Aborder%2Dleft%3A%201px%20solid%20%23919699%3B%0Aborder%2Dspacing%3A%200%3B%0A%7D%0Atable%20th%20%7B%0Apadding%3A%204px%208px%204px%208px%3B%0Atext%2Dalign%3A%20center%3B%0Acolor%3A%20white%3B%0Abackground%3A%20%23606AAA%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23919699%3B%0Aborder%2Dright%3A%201px%20solid%20%23919699%3B%0A%7D%0Atable%20th%20p%20%7B%0Afont%2Dweight%3A%20bold%3B%0Amargin%2Dbottom%3A%200px%3B%20%7D%0Atable%20td%20%7B%0Apadding%3A%208px%3B%09vertical%2Dalign%3A%20top%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23919699%3B%0Aborder%2Dright%3A%201px%20solid%20%23919699%3B%0A%7D%0Atable%20td%3Alast%2Dchild%20%7B%0A%2Fbackground%3A%20lightgray%3B%0Atext%2Dalign%3A%20right%3B%0A%7D%0Atable%20td%20p%20%7B%0Amargin%2Dbottom%3A%200px%3B%20%7D%0Atable%20td%20p%20%2B%20p%20%7B%0Amargin%2Dtop%3A%205px%3B%20%7D%0Atable%20td%20p%20%2B%20p%20%2B%20p%20%7B%0Amargin%2Dtop%3A%205px%3B%20%7D%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body>
-<h1>XGBoost R Tutorial</h1>
 
-<h2>Introduction</h2>
 
+
+
+<h1 class="title toc-ignore">Xgboost presentation</h1>
+<h4 class="author"><em>Tianqi Chen, Tong He, Michaël Benesty</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#xgboost-r-tutorial"><span class="toc-section-number">1</span> XGBoost R Tutorial</a><ul>
+<li><a href="#introduction"><span class="toc-section-number">1.1</span> Introduction</a></li>
+<li><a href="#installation"><span class="toc-section-number">1.2</span> Installation</a><ul>
+<li><a href="#github-version"><span class="toc-section-number">1.2.1</span> Github version</a></li>
+<li><a href="#cran-version"><span class="toc-section-number">1.2.2</span> CRAN version</a></li>
+</ul></li>
+<li><a href="#learning"><span class="toc-section-number">1.3</span> Learning</a><ul>
+<li><a href="#dataset-presentation"><span class="toc-section-number">1.3.1</span> Dataset presentation</a></li>
+<li><a href="#dataset-loading"><span class="toc-section-number">1.3.2</span> Dataset loading</a></li>
+<li><a href="#basic-training-using-xgboost"><span class="toc-section-number">1.3.3</span> Basic Training using XGBoost</a></li>
+</ul></li>
+<li><a href="#basic-prediction-using-xgboost"><span class="toc-section-number">1.4</span> Basic prediction using XGBoost</a></li>
+<li><a href="#perform-the-prediction"><span class="toc-section-number">1.5</span> Perform the prediction</a></li>
+<li><a href="#transform-the-regression-in-a-binary-classification"><span class="toc-section-number">1.6</span> Transform the regression in a binary classification</a></li>
+<li><a href="#measuring-model-performance"><span class="toc-section-number">1.7</span> Measuring model performance</a></li>
+<li><a href="#advanced-features"><span class="toc-section-number">1.8</span> Advanced features</a><ul>
+<li><a href="#dataset-preparation"><span class="toc-section-number">1.8.1</span> Dataset preparation</a></li>
+<li><a href="#measure-learning-progress-with-xgb.train"><span class="toc-section-number">1.8.2</span> Measure learning progress with xgb.train</a></li>
+<li><a href="#linear-boosting"><span class="toc-section-number">1.8.3</span> Linear boosting</a></li>
+<li><a href="#manipulating-xgb.dmatrix"><span class="toc-section-number">1.8.4</span> Manipulating xgb.DMatrix</a></li>
+<li><a href="#view-feature-importanceinfluence-from-the-learnt-model"><span class="toc-section-number">1.8.5</span> View feature importance/influence from the learnt model</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="xgboost-r-tutorial" class="section level1">
+<h1><span class="header-section-number">1</span> XGBoost R Tutorial</h1>
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">1.1</span> Introduction</h2>
 <p><strong>Xgboost</strong> is short for e<strong>X</strong>treme <strong>G</strong>radient <strong>Boost</strong>ing package.</p>
-
 <p>The purpose of this Vignette is to show you how to use <strong>Xgboost</strong> to build a model and make predictions.</p>
-
-<p>It is an efficient and scalable implementation of gradient boosting framework by @friedman2000additive and @friedman2001greedy. Two solvers are included:</p>
-
+<p>It is an efficient and scalable implementation of gradient boosting framework by <span class="citation">J. Friedman et al. (2000)</span> and <span class="citation">J. H. Friedman (2001)</span>. Two solvers are included:</p>
 <ul>
 <li><em>linear</em> model ;</li>
 <li><em>tree learning</em> algorithm.</li>
 </ul>
-
 <p>It supports various objective functions, including <em>regression</em>, <em>classification</em> and <em>ranking</em>. The package is made to be extendible, so that users are also allowed to define their own objective functions easily.</p>
-
 <p>It has been <a href="https://github.com/dmlc/xgboost">used</a> to win several <a href="http://www.kaggle.com">Kaggle</a> competitions.</p>
-
 <p>It has several features:</p>
-
 <ul>
 <li>Speed: it can automatically do parallel computation on <em>Windows</em> and <em>Linux</em>, with <em>OpenMP</em>. It is generally over 10 times faster than the classical <code>gbm</code>.</li>
 <li>Input Type: it takes several types of input data:
-
 <ul>
-<li><em>Dense</em> Matrix: <em>R</em>&#39;s <em>dense</em> matrix, i.e. <code>matrix</code> ;</li>
-<li><em>Sparse</em> Matrix: <em>R</em>&#39;s <em>sparse</em> matrix, i.e. <code>Matrix::dgCMatrix</code> ;</li>
+<li><em>Dense</em> Matrix: <em>R</em>’s <em>dense</em> matrix, i.e. <code>matrix</code> ;</li>
+<li><em>Sparse</em> Matrix: <em>R</em>’s <em>sparse</em> matrix, i.e. <code>Matrix::dgCMatrix</code> ;</li>
 <li>Data File: local data files ;</li>
 <li><code>xgb.DMatrix</code>: its own class (recommended).</li>
 </ul></li>
-<li>Sparsity: it accepts <em>sparse</em> input for both <em>tree booster</em>  and <em>linear booster</em>, and is optimized for <em>sparse</em> input ;</li>
+<li>Sparsity: it accepts <em>sparse</em> input for both <em>tree booster</em> and <em>linear booster</em>, and is optimized for <em>sparse</em> input ;</li>
 <li>Customization: it supports customized objective functions and evaluation functions.</li>
 </ul>
-
-<h2>Installation</h2>
-
-<h3>Github version</h3>
-
+</div>
+<div id="installation" class="section level2">
+<h2><span class="header-section-number">1.2</span> Installation</h2>
+<div id="github-version" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Github version</h3>
 <p>For weekly updated version (highly recommended), install from <em>Github</em>:</p>
-
-<pre><code class="r">install.packages(&quot;drat&quot;, repos=&quot;https://cran.rstudio.com&quot;)
-drat:::addRepo(&quot;dmlc&quot;)
-install.packages(&quot;xgboost&quot;, repos=&quot;http://dmlc.ml/drat/&quot;, type = &quot;source&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;drat&quot;</span>, <span class="dt">repos=</span><span class="st">&quot;https://cran.rstudio.com&quot;</span>)
+drat:::<span class="kw">addRepo</span>(<span class="st">&quot;dmlc&quot;</span>)
+<span class="kw">install.packages</span>(<span class="st">&quot;xgboost&quot;</span>, <span class="dt">repos=</span><span class="st">&quot;http://dmlc.ml/drat/&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;source&quot;</span>)</code></pre></div>
 <blockquote>
 <p><em>Windows</em> user will need to install <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> first.</p>
 </blockquote>
-
-<h3>CRAN version</h3>
-
+</div>
+<div id="cran-version" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> CRAN version</h3>
 <p>The version 0.4-2 is on CRAN, and you can install it by:</p>
-
-<pre><code class="r">install.packages(&quot;xgboost&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;xgboost&quot;</span>)</code></pre></div>
 <p>Formerly available versions can be obtained from the CRAN <a href="https://cran.r-project.org/src/contrib/Archive/xgboost">archive</a></p>
-
-<h2>Learning</h2>
-
+</div>
+</div>
+<div id="learning" class="section level2">
+<h2><span class="header-section-number">1.3</span> Learning</h2>
 <p>For the purpose of this tutorial we will load <strong>XGBoost</strong> package.</p>
-
-<pre><code class="r">require(xgboost)
-</code></pre>
-
-<h3>Dataset presentation</h3>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(xgboost)</code></pre></div>
+<div id="dataset-presentation" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> Dataset presentation</h3>
 <p>In this example, we are aiming to predict whether a mushroom can be eaten or not (like in many tutorials, example data are the the same as you will use on in your every day life :-).</p>
-
-<p>Mushroom data is cited from UCI Machine Learning Repository. @Bache+Lichman:2013.</p>
-
-<h3>Dataset loading</h3>
-
+<p>Mushroom data is cited from UCI Machine Learning Repository. <span class="citation">Bache and Lichman (2013)</span>.</p>
+</div>
+<div id="dataset-loading" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> Dataset loading</h3>
 <p>We will load the <code>agaricus</code> datasets embedded with the package and will link them to variables.</p>
-
 <p>The datasets are already split in:</p>
-
 <ul>
 <li><code>train</code>: will be used to build the model ;</li>
 <li><code>test</code>: will be used to assess the quality of our model.</li>
 </ul>
-
 <p>Why <em>split</em> the dataset in two parts?</p>
-
 <p>In the first part we will build our model. In the second part we will want to test it and assess its quality. Without dividing the dataset we would test the model on the data which the algorithm have already seen.</p>
-
-<pre><code class="r">data(agaricus.train, package=&#39;xgboost&#39;)
-data(agaricus.test, package=&#39;xgboost&#39;)
-train &lt;- agaricus.train
-test &lt;- agaricus.test
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(agaricus.train, <span class="dt">package=</span><span class="st">'xgboost'</span>)
+<span class="kw">data</span>(agaricus.test, <span class="dt">package=</span><span class="st">'xgboost'</span>)
+train &lt;-<span class="st"> </span>agaricus.train
+test &lt;-<span class="st"> </span>agaricus.test</code></pre></div>
 <blockquote>
 <p>In the real world, it would be up to you to make this division between <code>train</code> and <code>test</code> data. The way to do it is out of the purpose of this article, however <code>caret</code> package may <a href="http://topepo.github.io/caret/data-splitting.html">help</a>.</p>
 </blockquote>
-
 <p>Each variable is a <code>list</code> containing two things, <code>label</code> and <code>data</code>:</p>
-
-<pre><code class="r">str(train)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(train)</code></pre></div>
 <pre><code>## List of 2
-##  $ data :Formal class &#39;dgCMatrix&#39; [package &quot;Matrix&quot;] with 6 slots
+##  $ data :Formal class 'dgCMatrix' [package &quot;Matrix&quot;] with 6 slots
 ##   .. ..@ i       : int [1:143286] 2 6 8 11 18 20 21 24 28 32 ...
 ##   .. ..@ p       : int [1:127] 0 369 372 3306 5845 6489 6513 8380 8384 10991 ...
 ##   .. ..@ Dim     : int [1:2] 6513 126
@@ -313,404 +184,285 @@ test &lt;- agaricus.test
 ##   .. .. ..$ : chr [1:126] &quot;cap-shape=bell&quot; &quot;cap-shape=conical&quot; &quot;cap-shape=convex&quot; &quot;cap-shape=flat&quot; ...
 ##   .. ..@ x       : num [1:143286] 1 1 1 1 1 1 1 1 1 1 ...
 ##   .. ..@ factors : list()
-##  $ label: num [1:6513] 1 0 0 1 0 0 0 1 0 0 ...
-</code></pre>
-
+##  $ label: num [1:6513] 1 0 0 1 0 0 0 1 0 0 ...</code></pre>
 <p><code>label</code> is the outcome of our dataset meaning it is the binary <em>classification</em> we will try to predict.</p>
-
-<p>Let&#39;s discover the dimensionality of our datasets.</p>
-
-<pre><code class="r">dim(train$data)
-</code></pre>
-
-<pre><code>## [1] 6513  126
-</code></pre>
-
-<pre><code class="r">dim(test$data)
-</code></pre>
-
-<pre><code>## [1] 1611  126
-</code></pre>
-
+<p>Let’s discover the dimensionality of our datasets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(train$data)</code></pre></div>
+<pre><code>## [1] 6513  126</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(test$data)</code></pre></div>
+<pre><code>## [1] 1611  126</code></pre>
 <p>This dataset is very small to not make the <strong>R</strong> package too heavy, however <strong>XGBoost</strong> is built to manage huge dataset very efficiently.</p>
-
 <p>As seen below, the <code>data</code> are stored in a <code>dgCMatrix</code> which is a <em>sparse</em> matrix and <code>label</code> vector is a <code>numeric</code> vector (<code>{0,1}</code>):</p>
-
-<pre><code class="r">class(train$data)[1]
-</code></pre>
-
-<pre><code>## [1] &quot;dgCMatrix&quot;
-</code></pre>
-
-<pre><code class="r">class(train$label)
-</code></pre>
-
-<pre><code>## [1] &quot;numeric&quot;
-</code></pre>
-
-<h3>Basic Training using XGBoost</h3>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(train$data)[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] &quot;dgCMatrix&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(train$label)</code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+</div>
+<div id="basic-training-using-xgboost" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Basic Training using XGBoost</h3>
 <p>This step is the most critical part of the process for the quality of our model.</p>
-
-<h4>Basic training</h4>
-
+<div id="basic-training" class="section level4">
+<h4><span class="header-section-number">1.3.3.1</span> Basic training</h4>
 <p>We are using the <code>train</code> data. As explained above, both <code>data</code> and <code>label</code> are stored in a <code>list</code>.</p>
-
 <p>In a <em>sparse</em> matrix, cells containing <code>0</code> are not stored in memory. Therefore, in a dataset mainly made of <code>0</code>, memory size is reduced. It is very usual to have such dataset.</p>
-
 <p>We will train decision tree model using the following parameters:</p>
-
 <ul>
 <li><code>objective = &quot;binary:logistic&quot;</code>: we will train a binary classification model ;</li>
-<li><code>max_depth = 2</code>: the trees won&#39;t be deep, because our case is very simple ;</li>
+<li><code>max_depth = 2</code>: the trees won’t be deep, because our case is very simple ;</li>
 <li><code>nthread = 2</code>: the number of cpu threads we are going to use;</li>
 <li><code>nrounds = 2</code>: there will be two passes on the data, the second one will enhance the model by further reducing the difference between ground truth and prediction.</li>
 </ul>
-
-<pre><code class="r">bstSparse &lt;- xgboost(data = train$data, label = train$label, max_depth = 2, eta = 1, nthread = 2, nrounds = 2, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bstSparse &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> train$data, <span class="dt">label =</span> train$label, <span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds =</span> <span class="dv">2</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
 <pre><code>## [1]  train-error:0.046522 
-## [2]  train-error:0.022263
-</code></pre>
-
+## [2]  train-error:0.022263</code></pre>
 <blockquote>
 <p>More complex the relationship between your features and your <code>label</code> is, more passes you need.</p>
 </blockquote>
-
-<h4>Parameter variations</h4>
-
-<h5>Dense matrix</h5>
-
-<p>Alternatively, you can put your dataset in a <em>dense</em> matrix, i.e. a basic <strong>R</strong> matrix.</p>
-
-<pre><code class="r">bstDense &lt;- xgboost(data = as.matrix(train$data), label = train$label, max_depth = 2, eta = 1, nthread = 2, nrounds = 2, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
+</div>
+<div id="parameter-variations" class="section level4">
+<h4><span class="header-section-number">1.3.3.2</span> Parameter variations</h4>
+<div id="dense-matrix" class="section level5">
+<h5><span class="header-section-number">1.3.3.2.1</span> Dense matrix</h5>
+<p>Alternatively, you can put your dataset in a <em>dense</em> matrix, i.e. a basic <strong>R</strong> matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bstDense &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> <span class="kw">as.matrix</span>(train$data), <span class="dt">label =</span> train$label, <span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds =</span> <span class="dv">2</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
 <pre><code>## [1]  train-error:0.046522 
-## [2]  train-error:0.022263
-</code></pre>
-
-<h5>xgb.DMatrix</h5>
-
+## [2]  train-error:0.022263</code></pre>
+</div>
+<div id="xgb.dmatrix" class="section level5">
+<h5><span class="header-section-number">1.3.3.2.2</span> xgb.DMatrix</h5>
 <p><strong>XGBoost</strong> offers a way to group them in a <code>xgb.DMatrix</code>. You can even add other meta data in it. It will be useful for the most advanced features we will discover later.</p>
-
-<pre><code class="r">dtrain &lt;- xgb.DMatrix(data = train$data, label = train$label)
-bstDMatrix &lt;- xgboost(data = dtrain, max_depth = 2, eta = 1, nthread = 2, nrounds = 2, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dtrain &lt;-<span class="st"> </span><span class="kw">xgb.DMatrix</span>(<span class="dt">data =</span> train$data, <span class="dt">label =</span> train$label)
+bstDMatrix &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> dtrain, <span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds =</span> <span class="dv">2</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
 <pre><code>## [1]  train-error:0.046522 
-## [2]  train-error:0.022263
-</code></pre>
-
-<h5>Verbose option</h5>
-
+## [2]  train-error:0.022263</code></pre>
+</div>
+<div id="verbose-option" class="section level5">
+<h5><span class="header-section-number">1.3.3.2.3</span> Verbose option</h5>
 <p><strong>XGBoost</strong> has several features to help you to view how the learning progress internally. The purpose is to help you to set the best parameters, which is the key of your model quality.</p>
-
 <p>One of the simplest way to see the training progress is to set the <code>verbose</code> option (see below for more advanced technics).</p>
-
-<pre><code class="r"># verbose = 0, no message
-bst &lt;- xgboost(data = dtrain, max_depth = 2, eta = 1, nthread = 2, nrounds = 2, objective = &quot;binary:logistic&quot;, verbose = 0)
-</code></pre>
-
-<pre><code class="r"># verbose = 1, print evaluation metric
-bst &lt;- xgboost(data = dtrain, max_depth = 2, eta = 1, nthread = 2, nrounds = 2, objective = &quot;binary:logistic&quot;, verbose = 1)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbose = 0, no message</span>
+bst &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> dtrain, <span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds =</span> <span class="dv">2</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>, <span class="dt">verbose =</span> <span class="dv">0</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbose = 1, print evaluation metric</span>
+bst &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> dtrain, <span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds =</span> <span class="dv">2</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>, <span class="dt">verbose =</span> <span class="dv">1</span>)</code></pre></div>
 <pre><code>## [1]  train-error:0.046522 
-## [2]  train-error:0.022263
-</code></pre>
-
-<pre><code class="r"># verbose = 2, also print information about tree
-bst &lt;- xgboost(data = dtrain, max_depth = 2, eta = 1, nthread = 2, nrounds = 2, objective = &quot;binary:logistic&quot;, verbose = 2)
-</code></pre>
-
-<pre><code>## [11:17:30] amalgamation/../src/tree/updater_prune.cc:74: tree pruning end, 1 roots, 6 extra nodes, 0 pruned nodes, max_depth=2
-## [1]  train-error:0.046522 
-## [11:17:30] amalgamation/../src/tree/updater_prune.cc:74: tree pruning end, 1 roots, 4 extra nodes, 0 pruned nodes, max_depth=2
-## [2]  train-error:0.022263
-</code></pre>
-
-<h2>Basic prediction using XGBoost</h2>
-
-<h2>Perform the prediction</h2>
-
+## [2]  train-error:0.022263</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbose = 2, also print information about tree</span>
+bst &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> dtrain, <span class="dt">max_depth =</span> <span class="dv">2</span>, <span class="dt">eta =</span> <span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds =</span> <span class="dv">2</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>, <span class="dt">verbose =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1]  train-error:0.046522 
+## [2]  train-error:0.022263</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="basic-prediction-using-xgboost" class="section level2">
+<h2><span class="header-section-number">1.4</span> Basic prediction using XGBoost</h2>
+</div>
+<div id="perform-the-prediction" class="section level2">
+<h2><span class="header-section-number">1.5</span> Perform the prediction</h2>
 <p>The purpose of the model we have built is to classify new data. As explained before, we will use the <code>test</code> dataset for this step.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(bst, test$data)
 
-<pre><code class="r">pred &lt;- predict(bst, test$data)
-
-# size of the prediction vector
-print(length(pred))
-</code></pre>
-
-<pre><code>## [1] 1611
-</code></pre>
-
-<pre><code class="r"># limit display of predictions to the first 10
-print(head(pred))
-</code></pre>
-
-<pre><code>## [1] 0.28583017 0.92392391 0.28583017 0.28583017 0.05169873 0.92392391
-</code></pre>
-
-<p>These numbers doesn&#39;t look like <em>binary classification</em> <code>{0,1}</code>. We need to perform a simple transformation before being able to use these results.</p>
-
-<h2>Transform the regression in a binary classification</h2>
-
+<span class="co"># size of the prediction vector</span>
+<span class="kw">print</span>(<span class="kw">length</span>(pred))</code></pre></div>
+<pre><code>## [1] 1611</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># limit display of predictions to the first 10</span>
+<span class="kw">print</span>(<span class="kw">head</span>(pred))</code></pre></div>
+<pre><code>## [1] 0.28583017 0.92392391 0.28583017 0.28583017 0.05169873 0.92392391</code></pre>
+<p>These numbers doesn’t look like <em>binary classification</em> <code>{0,1}</code>. We need to perform a simple transformation before being able to use these results.</p>
+</div>
+<div id="transform-the-regression-in-a-binary-classification" class="section level2">
+<h2><span class="header-section-number">1.6</span> Transform the regression in a binary classification</h2>
 <p>The only thing that <strong>XGBoost</strong> does is a <em>regression</em>. <strong>XGBoost</strong> is using <code>label</code> vector to build its <em>regression</em> model.</p>
-
 <p>How can we use a <em>regression</em> model to perform a binary classification?</p>
-
 <p>If we think about the meaning of a regression applied to our data, the numbers we get are probabilities that a datum will be classified as <code>1</code>. Therefore, we will set the rule that if this probability for a specific datum is <code>&gt; 0.5</code> then the observation is classified as <code>1</code> (or <code>0</code> otherwise).</p>
-
-<pre><code class="r">prediction &lt;- as.numeric(pred &gt; 0.5)
-print(head(prediction))
-</code></pre>
-
-<pre><code>## [1] 0 1 0 0 0 1
-</code></pre>
-
-<h2>Measuring model performance</h2>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">prediction &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(pred &gt;<span class="st"> </span><span class="fl">0.5</span>)
+<span class="kw">print</span>(<span class="kw">head</span>(prediction))</code></pre></div>
+<pre><code>## [1] 0 1 0 0 0 1</code></pre>
+</div>
+<div id="measuring-model-performance" class="section level2">
+<h2><span class="header-section-number">1.7</span> Measuring model performance</h2>
 <p>To measure the model performance, we will compute a simple metric, the <em>average error</em>.</p>
-
-<pre><code class="r">err &lt;- mean(as.numeric(pred &gt; 0.5) != test$label)
-print(paste(&quot;test-error=&quot;, err))
-</code></pre>
-
-<pre><code>## [1] &quot;test-error= 0.0217256362507759&quot;
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">err &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">as.numeric</span>(pred &gt;<span class="st"> </span><span class="fl">0.5</span>) !=<span class="st"> </span>test$label)
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;test-error=&quot;</span>, err))</code></pre></div>
+<pre><code>## [1] &quot;test-error= 0.0217256362507759&quot;</code></pre>
 <blockquote>
 <p>Note that the algorithm has not seen the <code>test</code> data during the model construction.</p>
 </blockquote>
-
 <p>Steps explanation:</p>
-
-<ol>
+<ol style="list-style-type: decimal">
 <li><code>as.numeric(pred &gt; 0.5)</code> applies our rule that when the probability (&lt;=&gt; regression &lt;=&gt; prediction) is <code>&gt; 0.5</code> the observation is classified as <code>1</code> and <code>0</code> otherwise ;</li>
 <li><code>probabilityVectorPreviouslyComputed != test$label</code> computes the vector of error between true data and computed probabilities ;</li>
 <li><code>mean(vectorOfErrors)</code> computes the <em>average error</em> itself.</li>
 </ol>
-
 <p>The most important thing to remember is that <strong>to do a classification, you just do a regression to the</strong> <code>label</code> <strong>and then apply a threshold</strong>.</p>
-
 <p><em>Multiclass</em> classification works in a similar way.</p>
-
 <p>This metric is <strong>0.02</strong> and is pretty low: our yummly mushroom model works well!</p>
-
-<h2>Advanced features</h2>
-
+</div>
+<div id="advanced-features" class="section level2">
+<h2><span class="header-section-number">1.8</span> Advanced features</h2>
 <p>Most of the features below have been implemented to help you to improve your model by offering a better understanding of its content.</p>
-
-<h3>Dataset preparation</h3>
-
+<div id="dataset-preparation" class="section level3">
+<h3><span class="header-section-number">1.8.1</span> Dataset preparation</h3>
 <p>For the following advanced features, we need to put data in <code>xgb.DMatrix</code> as explained above.</p>
-
-<pre><code class="r">dtrain &lt;- xgb.DMatrix(data = train$data, label=train$label)
-dtest &lt;- xgb.DMatrix(data = test$data, label=test$label)
-</code></pre>
-
-<h3>Measure learning progress with xgb.train</h3>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dtrain &lt;-<span class="st"> </span><span class="kw">xgb.DMatrix</span>(<span class="dt">data =</span> train$data, <span class="dt">label=</span>train$label)
+dtest &lt;-<span class="st"> </span><span class="kw">xgb.DMatrix</span>(<span class="dt">data =</span> test$data, <span class="dt">label=</span>test$label)</code></pre></div>
+</div>
+<div id="measure-learning-progress-with-xgb.train" class="section level3">
+<h3><span class="header-section-number">1.8.2</span> Measure learning progress with xgb.train</h3>
 <p>Both <code>xgboost</code> (simple) and <code>xgb.train</code> (advanced) functions train models.</p>
-
 <p>One of the special feature of <code>xgb.train</code> is the capacity to follow the progress of the learning after each round. Because of the way boosting works, there is a time when having too many rounds lead to an overfitting. You can see this feature as a cousin of cross-validation method. The following techniques will help you to avoid overfitting or optimizing the learning time in stopping it as soon as possible.</p>
-
 <p>One way to measure progress in learning of a model is to provide to <strong>XGBoost</strong> a second dataset already classified. Therefore it can learn on the first dataset and test its model on the second one. Some metrics are measured after each round during the learning.</p>
-
 <blockquote>
 <p>in some way it is similar to what we have done above with the average error. The main difference is that below it was after building the model, and now it is during the construction that we measure errors.</p>
 </blockquote>
-
 <p>For the purpose of this example, we use <code>watchlist</code> parameter. It is a list of <code>xgb.DMatrix</code>, each of them tagged with a name.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">watchlist &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">train=</span>dtrain, <span class="dt">test=</span>dtest)
 
-<pre><code class="r">watchlist &lt;- list(train=dtrain, test=dtest)
-
-bst &lt;- xgb.train(data=dtrain, max_depth=2, eta=1, nthread = 2, nrounds=2, watchlist=watchlist, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
+bst &lt;-<span class="st"> </span><span class="kw">xgb.train</span>(<span class="dt">data=</span>dtrain, <span class="dt">max_depth=</span><span class="dv">2</span>, <span class="dt">eta=</span><span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds=</span><span class="dv">2</span>, <span class="dt">watchlist=</span>watchlist, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
 <pre><code>## [1]  train-error:0.046522    test-error:0.042831 
-## [2]  train-error:0.022263    test-error:0.021726
-</code></pre>
-
+## [2]  train-error:0.022263    test-error:0.021726</code></pre>
 <p><strong>XGBoost</strong> has computed at each round the same average error metric than seen above (we set <code>nrounds</code> to 2, that is why we have two lines). Obviously, the <code>train-error</code> number is related to the training dataset (the one the algorithm learns from) and the <code>test-error</code> number to the test dataset.</p>
-
 <p>Both training and test error related metrics are very similar, and in some way, it makes sense: what we have learned from the training dataset matches the observations from the test dataset.</p>
-
 <p>If with your own dataset you have not such results, you should think about how you divided your dataset in training and test. May be there is something to fix. Again, <code>caret</code> package may <a href="http://topepo.github.io/caret/data-splitting.html">help</a>.</p>
-
 <p>For a better understanding of the learning progression, you may want to have some specific metric or even use multiple evaluation metrics.</p>
-
-<pre><code class="r">bst &lt;- xgb.train(data=dtrain, max_depth=2, eta=1, nthread = 2, nrounds=2, watchlist=watchlist, eval_metric = &quot;error&quot;, eval_metric = &quot;logloss&quot;, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
-<pre><code>## [1]  train-error:0.046522    train-logloss:0.233376  test-error:0.042831 test-logloss:0.226686 
-## [2]  train-error:0.022263    train-logloss:0.136658  test-error:0.021726 test-logloss:0.137874
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bst &lt;-<span class="st"> </span><span class="kw">xgb.train</span>(<span class="dt">data=</span>dtrain, <span class="dt">max_depth=</span><span class="dv">2</span>, <span class="dt">eta=</span><span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds=</span><span class="dv">2</span>, <span class="dt">watchlist=</span>watchlist, <span class="dt">eval_metric =</span> <span class="st">&quot;error&quot;</span>, <span class="dt">eval_metric =</span> <span class="st">&quot;logloss&quot;</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
+<pre><code>## [1]  train-error:0.046522    train-logloss:0.233366  test-error:0.042831 test-logloss:0.226687 
+## [2]  train-error:0.022263    train-logloss:0.136656  test-error:0.021726 test-logloss:0.137875</code></pre>
 <blockquote>
 <p><code>eval_metric</code> allows us to monitor two new metrics for each round, <code>logloss</code> and <code>error</code>.</p>
 </blockquote>
-
-<h3>Linear boosting</h3>
-
+</div>
+<div id="linear-boosting" class="section level3">
+<h3><span class="header-section-number">1.8.3</span> Linear boosting</h3>
 <p>Until now, all the learnings we have performed were based on boosting trees. <strong>XGBoost</strong> implements a second algorithm, based on linear boosting. The only difference with previous command is <code>booster = &quot;gblinear&quot;</code> parameter (and removing <code>eta</code> parameter).</p>
-
-<pre><code class="r">bst &lt;- xgb.train(data=dtrain, booster = &quot;gblinear&quot;, max_depth=2, nthread = 2, nrounds=2, watchlist=watchlist, eval_metric = &quot;error&quot;, eval_metric = &quot;logloss&quot;, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
-<pre><code>## [1]  train-error:0.023491    train-logloss:0.182193  test-error:0.018001 test-logloss:0.180818 
-## [2]  train-error:0.003992    train-logloss:0.068945  test-error:0.003724 test-logloss:0.066951
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bst &lt;-<span class="st"> </span><span class="kw">xgb.train</span>(<span class="dt">data=</span>dtrain, <span class="dt">booster =</span> <span class="st">&quot;gblinear&quot;</span>, <span class="dt">max_depth=</span><span class="dv">2</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds=</span><span class="dv">2</span>, <span class="dt">watchlist=</span>watchlist, <span class="dt">eval_metric =</span> <span class="st">&quot;error&quot;</span>, <span class="dt">eval_metric =</span> <span class="st">&quot;logloss&quot;</span>, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
+<pre><code>## [1]  train-error:0.012130    train-logloss:0.190506  test-error:0.013656 test-logloss:0.194832 
+## [2]  train-error:0.002764    train-logloss:0.082784  test-error:0.002483 test-logloss:0.085497</code></pre>
 <p>In this specific case, <em>linear boosting</em> gets sligtly better performance metrics than decision trees based algorithm.</p>
-
 <p>In simple cases, it will happen because there is nothing better than a linear algorithm to catch a linear link. However, decision trees are much better to catch a non linear link between predictors and outcome. Because there is no silver bullet, we advise you to check both algorithms with your own datasets to have an idea of what to use.</p>
-
-<h3>Manipulating xgb.DMatrix</h3>
-
-<h4>Save / Load</h4>
-
+</div>
+<div id="manipulating-xgb.dmatrix" class="section level3">
+<h3><span class="header-section-number">1.8.4</span> Manipulating xgb.DMatrix</h3>
+<div id="save-load" class="section level4">
+<h4><span class="header-section-number">1.8.4.1</span> Save / Load</h4>
 <p>Like saving models, <code>xgb.DMatrix</code> object (which groups both dataset and outcome) can also be saved using <code>xgb.DMatrix.save</code> function.</p>
-
-<pre><code class="r">xgb.DMatrix.save(dtrain, &quot;dtrain.buffer&quot;)
-</code></pre>
-
-<pre><code>## [1] TRUE
-</code></pre>
-
-<pre><code class="r"># to load it in, simply call xgb.DMatrix
-dtrain2 &lt;- xgb.DMatrix(&quot;dtrain.buffer&quot;)
-</code></pre>
-
-<pre><code>## [11:17:30] 6513x126 matrix with 143286 entries loaded from dtrain.buffer
-</code></pre>
-
-<pre><code class="r">bst &lt;- xgb.train(data=dtrain2, max_depth=2, eta=1, nthread = 2, nrounds=2, watchlist=watchlist, objective = &quot;binary:logistic&quot;)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xgb.DMatrix.save</span>(dtrain, <span class="st">&quot;dtrain.buffer&quot;</span>)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># to load it in, simply call xgb.DMatrix</span>
+dtrain2 &lt;-<span class="st"> </span><span class="kw">xgb.DMatrix</span>(<span class="st">&quot;dtrain.buffer&quot;</span>)</code></pre></div>
+<pre><code>## [20:10:31] 6513x126 matrix with 143286 entries loaded from dtrain.buffer</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bst &lt;-<span class="st"> </span><span class="kw">xgb.train</span>(<span class="dt">data=</span>dtrain2, <span class="dt">max_depth=</span><span class="dv">2</span>, <span class="dt">eta=</span><span class="dv">1</span>, <span class="dt">nthread =</span> <span class="dv">2</span>, <span class="dt">nrounds=</span><span class="dv">2</span>, <span class="dt">watchlist=</span>watchlist, <span class="dt">objective =</span> <span class="st">&quot;binary:logistic&quot;</span>)</code></pre></div>
 <pre><code>## [1]  train-error:0.046522    test-error:0.042831 
-## [2]  train-error:0.022263    test-error:0.021726
-</code></pre>
-
-<h4>Information extraction</h4>
-
+## [2]  train-error:0.022263    test-error:0.021726</code></pre>
+</div>
+<div id="information-extraction" class="section level4">
+<h4><span class="header-section-number">1.8.4.2</span> Information extraction</h4>
 <p>Information can be extracted from <code>xgb.DMatrix</code> using <code>getinfo</code> function. Hereafter we will extract <code>label</code> data.</p>
-
-<pre><code class="r">label = getinfo(dtest, &quot;label&quot;)
-pred &lt;- predict(bst, dtest)
-err &lt;- as.numeric(sum(as.integer(pred &gt; 0.5) != label))/length(label)
-print(paste(&quot;test-error=&quot;, err))
-</code></pre>
-
-<pre><code>## [1] &quot;test-error= 0.0217256362507759&quot;
-</code></pre>
-
-<h3>View feature importance/influence from the learnt model</h3>
-
-<p>Feature importance is similar to R gbm package&#39;s relative influence (rel.inf).</p>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">label =<span class="st"> </span><span class="kw">getinfo</span>(dtest, <span class="st">&quot;label&quot;</span>)
+pred &lt;-<span class="st"> </span><span class="kw">predict</span>(bst, dtest)
+err &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">sum</span>(<span class="kw">as.integer</span>(pred &gt;<span class="st"> </span><span class="fl">0.5</span>) !=<span class="st"> </span>label))/<span class="kw">length</span>(label)
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;test-error=&quot;</span>, err))</code></pre></div>
+<pre><code>## [1] &quot;test-error= 0.0217256362507759&quot;</code></pre>
+</div>
+</div>
+<div id="view-feature-importanceinfluence-from-the-learnt-model" class="section level3">
+<h3><span class="header-section-number">1.8.5</span> View feature importance/influence from the learnt model</h3>
+<p>Feature importance is similar to R gbm package’s relative influence (rel.inf).</p>
 <pre><code>importance_matrix &lt;- xgb.importance(model = bst)
 print(importance_matrix)
-xgb.plot.importance(importance_matrix = importance_matrix)
-</code></pre>
-
-<h4>View the trees from a model</h4>
-
+xgb.plot.importance(importance_matrix = importance_matrix)</code></pre>
+<div id="view-the-trees-from-a-model" class="section level4">
+<h4><span class="header-section-number">1.8.5.1</span> View the trees from a model</h4>
 <p>You can dump the tree you learned using <code>xgb.dump</code> into a text file.</p>
-
-<pre><code class="r">xgb.dump(bst, with_stats = T)
-</code></pre>
-
-<pre><code>##  [1] &quot;booster[0]&quot;                                                          
-##  [2] &quot;0:[f28&lt;-9.53674e-07] yes=1,no=2,missing=1,gain=4000.53,cover=1628.25&quot;
-##  [3] &quot;1:[f55&lt;-9.53674e-07] yes=3,no=4,missing=3,gain=1158.21,cover=924.5&quot;  
-##  [4] &quot;3:leaf=1.71218,cover=812&quot;                                            
-##  [5] &quot;4:leaf=-1.70044,cover=112.5&quot;                                         
-##  [6] &quot;2:[f108&lt;-9.53674e-07] yes=5,no=6,missing=5,gain=198.174,cover=703.75&quot;
-##  [7] &quot;5:leaf=-1.94071,cover=690.5&quot;                                         
-##  [8] &quot;6:leaf=1.85965,cover=13.25&quot;                                          
-##  [9] &quot;booster[1]&quot;                                                          
-## [10] &quot;0:[f59&lt;-9.53674e-07] yes=1,no=2,missing=1,gain=832.545,cover=788.852&quot;
-## [11] &quot;1:[f28&lt;-9.53674e-07] yes=3,no=4,missing=3,gain=569.725,cover=768.39&quot; 
-## [12] &quot;3:leaf=0.784718,cover=458.937&quot;                                       
-## [13] &quot;4:leaf=-0.96853,cover=309.453&quot;                                       
-## [14] &quot;2:leaf=-6.23624,cover=20.4624&quot;
-</code></pre>
-
-<p>You can plot the trees from your model using <code>xgb.plot.tree</code></p>
-
-<pre><code>xgb.plot.tree(model = bst)
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xgb.dump</span>(bst, <span class="dt">with_stats =</span> T)</code></pre></div>
+<pre><code>##  [1] &quot;booster[0]&quot;                                                                   
+##  [2] &quot;0:[f28&lt;-9.53674316e-07] yes=1,no=2,missing=1,gain=4000.53101,cover=1628.25&quot;   
+##  [3] &quot;1:[f55&lt;-9.53674316e-07] yes=3,no=4,missing=3,gain=1158.21204,cover=924.5&quot;     
+##  [4] &quot;3:leaf=1.71217716,cover=812&quot;                                                  
+##  [5] &quot;4:leaf=-1.70044053,cover=112.5&quot;                                               
+##  [6] &quot;2:[f108&lt;-9.53674316e-07] yes=5,no=6,missing=5,gain=198.173828,cover=703.75&quot;   
+##  [7] &quot;5:leaf=-1.94070864,cover=690.5&quot;                                               
+##  [8] &quot;6:leaf=1.85964918,cover=13.25&quot;                                                
+##  [9] &quot;booster[1]&quot;                                                                   
+## [10] &quot;0:[f59&lt;-9.53674316e-07] yes=1,no=2,missing=1,gain=832.545044,cover=788.852051&quot;
+## [11] &quot;1:[f28&lt;-9.53674316e-07] yes=3,no=4,missing=3,gain=569.725098,cover=768.389709&quot;
+## [12] &quot;3:leaf=0.78471756,cover=458.936859&quot;                                           
+## [13] &quot;4:leaf=-0.968530357,cover=309.45282&quot;                                          
+## [14] &quot;2:leaf=-6.23624468,cover=20.462389&quot;</code></pre>
+<p>You can plot the trees from your model using `<code>xgb.plot.tree</code></p>
+<pre><code>xgb.plot.tree(model = bst)</code></pre>
 <blockquote>
 <p>if you provide a path to <code>fname</code> parameter you can save the trees to your hard drive.</p>
 </blockquote>
-
-<h4>Save and load models</h4>
-
+</div>
+<div id="save-and-load-models" class="section level4">
+<h4><span class="header-section-number">1.8.5.2</span> Save and load models</h4>
 <p>Maybe your dataset is big, and it takes time to train a model on it? May be you are not a big fan of losing time in redoing the same task again and again? In these very rare cases, you will want to save your model and load it when required.</p>
-
 <p>Hopefully for you, <strong>XGBoost</strong> implements such functions.</p>
-
-<pre><code class="r"># save model to binary local file
-xgb.save(bst, &quot;xgboost.model&quot;)
-</code></pre>
-
-<pre><code>## [1] TRUE
-</code></pre>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save model to binary local file</span>
+<span class="kw">xgb.save</span>(bst, <span class="st">&quot;xgboost.model&quot;</span>)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
 <blockquote>
 <p><code>xgb.save</code> function should return TRUE if everything goes well and crashes otherwise.</p>
 </blockquote>
-
 <p>An interesting test to see how identical our saved model is to the original one would be to compare the two predictions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load binary model to R</span>
+bst2 &lt;-<span class="st"> </span><span class="kw">xgb.load</span>(<span class="st">&quot;xgboost.model&quot;</span>)
+pred2 &lt;-<span class="st"> </span><span class="kw">predict</span>(bst2, test$data)
 
-<pre><code class="r"># load binary model to R
-bst2 &lt;- xgb.load(&quot;xgboost.model&quot;)
-pred2 &lt;- predict(bst2, test$data)
-
-# And now the test
-print(paste(&quot;sum(abs(pred2-pred))=&quot;, sum(abs(pred2-pred))))
-</code></pre>
-
-<pre><code>## [1] &quot;sum(abs(pred2-pred))= 0&quot;
-</code></pre>
-
+<span class="co"># And now the test</span>
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;sum(abs(pred2-pred))=&quot;</span>, <span class="kw">sum</span>(<span class="kw">abs</span>(pred2-pred))))</code></pre></div>
+<pre><code>## [1] &quot;sum(abs(pred2-pred))= 0&quot;</code></pre>
 <blockquote>
 <p>result is <code>0</code>? We are good!</p>
 </blockquote>
-
 <p>In some very specific cases, like when you want to pilot <strong>XGBoost</strong> from <code>caret</code> package, you will want to save the model as a <em>R</em> binary vector. See below how to do it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save model to R's raw vector</span>
+rawVec &lt;-<span class="st"> </span><span class="kw">xgb.save.raw</span>(bst)
 
-<pre><code class="r"># save model to R&#39;s raw vector
-rawVec &lt;- xgb.save.raw(bst)
+<span class="co"># print class</span>
+<span class="kw">print</span>(<span class="kw">class</span>(rawVec))</code></pre></div>
+<pre><code>## [1] &quot;raw&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load binary model to R</span>
+bst3 &lt;-<span class="st"> </span><span class="kw">xgb.load</span>(rawVec)
+pred3 &lt;-<span class="st"> </span><span class="kw">predict</span>(bst3, test$data)
 
-# print class
-print(class(rawVec))
-</code></pre>
-
-<pre><code>## [1] &quot;raw&quot;
-</code></pre>
-
-<pre><code class="r"># load binary model to R
-bst3 &lt;- xgb.load(rawVec)
-pred3 &lt;- predict(bst3, test$data)
-
-# pred2 should be identical to pred
-print(paste(&quot;sum(abs(pred3-pred))=&quot;, sum(abs(pred2-pred))))
-</code></pre>
-
-<pre><code>## [1] &quot;sum(abs(pred3-pred))= 0&quot;
-</code></pre>
-
+<span class="co"># pred2 should be identical to pred</span>
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;sum(abs(pred3-pred))=&quot;</span>, <span class="kw">sum</span>(<span class="kw">abs</span>(pred2-pred))))</code></pre></div>
+<pre><code>## [1] &quot;sum(abs(pred3-pred))= 0&quot;</code></pre>
 <blockquote>
 <p>Again <code>0</code>? It seems that <code>XGBoost</code> works pretty well!</p>
 </blockquote>
-
+</div>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
 <h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-Bache+Lichman:2013">
+<p>Bache, K., and M. Lichman. 2013. “UCI Machine Learning Repository.” University of California, Irvine, School of Information; Computer Sciences. <a href="http://archive.ics.uci.edu/ml" class="uri">http://archive.ics.uci.edu/ml</a>.</p>
+</div>
+<div id="ref-friedman2001greedy">
+<p>Friedman, Jerome H. 2001. “Greedy Function Approximation: A Gradient Boosting Machine.” <em>Annals of Statistics</em>. JSTOR, 1189–1232.</p>
+</div>
+<div id="ref-friedman2000additive">
+<p>Friedman, Jerome, Trevor Hastie, Robert Tibshirani, and others. 2000. “Additive Logistic Regression: A Statistical View of Boosting (with Discussion and a Rejoinder by the Authors).” <em>The Annals of Statistics</em> 28 (2). Institute of Mathematical Statistics: 337–407.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
-
 </html>

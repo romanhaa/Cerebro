@@ -90,8 +90,8 @@ if (utils::packageVersion("ggplot2") > "2.2.1")
 
 ## ------------------------------------------------------------------------
 library(mapview)
-# if (Sys.getenv("USER") != "CRAN")
-mapview(nc["BIR74"], col.regions = sf.colors(10))
+if (Sys.getenv("USER") %in% c("edzer", "travis"))
+  mapview(nc["BIR74"], col.regions = sf.colors(10))
 
 ## ------------------------------------------------------------------------
 library(tmap)
@@ -106,7 +106,4 @@ tm_shape(nc) + tm_fill("BIR74", palette = sf.colors(5))
 ttm()
 #if (Sys.getenv("USER") != "CRAN")
 last_map()
-
-## ------------------------------------------------------------------------
-st_sf(a = 1:2, geom = st_sfc(st_point(0:1), st_linestring(rbind(c(1,1), c(2,2)))))
 

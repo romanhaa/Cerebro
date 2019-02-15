@@ -1,4 +1,40 @@
-Changes in version 4.1-1 (2018-01-03))
+Changes in version 4.2-0 (2019-01-25)
+   * putHcap: new function
+   * inst/tests/example.Rmd: changed to html document, replaced putHfig calls with new putHcap
+   * knitrSet: new lang='blogdown' option
+   * fit.mult.impute: suppressed warning for orm if there were no missing Ys (thanks: Lucy D'Agostino McGowan)
+   * knitrSet: made more functional for blogdown
+   * knitrSet: removed duplicate setting of out.width
+   * fit.mult.impute: added step-by-step instructions for imputing missing baseline variables when analyzing serial data
+   * histboxp: changed to display quantiles using line segments, and centered segments vertically. added connect argument with default set to connect quantiles with a line
+   * wtd.quantile: removed observations with missing weights
+   * print.summaryM, latex.summaryM: if no statistical results, do nothing and return
+   * naclus: checking missings in character variables to also use is.na
+   * dotchartpl: backsolve from Wilson confidence interval when prop=0 or 1; added nobigtracename argument; fixed trace names
+   * putHfig: added file=FALSE to return character vector instead of writing
+   * histboxp: added showlegend so that can be called in a loop
+   * histboxpM: new function to call histboxp for multiple variables in a data frame
+   * htmlSN: re-wrote for speed, and added argument pretty=
+   * plot.summaryS: added plotly method when options(grType='plotly')
+   * plotp: moved generic from rms to Hmisc
+   * plotlyM: new function to make it easy to use plotly to produce multiple graphics of certain types, with specifications coming from a data frame
+   * plotp.summaryS: new plotly method for summaryS
+	 * mbarclpl, medvpl: new auxiliary functions for plotp.summaryS
+   * dhistboxp: new function
+   * markupSpecs$httml: added new function mdchunk to intersperse markdown with R object output
+   * markupSpecs$html$varlabel: if html is TRUE run label and units through htmlTranslate
+   * dotchartpl: removed stratified by groupname from hover text
+   * plot.summaryS: removed transhtml argument
+   * markupSpecs$html cap-type functions: called htmlTranslate(...,greek=TRUE) on long and short captions
+   * formatTestStats: ran P-values with < through latexTranslate to make latex.summary.formula.reverse and latex.summaryM work correctly
+   * hidingTOC: new function by Thomas Dupont for various features for floating table of contents with RMarkdown html reports
+   * histbackback: use pretty() to label breaks
+   * cut2: added formatfun argument, by github.com/harrelfe/Hmisc/commit/c8816d589b2e95eed15b96a886558a92bb143abd
+   * latex.default: fixed midfules for booktabs with ctable: https://github.com/harrelfe/Hmisc/pull/100
+   * formatTestStats: trapped logical length mismatch
+   * latex.default: checks options(omitlatexcom) and if TRUE suppresses emitting LaTeX comments; keeps Rmarkdown/pandoc from trying to escape LaTeX comment characters, putting the comments in the final output
+	 
+Changes in version 4.1-1 (2018-01-03)
    * describe: quit rounding values when <= 20 distinct values no matter how far apart any two values are spaced.  https://stackoverflow.com/questions/47679551
    * summaryM: fixed to handle character variables properly, by converting them to factors.  Thanks: Matt Shotwell
    * Fortran/ratfor routines hoeffd, jacklins, largrec, rcorr, wclosest: fixed errors where some scalars were single precision, got rid of some warnings
@@ -34,7 +70,7 @@ Changes in version 4.1-0 (2017-12-19)
    * combine, combine<-: removed (were deprecated long time ago)
    * removed inc-dec.s which defined unused inc<- and dec<- for increment and decrement
    * NAMESPACE: removed exportPattern("^([^.]|\\..+\\.)") and explicitly exported everything, stopping export of methods
-   * round.POSIXt,trunc.POSIXt: changed to roundPOSIXt, trunPOSIXt to avoid conflicts with R base
+   * round.POSIXt,trunc.POSIXt: changed to roundPOSIXt, truncPOSIXt to avoid conflicts with R base
    * asNumericMatrix, matrix2dataFrame: changed to respect original storage.mode.  Thanks: Andre Mikulec
 	 
 Changes in version 4.0-3 (2017-04-30)

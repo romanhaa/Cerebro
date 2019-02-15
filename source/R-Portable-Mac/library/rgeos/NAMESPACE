@@ -48,7 +48,7 @@ export( gRelate, gDisjoint, gTouches, gIntersects, gCrosses,
 export( RGEOSArea, RGEOSLength, RGEOSDistance, RGEOSisWithinDistance, 
 		RGEOSHausdorffDistance)
 export( gArea, gLength, gDistance, gWithinDistance, gNearestPoints)
-
+export( bbox2SP )
 
 # GEOS topology functions
 export( RGEOSEnvelope, RGEOSConvexHull, RGEOSBoundary, RGEOSGetCentroid, 

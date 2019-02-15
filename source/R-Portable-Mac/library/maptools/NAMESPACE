@@ -47,6 +47,21 @@ export(as.psp.SpatialLinesDataFrame, as.psp.SpatialLines, as.psp.Lines, as.psp.L
 
 export(as.linnet.SpatialLines)
 
+if(getRversion() >= "3.6.0") {
+  S3method(spatstat::as.im, "RasterLayer")
+  S3method(spatstat::as.im, "SpatialGridDataFrame")
+  S3method(spatstat::as.linnet, "SpatialLines")
+  S3method(spatstat::as.owin, "SpatialGridDataFrame")
+  S3method(spatstat::as.owin, "SpatialPixelsDataFrame")
+  S3method(spatstat::as.owin, "SpatialPolygons")
+  S3method(spatstat::as.ppp, "SpatialPoints")
+  S3method(spatstat::as.ppp, "SpatialPointsDataFrame")
+  S3method(spatstat::as.psp, "Line")
+  S3method(spatstat::as.psp, "Lines")
+  S3method(spatstat::as.psp, "SpatialLines")
+  S3method(spatstat::as.psp, "SpatialLinesDataFrame")
+}
+
 export(gpclibPermit, gpclibPermitStatus, rgeosStatus)
 
 export(unionSpatialPolygons, nowrapSpatialPolygons, nowrapRecenter, checkPolygonsHoles, nowrapSpatialLines)

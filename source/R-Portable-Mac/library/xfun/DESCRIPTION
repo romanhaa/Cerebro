@@ -1,7 +1,7 @@
 Package: xfun
 Type: Package
 Title: Miscellaneous Functions by 'Yihui Xie'
-Version: 0.3
+Version: 0.4
 Authors@R: c(
   person("Yihui", "Xie", role = c("aut", "cre", "cph"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
   person("Daijiang", "Li", role = "ctb"),
@@ -10,19 +10,19 @@ Authors@R: c(
 Description: Miscellaneous functions commonly used in other packages maintained by 'Yihui Xie'.
 Imports: tools
 Suggests: testit, parallel, rstudioapi, tinytex, mime, markdown, knitr,
-        rmarkdown
+        htmltools, base64enc, rmarkdown
 License: MIT + file LICENSE
 URL: https://github.com/yihui/xfun
 BugReports: https://github.com/yihui/xfun/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-07-06 05:35:41 UTC; yihui
+Packaged: 2018-10-23 16:51:26 UTC; yihui
 Author: Yihui Xie [aut, cre, cph] (<https://orcid.org/0000-0003-0645-5666>),
   Daijiang Li [ctb]
 Maintainer: Yihui Xie <xie@yihui.name>
 Repository: CRAN
-Date/Publication: 2018-07-06 06:00:03 UTC
-Built: R 3.5.0; ; 2018-07-07 13:39:36 UTC; unix
+Date/Publication: 2018-10-23 17:10:02 UTC
+Built: R 3.5.0; ; 2018-10-24 12:35:02 UTC; unix

@@ -7,6 +7,9 @@ cb.early.stop           Callback closure to activate the early
                         stopping.
 cb.evaluation.log       Callback closure for logging the evaluation
                         history
+cb.gblinear.history     Callback closure for collecting the model
+                        coefficients history of a gblinear booster
+                        during its training.
 cb.print.evaluation     Callback closure for printing the result of
                         evaluation
 cb.reset.parameters     Callback closure for restetting the booster's
@@ -24,21 +27,25 @@ print.xgb.cv.synchronous
 setinfo                 Set information of an xgb.DMatrix object
 slice                   Get a new DMatrix containing the specified rows
                         of orginal xgb.DMatrix object
-xgb.DMatrix             Contruct xgb.DMatrix object
+xgb.Booster.complete    Restore missing parts of an incomplete
+                        xgb.Booster object.
+xgb.DMatrix             Construct xgb.DMatrix object
 xgb.DMatrix.save        Save xgb.DMatrix object to binary file
 xgb.attr                Accessors for serializable attributes of a
                         model.
 xgb.create.features     Create new features from a previously learned
                         model
 xgb.cv                  Cross Validation
-xgb.dump                Save xgboost model to text file
+xgb.dump                Dump an xgboost model in text format.
+xgb.gblinear.history    Extract gblinear coefficients history.
 xgb.ggplot.deepness     Plot model trees deepness
 xgb.ggplot.importance   Plot feature importance as a bar graph
-xgb.importance          Show importance of features in a model
+xgb.importance          Importance of features in a model.
 xgb.load                Load xgboost model from binary file
 xgb.model.dt.tree       Parse a boosted tree model text dump
 xgb.parameters<-        Accessors for model parameters.
 xgb.plot.multi.trees    Project all trees on one tree and plot it
+xgb.plot.shap           SHAP contribution dependency plots
 xgb.plot.tree           Plot a boosted tree model
 xgb.save                Save xgboost model to binary file
 xgb.save.raw            Save xgboost model to R's raw vector, user can

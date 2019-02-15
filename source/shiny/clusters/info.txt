@@ -1,3 +1,7 @@
+##----------------------------------------------------------------------------##
+## Tab: Clusters.
+##----------------------------------------------------------------------------##
+
 clusters_tree_info <- list(
   title = "Cluster tree",
   text = p("Cluster tree reflecting the similarity of clusters based on their expression profiles. Instead of using the expression values, the correlation is calculated using the user-specified number of principal components (see 'Sample info' tab on the left).")

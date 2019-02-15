@@ -23,8 +23,8 @@ ICLUST.rgraph           Draw an ICLUST graph using the Rgraphviz
 ICLUST.sort             Sort items by absolute size of cluster loadings
 KMO                     Find the Kaiser, Meyer, Olkin Measure of
                         Sampling Adequacy
-Promax                  Perform bifactor, promax or targeted rotations
-                        and return the inter factor angles.
+Promax                  Perform Procustes,bifactor, promax or targeted
+                        rotations and return the inter factor angles.
 SD                      Find the Standard deviation for a vector,
                         matrix, or data.frame - do not return error if
                         there are no cases
@@ -55,8 +55,10 @@ affect                  Two data sets of affect and arousal scores as a
                         function of personality and movie conditions
 alpha                   Find two estimates of reliability: Cronbach's
                         alpha and Guttman's Lambda 6.
-bestScales              A set of functions for factorial and empirical
-                        scale construction
+bassAckward             The Bass-Ackward factoring algorithm discussed
+                        by Goldberg
+bestScales              A bootstrap aggregation (bagging) function for
+                        choosing most predictive items
 bfi                     25 Personality items representing 5 factors
 bi.bars                 Draw pairs of bargraphs based on two groups
 biplot.psych            Draw biplots of factor or component scores by
@@ -113,8 +115,6 @@ cortest.mat             Chi square tests of whether a single matrix is
                         equal.
 cosinor                 Functions for analysis of circadian or diurnal
                         data
-count.pairwise          Count number of pairwise cases for a data set
-                        with missing (NA) data.
 cta                     Simulate the C(ues) T(endency) A(ction) model
                         of motivation
 cubits                  Galton's example of the relationship between
@@ -163,6 +163,8 @@ fa                      Exploratory Factor analysis using MinRes
 fa.diagram              Graph factor loading matrices
 fa.extension            Apply Dwyer's factor extension to find factor
                         loadings for extended variables
+fa.lookup               A set of functions for factorial and empirical
+                        scale construction
 fa.multi                Multi level (hierarchical) factor analysis
 fa.parallel             Scree plots of data or correlation matrix
                         compared to random "parallel" matrices
@@ -172,6 +174,8 @@ fa.random               A first approximation to Random Effects
                         Exploratory Factor Analysis
 fa.sort                 Sort factor analysis or principal components
                         analysis loadings
+faCor                   Correlations between two factor analysis
+                        solutions
 factor.congruence       Coefficient of factor congruence
 factor.fit              How well does the factor model fit a
                         correlation matrix. Part of the VSS package
@@ -186,6 +190,8 @@ factor2cluster          Extract cluster definitions from factor
                         loadings
 fisherz                 Transformations of r, d, and t including Fisher
                         r to z and z to r and confidence intervals
+fparse                  Parse and exten formula input from a model and
+                        return the DV, IV, and associated terms.
 galton                  Galton's Mid parent child height data
 geometric.mean          Find the geometric mean of a vector or columns
                         of a data.frame.
@@ -221,6 +227,8 @@ lowerUpper              Combine two square matrices to have a lower off
                         other
 make.keys               Create a keys matrix for use by score.items or
                         cluster.cor
+manhattan               "Manhattan" plots of correlations with a set of
+                        criteria.
 mardia                  Calculate univariate or multivariate (Mardia's
                         test) skew and kurtosis for a vector, matrix,
                         or data.frame
@@ -256,6 +264,8 @@ paired.r                Test the difference between (un)paired
                         correlations
 pairs.panels            SPLOM, histograms and correlations for a data
                         matrix
+pairwiseCount           Count number of pairwise cases for a data set
+                        with missing (NA) data and impute values.
 parcels                 Find miniscales (parcels) of size 2 or 3 from a
                         set of items
 partial.r               Find the partial correlations for a set (x) of
@@ -314,7 +324,7 @@ scoreOverlap            Find correlations of composite variables
 scrub                   A utility for basic data cleaning and recoding.
                         Changes values outside of minimum and maximum
                         limits to NA.
-setCor                  Set Correlation and Multiple Regression from
+setCor                  Multiple Regression and Set Correlation from
                         matrix or raw input
 sim                     Functions to simulate
                         psychological/psychometric data.

@@ -37,8 +37,14 @@ chkPsiDeriv <- function(m.psi, tol = 1e-4) {
               is.numeric(dx  <- diff(x <- m.psi[,"x"])))
     if(length(tol) < 2) tol[2] <- 10*tol[1]
     xn0 <- abs(x) > 1e-5
+    ## need to jitter here, as for "huber" the mostly equal cases are not counted
+    ## (=> use all.equal(*, countEQ=TRUE) in future).  Save & restore r.seed if needed:
+    if(hasRS <- exists(".Random.seed", envir=.GlobalEnv))  RS <- .Random.seed
+    set.seed(8)
+    dpsidx <- (diff(psi)/dx) * (1 + 1e-7*rnorm(dx)) # jitter
+    if(hasRS) assign(".Random.seed", RS, envir=.GlobalEnv)
     c(all.equal(mids(psi), diff(m.psi[,"rho"])/dx, tolerance=tol[1]), # rho'  == psi
-      all.equal(mids(m.psi[,"Dpsi"]), diff(psi)/dx, tolerance=tol[2]),# psi'  == psip
+      all.equal(mids(m.psi[,"Dpsi"]),   dpsidx, tolerance= tol[2]),   # psi'  == psip
       all.equal(m.psi[xn0,"wgt"], (psi/x)[xn0], tolerance= tol[1]/10))# psi/x == wgt
 }
 
@@ -60,18 +66,18 @@ chkPsi.. <- function(x, psi, par, tol = 1e-4, doD2, quiet=FALSE)
     dx <- diff(x)
     x0 <- sort(x)
     x <- c(-Inf, Inf, NA, NaN, x0)
-    if(is.redesc)
-	rho  <- Mpsi(x, par, psi, deriv=-1)
+    ## if(is.redesc)
+    rho  <- Mpsi(x, par, psi, deriv=-1)
     psix <- Mpsi(x, par, psi, deriv= 0)
     Dpsi <- Mpsi(x, par, psi, deriv= 1)
     wgt  <- Mwgt(x, par, psi)
-
     chi  <- Mchi(x, par, psi)
     if(is.redesc) {
 	chi1 <- Mchi(x, par, psi, deriv=1)
 	chi2 <- Mchi(x, par, psi, deriv=2)
     }
     rho.Inf <- MrhoInf(par, psi)
+    stopifnot(all.equal(rep(rho.Inf,2), rho[1:2]))
     if(is.redesc)
         stopifnot(all.equal(rep(rho.Inf,2), rho[1:2]),
                   all.equal(chi, rho  / rho.Inf),

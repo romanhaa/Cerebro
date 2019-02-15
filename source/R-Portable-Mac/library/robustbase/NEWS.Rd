@@ -4,6 +4,70 @@
 \title{News for \R Package \pkg{robustbase}}
 \encoding{UTF-8}
 
+\section{CHANGES in robustbase VERSION 0.93-3 (2018-09-06)}{
+  \subsection{Tweaks}{
+    \itemize{
+      \item losen the strict tests, notably in
+      \file{tests/nlregrob-tst.R} to work around \code{nls()}
+      convergence issues on all non-standard BLAS platforms.
+    }
+  }
+}
+
+\section{CHANGES in robustbase VERSION 0.93-2 (2018-07-26)}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Update \code{lmrob(<empty multivariate>)} to the change in R
+      (incl 3.5.1 patched).
+
+      \item \code{mc()} gets new optional \code{doScale} argument, and
+      \emph{increased} defaults for the tolerances \preformatted{    eps1 = 1e-14, eps2 = 1e-15}
+      such that it should converge by default in more cases.
+
+      \item A \code{na.action} is now kept in \code{summary(lmrob(*))},
+      and when \code{print()}ing it, a note about omitted observations,
+      e.g., because of \code{NA}'s, is made as for \code{lm()}.
+
+      \item Internal \code{lmrob.weights()}: more "resistant" in case
+      scale=0, using na.rm=TRUE  (report only, no reprex).
+
+      \item \code{lmrob(*, trace.lev >= 2)} now shows some information
+      about the number of \code{find_scale()} iterations used (as these
+      are now stored C internally).% TODO: return the maximum used to R?
+    }
+  }
+}
+
+\section{CHANGES in robustbase VERSION 0.93-1-1 (2018-07-18)}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \file{src/robustbase.h}: \code{is_redescender} now
+      \code{\bold{static} inline}, needed for some compilers, e.g., on
+      ubuntu 18.04.
+      Fixing R-forge bug(s) 6588 (and 6590, 6593),
+      \url{https://r-forge.r-project.org/tracker/index.php?func=detail&aid=6588&group_id=59&atid=302}
+    }
+  }
+}
+
+\section{CHANGES in robustbase VERSION 0.93-1 (2018-06-20, svn r815)}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item The \sQuote{Usage:}s in the data set help pages now say
+      \code{data(<..>, package="robustbase")}.
+
+      \item The \file{lmrob_simulation} vignette now should continue
+      to work with upcoming \pkg{ggplot2}.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{Mpsi(x, c, psi="huber", deriv=-1)} now gives rho(x)
+      instead of mostly \code{Inf}.
+    }
+  }
+}
+
 \section{CHANGES in robustbase VERSION 0.93-0 (2018-04-21, svn r805)}{
   \subsection{NEW FEATURES}{
     \itemize{

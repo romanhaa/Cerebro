@@ -1,4 +1,9 @@
 
+# tidyselect 0.2.5
+
+This is a maintenance release for compatibility with rlang 0.3.0.
+
+
 # tidyselect 0.2.4
 
 * Fixed a warning that occurred when a vector of column positions was
@@ -30,7 +35,7 @@
 
   ```{r}
   vars <- c("cyl", "am", "disp", "drat")
-  vars_select(names(mtcars), - (!! vars))
+  vars_select(names(mtcars), - !!vars)
   ```
 
 * `last_col()` now issues an error when the variable vector is empty.
@@ -103,7 +108,7 @@ vars_select(names(mtcars), .data$cyl : .data$drat)
   custom range: `vars_select(vars, 3:last_col())`.
 
 * `:` and `-` now handle strings as well. This makes it easy to
-  unquote a column name: `(!! name) : last_col()` or `-(!! name)`.
+  unquote a column name: `(!!name) : last_col()` or `- !!name`.
 
 * `vars_select()` gains a `.strict` argument similar to
   `rename_vars()`.  If set to `FALSE`, errors about unknown variables

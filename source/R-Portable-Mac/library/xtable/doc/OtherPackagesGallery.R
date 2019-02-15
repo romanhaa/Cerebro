@@ -13,28 +13,34 @@ set.seed(1234)
 ## ----dataspdep--------------------------------------------
 library(spdep)
 data("oldcol", package = "spdep")
-COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = COL.OLD[],
-                        nb2listw(COL.nb))
+
+data.in.sample <- COL.OLD[1:44,]
+data.out.of.sample <- COL.OLD[45:49,]
+
+listw.in.sample <- nb2listw(subset(COL.nb, !(1:49 %in% 45:49)))
+listw.all.sample <- nb2listw(COL.nb)
+
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = data.in.sample,
+                        listw.in.sample)
 class(COL.lag.eig)
-COL.errW.GM <- GMerrorsar(CRIME ~ INC + HOVAL, data = COL.OLD,
-                          nb2listw(COL.nb, style = "W"),
-                          returnHcov = TRUE)
+COL.errW.GM <- GMerrorsar(CRIME ~ INC + HOVAL, data = data.in.sample,
+                          listw.in.sample, returnHcov = TRUE)
 class(COL.errW.GM)
-COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data = COL.OLD,
-                       nb2listw(COL.nb))
+COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data = data.in.sample,
+                       listw.in.sample)
 class(COL.lag.stsls)
 
-p1 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,],
-              listw = nb2listw(COL.nb))
+p1 <- predict(COL.lag.eig, newdata = data.out.of.sample,
+              listw = listw.all.sample)
 class(p1)
-p2 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,],
+p2 <- predict(COL.lag.eig, newdata = data.out.of.sample,
               pred.type = "trend", type = "trend")
 #type option for retrocompatibility with spdep 0.5-92
 class(p2)
 
-imp.exact <- impacts(COL.lag.eig, listw = nb2listw(COL.nb))
+imp.exact <- impacts(COL.lag.eig, listw = listw.in.sample)
 class(imp.exact)
-imp.sim <- impacts(COL.lag.eig, listw = nb2listw(COL.nb), R = 200)
+imp.sim <- impacts(COL.lag.eig, listw = listw.in.sample, R = 200)
 class(imp.sim)
 
 ## ----xtablesarlm, results = 'asis'------------------------
@@ -112,20 +118,8 @@ res.stsls <- stslshac(CRIME ~ HOVAL + INC, data = columbus, listw = listw,
                       distance = coldis, type = 'Triangular')
 class(res.stsls)
 
-res.gstsls <- gstslshet(CRIME ~ HOVAL + INC, data = columbus, listw = listw)
-class(res.gstsls)
-
-imp.gstsls <- impacts(res.gstsls, listw = listw)
-class(imp.gstsls)
-
 ## ----xtablesphet, results = 'asis'------------------------
 xtable(res.stsls)
-
-## ----xtablesphet1, results = 'asis'-----------------------
-xtable(res.gstsls)
-
-## ----xtablesphetimpacts, results = 'asis'-----------------
-xtable(imp.gstsls)
 
 ## ----zoo, results = 'asis'--------------------------------
 library(zoo)

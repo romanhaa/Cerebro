@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;dplyr&rsquo; version 0.7.4</h2>
+</div><h2>Documentation for package &lsquo;dplyr&rsquo; version 0.7.8</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -93,7 +93,7 @@
 <td>Coerce an existing data structure into a 'tbl_cube'</td></tr>
 <tr><td style="width: 25%;"><a href="as.tbl_cube.html">as.tbl_cube.table</a></td>
 <td>Coerce an existing data structure into a 'tbl_cube'</td></tr>
-<tr><td style="width: 25%;"><a href="as.table.tbl_cube.html">as_data_frame.tbl_cube</a></td>
+<tr><td style="width: 25%;"><a href="as.table.tbl_cube.html">as_tibble.tbl_cube</a></td>
 <td>Coerce a 'tbl_cube' to other data structures</td></tr>
 <tr><td style="width: 25%;"><a href="auto_copy.html">auto_copy</a></td>
 <td>Copy tables to same source, if necessary</td></tr>
@@ -133,8 +133,6 @@
 <td>Efficiently bind multiple data frames by row and column</td></tr>
 <tr><td style="width: 25%;"><a href="compute.html">compute</a></td>
 <td>Force computation of a database query</td></tr>
-<tr><td style="width: 25%;"><a href="select_helpers.html">contains</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="copy_to.html">copy_to</a></td>
 <td>Copy a local data frame to a remote src</td></tr>
 <tr><td style="width: 25%;"><a href="tally.html">count</a></td>
@@ -147,8 +145,8 @@
 <td>Windowed rank functions.</td></tr>
 <tr><td style="width: 25%;"><a href="cumall.html">cummean</a></td>
 <td>Cumulativate versions of any, all, and mean</td></tr>
-<tr><td style="width: 25%;"><a href="select_helpers.html">current_vars</a></td>
-<td>Select helpers</td></tr>
+<tr><td style="width: 25%;"><a href="select_vars.html">current_vars</a></td>
+<td>Select variables</td></tr>
 </table>
 
 <h2><a name="D">-- D --</a></h2>
@@ -171,10 +169,6 @@
 <h2><a name="E">-- E --</a></h2>
 
 <table width="100%">
-<tr><td style="width: 25%;"><a href="select_helpers.html">ends_with</a></td>
-<td>Select helpers</td></tr>
-<tr><td style="width: 25%;"><a href="select_helpers.html">everything</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="explain.html">explain</a></td>
 <td>Explain details of a tbl</td></tr>
 </table>
@@ -263,8 +257,6 @@
 <h2><a name="M">-- M --</a></h2>
 
 <table width="100%">
-<tr><td style="width: 25%;"><a href="select_helpers.html">matches</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="ranking.html">min_rank</a></td>
 <td>Windowed rank functions.</td></tr>
 <tr><td style="width: 25%;"><a href="mutate.html">mutate</a></td>
@@ -292,8 +284,6 @@
 <td>Extract the first, last or nth value from a vector</td></tr>
 <tr><td style="width: 25%;"><a href="ranking.html">ntile</a></td>
 <td>Windowed rank functions.</td></tr>
-<tr><td style="width: 25%;"><a href="select_helpers.html">num_range</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="n_distinct.html">n_distinct</a></td>
 <td>Efficiently count the number of unique values in a set of vector</td></tr>
 </table>
@@ -301,8 +291,6 @@
 <h2><a name="O">-- O --</a></h2>
 
 <table width="100%">
-<tr><td style="width: 25%;"><a href="select_helpers.html">one_of</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="order_by.html">order_by</a></td>
 <td>A helper function for ordering window function output</td></tr>
 </table>
@@ -337,6 +325,8 @@
 <td>Select and rename a selection of variables</td></tr>
 <tr><td style="width: 25%;"><a href="select_all.html">rename_if</a></td>
 <td>Select and rename a selection of variables</td></tr>
+<tr><td style="width: 25%;"><a href="select_vars.html">rename_vars</a></td>
+<td>Select variables</td></tr>
 <tr><td style="width: 25%;"><a href="join.html">right_join</a></td>
 <td>Join two tbls together</td></tr>
 <tr><td style="width: 25%;"><a href="join.tbl_df.html">right_join.tbl_df</a></td>
@@ -364,10 +354,12 @@
 <td>Select and rename a selection of variables</td></tr>
 <tr><td style="width: 25%;"><a href="select_all.html">select_at</a></td>
 <td>Select and rename a selection of variables</td></tr>
-<tr><td style="width: 25%;"><a href="select_helpers.html">select_helpers</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="select_all.html">select_if</a></td>
 <td>Select and rename a selection of variables</td></tr>
+<tr><td style="width: 25%;"><a href="select_vars.html">select_var</a></td>
+<td>Select variables</td></tr>
+<tr><td style="width: 25%;"><a href="select_vars.html">select_vars</a></td>
+<td>Select variables</td></tr>
 <tr><td style="width: 25%;"><a href="join.html">semi_join</a></td>
 <td>Join two tbls together</td></tr>
 <tr><td style="width: 25%;"><a href="join.tbl_df.html">semi_join.tbl_df</a></td>
@@ -392,8 +384,6 @@
 <td>Source for database backends</td></tr>
 <tr><td style="width: 25%;"><a href="src_dbi.html">src_sqlite</a></td>
 <td>Source for database backends</td></tr>
-<tr><td style="width: 25%;"><a href="select_helpers.html">starts_with</a></td>
-<td>Select helpers</td></tr>
 <tr><td style="width: 25%;"><a href="starwars.html">starwars</a></td>
 <td>Starwars characters</td></tr>
 <tr><td style="width: 25%;"><a href="storms.html">storms</a></td>

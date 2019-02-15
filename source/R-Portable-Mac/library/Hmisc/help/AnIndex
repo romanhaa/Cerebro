@@ -85,6 +85,7 @@ describe.default	describe
 describe.formula	describe
 describe.matrix	describe
 describe.vector	describe
+dhistboxp	histboxp
 discrete	discrete
 dotchart2	dotchart2
 dotchart3	dotchart3
@@ -165,9 +166,11 @@ Gompertz2	spower
 groupn	Hmisc-internal
 grType	Misc
 hdquantile	hdquantile
+hidingTOC	hidingTOC
 hist.data.frame	hist.data.frame
 histbackback	histbackback
 histboxp	histboxp
+histboxpM	histboxp
 histSpike	scat1d
 histSpikeg	scat1d
 Hmisc.Overview	Overview
@@ -268,11 +271,13 @@ Math.mChoice	mChoice
 matrix2dataFrame	summarize
 matxv	Misc
 mbarclPanel	summaryS
+mbarclpl	summaryS
 mChoice	mChoice
 mdb.get	mdb.get
 Mean	transace
 Mean.areg.boot	transace
 medvPanel	summaryS
+medvpl	summaryS
 Merge	Merge
 mgp.axis	mgp.axis
 mgp.axis.labels	mgp.axis
@@ -341,10 +346,13 @@ plot.summaryS	summaryS
 plot.transcan	transcan
 plot.varclus	varclus
 plotCorrPrecision	plotCorrPrecision
+plotlyM	plotlyM
 plotlyParm	Misc
 plotlySave	knitrSet
 plotmathTranslate	label
 plotMultSim	varclus
+plotp	Misc
+plotp.summaryS	summaryS
 plotpsummaryM	Hmisc-internal
 plsmo	plsmo
 pngNeedle	latexTherm
@@ -409,6 +417,7 @@ prn	prnz
 prselect	prselect
 prType	Misc
 pstamp	pstamp
+putHcap	label
 putHfig	label
 putKey	labcurve
 putKeyEmpty	labcurve

@@ -27,7 +27,7 @@ df[,ID:=NULL]
 levels(df[,Treatment])
 
 ## ---- warning=FALSE,message=FALSE----------------------------------------
-sparse_matrix <- sparse.model.matrix(Improved~.-1, data = df)
+sparse_matrix <- sparse.model.matrix(Improved ~ ., data = df)[,-1]
 head(sparse_matrix)
 
 ## ------------------------------------------------------------------------

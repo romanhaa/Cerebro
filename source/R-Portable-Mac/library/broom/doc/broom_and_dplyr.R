@@ -1,45 +1,109 @@
-## ----opts_chunk, echo=FALSE----------------------------------------------
-library(knitr)
-opts_chunk$set(message=FALSE, warning=FALSE)
+## ----setup, include = FALSE----------------------------------------------
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
-## ----setup---------------------------------------------------------------
+## ------------------------------------------------------------------------
 library(broom)
-library(dplyr)
+library(tibble)
+
 data(Orange)
 
-dim(Orange)
-head(Orange)
+Orange <- as_tibble(Orange)
+Orange
 
 ## ------------------------------------------------------------------------
 cor(Orange$age, Orange$circumference)
 
 library(ggplot2)
-ggplot(Orange, aes(age, circumference, color = Tree)) + geom_line()
+
+ggplot(Orange, aes(age, circumference, color = Tree)) +
+  geom_line()
 
 ## ------------------------------------------------------------------------
-Orange %>% group_by(Tree) %>% summarize(correlation = cor(age, circumference))
+library(dplyr)
+
+Orange %>% 
+  group_by(Tree) %>%
+  summarize(correlation = cor(age, circumference))
 
 ## ------------------------------------------------------------------------
-cor.test(Orange$age, Orange$circumference)
+ct <- cor.test(Orange$age, Orange$circumference)
+ct
 
 ## ------------------------------------------------------------------------
-Orange %>% group_by(Tree) %>% do(tidy(cor.test(.$age, .$circumference)))
+tidy(ct)
 
 ## ------------------------------------------------------------------------
-Orange %>% group_by(Tree) %>% do(tidy(lm(age ~ circumference, data=.)))
+library(tidyr)
+library(purrr)
+
+nested <- Orange %>% 
+  nest(-Tree)
+
+## ------------------------------------------------------------------------
+nested %>% 
+  mutate(test = map(data, ~ cor.test(.x$age, .x$circumference)))
+
+## ------------------------------------------------------------------------
+nested %>% 
+  mutate(
+    test = map(data, ~ cor.test(.x$age, .x$circumference)), # S3 list-col
+    tidied = map(test, tidy)
+  ) 
+
+## ------------------------------------------------------------------------
+Orange %>% 
+  nest(-Tree) %>% 
+  mutate(
+    test = map(data, ~ cor.test(.x$age, .x$circumference)), # S3 list-col
+    tidied = map(test, tidy)
+  ) %>% 
+  unnest(tidied, .drop = TRUE)
+
+## ------------------------------------------------------------------------
+lm_fit <- lm(age ~ circumference, data = Orange)
+summary(lm_fit)
+
+## ------------------------------------------------------------------------
+tidy(lm_fit)
+
+## ------------------------------------------------------------------------
+Orange %>%
+  nest(-Tree) %>% 
+  mutate(
+    fit = map(data, ~ lm(age ~ circumference, data = .x)),
+    tidied = map(fit, tidy)
+  ) %>% 
+  unnest(tidied)
 
 ## ------------------------------------------------------------------------
 data(mtcars)
-head(mtcars)
-mtcars %>% group_by(am) %>% do(tidy(lm(wt ~ mpg + qsec + gear, .)))
+mtcars <- as_tibble(mtcars)  # to play nicely with list-cols
+mtcars
+
+mtcars %>%
+  nest(-am) %>% 
+  mutate(
+    fit = map(data, ~ lm(wt ~ mpg + qsec + gear, data = .x)),  # S3 list-col
+    tidied = map(fit, tidy)
+  ) %>% 
+  unnest(tidied)
 
 ## ------------------------------------------------------------------------
-regressions <- mtcars %>% group_by(cyl) %>%
-    do(fit = lm(wt ~ mpg + qsec + gear, .))
-regressions
+regressions <- mtcars %>%
+  nest(-am) %>% 
+  mutate(
+    fit = map(data, ~ lm(wt ~ mpg + qsec + gear, data = .x)),
+    tidied = map(fit, tidy),
+    glanced = map(fit, glance),
+    augmented = map(fit, augment)
+  )
 
-## ------------------------------------------------------------------------
-regressions %>% tidy(fit)
-regressions %>% augment(fit)
-regressions %>% glance(fit)
+regressions %>% 
+  unnest(tidied)
+
+regressions %>% 
+  unnest(glanced, .drop = TRUE)
+
+regressions %>% 
+  unnest(augmented)
 

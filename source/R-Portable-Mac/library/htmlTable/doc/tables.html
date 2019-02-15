@@ -12,14 +12,14 @@
 
 <meta name="author" content="Max Gordon" />
 
-<meta name="date" content="2018-05-26" />
+<meta name="date" content="2019-01-05" />
 
 <title>Tables with htmlTable and some alternatives</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Tables with htmlTable and some alternatives</h1>
 <h4 class="author"><em>Max Gordon</em></h4>
-<h4 class="date"><em>2018-05-26</em></h4>
+<h4 class="date"><em>2019-01-05</em></h4>
 
 
 <div id="TOC">
@@ -9961,8 +9983,8 @@ Age
              <span class="dt">caption=</span><span class="st">&quot;A test table&quot;</span>, 
              <span class="dt">align =</span> <span class="kw">c</span>(<span class="st">&quot;l&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;r&quot;</span>)), 
       <span class="dt">type=</span><span class="st">&quot;html&quot;</span>)</code></pre></div>
-<!-- html table generated in R 3.4.4 by xtable 1.8-2 package -->
-<!-- Sat May 26 11:15:51 2018 -->
+<!-- html table generated in R 3.5.2 by xtable 1.8-3 package -->
+<!-- Sat Jan  5 13:11:11 2019 -->
 <table border="1">
 <caption align="bottom">
 A test table

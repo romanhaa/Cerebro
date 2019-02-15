@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-03-03" />
+<meta name="date" content="2019-01-17" />
 
 <title>Cryptographic Hashing in R</title>
 
@@ -276,8 +276,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -286,14 +292,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -304,7 +370,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Cryptographic Hashing in R</h1>
-<h4 class="date"><em>2018-03-03</em></h4>
+<h4 class="date"><em>2019-01-17</em></h4>
 
 </div>
 
@@ -333,17 +399,17 @@ md5(url(&quot;http://cran.us.r-project.org/bin/windows/base/old/3.1.1/R-3.1.1-wi
 <pre class="r"><code># Compare to digest
 library(digest)</code></pre>
 <pre><code>
-Attaching package: 'digest'</code></pre>
-<pre><code>The following object is masked from 'package:openssl':
+Attaching package: &#39;digest&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:openssl&#39;:
 
     sha1</code></pre>
 <pre class="r"><code>digest(&quot;foo&quot;, &quot;md5&quot;, serialize = FALSE)</code></pre>
 <pre><code>[1] &quot;acbd18db4cc2f85cedef654fccc4a4d8&quot;</code></pre>
 <pre class="r"><code># Other way around
 digest(cars, skip = 0)</code></pre>
-<pre><code>[1] &quot;597d49daff2229c69f0a44fc79891479&quot;</code></pre>
+<pre><code>[1] &quot;c6408c6bc0833b2a374c19edf3e16b33&quot;</code></pre>
 <pre class="r"><code>md5(serialize(cars, NULL))</code></pre>
-<pre><code>md5 59:7d:49:da:ff:22:29:c6:9f:0a:44:fc:79:89:14:79 </code></pre>
+<pre><code>md5 c6:40:8c:6b:c0:83:3b:2a:37:4c:19:ed:f3:e1:6b:33 </code></pre>
 </div>
 
 

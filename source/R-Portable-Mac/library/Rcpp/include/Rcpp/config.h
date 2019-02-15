@@ -1,5 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
-//
+
 // config.h: Rcpp R/C++ interface class library -- Rcpp configuration
 //
 // Copyright (C) 2010 - 2018  Dirk Eddelbuettel and Romain Francois
@@ -27,10 +26,9 @@
 #define RcppDevVersion(maj, min, rev, dev)  (((maj)*1000000) + ((min)*10000) + ((rev)*100) + (dev))
 
 // the currently released version
-#define RCPP_VERSION Rcpp_Version(0,12,16)
+#define RCPP_VERSION Rcpp_Version(1,0,0)
 
 // the current source snapshot
-#define RCPP_DEV_VERSION RcppDevVersion(0,12,16,0)
+#define RCPP_DEV_VERSION RcppDevVersion(1,0,0,0)
 
 #endif
-

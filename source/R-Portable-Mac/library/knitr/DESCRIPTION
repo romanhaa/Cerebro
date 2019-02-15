@@ -1,7 +1,7 @@
 Package: knitr
 Type: Package
 Title: A General-Purpose Package for Dynamic Report Generation in R
-Version: 1.20
+Version: 1.21
 Authors@R: c(
     person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
     person("Adam", "Vogt", role = "ctb"),
@@ -13,6 +13,7 @@ Authors@R: c(
     person("Ashley", "Manton", role = "ctb"),
     person("Ben", "Baumer", role = "ctb"),
     person("Brian", "Diggs", role = "ctb"),
+    person("Brian", "Zhang", role = "ctb"),
     person("Cassio", "Pereira", role = "ctb"),
     person("Christophe", "Dervieux", role = "ctb"),
     person("David", "Hugh-Jones", role = "ctb"),
@@ -28,6 +29,7 @@ Authors@R: c(
     person("Garrick", "Aden-Buie", role = "ctb"),
     person("Gregoire", "Detrez", role = "ctb"),
     person("Hadley", "Wickham", role = "ctb"),
+    person("Hao", "Zhu", role = "ctb"),
     person("Heewon", "Jeon", role = "ctb"),
     person("Henrik", "Bengtsson", role = "ctb"),
     person("Hiroaki", "Yutani", role = "ctb"),
@@ -59,6 +61,8 @@ Authors@R: c(
     person(c("Kevin", "K."), "Smith", role = "ctb"),
     person("Kirill", "Mueller", role = "ctb"),
     person("Kohske", "Takahashi", role = "ctb"),
+    person("Lorenz", "Walthert", role = "ctb"),
+    person("Lucas", "Gallindo", role = "ctb"),
     person("Martin", "Modrák", role = "ctb"),
     person("Michael", "Chirico", role = "ctb"),
     person("Michael", "Friendly", role = "ctb"),
@@ -83,6 +87,7 @@ Authors@R: c(
     person("Thibaut", "Assus", role = "ctb"),
     person("Thibaut", "Lamadon", role = "ctb"),
     person("Thomas", "Leeper", role = "ctb"),
+    person("Tim", "Mastny", role = "ctb"),
     person("Tom", "Torsney-Weir", role = "ctb"),
     person("Trevor", "Davis", role = "ctb"),
     person("Viktoras", "Veitas", role = "ctb"),
@@ -94,12 +99,13 @@ Maintainer: Yihui Xie <xie@yihui.name>
 Description: Provides a general-purpose tool for dynamic report generation in R
     using Literate Programming techniques.
 Depends: R (>= 3.1.0)
-Imports: evaluate (>= 0.10), highr, markdown, stringr (>= 0.6), yaml,
-        methods, tools
+Imports: evaluate (>= 0.10), highr, markdown, stringr (>= 0.6), yaml
+        (>= 2.1.19), methods, xfun, tools
 Suggests: formatR, testit, digest, rgl (>= 0.95.1201), codetools,
         rmarkdown, htmlwidgets (>= 0.7), webshot, tikzDevice (>= 0.10),
-        tinytex, xfun, reticulate (>= 1.4), JuliaCall (>= 0.11.1), png,
-        jpeg, xml2, httr, DBI (>= 0.4-1), showtext, tibble
+        tinytex, reticulate (>= 1.4), JuliaCall (>= 0.11.1), png, jpeg,
+        gifski, xml2 (>= 1.2.0), httr, DBI (>= 0.4-1), showtext,
+        tibble, styler
 License: GPL
 URL: https://yihui.name/knitr/
 BugReports: https://github.com/yihui/knitr/issues
@@ -118,9 +124,9 @@ Collate: 'block.R' 'cache.R' 'utils.R' 'citation.R' 'hooks-html.R'
         'template.R' 'utils-base64.R' 'utils-conversion.R'
         'utils-rd2html.R' 'utils-sweave.R' 'utils-upload.R'
         'utils-vignettes.R' 'zzz.R'
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2018-02-19 20:23:59 UTC; yihui
+Packaged: 2018-12-10 22:10:14 UTC; yihui
 Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Adam Vogt [ctb],
   Alastair Andrew [ctb],
@@ -132,6 +138,7 @@ Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Ashley Manton [ctb],
   Ben Baumer [ctb],
   Brian Diggs [ctb],
+  Brian Zhang [ctb],
   Cassio Pereira [ctb],
   Christophe Dervieux [ctb],
   David Hugh-Jones [ctb],
@@ -147,6 +154,7 @@ Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Garrick Aden-Buie [ctb],
   Gregoire Detrez [ctb],
   Hadley Wickham [ctb],
+  Hao Zhu [ctb],
   Heewon Jeon [ctb],
   Henrik Bengtsson [ctb],
   Hiroaki Yutani [ctb],
@@ -179,6 +187,8 @@ Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Kevin K. Smith [ctb],
   Kirill Mueller [ctb],
   Kohske Takahashi [ctb],
+  Lorenz Walthert [ctb],
+  Lucas Gallindo [ctb],
   Martin Modrák [ctb],
   Michael Chirico [ctb],
   Michael Friendly [ctb],
@@ -203,6 +213,7 @@ Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Thibaut Assus [ctb],
   Thibaut Lamadon [ctb],
   Thomas Leeper [ctb],
+  Tim Mastny [ctb],
   Tom Torsney-Weir [ctb],
   Trevor Davis [ctb],
   Viktoras Veitas [ctb],
@@ -210,5 +221,5 @@ Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Wush Wu [ctb],
   Zachary Foster [ctb]
 Repository: CRAN
-Date/Publication: 2018-02-20 10:11:46 UTC
-Built: R 3.5.0; ; 2018-04-24 05:35:09 UTC; unix
+Date/Publication: 2018-12-10 23:00:03 UTC
+Built: R 3.5.2; ; 2019-02-15 16:12:48 UTC; unix

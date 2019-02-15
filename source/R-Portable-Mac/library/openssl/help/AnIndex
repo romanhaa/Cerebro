@@ -7,7 +7,7 @@ aes_ctr_encrypt	aes_cbc
 aes_gcm_decrypt	aes_cbc
 aes_gcm_encrypt	aes_cbc
 aes_keygen	aes_cbc
-askpass	askpass
+askpass	reexports
 base64_decode	base64_encode
 base64_encode	base64_encode
 bignum	bignum
@@ -20,6 +20,8 @@ cert_verify	certificates
 decrypt_envelope	encrypt_envelope
 download_ssl_cert	certificates
 dsa_keygen	keygen
+ecdsa_parse	signatures
+ecdsa_write	signatures
 ec_dh	ec_dh
 ec_keygen	keygen
 encrypt	rsa_encrypt
@@ -47,6 +49,7 @@ read_p12	pkcs12
 read_p7b	pkcs12
 read_pem	read_key
 read_pubkey	read_key
+reexports	reexports
 ripemd160	hash
 rsa	rsa_encrypt
 rsa_decrypt	rsa_encrypt

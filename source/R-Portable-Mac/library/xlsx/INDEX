@@ -20,6 +20,7 @@ Sheet                   Functions to manipulate worksheets.
 Workbook                Functions to manipulate Excel 2007 workbooks.
 addDataFrame            Add a 'data.frame' to a sheet.
 addHyperlink            Add a hyperlink to a cell.
+forceFormulaRefresh     Force Refresh Pivot Tables and Formulae
 read.xlsx               Read the contents of a worksheet into an R
                         data.frame
 readColumns             Read a contiguous set of columns from sheet

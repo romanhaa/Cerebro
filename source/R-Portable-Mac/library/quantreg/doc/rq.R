@@ -155,7 +155,7 @@ anova(fit1, fit2, fit3)
 ###################################################
 ### code chunk number 18: gastest
 ###################################################
-source("gasprice.R")
+data(gasprice)
 x <- gasprice
 n <- length(x)
 p <- 5 # lag length

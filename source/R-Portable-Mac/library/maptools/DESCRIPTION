@@ -1,7 +1,7 @@
 Package: maptools
-Version: 0.9-3
-Date: 2018-07-30
-Title: Tools for Reading and Handling Spatial Objects
+Version: 0.9-4
+Date: 2018-09-18
+Title: Tools for Handling Spatial Objects
 Authors@R: c(
 	person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
 	person("Nicholas", "Lewin-Koh", role = "aut"),
@@ -40,11 +40,11 @@ Imports: foreign (>= 0.8), methods, grid, lattice, stats, utils,
 Suggests: rgeos (>= 0.1-8), spatstat (>= 1.50), PBSmapping, maps,
         RColorBrewer, raster, polyclip, spatstat.utils
 Enhances: gpclib, RArcInfo
-Description: Set of tools for manipulating and reading geographic data, in particular 'ESRI Shapefiles'; C code used from 'shapelib'. It includes binary access to 'GSHHG' shoreline files. The package also provides interface wrappers for exchanging spatial objects with packages such as 'PBSmapping', 'spatstat', 'maps', 'RArcInfo', 'Stata tmap', 'WinBUGS', 'Mondrian', and others.
+Description: Set of tools for manipulating geographic data. It includes binary access to 'GSHHG' shoreline files. The package also provides interface wrappers for exchanging spatial objects with packages such as 'PBSmapping', 'spatstat', 'maps', 'RArcInfo', 'Stata tmap', 'WinBUGS', 'Mondrian', and others.
 License: GPL (>= 2)
 URL: http://r-forge.r-project.org/projects/maptools/
 NeedsCompilation: yes
-Packaged: 2018-07-30 20:33:09 UTC; rsb
+Packaged: 2018-09-19 07:46:06 UTC; rsb
 Author: Roger Bivand [cre, aut] (<https://orcid.org/0000-0003-2392-6140>),
   Nicholas Lewin-Koh [aut],
   Edzer Pebesma [ctb],
@@ -77,6 +77,6 @@ Author: Roger Bivand [cre, aut] (<https://orcid.org/0000-0003-2392-6140>),
   Rolf Turner [ctb]
 Maintainer: Roger Bivand <Roger.Bivand@nhh.no>
 Repository: CRAN
-Date/Publication: 2018-07-31 13:00:03 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-08-01 14:33:18 UTC; unix
+Date/Publication: 2018-09-19 13:30:03 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-09-25 05:51:18 UTC; unix
 Archs: maptools.so.dSYM

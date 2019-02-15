@@ -2,20 +2,21 @@
 knitr::opts_chunk$set(comment = "")
 options(width = 120, max.print = 100)
 library(curl)
+library(jsonlite)
 
 ## ---------------------------------------------------------------------------------------------------------------------
-req <- curl_fetch_memory("https://httpbin.org/get")
+req <- curl_fetch_memory("https://eu.httpbin.org/get?foo=123")
 str(req)
 parse_headers(req$headers)
-cat(rawToChar(req$content))
+jsonlite::prettify(rawToChar(req$content))
 
 ## ---------------------------------------------------------------------------------------------------------------------
 tmp <- tempfile()
-curl_download("https://httpbin.org/get", tmp)
-cat(readLines(tmp), sep = "\n")
+curl_download("https://eu.httpbin.org/get?bar=456", tmp)
+jsonlite::prettify(readLines(tmp))
 
 ## ---------------------------------------------------------------------------------------------------------------------
-con <- curl("https://httpbin.org/get")
+con <- curl("https://eu.httpbin.org/get")
 open(con)
 
 # Get 3 lines
@@ -87,23 +88,23 @@ handle_setheaders(h,
 )
 
 ## ---------------------------------------------------------------------------------------------------------------------
-req <- curl_fetch_memory("http://httpbin.org/post", handle = h)
-cat(rawToChar(req$content))
+req <- curl_fetch_memory("https://eu.httpbin.org/post", handle = h)
+jsonlite::prettify(rawToChar(req$content))
 
 ## ---------------------------------------------------------------------------------------------------------------------
-con <- curl("http://httpbin.org/post", handle = h)
-cat(readLines(con), sep = "\n")
+con <- curl("https://eu.httpbin.org/post", handle = h)
+jsonlite::prettify(readLines(con))
 
 ## ---- echo = FALSE, message = FALSE, warning=FALSE--------------------------------------------------------------------
 close(con)
 
 ## ---------------------------------------------------------------------------------------------------------------------
 tmp <- tempfile()
-curl_download("http://httpbin.org/post", destfile = tmp, handle = h)
-cat(readLines(tmp), sep = "\n")
+curl_download("https://eu.httpbin.org/post", destfile = tmp, handle = h)
+jsonlite::prettify(readLines(tmp))
 
 ## ---------------------------------------------------------------------------------------------------------------------
-curl_fetch_multi("http://httpbin.org/post", handle = h, done = function(res){
+curl_fetch_multi("https://eu.httpbin.org/post", handle = h, done = function(res){
   cat("Request complete! Response content:\n")
   cat(rawToChar(res$content))
 })
@@ -116,17 +117,17 @@ out <- multi_run()
 h <- new_handle()
 
 # Ask server to set some cookies
-req <- curl_fetch_memory("http://httpbin.org/cookies/set?foo=123&bar=ftw", handle = h)
-req <- curl_fetch_memory("http://httpbin.org/cookies/set?baz=moooo", handle = h)
+req <- curl_fetch_memory("https://eu.httpbin.org/cookies/set?foo=123&bar=ftw", handle = h)
+req <- curl_fetch_memory("https://eu.httpbin.org/cookies/set?baz=moooo", handle = h)
 handle_cookies(h)
 
 # Unset a cookie
-req <- curl_fetch_memory("http://httpbin.org/cookies/delete?foo", handle = h)
+req <- curl_fetch_memory("https://eu.httpbin.org/cookies/delete?foo", handle = h)
 handle_cookies(h)
 
 ## ---------------------------------------------------------------------------------------------------------------------
-req1 <- curl_fetch_memory("https://httpbin.org/get")
-req2 <- curl_fetch_memory("http://www.r-project.org")
+req1 <- curl_fetch_memory("https://eu.httpbin.org/get")
+req2 <- curl_fetch_memory("https://www.r-project.org")
 
 ## ---------------------------------------------------------------------------------------------------------------------
 req <- curl_fetch_memory("https://api.github.com/users/ropensci")
@@ -146,15 +147,16 @@ handle_setform(h,
   bar = charToRaw("boeboe"),
   iris = form_data(serialize(iris, NULL), "application/rda"),
   description = form_file(system.file("DESCRIPTION")),
-  logo = form_file(file.path(Sys.getenv("R_DOC_DIR"), "html/logo.jpg"), "image/jpeg")
+  logo = form_file(file.path(R.home('doc'), "html/logo.jpg"), "image/jpeg")
 )
-req <- curl_fetch_memory("http://httpbin.org/post", handle = h)
+req <- curl_fetch_memory("https://eu.httpbin.org/post", handle = h)
 
 ## ---------------------------------------------------------------------------------------------------------------------
 library(magrittr)
 
 new_handle() %>%
   handle_setopt(copypostfields = "moo=moomooo") %>%
-  handle_setheaders("Content-Type" = "text/moo", "Cache-Control" = "no-cache", "User-Agent" = "A cow") %>%
-  curl_fetch_memory(url = "http://httpbin.org/post") %$% content %>% rawToChar %>% cat
+  handle_setheaders("Content-Type"="text/moo", "Cache-Control"="no-cache", "User-Agent"="A cow") %>%
+  curl_fetch_memory(url = "https://eu.httpbin.org/post") %$% content %>% 
+  rawToChar %>% jsonlite::prettify()
 

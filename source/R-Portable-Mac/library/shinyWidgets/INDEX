@@ -27,6 +27,7 @@ noUiSliderInput         Numeric range slider
 panel                   Create a panel
 pickerGroup-module      Picker Group
 pickerInput             Select picker Input Control
+pickerOptions           Options for 'pickerInput'
 prettyCheckbox          Pretty Checkbox Input
 prettyCheckboxGroup     Pretty Checkbox Group Input Control
 prettyRadioButtons      Pretty radio Buttons Input Control
@@ -40,6 +41,7 @@ selectizeGroup-module   Selectize Group
 sendSweetAlert          Display a Sweet Alert to the user
 setBackgroundColor      Custom background color for your shinyapp
 setBackgroundImage      Custom background image for your shinyapp
+setShadow               Custom shadows
 setSliderColor          Color editor for sliderInput
 shinyWidgets            shinyWidgets: Custom inputs widgets for Shiny.
 shinyWidgetsGallery     Launch the shinyWidget Gallery
@@ -63,6 +65,7 @@ updateCheckboxGroupButtons
 updateKnobInput         Change the value of a knob input on the client
 updateMaterialSwitch    Change the value of a materialSwitch input on
                         the client
+updateMultiInput        Change the value of a multi input on the client
 updateNoUiSliderInput   Change the value of a no ui slider input on the
                         client
 updatePickerInput       Change the value of a select picker input on
@@ -90,7 +93,10 @@ updateSpectrumInput     Change the value of a spectrum input on the
                         client
 updateSwitchInput       Change the value of a switch input on the
                         client
+updateVerticalTabsetPanel
+                        Update selected vertical tab
 useShinydashboard       Use 'shinydashboard' in 'shiny'
 useShinydashboardPlus   Use 'shinydashboardPlus' in 'shiny'
 useSweetAlert           Load Sweet Alert dependencies
+vertical-tab            Vertical tab panel
 wNumbFormat             Format numbers in noUiSliderInput

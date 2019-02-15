@@ -81,10 +81,3 @@ my_secret <- function() {
 NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 knitr::opts_chunk$set(purl = NOT_CRAN)
 
-## ------------------------------------------------------------------------
-skip_if_no_auth <- function() {
-  if (identical(Sys.getenv("MY_SECRET"), "")) {
-    skip("No authentication available")
-  }
-}
-

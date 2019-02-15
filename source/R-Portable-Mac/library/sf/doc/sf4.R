@@ -33,8 +33,8 @@ nc[Ashe, op = st_touches]
 nc %>% filter(lengths(st_touches(., Ashe)) > 0)
 
 ## ------------------------------------------------------------------------
-nc <- nc %>% mutate(frac74 = SID74 / BIR74)
-(a <- aggregate(nc[,"frac74"], list(Ashe_nb = lengths(st_intersects(nc, Ashe)) > 0), mean))
+a <- aggregate(nc[, c("SID74", "BIR74")], list(Ashe_nb = lengths(st_intersects(nc, Ashe)) > 0), sum)
+(a <- a %>% mutate(frac74 = SID74 / BIR74) %>% select(frac74))
 plot(a[2], col = c(grey(.8), grey(.5)))
 plot(st_geometry(Ashe), border = '#ff8888', add = TRUE, lwd = 2)
 

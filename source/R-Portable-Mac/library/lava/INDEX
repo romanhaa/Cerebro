@@ -87,6 +87,7 @@ sim                     Simulate model
 sim.default             Wrapper function for mclapply
 startvalues             Starting values
 twostage                Two-stage estimator (non-linear SEM)
+twostageCV		Cross-validation for non-linear SEM mixture models
 zibreg                  Regression model for binomial data with unknown group of unaffected
 
 

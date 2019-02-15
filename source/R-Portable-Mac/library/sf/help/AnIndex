@@ -39,6 +39,8 @@ gdal	gdal
 gdal_crs	gdal
 gdal_inv_geotransform	gdal
 gdal_metadata	gdal
+gdal_polygonize	gdal
+gdal_rasterize	gdal
 gdal_read	gdal
 gdal_subdatasets	gdal
 gdal_utils	gdal_utils
@@ -58,6 +60,7 @@ is.na.bbox	st_bbox
 is.na.crs	st_crs
 is_driver_available	is_driver_available
 is_driver_can	is_driver_can
+is_geometry_column	is_geometry_column
 left_join.sf	tidyverse
 merge.sf	merge.sf
 mutate.sf	tidyverse
@@ -196,6 +199,8 @@ st_coordinates	st_coordinates
 st_covered_by	geos_binary_pred
 st_covers	geos_binary_pred
 st_crop	st_crop
+st_crop.sf	st_crop
+st_crop.sfc	st_crop
 st_crosses	geos_binary_pred
 st_crs	st_crs
 st_crs.bbox	st_crs
@@ -213,6 +218,7 @@ st_dimension	geos_query
 st_disjoint	geos_binary_pred
 st_distance	geos_measures
 st_drivers	st_drivers
+st_drop_geometry	st_geometry
 st_equals	geos_binary_pred
 st_equals_exact	geos_binary_pred
 st_geometry	st_geometry
@@ -245,6 +251,11 @@ st_make_grid	st_make_grid
 st_multilinestring	st
 st_multipoint	st
 st_multipolygon	st
+st_nearest_feature	st_nearest_feature
+st_nearest_points	st_nearest_points
+st_nearest_points.sf	st_nearest_points
+st_nearest_points.sfc	st_nearest_points
+st_nearest_points.sfg	st_nearest_points
 st_node	geos_unary
 st_overlaps	geos_binary_pred
 st_point	st
@@ -255,8 +266,8 @@ st_precision	st_precision
 st_precision<-	st_precision
 st_proj_info	st_transform
 st_read	st_read
+st_read.character	st_read
 st_read.DBIObject	st_read
-st_read.default	st_read
 st_read_db	sf-deprecated
 st_read_db,	sf-deprecated
 st_relate	st_relate
@@ -286,6 +297,7 @@ st_wrap_dateline.sf	st_transform
 st_wrap_dateline.sfc	st_transform
 st_wrap_dateline.sfg	st_transform
 st_write	st_write
+st_write.data.frame	st_write
 st_write.sf	st_write
 st_write.sfc	st_write
 st_write_db	sf-deprecated

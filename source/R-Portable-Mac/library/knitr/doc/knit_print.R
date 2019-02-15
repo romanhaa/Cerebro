@@ -19,6 +19,8 @@ knit_print.data.frame = function(x, ...) {
   res = paste(c('', '', kable(x)), collapse = '\n')
   asis_output(res)
 }
+# register the method
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
 
 ## ----knit-print----------------------------------------------------------
 1 + 1
@@ -33,7 +35,7 @@ cat('This is cool.')
 #  }
 #  knit_print.classB = function(x, options, ...) {
 #    # use the chunk option out.height
-#    asis_output(paste(
+#    asis_output(paste0(
 #      '<iframe src="https://yihui.name" height="', options$out.height, '"></iframe>',
 #    ))
 #  }
@@ -84,7 +86,7 @@ x = 1:10  # invisibly returns 1:10
 ## ----tidy=FALSE----------------------------------------------------------
 library(knitr)
 knit_print.foo = function(x, ...) {
-  res = paste('**This is a `foo` object**:', x)
+  res = paste('> **This is a `foo` object**:', x)
   asis_output(res, meta = list(
     js  = system.file('www', 'shared', 'shiny.js',  package = 'shiny'),
     css = system.file('www', 'shared', 'shiny.css', package = 'shiny')
@@ -106,8 +108,8 @@ knit_print.bar = function(x, ...) {
   asis_output(x, meta = list(head = '<script>console.log("bar!")</script>'))
 }
 new_bar = function(x) structure(x, class = 'bar')
-new_bar('**hello** world!')
-new_bar('hello **world**!')
+new_bar('> **hello** world!')
+new_bar('> hello **world**!')
 
 ## ------------------------------------------------------------------------
 str(knit_meta())

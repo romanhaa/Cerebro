@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jim Hester, Hadley Wickham" />
 
-<meta name="date" content="2018-01-05" />
+<meta name="date" content="2018-10-26" />
 
 <title>Devtools dependencies</title>
 
@@ -83,6 +83,8 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+
 </style>
 
 
@@ -280,57 +282,60 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Devtools dependencies</h1>
 <h4 class="author"><em>Jim Hester, Hadley Wickham</em></h4>
-<h4 class="date"><em>2018-01-05</em></h4>
+<h4 class="date"><em>2018-10-26</em></h4>
 
 
 
-<section id="package-remotes" class="level1">
+<div id="package-remotes" class="section level1">
 <h1>Package remotes</h1>
 <p>Devtools version 1.9 supports package dependency installation for packages not yet in a standard package repository such as <a href="https://cran.r-project.org">CRAN</a> or <a href="http://bioconductor.org">Bioconductor</a>.</p>
 <p>You can mark any regular dependency defined in the <code>Depends</code>, <code>Imports</code>, <code>Suggests</code> or <code>Enhances</code> fields as being installed from a remote location by adding the remote location to <code>Remotes</code> in your <code>DESCRIPTION</code> file. This will cause devtools to download and install them prior to installing your package (so they won’t be installed from CRAN).</p>
 <p>The remote dependencies specified in <code>Remotes</code> should be described in the following form.</p>
 <pre><code>Remotes: [type::]&lt;Repository&gt;, [type2::]&lt;Repository2&gt;</code></pre>
 <p>The <code>type</code> is an optional parameter. If the type is missing the default is to install from GitHub. Additional remote dependencies should be separated by commas, just like normal dependencies elsewhere in the <code>DESCRIPTION</code> file.</p>
-<section id="github" class="level3">
-<h3>Github</h3>
-<p>Because github is the most commonly used unofficial package distribution in R, it’s the default:</p>
+<div id="github" class="section level3">
+<h3>GitHub</h3>
+<p>Because GitHub is the most commonly used unofficial package distribution in R, it’s the default:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">Remotes:</span><span class="at"> hadley/testthat</span></a></code></pre></div>
 <p>You can also specify a specific hash, tag, or pull request (using the same syntax as <code>install_github()</code> if you want a particular commit. Otherwise the latest commit on the master branch is used.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="fu">Remotes:</span><span class="at"> hadley/httr@v0.4,</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">  klutometis/roxygen<span class="co">#142,</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">  hadley/testthat@c67018fa4970</a></code></pre></div>
-<p>A type of ‘github’ can be specified, but is not required</p>
+<p>A type of <code>github</code> can be specified, but is not required</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fu">Remotes:</span><span class="at"> github::hadley/ggplot2</span></a></code></pre></div>
-</section>
-<section id="other-sources" class="level3">
+</div>
+<div id="other-sources" class="section level3">
 <h3>Other sources</h3>
 <p>All of the currently supported install sources are available, see the ‘See Also’ section in <code>?install</code> for a complete list.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Git</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="fu">Remotes:</span><span class="at"> git::https://github.com/hadley/ggplot2.git</span></a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># GitLab</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="fu">Remotes:</span><span class="at"> gitlab::jimhester/covr</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># Bitbucket</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="fu">Remotes:</span><span class="at"> bitbucket::sulab/mygene.r@default, dannavarro/lsr-package</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># Git</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="fu">Remotes:</span><span class="at"> git::git@bitbucket.org:dannavarro/lsr-package.git</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># Bioconductor</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="fu">Remotes:</span><span class="at"> bioc::3.3/SummarizedExperiment</span><span class="co">#117513, bioc::release/Biobase</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># Bitbucket</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="fu">Remotes:</span><span class="at"> bitbucket::sulab/mygene.r@default, dannavarro/lsr-package</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># SVN</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="fu">Remotes:</span><span class="at"> svn::https://github.com/hadley/stringr</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># Bioconductor</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="fu">Remotes:</span><span class="at"> bioc::3.3/SummarizedExperiment</span><span class="co">#117513, bioc::release/Biobase</span></a>
 <a class="sourceLine" id="cb5-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co"># URL</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="fu">Remotes:</span><span class="at"> url::https://github.com/hadley/stringr/archive/master.zip</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co"># SVN</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="fu">Remotes:</span><span class="at"> svn::https://github.com/hadley/stringr</span></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co"># Local</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="fu">Remotes:</span><span class="at"> local::/pkgs/testthat</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co"># URL</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="fu">Remotes:</span><span class="at"> url::https://github.com/hadley/stringr/archive/master.zip</span></a>
 <a class="sourceLine" id="cb5-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co"># Gitorious</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="fu">Remotes:</span><span class="at"> gitorious::r-mpc-package/r-mpc-package</span></a></code></pre></div>
-</section>
-<section id="cran-submission" class="level3">
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co"># Local</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="fu">Remotes:</span><span class="at"> local::/pkgs/testthat</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co"># Gitorious</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="fu">Remotes:</span><span class="at"> gitorious::r-mpc-package/r-mpc-package</span></a></code></pre></div>
+</div>
+<div id="cran-submission" class="section level3">
 <h3>CRAN submission</h3>
 <p>When you submit your package to CRAN, all of its dependencies must also be available on CRAN. For this reason, <code>release()</code> will warn you if you try to release a package with a <code>Remotes</code> field.</p>
-</section>
-</section>
+</div>
+</div>
 
 
 

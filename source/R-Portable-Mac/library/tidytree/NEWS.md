@@ -1,3 +1,23 @@
+# tidytree 0.2.3
+
++ more parameter for `offspring` (2019-01-28, Mon)
+
+# tidytree 0.2.2
+
++ mv vignette to [treedata-book](https://yulab-smu.github.io/treedata-book/) (2019-01-10, Thu)
+
+# tidytree 0.2.1
+
++ `mutate.tbl_tree` method (2018-12-19, Wed)
+  - <https://github.com/GuangchuangYu/tidytree/issues/7>
++ bug fixed in `child` 
+  - <https://github.com/GuangchuangYu/tidytree/pull/8>
+
+# tidytree 0.2.0
+
++ compatible with `tibble` v = 2.0.0 (2018-11-29, Thu)
+  - change `as_data_frame` method to `as_tibble` since `as_data_frame` was deprecated in `tibble` and not exported as generics
+  
 # tidytree 0.1.9
 
 + `as_data_frame.phylo` works with `phylo$root.edge` (2018-06-13, Wed)

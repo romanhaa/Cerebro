@@ -39,7 +39,7 @@ set_cookies             Set cookies.
 status_code             Extract status code from response.
 stop_for_status         Take action on http error.
 timeout                 Set maximum request time.
-upload_file             Upload a file with 'POST' or 'PUT'.
+upload_file             Upload a file with 'POST()' or 'PUT()'.
 use_proxy               Use a proxy to connect to the internet.
 user_agent              Set user agent.
 verbose                 Give verbose output.

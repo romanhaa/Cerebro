@@ -1,5 +1,26 @@
 NEWS for package xlsx
 
+Changes in version 0.6.1 (released 2018-06-10)
+
+ o Export S3 methods for CellBlock, CellStyle
+
+ o Do not depend (just import) rJava and xlsxjars
+
+ o Minor fixes to pass CRAN again.
+
+ o Add Cole Arendt as an author
+
+Changes in version 0.6.0 (released 2015-11-29)
+
+ o Added support to read and write password protected xlsx files.
+ Note that this is for xlsx format ONLY (no binary xls format).
+ Thanks to Heather Turner for code contribution.  Note that 
+ on Linux LibreOffice does not open password protected workbooks 
+ as of now.  See issue 49.
+
+ o Fixed a bug in read.xlsx when an empty rows was triggering an
+ error.  Reported by maxnax, see issue 57.
+
 Changes in version 0.5.7 (released 2014-08-01)
 
  o Fixed issue 41.  There was a bug in the '+' method for CellStyle

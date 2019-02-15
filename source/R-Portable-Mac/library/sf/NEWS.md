@@ -1,6 +1,66 @@
+# version 0.7-2
+
+* feature IDs are no longer returned as names on the geometry list column, but optionally returned by `st_read` as attribute column; #812
+
+* plot.sf adds a (single, common) key if `key.pos` is set
+
+* allow for setting precision in distance units; #901
+
+* support log-scale in color legend by setting `logz` to `TRUE` in `plot.sf`
+
+* `st_intersects` etc. will prepare `y` when `y` is polygons and `x` is points; #885 by Dan Baston
+
+* `st_write` (and `write_sf`) now returns its first argument, invisibly; #889
+
+# version 0.7-1
+
+* fix bug that broke n-ary `st_intersection` on platforms using clang; #867
+
+# version 0.7-0
+
+* adds several interfaces to GDAL functions, meant to be used by package `stars`
+
+* `st_read` receives a `query` argument that can run queries against OGR datasets; #834, by Barry Rowlingson and Michael Sumner
+
+* `read_sf` no longer first creates tibbles from `data.frame`s, but creates them directly; #853, db propagation by Etienne Racine
+
+* check difference between compile-time and run-time GEOS versions; #844
+
+* all GEOS routines are now (more) robust against memory leaks, by using unique pointers; #822, #845, by Dan Baston
+
+* `st_buffer` receives the buffer styles `endCapStyle`, `joinStyle` and `mitreLimit`; #833, #842 by Michael Sumner
+
+# version 0.6-4
+
+* `st_area` is now a generic; https://github.com/r-spatial/stars/issues/32
+
+* `st_write` now resolves `~` correctly; #456
+
+* read and write feature IDs as sfc list column names; #812
+
+* `st_centroid` now works for empty geometries, returning an empty point #769
+
+* add `st_nearest_points`, to obtain the (`LINESTRING` connecting the) two nearest points for pairs of geometries; #788
+
+* add hexagonal tiling to `st_make_grid`
+
+* add regular and hexagonal sampling to `st_sample`
+
+* fixes for PROJ 5.0.1; #545
+
+* fixes for GDAL 2.3.0; #759
+
+* `st_sample` supports regular sampling of `LINESTRING`; #725 by @statnmap 
+
+* Support reading and writing of database `Pool` objects; #756
+
+* fix plotting of `sf` objects without attributes; #755
+
+* add reference to the [R Journal article](https://journal.r-project.org/archive/2018/RJ-2018-009/index.html) in CITATION
+
 # version 0.6-3
 
-* move dependency `RPostgreSQL` back to Suggests:, from Imports:
+* move dependency `RPostgreSQL` from Imports: back to Suggests:
 
 * `st_centroid.sf` and `st_point_on_surface.sf` now also warn if attributes are not constant over geometries.
 
@@ -356,7 +416,7 @@
 
 * `st_read` now respects time that is read as UTC
 
-* `st_write` now writes time always as UTC, since GDAL does not have a mechanism to define local timezones other than "unkown" or "local"
+* `st_write` now writes time always as UTC, since GDAL does not have a mechanism to define local timezones other than "unknown" or "local"
 
 * `st_length` now works for POINT and MULTIPOINT (returning 0); POLYGON and MULTIPOLYGON are converted to MULTILINESTRING before computing length, thus giving polygon perimeter (#268)
 
@@ -409,7 +469,7 @@
 * rename `st_makegrid` to `st_make_grid`, and `st_linemerge` to `st_line_merge`
 * add NEWS.md file (#207)
 
-* faster conversion of `data.frame` into `POINT` `sf` object, using `st_as_sf` (Mike Sumner)
+* faster conversion of `data.frame` into `POINT` `sf` object, using `st_as_sf` (Michael Sumner)
 
 * `rbind` method for `sf` objects now keeps coordinate reference system
 

@@ -37,7 +37,7 @@ mcNaive <- function (x, method = c("h.use", "simple"),
 	       ## e.g. *not* ok for  c(-5, -1, 0, 0, 0, 1)
 	       Mmedian(r)
 	   },
-	   "h.use" = {
+	   "h.use" = { # use h() = h_kern() .. treating obs. coinciding with median
 	       k <- sum(x == 0) ## the number of obs coinciding with median()
 	       irep <- rep.int(n1, n2)
 	       if(k > 0) { ## have some obs. == median ( == 0)

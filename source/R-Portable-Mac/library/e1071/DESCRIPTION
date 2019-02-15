@@ -1,5 +1,5 @@
 Package: e1071
-Version: 1.7-0
+Version: 1.7-0.1
 Title: Misc Functions of the Department of Statistics, Probability
         Theory Group (Formerly: E1071), TU Wien
 Imports: graphics, grDevices, class, stats, methods, utils
@@ -19,7 +19,7 @@ Description: Functions for latent class analysis, short time Fourier
 License: GPL-2
 LazyLoad: yes
 NeedsCompilation: yes
-Packaged: 2018-07-23 12:08:44 UTC; meyer
+Packaged: 2019-01-21 08:44:28 UTC; ripley
 Author: David Meyer [aut, cre],
   Evgenia Dimitriadou [aut, cph],
   Kurt Hornik [aut],
@@ -29,6 +29,6 @@ Author: David Meyer [aut, cre],
   Chih-Chen Lin [ctb, cph] (libsvm C++-code)
 Maintainer: David Meyer <David.Meyer@R-project.org>
 Repository: CRAN
-Date/Publication: 2018-07-28 15:50:03 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-07-29 13:59:38 UTC; unix
+Date/Publication: 2019-01-21 10:56:06 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-01-22 05:26:20 UTC; unix
 Archs: e1071.so.dSYM

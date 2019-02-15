@@ -18,7 +18,7 @@ str(biomass)
 biomass_tr <- biomass[biomass$dataset == "Training",]
 biomass_te <- biomass[biomass$dataset == "Testing",]
 
-## ----carbon_dist---------------------------------------------------------
+## ----carbon_dist, fig.width=6, fig.height=4.25,  out.width = '100%'------
 library(ggplot2)
 theme_set(theme_bw())
 ggplot(biomass_tr, aes(x = carbon)) + 
@@ -33,13 +33,15 @@ step_percentile <- function(
   ref_dist = NULL,
   approx = FALSE, 
   options = list(probs = (0:100)/100, names = TRUE),
-  skip = FALSE
+  skip = FALSE,
+  id = rand_id("percentile")
   ) {
-## The variable selectors are not immediately evaluated by using
-## the `quos` function in `rlang`
-  terms <- rlang::quos(...) 
-  if(length(terms) == 0)
-    stop("Please supply at least one variable specification. See ?selections.")
+
+  ## The variable selectors are not immediately evaluated by using
+  ##  the `quos` function in `rlang`. `ellipse_check` captures the
+  ##  values and also checks to make sure that they are not empty.  
+  terms <- ellipse_check(...) 
+
   add_step(
     recipe, 
     step_percentile_new(
@@ -49,30 +51,27 @@ step_percentile <- function(
       ref_dist = ref_dist,
       approx = approx,
       options = options,
-      skip = skip))
+      skip = skip,
+      id = id
+    )
+  )
 }
 
 ## ----initialize----------------------------------------------------------
-step_percentile_new <- function(
-  terms = NULL, 
-  role = NA, 
-  trained = FALSE, 
-  ref_dist = NULL, 
-  approx = NULL, 
-  options = NULL,
-  skip = FALSE
-) {
-  step(
-    subclass = "percentile", 
-    terms = terms,
-    role = role,
-    trained = trained,
-    ref_dist = ref_dist,
-    approx = approx,
-    options = options,
-    skip = skip
-  )
-}
+step_percentile_new <- 
+  function(terms, role, trained, ref_dist, approx, options, skip, id) {
+    step(
+      subclass = "percentile", 
+      terms = terms,
+      role = role,
+      trained = trained,
+      ref_dist = ref_dist,
+      approx = approx,
+      options = options,
+      skip = skip,
+      id = id
+    )
+  }
 
 ## ----prep_1, eval = FALSE------------------------------------------------
 #  prep.step_percentile <- function(x, training, info = NULL, ...) {
@@ -87,23 +86,32 @@ get_pctl <- function(x, args) {
 
 prep.step_percentile <- function(x, training, info = NULL, ...) {
   col_names <- terms_select(terms = x$terms, info = info) 
-  ## You can add error trapping for non-numeric data here and so on.
+  ## You can add error trapping for non-numeric data here and so on. See the
+  ## `check_type` function to do this for basic types. 
+  
   ## We'll use the names later so
-  if(x$options$names == FALSE)
+  if (x$options$names == FALSE)
     stop("`names` should be set to TRUE", call. = FALSE)
   
-  if(!x$approx) {
-    x$ref_dist <- training[, col_names]
+  if (!x$approx) {
+    ref_dist <- training[, col_names]
   } else {
-    pctl <- lapply(
-      training[, col_names],  
-      get_pctl, 
-      args = x$options
-    )
-    x$ref_dist <- pctl
+    ref_dist <- purrr::map(training[, col_names],  get_pctl, args = x$options)
   }
-  ## Always return the updated step
-  x
+
+  ## Use the constructor function to return the updated object. 
+  ## Note that `trained` is set to TRUE
+  
+  step_percentile_new(
+    terms = x$terms, 
+    trained = TRUE,
+    role = x$role, 
+    ref_dist = ref_dist,
+    approx = x$approx,
+    options = x$options,
+    skip = x$skip,
+    id = x$id
+  )
 }
 
 ## ----bake----------------------------------------------------------------
@@ -118,35 +126,35 @@ pctl_by_approx <- function(x, ref) {
   approx(x = ref, y = p_grid, xout = x)$y/100
 }
 
-bake.step_percentile <- function(object, newdata, ...) {
+bake.step_percentile <- function(object, new_data, ...) {
   require(tibble)
   ## For illustration (and not speed), we will loop through the affected variables
   ## and do the computations
   vars <- names(object$ref_dist)
   
-  for(i in vars) {
-    if(!object$approx) {
+  for (i in vars) {
+    if (!object$approx) {
       ## We can use `apply` since tibbles do not drop dimensions:
-      newdata[, i] <- apply(newdata[, i], 1, pctl_by_mean, 
+      new_data[, i] <- apply(new_data[, i], 1, pctl_by_mean, 
                             ref = object$ref_dist[, i])
     } else 
-      newdata[, i] <- pctl_by_approx(newdata[, i], object$ref_dist[[i]])
+      new_data[, i] <- pctl_by_approx(new_data[, i], object$ref_dist[[i]])
   }
   ## Always convert to tibbles on the way out
-  as_tibble(newdata)
+  as_tibble(new_data)
 }
 
 ## ----example-------------------------------------------------------------
-rec_obj <- recipe(HHV ~ ., data = biomass_tr[, -(1:2)])
-rec_obj <- rec_obj %>%
-  step_percentile(all_predictors(), approx = TRUE) 
-
-rec_obj <- prep(rec_obj, training = biomass_tr)
+library(purrr)
+rec_obj <- 
+  recipe(HHV ~ ., data = biomass_tr[, -(1:2)]) %>%
+  step_percentile(all_predictors(), approx = TRUE) %>%
+  prep(training = biomass_tr)
 
 percentiles <- bake(rec_obj, biomass_te)
 percentiles
 
-## ----cdf_plot, echo = FALSE----------------------------------------------
+## ----cdf_plot, echo = FALSE, fig.width=6, fig.height=4.25,  out.width = '100%'----
 grid_pct <- rec_obj$steps[[1]]$options$probs
 plot_data <- data.frame(
   carbon = c(

@@ -6,6 +6,8 @@ SpatialRings            create SpatialRings or SpatialRingsDataFrame
 SpatialRings-class      Class "SpatialRings"
 SpatialRingsDataFrame-class
                         Class "SpatialRingsDataFrame"
+bbox2SP                 Converts a bounding box into a SpatialPolygons
+                        object.
 createSPComment         RGEOS Polygon Hole Comment Functions
 gArea                   Area of Geometry
 gBoundary               Boundary of Geometry

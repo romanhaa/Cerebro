@@ -651,12 +651,11 @@ The previous analysis  (Figure~\ref{fig:iclust}) was done using the Pearson corr
 \begin{tiny}
 <<print=FALSE,echo=TRUE,verbatim=FALSE>>=
 data(bfi)
-r.poly <- polychoric(bfi[1:25]) #the ... indicate the progress of the function
+r.poly <- polychoric(bfi[1:25],correct=0) #the ... indicate the progress of the function
 @
 \end{tiny}
 \end{center}
-\label{tab:bad}
-\end{table}%
+\label{tab:bad}1.7.1\end{table}%
 
 
 
@@ -1699,7 +1698,7 @@ News and a history of changes are available in the NEWS and CHANGES files in the
 
 \begin{Schunk}
 \begin{Sinput}
-> news(Version > "1.7.10", package="psych")
+> news(Version > "1.8.4", package="psych")
 \end{Sinput}
 \end{Schunk}
 
@@ -1908,12 +1907,12 @@ Revelle, W. (1979).
 \newblock Hierarchical cluster-analysis and the internal structure of tests.
 \newblock {\em Multivariate Behavioral Research}, 14(1):57--74.
 
-\bibitem[\protect\astroncite{Revelle}{2017}]{psych}
-Revelle, W. (2017).
+\bibitem[\protect\astroncite{Revelle}{2018}]{psych}
+Revelle, W. (2018).
 \newblock {\em psych: Procedures for Personality and Psychological Research}.
 \newblock Northwestern University, Evanston,
   https://cran.r-project.org/web/packages=psych.
-\newblock R package version 1.7.12.
+\newblock R package version 1.8.6.
 
 \bibitem[\protect\astroncite{Revelle}{prep}]{revelle:intro}
 Revelle, W. ({in prep}).
@@ -1928,13 +1927,12 @@ Revelle, W., Condon, D., and Wilt, J. (2011).
   {\em Handbook of Individual Differences}, chapter~2, pages 39--73.
   Wiley-Blackwell.
 
-\bibitem[\protect\astroncite{Revelle and Condon}{2014}]{rc:reliability}
-Revelle, W. and Condon, D.~M. (2014).
+\bibitem[\protect\astroncite{Revelle and Condon}{2018}]{rc:reliability}
+Revelle, W. and Condon, D.~M. (2018).
 \newblock Reliability.
 \newblock In Irwing, P., Booth, T., and Hughes, D., editors, {\em
-  Wiley-Blackwell Handbook of Psychometric Testing}. Wiley-Blackwell (in
-  press).
-
+  Wiley-Blackwell Handbook of Psychometric Testing}. Wiley-Blackwell.  
+  
 \bibitem[\protect\astroncite{Revelle and Rocklin}{1979}]{revelle:vss}
 Revelle, W. and Rocklin, T. (1979).
 \newblock {Very Simple Structure} - alternative procedure for estimating the

@@ -1,4 +1,112 @@
 
+# vdiffr 0.3.0
+
+This release of vdiffr features a major overhaul of the internals to
+make the package more robust.
+
+
+## Cross-platform reliability
+
+vdiffr now works reliably across platforms:
+
+* svglite is now embedded in vdiffr to protect against updates of the
+  SVG generation engine.
+
+* It also embeds harfbuzz to compute font extents and text boxes
+  metrics. This makes SVG generation of text boxes consisent
+  across platforms.
+
+While this makes vdiffr much more robust, it also means you will have
+to regenerate all your testcases with the new version of vdiffr. You
+can expect very few future releases that will require updating
+figures, hopefully once every few years.
+
+Now that vdiffr has a stable engine, the next release will focus on
+improving the Shiny UI.
+
+
+## Regression testing versus Unit testing
+
+Another important change is that figure mismatches are no longer
+reported as failures, except when the tests are run locally, on
+Travis, Appveyor, or any environment where the `Sys.getenv("CI")` or
+`Sys.getenv("NOT_CRAN")` variables are set. Because vdiffr is more of
+a monitoring than a unit testing tool, it shouldn't cause R CMD check
+failures on the CRAN machines.
+
+Despite our efforts to make vdiffr robust and reliable across
+platforms, checking the appearance of a figure is still inherently
+fragile. It is similar to testing for errors by matching exact error
+messages: these messages are susceptible to change at any
+time. Similarly, the appearance of plots depends on a lot of upstream
+code, such as the way margins and spacing are computed. vdiffr uses a
+special ggplot2 theme that should change very rarely, but there are
+just too many upstream factors that could cause breakages. For this
+reason, figure mismatches are not necessarily representative of actual
+failures.
+
+Visual testing is not an alternative to writing unit tests for the
+internal data transformations performed during the creation of your
+figure. It is more of a monitoring tool that allows you to quickly
+check how the appearance of your figures changes over time, and to
+manually assess whether changes reflect actual problems in your
+package.
+
+If you need to override the default vdiffr behaviour on CRAN (not
+recommended) or Travis (for example to run the tests in a particular
+builds but not others), set the `VDIFFR_RUN_TESTS` environment
+variable to "true" or "false".
+
+
+## Features
+
+* vdiffr now advises user to run `manage_cases()` when a figure was
+  not validated yet (#25).
+
+* Fixed a bug in the Shiny app that prevented SVGs from being
+  displayed in Firefox (@KZARCA, #29).
+
+* `manage_cases()` gains an `options` argument that is passed to
+  `shiny::shinyApp()` (@KZARCA).
+
+* The Shiny app now has a quit button (@ilarischeinin).
+
+* New `VDIFFR_LOG_PATH` environment variable. When set, vdiffr pushes
+  diffs of failed SVG comparisons to that file.
+
+* `expect_doppelganger()` now takes a `writer` argument. This makes it
+  easy to use vdiffr with a different SVG engine. See `?write_svg` for
+  an example function. Packages implementing a different SVG engine
+  should wrap around `expect_doppelganger()` to pass their custom
+  writer.
+
+* `write_svg()` is now an exported function. It provides a template
+  (function arguments and return value) for SVG writer functions.
+
+* `manage_cases()` no longer checks for orphaned cases when a filter
+  is supplied. (Orphaned cases are figures dangling in the `figs`
+  folder even though their original `expect_doppelganger()` has been
+  removed from the tests.)
+
+
+## Life cycle
+
+* The `verbose` argument of `expect_doppelganger()` is
+  soft-deprecated. Please use the vdiffr failure log instead. It is
+  created automatically when run under R CMD check in
+  `tests/vdiffr.Rout.fail`, and should be displayed on Travis.
+
+  You can also set the `VDIFFR_LOG_PATH` environment variable with
+  `Sys.setenv()` to unconditionally (also interactively) log failures
+  in the file pointed by the variable.
+
+* `add_dependency()` is soft-deprecated without replacement.
+
+* The `user_fonts` argument of `expect_doppelganger()` is defunct
+  because it complicated the UI for no clear benefit. The fonts used
+  to generate the SVGs are now hardcoded to Liberation and Symbola.
+
+
 # vdiffr 0.2.3
 
 * Maintenance release to fix CRAN errors. Thanks to Gregory R. Warnes

@@ -87,7 +87,7 @@ theme_map               Clean theme for maps
 theme_pander            A ggplot theme originated from the pander
                         package
 theme_par               Theme which uses the current 'base' graphics
-                        parameter values from 'par'. Not all 'par'
+                        parameter values from 'par()'. Not all 'par()'
                         parameters, are supported, and not all are
                         relevant to 'ggplot2' themes.
 theme_solarized         ggplot color themes based on the Solarized

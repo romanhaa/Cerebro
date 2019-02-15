@@ -229,6 +229,12 @@ export(
   S3method("xtfrm", "zoo")
   S3method("xyplot", "zoo")
 
+## conditional registration of ggplot2 methods
+if(getRversion() >= "3.6.0") {
+  S3method(ggplot2::autoplot, "zoo")
+  S3method(ggplot2::fortify, "zoo")
+}
+
 ## methods for class zooreg
   S3method("as.ts", "zooreg")
   S3method("deltat", "zooreg")

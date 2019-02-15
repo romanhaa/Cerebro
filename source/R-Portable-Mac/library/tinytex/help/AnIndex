@@ -1,3 +1,4 @@
+copy_tinytex	copy_tinytex
 install_tinytex	install_tinytex
 latexmk	latexmk
 lualatex	latexmk
@@ -5,6 +6,7 @@ parse_packages	parse_packages
 pdflatex	latexmk
 reinstall_tinytex	install_tinytex
 r_texmf	r_texmf
+tinytex_root	install_tinytex
 tlmgr	tlmgr
 tlmgr_conf	tlmgr
 tlmgr_install	tlmgr
@@ -15,4 +17,5 @@ tlmgr_update	tlmgr
 tl_pkgs	tl_pkgs
 tl_sizes	tl_sizes
 uninstall_tinytex	install_tinytex
+use_tinytex	copy_tinytex
 xelatex	latexmk

@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-03-03" />
+<meta name="date" content="2019-01-17" />
 
 <title>Importing and exporting RSA/DSA/EC keys</title>
 
@@ -276,8 +276,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -286,14 +292,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -304,7 +370,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Importing and exporting RSA/DSA/EC keys</h1>
-<h4 class="date"><em>2018-03-03</em></h4>
+<h4 class="date"><em>2019-01-17</em></h4>
 
 </div>
 
@@ -331,13 +397,13 @@ pubkey &lt;- key$pubkey
 bin &lt;- write_der(pubkey)
 print(bin)</code></pre>
 <pre><code> [1] 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07
-[24] 03 42 00 04 c5 85 3d ef 7a 91 8f c7 ce 78 9c 51 81 49 c1 3b 11 e9 59
-[47] e1 9d a6 69 00 46 1e 16 53 c6 b7 ff 10 52 b3 2c 55 43 24 33 0a 77 a6
-[70] 92 83 1a 85 c7 51 79 4f 60 07 bf 77 f4 9f 2e 0c 93 03 eb 94 af 36</code></pre>
+[24] 03 42 00 04 b6 de e8 3b 0d e3 48 bf 2e 94 6a 2a 93 91 d1 3e ee 0c 82
+[47] 38 5b 56 b2 c2 ce 8f d9 5b ec 1a 68 42 c6 e3 05 b7 c7 e5 df 43 1f 48
+[70] 07 50 28 22 c1 ba eb 53 e4 e1 f3 9e 42 7f 6c 59 2b 4f 7f c0 c3 26</code></pre>
 <p>To read a DER key use <code>read_key</code> or <code>read_pubkey</code> with <code>der = TRUE</code>.</p>
 <pre class="r"><code>read_pubkey(bin, der = TRUE)</code></pre>
 <pre><code>[256-bit ecdsa public key]
-md5: c9388dc7b215f83227e86da0c358de54</code></pre>
+md5: 87c4d51376ab9a27acd1a9a0a602ee17</code></pre>
 <p>Users typically don’t need to worry about the key’s underlying primes, but have a look at <code>key$data</code> if you are curious.</p>
 </div>
 <div id="the-pem-format" class="section level3">
@@ -345,23 +411,23 @@ md5: c9388dc7b215f83227e86da0c358de54</code></pre>
 <p>In practice the user rarely encounters DER because it is mainly for internal use. When humans exchange keys and certificates they typically use the PEM format. PEM is simply <strong>base64 encoded DER data, plus a header</strong>. The header identifies the key (and possibly encryption) type.</p>
 <pre class="r"><code>cat(write_pem(pubkey))</code></pre>
 <pre><code>-----BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAExYU973qRj8fOeJxRgUnBOxHpWeGd
-pmkARh4WU8a3/xBSsyxVQyQzCnemkoMahcdReU9gB7939J8uDJMD65SvNg==
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtt7oOw3jSL8ulGoqk5HRPu4Mgjhb
+VrLCzo/ZW+waaELG4wW3x+XfQx9IB1AoIsG661Pk4fOeQn9sWStPf8DDJg==
 -----END PUBLIC KEY-----</code></pre>
 <pre class="r"><code>cat(write_pem(key, password = NULL))</code></pre>
 <pre><code>-----BEGIN PRIVATE KEY-----
-MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgqRftJTrdiq+tebxc
-SJ6ESMQKm7QISy3n1BrzAAz+Uh2hRANCAATFhT3vepGPx854nFGBScE7EelZ4Z2m
-aQBGHhZTxrf/EFKzLFVDJDMKd6aSgxqFx1F5T2AHv3f0ny4MkwPrlK82
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgqInRk2PPFgJHRX/5
+BbQfJQW7MEFGL3k4ebtWwzdNHg6hRANCAAS23ug7DeNIvy6UaiqTkdE+7gyCOFtW
+ssLOj9lb7BpoQsbjBbfH5d9DH0gHUCgiwbrrU+Th855Cf2xZK09/wMMm
 -----END PRIVATE KEY-----</code></pre>
 <p>The PEM format allows for protecting private keys with a password. R will prompt you for the password when reading such a protected key.</p>
 <pre class="r"><code>cat(write_pem(key, password = &quot;supersecret&quot;))</code></pre>
 <pre><code>-----BEGIN ENCRYPTED PRIVATE KEY-----
-MIHVMEAGCSqGSIb3DQEFDTAzMBsGCSqGSIb3DQEFDDAOBAg66/ysjUMy2QICCAAw
-FAYIKoZIhvcNAwcECNDj36Rt5Ox2BIGQ5K3iAmXJz3nPbzZxyQNUz2aDjxckk8+e
-JqbbfukrSk7+cJu+1L0BrHCRKc21k7coKdstVBaibqs0UsnR+dToU5KJ8U77iA/B
-kTDVI0Lonv7iXhl1Ye5n0/6BdRfdHkRi9iG36F4bvZxp+NKJf4FVG4CSYHLWd2dg
-ZGDtHQhm1Q+eG96Lq9PucwRDgpcmGM9j
+MIHjME4GCSqGSIb3DQEFDTBBMCkGCSqGSIb3DQEFDDAcBAjr1G2XuJ0wRAICCAAw
+DAYIKoZIhvcNAgkFADAUBggqhkiG9w0DBwQIsEPHB6Zv430EgZCxwUv/oSkNTiS4
+W5dCDTV+csq6XCbMdYcPJLvWXcMhUUe6cIH+9bV8IRZvbHiRbNn5FRVb+tjISYem
+Eot4gE2nri5wxhHQN3ArX0Wu9nncQpwAdXkanCz8IzmyzxTn9YhIe8FlKls1+rWJ
+8m+xpHBFW6wy69ReJ32u24P191Uu+xiMgx2CTjs+7NIbyHNqzwA=
 -----END ENCRYPTED PRIVATE KEY-----</code></pre>
 </div>
 <div id="the-openssh-format" class="section level3">
@@ -369,11 +435,11 @@ ZGDtHQhm1Q+eG96Lq9PucwRDgpcmGM9j
 <p>For better or worse, OpenSSH uses a custom format for <strong>public keys</strong>. The advantage of this format is that it fits on a single line which is nice for e.g. your <code>~/.ssh/known_hosts</code> file. There is no special format for private keys, OpenSSH uses PEM as well.</p>
 <pre class="r"><code>str &lt;- write_ssh(pubkey)
 print(str)</code></pre>
-<pre><code>[1] &quot;ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMWFPe96kY/HznicUYFJwTsR6VnhnaZpAEYeFlPGt/8QUrMsVUMkMwp3ppKDGoXHUXlPYAe/d/SfLgyTA+uUrzY=&quot;</code></pre>
+<pre><code>[1] &quot;ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLbe6DsN40i/LpRqKpOR0T7uDII4W1ayws6P2VvsGmhCxuMFt8fl30MfSAdQKCLBuutT5OHznkJ/bFkrT3/AwyY=&quot;</code></pre>
 <p>The <code>read_pubkey</code> function will automatically detect if a file contains a <code>PEM</code> or <code>SSH</code> key.</p>
 <pre class="r"><code>read_pubkey(str)</code></pre>
 <pre><code>[256-bit ecdsa public key]
-md5: c9388dc7b215f83227e86da0c358de54</code></pre>
+md5: 87c4d51376ab9a27acd1a9a0a602ee17</code></pre>
 </div>
 <div id="the-json-web-key-jwk-format" class="section level3">
 <h3>The JSON Web Key (JWK) format</h3>
@@ -384,8 +450,8 @@ jsonlite::prettify(json)</code></pre>
 <pre><code>{
     &quot;kty&quot;: &quot;EC&quot;,
     &quot;crv&quot;: &quot;P-256&quot;,
-    &quot;x&quot;: &quot;xYU973qRj8fOeJxRgUnBOxHpWeGdpmkARh4WU8a3_xA&quot;,
-    &quot;y&quot;: &quot;UrMsVUMkMwp3ppKDGoXHUXlPYAe_d_SfLgyTA-uUrzY&quot;
+    &quot;x&quot;: &quot;tt7oOw3jSL8ulGoqk5HRPu4MgjhbVrLCzo_ZW-waaEI&quot;,
+    &quot;y&quot;: &quot;xuMFt8fl30MfSAdQKCLBuutT5OHznkJ_bFkrT3_AwyY&quot;
 }
  </code></pre>
 <p>Keys from <code>jose</code> and <code>openssl</code> are the same.</p>
@@ -394,7 +460,7 @@ identical(mykey, pubkey)</code></pre>
 <pre><code>[1] TRUE</code></pre>
 <pre class="r"><code>print(mykey)</code></pre>
 <pre><code>[256-bit ecdsa public key]
-md5: c9388dc7b215f83227e86da0c358de54</code></pre>
+md5: 87c4d51376ab9a27acd1a9a0a602ee17</code></pre>
 </div>
 
 

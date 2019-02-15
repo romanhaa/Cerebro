@@ -3,7 +3,13 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+# increase the screen width
 options(width = 90)
+# reduce the minimum number of characters for the tibble column titles
+options(pillar.min_title_chars = 8)
+
+## ----install-package, eval=FALSE--------------------------------------------------------
+#  install.packages("msigdbr")
 
 ## ----load-package, message=FALSE--------------------------------------------------------
 library(msigdbr)
@@ -19,8 +25,13 @@ head(m_df)
 m_df = msigdbr(species = "Mus musculus", category = "H")
 head(m_df)
 
+## ----get-mouse-c2-----------------------------------------------------------------------
+m_df = msigdbr(species = "Mus musculus", category = "C2", subcategory = "CGP")
+head(m_df)
+
 ## ----get-mouse-h-filter-----------------------------------------------------------------
 m_df = msigdbr(species = "Mus musculus") %>% dplyr::filter(gs_cat == "H")
+head(m_df)
 
 ## ----cp-entrez, eval=FALSE--------------------------------------------------------------
 #  m_t2g = m_df %>% dplyr::select(gs_name, entrez_gene) %>% as.data.frame()

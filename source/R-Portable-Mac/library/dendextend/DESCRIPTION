@@ -1,8 +1,8 @@
 Package: dendextend
 Type: Package
 Title: Extending 'dendrogram' Functionality in R
-Version: 1.8.0
-Date: 2018-04-28
+Version: 1.9.0
+Date: 2018-10-19
 Authors@R: c(person("Tal", "Galili", role = c("aut", "cre", "cph"), email =
     "tal.galili@gmail.com", comment = "https://www.r-statistics.com"),
     person("Gavin", "Simpson", role = "ctb"), person("Gregory","Jefferis", role
@@ -36,6 +36,11 @@ Authors@R: c(person("Tal", "Galili", role = c("aut", "cre", "cph"), email =
     person("Chase",
     "Clark", comment =
     "https://github.com/chasemc", role = "ctb"), 
+    person("Lucas",
+    "Graybuck", comment =
+    "https://github.com/hypercompetent", role = "ctb"), 
+    person("jdetribol", comment =
+    "https://github.com/jdetribol", role = "ctb"), 
     person("Yoav", "Benjamini", email = "ybenja@tau.ac.il",role = "ths"))
 Description: Offers a set of functions for extending
     'dendrogram' objects in R, letting you visualize and compare trees of
@@ -60,7 +65,7 @@ URL: https://github.com/talgalili/dendextend/,
 BugReports: https://github.com/talgalili/dendextend/issues
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2018-05-02 06:23:53 UTC; junior
+Packaged: 2018-10-19 08:04:29 UTC; junior
 Author: Tal Galili [aut, cre, cph] (https://www.r-statistics.com),
   Gavin Simpson [ctb],
   Gregory Jefferis [aut, ctb] (imported code from his dendroextras
@@ -83,8 +88,10 @@ Author: Tal Galili [aut, cre, cph] (https://www.r-statistics.com),
   Krzysiek G [ctb] (https://github.com/storaged),
   Manuela Hummel [ctb] (https://github.com/hummelma),
   Chase Clark [ctb] (https://github.com/chasemc),
+  Lucas Graybuck [ctb] (https://github.com/hypercompetent),
+  jdetribol [ctb] (https://github.com/jdetribol),
   Yoav Benjamini [ths]
 Maintainer: Tal Galili <tal.galili@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-05-03 11:02:48 UTC
-Built: R 3.5.0; ; 2018-05-04 04:57:52 UTC; unix
+Date/Publication: 2018-10-19 08:30:03 UTC
+Built: R 3.5.0; ; 2018-10-20 13:24:00 UTC; unix

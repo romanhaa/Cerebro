@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;checkmate&rsquo; version 1.8.5</h2>
+</div><h2>Documentation for package &lsquo;checkmate&rsquo; version 1.9.1</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -90,6 +90,10 @@
 <td>Check for existence and access rights of directories</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">assertDirectoryExists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">assertDisjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">assertDouble</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">assertEnvironment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">assertFactor</a></td>
@@ -102,6 +106,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">assertFlag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">assertFormula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">assertFunction</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">assertInt</a></td>
@@ -116,6 +122,8 @@
 <td>Check if an argument is a vector of type logical</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">assertMatrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">assertMultiClass</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNamed.html">assertNamed</a></td>
 <td>Check if an argument is named</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">assertNames</a></td>
@@ -134,6 +142,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">assertR6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">assertRaw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">assertScalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">assertScalarNA</a></td>
@@ -180,6 +190,10 @@
 <td>Check for existence and access rights of directories</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">assert_directory_exists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">assert_disjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">assert_double</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">assert_environment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">assert_factor</a></td>
@@ -192,6 +206,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">assert_flag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">assert_formula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">assert_function</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">assert_int</a></td>
@@ -206,6 +222,8 @@
 <td>Check if an argument is a vector of type logical</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">assert_matrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">assert_multi_class</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNamed.html">assert_named</a></td>
 <td>Check if an argument is named</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">assert_names</a></td>
@@ -224,6 +242,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">assert_r6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">assert_raw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">assert_scalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">assert_scalar_na</a></td>
@@ -275,6 +295,10 @@
 <td>Check for existence and access rights of directories</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">checkDirectoryExists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">checkDisjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">checkDouble</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">checkEnvironment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">checkFactor</a></td>
@@ -287,6 +311,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">checkFlag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">checkFormula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">checkFunction</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">checkInt</a></td>
@@ -303,6 +329,8 @@
 <td>checkmate: Fast and Versatile Argument Checks</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">checkMatrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">checkMultiClass</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNamed.html">checkNamed</a></td>
 <td>Check if an argument is named</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">checkNames</a></td>
@@ -321,6 +349,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">checkR6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">checkRaw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">checkScalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">checkScalarNA</a></td>
@@ -365,6 +395,10 @@
 <td>Check that an argument is a Date</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">check_directory_exists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">check_disjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">check_double</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">check_environment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">check_factor</a></td>
@@ -375,6 +409,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">check_flag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">check_formula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">check_function</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">check_int</a></td>
@@ -389,6 +425,8 @@
 <td>Check if an argument is a vector of type logical</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">check_matrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">check_multi_class</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNamed.html">check_named</a></td>
 <td>Check if an argument is named</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">check_names</a></td>
@@ -407,6 +445,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">check_r6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">check_raw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">check_scalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">check_scalar_na</a></td>
@@ -458,6 +498,10 @@
 <td>Check for existence and access rights of directories</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">expect_directory_exists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">expect_disjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">expect_double</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">expect_environment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">expect_factor</a></td>
@@ -468,6 +512,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">expect_flag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">expect_formula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">expect_function</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">expect_int</a></td>
@@ -482,6 +528,8 @@
 <td>Check if an argument is a vector of type logical</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">expect_matrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">expect_multi_class</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">expect_names</a></td>
 <td>Check names to comply to specific rules</td></tr>
 <tr><td style="width: 25%;"><a href="checkNumber.html">expect_number</a></td>
@@ -496,6 +544,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">expect_r6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">expect_raw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">expect_scalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">expect_scalar_na</a></td>
@@ -590,6 +640,10 @@
 <td>Check for existence and access rights of directories</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">testDirectoryExists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">testDisjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">testDouble</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">testEnvironment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">testFactor</a></td>
@@ -602,6 +656,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">testFlag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">testFormula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">testFunction</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">testInt</a></td>
@@ -616,6 +672,8 @@
 <td>Check if an argument is a vector of type logical</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">testMatrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">testMultiClass</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNamed.html">testNamed</a></td>
 <td>Check if an argument is named</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">testNames</a></td>
@@ -634,6 +692,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">testR6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">testRaw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">testScalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">testScalarNA</a></td>
@@ -680,6 +740,10 @@
 <td>Check for existence and access rights of directories</td></tr>
 <tr><td style="width: 25%;"><a href="checkDirectoryExists.html">test_directory_exists</a></td>
 <td>Check for existence and access rights of directories</td></tr>
+<tr><td style="width: 25%;"><a href="checkDisjunct.html">test_disjunct</a></td>
+<td>Check if an argument is disjunct from a given set</td></tr>
+<tr><td style="width: 25%;"><a href="checkDouble.html">test_double</a></td>
+<td>Check that an argument is a vector of type double</td></tr>
 <tr><td style="width: 25%;"><a href="checkEnvironment.html">test_environment</a></td>
 <td>Check if an argument is an environment</td></tr>
 <tr><td style="width: 25%;"><a href="checkFactor.html">test_factor</a></td>
@@ -690,6 +754,8 @@
 <td>Check existence and access rights of files</td></tr>
 <tr><td style="width: 25%;"><a href="checkFlag.html">test_flag</a></td>
 <td>Check if an argument is a flag</td></tr>
+<tr><td style="width: 25%;"><a href="checkFormula.html">test_formula</a></td>
+<td>Check if an argument is a formula</td></tr>
 <tr><td style="width: 25%;"><a href="checkFunction.html">test_function</a></td>
 <td>Check if an argument is a function</td></tr>
 <tr><td style="width: 25%;"><a href="checkInt.html">test_int</a></td>
@@ -704,6 +770,8 @@
 <td>Check if an argument is a vector of type logical</td></tr>
 <tr><td style="width: 25%;"><a href="checkMatrix.html">test_matrix</a></td>
 <td>Check if an argument is a matrix</td></tr>
+<tr><td style="width: 25%;"><a href="checkMultiClass.html">test_multi_class</a></td>
+<td>Check the class membership of an argument</td></tr>
 <tr><td style="width: 25%;"><a href="checkNamed.html">test_named</a></td>
 <td>Check if an argument is named</td></tr>
 <tr><td style="width: 25%;"><a href="checkNames.html">test_names</a></td>
@@ -722,6 +790,8 @@
 <td>Check that an argument is a date/time object in POSIXct format</td></tr>
 <tr><td style="width: 25%;"><a href="checkR6.html">test_r6</a></td>
 <td>Check if an argument is a R6 class</td></tr>
+<tr><td style="width: 25%;"><a href="checkRaw.html">test_raw</a></td>
+<td>Check if an argument is a raw vector</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalar.html">test_scalar</a></td>
 <td>Check if an argument is a single atomic value</td></tr>
 <tr><td style="width: 25%;"><a href="checkScalarNA.html">test_scalar_na</a></td>

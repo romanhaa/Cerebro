@@ -19,29 +19,29 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp.  If not, see <http://www.gnu.org/licenses/>.
 
-#define RCPP_PROTECTED_EVAL
+// [[Rcpp::plugins(unwindProtect,cpp11)]]
 
 #include <Rcpp.h>
 using namespace Rcpp;
 
 // Class that indicates to R caller whether C++ stack was unwound
 struct unwindIndicator {
-    unwindIndicator(LogicalVector indicator_) {
-        // Reset the indicator to FALSE
+    unwindIndicator(Environment indicator_) {
+        // Reset the indicator to NULL
         indicator = indicator_;
-        *LOGICAL(indicator) = 0;
+        indicator["unwound"] = R_NilValue;
     }
 
     // Set indicator to TRUE when stack unwinds
     ~unwindIndicator() {
-        *LOGICAL(indicator) = 1;
+        indicator["unwound"] = LogicalVector::create(1);
     }
 
-    LogicalVector indicator;
+    Environment indicator;
 };
 
 // [[Rcpp::export]]
-SEXP testFastEval(RObject expr, Environment env, LogicalVector indicator) {
+SEXP testFastEval(RObject expr, Environment env, Environment indicator) {
     unwindIndicator my_data(indicator);
     return Rcpp::Rcpp_fast_eval(expr, env);
 }
@@ -50,4 +50,59 @@ SEXP testFastEval(RObject expr, Environment env, LogicalVector indicator) {
 SEXP testSendInterrupt() {
     Rf_onintr();
     return R_NilValue;
+}
+
+SEXP maybeThrow(void* data) {
+    bool* fail = (bool*) data;
+    if (*fail)
+        Rf_error("throw!");
+    else
+        return NumericVector::create(42);
+}
+
+// [[Rcpp::export]]
+SEXP testUnwindProtect(Environment indicator, bool fail) {
+    unwindIndicator my_data(indicator);
+    SEXP out = R_NilValue;
+
+#ifdef RCPP_USING_UNWIND_PROTECT
+    out = Rcpp::unwindProtect(&maybeThrow, &fail);
+#endif
+    return out;
+}
+
+
+// [[Rcpp::export]]
+SEXP testUnwindProtectLambda(Environment indicator, bool fail) {
+    unwindIndicator my_data(indicator);
+    SEXP out = R_NilValue;
+
+#ifdef RCPP_USING_UNWIND_PROTECT
+    out = Rcpp::unwindProtect([&] () { return maybeThrow(&fail); });
+#endif
+
+    return out;
+}
+
+struct FunctionObj {
+    FunctionObj(int data_, bool fail_) : data(data_), fail(fail_) { }
+    SEXP operator() () {
+        NumericVector x = maybeThrow(&fail);
+        x[0] = x[0] * data;
+        return x;
+    }
+    int data;
+    bool fail;
+};
+
+// [[Rcpp::export]]
+SEXP testUnwindProtectFunctionObject(Environment indicator, bool fail) {
+    unwindIndicator my_data(indicator);
+    SEXP out = R_NilValue;
+
+#ifdef RCPP_USING_UNWIND_PROTECT
+    out = Rcpp::unwindProtect(FunctionObj(10, fail));
+#endif
+
+    return out;
 }

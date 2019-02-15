@@ -1,3 +1,10 @@
+Changes in Version 1.8-4
+
+  o Conditional registration of S3 methods simplified in R-devel (aka
+    3.6.0-to-be) which is leveraged in "zoo" for the autoplot() and
+    fortify() methods if "ggplot2" is loaded.
+
+
 Changes in Version 1.8-3
 
   o The 'width' argument in rollapply() is now trunc()-ated to an integer

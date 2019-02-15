@@ -8,7 +8,25 @@
       %% \item New \code{rDatetime()} for random date/time sequences
       %% within a specified time range.
 
-\section{CHANGES in sfsmisc VERSION 1.1-2 [2018-03-01]}{
+\section{CHANGES in sfsmisc VERSION 1.1-3 [2018-11-26]}{% << Sync w/ ../DESCRIPTION
+  \subsection{Tweaks}{
+    \itemize{
+      \item \file{DESCRIPTION} update, contains ORCID.
+      \item \file{README.md} links to blog post on (17 yr old -> GH)
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item \code{read.org.table()} thinko (\code{grep()}).
+      \item \code{read.org.table(*, encoding=)} notably to work for UTF-8 files.
+
+      \item \code{pretty10exp(*, lab.type="latex")} works better,
+      notably for non-trivial \code{sub10}.
+    }
+  }
+}
+
+\section{CHANGES in sfsmisc VERSION 1.1-2 [2018-03-05]}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item new \code{funEnv()} utility: \code{list()}-like construction

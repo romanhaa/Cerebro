@@ -94,7 +94,7 @@ c <- (m ^ e) %% n
 print(c)
 ```
 
-This is number represents out encrypted message! It is usually exchanged using base64 notation for human readability:
+This number represents our encrypted message! It is usually exchanged using base64 notation for human readability:
 
 ```{r}
 base64_encode(c)

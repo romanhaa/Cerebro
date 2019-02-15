@@ -25,6 +25,7 @@
 #include <vector>
 
 #include <boost/concept/requires.hpp>
+#include <boost/core/ignore_unused.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/mpl/vector_c.hpp>
 #include <boost/range.hpp>
@@ -162,12 +163,10 @@ struct get_direction_loop
     {
         typedef typename coordinate_type<Segment>::type coordinate_type;
 
-        coordinate_type const diff =
-            geometry::get<1, dimension::value>(seg)
-          - geometry::get<0, dimension::value>(seg);
+        coordinate_type const c0 = geometry::get<0, dimension::value>(seg);
+        coordinate_type const c1 = geometry::get<1, dimension::value>(seg);
 
-        coordinate_type zero = coordinate_type();
-        directions[Index] = diff > zero ? 1 : diff < zero ? -1 : 0;
+        directions[Index] = c1 > c0 ? 1 : c1 < c0 ? -1 : 0;
 
         get_direction_loop
         <
@@ -422,7 +421,7 @@ struct sectionalize_part
                              ring_identifier ring_id,
                              std::size_t max_count)
     {
-        boost::ignore_unused_variable_warning(robust_policy);
+        boost::ignore_unused(robust_policy);
 
         typedef typename boost::range_value<Sections>::type section_type;
         BOOST_STATIC_ASSERT

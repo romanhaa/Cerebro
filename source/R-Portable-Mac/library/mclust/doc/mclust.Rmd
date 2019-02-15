@@ -27,6 +27,7 @@ knit_hooks$set(par = function(before, options, envir)
   { if(before && options$fig.show != "none") 
        par(family = "sans", mar=c(4.1,4.1,1.1,1.1), mgp=c(3,1,0), tcl=-0.5)
 })
+set.seed(1) # for exact reproducibility
 ```
        
 # Introduction
@@ -73,6 +74,49 @@ plot(ICL)
 
 LRT <- mclustBootstrapLRT(X, modelName = "VVV")
 LRT
+```
+
+## Initialisation
+
+EM algorithm is used by **mclust** for maximum likelihood estimation. Initialisation of EM is performed using the partitions obtained from agglomerative hierarchical clustering. For details see `help(mclustBIC)` or `help(Mclust)`, and `help(hc)`.
+
+```{r}
+(hc1 <- hc(X, modelName = "VVV", use = "SVD"))
+BIC1 <- mclustBIC(X, initialization = list(hcPairs = hc1)) # default 
+summary(BIC1)
+
+(hc2 <- hc(X, modelName = "VVV", use = "VARS"))
+BIC2 <- mclustBIC(X, initialization = list(hcPairs = hc2))
+summary(BIC2)
+
+(hc3 <- hc(X, modelName = "EEE", use = "SVD"))
+BIC3 <- mclustBIC(X, initialization = list(hcPairs = hc3))
+summary(BIC3)
+```
+
+Update BIC by merging the best results:
+```{r}
+BIC <- mclustBICupdate(BIC1, BIC2, BIC3)
+summary(BIC)
+plot(BIC)
+```
+
+Univariate fit using random starting points obtained by creating random agglomerations (see `help(randomPairs)`) and merging best results:
+```{r, echo=-1}
+set.seed(20181116)
+data(galaxies, package = "MASS") 
+galaxies <- galaxies / 1000
+BIC <- NULL
+for(j in 1:20)
+{
+  rBIC <- mclustBIC(galaxies, verbose = FALSE,
+                    initialization = list(hcPairs = randomPairs(galaxies)))
+  BIC <- mclustBICupdate(BIC, rBIC)
+}
+summary(BIC)
+plot(BIC)
+mod <- Mclust(galaxies, x = BIC)
+summary(mod)
 ```
 
 # Classification

@@ -1,10 +1,41 @@
+# glue 1.3.0
+
+## Breaking changes
+
+* The `evaluate()` function has been removed. Changes elsewhere in glue made
+  the implementation trivial so it was removed for clarities sake. Previous
+  uses can be replaced by `eval(parse(text = text), envir)`.
+
+* `collapse()` has been renamed to `glue_collapse()` to avoid namespace
+  collisions with `dplyr::collapse()`.
+
+## Features
+
+* `compare.glue()` was added, to make it easier to use glue objects in
+  `testthat::expect_equal()` statements.
+
+* `glue_col()` and `glue_data_col()` functions added to display strings with
+  color.
+
+## Bugfixes and minor changes
+
+* Glue now evaluates unnamed arguments lazily with `delayedAssign()`, so there
+  is no performance cost if an argument is not used. (#83, @egnha).
+
+* Fixed a bug where names in the assigned expression of an interpolation
+  variable would conflict with the name of the variable itself (#89, @egnha).
+
+* Do not drop the `glue` class when subsetting (#66).
+
+* Fix `glue()` and `collapse()` always return UTF-8 encoded strings (#81, @dpprdan)
+
 # glue 1.2.0
 
 * The implementation has been tweaked to be slightly faster in most cases.
 
 * `glue()` now has a `.transformer` argument, which allows you to use custom
   logic on how to evaluate the code within glue blocks. See
-  `vignettes("transformers")` for more details and example transformer
+  `vignette("transformers")` for more details and example transformer
   functions.
 
 * `glue()` now returns `NA` if any of the results are `NA` and `.na` is `NULL`.

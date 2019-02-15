@@ -14,10 +14,24 @@
 %% \item \code{as(<large-matrix>, "sparseMatrix")} no longer fails
 %%  when \code{prod(dim(.))} is larger than \eqn{2^{31} - 1}.
 %
-\section{Changes in version 1.2-14 (2018-..-.., svn r...)}{
+\section{Changes in version 1.2-15 (2018-08-20, svn r3283)}{
   \subsection{New Features}{
     \itemize{
-      \item .
+      \item \code{image()} gets new optional argument \code{border.color}.
+    }
+  }
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item \code{image(Matrix(0, n,m))} now works.
+    }
+  }
+}
+
+
+\section{Changes in version 1.2-14 (2018-04-08, svn r3278)}{
+  \subsection{New Features}{
+    \itemize{
+      \item German translation updates.
     }
   }
   \subsection{Bug Fixes}{

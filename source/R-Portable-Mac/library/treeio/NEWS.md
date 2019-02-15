@@ -1,3 +1,25 @@
+# treeio 1.5.3
+
++ `read.jplace` compatible with output of [TIPars](https://github.com/id-bioinfo/TIPars) (2018-08-07, Tue)
+
+# treeio 1.5.2
+
++ bug fixed of `as.phylo.ggtree` and `as.treedata.ggtree` (2018-07-19, Thu)
++ fixed R check for `tree_subset` by using `rlang::quo` and import `utils::head`
+  and `utils::tail` (2018-05-24, Thu)
++ `tree_subset` methods contributed by [@tbradley1013](https://github.com/tbradley1013)
++ `drop.tip` works with `tree@extraInfo` (2018-05-23, Wed)
+  - <https://github.com/GuangchuangYu/tidytree/pull/6#issuecomment-390259901>
+
+# treeio 1.5.1
+
++ bug fixed of `groupOTU.treedata` (2018-05-23, Wed)
+  - <https://github.com/GuangchuangYu/treeio/issues/7>
+
+# treeio 1.4.0
+
++ Bioconductor 3.7 release
+
 # treeio 1.3.15
 
 + Supports convert edge list (matrix, data.frame or tibble) to `phylo` and `treedata` object, now

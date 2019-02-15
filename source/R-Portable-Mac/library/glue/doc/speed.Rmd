@@ -1,10 +1,8 @@
 ---
 title: "Speed of glue"
-author: "Jim Hester"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Speed of glue}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   % \VignetteDepends{R.utils
@@ -37,14 +35,15 @@ A good way to determine this is to compare it's speed of execution to some alter
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>",
-  eval = as.logical(Sys.getenv("VIGNETTE_EVAL", "FALSE")),
-  cache = TRUE)
+  eval = as.logical(Sys.getenv("EVAL_VIGNETTES", "FALSE")),
+  cache = FALSE)
 library(glue)
 ```
 
 ```{r setup2, include = FALSE}
 plot_comparison <- function(x, ...) {
   library(ggplot2)
+  library(microbenchmark)
   x$expr <- forcats::fct_reorder(x$expr, x$time)
   colors <- ifelse(levels(x$expr) == "glue", "orange", "grey")
   autoplot(x, ...) +
@@ -55,7 +54,7 @@ plot_comparison <- function(x, ...) {
 
 ## Simple concatenation
 
-```{r}
+```{r, message = FALSE}
 bar <- "baz"
 
 simple <-
@@ -96,7 +95,7 @@ For instance the vectorized form of the previous benchmark is able to generate
 `paste0()` and `sprintf()`. NB. `str_interp()` does not support
 vectorization, so were removed.
 
-```{r}
+```{r, message = FALSE}
 bar <- rep("bar", 1e5)
 
 vectorized <-
@@ -114,4 +113,4 @@ plot_comparison(vectorized, log = FALSE)
 ```
 
 [^1]: pystr is no longer available from CRAN due to failure to correct
-installation errors and was therefore removed from futher testing.
+installation errors and was therefore removed from further testing.

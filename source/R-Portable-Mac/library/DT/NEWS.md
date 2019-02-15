@@ -1,3 +1,45 @@
+# CHANGES IN DT VERSION 0.5
+
+## NEW FEATURES
+
+- Added the Shiny async support (thanks, @jcheng5, #549; @alexturcan, #543).
+
+- The filters of `Date` or `Datetime` columns now display the same format and timezone as the column content if `formatDate()` is applied on these columns (thanks, @shrektan, #522 #241).
+
+- You can now show and hide columns from shiny using `showCols()` and `hideCols()`, and reorder the the display of columns using `colReorder()` (thanks, @gergness, #527).
+
+- You can now set the default CSS value in `styleEqual()` by using the newe param `default` (thanks, @shrektan, #558, #546).
+
+- The js callbacks generated from the `format*()` functions will be executed in sequential order. `formatString()` will change the cells based on the existing content rather than the raw data (thanks, @shrektan, #576).
+
+- Added the DataTables plugin `ellipsis` (thanks, @jarauh, #603).
+
+## BUG FIXES
+
+- `styleInterval()` and `styleEqual()` now generates the correct callback for `Date` and `Datetime` values. (thanks, @shrektan, #500, #495).
+
+- The `dt-right` class will no longer be added to numeric headers unexpectedly (thanks, @shrektan @carlganz @vnijs, #514 #512 #511 #476).
+
+- The printing values of `NA` and `Inf` can be controlled by `getOption('DT.TOJSON_ARGS')` in the server-side processing mode now. (thanks, @shrektan, #536 #513).
+
+- `styleEqual()`, `styleInterval()` and `styleColorBar()` now generate correct javascript values when `options(OutDec = ',')` (thanks, @shrektan @mteixido, #516 #515).
+
+- Fixed a bug that `selectRows()` and `selectColumns()` behave erratically for scalar inputs or character inputs (thanks, @shrektan #528).
+
+- The server-side processing mode now supports data with nested `data.frame`s in its columns (thanks, @shrektan, #530 #525).
+
+- The `colReorder` extention now works with the column filters and the server-side processing mode (thanks @shrektan, #532 #531 #160).
+
+- Fix the bug that `formatDate()` may display dates off by one day when method = "toLocaleDateString" (thanks, @shrektan @DevMui, #539 #538).
+
+- Fix the bug that in IE11, the scroll bar of the filter will disappear when you try to click it (thanks, @shrektan, #557 #556).
+
+- `coerceValue()` no longer throws warnings for class `charactor` (thanks, @shrektan, #541 #542).
+
+- Fix the bug that using DT as a htmlwidget inside UI throws an error (thanks, @shrektan, #583).
+
+- The RowReorder extension now works (thanks, @shrektan, #595 #592).
+
 # CHANGES IN DT VERSION 0.4
 
 ## BUG FIXES

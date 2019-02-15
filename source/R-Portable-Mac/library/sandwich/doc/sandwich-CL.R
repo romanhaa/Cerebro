@@ -42,7 +42,7 @@ h_innov <- hurdle(
 ###################################################
 library("sandwich")
 library("lmtest")
-coeftest(h_innov, vcov = vcovCL, cluster = InstInnovation$company)
+coeftest(h_innov, vcov = vcovCL, cluster = ~ company)
 
 
 ###################################################
@@ -52,8 +52,8 @@ coeftest(h_innov, vcov = vcovCL, cluster = InstInnovation$company)
 ## vc <- list(
 ##   "standard" = vcov(h_innov),
 ##   "basic" = sandwich(h_innov),
-##   "CL-1" = vcovCL(h_innov, cluster = InstInnovation$company),
-##   "boot" = vcovBS(h_innov, cluster = InstInnovation$company)
+##   "CL-1" = vcovCL(h_innov, cluster = ~ company),
+##   "boot" = vcovBS(h_innov, cluster = ~ company)
 ## )
 ## se <- function(vcov) sapply(vcov, function(x) sqrt(diag(x)))
 ## se(vc)
@@ -77,8 +77,8 @@ p_lm <- lm(y ~ x, data = PetersenCL)
 ###################################################
 library("multiwayvcov")
 se(list(
-  "sandwich" = vcovCL(p_lm, cluster = PetersenCL$firm),
-  "multiwayvcov" = cluster.vcov(p_lm, cluster = PetersenCL$firm)
+  "sandwich" = vcovCL(p_lm, cluster = ~ firm),
+  "multiwayvcov" = cluster.vcov(p_lm, cluster = ~ firm)
 ))
 
 
@@ -87,7 +87,7 @@ se(list(
 ###################################################
 library("plm")
 p_plm <- plm(y ~ x, data = PetersenCL, model = "pooling",
- indexes = c("firmid", "year"))
+ indexes = c("firm", "year"))
 
 library("geepack")
 vcov.geeglm <- function(object) {
@@ -98,7 +98,7 @@ vcov.geeglm <- function(object) {
 p_gee <- geeglm(y ~ x, data = PetersenCL, id = PetersenCL$firm,
  corstr = "independence", family = gaussian)
 se(list(
-  "sandwich" = vcovCL(p_lm, cluster = PetersenCL$firm,
+  "sandwich" = vcovCL(p_lm, cluster = ~ firm,
     cadjust = FALSE, type = "HC0"),
   "plm" = vcovHC(p_plm, cluster = "group"),
   "geepack" = vcov(p_gee)
@@ -109,8 +109,8 @@ se(list(
 ### code chunk number 9: petersen-twocl
 ###################################################
 se(list(
-  "sandwich" = vcovCL(p_lm, cluster = PetersenCL[, 1:2], multi0 = TRUE),
-  "multiwayvcov" = cluster.vcov(p_lm, cluster = PetersenCL[, 1:2])
+  "sandwich" = vcovCL(p_lm, cluster = ~ firm + year, multi0 = TRUE),
+  "multiwayvcov" = cluster.vcov(p_lm, cluster = ~ firm + year)
 ))
 
 
@@ -118,7 +118,7 @@ se(list(
 ### code chunk number 10: petersen-comparison3
 ###################################################
 se(list(
-  "sandwich" = vcovPL(p_lm, cluster = PetersenCL$firm, adjust = FALSE),
+  "sandwich" = vcovPL(p_lm, cluster = ~ firm + year, adjust = FALSE),
   "plm" = vcovSCC(p_plm)
 ))
 
@@ -128,8 +128,7 @@ se(list(
 ###################################################
 library("pcse")
 se(list(
-  "sandwich" = sandwich::vcovPC(p_lm, cluster = PetersenCL$firm,
-    order.by = PetersenCL$year),
+  "sandwich" = sandwich::vcovPC(p_lm, cluster = ~ firm + year),
   "pcse" = pcse::vcovPC(p_lm, groupN = PetersenCL$firm,
     groupT = PetersenCL$year)
 ))
@@ -146,11 +145,11 @@ pu_lm <- lm(y ~ x, data = PU)
 ### code chunk number 13: petersen-unbalanced2
 ###################################################
 se(list(
-  "sandwichT" = sandwich::vcovPC(pu_lm, cluster = PU$firm,
-    order.by = PU$year, pairwise = TRUE),
+  "sandwichT" = sandwich::vcovPC(pu_lm, cluster = ~ firm + year,
+    pairwise = TRUE),
   "pcseT" = pcse::vcovPC(pu_lm, PU$firm, PU$year, pairwise = TRUE),
-  "sandwichF" = sandwich::vcovPC(pu_lm, cluster = PU$firm,
-    order.by = PU$year, pairwise = FALSE),
+  "sandwichF" = sandwich::vcovPC(pu_lm, cluster = ~ firm + year,
+    pairwise = FALSE),
   "pcseF" = pcse::vcovPC(pu_lm, PU$firm, PU$year, pairwise = FALSE)
 ))
 
@@ -163,9 +162,9 @@ my.settings[["strip.background"]]$col <- "gray"
 my.settings[["strip.border"]]$col <- "black"
 my.settings[["superpose.line"]]$lwd <- 1
 s01$vcov <- factor(s01$vcov, levels(s01$vcov)[c(2,4,3,1,8,5,7,6)])
-my.settings[["superpose.line"]]$col <- c("#377eb8", "green","#006400", "#000080", "#ff7f00", "#f781bf", "#984ea3", "#e41a1c")
-my.settings[["superpose.symbol"]]$col <- c("#377eb8", "green","#006400", "#000080", "#ff7f00", "#f781bf", "#984ea3", "#e41a1c")
-my.settings[["superpose.symbol"]]$pch <- c(rep(1,4), rep(2,2), rep(3,2))
+my.settings[["superpose.line"]]$col <- my.settings[["superpose.symbol"]]$col <- my.settings[["superpose.symbol"]]$col <-
+  c("#377eb8", "green","#006400", "#dc75ed", "darkred", "orange", "black", "grey")
+my.settings[["superpose.symbol"]]$pch <- c(19, 19, 19, 19, 17, 25, 3, 8)
 xyplot(coverage ~ rho | par, groups = ~ factor(vcov),
   data = s01, subset = par != "(Intercept)",
   ylim = c(0.1, 1),
@@ -184,9 +183,9 @@ my.settings[["strip.border"]]$col <- "black"
 my.settings[["superpose.line"]]$lwd <- 1
 s02$dist <- factor(as.character(s02$dist), levels = c("gaussian", "binomial(logit)", "poisson"))
 s02$vcov <- factor(s02$vcov, levels(s02$vcov)[c(2,4,3,1,8,5,7,6)])
-my.settings[["superpose.line"]]$col <- c("#377eb8", "green","#006400", "#000080", "#ff7f00", "#f781bf", "#984ea3", "#e41a1c")
-my.settings[["superpose.symbol"]]$col <- c("#377eb8", "green","#006400", "#000080", "#ff7f00", "#f781bf", "#984ea3", "#e41a1c")
-my.settings[["superpose.symbol"]]$pch <- c(rep(1,4), rep(2,2), rep(3,2))
+my.settings[["superpose.line"]]$col <- my.settings[["superpose.symbol"]]$col <- my.settings[["superpose.symbol"]]$col <-
+  c("#377eb8", "green","#006400", "#dc75ed", "darkred", "orange", "black", "grey")
+my.settings[["superpose.symbol"]]$pch <- c(19, 19, 19, 19, 17, 25, 3, 8)
 xyplot(coverage ~ rho | dist, groups = ~ factor(vcov),
   data = s02, subset = par != "(Intercept)",
   ylim = c(0.5, 1),
@@ -205,9 +204,8 @@ my.settings[["strip.background"]]$col <- "gray"
 my.settings[["strip.border"]]$col <- "black"
 my.settings[["superpose.line"]]$lwd <- 1
 s33$vcov <- factor(s33$vcov, levels(s33$vcov)[c(2,1,4,3)])
-my.settings[["superpose.line"]]$col <- c("#377eb8", "#000080", "#ff7f00", "#f781bf")
-my.settings[["superpose.symbol"]]$col <- c("#377eb8", "#000080", "#ff7f00", "#f781bf")
-my.settings[["superpose.symbol"]]$pch <- c(rep(1,2), rep(2,2))
+my.settings[["superpose.line"]]$col <- my.settings[["superpose.symbol"]]$col <- my.settings[["superpose.symbol"]]$fill <- c("#377eb8", "#000080", "darkred", "orange")
+my.settings[["superpose.symbol"]]$pch <- c(19, 19, 17, 25)
 xyplot(coverage ~ rho | dist, groups = ~ factor(vcov),
   data = s33, subset = par == "x1",
   ylim = c(0.8, 1),
@@ -225,9 +223,10 @@ my.settings[["strip.background"]]$col <- "gray"
 my.settings[["strip.border"]]$col <- "black"
 my.settings[["superpose.line"]]$lwd <- 1
 s04$dist <- factor(as.character(s04$dist), c("gaussian", "binomial(logit)", "poisson"))
-my.settings[["superpose.line"]]$col <- c("#377eb8", "#00E5EE", "#e41a1c", "#4daf4a")
-my.settings[["superpose.symbol"]]$col <- c("#377eb8", "#00E5EE","#e41a1c", "#4daf4a")
-xyplot(coverage ~ nid | dist, groups = ~ factor(vcov),
+my.settings[["superpose.line"]]$col <- c("#377eb8", "#00E5EE", "#e41a1c", "#4daf4a", "#dc75ed")
+my.settings[["superpose.symbol"]]$col <- c("#377eb8", "#00E5EE","#e41a1c", "#4daf4a", "#dc75ed")
+my.settings[["superpose.symbol"]]$pch <- 19
+xyplot(coverage ~ nid | dist, groups = ~ factor(vcov, levels = c(paste0("CL-", 0:3), "BS")),
   data = na.omit(s04), subset = par != "(Intercept)",
   type = "b", xlab = "G", ylab = "Empirical coverage",
   auto.key = list(columns = 2),
@@ -243,8 +242,8 @@ my.settings[["strip.background"]]$col <- "gray"
 my.settings[["strip.border"]]$col <- "black"
 my.settings[["superpose.line"]]$lwd <- 1
 s0607$vcov <- factor(s0607$vcov, levels(s0607$vcov)[c(1,3,2)])
-my.settings[["superpose.line"]]$col <- c("#377eb8","green", "#006400")
-my.settings[["superpose.symbol"]]$col <- c("#377eb8","green", "#006400")
+my.settings[["superpose.line"]]$col <- my.settings[["superpose.symbol"]]$col <- c("#377eb8","green", "#006400")
+my.settings[["superpose.symbol"]]$pch <- 19
 xyplot(coverage ~ nround | factor(par) + factor(copula), groups = ~ factor(vcov),
   data = na.omit(s0607), subset = par != "(Intercept)",
   type = "b", xlab = "Observations per cluster", ylab = "Empirical coverage",
@@ -261,8 +260,8 @@ my.settings[["strip.background"]]$col <- "gray"
 my.settings[["strip.border"]]$col <- "black"
 my.settings[["superpose.line"]]$lwd <- 1
 s08$vcov <- factor(s08$vcov, levels(s08$vcov)[c(1,3,2)])
-my.settings[["superpose.line"]]$col <- c("#377eb8","green", "#006400")
-my.settings[["superpose.symbol"]]$col <- c("#377eb8","green", "#006400")
+my.settings[["superpose.line"]]$col <- my.settings[["superpose.symbol"]]$col <- c("#377eb8","green", "#006400")
+my.settings[["superpose.symbol"]]$pch <- 19
 xyplot(coverage ~ nround | factor(par) + factor(dist), groups = ~ factor(vcov),
   data = na.omit(s08), subset = par != "(Intercept)",
   type = "b", xlab = "Observations per cluster", ylab = "Empirical coverage",

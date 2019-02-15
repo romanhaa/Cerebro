@@ -1,13 +1,14 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>",
-  eval = as.logical(Sys.getenv("VIGNETTE_EVAL", "FALSE")),
-  cache = TRUE)
+  eval = as.logical(Sys.getenv("EVAL_VIGNETTES", "FALSE")),
+  cache = FALSE)
 library(glue)
 
 ## ----setup2, include = FALSE---------------------------------------------
 #  plot_comparison <- function(x, ...) {
 #    library(ggplot2)
+#    library(microbenchmark)
 #    x$expr <- forcats::fct_reorder(x$expr, x$time)
 #    colors <- ifelse(levels(x$expr) == "glue", "orange", "grey")
 #    autoplot(x, ...) +
@@ -15,7 +16,7 @@ library(glue)
 #        aes(fill = expr) + scale_fill_manual(values = colors, guide = FALSE)
 #  }
 
-## ------------------------------------------------------------------------
+## ---- message = FALSE----------------------------------------------------
 #  bar <- "baz"
 #  
 #  simple <-
@@ -32,7 +33,7 @@ library(glue)
 #  
 #  plot_comparison(simple)
 
-## ------------------------------------------------------------------------
+## ---- message = FALSE----------------------------------------------------
 #  bar <- rep("bar", 1e5)
 #  
 #  vectorized <-

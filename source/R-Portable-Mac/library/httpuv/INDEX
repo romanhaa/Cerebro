@@ -2,6 +2,7 @@ WebSocket-class         WebSocket object
 encodeURI               URI encoding/decoding
 httpuv-package          HTTP and WebSocket server
 interrupt               Interrupt httpuv runloop
+ipFamily                Check whether an address is IPv4 or IPv6
 rawToBase64             Convert raw vector to Base64-encoded string
 runServer               Run a server
 service                 Process requests

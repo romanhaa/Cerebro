@@ -96,8 +96,8 @@ by the \pkg{Rcpp} package and its underlying \proglang{C++} library
 \citep{CRAN:Rcpp,JSS:Rcpp}. \pkg{Rcpp} smoothes many of the rough edges in
 \proglang{R} and \proglang{C++} integration by replacing the traditional
 \proglang{R} Application Programming Interface (API) described in
-`\textsl{Writing R Extensions}' \citep{R:Extensions} with a consistent set of \proglang{C++}
-classes. The '\textsl{Rcpp-introduction}' vignette \citep{CRAN:Rcpp,JSS:Rcpp} describes the API and
+'\textsl{Writing R Extensions}' \citep{R:Extensions} with a consistent set of \proglang{C++}
+classes. The '\textsl{Rcpp-jss-2011}' vignette \citep{CRAN:Rcpp,JSS:Rcpp} describes the API and
 provides an introduction to using \pkg{Rcpp}.
 
 These \pkg{Rcpp} facilities offer a lot of assistance to the programmer
@@ -354,7 +354,7 @@ Note that this example assumed that the previous code segment defining the
 module was returned by the `cxxfunction()` (from the \pkg{inline}
 package) as callable R function `fx` from which we can extract the
 relevant pointer using `getDynLib()`.  In the case of using Rcpp modules
-via a package (which is detailed in Section~\ref{sec:package} below), modules
+via a package (which is detailed in Section \ref{sec:package} below), modules
 are actually loaded differently and we would have used
 
 ```{r, eval=FALSE}

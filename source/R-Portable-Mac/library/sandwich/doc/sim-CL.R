@@ -382,6 +382,8 @@ library("geepack")
 library("countreg")
 library("betareg")
 
+RNGkind(kind = "L'Ecuyer-CMRG")
+
 set.seed(1)
 s01 <- sim(nrep = 10000, nid = 100, nround = 5,
            dist = "gaussian", rho = seq(0, 0.9, by = 0.1), xrho = 0.25,
@@ -402,7 +404,7 @@ s03 <- sim(nrep = 10000, nid = 100, nround = 5,
            dist = c("zerotrunc", "zeroinfl", "betareg"),
 	   rho = seq(0, 0.9, by = 0.1), xrho = 0.25,
            coef = c(0, 0.85, 0, 0), formula = response ~ x1,
-           vcov = c("standard", "basic", "CL-0"), ## BS with lower nrep below (s33)
+           vcov = c("standard", "basic", "CL-0"), ## BS separately below (s33)
            type = "copula", cores = 16)
 
 set.seed(4)
@@ -410,7 +412,7 @@ s04 <- sim(nrep = 10000, nid = c(10, seq(50, 250, by = 50)), nround = 5,
            dist = c("gaussian","poisson", "binomial(logit)"),
 	   rho = 0.25, xrho = 0.25,
            coef = c(0, 0.85, 0, 0), formula = response ~ x1,
-           vcov = c("CL-0", "CL-1", "CL-2", "CL-3"),
+           vcov = c("CL-0", "CL-1", "CL-2", "CL-3", "BS"),
            type = "copula", cores = 16)
 
 set.seed(6)

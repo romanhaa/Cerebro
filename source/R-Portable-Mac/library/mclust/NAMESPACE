@@ -16,7 +16,7 @@ export(em, emE, emEEE, emEEI, emEEV, emEII, emEVI,
 export(me, meE, meEEE, meEEI, meEEV, meEII, meEVI,
            meV, meVEI, meVEV, meVII, meVVI, meVVV,
            meEVV, meVEE, meEVE, meVVE,
-           meX, meXII, emXXI, emXXX)
+           meX, meXII, meXXI, meXXX)
 export(sim, simE, simEEE, simEEI, simEEV, simEII, simEVI, 
             simV, simVEI, simVEV, simVII, simVVI, simVVV,
             simEVV, simVEE, simEVE, simVVE)
@@ -32,7 +32,12 @@ export(cdens, cdensE, cdensEEE, cdensEEI, cdensEEV, cdensEII, cdensEVI,
               cdensEVV, cdensVEE, cdensEVE, cdensVVE,
               cdensX, cdensXII, cdensXXI, cdensXXX)
 
-export(bic, pickBIC, nVarParams, nMclustParams)
+export(bic, pickBIC, mclustBICupdate)
+
+export(mclustLoglik, print.mclustLoglik)
+S3method("print", "mclustLoglik")
+
+export(nVarParams, nMclustParams)
 
 export(map, unmap, partconv, partuniq, errorBars)
 

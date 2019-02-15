@@ -3,10 +3,10 @@ Title: 'Jupyter' Display Machinery
 Description: 
     An interface to the rich display capabilities of 'Jupyter' front-ends (e.g. 'Jupyter Notebook') <https://jupyter.org>.
     Designed to be used from a running 'IRkernel' session <https://irkernel.github.io>.
-Version: 0.5.0
+Version: 0.7.0
 Authors@R: c(
     person('Thomas', 'Kluyver', role = c('aut', 'cph'), email = 'thomas@kluyver.me.uk'),
-    person('Philipp', 'Angerer', role = c('aut', 'cph', 'cre'), email = 'phil.angerer@gmail.com'),
+    person('Philipp', 'Angerer', role = c('aut', 'cph', 'cre'), email = 'phil.angerer@gmail.com', comment = c(ORCID = "0000-0002-0369-2888")),
     person('Jan', 'Schulz', role = c('aut', 'cph'), email = 'jasc@gmx.net'))
 Depends: R (>= 3.0.1)
 Suggests: testthat, withr
@@ -14,13 +14,14 @@ Imports: methods, repr
 License: MIT + file LICENSE
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2018-05-17 11:38:24 UTC; angerer
+Packaged: 2018-11-29 09:34:55 UTC; angerer
 Author: Thomas Kluyver [aut, cph],
-  Philipp Angerer [aut, cph, cre],
+  Philipp Angerer [aut, cph, cre]
+    (<https://orcid.org/0000-0002-0369-2888>),
   Jan Schulz [aut, cph]
 Maintainer: Philipp Angerer <phil.angerer@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-05-17 14:50:49 UTC
-Built: R 3.5.0; ; 2018-05-18 04:39:21 UTC; unix
+Date/Publication: 2018-11-29 12:20:10 UTC
+Built: R 3.5.0; ; 2018-11-30 13:23:29 UTC; unix

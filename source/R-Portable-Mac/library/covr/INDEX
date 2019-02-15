@@ -5,10 +5,14 @@ coverage_to_list        Convert a coverage dataset to a list
 coveralls               Run covr on a package and upload the result to
                         coveralls
 covr-package            covr: Test coverage for packages
+environment_coverage    Calculate coverage of an environment
 exclusions              Exclusions
 file_coverage           Calculate test coverage for sets of files
+file_report             A coverage report for a specific file
 function_coverage       Calculate test coverage for a specific
                         function.
+gitlab                  Run covr on package and create report for
+                        GitLab
 package_coverage        Calculate test coverage for a package
 percent_coverage        Provide percent coverage of package
 print.coverage          Print a coverage object

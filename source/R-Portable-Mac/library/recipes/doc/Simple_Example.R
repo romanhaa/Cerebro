@@ -9,59 +9,65 @@ options(digits = 3)
 
 ## ----data----------------------------------------------------------------
 library(recipes)
-library(caret)
-data(segmentationData)
+library(rsample)
 
-seg_train <- segmentationData %>% 
-  filter(Case == "Train") %>% 
-  select(-Case, -Cell)
-seg_test  <- segmentationData %>% 
-  filter(Case == "Test")  %>% 
-  select(-Case, -Cell)
+data("credit_data")
+
+set.seed(55)
+train_test_split <- initial_split(credit_data)
+
+credit_train <- training(train_test_split)
+credit_test <- testing(train_test_split)
+
+## ----missing-------------------------------------------------------------
+vapply(credit_train, function(x) mean(!is.na(x)), numeric(1))
 
 ## ----first_rec-----------------------------------------------------------
-rec_obj <- recipe(Class ~ ., data = seg_train)
+rec_obj <- recipe(Status ~ ., data = credit_train)
 rec_obj
 
 ## ----step_code, eval = FALSE---------------------------------------------
-#  rec_obj <- step_name(rec_obj, arguments)    ## or
-#  rec_obj <- rec_obj %>% step_name(arguments)
+#  rec_obj <- step_{X}(rec_obj, arguments)    ## or
+#  rec_obj <- rec_obj %>% step_{X}(arguments)
+
+## ----imp-steps-----------------------------------------------------------
+grep("impute$", ls("package:recipes"), value = TRUE)
+
+## ----dummy---------------------------------------------------------------
+imputed <- rec_obj %>%
+  step_knnimpute(all_predictors()) 
+imputed
+
+## ----imputing------------------------------------------------------------
+ind_vars <- imputed %>%
+  step_dummy(all_predictors(), -all_numeric()) 
+ind_vars
 
 ## ----center_scale--------------------------------------------------------
-standardized <- rec_obj %>%
-  step_center(all_predictors()) %>%
+standardized <- ind_vars %>%
+  step_center(all_predictors())  %>%
   step_scale(all_predictors()) 
 standardized
 
 ## ----trained-------------------------------------------------------------
-trained_rec <- prep(standardized, training = seg_train)
+trained_rec <- prep(standardized, training = credit_train)
+trained_rec
 
 ## ----apply---------------------------------------------------------------
-train_data <- bake(trained_rec, newdata = seg_train)
-test_data  <- bake(trained_rec, newdata = seg_test)
+train_data <- bake(trained_rec, new_data = credit_train)
+test_data  <- bake(trained_rec, new_data = credit_test)
 
 ## ----tibbles-------------------------------------------------------------
 class(test_data)
 test_data
-
-## ----pca-----------------------------------------------------------------
-trained_rec <- trained_rec %>%
-  step_pca(ends_with("Ch1"), contains("area"), num = 5)
-trained_rec
-
-## ----pca_training--------------------------------------------------------
-trained_rec <- prep(trained_rec, training = seg_train)
-
-## ----pca_bake------------------------------------------------------------
-test_data  <- bake(trained_rec, newdata = seg_test, all_predictors())
-names(test_data)
+vapply(test_data, function(x) mean(!is.na(x)), numeric(1))
 
 ## ----step_list, echo = FALSE---------------------------------------------
 grep("^step_", ls("package:recipes"), value = TRUE)
 
 ## ----check, eval = FALSE-------------------------------------------------
 #  trained_rec <- trained_rec %>%
-#    check_missing(contains("Inten"))
+#    check_missing(contains("Marital"))
 
 ## ----check_list, echo = FALSE--------------------------------------------
 grep("^check_", ls("package:recipes"), value = TRUE)

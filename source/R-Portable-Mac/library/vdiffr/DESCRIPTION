@@ -1,6 +1,6 @@
 Package: vdiffr
 Title: Visual Regression Testing and Graphical Diffing
-Version: 0.2.3
+Version: 0.3.0
 Authors@R: c(
     person("Lionel", "Henry", , "lionel@rstudio.com", c("cre", "aut")),
     person("RStudio", role = "cph"),
@@ -9,24 +9,34 @@ Authors@R: c(
     person("David", "Hong", role = "aut", comment = "TwoFace library"),
     person(family = "jQuery Foundation", role = "cph", comment = "jQuery library"),
     person(family = "jQuery contributors", role = c("ctb", "cph"),
-           comment = "jQuery library; authors listed in inst/htmlwidgets/lib/jquery-authors.txt")
+           comment = "jQuery library; authors listed in inst/htmlwidgets/lib/jquery-authors.txt"),
+    person("T Jake", "Luciani", , "jake@apache.org", "aut", comment = "svglite"),
+    person("Matthieu", "Decorde", , "matthieu.decorde@ens-lyon.fr", "aut", comment = "svglite"),
+    person("Vaudor", "Lise", , "lise.vaudor@ens-lyon.fr", "aut", comment = "svglite"),
+    person("Tony", "Plate", role = "ctb", comment = "svglite: Early line dashing code"),
+    person("David", "Gohel", role = "ctb", comment = "svglite: Line dashing code and raster code"),
+    person("Yixuan", "Qiu", role = "ctb", comment = "svglite: Improved styles; polypath implementation"),
+    person("Håkon", "Malmedal", role = "ctb", comment = "svglite: Opacity code")
     )
+Encoding: UTF-8
 Description: An extension to the 'testthat' package that makes it easy
     to add graphical unit tests. It provides a Shiny application to
     manage the test cases.
 License: GPL-3 | file LICENSE
 LazyData: true
 ByteCompile: true
-SystemRequirements: FreeType >= 2.6.0
-Depends: R (>= 3.1.0)
-Imports: devtools, fontquiver (>= 0.2.0), gdtools (>= 0.1.2), glue,
-        grDevices, htmlwidgets (>= 0.6), purrr (>= 0.2.0), rlang, R6,
-        Rcpp, shiny, svglite (>= 1.2.0), testthat (>= 1.0.0), xml2
-Suggests: ggplot2, roxygen2, rstudioapi, yaml
-LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+Depends: R (>= 3.2.0)
+Imports: devtools, diffobj, fontquiver (>= 0.2.0), freetypeharfbuzz (>=
+        0.2.5), gdtools, glue, grDevices, htmlwidgets (>= 0.6),
+        htmltools, purrr (>= 0.2.0), rlang, R6, Rcpp, shiny, testthat
+        (>= 1.0.0), usethis (>= 1.4.0), xml2 (>= 1.0.0)
+Suggests: crayon, ggplot2 (>= 3.0.0), roxygen2, rstudioapi, withr, yaml
+LinkingTo: freetypeharfbuzz, gdtools, Rcpp, BH
+RoxygenNote: 6.1.1
+URL: https://github.com/r-lib/vdiffr
+BugReports: https://github.com/r-lib/vdiffr/issues
 NeedsCompilation: yes
-Packaged: 2018-04-27 12:08:42 UTC; lionel
+Packaged: 2019-01-02 18:46:55 UTC; lionel
 Author: Lionel Henry [cre, aut],
   RStudio [cph],
   Carl Sutherland [aut] (jg-imagediff library),
@@ -34,9 +44,16 @@ Author: Lionel Henry [cre, aut],
   David Hong [aut] (TwoFace library),
   jQuery Foundation [cph] (jQuery library),
   jQuery contributors [ctb, cph] (jQuery library; authors listed in
-    inst/htmlwidgets/lib/jquery-authors.txt)
+    inst/htmlwidgets/lib/jquery-authors.txt),
+  T Jake Luciani [aut] (svglite),
+  Matthieu Decorde [aut] (svglite),
+  Vaudor Lise [aut] (svglite),
+  Tony Plate [ctb] (svglite: Early line dashing code),
+  David Gohel [ctb] (svglite: Line dashing code and raster code),
+  Yixuan Qiu [ctb] (svglite: Improved styles; polypath implementation),
+  Håkon Malmedal [ctb] (svglite: Opacity code)
 Maintainer: Lionel Henry <lionel@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-04-27 12:25:59 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-30 15:23:10 UTC; unix
+Date/Publication: 2019-01-02 19:30:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-01-03 05:26:28 UTC; unix
 Archs: vdiffr.so.dSYM

@@ -1,5 +1,19 @@
 NEWS for the htmlTable package
 
+Changes for 1.13.1
+------------------
+* Bug fix for cgroup as list argument
+* The n.tspanner now also accepts number of rgroups
+
+Changes for 1.13
+------------------
+* Added the ability to have cgroup arguments as a list
+* Fixed n.rgoup bug with css
+* Improved the general vignette
+* Added vector2string - a convenience function when you want to output a vector into a string
+* Added digits.nonzero to txtRound function that allows more digits with values close to zero
+* Force encoding for print.htmlTable when outputting a table using the viewer (Issue #61)
+
 Changes for 1.12
 ----------------
 * Added scientific notation to txtRound (Issue #35)
@@ -18,7 +32,7 @@ Changes for 1.11.2
   send html formatted strings.
 
 
-Changes for 1.11.1
+Changes for 1.11.1v
 ------------------
 * Removed tidyr and dplyr from dependencies (issue #47)
 

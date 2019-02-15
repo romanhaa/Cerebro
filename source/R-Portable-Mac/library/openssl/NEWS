@@ -1,3 +1,20 @@
+1.2
+ - askpass() has been moved into its own package and gains native programs
+   for MacOS and Windows.
+ - Added ecdsa_parse() and ecdsa_write() to support JWT signatures (jose pkg)
+
+1.1
+ - MacOS and Windows binaries now ship with libssl 1.1.1 (TLS 1.3 support)
+ - Windows (breaking): my_key() and my_pubkey() now interpret ~/ as windows
+   home dir instead of documents dir, for compatibility with other software.
+ - my_pubkey() no longer uses USER_PUBKEY but instead USER_KEY + ".pub"
+ - Use the OpenSSL 1.1 API in LibreSSL 2.7
+ - Suppress echo in askpass if stdin is a tty
+
+1.0.2
+ - Improve system error messages in download_ssl_cert()
+ - Fix unit test (password error message) for libcrypto 1.1.1
+
 1.0.1
  - Fix a unit test from  http://pki.goog/ (google changed servers)
 

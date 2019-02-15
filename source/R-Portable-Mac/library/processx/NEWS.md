@@ -1,4 +1,53 @@
 
+# processx 3.2.1
+
+* processx does not depend on assertthat now, and the crayon package
+  is now an optional dependency.
+
+# processx 3.2.0
+
+* New `process$kill_tree()` method, and new `cleanup_tree` arguments in
+  `run()` and `process$new()`, to clean up the process tree rooted at a
+  processx process. (#139, #143).
+
+* New `process$interupt()` method to send an interrupt to a process,
+  SIGINT on Unix, CTRL+C on Windows (#127).
+
+* New `stdin` argument in `process$new()` to support writing to the
+  standard input of a process (#27, #114).
+
+* New `connections` argument in `process$new()` to support passing extra
+  connections to the child process, in addition to the standard streams.
+
+* New `poll_connection` argument to `process$new()`, an extra connection
+  that can be used to poll the process, even if `stdout` and `stderr` are
+  not pipes (#125).
+
+* `poll()` now works with connections objects, and they can be mixed with
+  process objects (#121).
+
+* New `env` argument in `run()` and `process$new()`, to set the
+  environment of the child process, optionally (#117, #118).
+
+* Removed the `$restart()` method, because it was less useful than
+  expected, and hard to maintain (#116).
+
+* New `conn_set_stdout()` and `conn_set_stderr()` to set the standard
+  output or error of the calling process.
+
+* New `conn_disable_inheritance()` to disable stdio inheritance. It is
+  suggested that child processes call this immediately after starting, so
+  the file handles are not inherited further.
+
+* Fixed a signal handler bug on Unix that marked the process as finished,
+  even if it has not (d221aa1f).
+
+* Fixed a bug that occasionally caused crashes in `wait()`, on Unix (#138).
+
+* When `run()` is interrupted, no error message is printed, just like
+  for interruption of R code in general. The thrown condition now also
+  has the `interrupt` class (#148).
+
 # processx 3.1.0
 
 * Fix interference with the parallel package, and other packages that
@@ -6,7 +55,7 @@
   handler is overwritten, we might miss the exit status of some processes
   (they are set to `NA`).
 
-* `run()` and  `process$new()` allow specifying the working directory
+* `run()` and `process$new()` allow specifying the working directory
   of the process (#63).
 
 * Make the debugme package an optional dependency (#74).

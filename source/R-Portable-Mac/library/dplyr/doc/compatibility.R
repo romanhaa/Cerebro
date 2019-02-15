@@ -61,7 +61,7 @@ syms <- rlang::syms(c("foo", "bar", "baz"))
 quo(my_call(!!! syms))
 
 fun <- rlang::sym("my_call")
-quo(UQ(fun)(!!! syms))
+quo((!!fun)(!!! syms))
 
 ## ------------------------------------------------------------------------
 call <- rlang::lang("my_call", !!! syms)

@@ -14,6 +14,7 @@ collapse.ggtree	collapse
 Date2decimal	Date2decimal
 decimal2Date	decimal2Date
 expand	expand
+facet_labeller	facet_labeller
 facet_plot	facet_plot
 flip	flip
 fortify	reexports
@@ -28,10 +29,12 @@ geom_label	reexports
 geom_label2	geom_label2
 geom_motif	geom_motif
 geom_nodelab	geom_nodelab
+geom_nodelab2	geom_nodelab2
 geom_nodepoint	geom_nodepoint
 geom_point	reexports
 geom_point2	geom_point2
 geom_range	geom_range
+geom_rootedge	geom_rootedge
 geom_rootpoint	geom_rootpoint
 geom_segment2	geom_segment2
 geom_strip	geom_strip

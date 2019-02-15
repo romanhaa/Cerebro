@@ -36,6 +36,8 @@
 
 #if defined(BOOST_GEOMETRY_BUFFER_USE_SIDE_OF_INTERSECTION)
 #include <boost/geometry/strategies/cartesian/side_of_intersection.hpp>
+#else
+#include <boost/geometry/strategies/agnostic/point_in_poly_winding.hpp>
 #endif
 
 
@@ -704,7 +706,7 @@ public:
     template <typename Turn, typename Piece>
     inline bool apply(Turn const& turn, Piece const& piece, bool first = true)
     {
-        boost::ignore_unused_variable_warning(first);
+        boost::ignore_unused(first);
 
         if (turn.count_within > 0)
         {

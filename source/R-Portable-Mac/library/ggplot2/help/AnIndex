@@ -204,6 +204,8 @@ geom_ribbon	geom_ribbon
 geom_rug	geom_rug
 geom_segment	geom_segment
 geom_sf	ggsf
+geom_sf_label	ggsf
+geom_sf_text	ggsf
 geom_smooth	geom_smooth
 geom_spoke	geom_spoke
 geom_step	geom_path
@@ -418,6 +420,7 @@ set_last_plot	set_last_plot
 shape	aes_linetype_size_shape
 should_stop	should_stop
 size	aes_linetype_size_shape
+standardise_aes_names	standardise_aes_names
 Stat	ggplot2-ggproto
 stat	stat
 StatBin	ggplot2-ggproto
@@ -437,6 +440,7 @@ StatQq	ggplot2-ggproto
 StatQqLine	ggplot2-ggproto
 StatQuantile	ggplot2-ggproto
 StatSf	ggsf
+StatSfCoordinates	stat_sf_coordinates
 StatSmooth	ggplot2-ggproto
 StatSum	ggplot2-ggproto
 StatSummary	ggplot2-ggproto
@@ -464,6 +468,7 @@ stat_qq	geom_qq
 stat_qq_line	geom_qq
 stat_quantile	geom_quantile
 stat_sf	ggsf
+stat_sf_coordinates	stat_sf_coordinates
 stat_smooth	geom_smooth
 stat_spoke	geom_spoke
 stat_sum	geom_count

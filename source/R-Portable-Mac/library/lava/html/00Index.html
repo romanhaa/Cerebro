@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;lava&rsquo; version 1.6.1</h2>
+</div><h2>Documentation for package &lsquo;lava&rsquo; version 1.6.5</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -87,6 +87,10 @@
 <td>Simulate model</td></tr>
 <tr><td style="width: 25%;"><a href="sim.html">binomial.lvm</a></td>
 <td>Simulate model</td></tr>
+<tr><td style="width: 25%;"><a href="binomial.rd.html">binomial.rd</a></td>
+<td>Define constant risk difference or relative risk association for binary exposure</td></tr>
+<tr><td style="width: 25%;"><a href="binomial.rd.html">binomial.rr</a></td>
+<td>Define constant risk difference or relative risk association for binary exposure</td></tr>
 <tr><td style="width: 25%;"><a href="blockdiag.html">blockdiag</a></td>
 <td>Combine matrices to block diagonal structure</td></tr>
 <tr><td style="width: 25%;"><a href="bmd.html">bmd</a></td>
@@ -229,7 +233,7 @@
 <td>Simulate model</td></tr>
 <tr><td style="width: 25%;"><a href="sim.html">distribution&lt;-.lvm</a></td>
 <td>Simulate model</td></tr>
-<tr><td style="width: 25%;"><a href="internal.html">dmvn</a></td>
+<tr><td style="width: 25%;"><a href="internal.html">dmvn0</a></td>
 <td>For internal use</td></tr>
 <tr><td style="width: 25%;"><a href="dsep.lvm.html">dsep</a></td>
 <td>Check d-separation criterion</td></tr>
@@ -372,6 +376,8 @@
 <h2><a name="I">-- I --</a></h2>
 
 <table width="100%">
+<tr><td style="width: 25%;"><a href="internal.html">Identical</a></td>
+<td>For internal use</td></tr>
 <tr><td style="width: 25%;"><a href="click.html">idplot</a></td>
 <td>Identify points on plot</td></tr>
 <tr><td style="width: 25%;"><a href="internal.html">igraph.lvm</a></td>
@@ -429,8 +435,6 @@
 <td>Remove variables from (model) object.</td></tr>
 <tr><td style="width: 25%;"><a href="rmvar.html">kill&lt;-</a></td>
 <td>Remove variables from (model) object.</td></tr>
-<tr><td style="width: 25%;"><a href="km.html">km</a></td>
-<td>Weighted K-means</td></tr>
 <tr><td style="width: 25%;"><a href="ksmooth2.html">ksmooth2</a></td>
 <td>Plot/estimate surface</td></tr>
 </table>
@@ -535,6 +539,8 @@
 <td>For internal use</td></tr>
 <tr><td style="width: 25%;"><a href="multinomial.html">multinomial</a></td>
 <td>Estimate probabilities in contingency table</td></tr>
+<tr><td style="width: 25%;"><a href="sim.html">mvn.lvm</a></td>
+<td>Simulate model</td></tr>
 <tr><td style="width: 25%;"><a href="mvnmix.html">mvnmix</a></td>
 <td>Estimate mixture latent variable model</td></tr>
 </table>
@@ -560,8 +566,8 @@
 <td>Two-stage estimator (non-linear SEM)</td></tr>
 <tr><td style="width: 25%;"><a href="sim.html">normal.lvm</a></td>
 <td>Simulate model</td></tr>
-<tr><td style="width: 25%;"><a href="internal.html">NR</a></td>
-<td>For internal use</td></tr>
+<tr><td style="width: 25%;"><a href="NR.html">NR</a></td>
+<td>Newton-Raphson method</td></tr>
 <tr><td style="width: 25%;"><a href="nsem.html">nsem</a></td>
 <td>Example SEM data (nonlinear)</td></tr>
 </table>
@@ -587,8 +593,6 @@
 <td>Define variables as ordinal</td></tr>
 <tr><td style="width: 25%;"><a href="ordreg.html">ordreg</a></td>
 <td>Univariate cumulative link regression models</td></tr>
-<tr><td style="width: 25%;"><a href="Org.html">Org</a></td>
-<td>Convert object to ascii suitable for org-mode</td></tr>
 </table>
 
 <h2><a name="P">-- P --</a></h2>
@@ -705,7 +709,7 @@
 <td>Remove variables from (model) object.</td></tr>
 <tr><td style="width: 25%;"><a href="rmvar.html">rmvar&lt;-</a></td>
 <td>Remove variables from (model) object.</td></tr>
-<tr><td style="width: 25%;"><a href="internal.html">rmvn</a></td>
+<tr><td style="width: 25%;"><a href="internal.html">rmvn0</a></td>
 <td>For internal use</td></tr>
 <tr><td style="width: 25%;"><a href="children.html">roots</a></td>
 <td>Extract children or parent elements of object</td></tr>
@@ -823,6 +827,8 @@
 <td>Two-stage estimator (non-linear SEM)</td></tr>
 <tr><td style="width: 25%;"><a href="twostage.lvmfit.html">twostage.lvmfit</a></td>
 <td>Two-stage estimator (non-linear SEM)</td></tr>
+<tr><td style="width: 25%;"><a href="twostageCV.html">twostageCV</a></td>
+<td>Cross-validated two-stage estimator</td></tr>
 </table>
 
 <h2><a name="U">-- U --</a></h2>
@@ -868,6 +874,8 @@
 <td>Simulate model</td></tr>
 <tr><td style="width: 25%;"><a href="internal.html">Weights</a></td>
 <td>For internal use</td></tr>
+<tr><td style="width: 25%;"><a href="wkm.html">wkm</a></td>
+<td>Weighted K-means</td></tr>
 <tr><td style="width: 25%;"><a href="wrapvec.html">wrapvec</a></td>
 <td>Wrap vector</td></tr>
 </table>

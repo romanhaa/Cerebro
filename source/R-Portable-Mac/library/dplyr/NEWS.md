@@ -1,3 +1,188 @@
+# dplyr 0.7.8
+
+* Fix return value of `setequal()` for data frames (#3704).
+
+* Remove `as.data.frame.tbl_df()` method for compatibility with R-devel (#3943).
+
+* Bump rlang dependency to 0.3.0.
+
+* Make compatibile with upcoming release of tibble.
+
+* Remove deprecated functions from programming vignette.
+
+* Restore interface of the exported C++ function `build_index_cpp()` for compatibility with the _valr_ package.
+
+# dplyr 0.7.7
+
+* Fix invalid character in `NEWS.md` file.
+
+# dplyr 0.7.6
+
+* `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
+  (#3638).
+
+* The MASS package is explicitly suggested to fix CRAN warnings on R-devel
+  (#3657).
+
+* Set operations like `intersect()` and `setdiff()` reconstruct groups metadata (#3587).
+
+* Using namespaced calls to `base::sort()` and `base::unique()` from C++ code
+  to avoid ambiguities when these functions are overridden (#3644).
+
+* Fix rchk errors (#3693).
+
+# dplyr 0.7.5
+
+## Breaking changes for package developers
+
+* The major change in this version is that dplyr now depends on the selecting
+  backend of the tidyselect package. If you have been linking to
+  `dplyr::select_helpers` documentation topic, you should update the link to
+  point to `tidyselect::select_helpers`.
+
+* Another change that causes warnings in packages is that dplyr now exports the
+  `exprs()` function. This causes a collision with `Biobase::exprs()`. Either
+  import functions from dplyr selectively rather than in bulk, or do not import
+  `Biobase::exprs()` and refer to it with a namespace qualifier.
+
+## Bug fixes
+
+* `distinct(data, "string")` now returns a one-row data frame again. (The
+  previous behavior was to return the data unchanged.)
+
+* `do()` operations with more than one named argument can access `.` (#2998).
+
+* Reindexing grouped data frames (e.g. after `filter()` or `..._join()`)
+  never updates the `"class"` attribute. This also avoids unintended updates
+  to the original object (#3438).
+
+* Fixed rare column name clash in `..._join()` with non-join
+  columns of the same name in both tables (#3266).
+
+*  Fix `ntile()` and `row_number()` ordering to use the locale-dependent
+  ordering functions in R when dealing with character vectors, rather than
+  always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
+
+* Summaries of summaries (such as `summarise(b = sum(a), c = sum(b))`) are
+  now computed using standard evaluation for simplicity and correctness, but
+  slightly slower (#3233).
+
+* Fixed `summarise()` for empty data frames with zero columns (#3071).
+
+## Major changes
+
+* `enexpr()`, `expr()`, `exprs()`, `sym()` and `syms()` are now
+  exported. `sym()` and `syms()` construct symbols from strings or character
+  vectors. The `expr()` variants are equivalent to `quo()`, `quos()` and
+  `enquo()` but return simple expressions rather than quosures. They support
+  quasiquotation.
+
+* dplyr now depends on the new tidyselect package to power `select()`,
+  `rename()`, `pull()` and their variants (#2896). Consequently
+  `select_vars()`, `select_var()` and `rename_vars()` are
+  soft-deprecated and will start issuing warnings in a future version.
+
+  Following the switch to tidyselect, `select()` and `rename()` fully support
+  character vectors. You can now unquote variables like this:
+
+  ```
+  vars <- c("disp", "cyl")
+  select(mtcars, !! vars)
+  select(mtcars, -(!! vars))
+  ```
+
+  Note that this only works in selecting functions because in other contexts
+  strings and character vectors are ambiguous. For instance strings are a valid
+  input in mutating operations and `mutate(df, "foo")` creates a new column by
+  recycling "foo" to the number of rows.
+
+## Minor changes
+
+* Support for raw vector columns in `arrange()`, `group_by()`, `mutate()`,
+  `summarise()` and `..._join()` (minimal `raw` x `raw` support initially) (#1803). 
+
+* `bind_cols()` handles unnamed list (#3402).
+
+* `bind_rows()` works around corrupt columns that have the object bit set
+  while having no class attribute (#3349). 
+
+* `combine()` returns `logical()` when all inputs are `NULL` (or when there
+  are no inputs) (#3365, @zeehio).
+
+*  `distinct()` now supports renaming columns (#3234).
+
+* Hybrid evaluation simplifies `dplyr::foo()` to `foo()` (#3309). Hybrid
+  functions can now be masked by regular R functions to turn off hybrid
+  evaluation (#3255). The hybrid evaluator finds functions from dplyr even if
+  dplyr is not attached (#3456).
+
+* In `mutate()` it is now illegal to use `data.frame` in the rhs (#3298). 
+
+* Support `!!!` in `recode_factor()` (#3390).
+
+* `row_number()` works on empty subsets (#3454).
+
+* `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
+
+* Scoped select and rename functions (`select_all()`, `rename_if()` etc.)
+  now work with grouped data frames, adapting the grouping as necessary
+  (#2947, #3410). `group_by_at()` can group by an existing grouping variable
+  (#3351). `arrange_at()` can use grouping variables (#3332). 
+
+* `slice()` no longer enforce tibble classes when input is a simple
+  `data.frame`, and ignores 0 (#3297, #3313).
+
+* `transmute()` no longer prints a message when including a group variable.
+
+## Documentation
+
+* Improved documentation for `funs()` (#3094) and set operations (e.g. `union()`) (#3238, @edublancas).
+
+## Error messages
+
+* Better error message if dbplyr is not installed when accessing database
+  backends (#3225).
+
+* `arrange()` fails gracefully on `data.frame` columns (#3153).
+
+* Corrected error message when calling `cbind()` with an object of wrong
+  length (#3085).
+
+* Add warning with explanation to `distinct()` if any of the selected columns
+  are of type `list` (#3088, @foo-bar-baz-qux), or when used on unknown columns
+  (#2867, @foo-bar-baz-qux).
+
+* Show clear error message for bad arguments to `funs()` (#3368).
+
+* Better error message in `..._join()` when joining data frames with duplicate
+  or `NA` column names. Joining such data frames with a semi- or anti-join
+  now gives a warning, which may be converted to an error in future versions
+  (#3243, #3417).
+
+* Dedicated error message when trying to use columns of the `Interval`
+  or `Period` classes (#2568).
+
+* Added an `.onDetach()` hook that allows for plyr to be loaded and attached
+  without the warning message that says functions in dplyr will be masked,
+  since dplyr is no longer attached (#3359, @jwnorman).
+
+## Performance
+
+* `sample_n()` and `sample_frac()` on grouped data frame are now faster
+  especially for those with large number of groups (#3193, @saurfang).
+
+## Internal
+
+* Compute variable names for joins in R (#3430).
+
+* Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of `NA`
+  values in hybrid evaluation fixed in RcppCore/Rcpp#790 (#2919).
+
+* Avoid cleaning the data mask, a temporary environment used to evaluate
+  expressions. If the environment, in which e.g. a `mutate()` expression
+  is evaluated, is preserved until after the operation, accessing variables
+  from that environment now gives a warning but still returns `NULL` (#3318).
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
@@ -9,6 +194,9 @@
 * Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
 
 * Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
+* `distinct()` now throws an error when used on unknown columns
+  (#2867, @foo-bar-baz-qux).
+
 
 * Fixed rare out-of-bounds memory write in `slice()` when negative indices beyond the number of rows were involved (#3073).
 
@@ -29,9 +217,11 @@
 * Fixed a crash that occurred when an unexpected input was supplied to
   the `call` argument of `order_by()` (#3065).
 
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
+
 
 # dplyr 0.7.1
 
@@ -52,6 +242,7 @@
 
 * Quosured symbols do not prevent hybrid handling anymore. This should
   fix many performance issues introduced with tidyeval (#2822).
+
 
 # dplyr 0.7.0
 
@@ -1315,7 +1506,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 * `mutate()` works for on zero-row grouped data frame, and
   with list columns (#555).
 
-* `LazySubset` was confused about input data size (#452).
+* `LazySubset` was confused about input data size (#452).
 
 * Internal `n_distinct()` is stricter about it's inputs: it requires one symbol
   which must be from the data frame (#567).

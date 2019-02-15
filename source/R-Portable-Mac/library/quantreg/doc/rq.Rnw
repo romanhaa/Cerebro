@@ -614,7 +614,7 @@ To carry out the test we can either compute the test using the full
 quantile regression process or on a moderately fine grid of taus:
 
 <<label=gastest>>=
-source("gasprice.R")
+data(gasprice)
 x <- gasprice
 n <- length(x)
 p <- 5 # lag length

@@ -1,4 +1,14 @@
-Version 5.4.1 (NOT ON CRAN)
+Version 5.4.2
+    o Add mclustBICupdate() to merge the best values from two BIC results as
+      returned by mclustBIC().
+    o Add mclustLoglik() to compute the maximal log-likelihood values from
+      BIC results as returned by mclustBIC().
+    o Add option type = "level" to plot.densityMclust() and surfacePlot() to
+      draw highest density regions.
+		o Add meXXI() and meXXX() to exported functions.
+		o Updated vignette.
+
+Version 5.4.1
     o Add parametric bootstrap option (type = "pb") in MclustBootstrap().
     o Add the options to get averages of resampling distributions in 
       summary.MclustBootstrap() and to plot resampling-based confidence 

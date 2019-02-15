@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("graphics", "abline", "plot", "title")
+importFrom("stats", "friedman.test", "pchisq", "predict", "qnorm", "rnorm", "runif", "sd")
+import(Matrix)
+import(kernlab)

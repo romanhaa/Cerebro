@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: covr
 Title: Test Coverage for Packages
-Version: 3.1.0
+Version: 3.2.1
 Authors@R: c(
     person("Jim", "Hester", email = "james.f.hester@gmail.com", role = c("aut", "cre")),
     person("Willem", "Ligtenberg", role = "ctb"),
@@ -24,7 +24,13 @@ Authors@R: c(
     person("Ken", "Williams", role = "ctb"),
     person("Chris", "Campbell", role = "ctb"),
     person("David", "Hugh-Jones", role = "ctb"),
-    person("Qin", "Wang", role = "ctb"))
+    person("Qin", "Wang", role = "ctb"),
+    person("Ivan", "Sagalaev", role = c("ctb", "cph"), comment = "highlight.js library"),
+    person("Mark", "Otto", role = "ctb", comment = "Bootstrap library"),
+    person("Jacob", "Thornton", role = "ctb", comment = "Bootstrap library"),
+    person(family = "Bootstrap contributors", role = "ctb", comment = "Bootstrap library"),
+    person(family = "Twitter, Inc", role = "cph", comment = "Bootstrap library")
+    )
 Description: Track and report code coverage for your package and (optionally)
     upload the results to a coverage service like 'Codecov' <http://codecov.io> or
     'Coveralls' <http://coveralls.io>. Code coverage is a measure of the amount of
@@ -37,15 +43,15 @@ BugReports: https://github.com/r-lib/covr/issues
 Depends: R (>= 3.1.0), methods
 Imports: digest, stats, utils, jsonlite, rex, httr, crayon, withr (>=
         1.0.2)
-Suggests: R6, knitr, rmarkdown, shiny (>= 0.11.1), htmltools,
-        htmlwidgets (>= 0.7), DT (>= 0.2), testthat, rstudioapi (>=
-        0.2), xml2 (>= 1.0.0), parallel, memoise, mockery
+Suggests: R6, knitr, rmarkdown, htmltools, DT (>= 0.2), testthat,
+        rstudioapi (>= 0.2), xml2 (>= 1.0.0), parallel, memoise,
+        mockery
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 NeedsCompilation: yes
-Packaged: 2018-05-18 20:07:04 UTC; jhester
+Packaged: 2018-10-18 15:49:20 UTC; jhester
 Author: Jim Hester [aut, cre],
   Willem Ligtenberg [ctb],
   Kirill Müller [ctb],
@@ -67,9 +73,14 @@ Author: Jim Hester [aut, cre],
   Ken Williams [ctb],
   Chris Campbell [ctb],
   David Hugh-Jones [ctb],
-  Qin Wang [ctb]
+  Qin Wang [ctb],
+  Ivan Sagalaev [ctb, cph] (highlight.js library),
+  Mark Otto [ctb] (Bootstrap library),
+  Jacob Thornton [ctb] (Bootstrap library),
+  Bootstrap contributors [ctb] (Bootstrap library),
+  Twitter, Inc [cph] (Bootstrap library)
 Maintainer: Jim Hester <james.f.hester@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-05-18 21:47:54 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-05-19 04:39:19 UTC; unix
+Date/Publication: 2018-10-18 16:40:03 UTC
+Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-10-19 12:18:34 UTC; unix
 Archs: covr.so.dSYM

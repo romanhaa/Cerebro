@@ -1,5 +1,5 @@
 Package: ggplot2
-Version: 3.0.0
+Version: 3.1.0
 Title: Create Elegant Data Visualisations Using the Grammar of Graphics
 Description: A system for 'declaratively' creating graphics,
     based on "The Grammar of Graphics". You provide the data, tell 'ggplot2'
@@ -17,8 +17,8 @@ Authors@R: c(
     )
 Depends: R (>= 3.1)
 Imports: digest, grid, gtable (>= 0.1.1), lazyeval, MASS, mgcv, plyr
-        (>= 1.7.1), reshape2, rlang, scales (>= 0.5.0), stats, tibble,
-        viridisLite, withr (>= 2.0.0)
+        (>= 1.7.1), reshape2, rlang (>= 0.2.1), scales (>= 0.5.0),
+        stats, tibble, viridisLite, withr (>= 2.0.0)
 Suggests: covr, dplyr, ggplot2movies, hexbin, Hmisc, lattice, mapproj,
         maps, maptools, multcomp, munsell, nlme, testthat (>= 0.11.0),
         vdiffr, quantreg, knitr, rgeos, rpart, rmarkdown, sf (>=
@@ -28,7 +28,7 @@ License: GPL-2 | file LICENSE
 URL: http://ggplot2.tidyverse.org, https://github.com/tidyverse/ggplot2
 BugReports: https://github.com/tidyverse/ggplot2/issues
 LazyData: true
-Collate: 'ggproto.r' 'aaa-.r' 'aes-calculated.r'
+Collate: 'ggproto.r' 'ggplot-global.R' 'aaa-.r' 'aes-calculated.r'
         'aes-colour-fill-alpha.r' 'aes-group-order.r'
         'aes-linetype-size-shape.r' 'aes-position.r' 'utilities.r'
         'aes.r' 'legend-draw.r' 'geom-.r' 'annotation-custom.r'
@@ -71,21 +71,21 @@ Collate: 'ggproto.r' 'aaa-.r' 'aes-calculated.r'
         'stat-count.r' 'stat-density-2d.r' 'stat-density.r'
         'stat-ecdf.r' 'stat-ellipse.R' 'stat-function.r'
         'stat-identity.r' 'stat-qq-line.R' 'stat-qq.r'
-        'stat-quantile.r' 'stat-smooth-methods.r' 'stat-smooth.r'
-        'stat-sum.r' 'stat-summary-2d.r' 'stat-summary-bin.R'
-        'stat-summary-hex.r' 'stat-summary.r' 'stat-unique.r'
-        'stat-ydensity.r' 'summarise-plot.R' 'summary.r'
-        'theme-elements.r' 'theme.r' 'theme-defaults.r'
-        'theme-current.R' 'translate-qplot-ggplot.r'
+        'stat-quantile.r' 'stat-sf-coordinates.R'
+        'stat-smooth-methods.r' 'stat-smooth.r' 'stat-sum.r'
+        'stat-summary-2d.r' 'stat-summary-bin.R' 'stat-summary-hex.r'
+        'stat-summary.r' 'stat-unique.r' 'stat-ydensity.r'
+        'summarise-plot.R' 'summary.r' 'theme-elements.r' 'theme.r'
+        'theme-defaults.r' 'theme-current.R' 'translate-qplot-ggplot.r'
         'translate-qplot-lattice.r' 'utilities-break.r'
         'utilities-grid.r' 'utilities-help.r' 'utilities-matrix.r'
         'utilities-resolution.r' 'utilities-table.r'
         'utilities-tidy-eval.R' 'zxx.r' 'zzz.r'
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-07-02 15:13:15 UTC; hadley
+Packaged: 2018-10-24 18:49:13 UTC; hadley
 Author: Hadley Wickham [aut, cre],
   Winston Chang [aut],
   Lionel Henry [aut],
@@ -96,5 +96,5 @@ Author: Hadley Wickham [aut, cre],
   RStudio [cph]
 Maintainer: Hadley Wickham <hadley@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-07-03 17:20:03 UTC
-Built: R 3.5.0; ; 2018-07-04 20:02:42 UTC; unix
+Date/Publication: 2018-10-25 04:30:25 UTC
+Built: R 3.5.0; ; 2018-10-26 12:06:26 UTC; unix

@@ -13,15 +13,19 @@ dashboardHeaderPlus     Create a header for a dashboard page
 dashboardLabel          AdminLTE2 label
 dashboardPagePlus       Dashboard Page with a right sidebar
 descriptionBlock        AdminLTE2 description block
+dropdownBlock           Create a dropdown block to place in a dashboard
+                        header
 dropdownDivider         Create a box dropdown divider
 dropdownItem            Create a box dropdown item
 dropdownItemList        Create a box dropdown item list
+flipBox                 AdminLTE2 flipping box
 gradientBox             AdminLTE2 gradient box
 loadingState            AdminLTE2 loading state element
 menuIcon                AdminLTE2 menu icon item
 menuInfo                AdminLTE2 menu info item
 navPills                AdminLTE2 nav pill container
 navPillsItem            AdminLTE2 nav pill item
+preloader               AdminLTE2 preloader
 productList             AdminLTE2 product list container
 productListItem         AdminLTE2 product item
 rightSidebar            AdminLTE2 dashboard right sidebar
@@ -32,7 +36,10 @@ rightSidebarTabContent
 rightSidebarTabItem     AdminLTE2 right sidebar tab item
 rightSidebarTabList     AdminLTE2 right sidebar tab list
 rigthSidebarPanel       AdminLTE2 wrapper for tab content
+setPulse                Custom pulse animation
 setShadow               Custom shadows
+setShake                Custom shake animation
+setZoom                 Custom zoom
 shinydashboardPlusGallery
                         Launch the shinydashboardPlus Gallery
 socialBox               AdminLTE2 social box

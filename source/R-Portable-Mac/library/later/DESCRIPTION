@@ -1,10 +1,11 @@
 Package: later
 Type: Package
 Title: Utilities for Delaying Function Execution
-Version: 0.7.2
+Version: 0.8.0
 Authors@R: c(
     person("Joe", "Cheng", role = c("aut", "cre"), email = "joe@rstudio.com"),
     person(family = "RStudio", role = "cph"),
+    person("Winston", "Chang", role = c("aut"), email = "winston@rstudio.com"),
     person("Marcus", "Geelnard", role = c("ctb", "cph"), comment = "TinyCThread library, https://tinycthread.github.io/"),
     person("Evan", "Nemerson", role = c("ctb", "cph"), comment = "TinyCThread library, https://tinycthread.github.io/")
     )
@@ -15,19 +16,20 @@ BugReports: https://github.com/r-lib/later/issues
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.12.9), rlang
 LinkingTo: Rcpp, BH
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2018-05-01 18:50:54 UTC; jcheng
+Packaged: 2019-02-11 08:01:33 UTC; jcheng
 Author: Joe Cheng [aut, cre],
   RStudio [cph],
+  Winston Chang [aut],
   Marcus Geelnard [ctb, cph] (TinyCThread library,
     https://tinycthread.github.io/),
   Evan Nemerson [ctb, cph] (TinyCThread library,
     https://tinycthread.github.io/)
 Maintainer: Joe Cheng <joe@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-05-01 22:13:04 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-05-04 09:48:41 UTC; unix
+Date/Publication: 2019-02-11 08:53:37 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-02-12 14:19:49 UTC; unix
 Archs: later.so.dSYM

@@ -1,8 +1,9 @@
 Package: sfsmisc
 Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
-Version: 1.1-2
-Date: 2018-03-04
-Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch")
+Version: 1.1-3
+Date: 2018-11-26
+Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
+	                                 comment = c(ORCID = "0000-0002-8685-9910"))
 	   , person("Werner", "Stahel", role = "ctb",
 	   	   comment = "Functions: compresid2way(), f.robftest(), last(), p.scales(), p.dnorm()")
 	   , person("Andreas", "Ruckstuhl", role = "ctb",
@@ -55,8 +56,8 @@ Encoding: latin1
 ByteCompile: yes
 License: GPL (>= 2)
 NeedsCompilation: no
-Packaged: 2018-03-05 10:04:56 UTC; maechler
-Author: Martin Maechler [aut, cre],
+Packaged: 2018-11-26 13:33:44 UTC; maechler
+Author: Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
   Werner Stahel [ctb] (Functions: compresid2way(), f.robftest(), last(),
     p.scales(), p.dnorm()),
   Andreas Ruckstuhl [ctb] (Functions: p.arrows(), p.profileTraces(),
@@ -84,5 +85,5 @@ Author: Martin Maechler [aut, cre],
   Charles Geyer [ctb],
   Jens Oehlschlägel [ctb]
 Repository: CRAN
-Date/Publication: 2018-03-05 11:38:26 UTC
-Built: R 3.5.0; ; 2018-04-23 04:24:12 UTC; unix
+Date/Publication: 2018-11-27 14:20:03 UTC
+Built: R 3.5.0; ; 2018-11-28 12:56:38 UTC; unix

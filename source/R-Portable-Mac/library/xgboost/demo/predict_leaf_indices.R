@@ -11,10 +11,10 @@ dtrain <- xgb.DMatrix(data = agaricus.train$data, label = agaricus.train$label)
 dtest <- xgb.DMatrix(data = agaricus.test$data, label = agaricus.test$label)
 
 param <- list(max_depth=2, eta=1, silent=1, objective='binary:logistic')
-nround = 4
+nrounds = 4
 
 # training the model for two rounds
-bst = xgb.train(params = param, data = dtrain, nrounds = nround, nthread = 2)
+bst = xgb.train(params = param, data = dtrain, nrounds = nrounds, nthread = 2)
 
 # Model accuracy without new features
 accuracy.before <- sum((predict(bst, agaricus.test$data) >= 0.5) == agaricus.test$label) / length(agaricus.test$label)
@@ -27,12 +27,12 @@ head(pred_with_leaf)
 create.new.tree.features <- function(model, original.features){
   pred_with_leaf <- predict(model, original.features, predleaf = TRUE)
   cols <- list()
-  for(i in 1:length(trees)){
+  for(i in 1:model$niter){
     # max is not the real max but it s not important for the purpose of adding features
     leaf.id <- sort(unique(pred_with_leaf[,i]))
     cols[[i]] <- factor(x = pred_with_leaf[,i], level = leaf.id)
   }
-  cBind(original.features, sparse.model.matrix( ~ . -1, as.data.frame(cols)))
+  cbind(original.features, sparse.model.matrix( ~ . -1, as.data.frame(cols)))
 }
 
 # Convert previous features to one hot encoding
@@ -43,7 +43,7 @@ new.features.test <- create.new.tree.features(bst, agaricus.test$data)
 new.dtrain <- xgb.DMatrix(data = new.features.train, label = agaricus.train$label)
 new.dtest <- xgb.DMatrix(data = new.features.test, label = agaricus.test$label)
 watchlist <- list(train = new.dtrain)
-bst <- xgb.train(params = param, data = new.dtrain, nrounds = nround, nthread = 2)
+bst <- xgb.train(params = param, data = new.dtrain, nrounds = nrounds, nthread = 2)
 
 # Model accuracy with new features
 accuracy.after <- sum((predict(bst, new.dtest) >= 0.5) == agaricus.test$label) / length(agaricus.test$label)

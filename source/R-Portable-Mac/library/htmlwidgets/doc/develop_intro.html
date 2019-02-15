@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-04-18" />
+<meta name="date" content="2018-09-20" />
 
 <title>Introduction to HTML Widgets</title>
 
@@ -259,6 +259,8 @@ code span.st { color: #bf0303; } /* String */
 code span.va { color: #0057ae; } /* Variable */
 code span.vs { color: #bf0303; } /* VerbatimString */
 code span.wa { color: #bf0303; } /* Warning */
+
+
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -316,6 +318,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -326,14 +331,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -344,7 +409,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Introduction to HTML Widgets</h1>
-<h4 class="date"><em>2018-04-18</em></h4>
+<h4 class="date"><em>2018-09-20</em></h4>
 
 </div>
 
@@ -525,7 +590,7 @@ inst/
 <li><p>The optional <code>resize</code> method is called whenever the element containing the widget is resized. The only reason not to implement this method is if your widget naturally scales (without additional JavaScript code needing to be invoked) when its element size changes. In the case of sigma.js, we forward the sizing information on to each of the underlying sigma renderers.</p></li>
 </ol>
 <p>All JavaScript libraries handle initialization, binding to DOM elements, dynamically updating data, and resizing slightly differently. Most of the work on the JavaScript side of creating widgets is mapping these three functions—<code>factory</code>, <code>renderValue</code>, and <code>resize</code>—correctly onto the behavior of the underlying library.</p>
-<p>The sigma.js example uses a simple object literal to create its widget instance object, but you can also use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Custom_objects">class based objects</a> or any other style of object, as long as <code>obj.renderValue(x)</code> and <code>obj.resize(width, height)</code> can be invoked on it.</p>
+<p>The sigma.js example uses a simple object literal to create its widget instance object, but you can also use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">class based objects</a> or any other style of object, as long as <code>obj.renderValue(x)</code> and <code>obj.resize(width, height)</code> can be invoked on it.</p>
 <p>You can add additional methods and properties on the widget instance object. Although they won’t be called by htmlwidgets itself, they might be useful to users of your widget that know some JavaScript and want to further customize your widget by adding custom JS code (e.g. using the <code>htmlwidgets::onRender</code> R function). In this case we add an <code>s</code> property to make the sigma object itself available.</p>
 </div>
 <div id="demo" class="section level3">

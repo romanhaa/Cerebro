@@ -32,7 +32,7 @@ namespace boost {
 
 #if defined(BOOST_CLANG)
 #   pragma clang diagnostic push
-  // #   pragma clang diagnostic ignored "-Wweak-vtables"
+//#   pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
 //////////////////////////////////////////////////////////////////////////
 // class bad_get

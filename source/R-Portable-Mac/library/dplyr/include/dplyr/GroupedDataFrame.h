@@ -13,29 +13,6 @@
 
 namespace dplyr {
 
-inline void check_valid_colnames(const DataFrame& df) {
-  if (df.size()) {
-    CharacterVector names(df.names());
-    LogicalVector dup = duplicated(names);
-    if (any(dup).is_true()) {
-      std::stringstream s;
-      s << "found duplicated column name: ";
-      bool first = true;
-      for (int i = 0; i < df.size(); i++) {
-        if (dup[i] == TRUE) {
-          if (first) {
-            first = false;
-          } else {
-            s << ", ";
-          }
-          s << names[i];
-        }
-      }
-      stop(s.str());
-    }
-  }
-}
-
 class GroupedDataFrame;
 
 class GroupedDataFrameIndexIterator {
@@ -68,11 +45,15 @@ public:
     bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
 
     if (is_lazy) {
-      data_ = build_index_cpp(data_);
+      build_index_cpp_by_ref(data_);
     }
     group_sizes = data_.attr("group_sizes");
     biggest_group_size  = data_.attr("biggest_group_size");
-    labels = data_.attr("labels");
+
+    // attr() and operator= both might allocate (according to rchk),
+    // need to protect
+    RObject labels_attr(data_.attr("labels"));
+    labels = labels_attr;
 
     if (!is_lazy) {
       // check consistency of the groups

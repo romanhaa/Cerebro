@@ -1,5 +1,5 @@
 Package: mgcv
-Version: 1.8-23
+Version: 1.8-27
 Author: Simon Wood <simon.wood@r-project.org>
 Maintainer: Simon Wood <simon.wood@r-project.org>
 Title: Mixed GAM Computation Vehicle with Automatic Smoothness
@@ -7,18 +7,21 @@ Title: Mixed GAM Computation Vehicle with Automatic Smoothness
 Description: Generalized additive (mixed) models, some of their extensions and 
              other generalized ridge regression with multiple smoothing 
              parameter estimation by (Restricted) Marginal Likelihood, 
-             Generalized Cross Validation and similar. Includes a gam() 
-             function, a wide variety of smoothers, JAGS support and 
-             distributions beyond the exponential family.
+             Generalized Cross Validation and similar, or using iterated 
+             nested Laplace approximation for fully Bayesian inference. See 
+             Wood (2017) <doi:10.1201/9781315370279> for an overview. 
+             Includes a gam() function, a wide variety of smoothers, 'JAGS' 
+             support and distributions beyond the exponential family. 
 Priority: recommended
 Depends: R (>= 2.14.0), nlme (>= 3.1-64)
-Imports: methods, stats, graphics, Matrix
-Suggests: splines, parallel, survival, MASS
+Imports: methods, stats, graphics, Matrix, splines, utils
+Suggests: parallel, survival, MASS
 LazyLoad: yes
 ByteCompile: yes
 License: GPL (>= 2)
 NeedsCompilation: yes
-Packaged: 2018-01-08 15:15:43 UTC; sw283
+Packaged: 2019-02-06 10:57:24 UTC; sw283
 Repository: CRAN
-Date/Publication: 2018-01-21 18:59:15 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-24 18:43:04 UTC; unix
+Date/Publication: 2019-02-06 15:00:03 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-02-07 14:41:40 UTC; unix
+Archs: mgcv.so.dSYM

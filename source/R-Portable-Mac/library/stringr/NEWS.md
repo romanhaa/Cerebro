@@ -1,3 +1,28 @@
+# stringr 1.4.0
+
+* `str_interp()` now renders lists consistently independent on the presence of
+  additional placeholders (@amhrasmussen).
+
+* New `str_starts()` and `str_ends()` functions to detect patterns at the 
+  beginning or end of strings (@jonthegeek, #258).
+
+* `str_subset()`, `str_detect()`, and `str_which()` get `negate` argument,
+  which is useful when you want the elements that do NOT match (#259,
+  @yutannihilation).
+  
+* New `str_to_sentence()` function to capitalize with sentence case 
+  (@jonthegeek, #202).
+
+# stringr 1.3.1
+
+* `str_replace_all()` with a named vector now respects modifier functions (#207)
+
+* `str_trunc()` is once again vectorised correctly (#203, @austin3dickey).
+
+* `str_view()` handles `NA` values more gracefully (#217). I've also
+  tweaked the sizing policy so hopefully it should work better in notebooks,
+  while preserving the existing behaviour in knit documents (#232).
+
 # stringr 1.3.0
 
 ## API changes

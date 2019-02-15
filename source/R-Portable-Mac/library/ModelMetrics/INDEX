@@ -3,6 +3,9 @@ brier                   Brier Score
 ce                      Classification error
 confusionMatrix         Confusion Matrix
 f1Score                 F1 Score
+fScore                  F Score
+gini                    GINI Coefficient
+kappa                   kappa statistic
 logLoss                 Log Loss
 mae                     Mean absolute error
 mauc                    Multiclass Area Under the Curve
@@ -11,7 +14,7 @@ mlogLoss                Multiclass Log Loss
 mse                     Mean Square Error
 msle                    Mean Squared Log Error
 npv                     Negative Predictive Value
-ppv                     Postive Predictive Value
+ppv                     Positive Predictive Value
 recall                  Recall, Sensitivity, tpr
 rmse                    Root-Mean Square Error
 rmsle                   Root Mean Squared Log Error

@@ -1,5 +1,47 @@
 # -*- mode: org -*-
 
+* Version 1.6.5 <2019-02-07 Thu>
+
+  - Maintenance release
+
+* Version 1.6.4 <2018-11-18 Mon>
+  - New simulation distributions: constant relative risk and risk
+    difference models as in Richardson, Robins and Wang, 2017):
+    binomial.rd, binomial.rr.  
+    Base on new hook 'simulate.multiple.inputs' which allows the
+    distribution to depend non-linearly on multiple different input
+    variables.
+  - sim.lvm: 'X' argument can now fix (manipulate) any variable and not
+    only exogenous variables.
+  - Summary function for sim.default updated (the 'estimate' argument
+    can now be a list with each element being the estimate position
+    and optionally standard error and true value).
+  - Starting values updated for mixture models. The parameter names
+    can be obtained with mixture(...,names=TRUE) and set with
+    mixture(...,control=list(start=...))).
+  - Naming conventions for multigroup parameters: 'par@g' (par: name
+    of parameter, g: first group number where 'par' is
+    observed). Starting values can be specified with
+    estimate(...,control(list(start=...))).
+  - New print and summary methods for mixture models.  
+  - Renamed (weighted) K-means function 'km' to 'wkm'.
+  - Derivative method deriv.function based on complex step derivatives.
+  - twostageCV: estimation of mixture models are now parallelized if
+    mc.cores>1.
+
+* Version 1.6.3 <2018-08-03 Fri>
+  - Fixed problems with plots (Rgraphviz)
+  - Better print method for twostageCV
+  - Improved M-step in mixture.method
+
+* Version 1.6.2 <2018-07-02 Mon>
+  - twostageCV: cross-validate two-stage estimator
+  - rmvn, dmvn moved to mets package (C++ implementation, old versions
+    renamed to lava::rmvn0, lava::dmvn0)
+  - mediation proportion handled correctly when direct effect is zero
+  - unit tests clean-up (namespace)
+  - merge.lvm now correctly handles fixed covariance parameters
+
 * Version 1.6.1 <2018-03-28 Wed>
   - Newton-raphson algorithm made more robust.
   - New sim.as method. plot.sim method now by default only plots

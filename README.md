@@ -118,6 +118,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * Is is ok to use `require()` in this case?
   * What skills are necessary for RStudio employees?
   * Idea to speed up plots with so many cells?
+* [ ] File extensions for info files: `.R`.
 
 ## Changelog
 

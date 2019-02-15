@@ -84,9 +84,13 @@ mclust1Dplot            Plot one-dimensional data modeled by an MVN
 mclust2Dplot            Plot two-dimensional data modelled by an MVN
                         mixture.
 mclustBIC               BIC for Model-Based Clustering
+mclustBICupdate         Update BIC values for parameterized Gaussian
+                        mixture models
 mclustBootstrapLRT      Bootstrap Likelihood Ratio Test for the Number
                         of Mixture Components
 mclustICL               ICL Criterion for Model-Based Clustering
+mclustLoglik            Log-likelihood from a table of BIC values for
+                        parameterized Gaussian mixture models
 mclustModel             Best model based on BIC
 mclustModelNames        MCLUST Model Names
 mclustVariance          Template for variance specification for

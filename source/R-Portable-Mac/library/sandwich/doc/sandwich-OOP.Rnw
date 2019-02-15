@@ -620,7 +620,7 @@ Table~22.3 in \cite{hac:Greene:2003} provides the parameter estimates and corres
 standard errors of a tobit model (for the number of affairs) and a probit model
 (for infidelity as a binary variable). In \proglang{R}, these models can be
 fitted using \code{tobit()} from \pkg{AER} 
-\citep[a convenience interface to \code{survreg()} from the \pkg{survival} package by][]{hac:Thernau+Lumley:2008}
+\citep[a convenience interface to \code{survreg()} from the \pkg{survival} package by][]{hac:Therneau:2018}
 and \code{glm()}, respectively:
 
 <<>>=

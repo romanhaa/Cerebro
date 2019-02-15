@@ -4,7 +4,6 @@ beamer_presentation	beamer_presentation
 clean_site	render_site
 compile_notebook	compile_notebook
 default_output_format	default_output_format
-default_site	render_site
 default_site_generator	render_site
 draft	draft
 find_external_resources	find_external_resources
@@ -52,6 +51,7 @@ pandoc_args	pandoc_args
 pandoc_available	pandoc_available
 pandoc_citeproc_convert	pandoc_citeproc_convert
 pandoc_convert	pandoc_convert
+pandoc_exec	pandoc_exec
 pandoc_highlight_args	pandoc_args
 pandoc_include_args	pandoc_args
 pandoc_latex_engine_args	pandoc_args

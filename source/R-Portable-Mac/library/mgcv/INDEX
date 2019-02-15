@@ -1,3 +1,4 @@
+FFdes                   Level 5 fractional factorial designs
 Predict.matrix          Prediction methods for smooth terms in a GAM
 Predict.matrix.cr.smooth
                         Predict matrix method functions
@@ -22,6 +23,7 @@ bandchol                Choleski decomposition of a band diagonal
 betar                   GAM beta regression family
 bug.reports.mgcv        Reporting mgcv bugs.
 cSplineDes              Evaluate cyclic B spline basis
+choldrop                Deletion and rank one Cholesky factor update
 choose.k                Basis dimension choice for smooths
 columb                  Reduced version of Columbus OH crime data
 concurvity              GAM concurvity measures
@@ -76,6 +78,8 @@ get.var                 Get named variable or evaluate expression from
                         list or data.frame
 gevlss                  Generalized Extreme Value location-scale model
                         family
+ginla                   GAM Integrated Nested Laplace Approximation
+                        Newton Enhanced
 identifiability         Identifiability constraints
 in.out                  Which of a set of points lie within a polygon
                         defined region
@@ -87,12 +91,13 @@ initial.sp              Starting values for multiple smoothing
 interpret.gam           Interpret a GAM formula
 jagam                   Just Another Gibbs Additive Modeller: JAGS
                         support for mgcv.
+k.check                 Checking smooth basis dimension
 ldTweedie               Log Tweedie density evaluation
 ldetS                   Getting log generalized determinant of penalty
                         matrices
 linear.functional.terms
                         Linear functionals of a smooth in GAMs
-logLik.gam              Log likelihood for a fitted GAM, for AIC
+logLik.gam              AIC and Log likelihood for a fitted GAM
 ls.size                 Size of list elements
 magic                   Stable Multiple Smoothing Parameter Estimation
                         by GCV or UBRE
@@ -197,6 +202,7 @@ totalPenaltySpace       Obtaining (orthogonal) basis for null space and
 trichol                 Choleski decomposition of a tri-diagonal matrix
 trind.generator         Generates index arrays for upper triangular
                         storage
+twlss                   Tweedie location scale family
 uniquecombs             find the unique rows in a matrix
 vcov.gam                Extract parameter (estimator) covariance matrix
                         from GAM fit

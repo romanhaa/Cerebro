@@ -1,8 +1,8 @@
 Package: shinyFiles
 Type: Package
 Title: A Server-Side File System Viewer for Shiny
-Version: 0.7.1
-Date: 2018-09-17
+Version: 0.7.2
+Date: 2018-11-12
 Authors@R: 
     c(person(given = "Thomas Lin",
              family = "Pedersen",
@@ -10,6 +10,9 @@ Authors@R:
              email = "thomasp85@gmail.com"),
       person(given = "Vincent",
              family = "Nijs",
+             role = "aut"),
+      person(given = "Thomas",
+             family = "Schaffner",
              role = "aut"),
       person(given = "Eric",
              family = "Nantz",
@@ -30,10 +33,11 @@ RoxygenNote: 6.1.0
 URL: https://github.com/thomasp85/shinyFiles
 BugReports: https://github.com/thomasp85/shinyFiles/issues
 NeedsCompilation: no
-Packaged: 2018-09-17 20:26:44 UTC; thomas
+Packaged: 2018-11-12 10:14:50 UTC; thomas
 Author: Thomas Lin Pedersen [cre, aut],
   Vincent Nijs [aut],
+  Thomas Schaffner [aut],
   Eric Nantz [aut]
 Repository: CRAN
-Date/Publication: 2018-09-18 08:50:03 UTC
-Built: R 3.5.0; ; 2018-09-25 07:50:35 UTC; unix
+Date/Publication: 2018-11-12 10:40:03 UTC
+Built: R 3.5.0; ; 2018-11-13 14:46:55 UTC; unix

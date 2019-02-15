@@ -7,14 +7,14 @@ citEntry(entry = "Article",
                              person(given=c("Thomas", "Brendan"), family="Murphy"),
                              person(given=c("Adrian", "E."), family="Raftery")),
   journal = "The {R} Journal",
-  year = "2017",
+  year = "2016",
   volume = "8",
   number = "1",
   pages = "205--233",
-  url="https://journal.r-project.org/archive/2017/RJ-2017-008/RJ-2017-008.pdf",
+  url="https://journal.r-project.org/archive/2016-1/scrucca-fop-murphy-etal.pdf",
   #
   textVersion =
-  paste("Scrucca L., Fop M., Murphy T. B. and Raftery A. E. (2017)",
+  paste("Scrucca L., Fop M., Murphy T. B. and Raftery A. E. (2016)",
         "mclust 5: clustering, classification and density estimation using Gaussian finite mixture models",
         "The R Journal", 
         "8/1, pp. 205-233"))

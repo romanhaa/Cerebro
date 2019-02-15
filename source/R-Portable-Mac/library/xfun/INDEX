@@ -2,6 +2,8 @@ Rscript                 Run the commands 'Rscript' and 'R CMD'
 attr                    Obtain an attribute of an object without
                         partial matching
 download_file           Try various methods to download a file
+embed_file              Embed a file, multiple files, or directory on
+                        an HTML page
 file_ext                Manipulate filename extensions
 file_string             Read a text file and concatenate the lines by
                         "\n"

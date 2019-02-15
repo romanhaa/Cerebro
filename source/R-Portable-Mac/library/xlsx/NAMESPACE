@@ -1,3 +1,8 @@
 import(rJava)
 import("xlsxjars")
 exportPattern("^[^\\.]")
+S3method(CellBlock,default)
+S3method(CellStyle,default)
+S3method("+",CellStyle)
+importFrom("grDevices", "col2rgb")
+importFrom("utils", "unzip", "zip")

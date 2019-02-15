@@ -10,10 +10,10 @@
 namespace dplyr {
 
 static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
-  std::vector<std::string> x_classes, inherited_classes;
-  if (!OBJECT(x)) {
-    return false;
+  if (Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+    return true;
   }
+  std::vector<std::string> x_classes, inherited_classes;
   x_classes = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
   std::sort(x_classes.begin(), x_classes.end());
   std::set_intersection(x_classes.begin(), x_classes.end(),
@@ -44,9 +44,8 @@ static bool is_class_known(SEXP x) {
 static inline void warn_loss_attr(SEXP x) {
   /* Attributes are lost with unknown classes */
   if (!is_class_known(x)) {
-    SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
     Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-               CHAR(STRING_ELT(classes, 0)));
+               CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0)));
   }
 }
 
@@ -272,6 +271,46 @@ protected:
 
 };
 
+template <>
+class Collecter_Impl<RAWSXP> : public Collecter {
+public:
+  Collecter_Impl(int n_): data(n_, (Rbyte)0) {}
+
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
+    warn_loss_attr(v);
+    RawVector source(v);
+    Rbyte* source_ptr = source.begin() + offset;
+    for (int i = 0; i < index.size(); i++) {
+      data[index[i]] = source_ptr[i];
+    }
+  }
+
+  inline SEXP get() {
+    return data;
+  }
+
+  inline bool compatible(SEXP x) {
+    return TYPEOF(x) == RAWSXP ;
+  }
+
+  bool can_promote(SEXP x) const {
+    return
+      (TYPEOF(x) == REALSXP && !Rf_inherits(x, "POSIXct") && !Rf_inherits(x, "Date")) ||
+      (TYPEOF(x) == INTSXP  && !Rf_inherits(x, "factor"))
+      ;
+  }
+
+  std::string describe() const {
+    return "raw";
+  }
+
+protected:
+  RawVector data;
+
+};
+
+
+
 template <int RTYPE>
 class TypedCollecter : public Collecter_Impl<RTYPE> {
 public:
@@ -405,7 +444,9 @@ private:
     if (!is_valid_difftime(v)) {
       stop("Invalid difftime object");
     }
-    std::string v_units = Rcpp::as<std::string>(v.attr("units"));
+    // attr() might allocate (according to rchk), need to protect
+    RObject units_attr(v.attr("units"));
+    std::string v_units = Rcpp::as<std::string>(units_attr);
     if (!get_units_map().is_valid_difftime_unit(units)) {
       // if current unit is NULL, grab the new one
       units = v_units;
@@ -619,6 +660,8 @@ inline Collecter* collecter(SEXP model, int n) {
       stop("Columns of class data.frame not supported");
     }
     return new Collecter_Impl<VECSXP>(n);
+  case RAWSXP:
+    return new Collecter_Impl<RAWSXP>(n);
   default:
     break;
   }

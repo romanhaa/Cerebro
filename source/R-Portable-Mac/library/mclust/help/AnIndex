@@ -142,6 +142,7 @@ mclust.options	mclust.options
 mclust1Dplot	mclust1Dplot
 mclust2Dplot	mclust2Dplot
 mclustBIC	mclustBIC
+mclustBICupdate	mclustBICupdate
 MclustBootstrap	MclustBootstrap
 mclustBootstrapLRT	mclustBootstrapLRT
 MclustDA	MclustDA
@@ -152,6 +153,7 @@ MclustDRsubsel1cycle	MclustDRsubsel
 MclustDRsubsel_classif	MclustDRsubsel
 MclustDRsubsel_cluster	MclustDRsubsel
 mclustICL	mclustICL
+mclustLoglik	mclustLoglik
 mclustModel	mclustModel
 mclustModelNames	mclustModelNames
 mclustVariance	mclustVariance
@@ -240,6 +242,7 @@ print.MclustDA	MclustDA
 print.MclustDR	MclustDR
 print.MclustDRsubsel	MclustDRsubsel
 print.mclustICL	mclustICL
+print.mclustLoglik	mclustLoglik
 print.summary.clustCombi	clustCombi
 print.summary.gmmhd	gmmhd
 print.summary.Mclust	summary.Mclust

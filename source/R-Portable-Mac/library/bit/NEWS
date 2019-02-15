@@ -1,3 +1,12 @@
+        CHANGES IN bit VERSION 1.1-14
+
+BUG FIXES
+
+    o bit[i] and bit[i]<-v now check for non-positive integers
+      which prevents a segfault when bit[NA] or bit[NA]<-v
+
+
+
         CHANGES IN bit VERSION 1.1-13
 
 USER VISIBLE CHANGES

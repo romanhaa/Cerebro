@@ -1421,3 +1421,21 @@ Galvao job market talk.
 
 1.  added an iid argument to anova.rq and friends to allow one to specify iid
 = FALSE when using rank tests, at the suggestion of Brian Cade.
+
+5.37
+
+1.  added a R=R argument to the call to summary in anova.rqlist so that
+changes in the bootstrap replications get passed along as intended, again at
+the suggestion of Brian Cade.
+
+2.  removed init.c and mcmb.c from the src directory:  the former was left
+over from some C-ification of some code done by Martin Maechler long ago,
+that I have gradually undone, the latter is Xuming's Markov chain marginal
+bootstrap code that I would hope to reinstate, but at the moment I have
+problems with an unresolved header file.
+
+5.38
+
+1.  changed if (any(b < 0 || b > 1)) to if (any(b < 0) || any(b > 1))
+in barycentric() in response to CRAN Debian ERROR.  Is this something
+new?

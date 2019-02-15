@@ -1,10 +1,10 @@
 ---
-title: "Introduction to msigdbr"
+title: "Introduction to the msigdbr package"
 output:
   rmarkdown::html_vignette:
     keep_md: true
 vignette: >
-  %\VignetteIndexEntry{Introduction to msigdbr}
+  %\VignetteIndexEntry{Introduction to the msigdbr package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,21 +14,31 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+# increase the screen width
 options(width = 90)
+# reduce the minimum number of characters for the tibble column titles
+options(pillar.min_title_chars = 8)
 ```
 
 ## Overview
 
-Most people who work with genomic data are eventually tasked with performing pathway analysis.
-The majority of pathways analysis software tools are R-based.
+Performing pathway analysis is a common task in genomics and there are many available software tools, many of which are R-based.
 Depending on the tool, it may be necessary to import the pathways into R, translate genes to the appropriate species, convert between symbols and IDs, and format the object in the required way.
 
-The goal of `msigdbr` is to provide MSigDB gene sets:
+The `msigdbr` R package provides Molecular Signatures Database (MSigDB) gene sets typically used with the Gene Set Enrichment Analysis (GSEA) software:
 
-* for various frequently studied model organisms
 * in an R-friendly format (a data frame in a "long" format with one gene per row)
-* as both gene symbols and Entrez Gene IDs
-* that can be used and shared in a script without requiring additional files
+* for multiple frequently studied model organisms (human, mouse, rat, pig, fly, yeast, etc.)
+* as both gene symbols and Entrez Gene IDs (for better compatibility with pathway enrichment tools)
+* that can be used in a script without requiring additional external files
+
+## Installation
+
+The package can be installed from CRAN.
+
+```{r install-package, eval=FALSE}
+install.packages("msigdbr")
+```
 
 ## Usage
 
@@ -38,7 +48,7 @@ Load package.
 library(msigdbr)
 ```
 
-Check the species available in the database.
+Check the available species.
 
 ```{r show-species}
 msigdbr_show_species()
@@ -58,10 +68,18 @@ m_df = msigdbr(species = "Mus musculus", category = "H")
 head(m_df)
 ```
 
-The gene sets data frame can also be manipulated manually.
+Retrieve mouse C2 (curated) CGP (chemical and genetic perturbations) gene sets.
+
+```{r get-mouse-c2}
+m_df = msigdbr(species = "Mus musculus", category = "C2", subcategory = "CGP")
+head(m_df)
+```
+
+The `msigdbr()` function output can also be manipulated as a standard data frame.
 
 ```{r get-mouse-h-filter}
 m_df = msigdbr(species = "Mus musculus") %>% dplyr::filter(gs_cat == "H")
+head(m_df)
 ```
 
 ## Integrating with Pathway Analysis Packages
@@ -91,14 +109,15 @@ fgsea(pathways = m_list, ...)
 
 Which version of MSigDB was used?
 
-> This package was generated with MSigDB v6.1 (released October 2017).
-> The MSigDB version is used as the base of the package version. You can check with `packageVersion("msigdbr")`.
+> This package was generated with MSigDB v6.2 (released July 2018).
+> The MSigDB version is used as the base of the package version.
+> You can check the installed version with `packageVersion("msigdbr")`.
 
 Can't I just download the gene sets from MSigDB?
 
 > Yes.
-> You can then import the GMTs with something like `getGmt()` from the `GSEABase` package.
-> Only human genes are available, even for gene sets generated with mouse data.
+> You can then import the GMT files with `getGmt()` from the `GSEABase` package.
+> The GMTs only include the human genes, even for gene sets generated from mouse data.
 > If you are not working with human data, you then have to convert the MSigDB genes to your organism or your genes to human.
 
 Can't I just convert between human and mouse genes by adjusting gene capitalization?
@@ -115,9 +134,9 @@ Aren't there already other similar tools?
 
 > There are a few other resources that and provide some of the functionality and served as an inspiration for this package.
 > [Ge Lab Gene Set Files](http://ge-lab.org/#/data) has GMT files for many species.
-> According the log, it was last updated in 2013 (as of April 2018) so the gene sets may be outdated.
-> [WEHI](http://bioinf.wehi.edu.au/software/MSigDB/) provides MSigDB gene sets in R format for human and mouse, but the genes are provided only as Entrez IDs, each collection is a separate file, and the database is not actively maintained (last updated in October 2016 as of April 2018).
-> [MSigDF](https://github.com/stephenturner/msigdf) is based on the WEHI resource, so it provides the same data, but it is converted to a more tidyverse-friendly data frame.
+> [WEHI](http://bioinf.wehi.edu.au/software/MSigDB/) provides MSigDB gene sets in R format for human and mouse, but the genes are provided only as Entrez IDs and each collection is a separate file.
+> [MSigDF](https://github.com/stephenturner/msigdf) is based on the WEHI resource, so it provides the same data, but converted to a more tidyverse-friendly data frame.
+> When `msigdbr` was initially released, all of them were multiple releases behind the latest version of MSigDB, so they are possibly no longer maintained.
 
 ## Details
 

@@ -1,72 +1,72 @@
-## ---- eval=FALSE---------------------------------------------------------
+## ----setup, include=FALSE-----------------------
+knitr::opts_chunk$set(cache=TRUE)
+library(Rcpp)
+library(inline)
+options("width"=50, digits=5)
+
+## ---- eval=FALSE--------------------------------
 #  vignette("Rcpp-jss-2011")
 #  vignette("Rcpp-introduction")
 #  vignette("Rcpp-attributes")
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------
 #  vignette("Rcpp-package")
 
-## ---- eval = FALSE-------------------------------------------------------
-#  fx <- cxxfunction(signature(x = "numeric"),
-#      'NumericVector xx(x);
-#       return wrap(
-#                std::accumulate(xx.begin(),
-#                                xx.end(),
-#                                0.0)
-#              );',
-#      plugin = "Rcpp")
-#  res <- fx(seq(1, 10, by=0.5))
-#  res
+## -----------------------------------------------
+fx <- cxxfunction(signature(x = "numeric"),
+    'NumericVector xx(x);
+     return wrap(
+              std::accumulate(xx.begin(),
+                              xx.end(),
+                              0.0)
+            );',
+    plugin = "Rcpp")
+res <- fx(seq(1, 10, by=0.5))
+res
 
-## ---- eval = FALSE, echo=FALSE-------------------------------------------
-#  stopifnot(identical(res, sum(seq(1, 10, by=0.5))))
-
-## ---- eval = FALSE-------------------------------------------------------
-#  list.files( system.file( "unitTests", package = "Rcpp" ), pattern = "^runit[.]" )
-
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------
 #  fx <- cxxfunction(signature(),
 #                    paste(readLines("myfile.cpp"),
 #                          collapse="\n"),
 #                    plugin = "Rcpp")
 
-## ---- eval = FALSE-------------------------------------------------------
-#  cppFunction('double accu(NumericVector x) {
-#     return(
-#        std::accumulate(x.begin(), x.end(), 0.0)
-#     );
-#  }')
-#  res <- accu(seq(1, 10, by=0.5))
-#  res
+## -----------------------------------------------
+cppFunction('double accu(NumericVector x) {
+   return(
+      std::accumulate(x.begin(), x.end(), 0.0)
+   );
+}')
+res <- accu(seq(1, 10, by=0.5))
+res
 
-## ---- eval = FALSE-------------------------------------------------------
-#  inc <- 'template <typename T>
-#          class square :
-#            public std::unary_function<T,T> {
-#              public:
-#                T operator()( T t) const {
-#                  return t*t;
-#                }
-#          };
-#         '
-#  
-#  src <- '
-#         double x = Rcpp::as<double>(xs);
-#         int i = Rcpp::as<int>(is);
-#         square<double> sqdbl;
-#         square<int> sqint;
-#         return Rcpp::DataFrame::create(
-#                      Rcpp::Named("x", sqdbl(x)),
-#                      Rcpp::Named("i", sqint(i)));
-#         '
-#  fun <- cxxfunction(signature(xs="numeric",
-#                               is="integer"),
-#                     body=src, include=inc,
-#                     plugin="Rcpp")
-#  
-#  fun(2.2, 3L)
+## -----------------------------------------------
+inc <- 'template <typename T>
+        class square :
+          public std::unary_function<T,T> {
+            public:
+              T operator()( T t) const {
+                return t*t;
+              }
+        };
+       '
 
-## ---- eval = FALSE-------------------------------------------------------
+src <- '
+       double x = Rcpp::as<double>(xs);
+       int i = Rcpp::as<int>(is);
+       square<double> sqdbl;
+       square<int> sqint;
+       return Rcpp::DataFrame::create(
+                    Rcpp::Named("x", sqdbl(x)),
+                    Rcpp::Named("i", sqint(i)));
+       '
+fun <- cxxfunction(signature(xs="numeric",
+                             is="integer"),
+                   body=src, include=inc,
+                   plugin="Rcpp")
+
+fun(2.2, 3L)
+
+## ---- eval = FALSE------------------------------
 #  lines = '// copy the data to armadillo structures
 #  arma::colvec x = Rcpp::as<arma::colvec> (x_);
 #  arma::mat Y = Rcpp::as<arma::mat>(Y_) ;
@@ -82,7 +82,7 @@
 #  
 #  writeLines(a, file = "myfile.cpp")
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------
 #  fx <- cxxfunction(signature(x_="numeric",
 #                              Y_="matrix",
 #                              z_="numeric" ),
@@ -91,36 +91,36 @@
 #                    plugin="RcppArmadillo" )
 #  fx(1:4, diag(4), 1:4)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  fx <- cxxfunction(signature(),
-#                    'RNGScope();
-#                     return rnorm(5, 0, 100);',
-#                    plugin="Rcpp")
-#  set.seed(42)
-#  fx()
-#  fx()
+## -----------------------------------------------
+fx <- cxxfunction(signature(),
+                  'RNGScope();
+                   return rnorm(5, 0, 100);',
+                  plugin="Rcpp")
+set.seed(42)
+fx()
+fx()
 
-## ---- eval = FALSE-------------------------------------------------------
-#  cppFunction('Rcpp::NumericVector ff(int n) {
-#                return rnorm(n, 0, 100);  }')
-#  set.seed(42)
-#  ff(5)
-#  ff(5)
-#  set.seed(42)
-#  rnorm(5, 0, 100)
-#  rnorm(5, 0, 100)
+## -----------------------------------------------
+cppFunction('Rcpp::NumericVector ff(int n) {
+              return rnorm(n, 0, 100);  }')
+set.seed(42)
+ff(5)
+ff(5)
+set.seed(42)
+rnorm(5, 0, 100)
+rnorm(5, 0, 100)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  src <- 'Rcpp::NumericVector v(4);
-#          v[0] = R_NegInf; // -Inf
-#          v[1] = NA_REAL;  // NA
-#          v[2] = R_PosInf; // Inf
-#          v[3] = 42;       // c.f. Hitchhiker Guide
-#          return Rcpp::wrap(v);'
-#  fun <- cxxfunction(signature(), src, plugin="Rcpp")
-#  fun()
+## -----------------------------------------------
+src <- 'Rcpp::NumericVector v(4);
+        v[0] = R_NegInf; // -Inf
+        v[1] = NA_REAL;  // NA
+        v[2] = R_PosInf; // Inf
+        v[3] = 42;       // c.f. Hitchhiker Guide
+        return Rcpp::wrap(v);'
+fun <- cxxfunction(signature(), src, plugin="Rcpp")
+fun()
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------
 #  txt <- 'arma::mat Am = Rcpp::as< arma::mat >(A);
 #          arma::mat Bm = Rcpp::as< arma::mat >(B);
 #          return Rcpp::wrap( Am * Bm );'
@@ -131,13 +131,9 @@
 #  A <- matrix(1:9, 3, 3)
 #  B <- matrix(9:1, 3, 3)
 #  C <- mmult(A, B)
+#  C
 
-## ----eval=FALSE----------------------------------------------------------
-#  A <- matrix(1:9, 3, 3)
-#  B <- matrix(9:1, 3, 3)
-#  A %*% B
-
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------
 #  # simple example of seeding RNG and
 #  # drawing one random number
 #  gslrng <- '
@@ -161,7 +157,7 @@
 #                     gslrng, plugin="gslDemo")
 #  fun(0)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------
 #  myplugin <- getPlugin("Rcpp")
 #  myplugin$env$PKG_CXXFLAGS <- "-std=c++11"
 #  f <- cxxfunction(signature(),
@@ -172,7 +168,7 @@
 #  ')
 #  f()
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------
 #  src <- '
 #    Rcpp::NumericMatrix x(2,2);
 #    x.fill(42);           // or another value
@@ -189,7 +185,7 @@
 #                     body=src, plugin="Rcpp")
 #  fun()
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------
 #  BigInts <- cxxfunction(signature(),
 #    'std::vector<long> bigints;
 #     bigints.push_back(12345678901234567LL);
@@ -207,45 +203,47 @@
 #  
 #  stopifnot(length(unique(retval)) == 2)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  a <- 1.5:4.5
-#  b <- 1.5:4.5
-#  implicit_ref(a)
-#  a
-#  explicit_ref(b)
-#  b
+## -----------------------------------------------
+a <- 1.5:4.5
+b <- 1.5:4.5
+implicit_ref(a)
+a
+explicit_ref(b)
+b
 
-## ---- eval=FALSE---------------------------------------------------------
-#  a <- 1:5
-#  b <- 1:5
-#  class(a)
-#  int_vec_type(a)
-#  a
-#  num_vec_type(b)
-#  b
+## -----------------------------------------------
+a <- 1:5
+b <- 1:5
+class(a)
+int_vec_type(a)
+a # variable a changed as a side effect
+num_vec_type(b)
+b # b unchanged as copy was made for numeric
 
-## ---- eval=FALSE---------------------------------------------------------
-#  x <- 1:10
-#  const_override_ex(x)
-#  x
+## -----------------------------------------------
+x <- 1:10    # an integer sequence
+# returning an altered value
+const_override_ex(x)
+# but the original value is altered too!
+x
 
-## ---- eval=FALSE---------------------------------------------------------
-#  vec_scalar_assign(5L, 3.14)
+## -----------------------------------------------
+vec_scalar_assign(5L, 3.14)
 
-## ---- eval=FALSE---------------------------------------------------------
-#  mat_scalar_assign(2L, 3.0)
+## -----------------------------------------------
+mat_scalar_assign(2L, 3.0)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  test_long_vector_support()
+## -----------------------------------------------
+test_long_vector_support()
 
-## ---- eval=FALSE---------------------------------------------------------
-#  set.seed(123)
-#  (X <- sample(c(LETTERS[1:5], letters[1:6]), 11))
-#  preferred_sort(X)
-#  stl_sort(X)
+## -----------------------------------------------
+set.seed(123)
+(X <- sample(c(LETTERS[1:5], letters[1:6]), 11))
+preferred_sort(X)
+stl_sort(X)
 
-## ---- eval=FALSE---------------------------------------------------------
-#  x <- c("B", "b", "c", "A", "a")
-#  sort(x)
-#  rcpp_sort(x)
+## -----------------------------------------------
+x <- c("B", "b", "c", "A", "a")
+sort(x)
+rcpp_sort(x)
 

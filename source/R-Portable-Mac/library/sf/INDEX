@@ -27,8 +27,10 @@ geos_unary              Geometric unary operations on simple feature
 internal                Internal functions
 is_driver_available     Check if driver is available
 is_driver_can           Check if a driver can perform an action
+is_geometry_column      Check if the columns could be of a coercable
+                        type for sf
 merge.sf                merge method for sf and data.frame object
-plot                    Plot sf object
+plot                    plot sf object
 prefix_map              Map prefix to driver
 rawToHex                Convert raw vector(s) into hexadecimal
                         character string(s)
@@ -77,8 +79,10 @@ st_jitter               jitter geometries
 st_join                 spatial left or inner join
 st_layers               List layers in a datasource
 st_line_sample          Sample points on a linear geometry
-st_make_grid            Make a rectangular grid over the bounding box
-                        of a sf or sfc object
+st_make_grid            Create a regular tesselation over the bounding
+                        box of an sf or sfc object
+st_nearest_feature      get index of nearest feature
+st_nearest_points       get nearest points between pairs of geometries
 st_precision            Get precision
 st_read                 Read simple features or layers from file or
                         database

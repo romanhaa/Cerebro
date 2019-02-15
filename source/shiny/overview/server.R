@@ -50,7 +50,7 @@ output$overview_UI <- renderUI({
       label = "Point size",
       min = 0,
       max = 50,
-      value = 40,
+      value = 10,
       step = 1
     ),
     checkboxInput(
@@ -271,8 +271,6 @@ output$overview_projection_plotly <- plotly::renderPlotly({
   # define variable used to color cells by
   col_var <- to_plot[ , input$overview_cell_color ]
 
-  str(to_plot)
-
   # define colors
   if ( is.null(input$overview_cell_color) || is.na(input$overview_cell_color) ) {
     colors <- NULL
@@ -293,14 +291,93 @@ output$overview_projection_plotly <- plotly::renderPlotly({
   # define variable used for cell size
   size_var <- if ( input$overview_cell_size_variable == "None" ) NULL else to_plot[ , input$overview_cell_size_variable ]
 
-  plotly::plot_ly(
-    to_plot,
-    x = ~tSNE1,
-    y = ~tSNE2,
-    color = ~sample,
-    type = "scatter"
-  )# %>%
-  #plotly::toWebGL()
+  if ( is.numeric(to_plot[,input$overview_cell_color]) ) {
+    plotly::plot_ly(
+      to_plot,
+      x = ~to_plot[,1],
+      y = ~to_plot[,2],
+      type = "scattergl",
+      mode = "markers",
+      marker = list(
+        colorbar = list(
+          title = colnames(to_plot)[which(colnames(to_plot) == input$overview_cell_color)]
+        ),
+        color = ~to_plot[,input$overview_cell_color],
+        opacity = input$overview_cell_opacity,
+        colorscale = "YlGnBu",
+        reversescale = TRUE,
+        line = list(
+          color = 'rgb(196,196,196)',
+          width = 1
+        ),
+        size = input$overview_cell_size_value
+      ),
+      text = ~paste(
+        "Cell: ", cell_barcode, "\n",
+        "Sample: ", sample, "\n",
+        "Cluster: ", cluster, "\n",
+        "nUMI: ", formatC(nUMI, format = "f", big.mark = ",", digits = 0), "\n",
+        "nGene: ", formatC(nGene, format = "f", big.mark = ",", digits = 0), "\n"
+      ),
+      height = 720
+    ) %>%
+    plotly::layout(
+      xaxis = list(
+        title = colnames(to_plot)[ 1 ],
+        mirror = TRUE,
+        showline = TRUE,
+        zeroline = FALSE
+      ),
+      yaxis = list(
+        title = colnames(to_plot)[ 2 ],
+        mirror = TRUE,
+        showline = TRUE,
+        zeroline = FALSE
+      ),
+      hoverlabel = list(font = list(size = 11))
+    )
+  } else {
+        plotly::plot_ly(
+      to_plot,
+      x = ~to_plot[,1],
+      y = ~to_plot[,2],
+      color = ~to_plot[,input$overview_cell_color],
+      colors = colors,
+      type = "scattergl",
+      mode = "markers",
+      marker = list(
+        opacity = input$overview_cell_opacity,
+        line = list(
+          color = 'rgb(196,196,196)',
+          width = 1
+        ),
+        size = input$overview_cell_size_value
+      ),
+      text = ~paste(
+        "Cell: ", cell_barcode, "\n",
+        "Sample: ", sample, "\n",
+        "Cluster: ", cluster, "\n",
+        "nUMI: ", formatC(nUMI, format = "f", big.mark = ",", digits = 0), "\n",
+        "nGene: ", formatC(nGene, format = "f", big.mark = ",", digits = 0), "\n"
+      ),
+      height = 720
+    ) %>%
+    plotly::layout(
+      xaxis = list(
+        title = colnames(to_plot)[ 1 ],
+        mirror = TRUE,
+        showline = TRUE,
+        zeroline = FALSE
+      ),
+      yaxis = list(
+        title = colnames(to_plot)[ 2 ],
+        mirror = TRUE,
+        showline = TRUE,
+        zeroline = FALSE
+      ),
+      hoverlabel = list(font = list(size = 11))
+    )
+  }
 })
 
 

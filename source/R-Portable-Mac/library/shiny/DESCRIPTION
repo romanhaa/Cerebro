@@ -1,7 +1,7 @@
 Package: shiny
 Type: Package
 Title: Web Application Framework for R
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -60,7 +60,7 @@ Description: Makes it incredibly easy to build interactive web
     beautiful, responsive, and powerful applications with minimal effort.
 License: GPL-3 | file LICENSE
 Depends: R (>= 3.0.2), methods
-Imports: utils, grDevices, httpuv (>= 1.4.3), mime (>= 0.3), jsonlite
+Imports: utils, grDevices, httpuv (>= 1.4.4), mime (>= 0.3), jsonlite
         (>= 0.9.16), xtable, digest, htmltools (>= 0.3.5), R6 (>= 2.0),
         sourcetools, later (>= 0.7.2), promises (>= 1.0.1), tools,
         crayon, rlang
@@ -70,25 +70,26 @@ URL: http://shiny.rstudio.com
 BugReports: https://github.com/rstudio/shiny/issues
 Collate: 'app.R' 'bookmark-state-local.R' 'stack.R' 'bookmark-state.R'
         'bootstrap-layout.R' 'globals.R' 'conditions.R' 'map.R'
-        'utils.R' 'bootstrap.R' 'cache.R' 'diagnose.R' 'fileupload.R'
-        'graph.R' 'reactives.R' 'reactive-domains.R' 'history.R'
-        'hooks.R' 'html-deps.R' 'htmltools.R' 'image-interact-opts.R'
-        'image-interact.R' 'imageutils.R' 'input-action.R'
-        'input-checkbox.R' 'input-checkboxgroup.R' 'input-date.R'
-        'input-daterange.R' 'input-file.R' 'input-numeric.R'
-        'input-password.R' 'input-radiobuttons.R' 'input-select.R'
-        'input-slider.R' 'input-submit.R' 'input-text.R'
-        'input-textarea.R' 'input-utils.R' 'insert-tab.R' 'insert-ui.R'
-        'jqueryui.R' 'middleware-shiny.R' 'middleware.R' 'modal.R'
-        'modules.R' 'notifications.R' 'priorityqueue.R' 'progress.R'
-        'react.R' 'render-plot.R' 'render-table.R' 'run-url.R'
-        'serializers.R' 'server-input-handlers.R' 'server.R'
-        'shiny-options.R' 'shiny.R' 'shinyui.R' 'shinywrappers.R'
-        'showcase.R' 'snapshot.R' 'tar.R' 'test-export.R' 'timer.R'
-        'update-input.R'
-RoxygenNote: 6.0.1.9000
+        'utils.R' 'bootstrap.R' 'cache-context.R' 'cache-disk.R'
+        'cache-memory.R' 'cache-utils.R' 'diagnose.R' 'fileupload.R'
+        'font-awesome.R' 'graph.R' 'reactives.R' 'reactive-domains.R'
+        'history.R' 'hooks.R' 'html-deps.R' 'htmltools.R'
+        'image-interact-opts.R' 'image-interact.R' 'imageutils.R'
+        'input-action.R' 'input-checkbox.R' 'input-checkboxgroup.R'
+        'input-date.R' 'input-daterange.R' 'input-file.R'
+        'input-numeric.R' 'input-password.R' 'input-radiobuttons.R'
+        'input-select.R' 'input-slider.R' 'input-submit.R'
+        'input-text.R' 'input-textarea.R' 'input-utils.R'
+        'insert-tab.R' 'insert-ui.R' 'jqueryui.R' 'middleware-shiny.R'
+        'middleware.R' 'modal.R' 'modules.R' 'notifications.R'
+        'priorityqueue.R' 'progress.R' 'react.R' 'render-cached-plot.R'
+        'render-plot.R' 'render-table.R' 'run-url.R' 'serializers.R'
+        'server-input-handlers.R' 'server.R' 'shiny-options.R'
+        'shiny.R' 'shinyui.R' 'shinywrappers.R' 'showcase.R'
+        'snapshot.R' 'tar.R' 'test-export.R' 'timer.R' 'update-input.R'
+RoxygenNote: 6.1.0
 NeedsCompilation: no
-Packaged: 2018-05-16 22:20:28 UTC; jcheng
+Packaged: 2018-11-02 16:06:02 UTC; jcheng
 Author: Winston Chang [aut, cre],
   Joe Cheng [aut],
   JJ Allaire [aut],
@@ -121,5 +122,5 @@ Author: Winston Chang [aut, cre],
   R Core Team [ctb, cph] (tar implementation from R)
 Maintainer: Winston Chang <winston@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-05-17 20:22:53 UTC
-Built: R 3.5.0; ; 2018-05-18 04:46:28 UTC; unix
+Date/Publication: 2018-11-02 19:20:03 UTC
+Built: R 3.5.0; ; 2018-11-03 12:25:10 UTC; unix

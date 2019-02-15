@@ -4,10 +4,12 @@ library(httr)
 #    https://github.com/reddit/reddit/wiki/OAuth2
 reddit <- oauth_endpoint(
   authorize = "https://www.reddit.com/api/v1/authorize",
-  access =    "https://www.reddit.com/api/v1/access_token"
+  access = "https://www.reddit.com/api/v1/access_token"
 )
 
 # 2. Register an application at https://www.reddit.com/prefs/apps
+#    Make sure to register http://localhost:1410/ as the "redirect uri".
+#    (the trailing slash is important!)
 app <- oauth_app("reddit", "bvmjj2EOBvOknQ", "n8ueSvTNdlE0BDDJpLljvmgUGUw")
 
 # 3. Get OAuth credentials

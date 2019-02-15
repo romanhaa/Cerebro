@@ -1,3 +1,16 @@
+CHANGES IN VERSION 1.31.2
+-------------------------
+
+NEW FEATURES
+
+    o 'BiocInstaller' is currently deprecated. All installation of Bioconductor
+    packages will be done via `BiocManager` a CRAN package.
+
+BUG FIXES
+
+    o The documentation incorrectly refered to `remotes::install` which is
+    not an exported function of the package. This link was fixed.
+
 CHANGES IN VERSION 1.30.0
 -------------------------
 

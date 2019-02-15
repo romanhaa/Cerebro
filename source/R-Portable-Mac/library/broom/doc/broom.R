@@ -12,7 +12,7 @@ library(broom)
 tidy(lmfit)
 
 ## ------------------------------------------------------------------------
-head(augment(lmfit))
+augment(lmfit)
 
 ## ------------------------------------------------------------------------
 glance(lmfit)
@@ -20,13 +20,13 @@ glance(lmfit)
 ## ----glmfit--------------------------------------------------------------
 glmfit <- glm(am ~ wt, mtcars, family="binomial")
 tidy(glmfit)
-head(augment(glmfit))
+augment(glmfit)
 glance(glmfit)
 
 ## ------------------------------------------------------------------------
 nlsfit <- nls(mpg ~ k / wt + b, mtcars, start=list(k=1, b=0))
 tidy(nlsfit)
-head(augment(nlsfit, mtcars))
+augment(nlsfit, mtcars)
 glance(nlsfit)
 
 ## ----ttest---------------------------------------------------------------
@@ -40,4 +40,9 @@ tidy(wt)
 ## ------------------------------------------------------------------------
 glance(tt)
 glance(wt)
+
+## ------------------------------------------------------------------------
+chit <- chisq.test(xtabs(Freq ~ Sex + Class, data = as.data.frame(Titanic)))
+tidy(chit)
+augment(chit)
 

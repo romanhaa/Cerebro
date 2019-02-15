@@ -9,15 +9,65 @@ library(shinyWidgets)
 shinyApp(
   ui = dashboardPagePlus(
     dashboardHeaderPlus(
+      fixed = TRUE,
       title = "shinydashboardPlus",
       enable_rightsidebar = TRUE,
-      rightSidebarIcon = "bars"
+      rightSidebarIcon = "bars",
+      left_menu = tagList(
+        dropdownBlock(
+          id = "mydropdown",
+          title = "Dropdown 1",
+          icon = "sliders",
+          sliderInput(
+            inputId = "n",
+            label = "Number of observations",
+            min = 10, max = 100, value = 30
+          ),
+          prettyToggle(
+            inputId = "na",
+            label_on = "NAs keeped",
+            label_off = "NAs removed",
+            icon_on = icon("check"),
+            icon_off = icon("remove")
+          )
+        ),
+        dropdownBlock(
+          id = "mydropdown2",
+          title = "Dropdown 2",
+          icon = "sliders",
+          prettySwitch(
+            inputId = "switch4",
+            label = "Fill switch with status:",
+            fill = TRUE, 
+            status = "primary"
+          ),
+          prettyCheckboxGroup(
+            inputId = "checkgroup2",
+            label = "Click me!", 
+            thick = TRUE,
+            choices = c("Click me !", "Me !", "Or me !"),
+            animation = "pulse", 
+            status = "info"
+          )
+        )
+      ),
+      dropdownMenu(
+        type = "tasks", 
+        badgeStatus = "danger",
+        taskItem(value = 20, color = "aqua", "Refactor code"),
+        taskItem(value = 40, color = "green", "Design new layout"),
+        taskItem(value = 60, color = "yellow", "Another task"),
+        taskItem(value = 80, color = "red", "Write documentation")
+      )
     ),
     dashboardSidebar(
       sidebarMenu(
         menuItem("New rightSidebar", tabName = "rightsidebar",
                  badgeLabel = "new", badgeColor = "green",
                  icon = icon("gears")),
+        menuItem("Improved header", tabName = "header",
+                 badgeLabel = "new", badgeColor = "green",
+                 icon = icon("folder-open")),
         menuItem("New boxes", tabName = "boxes",
                  badgeLabel = "new", badgeColor = "green",
                  icon = icon("briefcase")),
@@ -27,6 +77,9 @@ shinyApp(
         menuItem("New Box elements", tabName = "boxelements",
                  badgeLabel = "new", badgeColor = "green",
                  icon = icon("th")),
+        menuItem("Extra CSS effects", tabName = "extracss",
+                 badgeLabel = "new", badgeColor = "green",
+                 icon = icon("magic")),
         menuItem("New extra elements", tabName = "extraelements",
                  badgeLabel = "new", badgeColor = "green",
                  icon = icon("plus-circle"))
@@ -59,6 +112,8 @@ shinyApp(
     ),
     dashboardBody(
       
+      setShadow("dropdown-menu"),
+      
       shiny::tags$head(
         # shiny::includeCSS(
         #   system.file("css", "qtcreator_dark.css", package = "shinydashboardPlus")
@@ -66,7 +121,7 @@ shinyApp(
         # shiny::includeScript(
         #   system.file("js", "highlight.pack.js", package = "shinydashboardPlus")
         # )
-        
+    
         shiny::tags$style(
           rel = "stylesheet",
           type = "text/css",
@@ -83,6 +138,8 @@ shinyApp(
         
         tabItem(
           tabName = "rightsidebar",
+          
+          br(),
           
           column(
             width = 12,
@@ -144,7 +201,110 @@ shinyApp(
         ),
         
         tabItem(
+          tabName = "header",
+          
+          br(),
+          
+          column(
+            width = 12,
+            align = "center",
+            h1("Add a left menu in the navbar!")
+          ),
+          br(),
+          
+          h4("To activate this feature, you must replace dashboardHeader by dashboardHeaderPlus.
+             Pass all your arguments in the left_menu argument. You can also decide whether
+             the navbar should be fixed-top or not using the fixed argument. 
+             To include custom input elements, such as sliderInput, ... wrap them in a
+             dropdownBlock, which was specially built for the left menu."),
+          
+          aceEditor(
+            theme = "vibrant_ink",
+            mode = "r",
+            height = "800px",
+            outputId = "left_menu_header_code",
+            readOnly = TRUE,
+            value = paste(
+              style_text(
+                'library(shiny)
+                 library(shinyWidgets)
+                library(shinydashboard)
+                library(shinydashboardPlus)
+                
+                shinyApp(
+                ui = dashboardPagePlus(
+                header = dashboardHeaderPlus(
+                fixed = TRUE,
+                enable_rightsidebar = TRUE,
+                rightSidebarIcon = "gears",
+                left_menu = tagList(
+                dropdownBlock(
+                id = "mydropdown",
+                title = "Dropdown 1",
+                icon = icon("sliders"),
+                sliderInput(
+                inputId = "n",
+                label = "Number of observations",
+                min = 10, max = 100, value = 30
+                ),
+                prettyToggle(
+                inputId = "na",
+                label_on = "NAs keeped",
+                label_off = "NAs removed",
+                icon_on = icon("check"),
+                icon_off = icon("remove")
+                )
+                ),
+                dropdownBlock(
+                id = "mydropdown2",
+                title = "Dropdown 2",
+                icon = icon("sliders"),
+                prettySwitch(
+                inputId = "switch4",
+                label = "Fill switch with status:",
+                fill = TRUE, 
+                status = "primary"
+                ),
+                prettyCheckboxGroup(
+                inputId = "checkgroup2",
+                label = "Click me!", 
+                thick = TRUE,
+                choices = c("Click me !", "Me !", "Or me !"),
+                animation = "pulse", 
+                status = "info"
+                )
+                )
+                ),
+                dropdownMenu(
+                type = "tasks", 
+                badgeStatus = "danger",
+                taskItem(value = 20, color = "aqua", "Refactor code"),
+                taskItem(value = 40, color = "green", "Design new layout"),
+                taskItem(value = 60, color = "yellow", "Another task"),
+                taskItem(value = 80, color = "red", "Write documentation")
+                )
+                ),
+                sidebar = dashboardSidebar(),
+                body = dashboardBody(
+                setShadow(class = "dropdown-menu")
+                ),
+                rightsidebar = rightSidebar(),
+                title = "DashboardPage"
+                ),
+                server = function(input, output) { }
+                )
+                '
+              ), 
+              collapse = "\n"
+            )
+          )
+          
+        ),
+        
+        tabItem(
           tabName = "boxes",
+          
+          br(),
           
           column(
             width = 12,
@@ -532,12 +692,140 @@ shinyApp(
                 collapse = "\n"
               )
             )
+          ),
+          
+          
+          br(),
+          column(
+            width = 12,
+            align = "center",
+            h1("flipBox()")
+          ),
+          br(),
+          
+          fluidRow(
+            # demo flip box
+            column(
+              width = 6,
+              align = "center",
+              flipBox(
+                id = 1,
+                main_img = "https://image.flaticon.com/icons/svg/149/149076.svg",
+                header_img = "https://image.flaticon.com/icons/svg/119/119595.svg",
+                front_title = "John Doe",
+                back_title = "About John",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                Duis aute irure dolor in reprehenderit in voluptate velit 
+                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+                occaecat cupidatat non proident, sunt in culpa qui officia 
+                deserunt mollit anim id est laborum",
+                verticalProgress(
+                  value = 10,
+                  striped = TRUE,
+                  active = TRUE
+                ),
+                verticalProgress(
+                  value = 50,
+                  active = TRUE,
+                  status = "warning",
+                  size = "xs"
+                ),
+                verticalProgress(
+                  value = 20,
+                  status = "danger",
+                  size = "sm",
+                  height = "60%"
+                ),
+                back_content = tagList(
+                  column(
+                    width = 12,
+                    align = "center",
+                    sliderInput(
+                      "flip_obs", 
+                      "Number of observations:",
+                      min = 0, 
+                      max = 1000, 
+                      value = 500
+                    )
+                  ),
+                  plotOutput("flipPlot")
+                )
+              )
+            ),
+            
+            column(
+              width = 6,
+              align = "center",
+              aceEditor(
+                outputId = "flipBox_code",
+                readOnly = TRUE,
+                theme = "vibrant_ink",
+                mode = "r",
+                wordWrap = TRUE,
+                value = paste(
+                  style_text(
+                    'flipBox(
+                    id = 1,
+                    main_img = "https://image.flaticon.com/icons/svg/149/149076.svg",
+                    header_img = "https://image.flaticon.com/icons/svg/119/119595.svg",
+                    front_title = "John Doe",
+                    back_title = "About John",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                    sed do eiusmod tempor incididunt ut labore et dolore magna 
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                    Duis aute irure dolor in reprehenderit in voluptate velit 
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+                    occaecat cupidatat non proident, sunt in culpa qui officia 
+                    deserunt mollit anim id est laborum",
+                    verticalProgress(
+                    value = 10,
+                    striped = TRUE,
+                    active = TRUE
+                    ),
+                    verticalProgress(
+                    value = 50,
+                    active = TRUE,
+                    status = "warning",
+                    size = "xs"
+                    ),
+                    verticalProgress(
+                    value = 20,
+                    status = "danger",
+                    size = "sm",
+                    height = "60%"
+                    ),
+                    back_content = tagList(
+                    column(
+                    width = 12,
+                    align = "center",
+                    sliderInput(
+                    "obs", 
+                    "Number of observations:",
+                    min = 0, 
+                    max = 1000, 
+                    value = 500
+                    )
+                    ),
+                    plotOutput("distPlot")
+                    )
+                  )'
+                  ), 
+                  collapse = "\n"
+                )
+              )
+            )
           )
         ),
         
         
         tabItem(
           tabName = "buttons",
+          
+          br(),
           
           column(
             width = 12,
@@ -668,6 +956,84 @@ shinyApp(
         
         tabItem(
           tabName = "boxelements",
+          
+          br(),
+          
+          column(
+            width = 12,
+            align = "center",
+            h1("Create box with sidebar")
+          ),
+          br(),
+          
+          fluidRow(
+            column(
+              width = 6,
+              boxPlus(
+                width = 12,
+                title = "boxPlus with sidebar", 
+                closable = TRUE, 
+                status = "warning", 
+                solidHeader = FALSE, 
+                collapsible = TRUE,
+                enable_sidebar = TRUE,
+                sidebar_width = 25,
+                sidebar_start_open = TRUE,
+                sidebar_content = tagList(
+                  checkboxInput("somevalue", "Some value", FALSE),
+                  verbatimTextOutput("value"),
+                  sliderInput(
+                    "slider_boxsidebar", 
+                    "Number of observations:",
+                    min = 0, 
+                    max = 1000, 
+                    value = 500
+                  )
+                ),
+                plotOutput("boxSidebarPlot")
+              )
+            ),
+            
+            column(
+              width = 6,
+              aceEditor(
+                theme = "vibrant_ink",
+                mode = "r",
+                height = "300px",
+                outputId = "boxPlus-sidebar_code",
+                readOnly = TRUE,
+                value = paste(
+                  style_text(
+                    'boxPlus(
+                    width = 12,
+                    title = "boxPlus with sidebar", 
+                    closable = TRUE, 
+                    status = "warning", 
+                    solidHeader = FALSE, 
+                    collapsible = TRUE,
+                    enable_sidebar = TRUE,
+                    sidebar_width = 25,
+                    sidebar_start_open = TRUE,
+                    sidebar_content = tagList(
+                    checkboxInput("somevalue", "Some value", FALSE),
+                    verbatimTextOutput("value"),
+                    sliderInput(
+                    "slider_boxsidebar", 
+                    "Number of observations:",
+                    min = 0, 
+                    max = 1000, 
+                    value = 500
+                    )
+                    ),
+                    plotOutput("boxSidebarPlot")
+                  )
+                    '
+                  ), 
+                  collapse = "\n"
+                )
+              )
+            )
+          ),
           
           column(
             width = 12,
@@ -1699,9 +2065,61 @@ shinyApp(
         ),
         
         tabItem(
+          tabName = "extracss",
+          
+          br(),
+        
+          column(
+            width = 12,
+            align = "center",
+            h1("Add shadows to any dashboard element: setShadow()")
+          ),
+          br(),
+          
+          fluidRow(
+            column(
+              width = 6,
+              setShadow("box"),
+              box(
+                width = 12,
+                background = "light-blue",
+                p("This is content. The background color is set to light-blue")
+              )
+            ),
+            
+            column(
+              width = 6,
+              aceEditor(
+                theme = "vibrant_ink",
+                mode = "r",
+                height = "300px",
+                outputId = "box-shadow_code",
+                readOnly = TRUE,
+                value = paste(
+                  style_text(
+                    'setShadow("box")
+                     box(
+                       width = 12,
+                       background = "light-blue",
+                       p("This is content. The background color is set to light-blue")
+                     )
+                    '
+                  ), 
+                  collapse = "\n"
+                )
+              )
+            )
+          )
+          
+          
+        ),
+        
+        tabItem(
           tabName = "extraelements",
           
           fluidRow(
+            
+            br(),
             
             column(
               width = 12,
@@ -1818,9 +2236,9 @@ shinyApp(
                   style_text(
                     'dashboardLabel("Label 1", status = "info")
                      dashboardLabel("Label 2", status = "success")
-                    dashboardLabel("Label 3", status = "warning")
-                    dashboardLabel("Label 4", status = "primary")
-                    dashboardLabel("Label 5", status = "danger")'
+                     dashboardLabel("Label 3", status = "warning")
+                     dashboardLabel("Label 4", status = "primary")
+                     dashboardLabel("Label 5", status = "danger")'
                   ), 
                   collapse = "\n"
                 )
@@ -2050,30 +2468,35 @@ shinyApp(
                   collapse = "\n"
                 )
               )
-              
             )
-            
           )
-          
         )
-      )
-      
-      
+       )
+      ),
+      title = "shinyDashboardPlus"
     ),
-    title = "shinyDashboardPlus"
-  ),
-  server = function(input, output) {
-    output$distPlot <- renderPlot({
-      hist(rnorm(input$obs))
-    })
-    
-    output$distPlot2 <- renderPlot({
-      hist(rnorm(input$obs2))
-    })
-    
-    output$data <- renderTable({
-      head(mtcars[, c("mpg", input$variable), drop = FALSE])
-    }, rownames = TRUE)
-    
-  }
-)
+    server = function(input, output) {
+      output$distPlot <- renderPlot({
+        hist(rnorm(input$obs))
+      })
+      
+      output$distPlot2 <- renderPlot({
+        hist(rnorm(input$obs2))
+      })
+      
+      output$flipPlot <- renderPlot({
+        hist(rnorm(input$flip_obs))
+      })
+      
+      output$data <- renderTable({
+        head(mtcars[, c("mpg", input$variable), drop = FALSE])
+      }, rownames = TRUE)
+      
+      output$value <- renderText({input$somevalue})
+      
+      output$boxSidebarPlot <- renderPlot({
+        hist(rnorm(input$slider_boxsidebar))
+      })
+      
+    }
+  )

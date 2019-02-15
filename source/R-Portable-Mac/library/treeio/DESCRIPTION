@@ -1,17 +1,18 @@
 Package: treeio
 Title: Base Classes and Functions for Phylogenetic Tree Input and
         Output
-Version: 1.4.3
+Version: 1.6.2
 Authors@R: c(
     person("Guangchuang", "Yu",     email = "guangchuangyu@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6485-8781")),
     person("Tommy Tsan-Yuk", "Lam", email = "tylam.tommy@gmail.com",   role = c("ctb", "ths")),
     person("Casey", "Dunn",         email = "casey_dunn@brown.edu",    role = "ctb"),
-    person("Bradley", "Jones",      email = "brj1@sfu.ca",             role = "ctb")
+    person("Bradley", "Jones",      email = "brj1@sfu.ca",             role = "ctb"),
+    person("Tyler", "Bradley",      email = "tcb85@drexel.edu",        role = "ctb")
 	  )
 Description: Base classes and functions for parsing and exporting phylogenetic trees. 'treeio' supports parsing analysis findings from commonly used software packages, allows linking external data to phylogeny and merging tree data obtained from different sources. It also supports exporting phylogenetic tree with heterogeneous associated data to a single tree file.
 Depends: R (>= 3.4.0)
 Imports: ape, dplyr, jsonlite, magrittr, methods, rlang, rvcheck,
-        tibble, tidytree (>= 0.1.7)
+        tibble, tidytree (>= 0.1.7), utils
 Suggests: ggplot2, ggtree, knitr, prettydoc, testthat, tidyr
 VignetteBuilder: knitr
 ByteCompile: true
@@ -22,17 +23,18 @@ Encoding: UTF-8
 LazyData: true
 biocViews: Software, Annotation, Clustering, DataImport,
         DataRepresentation, Alignment, MultipleSequenceAlignment
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 git_url: https://git.bioconductor.org/packages/treeio
-git_branch: RELEASE_3_7
-git_last_commit: 6eff9cd
-git_last_commit_date: 2018-08-13
-Date/Publication: 2018-08-13
+git_branch: RELEASE_3_8
+git_last_commit: 4fb11e8
+git_last_commit_date: 2019-01-25
+Date/Publication: 2019-01-25
 NeedsCompilation: no
-Packaged: 2018-08-14 01:02:01 UTC; biocbuild
+Packaged: 2019-01-26 02:10:07 UTC; biocbuild
 Author: Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>),
   Tommy Tsan-Yuk Lam [ctb, ths],
   Casey Dunn [ctb],
-  Bradley Jones [ctb]
+  Bradley Jones [ctb],
+  Tyler Bradley [ctb]
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
-Built: R 3.5.1; ; 2018-08-14 08:27:27 UTC; unix
+Built: R 3.5.2; ; 2019-01-26 10:10:33 UTC; unix

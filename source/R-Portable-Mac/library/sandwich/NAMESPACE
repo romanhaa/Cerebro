@@ -38,6 +38,7 @@ export(
 ## clustered bootstrap estimator
   "vcovBS",
   "vcovBS.default",
+  "vcovBS.lm",
   ".vcovBSenv",
 
 ## weights/bandwidths for HAC estimators  
@@ -91,3 +92,5 @@ S3method("vcovHC", "default")
 S3method("vcovHC", "mlm")
 S3method("vcovHAC", "default")
 S3method("vcovBS", "default")
+S3method("vcovBS", "lm")
+S3method("vcovBS", "glm")

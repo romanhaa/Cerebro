@@ -1,5 +1,5 @@
 Package: ggthemes
-Version: 4.0.0
+Version: 4.0.1
 Title: Extra Themes, Scales and Geoms for 'ggplot2'
 Authors@R: c(person("Jeffrey B.", "Arnold", role = c("aut", "cre"),
     email = "jeffrey.arnold@gmail.com", comment = c(ORCID = "0000-0001-9953-3904")),
@@ -17,9 +17,9 @@ Authors@R: c(person("Jeffrey B.", "Arnold", role = c("aut", "cre"),
 Depends: R (>= 3.0.0)
 Imports: ggplot2 (>= 3.0.0), graphics, grid, methods, purrr, scales,
         stringr, tibble
-Suggests: dplyr, covr, extrafont, glue, knitr, lintr, maps, mapproj,
-        pander, rlang, rmarkdown, spelling, testthat, tidyr, vdiffr,
-        withr
+Suggests: dplyr, covr, extrafont, glue, knitr, lattice, lintr, maps,
+        mapproj, pander, rlang, rmarkdown, spelling, testthat, tidyr,
+        vdiffr, withr
 Description: Some extra themes, geoms, and scales for 'ggplot2'.
     Provides 'ggplot2' themes and scales that replicate the look of plots
     by Edward Tufte, Stephen Few, 'Fivethirtyeight', 'The Economist', 'Stata',
@@ -28,12 +28,12 @@ Description: Some extra themes, geoms, and scales for 'ggplot2'.
 License: GPL-2
 URL: http://github.com/jrnold/ggthemes
 BugReports: http://github.com/jrnold/ggthemes
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 LazyData: true
 Language: en-US
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-07-17 22:57:05 UTC; jrnold
+Packaged: 2018-08-24 20:36:04 UTC; jrnold
 Author: Jeffrey B. Arnold [aut, cre] (<https://orcid.org/0000-0001-9953-3904>),
   Gergely Daroczi [ctb],
   Bo Werth [ctb],
@@ -46,5 +46,5 @@ Author: Jeffrey B. Arnold [aut, cre] (<https://orcid.org/0000-0001-9953-3904>),
   Joshua London [ctb]
 Maintainer: Jeffrey B. Arnold <jeffrey.arnold@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-07-19 11:30:03 UTC
-Built: R 3.5.0; ; 2018-07-20 13:48:08 UTC; unix
+Date/Publication: 2018-08-24 21:02:20 UTC
+Built: R 3.5.0; ; 2018-08-25 15:27:07 UTC; unix

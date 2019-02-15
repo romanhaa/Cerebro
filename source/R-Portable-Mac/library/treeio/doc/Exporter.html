@@ -10,9 +10,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Guangchuang Yu School of Public Health, The University of Hong Kong" />
+<meta name="author" content="Guangchuang Yu School of Basic Medical Sciences, Southern Medical University" />
 
-<meta name="date" content="2018-08-13" />
+<meta name="date" content="2019-01-25" />
 
 <title>Exporting trees with data</title>
 
@@ -109,8 +109,8 @@ code > span.ot { color: #007020; }
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Exporting trees with data</h1>
 <h4 class="author project-author">Guangchuang Yu<br />
-School of Public Health, The University of Hong Kong</h4>
-<h4 class="date project-date">2018-08-13</h4>
+School of Basic Medical Sciences, Southern Medical University</h4>
+<h4 class="date project-date">2019-01-25</h4>
 </section>
 
 
@@ -143,7 +143,7 @@ School of Public Health, The University of Hong Kong</h4>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># write.beast(nhx, file = &quot;phyldog.tree&quot;)</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">write.beast</span>(nhx)</a></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Aug 13 21:01:49 2018]
+[R-package treeio, Fri Jan 25 21:09:55 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -193,7 +193,7 @@ END;</code></pre>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># write.beast(ml, file = &quot;codeml.tree&quot;)</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">write.beast</span>(ml)</a></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Aug 13 21:01:49 2018]
+[R-package treeio, Fri Jan 25 21:09:55 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 15;
@@ -245,11 +245,13 @@ END;</code></pre>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">write.tree</span>(phylo)</a></code></pre></div>
 <pre><code>[1] &quot;(((Prayidae_D27SS7@2825365:0.0682841,(Kephyes_ovata@2606431:0.0193941,Chuniphyes_multidentata@1277217:0.0121378):0.0217782):0.0607598,((Apolemia_sp_@1353964:0.11832,(((Bargmannia_amoena@263997:0.0144549,Bargmannia_elongata@946788:0.0149723):0.0925388,Physonect_sp_@2066767:0.077429):0.0274637,(Stephalia_dilata@2960089:0.0761163,((Frillagalma_vityazi@1155031:0.0906068,Resomia_ornicephala@3111757:1e-06):1e-06,((Lychnagalma_utricularia@2253871:0.120851,Nanomia_bijuga@717864:0.133939):1e-06,Cordagalma_sp_@1525873:0.0693814):1e-06):0.0333823):1e-06):0.0431861):1e-06,Rhizophysa_filiformis@3073669:0.22283):0.0292362):0.185603,(Hydra_magnipapillata@52244:0.0621782,Ectopleura_larynx@3556167:0.332505):0.185603);&quot;</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="kw">Nnode2</span>(phylo)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">fake_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">fake_tree &lt;-<span class="st"> </span><span class="kw">treedata</span>(<span class="dt">phylo =</span> phylo, <span class="dt">data =</span> fake_data)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">write.beast</span>(fake_tree)</a></code></pre></div>
+<a class="sourceLine" id="cb7-2" data-line-number="2">fake_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))</a></code></pre></div>
+<pre><code>Warning: `data_frame()` is deprecated, use `tibble()`.
+This warning is displayed once per session.</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">fake_tree &lt;-<span class="st"> </span><span class="kw">treedata</span>(<span class="dt">phylo =</span> phylo, <span class="dt">data =</span> fake_data)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">write.beast</span>(fake_tree)</a></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Aug 13 21:01:49 2018]
+[R-package treeio, Fri Jan 25 21:09:55 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -291,17 +293,17 @@ BEGIN TREES;
         15  Hydra_magnipapillata@52244,
         16  Ectopleura_larynx@3556167
     ;
-    TREE * UNTITLED = [&amp;R] (((1[&amp;fake_trait=0.837190397479408,another_trait=0.509209201205522]:0.0682841,(2[&amp;fake_trait=0.0710800120459484,another_trait=0.400231055449694]:0.0193941,3[&amp;fake_trait=0.335324698301361,another_trait=0.297969575738534]:0.0121378)[&amp;fake_trait=1.02721084401762,another_trait=0.597420998848975]:0.0217782)[&amp;fake_trait=-0.341805669431985,another_trait=0.961440182290971]:0.0607598,((4[&amp;fake_trait=-1.92394322134852,another_trait=0.875159146962687]:0.11832,(((5[&amp;fake_trait=-0.668514278864837,another_trait=0.555521050235257]:0.0144549,6[&amp;fake_trait=0.219738938601055,another_trait=0.383903802372515]:0.0149723)[&amp;fake_trait=0.860962465774892,another_trait=0.988692572340369]:0.0925388,7[&amp;fake_trait=0.818080761917513,another_trait=0.791548922657967]:0.077429)[&amp;fake_trait=-2.23270623483548,another_trait=0.680810622405261]:0.0274637,(8[&amp;fake_trait=-0.158597944063424,another_trait=0.961072788340971]:0.0761163,((9[&amp;fake_trait=0.0811445719518741,another_trait=0.999177893158048]:0.0906068,10[&amp;fake_trait=0.310751244752395,another_trait=0.569453260861337]:1e-06)[&amp;fake_trait=-1.15866340124346,another_trait=0.697892009979114]:1e-06,((11[&amp;fake_trait=-0.166430610204598,another_trait=0.432885414455086]:0.120851,12[&amp;fake_trait=2.56421011545522,another_trait=0.336064244387671]:0.133939)[&amp;fake_trait=0.765710950525414,another_trait=0.605323976604268]:1e-06,13[&amp;fake_trait=0.548562733637518,another_trait=0.14144763094373]:0.0693814)[&amp;fake_trait=-0.290536633600828,another_trait=0.66651773522608]:1e-06)[&amp;fake_trait=1.19681006989591,another_trait=0.00199996028095484]:0.0333823)[&amp;fake_trait=-1.00649742920206,another_trait=0.747706935973838]:1e-06)[&amp;fake_trait=-1.64776371353424,another_trait=0.302567000966519]:0.0431861)[&amp;fake_trait=0.35910168833886,another_trait=0.689098459435627]:1e-06,14[&amp;fake_trait=1.087770276083,another_trait=0.0429575734306127]:0.22283)[&amp;fake_trait=-1.37566574702507,another_trait=0.436982312472537]:0.0292362)[&amp;fake_trait=0.173372191245848,another_trait=0.950570057611912]:0.185603,(15[&amp;fake_trait=0.312924546245453,another_trait=0.343192273750901]:0.0621782,16[&amp;fake_trait=0.299212638376411,another_trait=0.638288794551045]:0.332505)[&amp;fake_trait=-1.08866191118548,another_trait=0.066680044401437]:0.185603)[&amp;fake_trait=-0.303207439769548,another_trait=0.275397933786735];
+    TREE * UNTITLED = [&amp;R] (((1[&amp;fake_trait=-0.795869366444732,another_trait=0.363262474769726]:0.0682841,(2[&amp;fake_trait=-0.614208360470247,another_trait=0.198877212125808]:0.0193941,3[&amp;fake_trait=0.98946400502896,another_trait=0.609535642433912]:0.0121378)[&amp;fake_trait=-0.613609392095999,another_trait=0.614819369511679]:0.0217782)[&amp;fake_trait=1.22817012749664,another_trait=0.417511568171903]:0.0607598,((4[&amp;fake_trait=0.624730379048206,another_trait=0.947198806563392]:0.11832,(((5[&amp;fake_trait=-1.79771697083449,another_trait=0.122703108238056]:0.0144549,6[&amp;fake_trait=1.14101337998714,another_trait=0.405039210105315]:0.0149723)[&amp;fake_trait=-2.28624058649345,another_trait=0.0762796297203749]:0.0925388,7[&amp;fake_trait=-0.946045778751512,another_trait=0.242505129892379]:0.077429)[&amp;fake_trait=1.08335951929219,another_trait=0.115483083296567]:0.0274637,(8[&amp;fake_trait=0.597488967448073,another_trait=0.564039274351671]:0.0761163,((9[&amp;fake_trait=0.723334220024163,another_trait=0.353748771827668]:0.0906068,10[&amp;fake_trait=0.0190580381742787,another_trait=0.0773306381888688]:1e-06)[&amp;fake_trait=-0.185520894305537,another_trait=0.3699980690144]:1e-06,((11[&amp;fake_trait=0.850415318638386,another_trait=0.720955764641985]:0.120851,12[&amp;fake_trait=2.41850256874586,another_trait=0.840405715629458]:0.133939)[&amp;fake_trait=0.188684796188605,another_trait=0.911886226618662]:1e-06,13[&amp;fake_trait=-1.49172573633976,another_trait=0.187741989968345]:0.0693814)[&amp;fake_trait=-0.686295852550537,another_trait=0.487043177476153]:1e-06)[&amp;fake_trait=-0.430656239595855,another_trait=0.391135075828061]:0.0333823)[&amp;fake_trait=-1.13035830200585,another_trait=0.187457647174597]:1e-06)[&amp;fake_trait=0.271448792914946,another_trait=0.302495623007417]:0.0431861)[&amp;fake_trait=-0.183066973956929,another_trait=0.305863457266241]:1e-06,14[&amp;fake_trait=-0.112781831893001,another_trait=0.950073780026287]:0.22283)[&amp;fake_trait=-0.909649594831878,another_trait=0.96688121650368]:0.0292362)[&amp;fake_trait=-1.32735910625131,another_trait=0.176226103445515]:0.185603,(15[&amp;fake_trait=-1.3266498172093,another_trait=0.753498303936794]:0.0621782,16[&amp;fake_trait=0.0889535711778895,another_trait=0.798524600919336]:0.332505)[&amp;fake_trait=1.43852020682999,another_trait=0.992665495024994]:0.185603)[&amp;fake_trait=0.476748185596971,another_trait=0.833070965018123];
 END;</code></pre>
 </div>
 <div id="merging-tree-data-from-different-sources" class="section level2">
 <h2>Merging tree data from different sources</h2>
 <p>Not only Newick tree text can be combined with associated data, but also tree data obtained from software output can be combined with external data, as well as different tree objects can be merged together. For details, please refer to the <a href="Importer.html">Importer</a> vignette.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">## combine tree object with data</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">tree_with_data &lt;-<span class="st"> </span><span class="kw">full_join</span>(nhx, fake_data, <span class="dt">by =</span> <span class="st">&quot;node&quot;</span>)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">tree_with_data</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">## combine tree object with data</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">tree_with_data &lt;-<span class="st"> </span><span class="kw">full_join</span>(nhx, fake_data, <span class="dt">by =</span> <span class="st">&quot;node&quot;</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">tree_with_data</a></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
-##  '/private/tmp/Rtmp2WDIjp/Rinstd7db7e836bc4/treeio/extdata/NHX/phyldog.nhx'.
+##  '/private/tmp/Rtmpm1ZSak/Rinst1302d17abd6b5/treeio/extdata/NHX/phyldog.nhx'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -313,11 +315,11 @@ END;</code></pre>
 ## 
 ## with the following features available:
 ##  'Ev',   'S',    'ND',   'fake_trait',   'another_trait'.</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">## merge two tree object</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">tree2 &lt;-<span class="st"> </span><span class="kw">merge_tree</span>(nhx, fake_tree)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">tree2</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">## merge two tree object</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">tree2 &lt;-<span class="st"> </span><span class="kw">merge_tree</span>(nhx, fake_tree)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">tree2</a></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
-##  '/private/tmp/Rtmp2WDIjp/Rinstd7db7e836bc4/treeio/extdata/NHX/phyldog.nhx'.
+##  '/private/tmp/Rtmpm1ZSak/Rinst1302d17abd6b5/treeio/extdata/NHX/phyldog.nhx'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -329,12 +331,12 @@ END;</code></pre>
 ## 
 ## with the following features available:
 ##  'Ev',   'S',    'ND',   'fake_trait',   'another_trait'.</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">identical</span>(tree_with_data, tree2)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">identical</span>(tree_with_data, tree2)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>After merging data from different sources, the tree with the associated data can be exported into a single file.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">write.beast</span>(tree2)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">write.beast</span>(tree2)</a></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Aug 13 21:01:49 2018]
+[R-package treeio, Fri Jan 25 21:09:55 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -376,14 +378,14 @@ BEGIN TREES;
         15  Hydra_magnipapillata@52244,
         16  Ectopleura_larynx@3556167
     ;
-    TREE * UNTITLED = [&amp;R] (((1[&amp;Ev=S,S=58,ND=0,fake_trait=0.837190397479408,another_trait=0.509209201205522]:0.0682841,(2[&amp;Ev=S,S=69,ND=1,fake_trait=0.0710800120459484,another_trait=0.400231055449694]:0.0193941,3[&amp;Ev=S,S=70,ND=2,fake_trait=0.335324698301361,another_trait=0.297969575738534]:0.0121378)[&amp;Ev=S,S=60,ND=3,fake_trait=1.02721084401762,another_trait=0.597420998848975]:0.0217782)[&amp;Ev=S,S=36,ND=4,fake_trait=-0.341805669431985,another_trait=0.961440182290971]:0.0607598,((4[&amp;Ev=S,S=31,ND=9,fake_trait=-1.92394322134852,another_trait=0.875159146962687]:0.11832,(((5[&amp;Ev=S,S=37,ND=10,fake_trait=-0.668514278864837,another_trait=0.555521050235257]:0.0144549,6[&amp;Ev=S,S=38,ND=11,fake_trait=0.219738938601055,another_trait=0.383903802372515]:0.0149723)[&amp;Ev=S,S=33,ND=12,fake_trait=0.860962465774892,another_trait=0.988692572340369]:0.0925388,7[&amp;Ev=S,S=61,ND=13,fake_trait=0.818080761917513,another_trait=0.791548922657967]:0.077429)[&amp;Ev=S,S=24,ND=14,fake_trait=-2.23270623483548,another_trait=0.680810622405261]:0.0274637,(8[&amp;Ev=S,S=52,ND=15,fake_trait=-0.158597944063424,another_trait=0.961072788340971]:0.0761163,((9[&amp;Ev=S,S=53,ND=16,fake_trait=0.0811445719518741,another_trait=0.999177893158048]:0.0906068,10[&amp;Ev=S,S=54,ND=17,fake_trait=0.310751244752395,another_trait=0.569453260861337]:1e-06)[&amp;Ev=S,S=45,ND=18,fake_trait=-1.15866340124346,another_trait=0.697892009979114]:1e-06,((11[&amp;Ev=S,S=65,ND=19,fake_trait=-0.166430610204598,another_trait=0.432885414455086]:0.120851,12[&amp;Ev=S,S=71,ND=20,fake_trait=2.56421011545522,another_trait=0.336064244387671]:0.133939)[&amp;Ev=S,S=56,ND=21,fake_trait=0.765710950525414,another_trait=0.605323976604268]:1e-06,13[&amp;Ev=S,S=64,ND=22,fake_trait=0.548562733637518,another_trait=0.14144763094373]:0.0693814)[&amp;Ev=S,S=46,ND=23,fake_trait=-0.290536633600828,another_trait=0.66651773522608]:1e-06)[&amp;Ev=S,S=40,ND=24,fake_trait=1.19681006989591,another_trait=0.00199996028095484]:0.0333823)[&amp;Ev=S,S=35,ND=25,fake_trait=-1.00649742920206,another_trait=0.747706935973838]:1e-06)[&amp;Ev=D,S=24,ND=26,fake_trait=-1.64776371353424,another_trait=0.302567000966519]:0.0431861)[&amp;Ev=S,S=19,ND=27,fake_trait=0.35910168833886,another_trait=0.689098459435627]:1e-06,14[&amp;Ev=S,S=26,ND=28,fake_trait=1.087770276083,another_trait=0.0429575734306127]:0.22283)[&amp;Ev=S,S=17,ND=29,fake_trait=-1.37566574702507,another_trait=0.436982312472537]:0.0292362)[&amp;Ev=D,S=17,ND=8,fake_trait=0.173372191245848,another_trait=0.950570057611912]:0.185603,(15[&amp;Ev=S,S=16,ND=5,fake_trait=0.312924546245453,another_trait=0.343192273750901]:0.0621782,16[&amp;Ev=S,S=15,ND=6,fake_trait=0.299212638376411,another_trait=0.638288794551045]:0.332505)[&amp;Ev=S,S=12,ND=7,fake_trait=-1.08866191118548,another_trait=0.066680044401437]:0.185603)[&amp;Ev=S,S=9,ND=30,fake_trait=-0.303207439769548,another_trait=0.275397933786735];
+    TREE * UNTITLED = [&amp;R] (((1[&amp;Ev=S,S=58,ND=0,fake_trait=-0.795869366444732,another_trait=0.363262474769726]:0.0682841,(2[&amp;Ev=S,S=69,ND=1,fake_trait=-0.614208360470247,another_trait=0.198877212125808]:0.0193941,3[&amp;Ev=S,S=70,ND=2,fake_trait=0.98946400502896,another_trait=0.609535642433912]:0.0121378)[&amp;Ev=S,S=60,ND=3,fake_trait=-0.613609392095999,another_trait=0.614819369511679]:0.0217782)[&amp;Ev=S,S=36,ND=4,fake_trait=1.22817012749664,another_trait=0.417511568171903]:0.0607598,((4[&amp;Ev=S,S=31,ND=9,fake_trait=0.624730379048206,another_trait=0.947198806563392]:0.11832,(((5[&amp;Ev=S,S=37,ND=10,fake_trait=-1.79771697083449,another_trait=0.122703108238056]:0.0144549,6[&amp;Ev=S,S=38,ND=11,fake_trait=1.14101337998714,another_trait=0.405039210105315]:0.0149723)[&amp;Ev=S,S=33,ND=12,fake_trait=-2.28624058649345,another_trait=0.0762796297203749]:0.0925388,7[&amp;Ev=S,S=61,ND=13,fake_trait=-0.946045778751512,another_trait=0.242505129892379]:0.077429)[&amp;Ev=S,S=24,ND=14,fake_trait=1.08335951929219,another_trait=0.115483083296567]:0.0274637,(8[&amp;Ev=S,S=52,ND=15,fake_trait=0.597488967448073,another_trait=0.564039274351671]:0.0761163,((9[&amp;Ev=S,S=53,ND=16,fake_trait=0.723334220024163,another_trait=0.353748771827668]:0.0906068,10[&amp;Ev=S,S=54,ND=17,fake_trait=0.0190580381742787,another_trait=0.0773306381888688]:1e-06)[&amp;Ev=S,S=45,ND=18,fake_trait=-0.185520894305537,another_trait=0.3699980690144]:1e-06,((11[&amp;Ev=S,S=65,ND=19,fake_trait=0.850415318638386,another_trait=0.720955764641985]:0.120851,12[&amp;Ev=S,S=71,ND=20,fake_trait=2.41850256874586,another_trait=0.840405715629458]:0.133939)[&amp;Ev=S,S=56,ND=21,fake_trait=0.188684796188605,another_trait=0.911886226618662]:1e-06,13[&amp;Ev=S,S=64,ND=22,fake_trait=-1.49172573633976,another_trait=0.187741989968345]:0.0693814)[&amp;Ev=S,S=46,ND=23,fake_trait=-0.686295852550537,another_trait=0.487043177476153]:1e-06)[&amp;Ev=S,S=40,ND=24,fake_trait=-0.430656239595855,another_trait=0.391135075828061]:0.0333823)[&amp;Ev=S,S=35,ND=25,fake_trait=-1.13035830200585,another_trait=0.187457647174597]:1e-06)[&amp;Ev=D,S=24,ND=26,fake_trait=0.271448792914946,another_trait=0.302495623007417]:0.0431861)[&amp;Ev=S,S=19,ND=27,fake_trait=-0.183066973956929,another_trait=0.305863457266241]:1e-06,14[&amp;Ev=S,S=26,ND=28,fake_trait=-0.112781831893001,another_trait=0.950073780026287]:0.22283)[&amp;Ev=S,S=17,ND=29,fake_trait=-0.909649594831878,another_trait=0.96688121650368]:0.0292362)[&amp;Ev=D,S=17,ND=8,fake_trait=-1.32735910625131,another_trait=0.176226103445515]:0.185603,(15[&amp;Ev=S,S=16,ND=5,fake_trait=-1.3266498172093,another_trait=0.753498303936794]:0.0621782,16[&amp;Ev=S,S=15,ND=6,fake_trait=0.0889535711778895,another_trait=0.798524600919336]:0.332505)[&amp;Ev=S,S=12,ND=7,fake_trait=1.43852020682999,another_trait=0.992665495024994]:0.185603)[&amp;Ev=S,S=9,ND=30,fake_trait=0.476748185596971,another_trait=0.833070965018123];
 END;</code></pre>
 <p>The output BEAST Nexus file can be imported into R using the <code>read.beast</code> function and all the associated data can be used to annotate the tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. 2017)</span>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">outfile &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;.tree&quot;</span>)</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">write.beast</span>(tree2, <span class="dt">file =</span> outfile)</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="kw">read.beast</span>(outfile)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">outfile &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;.tree&quot;</span>)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw">write.beast</span>(tree2, <span class="dt">file =</span> outfile)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">read.beast</span>(outfile)</a></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
-##  '/tmp/Rtmpf5I2bn/filed81e44bd7a99.tree'.
+##  '/tmp/RtmpephCoT/file130625cc039f0.tree'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -401,7 +403,7 @@ END;</code></pre>
 <h1>Exporting tree data to <em>jtree</em> format</h1>
 <p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package provides <code>write.beast</code> to export <code>treedata</code> to BEAST Nexus file. This is quite useful to convert file format, combine tree with data and merging tree data from different sources as we demonstrated in <a href="#exporting-tree-data-to-beast-nexus-format">Exporting tree data to BEAST Nexus format</a> session. The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package also supplies <code>read.beast</code> function to parse output file of <code>write.beast</code>. Although with <a href="https://bioconductor.org/packages/treeio/">treeio</a>, the R community has the ability to manipulate BEAST Nexus format and process tree data, there is still lacking library/package for parsing BEAST file in other programming language.</p>
 <p>JSON (JavaScript Object Notation)<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> is a lightweight data-interchange format and widely supported in almost all modern programming languages. To make it easy to import tree with data in other programming languages, <a href="https://bioconductor.org/packages/treeio/">treeio</a> supports exporting tree with data in <a href="Importer.html#jtree">jtree format</a>, which is JSON-based and can be easy to parse using any languages that supports JSON.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">write.jtree</span>(tree2)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">write.jtree</span>(tree2)</a></code></pre></div>
 <pre><code>{
     &quot;tree&quot;: &quot;(((Prayidae_D27SS7@2825365:0.0682841{1},(Kephyes_ovata@2606431:0.0193941{2},Chuniphyes_multidentata@1277217:0.0121378{3}):0.0217782{20}):0.0607598{19},((Apolemia_sp_@1353964:0.11832{4},(((Bargmannia_amoena@263997:0.0144549{5},Bargmannia_elongata@946788:0.0149723{6}):0.0925388{25},Physonect_sp_@2066767:0.077429{7}):0.0274637{24},(Stephalia_dilata@2960089:0.0761163{8},((Frillagalma_vityazi@1155031:0.0906068{9},Resomia_ornicephala@3111757:1{10}e-06):1{28}e-06,((Lychnagalma_utricularia@2253871:0.120851{11},Nanomia_bijuga@717864:0.133939{12}):1{30}e-06,Cordagalma_sp_@1525873:0.0693814{13}):1{29}e-06):0.0333823{27}):1{26}e-06):0.0431861{23}):1{22}e-06,Rhizophysa_filiformis@3073669:0.22283{14}):0.0292362{21}):0.185603{18},(Hydra_magnipapillata@52244:0.0621782{15},Ectopleura_larynx@3556167:0.332505{16}):0.185603{31}){17};&quot;,
     &quot;data&quot;:[
@@ -410,303 +412,303 @@ END;</code></pre>
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;58&quot;,
     &quot;ND&quot;: 0,
-    &quot;fake_trait&quot;: 0.8372,
-    &quot;another_trait&quot;: 0.5092
+    &quot;fake_trait&quot;: -0.7959,
+    &quot;another_trait&quot;: 0.3633
   },
   {
     &quot;edge_num&quot;: 2,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;69&quot;,
     &quot;ND&quot;: 1,
-    &quot;fake_trait&quot;: 0.0711,
-    &quot;another_trait&quot;: 0.4002
+    &quot;fake_trait&quot;: -0.6142,
+    &quot;another_trait&quot;: 0.1989
   },
   {
     &quot;edge_num&quot;: 3,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;70&quot;,
     &quot;ND&quot;: 2,
-    &quot;fake_trait&quot;: 0.3353,
-    &quot;another_trait&quot;: 0.298
+    &quot;fake_trait&quot;: 0.9895,
+    &quot;another_trait&quot;: 0.6095
   },
   {
     &quot;edge_num&quot;: 4,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;31&quot;,
     &quot;ND&quot;: 9,
-    &quot;fake_trait&quot;: -1.9239,
-    &quot;another_trait&quot;: 0.8752
+    &quot;fake_trait&quot;: 0.6247,
+    &quot;another_trait&quot;: 0.9472
   },
   {
     &quot;edge_num&quot;: 5,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;37&quot;,
     &quot;ND&quot;: 10,
-    &quot;fake_trait&quot;: -0.6685,
-    &quot;another_trait&quot;: 0.5555
+    &quot;fake_trait&quot;: -1.7977,
+    &quot;another_trait&quot;: 0.1227
   },
   {
     &quot;edge_num&quot;: 6,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;38&quot;,
     &quot;ND&quot;: 11,
-    &quot;fake_trait&quot;: 0.2197,
-    &quot;another_trait&quot;: 0.3839
+    &quot;fake_trait&quot;: 1.141,
+    &quot;another_trait&quot;: 0.405
   },
   {
     &quot;edge_num&quot;: 7,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;61&quot;,
     &quot;ND&quot;: 13,
-    &quot;fake_trait&quot;: 0.8181,
-    &quot;another_trait&quot;: 0.7915
+    &quot;fake_trait&quot;: -0.946,
+    &quot;another_trait&quot;: 0.2425
   },
   {
     &quot;edge_num&quot;: 8,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;52&quot;,
     &quot;ND&quot;: 15,
-    &quot;fake_trait&quot;: -0.1586,
-    &quot;another_trait&quot;: 0.9611
+    &quot;fake_trait&quot;: 0.5975,
+    &quot;another_trait&quot;: 0.564
   },
   {
     &quot;edge_num&quot;: 9,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;53&quot;,
     &quot;ND&quot;: 16,
-    &quot;fake_trait&quot;: 0.0811,
-    &quot;another_trait&quot;: 0.9992
+    &quot;fake_trait&quot;: 0.7233,
+    &quot;another_trait&quot;: 0.3537
   },
   {
     &quot;edge_num&quot;: 10,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;54&quot;,
     &quot;ND&quot;: 17,
-    &quot;fake_trait&quot;: 0.3108,
-    &quot;another_trait&quot;: 0.5695
+    &quot;fake_trait&quot;: 0.0191,
+    &quot;another_trait&quot;: 0.0773
   },
   {
     &quot;edge_num&quot;: 11,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;65&quot;,
     &quot;ND&quot;: 19,
-    &quot;fake_trait&quot;: -0.1664,
-    &quot;another_trait&quot;: 0.4329
+    &quot;fake_trait&quot;: 0.8504,
+    &quot;another_trait&quot;: 0.721
   },
   {
     &quot;edge_num&quot;: 12,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;71&quot;,
     &quot;ND&quot;: 20,
-    &quot;fake_trait&quot;: 2.5642,
-    &quot;another_trait&quot;: 0.3361
+    &quot;fake_trait&quot;: 2.4185,
+    &quot;another_trait&quot;: 0.8404
   },
   {
     &quot;edge_num&quot;: 13,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;64&quot;,
     &quot;ND&quot;: 22,
-    &quot;fake_trait&quot;: 0.5486,
-    &quot;another_trait&quot;: 0.1414
+    &quot;fake_trait&quot;: -1.4917,
+    &quot;another_trait&quot;: 0.1877
   },
   {
     &quot;edge_num&quot;: 14,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;26&quot;,
     &quot;ND&quot;: 28,
-    &quot;fake_trait&quot;: 1.0878,
-    &quot;another_trait&quot;: 0.043
+    &quot;fake_trait&quot;: -0.1128,
+    &quot;another_trait&quot;: 0.9501
   },
   {
     &quot;edge_num&quot;: 15,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;16&quot;,
     &quot;ND&quot;: 5,
-    &quot;fake_trait&quot;: 0.3129,
-    &quot;another_trait&quot;: 0.3432
+    &quot;fake_trait&quot;: -1.3266,
+    &quot;another_trait&quot;: 0.7535
   },
   {
     &quot;edge_num&quot;: 16,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;15&quot;,
     &quot;ND&quot;: 6,
-    &quot;fake_trait&quot;: 0.2992,
-    &quot;another_trait&quot;: 0.6383
+    &quot;fake_trait&quot;: 0.089,
+    &quot;another_trait&quot;: 0.7985
   },
   {
     &quot;edge_num&quot;: 17,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;9&quot;,
     &quot;ND&quot;: 30,
-    &quot;fake_trait&quot;: -0.3032,
-    &quot;another_trait&quot;: 0.2754
+    &quot;fake_trait&quot;: 0.4767,
+    &quot;another_trait&quot;: 0.8331
   },
   {
     &quot;edge_num&quot;: 18,
     &quot;Ev&quot;: &quot;D&quot;,
     &quot;S&quot;: &quot;17&quot;,
     &quot;ND&quot;: 8,
-    &quot;fake_trait&quot;: 0.1734,
-    &quot;another_trait&quot;: 0.9506
+    &quot;fake_trait&quot;: -1.3274,
+    &quot;another_trait&quot;: 0.1762
   },
   {
     &quot;edge_num&quot;: 19,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;36&quot;,
     &quot;ND&quot;: 4,
-    &quot;fake_trait&quot;: -0.3418,
-    &quot;another_trait&quot;: 0.9614
+    &quot;fake_trait&quot;: 1.2282,
+    &quot;another_trait&quot;: 0.4175
   },
   {
     &quot;edge_num&quot;: 20,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;60&quot;,
     &quot;ND&quot;: 3,
-    &quot;fake_trait&quot;: 1.0272,
-    &quot;another_trait&quot;: 0.5974
+    &quot;fake_trait&quot;: -0.6136,
+    &quot;another_trait&quot;: 0.6148
   },
   {
     &quot;edge_num&quot;: 21,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;17&quot;,
     &quot;ND&quot;: 29,
-    &quot;fake_trait&quot;: -1.3757,
-    &quot;another_trait&quot;: 0.437
+    &quot;fake_trait&quot;: -0.9096,
+    &quot;another_trait&quot;: 0.9669
   },
   {
     &quot;edge_num&quot;: 22,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;19&quot;,
     &quot;ND&quot;: 27,
-    &quot;fake_trait&quot;: 0.3591,
-    &quot;another_trait&quot;: 0.6891
+    &quot;fake_trait&quot;: -0.1831,
+    &quot;another_trait&quot;: 0.3059
   },
   {
     &quot;edge_num&quot;: 23,
     &quot;Ev&quot;: &quot;D&quot;,
     &quot;S&quot;: &quot;24&quot;,
     &quot;ND&quot;: 26,
-    &quot;fake_trait&quot;: -1.6478,
-    &quot;another_trait&quot;: 0.3026
+    &quot;fake_trait&quot;: 0.2714,
+    &quot;another_trait&quot;: 0.3025
   },
   {
     &quot;edge_num&quot;: 24,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;24&quot;,
     &quot;ND&quot;: 14,
-    &quot;fake_trait&quot;: -2.2327,
-    &quot;another_trait&quot;: 0.6808
+    &quot;fake_trait&quot;: 1.0834,
+    &quot;another_trait&quot;: 0.1155
   },
   {
     &quot;edge_num&quot;: 25,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;33&quot;,
     &quot;ND&quot;: 12,
-    &quot;fake_trait&quot;: 0.861,
-    &quot;another_trait&quot;: 0.9887
+    &quot;fake_trait&quot;: -2.2862,
+    &quot;another_trait&quot;: 0.0763
   },
   {
     &quot;edge_num&quot;: 26,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;35&quot;,
     &quot;ND&quot;: 25,
-    &quot;fake_trait&quot;: -1.0065,
-    &quot;another_trait&quot;: 0.7477
+    &quot;fake_trait&quot;: -1.1304,
+    &quot;another_trait&quot;: 0.1875
   },
   {
     &quot;edge_num&quot;: 27,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;40&quot;,
     &quot;ND&quot;: 24,
-    &quot;fake_trait&quot;: 1.1968,
-    &quot;another_trait&quot;: 0.002
+    &quot;fake_trait&quot;: -0.4307,
+    &quot;another_trait&quot;: 0.3911
   },
   {
     &quot;edge_num&quot;: 28,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;45&quot;,
     &quot;ND&quot;: 18,
-    &quot;fake_trait&quot;: -1.1587,
-    &quot;another_trait&quot;: 0.6979
+    &quot;fake_trait&quot;: -0.1855,
+    &quot;another_trait&quot;: 0.37
   },
   {
     &quot;edge_num&quot;: 29,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;46&quot;,
     &quot;ND&quot;: 23,
-    &quot;fake_trait&quot;: -0.2905,
-    &quot;another_trait&quot;: 0.6665
+    &quot;fake_trait&quot;: -0.6863,
+    &quot;another_trait&quot;: 0.487
   },
   {
     &quot;edge_num&quot;: 30,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;56&quot;,
     &quot;ND&quot;: 21,
-    &quot;fake_trait&quot;: 0.7657,
-    &quot;another_trait&quot;: 0.6053
+    &quot;fake_trait&quot;: 0.1887,
+    &quot;another_trait&quot;: 0.9119
   },
   {
     &quot;edge_num&quot;: 31,
     &quot;Ev&quot;: &quot;S&quot;,
     &quot;S&quot;: &quot;12&quot;,
     &quot;ND&quot;: 7,
-    &quot;fake_trait&quot;: -1.0887,
-    &quot;another_trait&quot;: 0.0667
+    &quot;fake_trait&quot;: 1.4385,
+    &quot;another_trait&quot;: 0.9927
   }
 ],
-    &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Mon Aug 13 21:01:49 2018&quot;}
+    &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Fri Jan 25 21:09:55 2019&quot;}
 }</code></pre>
 <p>The <em>jtree</em> format is based on JSON and can be parsed using JSON parser.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">'.jtree'</span>)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">write.jtree</span>(tree2, <span class="dt">file =</span> jtree_file)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">jsonlite<span class="op">::</span><span class="kw">fromJSON</span>(jtree_file)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">'.jtree'</span>)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">write.jtree</span>(tree2, <span class="dt">file =</span> jtree_file)</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">jsonlite<span class="op">::</span><span class="kw">fromJSON</span>(jtree_file)</a></code></pre></div>
 <pre><code>$tree
 [1] &quot;(((Prayidae_D27SS7@2825365:0.0682841{1},(Kephyes_ovata@2606431:0.0193941{2},Chuniphyes_multidentata@1277217:0.0121378{3}):0.0217782{20}):0.0607598{19},((Apolemia_sp_@1353964:0.11832{4},(((Bargmannia_amoena@263997:0.0144549{5},Bargmannia_elongata@946788:0.0149723{6}):0.0925388{25},Physonect_sp_@2066767:0.077429{7}):0.0274637{24},(Stephalia_dilata@2960089:0.0761163{8},((Frillagalma_vityazi@1155031:0.0906068{9},Resomia_ornicephala@3111757:1{10}e-06):1{28}e-06,((Lychnagalma_utricularia@2253871:0.120851{11},Nanomia_bijuga@717864:0.133939{12}):1{30}e-06,Cordagalma_sp_@1525873:0.0693814{13}):1{29}e-06):0.0333823{27}):1{26}e-06):0.0431861{23}):1{22}e-06,Rhizophysa_filiformis@3073669:0.22283{14}):0.0292362{21}):0.185603{18},(Hydra_magnipapillata@52244:0.0621782{15},Ectopleura_larynx@3556167:0.332505{16}):0.185603{31}){17};&quot;
 
 $data
    edge_num Ev  S ND fake_trait another_trait
-1         1  S 58  0     0.8372        0.5092
-2         2  S 69  1     0.0711        0.4002
-3         3  S 70  2     0.3353        0.2980
-4         4  S 31  9    -1.9239        0.8752
-5         5  S 37 10    -0.6685        0.5555
-6         6  S 38 11     0.2197        0.3839
-7         7  S 61 13     0.8181        0.7915
-8         8  S 52 15    -0.1586        0.9611
-9         9  S 53 16     0.0811        0.9992
-10       10  S 54 17     0.3108        0.5695
-11       11  S 65 19    -0.1664        0.4329
-12       12  S 71 20     2.5642        0.3361
-13       13  S 64 22     0.5486        0.1414
-14       14  S 26 28     1.0878        0.0430
-15       15  S 16  5     0.3129        0.3432
-16       16  S 15  6     0.2992        0.6383
-17       17  S  9 30    -0.3032        0.2754
-18       18  D 17  8     0.1734        0.9506
-19       19  S 36  4    -0.3418        0.9614
-20       20  S 60  3     1.0272        0.5974
-21       21  S 17 29    -1.3757        0.4370
-22       22  S 19 27     0.3591        0.6891
-23       23  D 24 26    -1.6478        0.3026
-24       24  S 24 14    -2.2327        0.6808
-25       25  S 33 12     0.8610        0.9887
-26       26  S 35 25    -1.0065        0.7477
-27       27  S 40 24     1.1968        0.0020
-28       28  S 45 18    -1.1587        0.6979
-29       29  S 46 23    -0.2905        0.6665
-30       30  S 56 21     0.7657        0.6053
-31       31  S 12  7    -1.0887        0.0667
+1         1  S 58  0    -0.7959        0.3633
+2         2  S 69  1    -0.6142        0.1989
+3         3  S 70  2     0.9895        0.6095
+4         4  S 31  9     0.6247        0.9472
+5         5  S 37 10    -1.7977        0.1227
+6         6  S 38 11     1.1410        0.4050
+7         7  S 61 13    -0.9460        0.2425
+8         8  S 52 15     0.5975        0.5640
+9         9  S 53 16     0.7233        0.3537
+10       10  S 54 17     0.0191        0.0773
+11       11  S 65 19     0.8504        0.7210
+12       12  S 71 20     2.4185        0.8404
+13       13  S 64 22    -1.4917        0.1877
+14       14  S 26 28    -0.1128        0.9501
+15       15  S 16  5    -1.3266        0.7535
+16       16  S 15  6     0.0890        0.7985
+17       17  S  9 30     0.4767        0.8331
+18       18  D 17  8    -1.3274        0.1762
+19       19  S 36  4     1.2282        0.4175
+20       20  S 60  3    -0.6136        0.6148
+21       21  S 17 29    -0.9096        0.9669
+22       22  S 19 27    -0.1831        0.3059
+23       23  D 24 26     0.2714        0.3025
+24       24  S 24 14     1.0834        0.1155
+25       25  S 33 12    -2.2862        0.0763
+26       26  S 35 25    -1.1304        0.1875
+27       27  S 40 24    -0.4307        0.3911
+28       28  S 45 18    -0.1855        0.3700
+29       29  S 46 23    -0.6863        0.4870
+30       30  S 56 21     0.1887        0.9119
+31       31  S 12  7     1.4385        0.9927
 
 $metadata
 $metadata$info
 [1] &quot;R-package treeio&quot;
 
 $metadata$data
-[1] &quot;Mon Aug 13 21:01:49 2018&quot;</code></pre>
+[1] &quot;Fri Jan 25 21:09:55 2019&quot;</code></pre>
 <p>The <em>jtree</em> file can be directly imported as a <code>treedata</code> object using <code>read.jtree</code> provided also in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">read.jtree</span>(jtree_file)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">read.jtree</span>(jtree_file)</a></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
-##  '/tmp/Rtmpf5I2bn/filed81e4a4b775c.jtree'.
+##  '/tmp/RtmpephCoT/file1306276839ff6.jtree'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.

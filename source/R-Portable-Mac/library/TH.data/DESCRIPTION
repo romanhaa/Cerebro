@@ -1,7 +1,7 @@
 Package: TH.data
 Title: TH's Data Archive
-Date: 2018-07-04
-Version: 1.0-9
+Date: 2019-01-22
+Version: 1.0-10
 Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@R-project.org"))
 Description: Contains data sets used in other packages Torsten Hothorn
@@ -11,9 +11,9 @@ Suggests: dplyr, gdata, plyr
 LazyData: yes
 License: GPL-3
 NeedsCompilation: no
-Packaged: 2018-07-04 11:14:12 UTC; hothorn
+Packaged: 2019-01-21 10:36:50 UTC; hothorn
 Author: Torsten Hothorn [aut, cre]
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Repository: CRAN
-Date/Publication: 2018-07-10 16:10:03 UTC
-Built: R 3.5.0; ; 2018-07-11 13:43:31 UTC; unix
+Date/Publication: 2019-01-21 11:10:03 UTC
+Built: R 3.5.2; ; 2019-01-22 05:25:15 UTC; unix

@@ -1,3 +1,7 @@
+# testthat 2.0.1
+
+* Fix failing tests with devtools 2.0.0
+
 # testthat 2.0.0
 
 ## Breaking API changes
@@ -6,6 +10,9 @@
   to mock functions in base packages, because this no longer works in 
   R-devel due to changes with the byte code compiler. I recommend using
   [mockery](https://github.com/n-s-f/mockery) instead.
+  to mocking functions in base packages, because this no longer works in 
+  R-devel due to changes with the byte code compiler. I'd recommend using
+  [mockery](https://github.com/n-s-f/mockery) or [mockr](https://github.com/krlmlr/mockr) instead.
 
 * The order of arguments to `expect_equivalent()` and `expect_error()` has
   changed slightly as both now pass `...` on another function. This reveals

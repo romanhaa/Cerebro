@@ -109,15 +109,22 @@ htmlTable(mx,
 
 ## ------------------------------------------------------------------------
 htmlTable(mx,
-          cgroup = rbind(c("", "Column spanners", NA),
-                         c("", "Cgroup 1", "Cgroup 2")),
-          n.cgroup = rbind(c(1,5,NA),
-                           c(2,1,3)))
+          cgroup = list(c("Super column spanner", ""),
+                        c("", "Another cgroup"),
+                        c("", "Cgroup 1", "Cgroup 2")),
+          n.cgroup = list(c(5,1),
+                          c(1,2),
+                          c(2,2,2)))
 
 ## ------------------------------------------------------------------------
 htmlTable(mx, 
           tspanner = paste("Spanner", LETTERS[1:3]),
           n.tspanner = c(2,4,nrow(mx) - 6))
+
+## ------------------------------------------------------------------------
+htmlTable(mx, 
+          tspanner = paste("Spanner", LETTERS[1:3]),
+          n.tspanner = c(2,4))
 
 ## ------------------------------------------------------------------------
 htmlTable(mx[1:3,], total=TRUE)
@@ -173,14 +180,18 @@ htmlTable(mx,
           col.columns = c("none", "#F1F0FA"))
 
 ## ------------------------------------------------------------------------
+rgroup = paste("Group", LETTERS[1:3])
+attr(rgroup, "add") <- list(`3` = "Group p-value < 0.001")
 htmlTable(mx, 
           align="r",
-          rgroup = paste("Group", LETTERS[1:3]),
-          n.rgroup = c(2,4,nrow(mx) - 6),
-          cgroup = rbind(c("", "Column spanners", NA),
-                         c("", "Cgroup 1", "Cgroup 2&dagger;")),
-          n.cgroup = rbind(c(1,2,NA),
-                           c(2,2,2)),
+          rgroup = rgroup,
+          n.rgroup = c(2,4),
+          tspanner = paste("Spanner", LETTERS[1:2]),
+          n.tspanner = c(1),
+          cgroup = list(c("", "Column spanners"),
+                        c("", "Cgroup 1", "Cgroup 2&dagger;")),
+          n.cgroup = list(c(1,5),
+                          c(2,2,2)),
           caption="A table with column spanners, row groups, and zebra striping",
           tfoot="&dagger; A table footer commment",
           cspan.rgroup = 2,

@@ -3,15 +3,17 @@ Ops.units               S3 Ops Group Generic Functions for units
                         objects
 as_difftime             convert units object into difftime object
 as_units                convert object to a units object
+boxplot.units           boxplot for unit objects
 deparse_unit            deparse unit to string in product power form
                         (e.g. km m-2 s-1)
-drop_units              drop units
+drop_units              Drop Units
 hist.units              histogram for unit objects
 install_conversion_constant
                         Install a conversion constant or offset between
                         user-defined units.
 install_symbolic_unit   Define new symbolic units
 make_unit               Deprecated functions
+mixed_units             Create or convert to a mixed units list-column
 plot.units              create axis label with appropriate labels
 seq.units               seq method for units objects
 set_units               set_units

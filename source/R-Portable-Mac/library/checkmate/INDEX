@@ -22,11 +22,16 @@ checkDataTable          Check if an argument is a data table
 checkDate               Check that an argument is a Date
 checkDirectoryExists    Check for existence and access rights of
                         directories
+checkDisjunct           Check if an argument is disjunct from a given
+                        set
+checkDouble             Check that an argument is a vector of type
+                        double
 checkEnvironment        Check if an argument is an environment
 checkFALSE              Check if an argument is FALSE
 checkFactor             Check if an argument is a factor
 checkFileExists         Check existence and access rights of files
 checkFlag               Check if an argument is a flag
+checkFormula            Check if an argument is a formula
 checkFunction           Check if an argument is a function
 checkInt                Check if an argument is a single integerish
                         value
@@ -36,6 +41,7 @@ checkList               Check if an argument is a list
 checkLogical            Check if an argument is a vector of type
                         logical
 checkMatrix             Check if an argument is a matrix
+checkMultiClass         Check the class membership of an argument
 checkNamed              Check if an argument is named
 checkNames              Check names to comply to specific rules
 checkNull               Check if an argument is NULL
@@ -48,6 +54,7 @@ checkPOSIXct            Check that an argument is a date/time object in
 checkPathForOutput      Check if a path is suited for creating an
                         output file
 checkR6                 Check if an argument is a R6 class
+checkRaw                Check if an argument is a raw vector
 checkScalar             Check if an argument is a single atomic value
 checkScalarNA           Check if an argument is a single missing value
 checkSetEqual           Check if an argument is equal to a given set

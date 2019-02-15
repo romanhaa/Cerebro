@@ -39,12 +39,16 @@ stopifnot(require(ggplot2),
           require(grid),
           require(reshape2))
 source(file.path(robustDoc, 'graphics.functions.R'))
+`%||%` <- function (x, orElse) if (!is.null(x)) x else orElse
 
 ## set ggplot theme
 theme <- theme_bw(base_size = 10)
 theme$legend.key.size <- unit(1, "lines")# was 0.9 in pre-v.3 ggplot2
 theme$plot.margin <- unit(c(1/2, 1/8, 1/8, 1/8), "lines")# was (1/2, 0,0,0)
 theme_set(theme)
+## old and new ggplot2:
+stopifnot(is.list(theme_G <- theme$panel.grid.major %||% theme$panel.grid))
+
 ## set default sizes for lines and points
 update_geom_defaults("point",  list(size = 4/3))
 update_geom_defaults("line",   list(size = 1/4))
@@ -70,10 +74,10 @@ g.truncate.line <- geom_hline(yintercept = trunc[2],
                               color = theme$panel.border$colour)
 g.truncate.areas <- annotate("rect", xmin=rep(-Inf,2), xmax=rep(Inf,2),
                              ymin=c(0,Inf), ymax=trunc,
-                             fill = theme$panel.grid.major$colour)
+                             fill = theme_G$colour)
 g.truncate.area <- annotate("rect", xmin=-Inf, xmax=Inf,
                             ymin=trunc[2], ymax=Inf,
-                            fill = theme$panel.grid.major$colour)
+                            fill = theme_G$colour)
 
 legend.mod <- list(`SMD.Wtau` = quote('SMD.W'~tau),
                    `SMDM.Wtau` = quote('SMDM.W'~tau),
@@ -178,11 +182,13 @@ require(GGally)
 colnames(rand_25_5) <- paste0("X", 1:5) # workaround new (2014-12) change in GGally
 ## and the 2016-11-* change needs data frames:
 df.r_25_5 <- as.data.frame(rand_25_5)
+try( ## fails with old GGally and new  packageVersion("ggplot2") >= "2.2.1.9000"
 print(ggpairs(df.r_25_5, axisLabels="show", title = "rand_25_5: n=25, p=5"))
+)
 
 
 ###################################################
-### code chunk number 7: lmrob_simulation.Rnw:363-364
+### code chunk number 7: lmrob_simulation.Rnw:369-370
 ###################################################
 aggrResultsFile <- file.path(robustDta, "aggr_results.Rdata")
 
@@ -256,7 +262,7 @@ estlist$errs[[1]]
 
 
 ###################################################
-### code chunk number 12: lmrob_simulation.Rnw:441-442
+### code chunk number 12: lmrob_simulation.Rnw:447-448
 ###################################################
 str(estlist$output[1:3], 2)
 
@@ -934,11 +940,15 @@ pp <- f.prediction.points(dd)[1:7,]
 ## tmp <- plotmatrix(pp)$data
 ## tmp$label <- as.character(1:7)
 ## print(plotmatrix(dd) + geom_text(data=tmp, color = 2, aes(label=label), size = 2.5))
+if(FALSE) {
 tmp <- ggpairs(pp)$data
 tmp$label <- as.character(1:7) # and now?
+}
 ## ggpairs() + geom_text()  does *NOT* work {ggpairs has own class}
 ## print(ggpairs(dd) + geom_text(data=tmp, color = 2, aes(label=label), size = 2.5))
+try( ## fails with old GGally and new  packageVersion("ggplot2") >= "2.2.1.9000"
 print( ggpairs(dd) )## now (2016-11) fine
+)
 
 
 ###################################################

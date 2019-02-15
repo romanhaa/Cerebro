@@ -3,6 +3,11 @@
   bottom: 0;
   position: fixed;
 }
+.sF-modal .modal-content {
+  overflow: auto;
+  min-width: 276px;
+  max-height: calc(100vh - 45px);
+}
 .sF-navigation {
   margin-bottom: 5px;
 }
@@ -32,8 +37,9 @@
 }
 
 .sF-breadcrumps {
-  width: calc(100% - 255px);
-  margin-left: auto
+  width: calc(100% - 300px);
+  margin-left: auto;
+  min-width: 150px;
 }
 
 .sF-fileList>div.selected .sF-file-name div,
@@ -59,6 +65,18 @@
   display: none;
 }
 
+.btn-toolbar .btn-group.sF-refresh {
+  float: right;
+}
+
+.btn-toolbar .sF-breadcrumps {
+  margin-left: 5px;
+  float: left;
+}
+
+.btn-toolbar .btn-group {
+  margin-bottom: 5px;
+}
 
 /*
   Icons

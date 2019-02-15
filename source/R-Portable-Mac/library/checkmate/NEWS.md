@@ -1,3 +1,37 @@
+# Version 1.9.1
+* Fix segfault on Solaris
+* Fix warnings reported by rchk
+* Fix checking private slots in `checkR6` (#156)
+
+# Version 1.9.0
+* Error messages now provide more information about error locations, e.g., the
+  position of the first missing element in a vector.
+* If the object to check is missing, `assert`-functions now give a better error
+  message, `test`-functions are always `FALSE` and `expect`-functions always
+  raise an exception.
+* Checks for missingness and sort order optimized for ALTREPs.
+* The calling frame reported in assertions is now identical to the calling
+  frame reported by R's `stop()` function (#117).
+* Added `checkDouble` to explicitly check for non-integer numerics.
+* Added `checkRaw` to check raw vectors.
+* Added `checkFormula` to check formula objects.
+* Added `checkMultiClass` to check for inheritance from a set of candidates
+* Added `checkDisjunct` to check sets for being disjunct.
+* Added abbreviation `"p"` to qassert to check for POSIXct objects.
+* Added argument `coerce` to `assertCount`/`assert_count`,
+  `assertInt`/`assert_int` and `assertIntegerish`/`assert_integerish` which
+  optionally coerces `x` to integer after an successful assertion.
+  This supersedes the functions `asCount`, `asInt` and `asInteger` (#77).
+* Added arguments `max.rows` and `max.cols` to check for maximum number
+  of rows and columns for matrices, data.frames, tibbles and data.tables.
+* Added argument `disjunct.from` to `*Names`.
+* Fixed an error message in `checkChoice`.
+* Fixed `*Function` to work properly with Primitives.
+* Fixed `*List` where the check for missingness was broken.
+* Workaround for  `*DataTable` for the detection of the number of rows of
+  null data.tables: <https://github.com/Rdatatable/data.table/issues/3149>
+
+
 # Version 1.8.5
 * Added `*POSIXct` to check POSIXct data-time objects in POSIXct format.
 * The set functions optionally support the package `fastmatch` now.
@@ -74,7 +108,7 @@
   checking nested lists.
 
 # Version 1.7.3
-* Added `checkDate()`.
+* Added `checkDate`.
 * Argument `.var.name` of assert functions now has \code{NULL} as default value
   (instead of missing).
 * Fixed a bug in `*OS` functions.
@@ -194,7 +228,7 @@
 * `assert()` now returns TRUE invisibly (as documented).
 * Fixed handling of zero-length arguments in `checkFunction()`.
 * Fixed error message if duplicated values where found.
-* Fixed a missing check for row names in `checkMatrix()` and `checkDataFrame()`.
+* Fixed a missing check for row names in `checkMatrix` and `checkDataFrame`.
 
 # Version 1.0
 * Initial release on CRAN.

@@ -221,7 +221,7 @@ errors. Within \proglang{R} extensions written in \proglang{C} the `Rf_error` fu
 safely use `Rf_error` because it results in a `longjmp` over
 any \proglang{C++} destructors on the stack.
 
-The correct way to signal errors within \proglang{C++} functions is to throw an \\`Rcpp::exception`. For example:
+The correct way to signal errors within \proglang{C++} functions is to throw an `Rcpp::exception`. For example:
 
 ```{Rcpp, eval = FALSE}
 if (unexpectedCondition)
@@ -326,7 +326,7 @@ requirements to be correctly handled:
 - Be defined in the global namespace (i.e. not within a C++ namespace declaration)
 - Have a return type that is either void or compatible with `Rcpp::wrap`
   and parameter types that are compatible with `Rcpp::as` (see sections
-  3.1 and 3.2 of the '\textsl{Rcpp-introduction}' vignette for more details).
+  3.1 and 3.2 of the '\textsl{Rcpp-jss-2011}' vignette for more details).
 - Use fully qualified type names for the return value and all parameters.
   Rcpp types may however appear without a namespace qualifier (i.e.
   `DataFrame` is okay as a type name but `std::string` must be
@@ -557,7 +557,7 @@ moving code from a standalone \proglang{C++} source file to a package:
 ## Package Creation 
 
 To create a package that is based on \pkg{Rcpp} you should follow the
-guidelines in the `\textsl{Rcpp-package}' vignette. For a new package this
+guidelines in the '\textsl{Rcpp-package}' vignette. For a new package this
 is most conveniently done using  the `Rcpp.package.skeleton` function.
 
 To generate a new package with a simple hello, world function that uses
@@ -650,6 +650,30 @@ step may be required. Specifically, if your package `NAMESPACE` file
 does not use a pattern to export functions then you should add an explicit
 entry to `NAMESPACE` for each R function you want publicly available.
 
+## Package Init Functions
+
+Rcpp attribute compilation will automatically generate a package R_init function that does native routine registration as described here: <https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Registering-native-routines>.
+
+You may however want to add additional C++ code to the package initialization sequence. To do this, you can add the `[[Rcpp::init]]` attribute to functions within your package. For example:
+
+```{cpp, eval = FALSE}
+// [[Rcpp::init]]
+void my_package_init(DllInfo *dll) {
+  // initialization code here
+}
+```
+
+In this case, a call to `my_package_init()` will be added to the end of the automatically generated R_init function within RcppExports.cpp. For example:
+
+```{cpp, eval = FALSE}
+void my_package_init(DllInfo *dll);
+RcppExport void R_init_pkgname(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+    my_package_init(dll);
+}
+```
+
 ## Types in Generated Code 
 
 In some cases the signatures of the C++ functions that are generated within
@@ -686,7 +710,7 @@ inst/include/fastcode.h
 This header file will also automatically be included in 
 `RcppExports.cpp`. Note that the convention of using `.h` for
 header files containing C++ code may seem unnatural, but this comes from the
-recommended practices described in `\textsl{Writing R Extensions}' 
+recommended practices described in '\textsl{Writing R Extensions}' 
 \citep{R:Extensions}.
 
 ## Roxygen Comments 
@@ -726,7 +750,7 @@ The interface exposed from \proglang{R} packages is most typically a set of
 a mechanism to allow the exporting of \proglang{C} and \proglang{C++}
 interfaces using package header files.  This is based on the
 `R_RegisterCCallable` and `R_GetCCallable` functions described in
-`\textsl{Writing R Extensions}' \citep{R:Extensions}.
+'\textsl{Writing R Extensions}' \citep{R:Extensions}.
 
 \proglang{C++} interfaces to a package are published within the
 top level `include` directory of the package (which within the package
