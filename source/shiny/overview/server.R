@@ -50,7 +50,7 @@ output$overview_UI <- renderUI({
       label = "Point size",
       min = 0,
       max = 50,
-      value = 15,
+      value = 25,
       step = 1
     ),
     checkboxInput(
@@ -197,20 +197,19 @@ output$overview_projection <- scatterD3::renderScatterD3({
     ellipses = input$overview_show_ellipses,
     size_var = size_var,
     point_opacity = input$overview_cell_opacity,
+    hover_size = 4,
+    hover_opacity = 1,
     transitions = FALSE,
     menu = FALSE,
-    tooltip_text  = paste0(
+    tooltip_text = paste0(
+      "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br/>",
       "<b>Sample</b>: ", to_plot[ , "sample" ], "<br/>",
-      "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
-      "<b>nUMI</b>: ", to_plot[ , "nUMI" ], "<br/>",
-      "<b>nGene</b>: ", to_plot[ , "nGene" ], "<br/>"
+      "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>"
     )
   )
-#      "<b>Expr. MT</b>: ", format(to_plot[ , "percent_mt" ]*100, digits=1), "%<br/>",
-#      "<b>Expr. ribo</b>: ", format(to_plot[ , "percent_ribo" ]*100, digits=1), "%<br/>"))
 })
 
-# output$overview_projection_highcharter <- renderHighchart({
+# output$overview_projection_highcharter <- highcharter::renderHighchart({
 
 #   # don't do anything before these inputs are selected
 #   req(input$overview_projection_to_display)
@@ -366,6 +365,12 @@ observeEvent(input$overview_projection_export, {
       lims(x = xlim, y = ylim) +
       theme_bw()
   } else {
+    color_scale_min <- min(to_plot[input$overview_cell_color])-((max(to_plot[input$overview_cell_color])-min(to_plot[input$overview_cell_color]))/10)
+    # if ( color_scale_min < 0 ) {
+    #   color_scale_min <- 0
+    # }
+    # color_scale_min <- min(to_plot[input$overview_cell_color])
+    color_scale_max <- max(to_plot[input$overview_cell_color])
     p <- ggplot(
         to_plot,
         aes_q(
@@ -375,8 +380,11 @@ observeEvent(input$overview_projection_export, {
         )
       ) +
       geom_point() +
-      viridis::scale_colour_viridis(
-        guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
+      scale_colour_distiller(
+        palette = "YlGnBu",
+        direction = 1,
+        guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"),
+        limits = c(color_scale_min, color_scale_max)
       ) +
       lims(x = xlim, y = ylim) +
       theme_bw()

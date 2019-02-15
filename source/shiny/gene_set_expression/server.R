@@ -194,16 +194,16 @@ output$geneSetexpression_projection <- scatterD3::renderScatterD3({
     col_lab = "Gene expression",
     col_continuous = TRUE,
     point_opacity = input$geneSetexpression_projection_opacity,
+    hover_size = 4,
+    hover_opacity = 1,
     transitions = FALSE,
     legend_width = 0,
     menu = FALSE,
     tooltip_text = paste0(
+      "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br/>",
       "<b>Sample</b>: ", to_plot[ , "sample" ], "<br/>",
       "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
-      "<b>nUMI</b>: ", to_plot[ , "nUMI" ], "<br/>",
-      "<b>nGene</b>: ", to_plot[ , "nGene" ], "<br/>",
-      # "<b>Expr. MT</b>: ", format(to_plot[ , "percent_mt" ]*100, digits = 1), "%<br/>",
-      # "<b>Expr. ribo</b>: ", format(to_plot[ , "percent_ribo" ]*100, digits = 1), "%<br/>"
+      "<b>Expression level</b>: ", formatC(to_plot[ , "level" ], digits = 3), "<br/>"
     )
   )
 })
@@ -283,9 +283,16 @@ observeEvent(input$geneSetexpression_projection_export, {
       )
     ) +
     geom_point() +
-    viridis::scale_colour_viridis(
+    scale_colour_distiller(
+      palette = "YlGnBu",
+      direction = 1,
       name = "Average\nlog-normalised\nexpression",
-      guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")) +
+      guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"),
+      limits = c(
+        min(to_plot$level)-((max(to_plot$level)-min(to_plot$level))/10),
+        max(to_plot$level)
+      )
+    ) +
     lims(x = xlim, y = ylim) +
     theme_bw()
 

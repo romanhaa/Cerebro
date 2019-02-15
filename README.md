@@ -64,6 +64,12 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [x] Check if colMeans can be improved.
   * Runs in C, super fast already.
 * [x] Format cell number on load page to have comma separation.
+* [x] Adjust tooltip.
+* [x] Disable zoom in scatterD3.
+  * In `d3-4.13.0.min.js`, change the `wheel.zoom` to `null`.
+* [x] Change color scale in scatterD3 and export functions to `YlGnBu`.
+  * Required adding `d3-scale-chromatic.v.0.3.min.js` to scatterD3 and change object name inside.
+  * Eventually consider making this a variable to choose by user, e.g. blue vs red scale.
 * [ ] Prepare Docker container and instructions on how to use it.
 * [ ] Add contributions that are currently mentioned inside the browser.
 * [ ] Format average UMI and expressed gene counts.
@@ -103,8 +109,8 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
       * cell cycle (specify as function parameter)
 * [ ] Adjust default data that is loaded in the app.
 * [ ] Try highcharter for scatter plots.
-* [ ] Disable zoom in scatterD3.
-* [ ] Fix order of clusters.
+* [ ] Update scatterD3?
+* [ ] Fix order of clusters. What is this?
 * [ ] Check what's going on with missing strings in sample info / analysis info.
 
 ## Changelog

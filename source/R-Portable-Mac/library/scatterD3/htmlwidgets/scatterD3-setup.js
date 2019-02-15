@@ -190,8 +190,9 @@ function setup_scales (dims, settings, data) {
     }
     // Continuous color scale
     if (settings.col_continuous) {
-	scales.color = d3v4.scaleSequential(d3v4.interpolateViridis)
-	    .domain([d3v4.min(data, function(d) { return(d.col_var);} ),
+	scales.color = d3v4.scaleSequential(d3v4["interpolate"+"YlOrRd"])
+//	    .domain([d3v4.min(data, function(d) { return(d.col_var);} )-((d3v4.max(data, function(d) { return(d.col_var);} )-d3v4.min(data, function(d) { return(d.col_var);} ))/10),
+        .domain([d3v4.min(data, function(d) { return(d.col_var);} ),
 		     d3v4.max(data, function(d) { return(d.col_var);} )]);
     }
     // Ordinal color scale

@@ -4,11 +4,11 @@ tab_overview <- tabItem(
       fluidRow(
         column(width = 3, offset = 0, style = "padding: 0px;",
           box(
-          title = "Input parameters", status = "primary",
-          solidHeader = TRUE, width = 12, collapsible = TRUE,
+            title = "Input parameters", status = "primary",
+            solidHeader = TRUE, width = 12, collapsible = TRUE,
             tagList(
-            uiOutput("overview_UI"),
-            uiOutput("overview_scales")
+              uiOutput("overview_UI"),
+              uiOutput("overview_scales")
             )
           )
         ),
@@ -33,8 +33,9 @@ tab_overview <- tabItem(
             status = "primary", solidHeader = TRUE, width = 12,
             collapsible = TRUE,
             scatterD3::scatterD3Output(
-                "overview_projection", height = "720px"
+              "overview_projection", height = "720px"
             )
+            # highcharter::highchartOutput("overview_projection_highcharter")
           )
         )
       )

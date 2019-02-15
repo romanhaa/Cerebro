@@ -69,6 +69,7 @@ library("dplyr")
 library("formattable")
 library("shiny")
 library("shinydashboard")
+#require("highcharter")
 
 ##----------------------------------------------------------------------------##
 ##
@@ -125,7 +126,7 @@ cell_cycle_colorset <- setNames(
 ## App.
 ##----------------------------------------------------------------------------##
 source("shiny/shiny_UI.R", local = TRUE)
-source("shiny/shiny_server.R")
+source("shiny/shiny_server.R", local = TRUE)
 
 shinyApp(ui, server)
 
