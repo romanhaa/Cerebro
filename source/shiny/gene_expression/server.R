@@ -5,22 +5,41 @@
 ##----------------------------------------------------------------------------##
 ## Reactive data: Genes from user.
 ##----------------------------------------------------------------------------##
-genesToPlot <- reactive({
+# genesToPlot <- reactive({
+#   genesToPlot <- list()
+#   if ( is.null(input$expression_genes_input) ) {
+#     genesToPlot$genes_to_display <- ""
+#   } else {
+#     genesToPlot$genes_to_display <- input$expression_genes_input %>%
+#       strsplit(",| |;|\n") %>%
+#       unlist() %>%
+#       gsub(pattern = " ", replacement = "", fixed = TRUE) %>%
+#       unique()
+#   }
+#   genesToPlot$genes_to_display_here <- rownames(sample_data()$expression)[ match(tolower(genesToPlot$genes_to_display), tolower(rownames(sample_data()$expression))) ]
+#   genesToPlot$genes_to_display_present <- genesToPlot$genes_to_display_here[ which(!is.na(genesToPlot$genes_to_display_here)) ]
+#   genesToPlot$genes_to_display_missing <- genesToPlot$genes_to_display[ which(is.na(genesToPlot$genes_to_display_here)) ]
+#   genesToPlot
+# })
+
+genesToPlot <- eventReactive(input[["keyPressed"]], {
   genesToPlot <- list()
   if ( is.null(input$expression_genes_input) ) {
-    genesToPlot$genes_to_display <- ""
+    genesToPlot$genes_to_display <- character()
   } else {
     genesToPlot$genes_to_display <- input$expression_genes_input %>%
       strsplit(",| |;|\n") %>%
       unlist() %>%
       gsub(pattern = " ", replacement = "", fixed = TRUE) %>%
-      unique()
+      unique() %>%
+      na.omit() %>%
+      .[. != ""]
   }
   genesToPlot$genes_to_display_here <- rownames(sample_data()$expression)[ match(tolower(genesToPlot$genes_to_display), tolower(rownames(sample_data()$expression))) ]
   genesToPlot$genes_to_display_present <- genesToPlot$genes_to_display_here[ which(!is.na(genesToPlot$genes_to_display_here)) ]
   genesToPlot$genes_to_display_missing <- genesToPlot$genes_to_display[ which(is.na(genesToPlot$genes_to_display_here)) ]
   genesToPlot
-})
+}, ignoreNULL = FALSE)
 
 # select genes to be displayed
 output$expression_genes_displayed <- renderText({
@@ -55,16 +74,16 @@ output$expression_UI <- renderUI({
     shinyWidgets::pickerInput(
       "expression_samples_to_display",
       label = "Samples to display:",
-      choices = sample_data()$samples$overview$sample,
-      selected = sample_data()$samples$overview$sample,
+      choices = levels(sample_data()$cells$sample),
+      selected = levels(sample_data()$cells$sample),
       options = list("actions-box" = TRUE),
       multiple = TRUE
     ),
     shinyWidgets::pickerInput(
       "expression_clusters_to_display",
       label = "Clusters to display:",
-      choices = sample_data()$clusters$overview$cluster,
-      selected = sample_data()$clusters$overview$cluster,
+      choices = levels(sample_data()$cells$cluster),
+      selected = levels(sample_data()$cells$cluster),
       options = list("actions-box" = TRUE),
       multiple = TRUE
     ),
@@ -80,7 +99,7 @@ output$expression_UI <- renderUI({
       choices = c("Random", "Highest expression on top")
     ),
     sliderInput("expression_projection_dot_size", label = "Point size:",
-      min = 0, max = 50, value = 40, step = 1
+      min = 0, max = 50, value = 10, step = 1
     ),
     sliderInput("expression_projection_opacity", label = "Point opacity:",
       min = 0, max = 1, value = 1, step = 0.05
@@ -120,7 +139,166 @@ output$expression_scales <- renderUI({
 ##----------------------------------------------------------------------------##
 ## Projection.
 ##----------------------------------------------------------------------------##
-output$expression_projection <- scatterD3::renderScatterD3({
+# output$expression_projection <- scatterD3::renderScatterD3({
+#   req(input$expression_projection_to_display)
+#   req(input$expression_samples_to_display)
+#   req(input$expression_clusters_to_display)
+#   req(input$expression_plotting_order)
+#   projection_to_display <- input$expression_projection_to_display
+#   samples_to_display <- input$expression_samples_to_display
+#   clusters_to_display <- input$expression_clusters_to_display
+#   cells_to_display <- which(
+#       grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE & 
+#       grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|")) == TRUE
+#     )
+#   # randomly remove cells
+#   if ( input$expression_percentage_cells_to_show < 100 ) {
+#     number_of_cells_to_plot <- ceiling(
+#       input$expression_percentage_cells_to_show / 100 * length(cells_to_display)
+#     )
+#     cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+#   }
+#   to_plot <- cbind(
+#       sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
+#       sample_data()$cells[ cells_to_display , ]
+#     )
+#   if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
+#     to_plot$level <- 0
+#   } else if ( length(genesToPlot()$genes_to_display_present) == 1 ) {
+#     to_plot$level <- genesToPlot()$genes_to_display_present %>%
+#       sample_data()$expression[ . , cells_to_display ]
+#   } else {
+#     to_plot$level <- genesToPlot()$genes_to_display_present %>%
+#       sample_data()$expression[ . , cells_to_display ] %>%
+#       colMeans() %>%
+#       as.vector()
+#   }
+#   if ( input$expression_plotting_order == "Random" ) {
+#     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
+#   } else if ( input$expression_plotting_order == "Highest expression on top" ) {
+#     to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
+#   }
+#   scatterD3::scatterD3(
+#     x = to_plot[ , 1 ],
+#     y = to_plot[ , 2 ],
+#     xlab = colnames(to_plot)[ 1 ],
+#     ylab = colnames(to_plot)[ 2 ],
+#     xlim = c(
+#         input$expression_projection_scale_x_manual_range[1],
+#         input$expression_projection_scale_x_manual_range[2]
+#       ),
+#     ylim = c(
+#         input$expression_projection_scale_y_manual_range[1],
+#         input$expression_projection_scale_y_manual_range[2]
+#       ),
+#     point_size = input$expression_projection_dot_size,
+#     col_var = to_plot$level,
+#     col_lab = "Gene expression",
+#     col_continuous = TRUE,
+#     point_opacity = input$expression_projection_opacity,
+#     hover_size = 4,
+#     hover_opacity = 1,
+#     transitions = FALSE,
+#     legend_width = 0,
+#     menu = FALSE,
+#     tooltip_text = paste0(
+#       "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br/>",
+#       "<b>Sample</b>: ", to_plot[ , "sample" ], "<br/>",
+#       "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
+#       "<b>Expression level</b>: ", formatC(to_plot[ , "level" ], digits = 3), "<br/>"
+#     )
+#   )
+# })
+
+# output$expression_projection_plotly <- plotly::renderPlotly({
+#   req(input$expression_projection_to_display)
+#   req(input$expression_samples_to_display)
+#   req(input$expression_clusters_to_display)
+#   req(input$expression_plotting_order)
+#   projection_to_display <- input$expression_projection_to_display
+#   samples_to_display <- input$expression_samples_to_display
+#   clusters_to_display <- input$expression_clusters_to_display
+#   cells_to_display <- which(
+#       grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE & 
+#       grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|")) == TRUE
+#     )
+#   # randomly remove cells
+#   if ( input$expression_percentage_cells_to_show < 100 ) {
+#     number_of_cells_to_plot <- ceiling(
+#       input$expression_percentage_cells_to_show / 100 * length(cells_to_display)
+#     )
+#     cells_to_display <- cells_to_display[ sample(1:length(cells_to_display), number_of_cells_to_plot) ]
+#   }
+#   to_plot <- cbind(
+#       sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
+#       sample_data()$cells[ cells_to_display , ]
+#     )
+#   if ( length(genesToPlot()$genes_to_display_present) == 0 ) {
+#     to_plot$level <- 0
+#   } else if ( length(genesToPlot()$genes_to_display_present) == 1 ) {
+#     to_plot$level <- genesToPlot()$genes_to_display_present %>%
+#       sample_data()$expression[ . , cells_to_display ]
+#   } else {
+#     to_plot$level <- genesToPlot()$genes_to_display_present %>%
+#       sample_data()$expression[ . , cells_to_display ] %>%
+#       colMeans()
+#   }
+#   if ( input$expression_plotting_order == "Random" ) {
+#     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
+#   } else if ( input$expression_plotting_order == "Highest expression on top" ) {
+#     to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
+#   }
+#   plotly::plot_ly(
+#     to_plot,
+#     x = ~to_plot[,1],
+#     y = ~to_plot[,2],
+#     type = "scattergl",
+#     mode = "markers",
+#     marker = list(
+#       colorbar = list(
+#         title = "Gene expression"
+#       ),
+#       color = ~level,
+#       opacity = input$expression_projection_opacity,
+#       colorscale = "YlGnBu",
+#       reversescale = TRUE,
+#       line = list(
+#         color = "rgb(196,196,196)",
+#         width = 1
+#       ),
+#       size = input$expression_projection_dot_size
+#     ),
+#     hoverinfo = "text",
+#     text = ~paste(
+#       "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
+#       "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
+#       "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
+#       "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
+#       "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0), "<br>",
+#       "<b>Expression level</b>: ", formatC(to_plot[ , "level" ], format = "f", big.mark = ",", digits = 3)
+#     ),
+#     height = 720
+#   ) %>%
+#   plotly::layout(
+#     xaxis = list(
+#       title = colnames(to_plot)[1],
+#       mirror = TRUE,
+#       showline = TRUE,
+#       zeroline = FALSE
+#     ),
+#     yaxis = list(
+#       title = colnames(to_plot)[2],
+#       mirror = TRUE,
+#       showline = TRUE,
+#       zeroline = FALSE
+#     ),
+#     hoverlabel = list(font = list(size = 11))
+#   )
+# })
+
+
+
+output$expression_projection_plotly <- plotly::renderPlotly({
   req(input$expression_projection_to_display)
   req(input$expression_samples_to_display)
   req(input$expression_clusters_to_display)
@@ -151,43 +329,58 @@ output$expression_projection <- scatterD3::renderScatterD3({
   } else {
     to_plot$level <- genesToPlot()$genes_to_display_present %>%
       sample_data()$expression[ . , cells_to_display ] %>%
-      colMeans() %>%
-      as.vector()
+      colMeans()
   }
   if ( input$expression_plotting_order == "Random" ) {
     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
   } else if ( input$expression_plotting_order == "Highest expression on top" ) {
     to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
   }
-  scatterD3::scatterD3(
-    x = to_plot[ , 1 ],
-    y = to_plot[ , 2 ],
-    xlab = colnames(to_plot)[ 1 ],
-    ylab = colnames(to_plot)[ 2 ],
-    xlim = c(
-        input$expression_projection_scale_x_manual_range[1],
-        input$expression_projection_scale_x_manual_range[2]
+  plotly::plot_ly(
+    to_plot,
+    x = ~to_plot[,1],
+    y = ~to_plot[,2],
+    type = "scattergl",
+    mode = "markers",
+    marker = list(
+      colorbar = list(
+        title = "Gene expression"
       ),
-    ylim = c(
-        input$expression_projection_scale_y_manual_range[1],
-        input$expression_projection_scale_y_manual_range[2]
+      color = ~level,
+      opacity = input$expression_projection_opacity,
+      colorscale = "YlGnBu",
+      reversescale = TRUE,
+      line = list(
+        color = "rgb(196,196,196)",
+        width = 1
       ),
-    point_size = input$expression_projection_dot_size,
-    col_var = to_plot$level,
-    col_lab = "Gene expression",
-    col_continuous = TRUE,
-    point_opacity = input$expression_projection_opacity,
-    hover_size = 4,
-    hover_opacity = 1,
-    transitions = FALSE,
-    legend_width = 0,
-    menu = FALSE,
-    tooltip_text = paste0(
-      "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br/>",
-      "<b>Sample</b>: ", to_plot[ , "sample" ], "<br/>",
-      "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br/>",
-      "<b>Expression level</b>: ", formatC(to_plot[ , "level" ], digits = 3), "<br/>"
-    )
+      size = input$expression_projection_dot_size
+    ),
+    hoverinfo = "text",
+    text = ~paste(
+      "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
+      "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
+      "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
+      "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
+      "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0), "<br>",
+      "<b>Expression level</b>: ", formatC(to_plot[ , "level" ], format = "f", big.mark = ",", digits = 3)
+    ),
+    height = 720
+  ) %>%
+  plotly::layout(
+    xaxis = list(
+      title = colnames(to_plot)[1],
+      mirror = TRUE,
+      showline = TRUE,
+      zeroline = FALSE
+    ),
+    yaxis = list(
+      title = colnames(to_plot)[2],
+      mirror = TRUE,
+      showline = TRUE,
+      zeroline = FALSE
+    ),
+    hoverlabel = list(font = list(size = 11))
   )
 })
 

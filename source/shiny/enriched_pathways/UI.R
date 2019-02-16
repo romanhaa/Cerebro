@@ -1,5 +1,5 @@
 ##----------------------------------------------------------------------------##
-## Panel: Enriched pathways
+## Tab: Enriched pathways
 ##----------------------------------------------------------------------------##
 
 tab_enriched_pathways <- tabItem(
@@ -17,6 +17,14 @@ tab_enriched_pathways <- tabItem(
       ),
       status = "primary", solidHeader = TRUE, width = 12,
       collapsible = TRUE,
+      fluidRow(
+        column(4,
+          uiOutput("enriched_pathways_by_sample_select_sample_UI")
+        ),
+        column(8,
+          uiOutput("enriched_pathways_by_sample_select_db_UI")
+        )
+      ),
       uiOutput("enriched_pathways_by_sample_UI")
     ),
     box(
@@ -32,6 +40,14 @@ tab_enriched_pathways <- tabItem(
       ),
       status = "primary", solidHeader = TRUE, width = 12,
       collapsible = TRUE,
+      fluidRow(
+        column(4,
+          uiOutput("enriched_pathways_by_cluster_select_cluster_UI")
+        ),
+        column(8,
+          uiOutput("enriched_pathways_by_cluster_select_db_UI")
+        )
+      ),
       uiOutput("enriched_pathways_by_cluster_UI")
     )
   )

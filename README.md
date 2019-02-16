@@ -119,6 +119,10 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * What skills are necessary for RStudio employees?
   * Idea to speed up plots with so many cells?
 * [ ] File extensions for info files: `.R`.
+* [ ] Change all `output$a` to `output[["a"]]`.
+* [ ] Gene expression tab: Update `textAreaInput` after checking which genes are present in data set? Or at least remove empty lines?
+* [ ] Check for pressing `Enter` only on gene expression tab?
+* [ ] Make `hoverinfo` background white, like in scatterD3.
 
 ## Changelog
 

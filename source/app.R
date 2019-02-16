@@ -69,7 +69,6 @@ require("dplyr")
 require("formattable")
 require("shiny")
 require("shinydashboard")
-#require("highcharter")
 
 ##----------------------------------------------------------------------------##
 ##

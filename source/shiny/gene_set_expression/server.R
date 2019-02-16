@@ -73,15 +73,17 @@ output$geneSetExpression_UI <- renderUI({
     ),
     shinyWidgets::pickerInput(
       "geneSetExpression_samples_to_display", label = "Samples to display:",
-      choices = sample_data()$samples$overview$sample,
-      selected = sample_data()$samples$overview$sample,
-      options = list("actions-box"=TRUE), multiple = TRUE
+      choices = levels(sample_data()$cells$sample),
+      selected = levels(sample_data()$cells$sample),
+      options = list("actions-box" = TRUE),
+      multiple = TRUE
     ),
     shinyWidgets::pickerInput(
       "geneSetExpression_clusters_to_display", label = "Clusters to display:",
-      choices = sample_data()$clusters$overview$cluster,
-      selected = sample_data()$clusters$overview$cluster,
-      options = list("actions-box"=TRUE), multiple = TRUE
+      choices = levels(sample_data()$cells$cluster),
+      selected = levels(sample_data()$cells$cluster),
+      options = list("actions-box" = TRUE),
+      multiple = TRUE
     ),
     sliderInput("geneSetExpression_percentage_cells_to_show",
       label = "Show % of cells",

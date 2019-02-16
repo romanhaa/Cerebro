@@ -1,31 +1,32 @@
 ##----------------------------------------------------------------------------##
-## Panel: Enriched pathways
+## Tab: Enriched pathways
 ##----------------------------------------------------------------------------##
 
 ##----------------------------------------------------------------------------##
 ## Samples.
 ##----------------------------------------------------------------------------##
 
-# UI element
+# UI element: choose sample
+output$enriched_pathways_by_sample_select_sample_UI <- renderUI({
+  selectInput("enriched_pathways_by_sample_select_sample", label = NULL,
+    choices = sample_data()$samples$overview$sample
+  )
+})
+
+# UI element: choose database
+output$enriched_pathways_by_sample_select_db_UI <- renderUI({
+  require(input$enriched_pathways_by_sample_select_sample)
+  selectInput("enriched_pathways_by_sample_select_db", label = NULL,
+    choices = names(sample_data()$marker_genes$by_sample_annotation[[input$enriched_pathways_by_sample_select_sample]])
+  )
+})
+
+# UI element: display results
 output$enriched_pathways_by_sample_UI <- renderUI({
-  if ( nrow(sample_data()$samples$overview) > 1 & !is.null(sample_data()$marker_genes$by_sample_annotation) ) {    
-    tagList(
-      fluidRow(
-        column(4,
-          selectInput("enriched_pathways_select_sample", label = NULL,
-            choices = sample_data()$samples$overview$sample)
-        ),
-        column(8,
-          selectInput("enriched_pathways_select_db_for_sample", label = NULL,
-            choices = sample_data()$parameters$enrichr_dbs)
-        )
-      ),
-      fluidRow(
-        column(12,
-          DT::dataTableOutput("enriched_pathways_by_sample_table_present")
-        )
-      )
-    )
+  require(input$enriched_pathways_by_sample_select_sample)
+  require(input$enriched_pathways_by_sample_select_db)
+  if ( nrow(sample_data()$samples$overview) > 1 && !is.null(sample_data()$marker_genes$by_sample_annotation) ) {
+    DT::dataTableOutput("enriched_pathways_by_sample_table_present")
   } else {
     textOutput("enriched_pathways_by_sample_table_missing")
   }
@@ -33,9 +34,9 @@ output$enriched_pathways_by_sample_UI <- renderUI({
 
 # table
 output$enriched_pathways_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
-  req(input$enriched_pathways_select_sample)
-  req(input$enriched_pathways_select_db_for_sample)
-  sample_data()$marker_genes$by_sample_annotation[[ input$enriched_pathways_select_sample ]][[ input$enriched_pathways_select_db_for_sample ]] %>%
+  req(input$enriched_pathways_by_sample_select_sample)
+  req(input$enriched_pathways_by_sample_select_db)
+  sample_data()$marker_genes$by_sample_annotation[[ input$enriched_pathways_by_sample_select_sample ]][[ input$enriched_pathways_by_sample_select_db ]] %>%
   select(c(1,2,3,4,8,9)) %>%
   mutate(
     P.value = formatC(P.value, format = "e", digits = 3),
@@ -113,36 +114,65 @@ observeEvent(input$enriched_pathways_by_sample_info, {
 ## Clusters.
 ##----------------------------------------------------------------------------##
 
-# UI element
+# UI element: choose cluster
+output$enriched_pathways_by_cluster_select_cluster_UI <- renderUI({
+  selectInput("enriched_pathways_by_cluster_select_cluster", label = NULL,
+    choices = sample_data()$clusters$overview$cluster
+  )
+})
+
+# UI element: choose database
+output$enriched_pathways_by_cluster_select_db_UI <- renderUI({
+  require(input$enriched_pathways_by_cluster_select_cluster)
+  selectInput("enriched_pathways_by_cluster_select_db", label = NULL,
+    choices = names(sample_data()$marker_genes$by_cluster_annotation[[input$enriched_pathways_by_cluster_select_cluster]])
+  )
+})
+
+# UI element: display results
 output$enriched_pathways_by_cluster_UI <- renderUI({
-  if ( nrow(sample_data()$clusters$overview) > 1 & !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {    
-    tagList(
-      fluidRow(
-        column(4,
-          selectInput("enriched_pathways_select_cluster", label = NULL,
-            choices = sample_data()$clusters$overview$cluster)
-        ),
-        column(8,
-          selectInput("enriched_pathways_select_db_for_cluster", label = NULL,
-            choices = sample_data()$parameters$enrichr_dbs)
-        )
-      ),
-      fluidRow(
-        column(12,
-          DT::dataTableOutput("enriched_pathways_by_cluster_table_present")
-        )
-      )
-    )
+  require(input$enriched_pathways_by_cluster_select_cluster)
+  require(input$enriched_pathways_by_cluster_select_db)
+  if ( nrow(sample_data()$clusters$overview) > 1 && !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {
+    DT::dataTableOutput("enriched_pathways_by_cluster_table_present")
   } else {
     textOutput("enriched_pathways_by_cluster_table_missing")
   }
 })
 
+
+
+# # UI element
+# output$enriched_pathways_by_cluster_UI <- renderUI({
+#   if ( nrow(sample_data()$clusters$overview) > 1 & !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {
+#     tagList(
+#       fluidRow(
+#         column(4,
+#           selectInput("enriched_pathways_select_cluster", label = NULL,
+#             choices = sample_data()$clusters$overview$cluster)
+#         ),
+#         column(8,
+#           selectInput("enriched_pathways_select_db_for_cluster", label = NULL,
+#             choices = sample_data()$parameters$enrichr_dbs)
+#         )
+#       ),
+#       fluidRow(
+#         column(12,
+#           DT::dataTableOutput("enriched_pathways_by_cluster_table_present")
+#         )
+#       )
+#     )
+#   } else {
+#     textOutput("enriched_pathways_by_cluster_table_missing")
+#   }
+# })
+
 # table
 output$enriched_pathways_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
-  req(input$enriched_pathways_select_cluster)
-  req(input$enriched_pathways_select_db_for_cluster)
-  sample_data()$marker_genes$by_cluster_annotation[[ input$enriched_pathways_select_cluster ]][[ input$enriched_pathways_select_db_for_cluster ]][ , c(1,2,3,4,8,9) ] %>%
+  req(input$enriched_pathways_by_cluster_select_cluster)
+  req(input$enriched_pathways_by_cluster_select_db)
+  sample_data()$marker_genes$by_cluster_annotation[[ input$enriched_pathways_by_cluster_select_cluster ]][[ input$enriched_pathways_by_cluster_select_db ]] %>%
+  select(c(1,2,3,4,8,9)) %>%
   mutate(
     P.value = formatC(P.value, format = "e", digits = 3),
     Adjusted.P.value = formatC(Adjusted.P.value, format = "e", digits = 3),

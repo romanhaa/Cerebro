@@ -4,6 +4,13 @@
 
 tab_gene_expression <- tabItem(
     tabName = "geneExpression",
+    tags$script('
+      $(document).on("keyup", function(e) {
+        if (e.keyCode == 13) {
+          Shiny.onInputChange("keyPressed", Math.random());
+        }
+      });
+    '),
     tagList(
       fluidRow(
         column(width = 3, offset = 0, style = "padding: 0px;",
@@ -37,8 +44,11 @@ tab_gene_expression <- tabItem(
             status = "primary", solidHeader = TRUE, width = 12,
             collapsible = TRUE,
             tagList(
-              scatterD3::scatterD3Output(
-                "expression_projection", height = "720px"
+              # scatterD3::scatterD3Output(
+              #   "expression_projection", height = "720px"
+              # ),
+              plotly::plotlyOutput(
+                "expression_projection_plotly", height = "720px"
               ),
               tags$br(),
               htmlOutput("expression_genes_displayed")
