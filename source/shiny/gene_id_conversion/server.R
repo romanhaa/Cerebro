@@ -1,12 +1,12 @@
 ##----------------------------------------------------------------------------##
-## Panel: Gene id/symbol conversion.
+## Tab: Gene id/symbol conversion.
 ##----------------------------------------------------------------------------##
 
-output$gene_info <- DT::renderDataTable({
-  if ( input$geneIdConversion_organism == "mouse" ) {
+output[["gene_info"]] <- DT::renderDataTable({
+  if ( input[["geneIdConversion_organism"]] == "mouse" ) {
     conversion_table <- read.table("resources/mm10_gene_ID_name.txt",
       sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  } else if ( input$geneIdConversion_organism == "human" ) {
+  } else if ( input[["geneIdConversion_organism"]] == "human" ) {
     conversion_table <- read.table("resources/hg38_gene_ID_name.txt",
       sep = "\t", header = TRUE, stringsAsFactors = FALSE)
   }

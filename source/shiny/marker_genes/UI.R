@@ -1,37 +1,21 @@
 ##----------------------------------------------------------------------------##
-## Panel: Marker genes.
+## Tab: Marker genes.
 ##----------------------------------------------------------------------------##
 
 tab_marker_genes <- tabItem(
     tabName = "markerGenes",
-    box(
+    cerebroBox(
       title = tagList(
-        p("Marker genes per sample",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "marker_genes_by_sample_info", label = "info",
-          icon = NULL, class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Marker genes per sample"),
+        cerebroInfoButton("marker_genes_by_sample_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("marker_genes_by_sample_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p("Marker genes per cluster",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "marker_genes_by_cluster_info", label = "info",
-          icon = NULL, class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Marker genes per cluster"),
+        cerebroInfoButton("marker_genes_by_cluster_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("marker_genes_by_cluster_UI")
     )
   )

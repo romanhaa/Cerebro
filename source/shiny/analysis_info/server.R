@@ -1,9 +1,9 @@
 ##----------------------------------------------------------------------------##
-## Panel: Analysis info.
+## Tab: Analysis info.
 ##----------------------------------------------------------------------------##
 
 # general info
-output$sample_info_general <- renderText({
+output[["sample_info_general"]] <- renderText({
   info <- paste0(
       "<ul>",
         "<li><b>Experiment name:</b> ",
@@ -70,7 +70,7 @@ output$sample_info_general <- renderText({
 })
 
 # R info
-output$sample_info_R <- renderPrint({
+output[["sample_info_R"]] <- renderPrint({
   if ( !is.null(sample_data()$technical_info$R) ) {
     capture.output(sample_data()$technical_info$R)
   } else {

@@ -40,21 +40,20 @@ if ( !is.element(el = "BiocManager", set = rownames(installed.packages())) ) {
 ##
 ##----------------------------------------------------------------------------##
 required_packages_CRAN <- c(
-    "DT",
-    "formattable",
-    "ggplot2",
-    "ggtree",
-    "Matrix",
-    "msigdbr",
-    "plotly",
-    "RColorBrewer",
-    "reshape2",
-    "scales",
-    "scatterD3",
-    "shiny",
-    "shinydashboard",
-    "shinyWidgets"
-  )
+  "DT",
+  "formattable",
+  "ggplot2",
+  "ggtree",
+  "Matrix",
+  "msigdbr",
+  "plotly",
+  "RColorBrewer",
+  "reshape2",
+  "scales",
+  "shiny",
+  "shinydashboard",
+  "shinyWidgets"
+)
 
 for ( package in required_packages_CRAN ) {
   if ( !is.element(el = package, set = rownames(installed.packages())) ) {
@@ -73,14 +72,14 @@ require("shinydashboard")
 ##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
-source("shiny/overview/info.txt")
-source("shiny/samples/info.txt")
-source("shiny/clusters/info.txt")
-source("shiny/most_expressed_genes/info.txt")
-source("shiny/marker_genes/info.txt")
-source("shiny/enriched_pathways/info.txt")
-source("shiny/gene_expression/info.txt")
-source("shiny/gene_set_expression/info.txt")
+source("shiny/overview/info.R")
+source("shiny/samples/info.R")
+source("shiny/clusters/info.R")
+source("shiny/most_expressed_genes/info.R")
+source("shiny/marker_genes/info.R")
+source("shiny/enriched_pathways/info.R")
+source("shiny/gene_expression/info.R")
+source("shiny/gene_set_expression/info.R")
 
 ##----------------------------------------------------------------------------##
 ##

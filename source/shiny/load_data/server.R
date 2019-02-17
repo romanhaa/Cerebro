@@ -14,7 +14,7 @@ output$load_data_number_of_cells <- renderValueBox({
 # number of samples
 output$load_data_number_of_samples <- renderValueBox({
   valueBox(
-    value = if ( !is.null(sample_data()) ) length(unique(sample_data()$cells$sample)) else 0,
+    value = ifelse(!is.null(sample_data()), length(sample_data()$sample_names), 0),
     subtitle = "samples",
     color = "light-blue"
   )
@@ -23,7 +23,7 @@ output$load_data_number_of_samples <- renderValueBox({
 # number of clusters
 output$load_data_number_of_clusters <- renderValueBox({
   valueBox(
-    value = if ( !is.null(sample_data()) ) length(unique(sample_data()$cells$cluster)) else 0,
+    value = ifelse(!is.null(sample_data()), length(sample_data()$cluster_names), 0),
     subtitle = "clusters",
     color = "light-blue"
   )

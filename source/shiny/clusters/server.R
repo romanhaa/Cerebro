@@ -7,7 +7,7 @@
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_tree_UI <- renderUI({
+output[["clusters_tree_UI"]] <- renderUI({
   if ( !is.null(sample_data()$clusters$tree) ) {
     plotOutput("clusters_tree_plot")
   } else {
@@ -16,7 +16,7 @@ output$clusters_tree_UI <- renderUI({
 })
 
 # plot
-output$clusters_tree_plot <- renderPlot({
+output[["clusters_tree_plot"]] <- renderPlot({
   library("ggtree")
   tree <- sample_data()$clusters$tree
   tree$tip.label <- paste0("Cluster ", tree$tip.label)
@@ -31,14 +31,16 @@ output$clusters_tree_plot <- renderPlot({
 })
 
 # alternative text
-output$clusters_tree_text <- renderText({ "Data not available." })
+output[["clusters_tree_text"]] <- renderText({ "Data not available." })
 
 # info box
-observeEvent(input$clusters_tree_info, {
+observeEvent(input[["clusters_tree_info"]], {
   showModal(
     modalDialog(
-      clusters_tree_info$text,
-      title = clusters_tree_info$title, easyClose = TRUE, footer = NULL
+      clusters_tree_info[["text"]],
+      title = clusters_tree_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -48,7 +50,7 @@ observeEvent(input$clusters_tree_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_by_sample_UI <- renderUI({
+output[["clusters_by_sample_UI"]] <- renderUI({
   if ( !is.null(sample_data()$clusters$by_sample) ) {
     tagList(
       DT::dataTableOutput("clusters_by_sample_table"),
@@ -60,7 +62,7 @@ output$clusters_by_sample_UI <- renderUI({
 })
 
 # table
-output$clusters_by_sample_table <- DT::renderDataTable({
+output[["clusters_by_sample_table"]] <- DT::renderDataTable({
   sample_data()$clusters$by_sample %>%
   rename(
     Cluster = cluster,
@@ -83,7 +85,7 @@ output$clusters_by_sample_table <- DT::renderDataTable({
 })
 
 # bar plot
-output$clusters_by_sample_plot <- plotly::renderPlotly({
+output[["clusters_by_sample_plot"]] <- plotly::renderPlotly({
   sample_data()$clusters$by_sample %>%
   select(-total_cell_count) %>%
   reshape2::melt(id.vars = "cluster") %>%
@@ -104,25 +106,37 @@ output$clusters_by_sample_plot <- plotly::renderPlotly({
     hoverinfo = "name+y"
   ) %>%
   plotly::layout(
-    xaxis = list(title = ""),
-    yaxis = list(title = "Percentage (%)", hoverformat = ".2f"),
+    xaxis = list(
+      title = "",
+      mirror = TRUE,
+      showline = TRUE
+    ),
+    yaxis = list(
+      title = "Percentage (%)",
+      range = c(0,100),
+      hoverformat = ".2f",
+      mirror = TRUE,
+      zeroline = FALSE,
+      showline = TRUE
+    ),
     barmode = "stack",
     hovermode = "compare"
   )
 })
 
 # alternative text
-output$clusters_by_sample_text <- renderText({
+output[["clusters_by_sample_text"]] <- renderText({
     "Only 1 sample in this data set."
   })
 
 # info box
-observeEvent(input$clusters_by_sample_info, {
+observeEvent(input[["clusters_by_sample_info"]], {
   showModal(
     modalDialog(
-      clusters_by_sample_info$text,
-      title = clusters_by_sample_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_by_sample_info[["text"]],
+      title = clusters_by_sample_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -132,7 +146,7 @@ observeEvent(input$clusters_by_sample_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_box_nUMI_UI <- renderUI({
+output[["clusters_box_nUMI_UI"]] <- renderUI({
   if ( "nUMI" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("clusters_box_nUMI_plot")
   } else {
@@ -141,7 +155,7 @@ output$clusters_box_nUMI_UI <- renderUI({
 })
 
 # box plot
-output$clusters_box_nUMI_plot <- plotly::renderPlotly({
+output[["clusters_box_nUMI_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster,
@@ -152,29 +166,42 @@ output$clusters_box_nUMI_plot <- plotly::renderPlotly({
     source = "subset",
     showlegend = FALSE,
     hoverinfo = "y",
-    marker = list(size = 5)
+    marker = list(
+      size = 5
+    )
   ) %>%
   plotly::layout(
     title = "",
-    xaxis = list(title = ""), 
-    yaxis = list(title = "Number of UMIs", type = "log", hoverformat = ".2f"),
+    xaxis = list(
+      title = "",
+      mirror = TRUE,
+      showline = TRUE
+    ), 
+    yaxis = list(
+      title = "Number of UMIs",
+      type = "log",
+      hoverformat = ".2f",
+      mirror = TRUE,
+      showline = TRUE
+    ),
     dragmode = "select",
     hovermode = "compare"
   )
 })
 
 # alternative text
-output$clusters_box_nUMI_text <- renderText({
+output[["clusters_box_nUMI_text"]] <- renderText({
   "Data not available."
 })
 
 # info box
-observeEvent(input$clusters_box_nUMI_info, {
+observeEvent(input[["clusters_box_nUMI_info"]], {
   showModal(
     modalDialog(
-      clusters_box_nUMI_info$text,
-      title = clusters_box_nUMI_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_box_nUMI_info[["text"]],
+      title = clusters_box_nUMI_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -184,7 +211,7 @@ observeEvent(input$clusters_box_nUMI_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_box_nGene_UI <- renderUI({
+output[["clusters_box_nGene_UI"]] <- renderUI({
   if ( "nGene" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("clusters_box_nGene_plot")
   } else {
@@ -193,7 +220,7 @@ output$clusters_box_nGene_UI <- renderUI({
 })
 
 # box plot
-output$clusters_box_nGene_plot <- plotly::renderPlotly({
+output[["clusters_box_nGene_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster, 
@@ -204,30 +231,42 @@ output$clusters_box_nGene_plot <- plotly::renderPlotly({
     source = "subset",
     showlegend = FALSE,
     hoverinfo = "y",
-    marker = list(size = 5)
+    marker = list(
+      size = 5
+    )
   ) %>%
   plotly::layout(
     title = "",
-    xaxis = list(title =""),
-    yaxis = list(title = "Number of expressed genes", type = "log",
-        hoverformat = ".2f"),
+    xaxis = list(
+      title ="",
+      mirror = TRUE,
+      showline = TRUE
+    ),
+    yaxis = list(
+      title = "Number of expressed genes",
+      type = "log",
+      hoverformat = ".2f",
+      mirror = TRUE,
+      showline = TRUE
+    ),
     dragmode = "select",
     hovermode = "compare"
   )
 })
 
 # alternative text
-output$clusters_box_nGene_text <- renderText({
+output[["clusters_box_nGene_text"]] <- renderText({
   "Data not available."
 })
 
 # info box
-observeEvent(input$clusters_box_nGene_info, {
+observeEvent(input[["clusters_box_nGene_info"]], {
   showModal(
     modalDialog(
-      clusters_box_nGene_info$text,
-      title = clusters_box_nGene_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_box_nGene_info[["text"]],
+      title = clusters_box_nGene_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -237,8 +276,8 @@ observeEvent(input$clusters_box_nGene_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_box_percent_mt_UI <- renderUI({
-  if ( "percent_mito" %in% names(sample_data()$cells) ) {
+output[["clusters_box_percent_mt_UI"]] <- renderUI({
+  if ( "percent_mt" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("clusters_box_percent_mt_plot")
   } else {
     textOutput("clusters_box_percent_mt_text")
@@ -246,7 +285,7 @@ output$clusters_box_percent_mt_UI <- renderUI({
 })
 
 # box plot
-output$clusters_box_percent_mt_plot <- plotly::renderPlotly({
+output[["clusters_box_percent_mt_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster,
@@ -257,30 +296,42 @@ output$clusters_box_percent_mt_plot <- plotly::renderPlotly({
     source = "subset",
     showlegend = FALSE,
     hoverinfo = "y",
-    marker = list(size = 5)
+    marker = list(
+      size = 5
+    )
   ) %>%
   plotly::layout(
     title = "",
-    xaxis = list(title = ""),
-    yaxis = list(title = "Percentage of mitochondrial gene expression",
-      range = c(0, 100), hoverformat = ".2f"),
+    xaxis = list(
+      title = "",
+      mirror = TRUE,
+      showline = TRUE
+    ),
+    yaxis = list(
+      title = "Percentage of mitochondrial gene expression",
+      range = c(0, 100),
+      hoverformat = ".2f",
+      mirror = TRUE,
+      showline = TRUE
+    ),
     dragmode = "select",
     hovermode = "compare"
   )
 })
 
 # alternative text
-output$clusters_box_percent_mt_text <- renderText({
+output[["clusters_box_percent_mt_text"]] <- renderText({
   "Data not available."
 })
 
 # info box
-observeEvent(input$clusters_box_percent_mt_info, {
+observeEvent(input[["clusters_box_percent_mt_info"]], {
   showModal(
     modalDialog(
-      clusters_box_percent_mt_info$text,
-      title = clusters_box_percent_mt_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_box_percent_mt_info[["text"]],
+      title = clusters_box_percent_mt_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -290,7 +341,7 @@ observeEvent(input$clusters_box_percent_mt_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_box_percent_ribo_UI <- renderUI({
+output[["clusters_box_percent_ribo_UI"]] <- renderUI({
   if ( "percent_ribo" %in% names(sample_data()$cells) ) {
     plotly::plotlyOutput("clusters_box_percent_ribo_plot")
   } else {
@@ -299,12 +350,12 @@ output$clusters_box_percent_ribo_UI <- renderUI({
 })
 
 # alternative text
-output$clusters_box_percent_ribo_text <- renderText({
+output[["clusters_box_percent_ribo_text"]] <- renderText({
   "Data not available."
 })
 
 # box plot
-output$clusters_box_percent_ribo_plot <- plotly::renderPlotly({
+output[["clusters_box_percent_ribo_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster,
@@ -315,25 +366,37 @@ output$clusters_box_percent_ribo_plot <- plotly::renderPlotly({
     source = "subset",
     showlegend = FALSE,
     hoverinfo = "y",
-    marker = list(size = 5)
+    marker = list(
+      size = 5
+    )
   ) %>%
   plotly::layout(
     title = "",
-    xaxis = list(title = ""),
-    yaxis = list(title = "Percentage of ribosomal gene expression",
-      range = c(0, 100), hoverformat = ".2f"),
+    xaxis = list(
+      title = "",
+      mirror = TRUE,
+      showline = TRUE
+    ),
+    yaxis = list(
+      title = "Percentage of ribosomal gene expression",
+      range = c(0, 100),
+      hoverformat = ".2f",
+      mirror = TRUE,
+      showline = TRUE
+    ),
     dragmode = "select",
     hovermode = "compare"
   )
 })
 
 # info box
-observeEvent(input$clusters_box_percent_ribo_info, {
+observeEvent(input[["clusters_box_percent_ribo_info"]], {
   showModal(
     modalDialog(
-      clusters_box_percent_ribo_info$text,
-      title = clusters_box_percent_ribo_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_box_percent_ribo_info[["text"]],
+      title = clusters_box_percent_ribo_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -343,7 +406,7 @@ observeEvent(input$clusters_box_percent_ribo_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_by_cell_cycle_Regev_UI <- renderUI({
+output[["clusters_by_cell_cycle_Regev_UI"]] <- renderUI({
   if ( !is.null(sample_data()$clusters$by_cell_cycle_Regev) ) {
     plotly::plotlyOutput("clusters_by_cell_cycle_Regev_plot")
   } else {
@@ -352,7 +415,7 @@ output$clusters_by_cell_cycle_Regev_UI <- renderUI({
 })
 
 # bar plot
-output$clusters_by_cell_cycle_Regev_plot <- plotly::renderPlotly({
+output[["clusters_by_cell_cycle_Regev_plot"]] <- plotly::renderPlotly({
   sample_data()$clusters$by_cell_cycle_Regev %>%
   select(-total_cell_count) %>%
   reshape2::melt(id.vars = "cluster") %>%
@@ -376,25 +439,37 @@ output$clusters_by_cell_cycle_Regev_plot <- plotly::renderPlotly({
     hoverinfo = "name+y"
   ) %>%
   plotly::layout(
-    xaxis = list(title = ""),
-    yaxis = list(title = "Percentage (%)", hoverformat = ".2f"),
+    xaxis = list(
+      title = "",
+      mirror = TRUE,
+      showline = TRUE
+    ),
+    yaxis = list(
+      title = "Percentage (%)",
+      range = c(0,100),
+      hoverformat = ".2f",
+      mirror = TRUE,
+      zeroline = FALSE,
+      showline = TRUE
+    ),
     barmode = "stack",
     hovermode = "compare"
   ) 
 })
 
 # alternative text
-output$clusters_by_cell_cycle_Regev_text <- renderText({
+output[["clusters_by_cell_cycle_Regev_text"]] <- renderText({
     "Data not available."
   })
 
 # info box
-observeEvent(input$clusters_by_cell_cycle_Regev_info, {
+observeEvent(input[["clusters_by_cell_cycle_Regev_info"]], {
   showModal(
     modalDialog(
-      clusters_by_cell_cycle_Regev_info$text,
-      title = clusters_by_cell_cycle_Regev_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_by_cell_cycle_Regev_info[["text"]],
+      title = clusters_by_cell_cycle_Regev_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -404,7 +479,7 @@ observeEvent(input$clusters_by_cell_cycle_Regev_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$clusters_by_cell_cycle_Cyclone_UI <- renderUI(
+output[["clusters_by_cell_cycle_Cyclone_UI"]] <- renderUI(
   if ( !is.null(sample_data()$cells$cell_cycle_Cyclone) ) {
     plotly::plotlyOutput("clusters_by_cell_cycle_Cyclone_plot")
   } else {
@@ -413,7 +488,7 @@ output$clusters_by_cell_cycle_Cyclone_UI <- renderUI(
 )
 
 # bar plot
-output$clusters_by_cell_cycle_Cyclone_plot <- plotly::renderPlotly({
+output[["clusters_by_cell_cycle_Cyclone_plot"]] <- plotly::renderPlotly({
   sample_data()$clusters$by_cell_cycle_Cyclone %>%
   select(-total_cell_count) %>%
   reshape2::melt(id.vars = "cluster") %>%
@@ -437,25 +512,37 @@ output$clusters_by_cell_cycle_Cyclone_plot <- plotly::renderPlotly({
     hoverinfo = "name+y"
   ) %>%
   plotly::layout(
-    xaxis = list(title = ""),
-    yaxis = list(title = "Percentage (%)", hoverformat = ".2f"), 
+    xaxis = list(
+      title = "",
+      mirror = TRUE,
+      showline = TRUE
+    ),
+    yaxis = list(
+      title = "Percentage (%)",
+      range = c(0,100),
+      hoverformat = ".2f",
+      mirror = TRUE,
+      zeroline = FALSE,
+      showline = TRUE
+    ), 
     barmode = "stack",
     hovermode = "compare"
   )
 })
 
 # alternative text
-output$clusters_by_cell_cycle_Cyclone_text <- renderText({
+output[["clusters_by_cell_cycle_Cyclone_text"]] <- renderText({
     "Data not available."
   })
 
 # info box
-observeEvent(input$clusters_by_cell_cycle_Cyclone_info, {
+observeEvent(input[["clusters_by_cell_cycle_Cyclone_info"]], {
   showModal(
     modalDialog(
-      clusters_by_cell_cycle_Cyclone_info$text,
-      title = clusters_by_cell_cycle_Cyclone_info$title,
-      easyClose = TRUE, footer = NULL
+      clusters_by_cell_cycle_Cyclone_info[["text"]],
+      title = clusters_by_cell_cycle_Cyclone_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })

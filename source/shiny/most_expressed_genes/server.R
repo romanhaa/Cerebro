@@ -1,5 +1,5 @@
 ##----------------------------------------------------------------------------##
-## Panel: Most expressed genes.
+## Tab: Most expressed genes.
 ##----------------------------------------------------------------------------##
 
 ##----------------------------------------------------------------------------##
@@ -7,12 +7,15 @@
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$most_expressed_genes_by_sample_UI <- renderUI({
+output[["most_expressed_genes_by_sample_UI"]] <- renderUI({
   if ( !is.null(sample_data()$most_expressed_genes$by_sample) ) {
     fluidRow(
       column(12,
-        selectInput("most_expressed_genes_by_sample_input", label = NULL,
-          choices = sample_data()$samples$overview$sample),
+        selectInput(
+          "most_expressed_genes_by_sample_input",
+          label = NULL,
+          choices = sample_data()$sample_names
+        ),
         DT::dataTableOutput("most_expressed_genes_by_sample_table_present")
       )
     )
@@ -22,10 +25,10 @@ output$most_expressed_genes_by_sample_UI <- renderUI({
 })
 
 # table
-output$most_expressed_genes_by_sample_table_present <- DT::renderDataTable(server = FALSE, {
-  req(input$most_expressed_genes_by_sample_input)
+output[["most_expressed_genes_by_sample_table_present"]] <- DT::renderDataTable(server = FALSE, {
+  req(input[["most_expressed_genes_by_sample_input"]])
   sample_data()$most_expressed_genes$by_sample %>%
-  filter(sample == input$most_expressed_genes_by_sample_input) %>%
+  filter(sample == input[["most_expressed_genes_by_sample_input"]]) %>%
   mutate(pct = formattable::percent(round(pct/100, digits = 4))) %>%
   rename(
     Sample = sample,
@@ -35,8 +38,8 @@ output$most_expressed_genes_by_sample_table_present <- DT::renderDataTable(serve
   formattable::formattable(
     list(
       "Sample" = formattable::color_tile(
-          colors[ which(sample_data()$samples$overview$sample == input$most_expressed_genes_by_sample_input) ],
-          colors[ which(sample_data()$samples$overview$sample == input$most_expressed_genes_by_sample_input) ]
+          colors[ which(sample_data()$samples$overview$sample == input[["most_expressed_genes_by_sample_input"]]) ],
+          colors[ which(sample_data()$samples$overview$sample == input[["most_expressed_genes_by_sample_input"]]) ]
         ),
       "% of total expression" = formattable::color_bar("pink")
     )
@@ -62,17 +65,17 @@ output$most_expressed_genes_by_sample_table_present <- DT::renderDataTable(serve
             list(
               extend = "csv",
               filename = "most_expressed_genes_per_sample",
-              title = "most expressed genes per sample"
+              title = "Most expressed genes per sample"
             ),
             list(
               extend = "excel",
               filename = "most_expressed_genes_per_sample",
-              title = "most expressed genes per sample"
+              title = "Most expressed genes per sample"
             ),
             list(
               extend = "pdf",
               filename = "most_expressed_genes_per_sample",
-              title = "most expressed genes per sample"
+              title = "Most expressed genes per sample"
             )
           )
         )
@@ -83,17 +86,18 @@ output$most_expressed_genes_by_sample_table_present <- DT::renderDataTable(serve
 })
 
 # alternative text
-output$most_expressed_genes_by_sample_table_missing <- renderText({
+output[["most_expressed_genes_by_sample_table_missing"]] <- renderText({
     "Data not available."
   })
 
 # info box
-observeEvent(input$most_expressed_genes_by_sample_info, {
+observeEvent(input[["most_expressed_genes_by_sample_info"]], {
   showModal(
     modalDialog(
-      most_expressed_genes_by_sample_info$text,
-      title = most_expressed_genes_by_sample_info$title,
-      easyClose = TRUE, footer = NULL
+      most_expressed_genes_by_sample_info[["text"]],
+      title = most_expressed_genes_by_sample_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })
@@ -103,12 +107,15 @@ observeEvent(input$most_expressed_genes_by_sample_info, {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output$most_expressed_genes_by_cluster_UI <- renderUI({
+output[["most_expressed_genes_by_cluster_UI"]] <- renderUI({
   if ( !is.null(sample_data()$most_expressed_genes$by_cluster) ) {
     fluidRow(
       column(12,
-        selectInput("most_expressed_genes_by_cluster_input", label = NULL,
-        choices = sample_data()$clusters$overview$cluster),
+        selectInput(
+          "most_expressed_genes_by_cluster_input",
+          label = NULL,
+          choices = sample_data()$cluster_names
+        ),
         DT::dataTableOutput("most_expressed_genes_by_cluster_table_present")
       )
     )
@@ -118,10 +125,10 @@ output$most_expressed_genes_by_cluster_UI <- renderUI({
 })
 
 # table
-output$most_expressed_genes_by_cluster_table_present <- DT::renderDataTable(server = FALSE, {
-  req(input$most_expressed_genes_by_cluster_input)
+output[["most_expressed_genes_by_cluster_table_present"]] <- DT::renderDataTable(server = FALSE, {
+  req(input[["most_expressed_genes_by_cluster_input"]])
   sample_data()$most_expressed_genes$by_cluster %>%
-  filter(cluster == input$most_expressed_genes_by_cluster_input) %>%
+  filter(cluster == input[["most_expressed_genes_by_cluster_input"]]) %>%
   mutate(pct = formattable::percent(round(pct/100, digits = 4))) %>%
   rename(
     Cluster = cluster,
@@ -131,8 +138,8 @@ output$most_expressed_genes_by_cluster_table_present <- DT::renderDataTable(serv
   formattable::formattable(
     list(
       "Cluster" = formattable::color_tile(
-          colors[ which(sample_data()$clusters$overview$cluster == input$most_expressed_genes_by_cluster_input) ],
-          colors[ which(sample_data()$clusters$overview$cluster == input$most_expressed_genes_by_cluster_input) ]
+          colors[ which(sample_data()$clusters$overview$cluster == input[["most_expressed_genes_by_cluster_input"]]) ],
+          colors[ which(sample_data()$clusters$overview$cluster == input[["most_expressed_genes_by_cluster_input"]]) ]
         ),
       "% of total expression" = formattable::color_bar("pink")
     )
@@ -158,17 +165,17 @@ output$most_expressed_genes_by_cluster_table_present <- DT::renderDataTable(serv
             list(
               extend = "csv",
               filename = "most_expressed_genes_per_cluster",
-              title = "most expressed genes per cluster"
+              title = "Most expressed genes per cluster"
             ),
             list(
               extend = "excel",
               filename = "most_expressed_genes_per_cluster",
-              title = "most expressed genes per cluster"
+              title = "Most expressed genes per cluster"
             ),
             list(
               extend = "pdf",
               filename = "most_expressed_genes_per_cluster",
-              title = "most expressed genes per cluster"
+              title = "Most expressed genes per cluster"
             )
           )
         )
@@ -179,17 +186,18 @@ output$most_expressed_genes_by_cluster_table_present <- DT::renderDataTable(serv
 })
 
 # alternative text
-output$most_expressed_genes_by_cluster_table_missing <- renderText({
-    "Data not available."
-  })
+output[["most_expressed_genes_by_cluster_table_missing"]] <- renderText({
+  "Data not available."
+})
 
 # info box
-observeEvent(input$most_expressed_genes_by_cluster_info, {
+observeEvent(input[["most_expressed_genes_by_cluster_info"]], {
   showModal(
     modalDialog(
-      most_expressed_genes_by_cluster_info$text,
-      title = most_expressed_genes_by_cluster_info$title,
-      easyClose = TRUE, footer = NULL
+      most_expressed_genes_by_cluster_info[["text"]],
+      title = most_expressed_genes_by_cluster_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
     )
   )
 })

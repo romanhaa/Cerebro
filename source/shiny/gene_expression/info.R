@@ -1,5 +1,5 @@
 ##----------------------------------------------------------------------------##
-## Panel: Gene expression
+## Tab: Gene expression
 ##----------------------------------------------------------------------------##
 
 expression_projection_info <- list(
@@ -26,4 +26,9 @@ expression_by_sample_info <- list(
 expression_by_cluster_info <- list(
   title = "Expression levels by cluster",
   text = p("Log-normalised expression of genes inserted above by cluster. If more than 1 gene was given, this reflects the average across all cells of each cluster.")
+)
+
+expression_by_gene_info <- list(
+  title = "Expression levels by gene",
+  text = p("Log-normalised expression of 50 highest expressed genes inserted above. Shows mean across all cells.")
 )

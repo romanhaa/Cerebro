@@ -4,129 +4,60 @@
 
 tab_clusters <- tabItem(
     tabName = "clusters",
-    box(
+    cerebroBox(
       title = tagList(
-        p("Cluster tree", style = "padding-right: 5px; display: inline"),
-        actionButton(
-          inputId = "clusters_tree_info", label = "info", icon = NULL,
-          class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Cluster tree"),
+        cerebroInfoButton("clusters_tree_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_tree_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Clusters by samples",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_by_sample_info", label = "info", icon = NULL,
-          class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Clusters by samples"),
+        cerebroInfoButton("clusters_by_sample_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_by_sample_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Number of transcripts",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_box_nUMI_info", label = "info", icon = NULL,
-          class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Number of transcripts"),
+        cerebroInfoButton("clusters_box_nUMI_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_box_nUMI_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Number of expressed genes",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_box_nGene_info", label = "info", icon = NULL,
-          class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Number of expressed genes"),
+        cerebroInfoButton("clusters_box_nGene_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_box_nGene_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Mitochondrial gene expression",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_box_percent_mt_info", label = "info",
-          icon = NULL, class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Mitochondrial gene expression"),
+        cerebroInfoButton("clusters_box_percent_mt_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_box_percent_mt_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Ribosomal gene expression",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_box_percent_ribo_info", label = "info",
-          icon = NULL, class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Ribosomal gene expression"),
+        cerebroInfoButton("clusters_box_percent_ribo_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_box_percent_ribo_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Cell cycle analysis (Regev)",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_by_cell_cycle_Regev_info", label = "info",
-          icon = NULL, class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Cell cycle analysis (Regev)"),
+        cerebroInfoButton("clusters_by_cell_cycle_Regev_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_by_cell_cycle_Regev_UI")
     ),
-    box(
+    cerebroBox(
       title = tagList(
-        p(
-          "Cell cycle analysis (Cyclone)",
-          style = "padding-right: 5px; display: inline"
-        ),
-        actionButton(
-          inputId = "clusters_by_cell_cycle_Cyclone_info", label = "info",
-          icon = NULL, class = "btn-xs",
-          title = "Show additional information for this panel."
-        )
+        boxTitle("Cell cycle analysis (Cyclone)"),
+        cerebroInfoButton("clusters_by_cell_cycle_Cyclone_info")
       ),
-      status = "primary", solidHeader = TRUE, width = 12,
-      collapsible = TRUE,
       uiOutput("clusters_by_cell_cycle_Cyclone_UI")
     )
   )

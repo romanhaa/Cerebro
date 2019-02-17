@@ -1,12 +1,16 @@
 ##----------------------------------------------------------------------------##
-## Panel: Gene expression
+## Tab: Gene expression
 ##----------------------------------------------------------------------------##
 
 tab_gene_expression <- tabItem(
     tabName = "geneExpression",
     tags$script('
-      $(document).on("keyup", function(e) {
-        if (e.keyCode == 13) {
+      $(document).on("keyup", function(event) {
+        if ( event.keyCode == 13 ) {
+          event.preventDefault();
+          Shiny.onInputChange("keyPressed", Math.random());
+        }
+        if ( event.keyCode == 32 ) {
           Shiny.onInputChange("keyPressed", Math.random());
         }
       });
@@ -14,9 +18,8 @@ tab_gene_expression <- tabItem(
     tagList(
       fluidRow(
         column(width = 3, offset = 0, style = "padding: 0px;",
-          box(
-            title = "Input parameters", status = "primary",
-            solidHeader = TRUE, width = 12, collapsible = TRUE,
+          cerebroBox(
+            title = "Input parameters",
             tagList(
               uiOutput("expression_UI"),
               uiOutput("expression_scales")
@@ -24,25 +27,25 @@ tab_gene_expression <- tabItem(
           )
         ),
         column(width = 9, offset = 0, style = "padding: 0px;",
-          box(
+          cerebroBox(
             title = tagList(
-              p("Dimensional reduction",
-                style = "padding-right: 5px; display: inline"
-              ),
+              boxTitle("Dimensional reduction"),
               actionButton(
-                inputId = "expression_projection_info", label = "info",
-                icon = NULL, class = "btn-xs",
+                inputId = "expression_projection_info",
+                label = "info",
+                icon = NULL,
+                class = "btn-xs",
                 title = "Show additional information for this panel.",
                 style = "margin-right: 5px"
               ),
               actionButton(
                 inputId = "expression_projection_export",
-                label = "export to PDF", icon = NULL, class = "btn-xs",
+                label = "export to PDF",
+                icon = NULL,
+                class = "btn-xs",
                 title = "Export dimensional reduction to PDF file."
               )
             ),
-            status = "primary", solidHeader = TRUE, width = 12,
-            collapsible = TRUE,
             tagList(
               # scatterD3::scatterD3Output(
               #   "expression_projection", height = "720px"
@@ -57,37 +60,30 @@ tab_gene_expression <- tabItem(
         )
       ),
       fluidRow(
-        box(
+        cerebroBox(
           title = tagList(
-            p("Expression levels by sample",
-              style = "padding-right: 5px; display: inline"
-            ),
-            actionButton(
-              inputId = "expression_by_sample_info", label = "info",
-              icon = NULL, class = "btn-xs",
-              title = "Show additional information for this panel."
-            )
+            boxTitle("Expression levels by sample"),
+            cerebroInfoButton("expression_by_sample_info")
           ),
-          status = "primary", solidHeader = TRUE, width = 12,
-          collapsible = TRUE,
           plotly::plotlyOutput("expression_by_sample")
         )
       ),
       fluidRow(
-        box(
+        cerebroBox(
           title = tagList(
-            p("Expression levels by cluster",
-              style = "padding-right: 5px; display: inline"
-            ),
-            actionButton(
-              inputId = "expression_by_cluster_info", label = "info",
-              icon = NULL, class = "btn-xs",
-              title = "Show additional information for this panel."
-            )
+            boxTitle("Expression levels by cluster"),
+            cerebroInfoButton("expression_by_cluster_info")
           ),
-          status = "primary", solidHeader = TRUE, width = 12,
-          collapsible = TRUE,
           plotly::plotlyOutput("expression_by_cluster")
+        )
+      ),
+      fluidRow(
+        cerebroBox(
+          title = tagList(
+            boxTitle("Expression levels by gene"),
+            cerebroInfoButton("expression_by_gene_info")
+          ),
+          plotly::plotlyOutput("expression_by_gene")
         )
       )
     )

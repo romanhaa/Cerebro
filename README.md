@@ -71,26 +71,16 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * Required adding `d3-scale-chromatic.v.0.3.min.js` to scatterD3 and change object name inside.
   * Eventually consider making this a variable to choose by user, e.g. blue vs red scale.
 * [x] Fix order of clusters.
-* [ ] Prepare Docker container and instructions on how to use it.
-* [ ] Add contributions that are currently mentioned inside the browser.
-* [ ] Format average UMI and expressed gene counts.
-* [ ] Logo inside app?
-* [ ] Is there a more robust way to match gene (set) expression values to cells without assuming that columns in `expression` are in the same order as rows in `cells`?
-* [ ] When choosing a gene set it first shows all cells in black because it can't find the genes.
-* [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
-* [ ] Display message when no enriched pathways were found.
-* [ ] Move to z-score instead of log-counts?
-    * Not possible because occupy much more data.
-* [ ] Allow to plot subset of cells to make it faster.
-* [ ] Check where hallmark gene sets would appear in pathway enrichement.
-* [ ] Make it that when typing in the gene expression box that one has to hit return to start the plot, otherwise it is really slow.
-* [ ] Add parameters of marker gene detection to info tab.
-* [ ] Include links to useful pages.
-  * How UMAP works: <https://umap-learn.readthedocs.io/en/latest/how_umap_works.html>
-  * How to interpret distances in UMAP : <https://github.com/lmcinnes/umap/issues/92>
-  * How to effectively use t-SNE: <https://distill.pub/2016/misread-tsne/>
-  * How to interpret distances in t-SNE: <https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne>
-* [ ] Make generic function that can take any Seurat object and extract at least enough information for display in Cerebro.
+* [x] File extensions for info files: `.R`.
+* [x] Make own box function so I don't have to repeat parameters all the time?
+  * Same for action button.
+  * Also modalDialog.
+* [x] Remove `as.vector()` for gene expression, not necessary.
+* [x] Check/update export scripts.
+* [x] Instead of returning `genesToPlot`, return data frame that contains everything necessary to plot and then grab that for all plots?
+* [x] Gene expression doesn't show missing genes.
+* [x] Composition plots: range from 0 to 100.
+* [x] Make generic function that can take any Seurat object and extract at least enough information for display in Cerebro.
   * Maybe adjustments to Cerebro is necessary (display message if data is not available).
   * Define what data is available and what isn't if extracting from Seurat object.
   * Absolute minimum of data required:
@@ -108,21 +98,38 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * Optional extras
     * Meta data
       * cell cycle (specify as function parameter)
-* [ ] Adjust default data that is loaded in the app.
-* [ ] Try highcharter for scatter plots.
-* [ ] Update scatterD3?
-* [ ] Check what's going on with missing strings in sample info / analysis info.
-* [ ] Make scatterD3 changes also for R in Windows.
+* [x] Format average UMI and expressed gene counts.
+* [x] Make it that when typing in the gene expression box that one has to hit return to start the plot, otherwise it is really slow.
+* [x] Move to z-score instead of log-counts?
+    * Not possible because occupy much more data.
+* [x] Allow to plot subset of cells to make it faster.
+* [x] Adjust default data that is loaded in the app.
+* [x] Generate and store sample + cluster names/count in `sample_data()` object? Would make code shorter and more clear in many places.
+* [x] Dot opacity when exporting.
+* [ ] Display message when no enriched pathways were found.
+* [ ] Prepare Docker container and instructions on how to use it.
+* [ ] Add contributions that are currently mentioned inside the browser.
+* [ ] Logo inside app?
+* [ ] Is there a more robust way to match gene (set) expression values to cells without assuming that columns in `expression` are in the same order as rows in `cells`?
+* [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
+* [ ] Check where hallmark gene sets would appear in pathway enrichement.
+* [ ] Add parameters of marker gene detection to info tab.
+* [ ] Include links to useful pages.
+  * How UMAP works: <https://umap-learn.readthedocs.io/en/latest/how_umap_works.html>
+  * How to interpret distances in UMAP : <https://github.com/lmcinnes/umap/issues/92>
+  * How to effectively use t-SNE: <https://distill.pub/2016/misread-tsne/>
+  * How to interpret distances in t-SNE: <https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne>
 * [ ] Check if `require()` could be a way to make startup faster.
-* [ ] Make list of what to ask Hadley.
-  * Is is ok to use `require()` in this case?
-  * What skills are necessary for RStudio employees?
-  * Idea to speed up plots with so many cells?
-* [ ] File extensions for info files: `.R`.
-* [ ] Change all `output$a` to `output[["a"]]`.
 * [ ] Gene expression tab: Update `textAreaInput` after checking which genes are present in data set? Or at least remove empty lines?
-* [ ] Check for pressing `Enter` only on gene expression tab?
 * [ ] Make `hoverinfo` background white, like in scatterD3.
+* [ ] Check which packages can be removed.
+* [ ] Common function that filters user-specified genes for the ones present in the data set?
+* [ ] Common plotly layout for all box plots?
+* [ ] Find out how to make separate object for alternative text obsolete.
+* [ ] Is column name `cell_cycle_regev` or `cell_cycle_Regev`?
+* [ ] `per` to `by`?
+* [ ] Custom hoverinfo for all plots.
+* [ ] Info box for gene ID conversion.
 
 ## Changelog
 

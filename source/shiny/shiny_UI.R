@@ -1,4 +1,32 @@
 ##----------------------------------------------------------------------------##
+## Custom functions.
+##----------------------------------------------------------------------------##
+cerebroBox <- function(title, content) {
+  box(
+    title = title,
+    status = "primary",
+    solidHeader = TRUE,
+    width = 12,
+    collapsible = TRUE,
+    content
+  )
+}
+
+cerebroInfoButton <- function(id) {
+  actionButton(
+    inputId = id,
+    label = "info",
+    icon = NULL,
+    class = "btn-xs",
+    title = "Show additional information for this panel."
+  )
+}
+
+boxTitle <- function(title) {
+  p(title, style = "padding-right: 5px; display: inline")
+}
+
+##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
 source("shiny/load_data/UI.R")
