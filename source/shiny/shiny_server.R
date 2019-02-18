@@ -56,7 +56,7 @@ server <- function(input, output, session) {
   ##--------------------------------------------------------------------------##
   ## Sidebar menu.
   ##--------------------------------------------------------------------------##
-  output$sidebar_menu <- renderMenu({
+  output[["sidebar_menu"]] <- renderMenu({
     sidebarMenu(id = "sidebar",
       menuItem(
         "Load data", tabName = "loadData",

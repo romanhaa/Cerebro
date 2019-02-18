@@ -29,18 +29,18 @@ boxTitle <- function(title) {
 ##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
-source("shiny/load_data/UI.R")
-source("shiny/overview/UI.R")
-source("shiny/samples/UI.R")
-source("shiny/clusters/UI.R")
-source("shiny/most_expressed_genes/UI.R")
-source("shiny/marker_genes/UI.R")
-source("shiny/enriched_pathways/UI.R")
-source("shiny/gene_expression/UI.R")
-source("shiny/gene_set_expression/UI.R")
-source("shiny/gene_id_conversion/UI.R")
-source("shiny/analysis_info/UI.R")
-source("shiny/about/UI.R")
+source("shiny/load_data/UI.R", local = TRUE)
+source("shiny/overview/UI.R", local = TRUE)
+source("shiny/samples/UI.R", local = TRUE)
+source("shiny/clusters/UI.R", local = TRUE)
+source("shiny/most_expressed_genes/UI.R", local = TRUE)
+source("shiny/marker_genes/UI.R", local = TRUE)
+source("shiny/enriched_pathways/UI.R", local = TRUE)
+source("shiny/gene_expression/UI.R", local = TRUE)
+source("shiny/gene_set_expression/UI.R", local = TRUE)
+source("shiny/gene_id_conversion/UI.R", local = TRUE)
+source("shiny/analysis_info/UI.R", local = TRUE)
+source("shiny/about/UI.R", local = TRUE)
 
 ##----------------------------------------------------------------------------##
 ##
