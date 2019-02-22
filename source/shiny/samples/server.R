@@ -52,15 +52,15 @@ output[["samples_by_cluster_plot"]] <- plotly::renderPlotly({
     sample_data()$samples$by_cluster[ , c("sample", "total_cell_count") ],
     by = "sample"
   ) %>%
-  mutate(pct = cells / total_cell_count) %>%
+  mutate(pct = cells / total_cell_count * 100) %>%
   plotly::plot_ly(
     x = ~sample,
-    y = ~pct*100,
+    y = ~pct,
     type = "bar",
     color = ~cluster,
     colors = sample_data()$clusters$colors,
-    text = ~pct*100,
-    hoverinfo = "name+y"
+    hoverinfo = "text",
+    text = ~paste0("<b>Cluster ", .$cluster, ": </b>", format(round(.$pct, 1), nsmall = 1), "%")
   ) %>%
   plotly::layout(
     xaxis = list(
@@ -77,7 +77,7 @@ output[["samples_by_cluster_plot"]] <- plotly::renderPlotly({
       showline = TRUE
     ),
     barmode = "stack",
-    hovermode = "compare"
+    hovermode = "closest"
   )
 })
 
@@ -361,17 +361,17 @@ observeEvent(input[["samples_box_percent_ribo_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["samples_by_cell_cycle_Regev_UI"]] <- renderUI({
-  if ( !is.null(sample_data()$samples$by_cell_cycle_Regev) ) {
-    plotly::plotlyOutput("samples_by_cell_cycle_Regev_plot")
+output[["samples_by_cell_cycle_seurat_UI"]] <- renderUI({
+  if ( !is.null(sample_data()$samples$by_cell_cycle_seurat) ) {
+    plotly::plotlyOutput("samples_by_cell_cycle_seurat_plot")
   } else {
-    textOutput("samples_by_cell_cycle_Regev_text")
+    textOutput("samples_by_cell_cycle_seurat_text")
   }
 })
 
 # bar plot
-output[["samples_by_cell_cycle_Regev_plot"]] <- plotly::renderPlotly({
-  sample_data()$samples$by_cell_cycle_Regev %>%
+output[["samples_by_cell_cycle_seurat_plot"]] <- plotly::renderPlotly({
+  sample_data()$samples$by_cell_cycle_seurat %>%
   select(-total_cell_count) %>%
   reshape2::melt(id.vars = "sample") %>%
   rename(phase = variable, cells = value) %>%
@@ -380,18 +380,18 @@ output[["samples_by_cell_cycle_Regev_plot"]] <- plotly::renderPlotly({
   ) %>%
   left_join(
     .,
-    sample_data()$samples$by_cell_cycle_Regev[ , c("sample", "total_cell_count") ],
+    sample_data()$samples$by_cell_cycle_seurat[ , c("sample", "total_cell_count") ],
     by = "sample"
   ) %>%
-  mutate(pct = cells / total_cell_count) %>%
+  mutate(pct = cells / total_cell_count * 100) %>%
   plotly::plot_ly(
     x = ~sample,
-    y = ~pct*100,
+    y = ~pct,
     type = "bar",
     color = ~phase,
     colors = cell_cycle_colorset,
-    text = ~pct*100,
-    hoverinfo = "name+y"
+    hoverinfo = "text",
+    text = ~paste0("<b>", .$phase, ": </b>", format(round(.$pct, 1), nsmall = 1), "%")
   ) %>%
   plotly::layout(
     xaxis = list(
@@ -413,16 +413,16 @@ output[["samples_by_cell_cycle_Regev_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["samples_by_cell_cycle_Regev_text"]] <- renderText({
+output[["samples_by_cell_cycle_seurat_text"]] <- renderText({
     "Data not available."
   })
 
 # info button
-observeEvent(input[["samples_by_cell_cycle_Regev_info"]], {
+observeEvent(input[["samples_by_cell_cycle_seurat_info"]], {
   showModal(
     modalDialog(
-      samples_by_cell_cycle_Regev_info[["text"]],
-      title = samples_by_cell_cycle_Regev_info[["title"]],
+      samples_by_cell_cycle_seurat_info[["text"]],
+      title = samples_by_cell_cycle_seurat_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -434,17 +434,17 @@ observeEvent(input[["samples_by_cell_cycle_Regev_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["samples_by_cell_cycle_Cyclone_UI"]] <- renderUI({
-  if ( !is.null(sample_data()$samples$by_cell_cycle_Cyclone) ) {
-    plotly::plotlyOutput("samples_by_cell_cycle_Cyclone_plot")
+output[["samples_by_cell_cycle_cyclone_UI"]] <- renderUI({
+  if ( !is.null(sample_data()$samples$by_cell_cycle_cyclone) ) {
+    plotly::plotlyOutput("samples_by_cell_cycle_cyclone_plot")
   } else {
-    textOutput("samples_by_cell_cycle_Cyclone_text")
+    textOutput("samples_by_cell_cycle_cyclone_text")
   }
 })
 
 # bar plot
-output[["samples_by_cell_cycle_Cyclone_plot"]] <- plotly::renderPlotly({
-  sample_data()$samples$by_cell_cycle_Cyclone %>%
+output[["samples_by_cell_cycle_cyclone_plot"]] <- plotly::renderPlotly({
+  sample_data()$samples$by_cell_cycle_cyclone %>%
   select(-total_cell_count) %>%
   reshape2::melt(id.vars = "sample") %>%
   rename(phase = variable, cells = value) %>%
@@ -453,18 +453,18 @@ output[["samples_by_cell_cycle_Cyclone_plot"]] <- plotly::renderPlotly({
   ) %>%
   left_join(
     .,
-    sample_data()$samples$by_cell_cycle_Cyclone[ , c("sample", "total_cell_count") ],
+    sample_data()$samples$by_cell_cycle_cyclone[ , c("sample", "total_cell_count") ],
     by = "sample"
   ) %>%
-  mutate(pct = cells / total_cell_count) %>%
+  mutate(pct = cells / total_cell_count * 100) %>%
   plotly::plot_ly(
     x = ~sample,
-    y = ~pct*100,
+    y = ~pct,
     type = "bar",
     color = ~phase,
     colors = cell_cycle_colorset,
-    text = ~pct*100,
-    hoverinfo = "name+y"
+    hoverinfo = "text",
+    text = ~paste0("<b>", .$phase, ": </b>", format(round(.$pct, 1), nsmall = 1), "%")
   ) %>%
   plotly::layout(
     xaxis = list(
@@ -486,16 +486,16 @@ output[["samples_by_cell_cycle_Cyclone_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["samples_by_cell_cycle_Cyclone_text"]] <- renderText({
+output[["samples_by_cell_cycle_cyclone_text"]] <- renderText({
     "Data not available."
   })
 
 # info button
-observeEvent(input[["samples_by_cell_cycle_Cyclone_info"]], {
+observeEvent(input[["samples_by_cell_cycle_cyclone_info"]], {
   showModal(
     modalDialog(
-      samples_by_cell_cycle_Cyclone_info[["text"]],
-      title = samples_by_cell_cycle_Cyclone_info[["title"]],
+      samples_by_cell_cycle_cyclone_info[["text"]],
+      title = samples_by_cell_cycle_cyclone_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )

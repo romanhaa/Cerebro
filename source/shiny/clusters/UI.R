@@ -48,16 +48,16 @@ tab_clusters <- tabItem(
     ),
     cerebroBox(
       title = tagList(
-        boxTitle("Cell cycle analysis (Regev)"),
-        cerebroInfoButton("clusters_by_cell_cycle_Regev_info")
+        boxTitle("Cell cycle analysis by Seurat"),
+        cerebroInfoButton("clusters_by_cell_cycle_seurat_info")
       ),
-      uiOutput("clusters_by_cell_cycle_Regev_UI")
+      uiOutput("clusters_by_cell_cycle_seurat_UI")
     ),
     cerebroBox(
       title = tagList(
-        boxTitle("Cell cycle analysis (Cyclone)"),
-        cerebroInfoButton("clusters_by_cell_cycle_Cyclone_info")
+        boxTitle("Cell cycle analysis by Cyclone"),
+        cerebroInfoButton("clusters_by_cell_cycle_cyclone_info")
       ),
-      uiOutput("clusters_by_cell_cycle_Cyclone_UI")
+      uiOutput("clusters_by_cell_cycle_cyclone_UI")
     )
   )

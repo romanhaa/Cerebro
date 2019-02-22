@@ -271,7 +271,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
     sample_data()$samples$colors
   } else if ( input[["overview_cell_color"]] == "cluster" ) {
     sample_data()$clusters$colors
-  } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+  } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
     cell_cycle_colorset
   } else if ( is.factor(to_plot[ , input[["overview_cell_color"]] ]) ) {
     setNames(colors[1:length(levels(to_plot[ , input[["overview_cell_color"]] ]))], levels(to_plot[ , input[["overview_cell_color"]] ]))
@@ -437,7 +437,7 @@ observeEvent(input[["overview_projection_export"]], {
       cols <- sample_data()$samples$colors
     } else if ( input[["overview_cell_color"]] == "cluster" ) {
       cols <- sample_data()$clusters$colors
-    } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+    } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
       cols <- cell_cycle_colorset
     } else if ( is.factor(to_plot[ , input[["overview_cell_color"]] ]) ) {
       cols <- setNames(colors[1:length(levels(to_plot[ , input[["overview_cell_color"]] ]))], levels(to_plot[ , input[["overview_cell_color"]] ]))

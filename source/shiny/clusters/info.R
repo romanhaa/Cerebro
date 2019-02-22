@@ -32,14 +32,14 @@ clusters_box_percent_ribo_info <- list(
   text = p("Box plot of the percentage of ribosomal gene expression found in each cluster. This reflects the contribution of ribosomal transcripts to the entire transcriptome in each cell. A list of all genes considered to be ribosomal can be found in the 'Sample info' tab on the left.")
 )
 
-clusters_by_cell_cycle_Regev_info <- list(
-  title = "Cell cycle analysis (Regev)",
+clusters_by_cell_cycle_seurat_info <- list(
+  title = "Cell cycle analysis (Seurat)",
   text = p("Cell cycle distribution by cluster using the method embedded in the Seurat framework. For each cell, it calculates scores for both G2M and S phase based on lists of genes (see 'Sample info' tab on the left) and assigns the cell cycle phase on the basis of these scores.")
 )
 
-clusters_by_cell_cycle_Cyclone_info <- list(
+clusters_by_cell_cycle_cyclone_info <- list(
   title = "Cell cycle analysis (Cyclone)",
-  text = p("Cell cycle distribution by cluster using the machine learning-based Cyclone method published by Scialdone et al (2015). It assigns the cell cycle phase based on scores calculated using relative expression of lists of gene pairs. In contrast to the Seurat/Regev method, scores are calculated for G1 and G2M phase. Cells with a low score for both are assigned S phase.")
+  text = p("Cell cycle distribution by cluster using the machine learning-based Cyclone method published by Scialdone et al (2015). It assigns the cell cycle phase based on scores calculated using relative expression of lists of gene pairs. In contrast to the Seurat method, scores are calculated for G1 and G2M phase. Cells with a low score for both are assigned S phase.")
 )
 
 

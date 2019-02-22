@@ -41,16 +41,16 @@ tab_samples <- tabItem(
   ),
   cerebroBox(
     title = tagList(
-      boxTitle("Cell cycle analysis (Regev)"),
-      cerebroInfoButton("samples_by_cell_cycle_Regev_info")
+      boxTitle("Cell cycle analysis by Seurat"),
+      cerebroInfoButton("samples_by_cell_cycle_seurat_info")
     ),
-    uiOutput("samples_by_cell_cycle_Regev_UI")
+    uiOutput("samples_by_cell_cycle_seurat_UI")
   ),
   cerebroBox(
     title = tagList(
-      boxTitle("Cell cycle analysis (Cyclone)"),
-      cerebroInfoButton("samples_by_cell_cycle_Cyclone_info")
+      boxTitle("Cell cycle analysis by Cyclone"),
+      cerebroInfoButton("samples_by_cell_cycle_cyclone_info")
     ),
-    uiOutput("samples_by_cell_cycle_Cyclone_UI")
+    uiOutput("samples_by_cell_cycle_cyclone_UI")
   )
 )
