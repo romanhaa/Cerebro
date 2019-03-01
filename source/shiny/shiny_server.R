@@ -36,7 +36,7 @@ server <- function(input, output, session) {
     min = 1,
     max = 20,
     step = 1,
-    default = 8
+    default = 5
   )
 
   scatter_plot_opacity <- list(
