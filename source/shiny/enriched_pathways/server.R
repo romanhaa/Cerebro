@@ -9,7 +9,7 @@
 # UI element: display results or alternative text
 output[["enriched_pathways_by_sample_UI"]] <- renderUI({
   if ( !is.null(sample_data()$marker_genes$by_sample_annotation) ) {
-    if ( is.data.frame(sample_data()$marker_genes$by_sample_annotation) ) {
+    if ( is.list(sample_data()$marker_genes$by_sample_annotation) ) {
       tagList(
         fluidRow(
           column(4,
@@ -139,7 +139,7 @@ observeEvent(input[["enriched_pathways_by_sample_info"]], {
 # UI element: display results or alternative text
 output[["enriched_pathways_by_cluster_UI"]] <- renderUI({
   if ( !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {
-    if ( is.data.frame(sample_data()$marker_genes$by_cluster_annotation) ) {
+    if ( is.list(sample_data()$marker_genes$by_cluster_annotation) ) {
       tagList(
         fluidRow(
           column(4,
