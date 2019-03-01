@@ -133,6 +133,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Handle better when no marker genes are found (also for enriched pathways).
   * Display different message to be more clear.
 * [ ] Display only the sample information that is available.
+* [ ] Be more consistent with "dot", "cell" and "point".
 
 ## Changelog
 
