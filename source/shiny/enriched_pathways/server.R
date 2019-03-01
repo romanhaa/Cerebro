@@ -6,12 +6,35 @@
 ## Samples.
 ##----------------------------------------------------------------------------##
 
+# UI element: display results or alternative text
+output[["enriched_pathways_by_sample_UI"]] <- renderUI({
+  if ( !is.null(sample_data()$marker_genes$by_sample_annotation) ) {
+    if ( is.data.frame(sample_data()$marker_genes$by_sample_annotation) ) {
+      tagList(
+        fluidRow(
+          column(4,
+            uiOutput("enriched_pathways_by_sample_select_sample_UI")
+          ),
+          column(8,
+            uiOutput("enriched_pathways_by_sample_select_db_UI")
+          )
+        ),
+        DT::dataTableOutput("enriched_pathways_by_sample_table_present")
+      )
+    } else if ( sample_data()$marker_genes$by_sample_annotation == "no_markers_found" ) {
+      textOutput("enriched_pathways_by_sample_table_no_markers_found")
+    }
+  } else {
+    textOutput("enriched_pathways_by_sample_table_missing")
+  }
+})
+
 # UI element: choose sample
 output[["enriched_pathways_by_sample_select_sample_UI"]] <- renderUI({
   selectInput(
     "enriched_pathways_by_sample_select_sample",
     label = NULL,
-    choices = sample_data()$sample_names
+    choices = names(sample_data()$marker_genes$by_sample_annotation)
   )
 })
 
@@ -23,17 +46,6 @@ output[["enriched_pathways_by_sample_select_db_UI"]] <- renderUI({
     label = NULL,
     choices = names(sample_data()$marker_genes$by_sample_annotation[[ input[["enriched_pathways_by_sample_select_sample"]] ]])
   )
-})
-
-# UI element: display results
-output[["enriched_pathways_by_sample_UI"]] <- renderUI({
-  req(input[["enriched_pathways_by_sample_select_sample"]])
-  req(input[["enriched_pathways_by_sample_select_db"]])
-  if ( !is.null(sample_data()$marker_genes$by_sample_annotation) ) {
-    DT::dataTableOutput("enriched_pathways_by_sample_table_present")
-  } else {
-    textOutput("enriched_pathways_by_sample_table_missing")
-  }
 })
 
 # table
@@ -99,8 +111,13 @@ output[["enriched_pathways_by_sample_table_present"]] <- DT::renderDataTable(ser
 })
 
 # alternative text
+output[["enriched_pathways_by_sample_table_no_markers_found"]] <- renderText({
+  "No marker genes identified to perform pathway enrichment analysis with."
+})
+
+# alternative text
 output[["enriched_pathways_by_sample_table_missing"]] <- renderText({
-  "Only 1 sample in this data set or data not available."
+  "Data not available. Possible reasons: Only 1 sample in this data set, no marker genes found or data not generated."
 })
 
 # info box
@@ -119,12 +136,35 @@ observeEvent(input[["enriched_pathways_by_sample_info"]], {
 ## Clusters.
 ##----------------------------------------------------------------------------##
 
+# UI element: display results or alternative text
+output[["enriched_pathways_by_cluster_UI"]] <- renderUI({
+  if ( !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {
+    if ( is.data.frame(sample_data()$marker_genes$by_cluster_annotation) ) {
+      tagList(
+        fluidRow(
+          column(4,
+            uiOutput("enriched_pathways_by_cluster_select_cluster_UI")
+          ),
+          column(8,
+            uiOutput("enriched_pathways_by_cluster_select_db_UI")
+          )
+        ),
+        DT::dataTableOutput("enriched_pathways_by_cluster_table_present")
+      )
+    } else if ( sample_data()$marker_genes$by_cluster_annotation == "no_markers_found") {
+      textOutput("enriched_pathways_by_cluster_table_no_markers_found")
+    }
+  } else {
+    textOutput("enriched_pathways_by_cluster_table_missing")
+  }
+})
+
 # UI element: choose cluster
 output[["enriched_pathways_by_cluster_select_cluster_UI"]] <- renderUI({
   selectInput(
     "enriched_pathways_by_cluster_select_cluster",
     label = NULL,
-    choices = sample_data()$cluster_names
+    choices = names(sample_data()$marker_genes$by_cluster_annotation)
   )
 })
 
@@ -136,17 +176,6 @@ output[["enriched_pathways_by_cluster_select_db_UI"]] <- renderUI({
     label = NULL,
     choices = names(sample_data()$marker_genes$by_cluster_annotation[[ input[["enriched_pathways_by_cluster_select_cluster"]] ]])
   )
-})
-
-# UI element: display results
-output$enriched_pathways_by_cluster_UI <- renderUI({
-  req(input[["enriched_pathways_by_cluster_select_cluster"]])
-  req(input[["enriched_pathways_by_cluster_select_db"]])
-  if ( !is.null(sample_data()$marker_genes$by_cluster_annotation) ) {
-    DT::dataTableOutput("enriched_pathways_by_cluster_table_present")
-  } else {
-    textOutput("enriched_pathways_by_cluster_table_missing")
-  }
 })
 
 # table
@@ -212,8 +241,13 @@ output[["enriched_pathways_by_cluster_table_present"]] <- DT::renderDataTable(se
 })
 
 # alternative text
+output[["enriched_pathways_by_cluster_table_no_markers_found"]] <- renderText({
+  "No marker genes identified to perform pathway enrichment analysis with."
+})
+
+# alternative text
 output[["enriched_pathways_by_cluster_table_missing"]] <- renderText({
-  "Only 1 cluster in this data set or data not available."
+  "Data not available. Possible reasons: Only 1 cluster in this data set, no marker genes found or data not generated."
 })
 
 # info box
