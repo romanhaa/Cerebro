@@ -9,16 +9,20 @@
 # UI element
 output[["marker_genes_by_sample_UI"]] <- renderUI({
   if ( !is.null(sample_data()$marker_genes$by_sample) ) {
-    fluidRow(
-      column(12,
-        selectInput(
-          "marker_genes_by_sample_input",
-          label = NULL,
-          choices = sample_data()$sample_names
-        ),
-        DT::dataTableOutput("marker_genes_by_sample_table_present")
+    if ( is.data.frame(sample_data()$marker_genes$by_sample) ) {
+      fluidRow(
+        column(12,
+          selectInput(
+            "marker_genes_by_sample_input",
+            label = NULL,
+            choices = unique(sample_data()$marker_genes$by_sample$sample)
+          ),
+          DT::dataTableOutput("marker_genes_by_sample_table_present")
+        )
       )
-    )
+    } else if ( sample_data()$marker_genes$by_sample == "no_markers_found" ) {
+      textOutput("marker_genes_by_sample_table_no_markers_found")
+    }
   } else {
     textOutput("marker_genes_by_sample_table_missing")
   }
@@ -119,9 +123,14 @@ output[["marker_genes_by_sample_table_present"]] <- DT::renderDataTable(server =
 })
 
 # alternative text
+output[["marker_genes_by_sample_table_no_markers_found"]] <- renderText({
+  "No marker genes identified for any of the samples."
+})
+
+# alternative text
 output[["marker_genes_by_sample_table_missing"]] <- renderText({
-    "Only 1 sample in this data set or data not available."
-  })
+  "Data not available. Possible reasons: Only 1 sample in this data set or data not generated."
+})
 
 # info box
 observeEvent(input[["marker_genes_by_sample_info"]], {
@@ -142,16 +151,20 @@ observeEvent(input[["marker_genes_by_sample_info"]], {
 # UI element
 output[["marker_genes_by_cluster_UI"]] <- renderUI({
   if ( !is.null(sample_data()$marker_genes$by_cluster) ) {
-    fluidRow(
-      column(12,
-        selectInput(
-          "marker_genes_by_cluster_input",
-          label = NULL,
-          choices = sample_data()$cluster_names
-        ),
-        DT::dataTableOutput("marker_genes_by_cluster_table_present")
+    if ( is.data.frame(sample_data()$marker_genes$by_cluster) ) {
+      fluidRow(
+        column(12,
+          selectInput(
+            "marker_genes_by_cluster_input",
+            label = NULL,
+            choices = unique(sample_data()$marker_genes$by_cluster$cluster)
+          ),
+          DT::dataTableOutput("marker_genes_by_cluster_table_present")
+        )
       )
-    )
+    } else if ( sample_data()$marker_genes$by_cluster == "no_markers_found" ) {
+      textOutput("marker_genes_by_cluster_table_no_markers_found")
+    }
   } else {
     textOutput("marker_genes_by_cluster_table_missing")
   }
@@ -250,9 +263,14 @@ output[["marker_genes_by_cluster_table_present"]] <- DT::renderDataTable(server 
 })
 
 # alternative text
+output[["marker_genes_by_cluster_table_no_markers_found"]] <- renderText({
+  "No marker genes identified for any of the clusters."
+})
+
+# alternative text
 output[["marker_genes_by_cluster_table_missing"]] <- renderText({
-    "Only 1 cluster in this data set or data not available."
-  })
+  "Data not available. Possible reasons: Only 1 cluster in this data set or data not generated."
+})
 
 # info box
 observeEvent(input[["marker_genes_by_cluster_info"]], {

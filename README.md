@@ -130,6 +130,9 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] `per` to `by`?
 * [ ] Custom hoverinfo for all plots.
 * [ ] Info box for gene ID conversion.
+* [ ] Handle better when no marker genes are found (also for enriched pathways).
+  * Display different message to be more clear.
+* [ ] Display only the sample information that is available.
 
 ## Changelog
 
