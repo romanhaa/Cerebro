@@ -2,7 +2,7 @@
 
 ![Screenshot Cerebro: overview panel](screenshots/Screenshot_2019-03-01_at_15.22.15.png?raw=true "Cerebro: overview panel")
 
-![Video Cerebro](screenshots/2019-03-01_18-16-32.2019-03-01_18_33_19.gif?raw=true "Cerebro")
+![Video Cerebro](screenshots/Cerebro_2019-03-12.2019-03-12_14_37_20.gif?raw=true "Cerebro")
 
 ## Description
 
