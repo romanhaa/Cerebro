@@ -284,94 +284,208 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   # define variable used for cell size
   size_var <- if ( input[["overview_cell_size_variable"]] == "None" ) NULL else to_plot[ , input[["overview_cell_size_variable"]] ]
 
-  if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
-    plotly::plot_ly(
-      to_plot,
-      x = ~to_plot[,1],
-      y = ~to_plot[,2],
-      type = "scattergl",
-      mode = "markers",
-      marker = list(
-        colorbar = list(
-          title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
+  if ( ncol(sample_data()$projections[[ projection_to_display ]][ cells_to_display , ]) == 3 ) {
+    if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
+      plotly::plot_ly(
+        to_plot,
+        x = ~to_plot[,1],
+        y = ~to_plot[,2],
+        z = ~to_plot[,3],
+        type = "scatter3d",
+        mode = "markers",
+        marker = list(
+          colorbar = list(
+            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
+          ),
+          color = ~to_plot[ , input[["overview_cell_color"]] ],
+          opacity = input[["overview_cell_opacity"]],
+          colorscale = "YlGnBu",
+          reversescale = TRUE,
+          line = list(
+            color = "rgb(196,196,196)",
+            width = 1
+          ),
+          size = input[["overview_cell_size_value"]]
         ),
+        hoverinfo = "text",
+        text = ~paste(
+          "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
+          "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
+          "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
+          "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
+          "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
+        ),
+        height = 720
+      ) %>%
+      plotly::layout(
+        scene = list(
+          xaxis = list(
+            title = colnames(to_plot)[1],
+            mirror = TRUE,
+            showline = TRUE,
+            zeroline = FALSE
+          ),
+          yaxis = list(
+            title = colnames(to_plot)[2],
+            mirror = TRUE,
+            showline = TRUE,
+            zeroline = FALSE
+          ),
+          zaxis = list(
+            title = colnames(to_plot)[3],
+            mirror = TRUE,
+            showline = TRUE,
+            zeroline = FALSE
+          )
+        ),
+        hoverlabel = list(font = list(size = 11))
+      ) %>%
+      plotly::toWebGL()
+    } else {
+      plotly::plot_ly(
+        to_plot,
+        x = ~to_plot[,1],
+        y = ~to_plot[,2],
+        z = ~to_plot[,3],
         color = ~to_plot[ , input[["overview_cell_color"]] ],
-        opacity = input[["overview_cell_opacity"]],
-        colorscale = "YlGnBu",
-        reversescale = TRUE,
-        line = list(
-          color = "rgb(196,196,196)",
-          width = 1
+        colors = colors,
+        type = "scatter3d",
+        mode = "markers",
+        marker = list(
+          opacity = input[["overview_cell_opacity"]],
+          line = list(
+            color = "rgb(196,196,196)",
+            width = 1
+          ),
+          size = input[["overview_cell_size_value"]]
         ),
-        size = input[["overview_cell_size_value"]]
-      ),
-      hoverinfo = "text",
-      text = ~paste(
-        "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
-        "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
-        "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
-        "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
-        "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
-      ),
-      height = 720
-    ) %>%
-    plotly::layout(
-      xaxis = list(
-        title = colnames(to_plot)[1],
-        mirror = TRUE,
-        showline = TRUE,
-        zeroline = FALSE
-      ),
-      yaxis = list(
-        title = colnames(to_plot)[2],
-        mirror = TRUE,
-        showline = TRUE,
-        zeroline = FALSE
-      ),
-      hoverlabel = list(font = list(size = 11))
-    )
+        hoverinfo = "text",
+        text = ~paste(
+          "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
+          "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
+          "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
+          "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
+          "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
+        ),
+        height = 720
+      ) %>%
+      plotly::layout(
+        scene = list(
+          xaxis = list(
+            title = colnames(to_plot)[1],
+            mirror = TRUE,
+            showline = TRUE,
+            zeroline = FALSE
+          ),
+          yaxis = list(
+            title = colnames(to_plot)[2],
+            mirror = TRUE,
+            showline = TRUE,
+            zeroline = FALSE
+          ),
+          zaxis = list(
+            title = colnames(to_plot)[3],
+            mirror = TRUE,
+            showline = TRUE,
+            zeroline = FALSE
+          )
+        ),
+        hoverlabel = list(font = list(size = 11))
+      ) %>%
+      plotly::toWebGL()
+    }
   } else {
-    plotly::plot_ly(
-      to_plot,
-      x = ~to_plot[,1],
-      y = ~to_plot[,2],
-      color = ~to_plot[ , input[["overview_cell_color"]] ],
-      colors = colors,
-      type = "scattergl",
-      mode = "markers",
-      marker = list(
-        opacity = input[["overview_cell_opacity"]],
-        line = list(
-          color = "rgb(196,196,196)",
-          width = 1
+    if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
+      plotly::plot_ly(
+        to_plot,
+        x = ~to_plot[,1],
+        y = ~to_plot[,2],
+        type = "scatter",
+        mode = "markers",
+        marker = list(
+          colorbar = list(
+            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
+          ),
+          color = ~to_plot[ , input[["overview_cell_color"]] ],
+          opacity = input[["overview_cell_opacity"]],
+          colorscale = "YlGnBu",
+          reversescale = TRUE,
+          line = list(
+            color = "rgb(196,196,196)",
+            width = 1
+          ),
+          size = input[["overview_cell_size_value"]]
         ),
-        size = input[["overview_cell_size_value"]]
-      ),
-      hoverinfo = "text",
-      text = ~paste(
-        "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
-        "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
-        "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
-        "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
-        "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
-      ),
-      height = 720
-    ) %>%
-    plotly::layout(
-      xaxis = list(
-        title = colnames(to_plot)[1],
-        mirror = TRUE,
-        showline = TRUE,
-        zeroline = FALSE
-      ),
-      yaxis = list(
-        title = colnames(to_plot)[2],
-        mirror = TRUE,
-        showline = TRUE,
-        zeroline = FALSE
-      ),
-      hoverlabel = list(font = list(size = 11))
-    )
+        hoverinfo = "text",
+        text = ~paste(
+          "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
+          "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
+          "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
+          "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
+          "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
+        ),
+        height = 720
+      ) %>%
+      plotly::layout(
+        xaxis = list(
+          title = colnames(to_plot)[1],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        ),
+        yaxis = list(
+          title = colnames(to_plot)[2],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        ),
+        hoverlabel = list(font = list(size = 11))
+      ) %>%
+      plotly::toWebGL()
+    } else {
+      plotly::plot_ly(
+        to_plot,
+        x = ~to_plot[,1],
+        y = ~to_plot[,2],
+        color = ~to_plot[ , input[["overview_cell_color"]] ],
+        colors = colors,
+        type = "scatter",
+        mode = "markers",
+        marker = list(
+          opacity = input[["overview_cell_opacity"]],
+          line = list(
+            color = "rgb(196,196,196)",
+            width = 1
+          ),
+          size = input[["overview_cell_size_value"]]
+        ),
+        hoverinfo = "text",
+        text = ~paste(
+          "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
+          "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
+          "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
+          "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
+          "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
+        ),
+        height = 720
+      ) %>%
+      plotly::layout(
+        xaxis = list(
+          title = colnames(to_plot)[1],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        ),
+        yaxis = list(
+          title = colnames(to_plot)[2],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        ),
+        hoverlabel = list(font = list(size = 11))
+      ) %>%
+      plotly::toWebGL()
+    }
   }
 })
 

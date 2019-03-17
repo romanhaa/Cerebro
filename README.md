@@ -138,6 +138,12 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * Display different message to be more clear.
 * [ ] Display only the sample information that is available.
 * [ ] Be more consistent with "dot", "cell" and "point".
+* [ ] Check if dimensional reduction is in 3D and plot accordingly.
+* [ ] Check how well dimensional reductions scale in plotly.
+* [ ] 3D dimensional reduction also in gene expression panels.
+* [ ] Allow to resize dimensional reductions.
+* [ ] Cell size by variable doesn't work anymore.
+* [ ] Manual axis adjustment doesn't work anymore.
 
 ## Changelog
 
