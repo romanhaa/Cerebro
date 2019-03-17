@@ -147,6 +147,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Use loading animations.
 * [ ] Clean up R libraries.
 * [ ] Use violin plots with plotly.
+* [ ] Run performance test to see what can be done to improve speed.
 
 ## Changelog
 
