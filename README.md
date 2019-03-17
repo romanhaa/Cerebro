@@ -146,6 +146,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Manual axis adjustment doesn't work anymore.
 * [ ] Use loading animations.
 * [ ] Clean up R libraries.
+* [ ] Use violin plots with plotly.
 
 ## Changelog
 

@@ -117,7 +117,13 @@ output[["samples_box_nUMI_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~sample,
     y = ~nUMI,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~sample,
     colors = sample_data()$samples$colors,
     source = "subset",
@@ -182,7 +188,13 @@ output[["samples_box_nGene_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~sample,
     y = ~nGene,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~sample,
     colors = sample_data()$samples$colors,
     source = "subset",
@@ -247,7 +259,13 @@ output[["samples_box_percent_mt_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~sample,
     y = ~percent_mt*100,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~sample,
     colors = sample_data()$samples$colors,
     source = "subset",
@@ -312,7 +330,13 @@ output[["samples_box_percent_ribo_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~sample,
     y = ~percent_ribo*100,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~sample,
     colors = sample_data()$samples$colors,
     source = "subset",

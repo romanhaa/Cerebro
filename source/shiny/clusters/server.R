@@ -160,7 +160,13 @@ output[["clusters_box_nUMI_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~cluster,
     y = ~nUMI,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~cluster,
     colors = sample_data()$clusters$colors,
     source = "subset",
@@ -225,7 +231,13 @@ output[["clusters_box_nGene_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~cluster, 
     y = ~nGene,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~cluster,
     colors = sample_data()$clusters$colors,
     source = "subset",
@@ -290,7 +302,13 @@ output[["clusters_box_percent_mt_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~cluster,
     y = ~percent_mt*100,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~cluster,
     colors = sample_data()$clusters$colors,
     source = "subset",
@@ -360,7 +378,13 @@ output[["clusters_box_percent_ribo_plot"]] <- plotly::renderPlotly({
     sample_data()$cells,
     x = ~cluster,
     y = ~percent_ribo*100,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~cluster,
     colors = sample_data()$clusters$colors,
     source = "subset",

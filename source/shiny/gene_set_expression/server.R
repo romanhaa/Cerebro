@@ -556,7 +556,13 @@ output[["geneSetExpression_by_sample"]] <- plotly::renderPlotly({
     geneSetExpression_plot_data(),
     x = ~sample,
     y = ~level,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~sample,
     colors = sample_data()$samples$colors,
     source = "subset",
@@ -605,7 +611,13 @@ output[["geneSetExpression_by_cluster"]] <- plotly::renderPlotly({
     geneSetExpression_plot_data(),
     x = ~cluster,
     y = ~level,
-    type = "box",
+    type = "violin",
+    box = list(
+      visible = TRUE
+    ),
+    meanline = list(
+      visible = TRUE
+    ),
     color = ~cluster,
     colors = sample_data()$clusters$colors,
     source = "subset",
