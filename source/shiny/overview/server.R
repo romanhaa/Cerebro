@@ -41,12 +41,12 @@ output[["overview_UI"]] <- renderUI({
       label = "Color cells by",
       choices = names(sample_data()$cells)[! names(sample_data()$cells) %in% c("cell_barcode")]
     ),
-    selectInput(
-      "overview_cell_size_variable",
-      label = "Change point size by",
-      choices = c("None", "nUMI", "nGene"),
-      selected = "None"
-    ),
+    # selectInput(
+    #   "overview_cell_size_variable",
+    #   label = "Change point size by",
+    #   choices = c("None", "nUMI", "nGene"),
+    #   selected = "None"
+    # ),
     sliderInput(
       "overview_cell_size_value",
       label = "Point size",
@@ -55,11 +55,11 @@ output[["overview_UI"]] <- renderUI({
       step = scatter_plot_dot_size[["step"]],
       value = scatter_plot_dot_size[["default"]]
     ),
-    checkboxInput(
-      "overview_show_ellipses",
-      label = "Confidence ellipses",
-      value = FALSE
-    ),
+    # checkboxInput(
+    #   "overview_show_ellipses",
+    #   label = "Confidence ellipses",
+    #   value = FALSE
+    # ),
     sliderInput(
       "overview_cell_opacity",
       label = "Point opacity",
@@ -227,7 +227,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
     input[["overview_clusters_to_display"]],
     input[["overview_percentage_cells_to_show"]],
     input[["overview_cell_color"]],
-    input[["overview_cell_size_variable"]],
+    # input[["overview_cell_size_variable"]],
     input[["overview_cell_size_value"]],
     input[["overview_cell_opacity"]],
     input[["overview_scale_x_manual_range"]],
@@ -282,7 +282,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   }
 
   # define variable used for cell size
-  size_var <- if ( input[["overview_cell_size_variable"]] == "None" ) NULL else to_plot[ , input[["overview_cell_size_variable"]] ]
+  # size_var <- if ( input[["overview_cell_size_variable"]] == "None" ) NULL else to_plot[ , input[["overview_cell_size_variable"]] ]
 
   if ( ncol(sample_data()$projections[[ projection_to_display ]][ cells_to_display , ]) == 3 ) {
     if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
@@ -428,13 +428,15 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           title = colnames(to_plot)[1],
           mirror = TRUE,
           showline = TRUE,
-          zeroline = FALSE
+          zeroline = FALSE,
+          range = input[["overview_scale_x_manual_range"]]
         ),
         yaxis = list(
           title = colnames(to_plot)[2],
           mirror = TRUE,
           showline = TRUE,
-          zeroline = FALSE
+          zeroline = FALSE,
+          range = input[["overview_scale_y_manual_range"]]
         ),
         hoverlabel = list(font = list(size = 11))
       ) %>%
@@ -455,6 +457,8 @@ output[["overview_projection"]] <- plotly::renderPlotly({
             width = 1
           ),
           size = input[["overview_cell_size_value"]]
+          # sizemode = 'area',
+          # sizeref = 200
         ),
         hoverinfo = "text",
         text = ~paste(
@@ -470,13 +474,15 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           title = colnames(to_plot)[1],
           mirror = TRUE,
           showline = TRUE,
-          zeroline = FALSE
+          zeroline = FALSE,
+          range = input[["overview_scale_x_manual_range"]]
         ),
         yaxis = list(
           title = colnames(to_plot)[2],
           mirror = TRUE,
           showline = TRUE,
-          zeroline = FALSE
+          zeroline = FALSE,
+          range = input[["overview_scale_y_manual_range"]]
         ),
         hoverlabel = list(font = list(size = 11))
       ) %>%
