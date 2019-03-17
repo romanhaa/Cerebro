@@ -35,10 +35,11 @@ tab_overview <- tabItem(
               title = "Export dimensional reduction to PDF file."
             )
           ),
-          # scatterD3::scatterD3Output(
-          #   "overview_projection", height = "720px"
-          # ),
-          plotly::plotlyOutput("overview_projection", height = "720px")
+          plotly::plotlyOutput(
+            "overview_projection",
+            width = "auto",
+            height = "85vh"
+          )
         )
       )
     )

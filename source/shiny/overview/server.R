@@ -314,8 +314,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
           "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
           "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
-        ),
-        height = 720
+        )
       ) %>%
       plotly::layout(
         scene = list(
@@ -366,8 +365,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
           "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
           "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
-        ),
-        height = 720
+        )
       ) %>%
       plotly::layout(
         scene = list(
@@ -423,8 +421,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
           "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
           "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
-        ),
-        height = 720
+        )
       ) %>%
       plotly::layout(
         xaxis = list(
@@ -466,8 +463,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
           "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
           "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
-        ),
-        height = 720
+        )
       ) %>%
       plotly::layout(
         xaxis = list(

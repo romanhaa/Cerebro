@@ -144,6 +144,8 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Allow to resize dimensional reductions.
 * [ ] Cell size by variable doesn't work anymore.
 * [ ] Manual axis adjustment doesn't work anymore.
+* [ ] Use loading animations.
+* [ ] Clean up R libraries.
 
 ## Changelog
 
