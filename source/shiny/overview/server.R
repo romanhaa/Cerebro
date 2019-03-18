@@ -338,8 +338,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           )
         ),
         hoverlabel = list(font = list(size = 11))
-      ) %>%
-      plotly::toWebGL()
+      )
     } else {
       plotly::plot_ly(
         to_plot,
@@ -389,8 +388,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           )
         ),
         hoverlabel = list(font = list(size = 11))
-      ) %>%
-      plotly::toWebGL()
+      )
     }
   } else {
     if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {

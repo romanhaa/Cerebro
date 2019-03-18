@@ -27,22 +27,20 @@ Download release for your OS, unpack and run.
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
-# Clone this repository
-git clone https://gitlab.com/romanhaa/cerebro.git
-# Install Electron Packager (if first time)
-npm install electron-packager -g 
-# Go into the repository
+# clone this repository
+git clone https://gitlab.com/romanhaa/Cerebro.git
+# install Electron Packager (if first time)
+npm install electron-packager --global
+# go into the repository
 cd source
-# Install dependencies
+# install dependencies
 npm install
-# Install electron-log (probably not necessary)
-npm install electron-log
-# Run the app
+# run the app
 npm start
-# Build the Executable/App
+# build the Executable/App
 npm run package-win
-OR
-npm run package-mac 
+# or
+npm run package-mac
 ```
 
 ### Windows
