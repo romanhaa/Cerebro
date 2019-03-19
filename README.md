@@ -131,6 +131,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
   * How to interpret distances in UMAP : <https://github.com/lmcinnes/umap/issues/92>
   * How to effectively use t-SNE: <https://distill.pub/2016/misread-tsne/>
   * How to interpret distances in t-SNE: <https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne>
+  * Problems of t-SNE: <https://stats.stackexchange.com/questions/270391/should-dimensionality-reduction-for-visualization-be-considered-a-closed-probl/270414>
 * [ ] Check if `require()` could be a way to make startup faster.
 * [ ] Gene expression tab: Update `textAreaInput` after checking which genes are present in data set? Or at least remove empty lines?
 * [ ] Make `hoverinfo` background white, like in scatterD3.
