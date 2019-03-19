@@ -13,11 +13,17 @@ Linux users have the option to launch the application through a Docker container
 
 ## Installation
 
+### Official release
+
 Download release for your OS, unpack and run.
+
+### Launch from source
+
+...
 
 ## Usage
 
-* Analyze data set with Cerebro-prepare pipeline.
+* Export data set using the `cerebroPrepare` R package.
 * Launch the browser and load the data set.
 
 ## How to build from source
@@ -116,7 +122,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
 * [ ] Check where hallmark gene sets would appear in pathway enrichement.
 * [ ] Add parameters of marker gene detection to info tab.
-* [ ] Include links to useful pages.
+* [ ] Make panel with links to useful pages.
   * How UMAP works: <https://umap-learn.readthedocs.io/en/latest/how_umap_works.html>
   * How to interpret distances in UMAP : <https://github.com/lmcinnes/umap/issues/92>
   * How to effectively use t-SNE: <https://distill.pub/2016/misread-tsne/>
@@ -146,6 +152,9 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * [ ] Clean up R libraries.
 * [ ] Use violin plots with plotly.
 * [ ] Run performance test to see what can be done to improve speed.
+* [ ] Plot dimensional reduction from overview panel with sample/cluster labels.
+* [ ] Allow user to assign custom colors.
+* [ ] Change name of box plots because now they are violin plots.
 
 ## Changelog
 
