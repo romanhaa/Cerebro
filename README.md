@@ -6,6 +6,8 @@
 
 ## Description
 
+Motivation ...
+
 Visualize and explore complex data sets from single-cell RNA-sequencing experiments.
 
 Currently available only for Windows and macOS.
@@ -13,20 +15,22 @@ Linux users have the option to launch the application through a Docker container
 
 ## Installation
 
-### Official release
-
 Download release for your OS, unpack and run.
-
-### Launch from source
-
-...
 
 ## Usage
 
 * Export data set using the `cerebroPrepare` R package.
 * Launch the browser and load the data set.
 
-## How to build from source
+## How it works
+
+* 
+
+## FAQ
+
+* 
+
+## Build from source
 
 ### macOS
 
