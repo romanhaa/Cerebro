@@ -352,65 +352,125 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
     input[["expression_projection_scale_x_manual_range"]],
     input[["expression_projection_scale_y_manual_range"]]
   )
-  plotly::plot_ly(
-    gene_expression_plot_data(),
-    x = gene_expression_plot_data()[,1],
-    y = gene_expression_plot_data()[,2],
-    type = "scattergl",
-    mode = "markers",
-    marker = list(
-      colorbar = list(
-        title = "Expression"
+  if ( ncol(sample_data()$projections[[ input[["expression_projection_to_display"]] ]]) == 3 ) {
+    plotly::plot_ly(
+      gene_expression_plot_data(),
+      x = gene_expression_plot_data()[,1],
+      y = gene_expression_plot_data()[,2],
+      z = gene_expression_plot_data()[,3],
+      type = "scatter3d",
+      mode = "markers",
+      marker = list(
+        colorbar = list(
+          title = "Expression"
+        ),
+        color = ~level,
+        opacity = input[["expression_projection_opacity"]],
+        colorscale = "YlGnBu",
+        reversescale = TRUE,
+        line = list(
+          color = "rgb(196,196,196)",
+          width = 1
+        ),
+        size = input[["expression_projection_dot_size"]]
       ),
-      color = ~level,
-      opacity = input[["expression_projection_opacity"]],
-      colorscale = "YlGnBu",
-      reversescale = TRUE,
-      line = list(
-        color = "rgb(196,196,196)",
-        width = 1
+      hoverinfo = "text",
+      text = ~paste(
+        "<b>Cell</b>: ", gene_expression_plot_data()$cell_barcode, "<br>",
+        "<b>Sample</b>: ", gene_expression_plot_data()$sample, "<br>",
+        "<b>Cluster</b>: ", gene_expression_plot_data()$cluster, "<br>",
+        "<b>Transcripts</b>: ", formatC(gene_expression_plot_data()$nUMI, format = "f", big.mark = ",", digits = 0), "<br>",
+        "<b>Expressed genes</b>: ", formatC(gene_expression_plot_data()$nGene, format = "f", big.mark = ",", digits = 0), "<br>",
+        "<b>Expression level</b>: ", formatC(gene_expression_plot_data()$level, format = "f", big.mark = ",", digits = 3)
+      )
+    ) %>%
+    plotly::layout(
+      scene = list(
+        xaxis = list(
+          title = colnames(gene_expression_plot_data())[1],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        ),
+        yaxis = list(
+          title = colnames(gene_expression_plot_data())[2],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        ),
+        zaxis = list(
+          title = colnames(gene_expression_plot_data())[3],
+          mirror = TRUE,
+          showline = TRUE,
+          zeroline = FALSE
+        )
       ),
-      size = input[["expression_projection_dot_size"]]
-    ),
-    hoverinfo = "text",
-    text = ~paste(
-      "<b>Cell</b>: ", gene_expression_plot_data()$cell_barcode, "<br>",
-      "<b>Sample</b>: ", gene_expression_plot_data()$sample, "<br>",
-      "<b>Cluster</b>: ", gene_expression_plot_data()$cluster, "<br>",
-      "<b>Transcripts</b>: ", formatC(gene_expression_plot_data()$nUMI, format = "f", big.mark = ",", digits = 0), "<br>",
-      "<b>Expressed genes</b>: ", formatC(gene_expression_plot_data()$nGene, format = "f", big.mark = ",", digits = 0), "<br>",
-      "<b>Expression level</b>: ", formatC(gene_expression_plot_data()$level, format = "f", big.mark = ",", digits = 3)
-    ),
-    height = 720
-  ) %>%
-  plotly::layout(
-    xaxis = list(
-      title = colnames(gene_expression_plot_data())[1],
-      mirror = TRUE,
-      showline = TRUE,
-      zeroline = FALSE,
-      range = c(
-        input[["expression_projection_scale_x_manual_range"]][1],
-        input[["expression_projection_scale_x_manual_range"]][2]
-      )
-    ),
-    yaxis = list(
-      title = colnames(gene_expression_plot_data())[2],
-      mirror = TRUE,
-      showline = TRUE,
-      zeroline = FALSE,
-      range = c(
-        input[["expression_projection_scale_y_manual_range"]][1],
-        input[["expression_projection_scale_y_manual_range"]][2]
-      )
-    ),
-    dragmode = "pan",
-    hoverlabel = list(
-      font = list(
-        size = 11
+      hoverlabel = list(
+        font = list(
+          size = 11
+        )
       )
     )
-  )
+  } else {
+    plotly::plot_ly(
+      gene_expression_plot_data(),
+      x = gene_expression_plot_data()[,1],
+      y = gene_expression_plot_data()[,2],
+      type = "scattergl",
+      mode = "markers",
+      marker = list(
+        colorbar = list(
+          title = "Expression"
+        ),
+        color = ~level,
+        opacity = input[["expression_projection_opacity"]],
+        colorscale = "YlGnBu",
+        reversescale = TRUE,
+        line = list(
+          color = "rgb(196,196,196)",
+          width = 1
+        ),
+        size = input[["expression_projection_dot_size"]]
+      ),
+      hoverinfo = "text",
+      text = ~paste(
+        "<b>Cell</b>: ", gene_expression_plot_data()$cell_barcode, "<br>",
+        "<b>Sample</b>: ", gene_expression_plot_data()$sample, "<br>",
+        "<b>Cluster</b>: ", gene_expression_plot_data()$cluster, "<br>",
+        "<b>Transcripts</b>: ", formatC(gene_expression_plot_data()$nUMI, format = "f", big.mark = ",", digits = 0), "<br>",
+        "<b>Expressed genes</b>: ", formatC(gene_expression_plot_data()$nGene, format = "f", big.mark = ",", digits = 0), "<br>",
+        "<b>Expression level</b>: ", formatC(gene_expression_plot_data()$level, format = "f", big.mark = ",", digits = 3)
+      )
+    ) %>%
+    plotly::layout(
+      xaxis = list(
+        title = colnames(gene_expression_plot_data())[1],
+        mirror = TRUE,
+        showline = TRUE,
+        zeroline = FALSE,
+        range = c(
+          input[["expression_projection_scale_x_manual_range"]][1],
+          input[["expression_projection_scale_x_manual_range"]][2]
+        )
+      ),
+      yaxis = list(
+        title = colnames(gene_expression_plot_data())[2],
+        mirror = TRUE,
+        showline = TRUE,
+        zeroline = FALSE,
+        range = c(
+          input[["expression_projection_scale_y_manual_range"]][1],
+          input[["expression_projection_scale_y_manual_range"]][2]
+        )
+      ),
+      dragmode = "pan",
+      hoverlabel = list(
+        font = list(
+          size = 11
+        )
+      )
+    )
+  }
 })
 
 ##----------------------------------------------------------------------------##

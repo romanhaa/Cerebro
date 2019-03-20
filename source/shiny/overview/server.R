@@ -284,7 +284,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   # define variable used for cell size
   # size_var <- if ( input[["overview_cell_size_variable"]] == "None" ) NULL else to_plot[ , input[["overview_cell_size_variable"]] ]
 
-  if ( ncol(sample_data()$projections[[ projection_to_display ]][ cells_to_display , ]) == 3 ) {
+  if ( ncol(sample_data()$projections[[ projection_to_display ]]) == 3 ) {
     if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
       plotly::plot_ly(
         to_plot,
@@ -337,7 +337,11 @@ output[["overview_projection"]] <- plotly::renderPlotly({
             zeroline = FALSE
           )
         ),
-        hoverlabel = list(font = list(size = 11))
+        hoverlabel = list(
+          font = list(
+            size = 11
+          )
+        )
       )
     } else {
       plotly::plot_ly(

@@ -47,11 +47,10 @@ tab_gene_expression <- tabItem(
               )
             ),
             tagList(
-              # scatterD3::scatterD3Output(
-              #   "expression_projection", height = "720px"
-              # ),
               plotly::plotlyOutput(
-                "expression_projection_plotly", height = "720px"
+                "expression_projection_plotly",
+                width = "auto",
+                height = "85vh"
               ),
               tags$br(),
               htmlOutput("expression_genes_displayed")
