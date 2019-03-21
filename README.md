@@ -63,9 +63,11 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 * version X.X
   * ...
 
-## Contributions
+## Credits
 
-* <https://github.com/ColumbusCollaboratory/electron-quick-start>
+* Columbus Collaboratory for laying out the basics of using Electron to create a standalone Shiny application: <https://github.com/ColumbusCollaboratory/electron-quick-start>
+* Colors:
+* Icons:
 
 ## To Do
 
