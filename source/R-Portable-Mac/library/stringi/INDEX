@@ -49,25 +49,26 @@ stri_locate_all_boundaries
                         Locate Text Boundaries
 stri_match_all          Extract Regex Pattern Matches, Together with
                         Capture Groups
-stri_na2empty           Replace NAs with empty strings
+stri_na2empty           Replace NAs with Empty Strings
 stri_numbytes           Count the Number of Bytes
 stri_opts_brkiter       Generate a List with BreakIterator Settings
 stri_opts_collator      Generate a List with Collator Settings
 stri_opts_fixed         Generate a List with Fixed Pattern Search
                         Engine's Settings
 stri_opts_regex         Generate a List with Regex Matcher Settings
-stri_order              Ordering Permutation and Sorting
+stri_order              Ordering Permutation
 stri_pad_both           Pad (Center/Left/Right Align) a String
 stri_rand_lipsum        A Lorem Ipsum Generator
 stri_rand_shuffle       Randomly Shuffle Code Points in Each String
 stri_rand_strings       Generate Random Strings
 stri_read_lines         [DRAFT API] Read Text Lines from a Text File
 stri_read_raw           [DRAFT API] Read Whole Text File as Raw
-stri_remove_empty       Remove all empty strings from a character
-                        vector
+stri_remove_empty       Remove All Empty Strings from a Character
+                        Vector
 stri_replace_all        Replace Occurrences of a Pattern
 stri_replace_na         Replace Missing Values in a Character Vector
 stri_reverse            Reverse Each String
+stri_sort               Sorting
 stri_split              Split a String By Pattern Matches
 stri_split_boundaries   Split a String at Text Boundaries
 stri_split_lines        Split a String Into Text Lines
@@ -78,6 +79,7 @@ stri_stats_latex        Statistics for a Character Vector Containing
                         LaTeX Commands
 stri_sub                Extract a Substring From or Replace a Substring
                         In a Character Vector
+stri_sub_all            Extract or Replace Multiple Substrings
 stri_subset             Select Elements that Match a Given Pattern
 stri_timezone_get       Set or Get Default Time Zone in 'stringi'
 stri_timezone_info      Query a Given Time Zone

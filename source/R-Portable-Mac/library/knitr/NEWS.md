@@ -1,3 +1,47 @@
+# CHANGES IN knitr VERSION 1.22
+
+## NEW FEATURES 
+
+- Added chunk options `class.error`, `class.warning`, and `class.message` to customize the CSS classes for errors, warnings, and messages in R Markdown output, respectively (thanks, @gadenbuie, #1676).
+
+- Added a new engine `sass`/`scss` to convert Sass/SCSS to CSS using either the **sass** [R package](https://github.com/rstudio/sass) (LibSass) or Dart Sass [executable](https://sass-lang.com/install) (when R package not found, the engine option `engine.opts = list(package = FALSE)`, or `engine.path` to executable is provided). After conversion, resulting CSS is treated as in the CSS engine (thanks, @emilyriederer, #1666).
+
+- The `cat` engine supports the chunk option `eval = FALSE` now (thanks, @HanOostdijk, #1618).
+
+- The chunk option `out.extra` can be used to include extra attributes for the `<iframe>` generated from `knitr::include_url()` or `knitr::include_app()` (thanks, @jvcasillas, #1648).
+
+## BUG FIXES
+
+- `knit_meta_add()` could exhaust the system's memory because of a wrong method of vectorization (thanks, @kevinushey @nikkoc, rstudio/rmarkdown#1538).
+
+- The output path should be quoted in `pandoc()` (thanks, @antoine-sachet, #1644).
+
+- When there are multiple figures with multiple captions in a code chunk, **bookdown**'s figure numbering is incorrect (thanks, Catherine Peng, https://stackoverflow.com/q/53880195/559676).
+
+- Added an argument `label` to `kable()` so that users can manually specify a label (thanks, @Inferrator, #1655).
+
+- The chunk option `fig.show='hide'` doesn't work for `knitr::include_graphics()` (thanks, @vincentarelbundock, #1675).
+
+- The `tikz` engine doesn't work on Windows (thanks, Andry, https://stackoverflow.com/q/54839403/559676).
+
+- `kable()` now generates a table for R Markdown documents even when the data has 0 rows (thanks, @yutannihilation, #1677).
+
+- The chunk options `dev = 'tikz'` and `external = FALSE` didn't work in R Markdown (thanks, @martinschmelzer, #1649).
+
+## MAJOR CHANGES
+
+- `knitr::knit()` starts to warn against non-UTF8 encodings ([Why?](https://yihui.name/en/2018/11/biggest-regret-knitr/)). In the future, we will only support UTF-8 input. If your input file is not encoded in UTF-8, we strongly recommend that you re-save it with UTF-8.
+
+- Removed the `encoding` arguments in `knitr::pandoc()`, `knitr::knit2pdf()`, `knitr2wp()`, and `knitr::Sweave2knitr()`. The input files must be encoded in UTF-8.
+
+- `knitr::knit2html()` still has the `encoding` argument, but it only supports UTF-8 internally.
+
+## MINOR CHANGES
+
+- Changed `tools::texi2dvi()` to `tinytex::latexmk()` for the `tikz` engine to compile TikZ graphics to other foramts (e.g., `svg` or `png`). This requires the **tinytex** package >= v0.10.10: https://github.com/yihui/tinytex.
+
+- Empty lines are no longer removed in the output of `purl()` (thanks, Marius Hofert).
+
 # CHANGES IN knitr VERSION 1.21
 
 ## NEW FEATURES

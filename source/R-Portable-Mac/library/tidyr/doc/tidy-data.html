@@ -17,10 +17,10 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -33,13 +33,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -81,7 +79,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -381,7 +401,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  8 Histori…     228       244       236       238       197       223</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  9 Jehovah…      20        27        24        24        21        30</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 10 Jewish        19        19        25        25        30        95</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # ... with 8 more rows, and 4 more variables: `$75-100k` &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # … with 8 more rows, and 4 more variables: `$75-100k` &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; #   `$100-150k` &lt;int&gt;, `&gt;150k` &lt;int&gt;, `Don't know/refused` &lt;int&gt;</span></a></code></pre></div>
 <p>This dataset has three variables, <code>religion</code>, <code>income</code> and <code>frequency</code>. To tidy it, we need to <strong>gather</strong> the non-variable columns into a two-column key-value pair. This action is often described as making a wide dataset long (or tall), but I’ll avoid those terms because they’re imprecise.</p>
 <p>When gathering variables, we need to provide the name of the new key-value columns to create. The first argument, is the name of the key column, which is the name of the variable defined by the values of the column headings. In this case, it’s <code>income</code>. The second argument is the name of the value column, <code>frequency</code>. The third argument defines the columns to gather, here, every column except religion.</p>
@@ -400,7 +420,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;  8 Historically Black Prot &lt;$10k        228</span></a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;  9 Jehovah's Witness       &lt;$10k         20</span></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 10 Jewish                  &lt;$10k         19</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; # ... with 170 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; # … with 170 more rows</span></a></code></pre></div>
 <p>This form is tidy because each column represents a variable and each row represents an observation, in this case a demographic unit corresponding to a combination of <code>religion</code> and <code>income</code>.</p>
 <p>This format is also used to record regularly spaced observations over time. For example, the Billboard dataset shown below records the date a song first entered the billboard top 100. It has variables for <code>artist</code>, <code>track</code>, <code>date.entered</code>, <code>rank</code> and <code>week</code>. The rank in each week after it enters the top 100 is recorded in 75 columns, <code>wk1</code> to <code>wk75</code>. This form of storage is not tidy, but it is useful for data entry. It reduces duplication since otherwise each song in each week would need its own row, and song metadata like title and artist would need to be repeated. This will be discussed in more depth in <a href="#multiple-types">multiple types</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">billboard &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(<span class="kw">read.csv</span>(<span class="st">&quot;billboard.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>))</a>
@@ -418,7 +438,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  8  2000 Aaliy… I Do… 4:15  2000-01-29      84    62    51    41    38</span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  9  2000 Aaliy… Try … 4:03  2000-03-18      59    53    38    28    21</span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 10  2000 Adams… Open… 5:30  2000-08-26      76    76    74    69    68</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; # ... with 307 more rows, and 71 more variables: wk6 &lt;int&gt;, wk7 &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; # … with 307 more rows, and 71 more variables: wk6 &lt;int&gt;, wk7 &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; #   wk8 &lt;int&gt;, wk9 &lt;int&gt;, wk10 &lt;int&gt;, wk11 &lt;int&gt;, wk12 &lt;int&gt;, wk13 &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; #   wk14 &lt;int&gt;, wk15 &lt;int&gt;, wk16 &lt;int&gt;, wk17 &lt;int&gt;, wk18 &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; #   wk19 &lt;int&gt;, wk20 &lt;int&gt;, wk21 &lt;int&gt;, wk22 &lt;int&gt;, wk23 &lt;int&gt;,</span></a>
@@ -439,7 +459,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb7-3" data-line-number="3">billboard2</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; # A tibble: 5,307 x 7</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;     year artist         track                time  date.entered week   rank</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  * &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  1  2000 2 Pac          Baby Don't Cry (Kee… 4:22  2000-02-26   wk1      87</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  2  2000 2Ge+her        The Hardest Part Of… 3:15  2000-09-02   wk1      91</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  3  2000 3 Doors Down   Kryptonite           3:53  2000-04-08   wk1      81</span></a>
@@ -450,7 +470,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;  8  2000 Aaliyah        I Don't Wanna        4:15  2000-01-29   wk1      84</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt;  9  2000 Aaliyah        Try Again            4:03  2000-03-18   wk1      59</span></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 10  2000 Adams, Yolanda Open My Heart        5:30  2000-08-26   wk1      76</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; # ... with 5,297 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; # … with 5,297 more rows</span></a></code></pre></div>
 <p>Here we use <code>na.rm</code> to drop any missing values from the gather columns. In this data, missing values represent weeks that the song wasn’t in the charts, so can be safely dropped.</p>
 <p>In this case it’s also nice to do a little cleaning, converting the week variable to a number, and figuring out the date corresponding to each week on the charts:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">billboard3 &lt;-<span class="st"> </span>billboard2 <span class="op">%&gt;%</span></a>
@@ -473,7 +493,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  8  2000 Aaliyah        I Don't Wanna          4:15      1    84 2000-01-29</span></a>
 <a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  9  2000 Aaliyah        Try Again              4:03      1    59 2000-03-18</span></a>
 <a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 10  2000 Adams, Yolanda Open My Heart          5:30      1    76 2000-08-26</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; # ... with 5,297 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; # … with 5,297 more rows</span></a></code></pre></div>
 <p>Finally, it’s always a good idea to sort the data. We could do it by artist, track and week:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">billboard3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(artist, track, week)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5,307 x 7</span></a>
@@ -489,7 +509,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  8  2000 2Ge+her The Hardest Part Of ... 3:15      1    91 2000-09-02</span></a>
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  9  2000 2Ge+her The Hardest Part Of ... 3:15      2    87 2000-09-09</span></a>
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 10  2000 2Ge+her The Hardest Part Of ... 3:15      3    92 2000-09-16</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; # ... with 5,297 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; # … with 5,297 more rows</span></a></code></pre></div>
 <p>Or by date and rank:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">billboard3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(date, rank)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5,307 x 7</span></a>
@@ -505,7 +525,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;  8  2000 Amber    Sexual 4:38      1    99 1999-07-17</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  9  2000 Lonestar Amazed 4:25      8    29 1999-07-24</span></a>
 <a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 10  2000 Amber    Sexual 4:38      2    99 1999-07-24</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; # ... with 5,297 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; # … with 5,297 more rows</span></a></code></pre></div>
 </div>
 <div id="multiple-variables-stored-in-one-column" class="section level2">
 <h2>Multiple variables stored in one column</h2>
@@ -525,7 +545,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt;  8 AD     1997    NA    NA     0     0     1     2     2     1     6    NA</span></a>
 <a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt;  9 AD     1998    NA    NA     0     0     0     1     0     0     0    NA</span></a>
 <a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; 10 AD     1999    NA    NA     0     0     0     1     1     0     0    NA</span></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt; # ... with 5,759 more rows, and 10 more variables: f04 &lt;int&gt;, f514 &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt; # … with 5,759 more rows, and 10 more variables: f04 &lt;int&gt;, f514 &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; #   f014 &lt;int&gt;, f1524 &lt;int&gt;, f2534 &lt;int&gt;, f3544 &lt;int&gt;, f4554 &lt;int&gt;,</span></a>
 <a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">#&gt; #   f5564 &lt;int&gt;, f65 &lt;int&gt;, fu &lt;int&gt;</span></a></code></pre></div>
 <p>First we gather up the non-variable columns:</p>
@@ -534,7 +554,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb12-3" data-line-number="3">tb2</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; # A tibble: 35,750 x 4</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;    iso2   year demo      n</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;  * &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt;  1 AD     2005 m04       0</span></a>
 <a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt;  2 AD     2006 m04       0</span></a>
 <a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt;  3 AD     2008 m04       0</span></a>
@@ -545,14 +565,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt;  8 AL     2005 m04       0</span></a>
 <a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt;  9 AL     2006 m04       1</span></a>
 <a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt; 10 AL     2007 m04       0</span></a>
-<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; # ... with 35,740 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; # … with 35,740 more rows</span></a></code></pre></div>
 <p>Column headers in this format are often separated by a non-alphanumeric character (e.g. <code>.</code>, <code>-</code>, <code>_</code>, <code>:</code>), or have a fixed width format, like in this dataset. <code>separate()</code> makes it easy to split a compound variables into individual variables. You can either pass it a regular expression to split on (the default is to split on non-alphanumeric columns), or a vector of character positions. In this case we want to split after the first character:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">tb3 &lt;-<span class="st"> </span>tb2 <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw">separate</span>(demo, <span class="kw">c</span>(<span class="st">&quot;sex&quot;</span>, <span class="st">&quot;age&quot;</span>), <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3">tb3</a>
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; # A tibble: 35,750 x 5</span></a>
 <a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;    iso2   year sex   age       n</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;  * &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;  1 AD     2005 m     04        0</span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  2 AD     2006 m     04        0</span></a>
 <a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  3 AD     2008 m     04        0</span></a>
@@ -563,7 +583,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt;  8 AL     2005 m     04        0</span></a>
 <a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt;  9 AL     2006 m     04        1</span></a>
 <a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; 10 AL     2007 m     04        0</span></a>
-<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; # ... with 35,740 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; # … with 35,740 more rows</span></a></code></pre></div>
 <p>Storing the values in this form resolves a problem in the original data. We want to compare rates, not counts, which means we need to know the population. In the original format, there is no easy way to add a population variable. It has to be stored in a separate table, which makes it hard to correctly match populations to counts. In tidy form, adding variables for population and rate is easy because they’re just additional columns.</p>
 </div>
 <div id="variables-are-stored-in-both-rows-and-columns" class="section level2">
@@ -584,7 +604,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt;  8 MX17…  2010     4 tmin       NA  NA    NA      NA  NA      NA    NA</span></a>
 <a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt;  9 MX17…  2010     5 tmax       NA  NA    NA      NA  NA      NA    NA</span></a>
 <a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; 10 MX17…  2010     5 tmin       NA  NA    NA      NA  NA      NA    NA</span></a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; # ... with 12 more rows, and 24 more variables: d8 &lt;dbl&gt;, d9 &lt;lgl&gt;,</span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; # … with 12 more rows, and 24 more variables: d8 &lt;dbl&gt;, d9 &lt;lgl&gt;,</span></a>
 <a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; #   d10 &lt;dbl&gt;, d11 &lt;dbl&gt;, d12 &lt;lgl&gt;, d13 &lt;dbl&gt;, d14 &lt;dbl&gt;, d15 &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; #   d16 &lt;dbl&gt;, d17 &lt;dbl&gt;, d18 &lt;lgl&gt;, d19 &lt;lgl&gt;, d20 &lt;lgl&gt;, d21 &lt;lgl&gt;,</span></a>
 <a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt; #   d22 &lt;lgl&gt;, d23 &lt;dbl&gt;, d24 &lt;lgl&gt;, d25 &lt;dbl&gt;, d26 &lt;dbl&gt;, d27 &lt;dbl&gt;,</span></a>
@@ -596,7 +616,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb15-3" data-line-number="3">weather2</a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; # A tibble: 66 x 6</span></a>
 <a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt;    id       year month element day   value</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt;  * &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt;    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt;  1 MX17004  2010    12 tmax    d1     29.9</span></a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt;  2 MX17004  2010    12 tmin    d1     13.8</span></a>
 <a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt;  3 MX17004  2010     2 tmax    d2     27.3</span></a>
@@ -607,7 +627,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt;  8 MX17004  2010     2 tmin    d3     14.4</span></a>
 <a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt;  9 MX17004  2010     7 tmax    d3     28.6</span></a>
 <a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt; 10 MX17004  2010     7 tmin    d3     17.5</span></a>
-<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="co">#&gt; # ... with 56 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="co">#&gt; # … with 56 more rows</span></a></code></pre></div>
 <p>For presentation, I’ve dropped the missing values, making them implicit rather than explicit. This is ok because we know how many days are in each month and can easily reconstruct the explicit missing values.</p>
 <p>We’ll also do a little cleaning:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">weather3 &lt;-<span class="st"> </span>weather2 <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -629,7 +649,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt;  8 MX17004  2010     2    11 tmin     13.4</span></a>
 <a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">#&gt;  9 MX17004  2010     2    23 tmax     29.9</span></a>
 <a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; 10 MX17004  2010     2    23 tmin     10.7</span></a>
-<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; # ... with 56 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; # … with 56 more rows</span></a></code></pre></div>
 <p>This dataset is mostly tidy, but the <code>element</code> column is not a variable; it stores the names of variables. (Not shown in this example are the other meteorological variables <code>prcp</code> (precipitation) and <code>snow</code> (snowfall)). Fixing this requires the spread operation. This performs the inverse of gathering by spreading the <code>element</code> and <code>value</code> columns back out into the columns:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">weather3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">spread</span>(element, value)</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&gt; # A tibble: 33 x 6</span></a>
@@ -645,7 +665,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt;  8 MX17004  2010     3    16  31.1  17.6</span></a>
 <a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt;  9 MX17004  2010     4    27  36.3  16.7</span></a>
 <a class="sourceLine" id="cb17-14" data-line-number="14"><span class="co">#&gt; 10 MX17004  2010     5    27  33.2  18.2</span></a>
-<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; # ... with 23 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; # … with 23 more rows</span></a></code></pre></div>
 <p>This form is tidy: there’s one variable in each column, and each row represents one day.</p>
 </div>
 <div id="multiple-types" class="section level2">
@@ -671,7 +691,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb18-16" data-line-number="16"><span class="co">#&gt;  8 Aaliyah        I Don't Wanna            2000 4:15        8</span></a>
 <a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co">#&gt;  9 Aaliyah        Try Again                2000 4:03        9</span></a>
 <a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co">#&gt; 10 Adams, Yolanda Open My Heart            2000 5:30       10</span></a>
-<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt; # ... with 307 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt; # … with 307 more rows</span></a></code></pre></div>
 <p>Then use that to make a <code>rank</code> dataset by replacing repeated song facts with a pointer to song details (a unique song id):</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">rank &lt;-<span class="st"> </span>billboard3 <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span><span class="kw">left_join</span>(song, <span class="kw">c</span>(<span class="st">&quot;artist&quot;</span>, <span class="st">&quot;track&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;time&quot;</span>)) <span class="op">%&gt;%</span></a>
@@ -691,7 +711,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#&gt;  8       2 2000-09-02     1    91</span></a>
 <a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#&gt;  9       2 2000-09-09     2    87</span></a>
 <a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt; 10       2 2000-09-16     3    92</span></a>
-<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; # ... with 5,297 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; # … with 5,297 more rows</span></a></code></pre></div>
 <p>You could also imagine a <code>week</code> dataset which would record background information about the week, maybe the total number of songs sold or similar “demographic” information.</p>
 <p>Normalisation is useful for tidying and eliminating inconsistencies. However, there are few data analysis tools that work directly with relational data, so analysis usually also requires denormalisation or the merging the datasets back into one table.</p>
 </div>
@@ -715,7 +735,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p><a href="http://religions.pewforum.org/pdf/comparison-Income%20Distribution%20of%20Religious%20Traditions.pdf">http://religions.pewforum.org/pdf/comparison-Income%20Distribution%20of%20Religious%20Traditions.pdf</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p><a href="http://religions.pewforum.org/pdf/comparison-Income%20Distribution%20of%20Religious%20Traditions.pdf" class="uri">http://religions.pewforum.org/pdf/comparison-Income%20Distribution%20of%20Religious%20Traditions.pdf</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 

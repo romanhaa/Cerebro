@@ -26,6 +26,7 @@ knit_params_ask         Run a shiny application asking for parameter
 knitr_options           Knitr options for an output format
 knitr_options_html      Knitr options for an HTML output format
 knitr_options_pdf       Knitr options for a PDF output format
+latex-dependencies      Provide common LaTeX dependencies
 latex_dependency        Define a LaTeX package dependency
 md_document             Convert to a markdown document
 metadata                The YAML metadata of the current R Markdown

@@ -12,6 +12,7 @@ gsub_ext	gsub_file
 gsub_file	gsub_file
 gsub_files	gsub_file
 install_dir	install_dir
+install_github	install_github
 in_dir	in_dir
 isFALSE	isFALSE
 is_ascii	is_ascii
@@ -45,7 +46,11 @@ same_path	same_path
 sans_ext	file_ext
 session_info	session_info
 strict_list	strict_list
+stringsAsStrings	stringsAsStrings
+strings_please	stringsAsStrings
 tojson	tojson
 try_silent	try_silent
+upload_ftp	upload_ftp
+upload_win_builder	upload_ftp
 with_ext	file_ext
 write_utf8	read_utf8

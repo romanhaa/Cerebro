@@ -1,3 +1,9 @@
+1.2.2
+ - Fix double free crash with libssl 1.1.1b
+
+1.2.1
+ - Hotfix release for crash in ecdsa_write()
+
 1.2
  - askpass() has been moved into its own package and gains native programs
    for MacOS and Windows.

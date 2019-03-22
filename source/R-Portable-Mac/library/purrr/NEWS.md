@@ -1,4 +1,22 @@
 
+# purrr 0.3.2
+
+* Fix protection issues reported by rchk.
+
+
+# purrr 0.3.1
+
+* `reduce()` now forces arguments (#643).
+
+* Fixed an issue in `partial()` with generic functions (#647).
+
+* `negate()` now works with generic functions and functions with early
+  returns.
+
+* `compose()` now works with generic functions again (#629, #639). Its
+  set of unit tests was expanded to cover many edge cases.
+
+
 # purrr 0.3.0
 
 ## Breaking changes

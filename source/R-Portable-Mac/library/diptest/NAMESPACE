@@ -1,9 +1,0 @@
-useDynLib(diptest, .registration=TRUE)# <--> src/dip.c 2nd part
-
-export(dip)
-export(dip.test)
-## export(aLine, getCM)
-
-S3method(print, dip)
-S3method(plot,  dip)
-

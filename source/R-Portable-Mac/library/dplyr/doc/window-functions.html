@@ -17,10 +17,10 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -33,13 +33,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -81,7 +79,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -349,7 +369,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; # ... with 1,006 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; # … with 1,006 more rows</span></a></code></pre></div>
 <p>Finally, <code>ntile()</code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code>mutate()</code> to divide the data into buckets for further summary. For example, we could use <code>ntile()</code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">by_team_player &lt;-<span class="st"> </span><span class="kw">group_by</span>(batting, teamID, playerID)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">by_team &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_team_player, <span class="dt">G =</span> <span class="kw">sum</span>(G))</a>
@@ -382,34 +402,34 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Find when a player changed teams</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">filter</span>(players, teamID <span class="op">!=</span><span class="st"> </span><span class="kw">lag</span>(teamID))</a></code></pre></div></li>
 </ul>
-<p><code>lead()</code> and <code>lag()</code> have an optional argument <code>order_by</code>. If set, instead of using the row order to determine which value comes before another, they will use another variable. This important if you have not already sorted the data, or you want to sort one way and lag another.</p>
+<p><code>lead()</code> and <code>lag()</code> have an optional argument <code>order_by</code>. If set, instead of using the row order to determine which value comes before another, they will use another variable. This is important if you have not already sorted the data, or you want to sort one way and lag another.</p>
 <p>Here’s a simple example of what happens if you don’t specify <code>order_by</code> when you need it:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">year =</span> <span class="dv">2000</span><span class="op">:</span><span class="dv">2005</span>, <span class="dt">value =</span> (<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">scrambled &lt;-<span class="st"> </span>df[<span class="kw">sample</span>(<span class="kw">nrow</span>(df)), ]</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">wrong &lt;-<span class="st"> </span><span class="kw">mutate</span>(scrambled, <span class="dt">running =</span> <span class="kw">cumsum</span>(value))</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">wrong &lt;-<span class="st"> </span><span class="kw">mutate</span>(scrambled, <span class="dt">prev_value =</span> <span class="kw">lag</span>(value))</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">arrange</span>(wrong, year)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   year value running</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1 2000     0       0</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2 2001     1      55</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3 2002     4      20</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 4 2003     9      54</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 5 2004    16      16</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 6 2005    25      45</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   year value prev_value</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1 2000     0         NA</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2 2001     1          9</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3 2002     4         16</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 4 2003     9         25</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 5 2004    16          0</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 6 2005    25          4</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">right &lt;-<span class="st"> </span><span class="kw">mutate</span>(scrambled, <span class="dt">running =</span> <span class="kw">order_by</span>(year, <span class="kw">cumsum</span>(value)))</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">right &lt;-<span class="st"> </span><span class="kw">mutate</span>(scrambled, <span class="dt">prev_value =</span> <span class="kw">lag</span>(value, <span class="dt">order_by =</span> year))</a>
 <a class="sourceLine" id="cb10-15" data-line-number="15"><span class="kw">arrange</span>(right, year)</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;   year value running</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 1 2000     0       0</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 2 2001     1       1</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 3 2002     4       5</span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 4 2003     9      14</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 5 2004    16      30</span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 6 2005    25      55</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;   year value prev_value</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 1 2000     0         NA</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 2 2001     1          0</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 3 2002     4          1</span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 4 2003     9          4</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 5 2004    16          9</span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 6 2005    25         16</span></a></code></pre></div>
 </div>
 <div id="cumulative-aggregates" class="section level2">
 <h2>Cumulative aggregates</h2>
-<p>Base R provides cumulative sum (<code>cumsum()</code>), cumulative min (<code>cummin()</code>) and cumulative max (<code>cummax()</code>). (It also provides <code>cumprod()</code> but that is rarely useful). Other common accumulating functions are <code>cumany()</code> and <code>cumall()</code>, cumulative versions of <code>||</code> and <code>&amp;&amp;</code>, and <code>cummean()</code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
+<p>Base R provides cumulative sum (<code>cumsum()</code>), cumulative min (<code>cummin()</code>), and cumulative max (<code>cummax()</code>). (It also provides <code>cumprod()</code> but that is rarely useful). Other common accumulating functions are <code>cumany()</code> and <code>cumall()</code>, cumulative versions of <code>||</code> and <code>&amp;&amp;</code>, and <code>cummean()</code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
 <p><code>cumany()</code> and <code>cumall()</code> are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use <code>cumany()</code> to find all records for a player after they played a year with 150 games:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">filter</span>(players, <span class="kw">cumany</span>(G <span class="op">&gt;</span><span class="st"> </span><span class="dv">150</span>))</a></code></pre></div>
 <p>Like lead and lag, you may want to control the order in which the accumulation occurs. None of the built in functions have an <code>order_by</code> argument so <code>dplyr</code> provides a helper: <code>order_by()</code>. You give it the variable you want to order by, and then the call to the window function:</p>
@@ -421,7 +441,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="recycled-aggregates" class="section level2">
 <h2>Recycled aggregates</h2>
-<p>R’s vector recycling make it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
+<p>R’s vector recycling makes it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">filter</span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(G))</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">filter</span>(players, G <span class="op">&lt;</span><span class="st"> </span><span class="kw">median</span>(G))</a></code></pre></div>
 <p>While most SQL databases don’t have an equivalent of <code>median()</code> or <code>quantile()</code>, when filtering you can achieve the same effect with <code>ntile()</code>. For example, <code>x &gt; median(x)</code> is equivalent to <code>ntile(x, 2) == 2</code>; <code>x &gt; quantile(x, 75)</code> is equivalent to <code>ntile(x, 100) &gt; 75</code> or <code>ntile(x, 4) &gt; 3</code>.</p>
@@ -437,7 +457,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span></a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span></a>
 <a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; # ... with 19,400 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; # … with 19,400 more rows</span></a></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">mutate</span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(G))</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,404 x 8</span></a>
@@ -448,7 +468,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span></a>
 <a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span></a>
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; # ... with 19,400 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; # … with 19,400 more rows</span></a></code></pre></div>
 </div>
 
 

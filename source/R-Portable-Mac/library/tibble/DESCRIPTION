@@ -1,6 +1,6 @@
 Package: tibble
 Title: Simple Data Frames
-Version: 2.0.1
+Version: 2.1.1
 Authors@R: c(
     person("Kirill", "Müller", , "krlmlr+r@mailbox.org", c("aut", "cre")),
     person("Hadley", "Wickham", , "hadley@rstudio.com", "aut"),
@@ -26,14 +26,14 @@ Encoding: UTF-8
 LazyData: yes
 RoxygenNote: 6.1.1
 Collate: 'add.R' 'as_tibble.R' 'check-names.R' 'compat-lazyeval.R'
-        'compat-lifecycle.R' 'compat-purrr.R' 'tribble.R'
-        'deprecated.R' 'enframe.R' 'exports.R' 'glimpse.R' 'has-name.R'
-        'lst.R' 'msg-format.R' 'msg.R' 'new.R' 'repair-names.R'
-        'rownames.R' 'strrep.R' 'subsetting.R' 'tbl-df.r'
-        'tibble-package.R' 'tibble.R' 'type-sum.r' 'utils-format.r'
-        'utils.r' 'view.R' 'wrap.R' 'zzz.R'
+        'compat-lifecycle.R' 'compat-name-repair.R' 'compat-purrr.R'
+        'tribble.R' 'deprecated.R' 'enframe.R' 'exports.R' 'glimpse.R'
+        'has-name.R' 'lst.R' 'msg-format.R' 'msg.R' 'new.R'
+        'repair-names.R' 'rownames.R' 'strrep.R' 'subsetting.R'
+        'tbl-df.r' 'tibble-package.R' 'tibble.R' 'type-sum.r'
+        'utils-format.r' 'utils.r' 'view.R' 'wrap.R' 'zzz.R'
 NeedsCompilation: yes
-Packaged: 2019-01-11 22:15:44 UTC; kirill
+Packaged: 2019-03-14 23:24:25 UTC; kirill
 Author: Kirill Müller [aut, cre],
   Hadley Wickham [aut],
   Romain Francois [ctb],
@@ -41,6 +41,6 @@ Author: Kirill Müller [aut, cre],
   RStudio [cph]
 Maintainer: Kirill Müller <krlmlr+r@mailbox.org>
 Repository: CRAN
-Date/Publication: 2019-01-12 22:52:19 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-01-13 05:56:02 UTC; unix
+Date/Publication: 2019-03-16 22:50:03 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-03-18 21:08:38 UTC; unix
 Archs: tibble.so.dSYM

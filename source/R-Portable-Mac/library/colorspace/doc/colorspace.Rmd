@@ -40,24 +40,35 @@ in R). For completeness further standard color models are included as well in th
 
 The HCL space (= polar coordinates in CIELUV) is particularly useful for
 specifying individual colors and color palettes as its three axes match those
-of the human visual system very well. Therefore, the _colorspace_ package provides
-three types of palettes based on the HCL model:
+of the human visual system very well: Hue (= type of color, dominant wavelength),
+chroma (= colorfulness), luminance (= brightness).
+
+```{r hcl-properties, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 4, fig.height = 2.2, fig.align = "center", dev = "png"}
+swatchplot(
+  "Hue"       = sequential_hcl(5, h = c(0, 300), c = c(60, 60), l = 65),
+  "Chroma"    = sequential_hcl(5, h = 0, c = c(100, 0), l = 65, rev = TRUE, power = 1),
+  "Luminance" = sequential_hcl(5, h = 260, c = c(25, 25), l = c(25, 90), rev = TRUE, power = 1),
+  off = 0
+)
+```
+
+The _colorspace_ package provides three types of palettes based on the HCL model:
 
 * _Qualitative:_ Designed for coding categorical information, i.e.,
   where no particular ordering of categories is available and every color
   should receive the same perceptual weight. Function: `qualitative_hcl()`.
 * _Sequential:_ Designed for coding ordered/numeric information, i.e.,
   where colors go from high to low (or vice versa). Function: `sequential_hcl()`.
-* _Diverging:_ Designed for coding numeric information around a central
+* _Diverging:_ Designed for coding ordered/numeric information around a central
   neutral value, i.e., where colors diverge from neutral to two extremes.
   Function: `diverging_hcl()`.
 
 To aid choice and application of these palettes there are: scales for use
-with _ggplot2_; shiny (and tcltk) apps for interactive exploration;
+with _ggplot2_; _shiny_ (and _tcltk_) apps for interactive exploration;
 visualizations of palette properties; accompanying manipulation utilities
 (like desaturation, lighten/darken, and emulation of color vision deficiencies).
 
-More detailed overviews and examples are provided in the package vignettes:
+More detailed overviews and examples are provided in the articles:
 
 * [Color Spaces: S4 Classes and Utilities](`r prefix`color_spaces.html)
 * [HCL-Based Color Palettes](`r prefix`hcl_palettes.html)
@@ -67,6 +78,7 @@ More detailed overviews and examples are provided in the package vignettes:
 * [Color Vision Deficiency Emulation](`r prefix`color_vision_deficiency.html)
 * [Color Manipulation and Utilities](`r prefix`manipulation_utilities.html)
 * [Approximating Palettes from Other Packages](`r prefix`approximations.html)
+* [Somewhere over the Rainbow](`r prefix`endrainbow.html)
 
 
 ## Installation
@@ -94,25 +106,24 @@ Python 2/Python 3 is also available, see <https://github.com/retostauffer/python
 
 The _colorspace_ package ships with a wide range of predefined color palettes,
 specified through suitable trajectories in the HCL (hue-chroma-luminance) color space.
-A quick overview can be gained easily with `hcl_palettes()`:
+A quick overview can be gained easily with the `hcl_palettes()` function:
 
 ```{r hcl-palettes, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 9, fig.width = 16, dpi = 48, out.width = "100%"}
 library("colorspace")
 hcl_palettes(plot = TRUE)
 ```
 
-Using the names from the plot above and a desired number of colors in the palette
-a suitable color vector can be easily computed, e.g.,
+A suitable vector of colors can be easily computed by specifying the desired number of colors and the palette name (see the plot above), e.g.,
 
 ```{r qualitative-hcl-4}
-q4 <- qualitative_hcl(4, "Dark 3")
+q4 <- qualitative_hcl(4, palette = "Dark 3")
 q4
 ```
 
 The functions `sequential_hcl()`, and `diverging_hcl()` work analogously. Additionally,
-their hue/chroma/luminance parameters can be modified, thus allowing to easily customize
+their hue/chroma/luminance parameters can be modified, thus allowing for easy customization of
 each palette. Moreover, the `choose_palette()`/`hclwizard()` app provide convenient user
-interfaces to do the customization interactively. Finally, even more flexible diverging
+interfaces to perform palette customization interactively. Finally, even more flexible diverging
 HCL palettes are provided by `divergingx_hcl()`.
 
 
@@ -127,25 +138,25 @@ plot(log(EuStockMarkets), plot.type = "single", col = q4, lwd = 2)
 legend("topleft", colnames(EuStockMarkets), col = q4, lwd = 3, bty = "n")
 ```
 
-```{r eustockmarkets-plot, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, width.width = 6, dpi = 48, out.width = "100%"}
+```{r eustockmarkets-plot, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, fig.width = 6, dpi = 48, out.width = "100%"}
 q4 <- qualitative_hcl(4)
 par(mar = c(5, 4, 1, 1))
 plot(log(EuStockMarkets), plot.type = "single", col = q4, lwd = 2)
 legend("topleft", colnames(EuStockMarkets), col = q4, lwd = 3, bty = "n")
 ```
 
-As another example for a sequential palette a spine plot is created below,
+As another example for a sequential palette, we demonstrate how to create a spine plot
 displaying the proportion of Titanic passengers that survived per class.
-The `Purples 3` palette is used which is quite similar to the **ColorBrewer.org**
+The `Purples 3` palette is used, which is quite similar to the **ColorBrewer.org**
 palette `Purples`. Here, only two colors are employed, yielding a dark purple
 and light gray.
 
 ```{r titanic, eval = FALSE}
 ttnc <- margin.table(Titanic, c(1, 4))[, 2:1]
-spineplot(ttnc, col = sequential_hcl(2, "Purples 3"))
+spineplot(ttnc, col = sequential_hcl(2, palette = "Purples 3"))
 ```
 
-```{r titanic-plot, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, width.width = 6, dpi = 48, out.width = "100%"}
+```{r titanic-plot, echo = FALSE, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, fig.width = 6, dpi = 48, out.width = "100%"}
 ttnc <- margin.table(Titanic, c(1, 4))[, 2:1]
 par(mar = c(5, 4, 1, 1))
 spineplot(ttnc, col = sequential_hcl(2, "Purples 3"))
@@ -154,8 +165,8 @@ spineplot(ttnc, col = sequential_hcl(2, "Purples 3"))
 
 ## Usage with _ggplot2_
 
-To plug the HCL color palettes into _ggplot2_ graphics suitable discrete and/or
-continuous _gglot2_ color scales are provided. The scales are called via the scheme
+To provide access to the HCL color palettes from within _ggplot2_ graphics suitable discrete and/or
+continuous _gglot2_ color scales are provided. The scales are named via the scheme
 `scale_<aesthetic>_<datatype>_<colorscale>()`, where `<aesthetic>` is the name
 of the aesthetic (`fill`, `color`, `colour`), `<datatype>` is the type of the
 variable plotted (`discrete` or `continuous`) and `<colorscale>` sets the type
@@ -163,22 +174,21 @@ of the color scale used (`qualitative`, `sequential`, `diverging`,
 `divergingx`).
 
 To illustrate their usage two simple examples are shown using the qualitative `Dark 3`
-and sequential `Purples 3` palettes that were also employed above. First, semi-transparent
+and sequential `Purples 3` palettes that were also employed above. For the first example, semi-transparent
 shaded densities of the sepal length from the iris data are shown, grouped by species.
 
-
-```{r iris-ggplot, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, width.width = 6, dpi = 48, out.width = "100%"}
+```{r iris-ggplot, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, fig.width = 6, dpi = 48, out.width = "100%"}
 library("ggplot2")
 ggplot(iris, aes(x = Sepal.Length, fill = Species)) + geom_density(alpha = 0.6) +
   scale_fill_discrete_qualitative(palette = "Dark 3")
 ```
 
-The sequential palette is used to code the cut levels in a scatter of price by carat
+And for the second example the sequential palette is used to code the cut levels in a scatter of price by carat
 in the diamonds data (or rather a small subsample thereof). The scale function first
 generates six colors but then drops the first color because the light gray is too light
-in this display. (Alternatively, the chroma and luminance parameters could also be tweaked.)
+here. (Alternatively, the chroma and luminance parameters could also be tweaked.)
 
-```{r diamonds-ggplot, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, width.width = 6, dpi = 48, out.width = "100%"}
+```{r diamonds-ggplot, message = FALSE, warning = FALSE, fig.align = "left", fig.height = 4, fig.width = 6, dpi = 48, out.width = "100%"}
 dsamp <- diamonds[1 + 1:1000 * 50, ]
 ggplot(dsamp, aes(carat, price, color = cut)) + geom_point() +
   scale_color_discrete_sequential(palette = "Purples 3", nmax = 6, order = 2:6)
@@ -220,17 +230,19 @@ allplots <- function(palette, ...) {
 allplots(q4, "bar")
 ```
 
-A bar plot would be another typical application for a qualitative palette (instead of the
-time series and density plot used above). However, a lighter and less colorful palette
-might be preferable in this situation (e.g., `Pastel 1` or `Set 3`).
+The bar plot is used as a typical application for a qualitative palette (in addition to the
+time series and density plots used above). The other two displays show that luminance
+is (almost) constant in the palette while the hue changes linearly along the color
+"wheel". Ideally, chroma would have also been constant to completely balance the colors.
+However, at this luminance the maximum chroma differs across hues so that the palette
+is fixed up to use less chroma for the yellow and green elements.
 
-The other two displays show that luminance is (almost) constant in the palette while
-the hue changes linearly along the color "wheel". Ideally, chroma would have also been
-constant to completely balance the colors. However, at this luminance the maximum
-chroma differs across hues so that the palette is fixed up to use less chroma for
-the yellow and green elements.
+Note also that in a bar plot areas are shaded (and not just points or lines) so that
+lighter colors would be preferable. In the density plot above
+this was achieved through semi-transparency. Alternatively, luminance could be increased
+as is done in the `"Pastel 1"` or `"Set 3"` palettes.
 
-Subsequently, the same assessment is carried out for the sequential `Purples 3` palette
+Subsequently, the same types of assessment are carried out for the sequential `"Purples 3"` palette
 as employed above. 
 
 ```{r visualization-sequential, eval = FALSE}
@@ -247,9 +259,9 @@ allplots(s9, "heatmap")
 
 Here, a heatmap (based on the well-known Maunga Whau volcano data) is used as a typical
 application for a sequential palette. The elevation of the volcano is brought out clearly,
-focusing with the dark colors on the higher elevations.
+using dark colors to give emphasis to higher elevations.
 
 The other two displays show that hue is constant in the palette while luminance and chroma vary.
 Luminance increases monotonically from dark to light (as required for a proper sequential palette).
 Chroma is triangular-shaped which allows to better distinguish the middle colors in the palette
-(compared to a monotonic chroma trajectory).
+when compared to a monotonic chroma trajectory.

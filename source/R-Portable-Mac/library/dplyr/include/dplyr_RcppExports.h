@@ -67,27 +67,6 @@ namespace dplyr {
         return Rcpp::as<SEXP >(rcpp_result_gen);
     }
 
-    inline DataFrame build_index_cpp(DataFrame data) {
-        typedef SEXP(*Ptr_build_index_cpp)(SEXP);
-        static Ptr_build_index_cpp p_build_index_cpp = NULL;
-        if (p_build_index_cpp == NULL) {
-            validateSignature("DataFrame(*build_index_cpp)(DataFrame)");
-            p_build_index_cpp = (Ptr_build_index_cpp)R_GetCCallable("dplyr", "_dplyr_build_index_cpp");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_build_index_cpp(Shield<SEXP>(Rcpp::wrap(data)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<DataFrame >(rcpp_result_gen);
-    }
-
 }
 
 #endif // RCPP_dplyr_RCPPEXPORTS_H_GEN_

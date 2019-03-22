@@ -1,3 +1,24 @@
+httpuv 1.5.0
+============
+
+* Added support for serving static files from the background I/O thread. Files can now be served from the filesystem without involving the main R thread, which means that these operations won't block or be blocked by code that runs in the main R thread. ([#177](https://github.com/rstudio/httpuv/pull/177))
+
+* Running httpuv applications are now represented by R6 objects of class `WebServer` and `PipeServer`. These objects have methods to query and update the application. ([#177](https://github.com/rstudio/httpuv/pull/177))
+
+* Converted existing reference classes (`InputStream`, `NullInputStream`, `ErrorStream`, `AppWrapper`, and `WebSocket`) to R6 classes. ([#178](https://github.com/rstudio/httpuv/pull/178))
+
+* Fixed [#168](https://github.com/rstudio/httpuv/issues/168): A SIGPIPE signal on the httpuv background thread could cause the process to quit. This can happen in some instances when the server is under heavy load. ([#169](https://github.com/rstudio/httpuv/pull/169))
+
+* Fixed [#122](https://github.com/rstudio/httpuv/issues/122): `decodeURI()` and `decodeURIComponent()` previously returned strings encoded with the system's native encoding; they now return UTF-8 encoded strings. ([#185](https://github.com/rstudio/httpuv/pull/185), [#192](https://github.com/rstudio/httpuv/pull/192))
+
+* `encodeURI()` and `encodeURIComponent()`, now convert their inputs to UTF-8 before URL-encoding. ([#192](https://github.com/rstudio/httpuv/pull/192))
+
+* `encodeURI()`, `encodeURIComponent()`, `decodeURI()`, and `decodeURIComponent()` now handle `NA`s correctly. ([#192](https://github.com/rstudio/httpuv/pull/192))
+
+* `service()` now executes a single `later` callback, rather than all eligible callbacks. This gives callers more opportunities to perform their own housekeeping when multiple expensive callbacks queue up. ([#176](https://github.com/rstudio/httpuv/pull/176))
+
+* Fixed [#173](https://github.com/rstudio/httpuv/pull/173): The source code is now compiled with `-DSTRICT_R_HEADERS`, which eliminates the need to undefine the `Realloc` and `Free` macros.
+
 httpuv 1.4.5.1
 ==============
 

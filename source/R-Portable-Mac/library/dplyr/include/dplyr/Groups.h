@@ -3,14 +3,12 @@
 
 #include <tools/Quosure.h>
 
-#include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
-
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/RowwiseDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 
 void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf);
 void check_not_groups(const QuosureList& quosures, const RowwiseDataFrame& gdf);
-
-SEXP strip_group_attributes(SEXP df);
-
+void check_not_groups(const QuosureList& quosures, const NaturalDataFrame& gdf);
 
 #endif // #ifndef dplyr_dplyr_Groups_H

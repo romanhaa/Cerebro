@@ -25,8 +25,8 @@ flights2 %>% left_join(airports, c("dest" = "faa"))
 flights2 %>% left_join(airports, c("origin" = "faa"))
 
 ## ------------------------------------------------------------------------
-(df1 <- data_frame(x = c(1, 2), y = 2:1))
-(df2 <- data_frame(x = c(1, 3), a = 10, b = "a"))
+df1 <- tibble(x = c(1, 2), y = 2:1)
+df2 <- tibble(x = c(1, 3), a = 10, b = "a")
 
 ## ------------------------------------------------------------------------
 df1 %>% inner_join(df2) %>% knitr::kable()
@@ -42,8 +42,8 @@ df2 %>% left_join(df1)
 df1 %>% full_join(df2)
 
 ## ------------------------------------------------------------------------
-df1 <- data_frame(x = c(1, 1, 2), y = 1:3)
-df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
+df1 <- tibble(x = c(1, 1, 2), y = 1:3)
+df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
 df1 %>% left_join(df2)
 
@@ -54,8 +54,8 @@ flights %>%
   count(tailnum, sort = TRUE)
 
 ## ------------------------------------------------------------------------
-df1 <- data_frame(x = c(1, 1, 3, 4), y = 1:4)
-df2 <- data_frame(x = c(1, 1, 2), z = c("a", "b", "a"))
+df1 <- tibble(x = c(1, 1, 3, 4), y = 1:4)
+df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
 # Four rows to start with:
 df1 %>% nrow()
@@ -65,8 +65,8 @@ df1 %>% inner_join(df2, by = "x") %>% nrow()
 df1 %>% semi_join(df2, by = "x") %>% nrow()
 
 ## ------------------------------------------------------------------------
-(df1 <- data_frame(x = 1:2, y = c(1L, 1L)))
-(df2 <- data_frame(x = 1:2, y = 1:2))
+(df1 <- tibble(x = 1:2, y = c(1L, 1L)))
+(df2 <- tibble(x = 1:2, y = 1:2))
 
 ## ------------------------------------------------------------------------
 intersect(df1, df2)
@@ -76,22 +76,22 @@ setdiff(df1, df2)
 setdiff(df2, df1)
 
 ## ------------------------------------------------------------------------
-df1 <- data_frame(x = 1, y = factor("a"))
-df2 <- data_frame(x = 2, y = factor("b"))
+df1 <- tibble(x = 1, y = factor("a"))
+df2 <- tibble(x = 2, y = factor("b"))
 full_join(df1, df2) %>% str()
 
 ## ------------------------------------------------------------------------
-df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
-df2 <- data_frame(x = 2, y = factor("b", levels = c("b", "a")))
+df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
+df2 <- tibble(x = 2, y = factor("b", levels = c("b", "a")))
 full_join(df1, df2) %>% str()
 
 ## ------------------------------------------------------------------------
-df1 <- data_frame(x = 1, y = factor("a", levels = c("a", "b")))
-df2 <- data_frame(x = 2, y = factor("b", levels = c("a", "b")))
+df1 <- tibble(x = 1, y = factor("a", levels = c("a", "b")))
+df2 <- tibble(x = 2, y = factor("b", levels = c("a", "b")))
 full_join(df1, df2) %>% str()
 
 ## ------------------------------------------------------------------------
-df1 <- data_frame(x = 1, y = "a")
-df2 <- data_frame(x = 2, y = factor("a"))
+df1 <- tibble(x = 1, y = "a")
+df2 <- tibble(x = 2, y = factor("a"))
 full_join(df1, df2) %>% str()
 

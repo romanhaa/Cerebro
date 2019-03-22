@@ -64,13 +64,13 @@ fun <- rlang::sym("my_call")
 quo((!!fun)(!!! syms))
 
 ## ------------------------------------------------------------------------
-call <- rlang::lang("my_call", !!! syms)
+call <- rlang::call2("my_call", !!! syms)
 call
 
 rlang::as_quosure(call)
 
 # Or equivalently:
-quo(!! rlang::lang("my_call", !!! syms))
+quo(!! rlang::call2("my_call", !!! syms))
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  lazyeval::interp(~ mean(var), var = rlang::sym("mpg"))

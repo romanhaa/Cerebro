@@ -11,7 +11,7 @@ tab_load_data <- tabItem(
           inputId = "RDS_file",
           label = "Choose RDS file...",
           multiple = FALSE,
-          accept = c(".rds",".crb"),
+          accept = c(".rds",".crb",".cerebro"),
           width = NULL,
           buttonLabel = "Browse...",
           placeholder = "No file selected"

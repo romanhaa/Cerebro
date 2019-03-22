@@ -5,18 +5,20 @@ addSpinner              Display a spinner above an output when this one
 airDatepicker           Air Date Picker Input
 animateOptions          Animate options
 animations              Animation names
+appendVerticalTab       Mutate Vertical Tabset Panel
 awesomeCheckbox         Awesome Checkbox Input Control
 awesomeCheckboxGroup    Awesome Checkbox Group Input Control
 awesomeRadio            Awesome Radio Buttons Input Control
 checkboxGroupButtons    Buttons Group checkbox Input Control
-chooseSliderSkin        Theme selector for sliderInput
+chooseSliderSkin        Theme selector for 'sliderInput'
 circleButton            Circle Action button
 closeSweetAlert         Close Sweet Alert
 colorSelectorInput      Color Selector Input
 confirmSweetAlert       Launch a confirmation dialog
 demoAirDatepicker       Some examples on how to use airDatepickerInput
 demoNoUiSlider          Some examples on how to use noUiSliderInput
-downloadBttn            Create a download bttn
+demoNumericRange        An example showing how numericRangeInput works
+downloadBttn            Create a download 'actionBttn'
 dropdown                Dropdown
 dropdownButton          Dropdown Button
 inputSweetAlert         Launch an input text dialog
@@ -24,6 +26,7 @@ knobInput               Knob Input
 materialSwitch          Material Design Switch Input Control
 multiInput              Create a multiselect input control
 noUiSliderInput         Numeric range slider
+numericRangeInput       Numeric Range Input
 panel                   Create a panel
 pickerGroup-module      Picker Group
 pickerInput             Select picker Input Control
@@ -51,12 +54,12 @@ switchInput             Bootstrap Switch Input Control
 textInputAddon          Text with Add-on Input Control
 toggleDropdownButton    Toggle a dropdown menu
 tooltipOptions          Tooltip options
-updateAirDateInput      Change the value of a airDate input on the
+updateAirDateInput      Change the value of 'airDatepickerInput' on the
                         client
 updateAwesomeCheckbox   Change the value of an awesome checkbox input
                         on the client
 updateAwesomeCheckboxGroup
-                        Change the value of a AwesomeCheckboxGroup
+                        Change the value of a 'awesomeCheckboxGroup'
                         input on the client
 updateAwesomeRadio      Change the value of a radio input on the client
 updateCheckboxGroupButtons
@@ -68,6 +71,8 @@ updateMaterialSwitch    Change the value of a materialSwitch input on
 updateMultiInput        Change the value of a multi input on the client
 updateNoUiSliderInput   Change the value of a no ui slider input on the
                         client
+updateNumericRangeInput
+                        Change the value of a numeric range input
 updatePickerInput       Change the value of a select picker input on
                         the client
 updatePrettyCheckbox    Change the value of a pretty checkbox on the
@@ -95,6 +100,8 @@ updateSwitchInput       Change the value of a switch input on the
                         client
 updateVerticalTabsetPanel
                         Update selected vertical tab
+useArgonDash            Use 'argonDash' in 'shiny'
+useBs4Dash              Use 'bs4Dash' in 'shiny'
 useShinydashboard       Use 'shinydashboard' in 'shiny'
 useShinydashboardPlus   Use 'shinydashboardPlus' in 'shiny'
 useSweetAlert           Load Sweet Alert dependencies

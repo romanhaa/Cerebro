@@ -1,6 +1,0 @@
-useDynLib("mapproj", .registration=TRUE, .fixes="C_")
-importFrom("maps", "map.wrap", ".map.range")
-importFrom("graphics", "lines", "text")
-importFrom("stats", "median")
-export(map.grid, mapproject, .Last.projection)
-

@@ -14,6 +14,32 @@
 %% \item \code{as(<large-matrix>, "sparseMatrix")} no longer fails
 %%  when \code{prod(dim(.))} is larger than \eqn{2^{31} - 1}.
 %
+\section{Changes in version 1.2-16 (2019-03-04, svn r3291)}{
+  \subsection{New Features}{
+    \itemize{
+      \item regression tests depending on \code{sample()} now are future
+      proof reproducible, via \code{RNGversion(.)}.
+
+      \item give information about #{rows} and #{columns} that are
+      suppressed in print()ing if the matrix is larger than `max.print`.
+    }
+  }
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item \code{data(<Matrix-data>)} no longer attaches \pkg{Matrix} to
+      the search path.
+
+      \item \code{"Ops"} group methods, i.e., "Arith", "Compare" & "Logic",
+      now should all work with 0-extent matrices as well, thanks to bug
+      reports by Aaron Lun, University of Cambridge.
+
+      \item when printing and formatting sparse matrices, see \code{formatSpMatrix()},
+       the \code{maxp} option, e.g., from \code{getOption("max.print")}, is
+      \dQuote{rounded up} to 100, as very small values are very rarely appropriate.
+    }
+  }
+}
+
 \section{Changes in version 1.2-15 (2018-08-20, svn r3283)}{
   \subsection{New Features}{
     \itemize{

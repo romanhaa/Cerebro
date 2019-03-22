@@ -1,3 +1,23 @@
+shinyWidgets 0.4.7
+======================
+
+* add `useArgonDash` to inport functions from argonDash.
+* add `useBs4Dash` to import functions from bs4Dash.
+* Fix updating `searchInput` label & placeholder in modules.
+* Fix issue with ghost sidebar in `useShinydashboard`.
+* Fix issue updating `prettyRadio` & `prettyCheckbox` with icons.
+
+
+
+shinyWidgets 0.4.5
+======================
+
+* Fix a bug with `awesome*` widgets due to FontAwesome upgrade in Shiny [@AshesITR](https://github.com/AshesITR).
+* New methods for mutating vertical tabs (`appendVerticalTab`, `removeVerticalTab`, `reorderVerticalTabs`) by [@ifellows](https://github.com/ifellows)
+* New widget `numericRangeInput` by [@wkdavis](https://github.com/wkdavis).
+
+
+
 shinyWidgets 0.4.4
 ======================
 
@@ -31,7 +51,7 @@ shinyWidgets 0.4.2
 * New function `updateSearchInput` to update `searchInput` server-side [#52](https://github.com/dreamRs/shinyWidgets/issues/52).
 * New argument `inline` to `prettySwitch`, `prettyToggle` and `prettyCheckbox` to position checkboxes side by side.
 * New argument `html` to `confirmSweetAlert` and `sendSweetAlert` to pass HTML tags in alert window [#48](https://github.com/dreamRs/shinyWidgets/issues/48).
-* New Shiny modules to create dependent slect menu : `selectizeGroup` and `pickerGroup`.
+* New Shiny modules to create dependent select menu : `selectizeGroup` and `pickerGroup`.
 * New widget : `noUiSlider`, a minimal slider range for numeric values.
 
 

@@ -11,6 +11,7 @@ gsub_file               Search and replace strings in files
 in_dir                  Evaluate an expression under a specified
                         working directory
 install_dir             Install a source package from a directory
+install_github          An alias of 'remotes::install_github()'
 isFALSE                 Test if an object is identical to 'FALSE'
 is_ascii                Check if a character vector consists of
                         entirely ASCII characters
@@ -38,5 +39,9 @@ same_path               Test if two paths are the same after they are
 session_info            An alternative to sessionInfo() to print
                         session information
 strict_list             Strict lists
+stringsAsStrings        Set the global option 'options(stringsAsFactors
+                        = FALSE)' inside a parent function and restore
+                        the option after the parent function exits
 tojson                  A simple JSON serializer
 try_silent              Try to evaluate an expression silently
+upload_ftp              Upload to an FTP server via 'curl'

@@ -102,7 +102,7 @@ my_summarise(df, quo(g1))
 ## ------------------------------------------------------------------------
 my_summarise <- function(df, group_var) {
   df %>%
-    group_by(!!group_var) %>%
+    group_by(!! group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -117,7 +117,7 @@ my_summarise <- function(df, group_var) {
   print(quo_group_var)
 
   df %>%
-    group_by(!!quo_group_var) %>%
+    group_by(!! quo_group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -129,7 +129,7 @@ my_summarise <- function(df, group_var) {
   print(group_var)
 
   df %>%
-    group_by(!!group_var) %>%
+    group_by(!! group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -141,12 +141,12 @@ summarise(df, mean = mean(a * b), sum = sum(a * b), n = n())
 
 ## ------------------------------------------------------------------------
 my_var <- quo(a)
-summarise(df, mean = mean(!!my_var), sum = sum(!!my_var), n = n())
+summarise(df, mean = mean(!! my_var), sum = sum(!! my_var), n = n())
 
 ## ------------------------------------------------------------------------
 quo(summarise(df,
-  mean = mean(!!my_var),
-  sum = sum(!!my_var),
+  mean = mean(!! my_var),
+  sum = sum(!! my_var),
   n = n()
 ))
 
@@ -155,8 +155,8 @@ my_summarise2 <- function(df, expr) {
   expr <- enquo(expr)
 
   summarise(df,
-    mean = mean(!!expr),
-    sum = sum(!!expr),
+    mean = mean(!! expr),
+    sum = sum(!! expr),
     n = n()
   )
 }
@@ -174,8 +174,8 @@ my_mutate <- function(df, expr) {
   sum_name <- paste0("sum_", quo_name(expr))
 
   mutate(df,
-    !!mean_name := mean(!!expr),
-    !!sum_name := sum(!!expr)
+    !! mean_name := mean(!! expr),
+    !! sum_name := sum(!! expr)
   )
 }
 
@@ -183,10 +183,10 @@ my_mutate(df, a)
 
 ## ------------------------------------------------------------------------
 my_summarise <- function(df, ...) {
-  group_var <- quos(...)
+  group_var <- enquos(...)
 
   df %>%
-    group_by(!!!group_var) %>%
+    group_by(!!! group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -194,10 +194,10 @@ my_summarise(df, g1, g2)
 
 ## ------------------------------------------------------------------------
 args <- list(na.rm = TRUE, trim = 0.25)
-quo(mean(x, !!!args))
+quo(mean(x, !!! args))
 
 args <- list(quo(x), na.rm = TRUE, trim = 0.25)
-quo(mean(!!!args))
+quo(mean(!!! args))
 
 ## ------------------------------------------------------------------------
 disp ~ cyl + drat
@@ -253,18 +253,19 @@ get_env(var)
 quo(toupper(letters[1:5]))
 
 # Here we capture the value of `letters[1:5]`
-quo(toupper(!!letters[1:5]))
+quo(toupper(!! letters[1:5]))
+quo(toupper(UQ(letters[1:5])))
 
 ## ------------------------------------------------------------------------
 var1 <- quo(letters[1:5])
-quo(toupper(!!var1))
+quo(toupper(!! var1))
 
 ## ------------------------------------------------------------------------
 my_mutate <- function(x) {
   mtcars %>%
     select(cyl) %>%
     slice(1:4) %>%
-    mutate(cyl2 = cyl + (!!x))
+    mutate(cyl2 = cyl + (!! x))
 }
 
 f <- function(x) quo(x)
@@ -274,18 +275,27 @@ expr2 <- f(10)
 my_mutate(expr1)
 my_mutate(expr2)
 
+## ---- error = TRUE-------------------------------------------------------
+my_fun <- quo(fun)
+quo(!! my_fun(x, y, z))
+quo(UQ(my_fun)(x, y, z))
+
+my_var <- quo(x)
+quo(filter(df, !! my_var == 1))
+quo(filter(df, UQ(my_var) == 1))
+
 ## ------------------------------------------------------------------------
-quo(list(!!!letters[1:5]))
+quo(list(!!! letters[1:5]))
 
 ## ------------------------------------------------------------------------
 x <- list(foo = 1L, bar = quo(baz))
-quo(list(!!!x))
+quo(list(!!! x))
 
 ## ------------------------------------------------------------------------
 args <- list(mean = quo(mean(cyl)), count = quo(n()))
 mtcars %>%
   group_by(am) %>%
-  summarise(!!!args)
+  summarise(!!! args)
 
 ## ------------------------------------------------------------------------
 mean_nm <- "mean"
@@ -294,7 +304,7 @@ count_nm <- "count"
 mtcars %>%
   group_by(am) %>%
   summarise(
-    !!mean_nm := mean(cyl),
-    !!count_nm := n()
+    !! mean_nm := mean(cyl),
+    !! count_nm := n()
   )
 

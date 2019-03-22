@@ -1,6 +1,6 @@
 Package: Matrix
-Version: 1.2-15
-Date: 2018-09-15
+Version: 1.2-16
+Date: 2019-03-04
 Priority: recommended
 Title: Sparse and Dense Matrix Classes and Methods
 Contact: Doug and Martin <Matrix-authors@R-project.org>
@@ -34,8 +34,6 @@ BuildResaveData: no
 License: GPL (>= 2) | file LICENCE
 URL: http://Matrix.R-forge.R-project.org/
 BugReports: https://r-forge.r-project.org/tracker/?group_id=61
-NeedsCompilation: yes
-Packaged: 2018-10-26 07:17:47 UTC; maechler
 Author: Douglas Bates [aut],
   Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
   Timothy A. Davis [ctb] (SuiteSparse and 'cs' C libraries, notably
@@ -47,6 +45,11 @@ Author: Douglas Bates [aut],
     Regents of the University of California),
   R Core Team [ctb] (base R matrix implementation)
 Repository: CRAN
-Date/Publication: 2018-11-01 18:30:04 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-11-02 12:07:59 UTC; unix
+Repository/R-Forge/Project: matrix
+Repository/R-Forge/Revision: 3291
+Repository/R-Forge/DateTimeStamp: 2019-03-04 11:00:53
+Date/Publication: 2019-03-08 15:33:45 UTC
+NeedsCompilation: yes
+Packaged: 2019-03-04 11:32:46 UTC; rforge
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-03-09 15:59:19 UTC; unix
 Archs: Matrix.so.dSYM

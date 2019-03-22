@@ -3,9 +3,47 @@
 \newcommand{\ghpr}{\href{https://github.com/RcppCore/Rcpp/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/RcppCore/Rcpp/issues/#1}{##1}}
 
+\section{Changes in Rcpp version 1.0.1 (2019-03-17)}{
+  \itemize{
+    \item Changes in Rcpp API:
+    \itemize{
+      \item Subsetting is no longer limited by an integer range (William
+      Nolan in \ghpr{920} fixing \ghit{919}).
+      \item Error messages from subsetting are now more informative
+      (Qiang and Dirk).
+      \item \code{Shelter} increases count only on non-null objects
+      (Dirk in \ghpr{940} as suggested by Stepan Sindelar in \ghit{935}).
+      \item \code{AttributeProxy::set()} and a few related setters get
+      \code{Shiled<>} to ensure rchk is happy (Romain in \ghpr{947})
+      fixing \ghit{946}).
+    }
+    \item Changes in Rcpp Attributes:
+    \itemize{
+      \item A new plugin was added for C++20 (Dirk in \ghpr{927})
+      \item Fixed an issue where 'stale' symbols could become registered in
+      RcppExports.cpp, leading to linker errors and other related issues
+      (Kevin in \ghpr{939} fixing \ghit{733} and \ghit{934}).
+      \item The wrapper macro gets an \code{UNPROTECT} to ensure rchk is
+      happy (Romain in \ghpr{949}) fixing \ghit{948}).
+    }
+    \item Changes in Rcpp Documentation:
+    \itemize{
+      \item Three small corrections were added in the 'Rcpp Quickref'
+      vignette (Zhuoer Dong in \ghpr{933} fixing \ghit{932}).
+      \item The \code{Rcpp-modules} vignette now has documentation for
+      \code{.factory} (Ralf Stubner in \ghpr{938} fixing \ghit{937}).
+    }
+    \item Changes in Rcpp Deployment:
+    \itemize{
+      \item Travis CI again reports to CodeCov.io (Dirk and Ralf Stubner in
+      \ghpr{942} fixing \ghit{941}).
+    }
+  }
+}
+
 \section{Changes in Rcpp version 1.0.0 (2018-11-05)}{
   \itemize{
-    \item Happy tenth birtday to Rcpp, and hello release 1.0 !
+    \item Happy tenth birthday to Rcpp, and hello release 1.0 !
     \item Changes in Rcpp API:
     \itemize{
       \item The empty destructor for the \code{Date} class was removed

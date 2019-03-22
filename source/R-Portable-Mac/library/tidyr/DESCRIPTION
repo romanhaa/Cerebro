@@ -1,33 +1,39 @@
 Package: tidyr
 Title: Easily Tidy Data with 'spread()' and 'gather()' Functions
-Version: 0.8.2
-Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
-    person("Lionel", "Henry", , "lionel@rstudio.com", "aut"),
-    person("RStudio", role = "cph")
-    )
-Description: An evolution of 'reshape2'. It's designed specifically for data
-    tidying (not general reshaping or aggregating) and works well with
-    'dplyr' data pipelines.
+Version: 0.8.3
+Authors@R: 
+    c(person(given = "Hadley",
+             family = "Wickham",
+             role = c("aut", "cre"),
+             email = "hadley@rstudio.com"),
+      person(given = "Lionel",
+             family = "Henry",
+             role = "aut",
+             email = "lionel@rstudio.com"),
+      person(given = "RStudio",
+             role = "cph"))
+Description: An evolution of 'reshape2'. It's designed
+    specifically for data tidying (not general reshaping or aggregating)
+    and works well with 'dplyr' data pipelines.
 License: MIT + file LICENSE
 URL: http://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
 BugReports: https://github.com/tidyverse/tidyr/issues
-Encoding: UTF-8
 Depends: R (>= 3.1)
 Imports: dplyr (>= 0.7.0), glue, magrittr, purrr, Rcpp, rlang, stringi,
-        tibble, tidyselect (>= 0.2.5)
+        tibble, tidyselect (>= 0.2.5), utils
 Suggests: covr, gapminder, knitr, rmarkdown, testthat
 LinkingTo: Rcpp
 VignetteBuilder: knitr
+Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 NeedsCompilation: yes
-Packaged: 2018-10-26 21:05:55 UTC; hadley
+Packaged: 2019-02-28 16:04:27 UTC; hadley
 Author: Hadley Wickham [aut, cre],
   Lionel Henry [aut],
   RStudio [cph]
 Maintainer: Hadley Wickham <hadley@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-10-28 17:20:03 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-10-29 12:00:54 UTC; unix
+Date/Publication: 2019-03-01 23:00:03 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-03-02 13:59:33 UTC; unix
 Archs: tidyr.so.dSYM

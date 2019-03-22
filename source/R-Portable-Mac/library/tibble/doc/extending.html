@@ -658,14 +658,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## * `print(eval_tidy(object))` has changed from known value recorded in 'latlon.txt'.
 ## 3/3 mismatches
 ## x[1]: &quot;28°20'N  81°33'W&quot;
-## y[1]: &quot;28\033[90m°\033[39m20\033[90m'\033[39mN
-## y[1]:   81\033[90m°\033[39m33\033[90m'\033[39m
-## y[1]: W&quot;
+## y[1]: &quot;28\033[90m°\033[39m20\033[90m'\033[39mN  81\
+## y[1]: 033[90m°\033[39m33\033[90m'\033[39mW&quot;
 ## 
 ## x[2]: &quot;32°43'N 117°10'W&quot;
-## y[2]: &quot;32\033[90m°\033[39m43\033[90m'\033[39mN
-## y[2]:  117\033[90m°\033[39m10\033[90m'\033[39m
-## y[2]: W&quot;
+## y[2]: &quot;32\033[90m°\033[39m43\033[90m'\033[39mN 117\
+## y[2]: 033[90m°\033[39m10\033[90m'\033[39mW&quot;
 ## 
 ## x[3]: &quot;     NA         &quot;
 ## y[3]: &quot;     \033[31mNA\033[39m         &quot;</code></pre>
@@ -704,14 +702,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <pre><code>## Error: Test failed: 'latlon pillar matches known output'
 ## * `print(eval_tidy(object))` has changed from known value recorded in 'latlon.txt'.
 ## 3/3 mismatches
-## x[1]: &quot;28\033[90m°\033[39m20\033[90m'\033[39mN
-## x[1]:   81\033[90m°\033[39m33\033[90m'\033[39m
-## x[1]: W&quot;
+## x[1]: &quot;28\033[90m°\033[39m20\033[90m'\033[39mN  81\
+## x[1]: 033[90m°\033[39m33\033[90m'\033[39mW&quot;
 ## y[1]: &quot;28°20'N  81°33'W&quot;
 ## 
-## x[2]: &quot;32\033[90m°\033[39m43\033[90m'\033[39mN
-## x[2]:  117\033[90m°\033[39m10\033[90m'\033[39m
-## x[2]: W&quot;
+## x[2]: &quot;32\033[90m°\033[39m43\033[90m'\033[39mN 117\
+## x[2]: 033[90m°\033[39m10\033[90m'\033[39mW&quot;
 ## y[2]: &quot;32°43'N 117°10'W&quot;
 ## 
 ## x[3]: &quot;     \033[31mNA\033[39m         &quot;

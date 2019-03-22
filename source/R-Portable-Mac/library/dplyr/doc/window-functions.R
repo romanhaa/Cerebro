@@ -68,10 +68,10 @@ filter(players, teamID != lag(teamID))
 df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 scrambled <- df[sample(nrow(df)), ]
 
-wrong <- mutate(scrambled, running = cumsum(value))
+wrong <- mutate(scrambled, prev_value = lag(value))
 arrange(wrong, year)
 
-right <- mutate(scrambled, running = order_by(year, cumsum(value)))
+right <- mutate(scrambled, prev_value = lag(value, order_by = year))
 arrange(right, year)
 
 ## ---- eval = FALSE-------------------------------------------------------

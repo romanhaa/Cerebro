@@ -234,6 +234,20 @@ SEXP stri_sub_replacement(SEXP e1, SEXP e2, SEXP e3, SEXP e4, SEXP e5, SEXP e6) 
       return fun(e1, e2, e3, e4, e5, e6);
    }
 
+SEXP stri_sub_all(SEXP e1, SEXP e2, SEXP e3, SEXP e4) {
+      static SEXP(*fun)(SEXP,SEXP,SEXP,SEXP) = NULL;
+      if (!fun)
+         fun = (SEXP(*)(SEXP,SEXP,SEXP,SEXP)) R_GetCCallable("stringi", "C_stri_sub_all");
+      return fun(e1, e2, e3, e4);
+   }
+
+SEXP stri_sub_replacement_all(SEXP e1, SEXP e2, SEXP e3, SEXP e4, SEXP e5, SEXP e6) {
+      static SEXP(*fun)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP) = NULL;
+      if (!fun)
+         fun = (SEXP(*)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP)) R_GetCCallable("stringi", "C_stri_sub_replacement_all");
+      return fun(e1, e2, e3, e4, e5, e6);
+   }
+
 SEXP stri_enc_list() {
       static SEXP(*fun)() = NULL;
       if (!fun)

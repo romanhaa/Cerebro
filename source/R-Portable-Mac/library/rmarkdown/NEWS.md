@@ -1,3 +1,21 @@
+rmarkdown 1.12
+================================================================================
+
+* Fixed file extensions of output files when using non-markdown Pandoc extensions such as `docx+styles` (#1494, @noamross).
+
+* Added a new argument `extra_lines` to `latex_dependency()` to allow users to add extra lines of LaTeX code after `\usepackage{}`. Also added a helper function `latex_dependency_tikz()` based on `latex_dependency()` (#1502, @malcolmbarrett).
+
+* Fixed #1529: when the path of an Rmd file contains Unicode characters that cannot be represented in the system native encoding (especially on Windows), `rmarkdown::render()` may fail.
+
+* Applied a correct fix to an old **plotly** issue ropensci/plotly#463.
+
+* HTML widgets used to be hidden when printing ioslides to PDF in Chrome. Now they will be printed correctly.
+
+* `render(output_format = 'all')` may delete the figure directories that are still needed by certain output formats when one output format doesn't need its figure directory (thanks, @rmcd1024 #1472, @cderv #1503).
+
+* The `<em>` tags in the subtitle, date, and author are removed from the default HTML template (thanks, @royfrancis, #1544).
+
+
 rmarkdown 1.11
 ================================================================================
 
@@ -21,7 +39,7 @@ rmarkdown 1.11
 
 * Fixed #1407: reactive expressions can break the section headers of Shiny R Markdown documents.
 
-# Fixed #1431: `render()` with the `intermediates_dir` argument when the output format is `powerpoint_presentation` with a custom `reference_doc` fails to find the reference document.
+* Fixed #1431: `render()` with the `intermediates_dir` argument when the output format is `powerpoint_presentation` with a custom `reference_doc` fails to find the reference document.
 
 * Fixed the website navbar not being able to display submenus properly (#721, #1426).
 
