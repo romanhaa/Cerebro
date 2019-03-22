@@ -180,12 +180,11 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 * [ ] Add parameters of marker gene detection to info tab.
 * [ ] Check if `require()` could be a way to make startup faster.
 * [ ] Check which packages can be removed. / Clean up R libraries.
-* [ ] Display only the sample information that is available.
+* [ ] Display only the sample/cluster information that is available.
 * [ ] Exporting dimensional reductions is misleading when using 3D because a plot is created but only the first 2 dimensions used. Either deactivate or find a way to plot an angled 3D with ggplot.
   * Add warning message when exporting.
 * [ ] Do thorough performance check. What step could/should be improved? Gene (set) expression?
   * colMeans runs in C, super fast already.
-* [ ] Clean code / remove old comments.
 * [ ] Export analysis parameters.
   * What to do about R environment?
 * [ ] Create release and upload to GitHub.
