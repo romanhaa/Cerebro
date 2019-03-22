@@ -44,7 +44,7 @@ output[["expression_UI"]] <- renderUI({
       value = scatter_plot_percentage_cells_to_show[["default"]]
     ),
     selectInput(
-      "expression_plotting_order",
+      "expression_projection_plotting_order",
       label = "Plotting order:",
       choices = c("Random", "Highest expression on top"),
       selected = "Random"
@@ -143,13 +143,13 @@ gene_expression_plot_data <- reactive({
     input[["expression_samples_to_display"]],
     input[["expression_clusters_to_display"]],
     input[["expression_percentage_cells_to_show"]],
-    input[["expression_plotting_order"]]
+    input[["expression_projection_plotting_order"]]
   )
   projection_to_display <- input[["expression_projection_to_display"]]
   samples_to_display <- input[["expression_samples_to_display"]]
   clusters_to_display <- input[["expression_clusters_to_display"]]
   percentage_cells_show <- input[["expression_percentage_cells_to_show"]]
-  plot_order <- input[["expression_plotting_order"]]
+  plot_order <- input[["expression_projection_plotting_order"]]
   # check which cells to display
   cells_to_display <- which(
       grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE & 
@@ -192,7 +192,7 @@ gene_expression_plot_data <- reactive({
 #   req(input$expression_projection_to_display)
 #   req(input$expression_samples_to_display)
 #   req(input$expression_clusters_to_display)
-#   req(input$expression_plotting_order)
+#   req(input$expression_projection_plotting_order)
 #   projection_to_display <- input$expression_projection_to_display
 #   samples_to_display <- input$expression_samples_to_display
 #   clusters_to_display <- input$expression_clusters_to_display
@@ -222,9 +222,9 @@ gene_expression_plot_data <- reactive({
 #       colMeans() %>%
 #       as.vector()
 #   }
-#   if ( input$expression_plotting_order == "Random" ) {
+#   if ( input$expression_projection_plotting_order == "Random" ) {
 #     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
-#   } else if ( input$expression_plotting_order == "Highest expression on top" ) {
+#   } else if ( input$expression_projection_plotting_order == "Highest expression on top" ) {
 #     to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
 #   }
 #   scatterD3::scatterD3(
@@ -263,7 +263,7 @@ gene_expression_plot_data <- reactive({
 #   req(input$expression_projection_to_display)
 #   req(input$expression_samples_to_display)
 #   req(input$expression_clusters_to_display)
-#   req(input$expression_plotting_order)
+#   req(input$expression_projection_plotting_order)
 #   projection_to_display <- input$expression_projection_to_display
 #   samples_to_display <- input$expression_samples_to_display
 #   clusters_to_display <- input$expression_clusters_to_display
@@ -292,9 +292,9 @@ gene_expression_plot_data <- reactive({
 #       sample_data()$expression[ . , cells_to_display ] %>%
 #       colMeans()
 #   }
-#   if ( input$expression_plotting_order == "Random" ) {
+#   if ( input$expression_projection_plotting_order == "Random" ) {
 #     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
-#   } else if ( input$expression_plotting_order == "Highest expression on top" ) {
+#   } else if ( input$expression_projection_plotting_order == "Highest expression on top" ) {
 #     to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
 #   }
 #   plotly::plot_ly(
@@ -493,7 +493,7 @@ observeEvent(input[["expression_projection_info"]], {
 observeEvent(input[["expression_projection_export"]], {
   req(
     input[["expression_projection_to_display"]],
-    input[["expression_plotting_order"]],
+    input[["expression_projection_plotting_order"]],
     input[["expression_projection_dot_size"]],
     input[["expression_projection_dot_opacity"]],
     input[["expression_projection_scale_x_manual_range"]],
@@ -529,9 +529,9 @@ observeEvent(input[["expression_projection_export"]], {
       )
   }
 
-  if ( input[["expression_plotting_order"]] == "Random" ) {
+  if ( input[["expression_projection_plotting_order"]] == "Random" ) {
     out_filename <- paste0(out_filename, "_random_order.pdf")
-  } else if ( input[["expression_plotting_order"]] == "Highest expression on top" ) {
+  } else if ( input[["expression_projection_plotting_order"]] == "Highest expression on top" ) {
     out_filename <- paste0(out_filename, "_highest_expression_on_top.pdf")
   }
 

@@ -37,7 +37,7 @@ output[["overview_UI"]] <- renderUI({
       value = scatter_plot_percentage_cells_to_show[["default"]]
     ),
     selectInput(
-      "overview_cell_color",
+      "overview_dot_color",
       label = "Color cells by",
       choices = names(sample_data()$cells)[! names(sample_data()$cells) %in% c("cell_barcode")]
     ),
@@ -151,20 +151,20 @@ output[["overview_scales"]] <- renderUI({
 #   to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
 #   # define variable used to color cells by
-#   col_var <- to_plot[ , input[["overview_cell_color"]] ]
+#   col_var <- to_plot[ , input[["overview_dot_color"]] ]
 
 #   # define colors
-#   if ( is.null(input[["overview_cell_color"]]) || is.na(input[["overview_cell_color"]]) ) {
+#   if ( is.null(input[["overview_dot_color"]]) || is.na(input[["overview_dot_color"]]) ) {
 #     colors <- NULL
-#   } else if ( input[["overview_cell_color"]] == "sample" ) {
+#   } else if ( input[["overview_dot_color"]] == "sample" ) {
 #     colors <- sample_data()$samples$colors
-#   } else if ( input[["overview_cell_color"]] == "cluster" ) {
+#   } else if ( input[["overview_dot_color"]] == "cluster" ) {
 #     colors <- sample_data()$clusters$colors
-#   } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
+#   } else if ( input[["overview_dot_color"]] %in% c("cell_cycle_Regev","cell_cycle_Cyclone") ) {
 #     colors <- cell_cycle_colorset
-#   } else if ( is.factor(to_plot[,input[["overview_cell_color"]]]) ) {
-#     colors <- setNames(colors[1:length(levels(to_plot[,input[["overview_cell_color"]]]))], levels(to_plot[,input[["overview_cell_color"]]]))
-#   } else if ( is.character(to_plot[,input[["overview_cell_color"]]]) ) {
+#   } else if ( is.factor(to_plot[,input[["overview_dot_color"]]]) ) {
+#     colors <- setNames(colors[1:length(levels(to_plot[,input[["overview_dot_color"]]]))], levels(to_plot[,input[["overview_dot_color"]]]))
+#   } else if ( is.character(to_plot[,input[["overview_dot_color"]]]) ) {
 #     colors <- colors
 #   } else {
 #     colors <- NULL
@@ -189,7 +189,7 @@ output[["overview_scales"]] <- renderUI({
 #       ),
 #     point_size = input$overview_dot_size,
 #     col_var = col_var,
-#     col_lab = input[["overview_cell_color"]],
+#     col_lab = input[["overview_dot_color"]],
 #     colors = colors,
 #     ellipses = input$overview_show_ellipses,
 #     size_var = size_var,
@@ -215,8 +215,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
     input[["overview_samples_to_display"]],
     input[["overview_clusters_to_display"]],
     input[["overview_percentage_cells_to_show"]],
-    input[["overview_cell_color"]],
-    # input[["overview_cell_size_variable"]],
+    input[["overview_dot_color"]],
     input[["overview_dot_size"]],
     input[["overview_dot_opacity"]],
     input[["overview_scale_x_manual_range"]],
@@ -253,18 +252,18 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
   # define variable used to color cells by
-  col_var <- to_plot[ , input[["overview_cell_color"]] ]
+  col_var <- to_plot[ , input[["overview_dot_color"]] ]
 
   # define colors
-  colors <- if ( input[["overview_cell_color"]] == "sample" ) {
+  colors <- if ( input[["overview_dot_color"]] == "sample" ) {
     sample_data()$samples$colors
-  } else if ( input[["overview_cell_color"]] == "cluster" ) {
+  } else if ( input[["overview_dot_color"]] == "cluster" ) {
     sample_data()$clusters$colors
-  } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
+  } else if ( input[["overview_dot_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
     cell_cycle_colorset
-  } else if ( is.factor(to_plot[ , input[["overview_cell_color"]] ]) ) {
-    setNames(colors[1:length(levels(to_plot[ , input[["overview_cell_color"]] ]))], levels(to_plot[ , input[["overview_cell_color"]] ]))
-  } else if ( is.character(to_plot[ , input[["overview_cell_color"]] ]) ) {
+  } else if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) ) {
+    setNames(colors[1:length(levels(to_plot[ , input[["overview_dot_color"]] ]))], levels(to_plot[ , input[["overview_dot_color"]] ]))
+  } else if ( is.character(to_plot[ , input[["overview_dot_color"]] ]) ) {
     colors
   } else {
     NULL
@@ -274,7 +273,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   # size_var <- if ( input[["overview_cell_size_variable"]] == "None" ) NULL else to_plot[ , input[["overview_cell_size_variable"]] ]
 
   if ( ncol(sample_data()$projections[[ projection_to_display ]]) == 3 ) {
-    if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
+    if ( is.numeric(to_plot[ , input[["overview_dot_color"]] ]) ) {
       plotly::plot_ly(
         to_plot,
         x = ~to_plot[,1],
@@ -284,9 +283,9 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         mode = "markers",
         marker = list(
           colorbar = list(
-            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
+            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_dot_color"]])]
           ),
-          color = ~to_plot[ , input[["overview_cell_color"]] ],
+          color = ~to_plot[ , input[["overview_dot_color"]] ],
           opacity = input[["overview_dot_opacity"]],
           colorscale = "YlGnBu",
           reversescale = TRUE,
@@ -338,7 +337,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         x = ~to_plot[,1],
         y = ~to_plot[,2],
         z = ~to_plot[,3],
-        color = ~to_plot[ , input[["overview_cell_color"]] ],
+        color = ~to_plot[ , input[["overview_dot_color"]] ],
         colors = colors,
         type = "scatter3d",
         mode = "markers",
@@ -384,7 +383,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
       )
     }
   } else {
-    if ( is.numeric(to_plot[ , input[["overview_cell_color"]] ]) ) {
+    if ( is.numeric(to_plot[ , input[["overview_dot_color"]] ]) ) {
       plotly::plot_ly(
         to_plot,
         x = ~to_plot[,1],
@@ -393,9 +392,9 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         mode = "markers",
         marker = list(
           colorbar = list(
-            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
+            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_dot_color"]])]
           ),
-          color = ~to_plot[ , input[["overview_cell_color"]] ],
+          color = ~to_plot[ , input[["overview_dot_color"]] ],
           opacity = input[["overview_dot_opacity"]],
           colorscale = "YlGnBu",
           reversescale = TRUE,
@@ -437,7 +436,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         to_plot,
         x = ~to_plot[,1],
         y = ~to_plot[,2],
-        color = ~to_plot[ , input[["overview_cell_color"]] ],
+        color = ~to_plot[ , input[["overview_dot_color"]] ],
         colors = colors,
         type = "scatter",
         mode = "markers",
@@ -505,8 +504,7 @@ observeEvent(input[["overview_projection_export"]], {
     input[["overview_samples_to_display"]],
     input[["overview_clusters_to_display"]],
     input[["overview_percentage_cells_to_show"]],
-    input[["overview_cell_color"]],
-    input[["overview_cell_size_variable"]],
+    input[["overview_dot_color"]],
     input[["overview_dot_size"]],
     input[["overview_dot_opacity"]],
     input[["overview_scale_x_manual_range"]],
@@ -539,15 +537,15 @@ observeEvent(input[["overview_projection_export"]], {
     input[["overview_scale_y_manual_range"]][1],
     input[["overview_scale_y_manual_range"]][2]
   )
-  if ( is.factor(to_plot[ , input[["overview_cell_color"]] ]) || is.character(to_plot[ , input[["overview_cell_color"]] ]) ) {
-    if ( input[["overview_cell_color"]] == "sample" ) {
+  if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) || is.character(to_plot[ , input[["overview_dot_color"]] ]) ) {
+    if ( input[["overview_dot_color"]] == "sample" ) {
       cols <- sample_data()$samples$colors
-    } else if ( input[["overview_cell_color"]] == "cluster" ) {
+    } else if ( input[["overview_dot_color"]] == "cluster" ) {
       cols <- sample_data()$clusters$colors
-    } else if ( input[["overview_cell_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
+    } else if ( input[["overview_dot_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
       cols <- cell_cycle_colorset
-    } else if ( is.factor(to_plot[ , input[["overview_cell_color"]] ]) ) {
-      cols <- setNames(colors[1:length(levels(to_plot[ , input[["overview_cell_color"]] ]))], levels(to_plot[ , input[["overview_cell_color"]] ]))
+    } else if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) ) {
+      cols <- setNames(colors[1:length(levels(to_plot[ , input[["overview_dot_color"]] ]))], levels(to_plot[ , input[["overview_dot_color"]] ]))
     } else {
       cols <- colors
     }
@@ -556,7 +554,7 @@ observeEvent(input[["overview_projection_export"]], {
         aes_q(
           x = as.name(colnames(to_plot)[1]),
           y = as.name(colnames(to_plot)[2]),
-          fill = as.name(input[["overview_cell_color"]])
+          fill = as.name(input[["overview_dot_color"]])
         )
       ) +
       geom_point(
@@ -575,7 +573,7 @@ observeEvent(input[["overview_projection_export"]], {
         aes_q(
           x = as.name(colnames(to_plot)[1]),
           y = as.name(colnames(to_plot)[2]),
-          fill = as.name(input[["overview_cell_color"]])
+          fill = as.name(input[["overview_dot_color"]])
         )
       ) +
       geom_point(
@@ -602,7 +600,7 @@ observeEvent(input[["overview_projection_export"]], {
       ),
       "_overview_", input[["overview_projection_to_display"]], "_by_",
       gsub(
-        input[["overview_cell_color"]],
+        input[["overview_dot_color"]],
         pattern = "\\.", replacement = "_"
       ),
       ".pdf"

@@ -82,7 +82,7 @@ output[["geneSetExpression_UI"]] <- renderUI({
       value = scatter_plot_percentage_cells_to_show[["default"]]
     ),
     selectInput(
-      "geneSetExpression_plotting_order",
+      "geneSetExpression_projection_plotting_order",
       label = "Plotting order:",
       choices = c("Random", "Highest expression on top")
     ),
@@ -164,13 +164,13 @@ geneSetExpression_plot_data <- reactive({
     input[["geneSetExpression_samples_to_display"]],
     input[["geneSetExpression_clusters_to_display"]],
     input[["geneSetExpression_percentage_cells_to_show"]],
-    input[["geneSetExpression_plotting_order"]]
+    input[["geneSetExpression_projection_plotting_order"]]
   )
   projection_to_display <- input[["geneSetExpression_projection_to_display"]]
   samples_to_display <- input[["geneSetExpression_samples_to_display"]]
   clusters_to_display <- input[["geneSetExpression_clusters_to_display"]]
   percentage_cells_show <- input[["geneSetExpression_percentage_cells_to_show"]]
-  plot_order <- input[["geneSetExpression_plotting_order"]]
+  plot_order <- input[["geneSetExpression_projection_plotting_order"]]
   # check which cells to display
   cells_to_display <- which(
       grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE & 
@@ -213,7 +213,7 @@ geneSetExpression_plot_data <- reactive({
 #   req(input$geneSetExpression_projection_to_display)
 #   req(input$geneSetExpression_samples_to_display)
 #   req(input$geneSetExpression_clusters_to_display)
-#   req(input$geneSetExpression_plotting_order)
+#   req(input$geneSetExpression_projection_plotting_order)
 #   projection_to_display <- input$geneSetExpression_projection_to_display
 #   samples_to_display <- input$geneSetExpression_samples_to_display
 #   clusters_to_display <- input$geneSetExpression_clusters_to_display
@@ -251,9 +251,9 @@ geneSetExpression_plot_data <- reactive({
 #       as.vector()
 #   }
 
-#   if ( input$geneSetExpression_plotting_order == "Random" ) {
+#   if ( input$geneSetExpression_projection_plotting_order == "Random" ) {
 #     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
-#   } else if ( input$geneSetExpression_plotting_order == "Highest expression on top" ) {
+#   } else if ( input$geneSetExpression_projection_plotting_order == "Highest expression on top" ) {
 #     to_plot <- to_plot[ order(to_plot$level, decreasing=FALSE) , ]
 #   }
 #   scatterD3::scatterD3(
@@ -486,10 +486,10 @@ observeEvent(input[["geneSetExpression_projection_info"]], {
 #       input$geneSetExpression_projection_to_display
 #     )
 
-#   if ( input$geneSetExpression_plotting_order == "Random" ) {
+#   if ( input$geneSetExpression_projection_plotting_order == "Random" ) {
 #     to_plot <- sample(1:nrow(to_plot), nrow(to_plot)) %>% to_plot[ . , ]
 #     out_filename <- paste0(out_filename, "_random_order.pdf")
-#   } else if ( input$geneSetExpression_plotting_order == "Highest expression on top" ) {
+#   } else if ( input$geneSetExpression_projection_plotting_order == "Highest expression on top" ) {
 #     to_plot <- to_plot[ order(to_plot$level, decreasing = FALSE) , ]
 #     out_filename <- paste0(out_filename, "_highest_expression_on_top.pdf")
 #   }
@@ -537,7 +537,7 @@ observeEvent(input[["geneSetExpression_projection_export"]], {
     input[["geneSetExpression_projection_to_display"]],
     input[["geneSetExpression_projection_dot_opacity"]],
     input[["geneSetExpression_projection_dot_size"]],
-    input[["geneSetExpression_plotting_order"]],
+    input[["geneSetExpression_projection_plotting_order"]],
     input[["geneSetExpression_projection_scale_x_manual_range"]],
     input[["geneSetExpression_projection_scale_y_manual_range"]]
   )
@@ -557,9 +557,9 @@ observeEvent(input[["geneSetExpression_projection_export"]], {
     input[["geneSetExpression_projection_to_display"]]
   )
 
-  if ( input[["geneSetExpression_plotting_order"]] == "Random" ) {
+  if ( input[["geneSetExpression_projection_plotting_order"]] == "Random" ) {
     out_filename <- paste0(out_filename, "_random_order.pdf")
-  } else if ( input[["geneSetExpression_plotting_order"]] == "Highest expression on top" ) {
+  } else if ( input[["geneSetExpression_projection_plotting_order"]] == "Highest expression on top" ) {
     out_filename <- paste0(out_filename, "_highest_expression_on_top.pdf")
   }
 
