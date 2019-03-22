@@ -4,13 +4,13 @@
 
 ![Video Cerebro](screenshots/Cerebro_2019-03-12.2019-03-12_14_37_20.gif?raw=true "Cerebro")
 
-Cerebro (*ce*ll *re*port *bro*wser) is a standalone desktop application (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
+Cerebro (cell report browser) is a standalone desktop application (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
 The core is an [Shiny](https://shiny.rstudio.com/) application which is bottled into a standalone app using [Electron](https://electronjs.org/).
 Therefore, it can also be run on web servers and Linux machines, requiring only R and a set of R packages.
 
 Input data needs to be prepared using the [cerebroPrepare](https://github.com/romanhaa/cerebroPrepare) R package which was built specifically for this purpose.
-It offers functionality to export a Seurat object to the correct format in a single step.
+It offers functionality to export a [Seurat](https://satijalab.org/seurat/) object to the correct format in a single step.
 The file should be saved either with the `.rds` or `.crb` extension, indicating that internally it is an RDS object.
 Furthermore, the cerebroPrepare package also provides functions to perform a set of (optional) analyses, e.g. pathway enrichment analysis based on marker gene lists of groups of cells.
 
@@ -26,7 +26,7 @@ Key features:
 * All plots can be exported to PNG. In addition, 2D dimensional reductions can be exported to PDF.
 * Tables can be downloaded to multiple formats: CSV, Excel, PDF.
 
-A basic example Seurat workflow and subsequent exporting can be found in [the `test_data` folder](test_data/).
+A basic example [Seurat](https://satijalab.org/seurat/) workflow and subsequent exporting can be found in the [`test_data`](test_data/) folder.
 There you can also find the raw data and the output file that can be loaded into Cerebro.
 
 ## Interface panels in details
@@ -42,7 +42,7 @@ Shows 2D and 3D dimensional reductions.
 Cells can be colored by meta data variables, automatically coloring the cells using a categorical or continuous scale.
 Cells can be randomly down-sampled to improve performance.
 
-### [Samples](#panel-samples)
+### Samples
 
 Shows sample-centric perspective of data.
 
@@ -54,7 +54,7 @@ Shows sample-centric perspective of data.
 ### Clusters
 
 Shows cluster-centric perspective of data.
-See [above](#panel-samples) for more details.
+See info about `Samples` panel above for more details.
 
 ### Most expressed genes
 
@@ -68,7 +68,7 @@ If computed in `cerebroPrepare`, provides tables of marker genes by sample and c
 
 If computed in `cerebroPrepare`, provides tables of enriched pathways in marker gene lists of samples and clusters.
 
-### [Gene expression](#panel-gene-expression)
+### Gene expression
 
 Allows to show the expression of specified genes (showing the average per cell if multiple genes) in the data set.
 Genes must be pasted in separate lines or separated by either space, comma, semicolon.
@@ -78,7 +78,7 @@ Average expression across all cells of the 50 most expressed genes (of the ones 
 
 ### Gene set expression
 
-Basically the same as the [gene expression panel](#panel-gene-expression) except that it allows to select gene sets from [MSigDB](https://http://software.broadinstitute.org/gsea/msigdb) (requires internet connection).
+Basically the same as the gene expression panel except that it allows to select gene sets from [MSigDB](https://http://software.broadinstitute.org/gsea/msigdb) (requires internet connection).
 Only available for human and mouse data.
 
 ### Gene ID conversion

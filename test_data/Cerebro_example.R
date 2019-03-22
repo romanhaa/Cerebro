@@ -17,7 +17,6 @@ set.seed(1234567)
 ##
 ##----------------------------------------------------------------------------##
 library("cerebroPrepare")
-library("magrittr")
 library("Seurat")
 library("tidyverse")
 
@@ -40,7 +39,7 @@ gene_names <- read_tsv(paste0(path_to_data, "/features.tsv.gz"), col_names = FAL
   t() %>%
   as.vector()
 
-feature_matrix %<>% 
+feature_matrix <- feature_matrix %>% 
   mutate(gene = gene_names) %>%
   select("gene", everything()) %>%
   group_by(gene) %>%
