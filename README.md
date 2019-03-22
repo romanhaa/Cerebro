@@ -176,18 +176,12 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 
 * [ ] Logo inside app?
 * [ ] Is there a more robust way to match gene (set) expression values to cells without assuming that columns in `expression` are in the same order as rows in `cells`?
-* [ ] Include detailed sample information (path and data type) on 'Sample info' tab.
 * [ ] Check where hallmark gene sets would appear in pathway enrichement.
 * [ ] Add parameters of marker gene detection to info tab.
 * [ ] Check if `require()` could be a way to make startup faster.
-* [ ] Gene expression tab: Update `textAreaInput` after checking which genes are present in data set? Or at least remove empty lines?
 * [ ] Make `hoverinfo` background white, like in scatterD3.
 * [ ] Check which packages can be removed. / Clean up R libraries.
-* [ ] Common function that filters user-specified genes for the ones present in the data set?
-* [ ] Common plotly layout for all box plots?
-* [ ] Find out how to make separate object for alternative text obsolete.
 * [ ] Custom hoverinfo for all plots.
-* [ ] Info box for gene ID conversion.
 * [ ] Display only the sample information that is available.
 * [ ] Be more consistent with "dot", "cell" and "point".
 * [ ] Check how well dimensional reductions scale in plotly.

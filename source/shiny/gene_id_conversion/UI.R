@@ -5,7 +5,10 @@
 tab_gene_id_conversion <- tabItem(
   tabName = "geneIdConversion",
   cerebroBox(
-    title = "Convert gene ID <-> gene symbol",
+    title = tagList(
+      boxTitle("Convert gene ID <-> gene symbol"),
+      cerebroInfoButton("geneIdConversion_info")
+    ),
     tagList(
       selectInput(
         "geneIdConversion_organism",

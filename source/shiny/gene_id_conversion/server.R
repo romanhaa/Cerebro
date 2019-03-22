@@ -25,3 +25,15 @@ output[["gene_info"]] <- DT::renderDataTable({
     )
   )
 })
+
+# info box
+observeEvent(input[["geneIdConversion_info"]], {
+  showModal(
+    modalDialog(
+      geneIdConversion_info[["text"]],
+      title = geneIdConversion_info[["title"]],
+      easyClose = TRUE,
+      footer = NULL
+    )
+  )
+})
