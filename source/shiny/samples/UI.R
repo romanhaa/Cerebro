@@ -14,30 +14,30 @@ tab_samples <- tabItem(
   cerebroBox(
     title = tagList(
       boxTitle("Number of transcripts"),
-      cerebroInfoButton("samples_box_nUMI_info")
+      cerebroInfoButton("samples_nUMI_info")
     ),
-    uiOutput("samples_box_nUMI_UI")
+    uiOutput("samples_nUMI_UI")
   ),
   cerebroBox(
     title = tagList(
       boxTitle("Number of expressed genes"),
-      cerebroInfoButton("samples_box_nGene_info")
+      cerebroInfoButton("samples_nGene_info")
     ),
-    uiOutput("samples_box_nGene_UI")
+    uiOutput("samples_nGene_UI")
   ),
   cerebroBox(
     title = tagList(
       boxTitle("Mitochondrial gene expression"),
-      cerebroInfoButton("samples_box_percent_mt_info")
+      cerebroInfoButton("samples_percent_mt_info")
     ),
-    uiOutput("samples_box_percent_mt_UI")
+    uiOutput("samples_percent_mt_UI")
   ),
   cerebroBox(
     title = tagList(
       boxTitle("Ribosomal gene expression"),
-      cerebroInfoButton("samples_box_percent_ribo_info")
+      cerebroInfoButton("samples_percent_ribo_info")
     ),
-    uiOutput("samples_box_percent_ribo_UI")
+    uiOutput("samples_percent_ribo_UI")
   ),
   cerebroBox(
     title = tagList(

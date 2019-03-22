@@ -146,16 +146,16 @@ observeEvent(input[["clusters_by_sample_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["clusters_box_nUMI_UI"]] <- renderUI({
+output[["clusters_nUMI_UI"]] <- renderUI({
   if ( "nUMI" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("clusters_box_nUMI_plot")
+    plotly::plotlyOutput("clusters_nUMI_plot")
   } else {
-    textOutput("clusters_box_nUMI_text")
+    textOutput("clusters_nUMI_text")
   }
 })
 
 # box plot
-output[["clusters_box_nUMI_plot"]] <- plotly::renderPlotly({
+output[["clusters_nUMI_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster,
@@ -196,16 +196,16 @@ output[["clusters_box_nUMI_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["clusters_box_nUMI_text"]] <- renderText({
+output[["clusters_nUMI_text"]] <- renderText({
   "Data not available."
 })
 
 # info box
-observeEvent(input[["clusters_box_nUMI_info"]], {
+observeEvent(input[["clusters_nUMI_info"]], {
   showModal(
     modalDialog(
-      clusters_box_nUMI_info[["text"]],
-      title = clusters_box_nUMI_info[["title"]],
+      clusters_nUMI_info[["text"]],
+      title = clusters_nUMI_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -217,16 +217,16 @@ observeEvent(input[["clusters_box_nUMI_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["clusters_box_nGene_UI"]] <- renderUI({
+output[["clusters_nGene_UI"]] <- renderUI({
   if ( "nGene" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("clusters_box_nGene_plot")
+    plotly::plotlyOutput("clusters_nGene_plot")
   } else {
-    textOutput("clusters_box_nGene_text")
+    textOutput("clusters_nGene_text")
   }
 })
 
 # box plot
-output[["clusters_box_nGene_plot"]] <- plotly::renderPlotly({
+output[["clusters_nGene_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster, 
@@ -267,16 +267,16 @@ output[["clusters_box_nGene_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["clusters_box_nGene_text"]] <- renderText({
+output[["clusters_nGene_text"]] <- renderText({
   "Data not available."
 })
 
 # info box
-observeEvent(input[["clusters_box_nGene_info"]], {
+observeEvent(input[["clusters_nGene_info"]], {
   showModal(
     modalDialog(
-      clusters_box_nGene_info[["text"]],
-      title = clusters_box_nGene_info[["title"]],
+      clusters_nGene_info[["text"]],
+      title = clusters_nGene_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -288,16 +288,16 @@ observeEvent(input[["clusters_box_nGene_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["clusters_box_percent_mt_UI"]] <- renderUI({
+output[["clusters_percent_mt_UI"]] <- renderUI({
   if ( "percent_mt" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("clusters_box_percent_mt_plot")
+    plotly::plotlyOutput("clusters_percent_mt_plot")
   } else {
-    textOutput("clusters_box_percent_mt_text")
+    textOutput("clusters_percent_mt_text")
   }
 })
 
 # box plot
-output[["clusters_box_percent_mt_plot"]] <- plotly::renderPlotly({
+output[["clusters_percent_mt_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster,
@@ -338,16 +338,16 @@ output[["clusters_box_percent_mt_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["clusters_box_percent_mt_text"]] <- renderText({
+output[["clusters_percent_mt_text"]] <- renderText({
   "Data not available."
 })
 
 # info box
-observeEvent(input[["clusters_box_percent_mt_info"]], {
+observeEvent(input[["clusters_percent_mt_info"]], {
   showModal(
     modalDialog(
-      clusters_box_percent_mt_info[["text"]],
-      title = clusters_box_percent_mt_info[["title"]],
+      clusters_percent_mt_info[["text"]],
+      title = clusters_percent_mt_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -359,21 +359,21 @@ observeEvent(input[["clusters_box_percent_mt_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["clusters_box_percent_ribo_UI"]] <- renderUI({
+output[["clusters_percent_ribo_UI"]] <- renderUI({
   if ( "percent_ribo" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("clusters_box_percent_ribo_plot")
+    plotly::plotlyOutput("clusters_percent_ribo_plot")
   } else {
-    textOutput("clusters_box_percent_ribo_text")
+    textOutput("clusters_percent_ribo_text")
   }
 })
 
 # alternative text
-output[["clusters_box_percent_ribo_text"]] <- renderText({
+output[["clusters_percent_ribo_text"]] <- renderText({
   "Data not available."
 })
 
 # box plot
-output[["clusters_box_percent_ribo_plot"]] <- plotly::renderPlotly({
+output[["clusters_percent_ribo_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~cluster,
@@ -414,11 +414,11 @@ output[["clusters_box_percent_ribo_plot"]] <- plotly::renderPlotly({
 })
 
 # info box
-observeEvent(input[["clusters_box_percent_ribo_info"]], {
+observeEvent(input[["clusters_percent_ribo_info"]], {
   showModal(
     modalDialog(
-      clusters_box_percent_ribo_info[["text"]],
-      title = clusters_box_percent_ribo_info[["title"]],
+      clusters_percent_ribo_info[["text"]],
+      title = clusters_percent_ribo_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )

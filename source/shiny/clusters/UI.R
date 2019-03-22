@@ -21,30 +21,30 @@ tab_clusters <- tabItem(
     cerebroBox(
       title = tagList(
         boxTitle("Number of transcripts"),
-        cerebroInfoButton("clusters_box_nUMI_info")
+        cerebroInfoButton("clusters_nUMI_info")
       ),
-      uiOutput("clusters_box_nUMI_UI")
+      uiOutput("clusters_nUMI_UI")
     ),
     cerebroBox(
       title = tagList(
         boxTitle("Number of expressed genes"),
-        cerebroInfoButton("clusters_box_nGene_info")
+        cerebroInfoButton("clusters_nGene_info")
       ),
-      uiOutput("clusters_box_nGene_UI")
+      uiOutput("clusters_nGene_UI")
     ),
     cerebroBox(
       title = tagList(
         boxTitle("Mitochondrial gene expression"),
-        cerebroInfoButton("clusters_box_percent_mt_info")
+        cerebroInfoButton("clusters_percent_mt_info")
       ),
-      uiOutput("clusters_box_percent_mt_UI")
+      uiOutput("clusters_percent_mt_UI")
     ),
     cerebroBox(
       title = tagList(
         boxTitle("Ribosomal gene expression"),
-        cerebroInfoButton("clusters_box_percent_ribo_info")
+        cerebroInfoButton("clusters_percent_ribo_info")
       ),
-      uiOutput("clusters_box_percent_ribo_UI")
+      uiOutput("clusters_percent_ribo_UI")
     ),
     cerebroBox(
       title = tagList(

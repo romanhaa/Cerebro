@@ -103,16 +103,16 @@ observeEvent(input[["samples_by_cluster_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["samples_box_nUMI_UI"]] <- renderUI({
+output[["samples_nUMI_UI"]] <- renderUI({
   if ( "nUMI" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("samples_box_nUMI_plot")
+    plotly::plotlyOutput("samples_nUMI_plot")
   } else {
-    textOutput("samples_box_nUMI_text")
+    textOutput("samples_nUMI_text")
   }
 })
 
 # box plot
-output[["samples_box_nUMI_plot"]] <- plotly::renderPlotly({
+output[["samples_nUMI_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~sample,
@@ -153,16 +153,16 @@ output[["samples_box_nUMI_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["samples_box_nUMI_text"]] <- renderText({
+output[["samples_nUMI_text"]] <- renderText({
     "Column with number of transcript per cell not available."
   })
 
 # info button
-observeEvent(input[["samples_box_nUMI_info"]], {
+observeEvent(input[["samples_nUMI_info"]], {
   showModal(
     modalDialog(
-      samples_box_nUMI_info[["text"]],
-      title = samples_box_nUMI_info[["title"]],
+      samples_nUMI_info[["text"]],
+      title = samples_nUMI_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -174,16 +174,16 @@ observeEvent(input[["samples_box_nUMI_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["samples_box_nGene_UI"]] <- renderUI({
+output[["samples_nGene_UI"]] <- renderUI({
   if ( "nGene" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("samples_box_nGene_plot")
+    plotly::plotlyOutput("samples_nGene_plot")
   } else {
-    textOutput("samples_box_nGene_text")
+    textOutput("samples_nGene_text")
   }
 })
 
 # box plot
-output[["samples_box_nGene_plot"]] <- plotly::renderPlotly({
+output[["samples_nGene_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~sample,
@@ -224,16 +224,16 @@ output[["samples_box_nGene_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["samples_box_nGene_text"]] <- renderText({
+output[["samples_nGene_text"]] <- renderText({
     "Column with number of expressed genes per cell not available."
   })
 
 # info button
-observeEvent(input[["samples_box_nGene_info"]], {
+observeEvent(input[["samples_nGene_info"]], {
   showModal(
     modalDialog(
-      samples_box_nGene_info[["text"]],
-      title = samples_box_nGene_info[["title"]],
+      samples_nGene_info[["text"]],
+      title = samples_nGene_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -245,16 +245,16 @@ observeEvent(input[["samples_box_nGene_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["samples_box_percent_mt_UI"]] <- renderUI({
+output[["samples_percent_mt_UI"]] <- renderUI({
   if ( "percent_mt" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("samples_box_percent_mt_plot")
+    plotly::plotlyOutput("samples_percent_mt_plot")
   } else {
-    textOutput("samples_box_percent_mt_text")
+    textOutput("samples_percent_mt_text")
   }
 })
 
 # box plot
-output[["samples_box_percent_mt_plot"]] <- plotly::renderPlotly({
+output[["samples_percent_mt_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~sample,
@@ -295,16 +295,16 @@ output[["samples_box_percent_mt_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["samples_box_percent_mt_text"]] <- renderText({
+output[["samples_percent_mt_text"]] <- renderText({
     "Column with percentage of mitochondrial expression not available."
   })
 
 # info button
-observeEvent(input[["samples_box_percent_mt_info"]], {
+observeEvent(input[["samples_percent_mt_info"]], {
   showModal(
     modalDialog(
-      samples_box_percent_mt_info[["text"]],
-      title = samples_box_percent_mt_info[["title"]],
+      samples_percent_mt_info[["text"]],
+      title = samples_percent_mt_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )
@@ -316,16 +316,16 @@ observeEvent(input[["samples_box_percent_mt_info"]], {
 ##----------------------------------------------------------------------------##
 
 # UI element
-output[["samples_box_percent_ribo_UI"]] <- renderUI({
+output[["samples_percent_ribo_UI"]] <- renderUI({
   if ( "percent_ribo" %in% names(sample_data()$cells) ) {
-    plotly::plotlyOutput("samples_box_percent_ribo_plot")
+    plotly::plotlyOutput("samples_percent_ribo_plot")
   } else {
-    textOutput("samples_box_percent_ribo_text")
+    textOutput("samples_percent_ribo_text")
   }
 })
 
 # box plot
-output[["samples_box_percent_ribo_plot"]] <- plotly::renderPlotly({
+output[["samples_percent_ribo_plot"]] <- plotly::renderPlotly({
   plotly::plot_ly(
     sample_data()$cells,
     x = ~sample,
@@ -364,16 +364,16 @@ output[["samples_box_percent_ribo_plot"]] <- plotly::renderPlotly({
 })
 
 # alternative text
-output[["samples_box_percent_ribo_text"]] <- renderText({
+output[["samples_percent_ribo_text"]] <- renderText({
     "Column with percentage of ribosomal expression not available."
   })
 
 # info button
-observeEvent(input[["samples_box_percent_ribo_info"]], {
+observeEvent(input[["samples_percent_ribo_info"]], {
   showModal(
     modalDialog(
-      samples_box_percent_ribo_info[["text"]],
-      title = samples_box_percent_ribo_info[["title"]],
+      samples_percent_ribo_info[["text"]],
+      title = samples_percent_ribo_info[["title"]],
       easyClose = TRUE,
       footer = NULL
     )

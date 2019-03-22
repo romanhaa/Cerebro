@@ -12,24 +12,24 @@ clusters_by_sample_info <- list(
   text = p("Percentage bar plot representation of the table shown above. Allows to see which samples contribute most strongly to each cluster. Samples can be removed from the plot by clicking on them in the legend.")
 )
 
-clusters_box_nUMI_info <- list(
+clusters_nUMI_info <- list(
   title = "Number of transcripts",
-  text = p("Box plot of the number of transcripts (UMIs) found in each cluster.")
+  text = p("Violin plot of the number of transcripts (UMIs) found in each cluster.")
 )
 
-clusters_box_nGene_info <- list(
+clusters_nGene_info <- list(
   title = "Number of expressed genes",
-  text = p("Box plot of the number of expressed genes found in each cluster.")
+  text = p("Violin plot of the number of expressed genes found in each cluster.")
 )
 
-clusters_box_percent_mt_info <- list(
+clusters_percent_mt_info <- list(
   title = "Mitochondrial gene expression",
-  text = p("Box plot of the percentage of mitochondrial gene expression found in each cluster. This reflects the contribution of mitochondrial transcripts to the entire transcriptome in each cell. A list of all genes considered to be mitochondrial can be found in the 'Sample info' tab on the left.")
+  text = p("Violin plot of the percentage of mitochondrial gene expression found in each cluster. This reflects the contribution of mitochondrial transcripts to the entire transcriptome in each cell. A list of all genes considered to be mitochondrial can be found in the 'Sample info' tab on the left.")
 )
 
-clusters_box_percent_ribo_info <- list(
+clusters_percent_ribo_info <- list(
   title = "Ribosomal gene expression",
-  text = p("Box plot of the percentage of ribosomal gene expression found in each cluster. This reflects the contribution of ribosomal transcripts to the entire transcriptome in each cell. A list of all genes considered to be ribosomal can be found in the 'Sample info' tab on the left.")
+  text = p("Violin plot of the percentage of ribosomal gene expression found in each cluster. This reflects the contribution of ribosomal transcripts to the entire transcriptome in each cell. A list of all genes considered to be ribosomal can be found in the 'Sample info' tab on the left.")
 )
 
 clusters_by_cell_cycle_seurat_info <- list(

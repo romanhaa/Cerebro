@@ -105,11 +105,6 @@ output[["marker_genes_by_sample_table_present"]] <- DT::renderDataTable(server =
               extend = "excel",
               filename = "marker_genes_by_sample",
               title = "Marker genes by sample"
-            ),
-            list(
-              extend = "pdf",
-              filename = "marker_genes_by_sample",
-              title = "Marker genes by sample"
             )
           )
         )
@@ -243,11 +238,6 @@ output[["marker_genes_by_cluster_table_present"]] <- DT::renderDataTable(server 
             ),
             list(
               extend = "excel",
-              filename = "marker_genes_by_cluster",
-              title = "Marker genes by cluster"
-            ),
-            list(
-              extend = "pdf",
               filename = "marker_genes_by_cluster",
               title = "Marker genes by cluster"
             )

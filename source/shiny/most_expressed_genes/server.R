@@ -64,18 +64,13 @@ output[["most_expressed_genes_by_sample_table_present"]] <- DT::renderDataTable(
             buttons = list(
             list(
               extend = "csv",
-              filename = "most_expressed_genes_per_sample",
-              title = "Most expressed genes per sample"
+              filename = "most_expressed_genes_by_sample",
+              title = "Most expressed genes by sample"
             ),
             list(
               extend = "excel",
-              filename = "most_expressed_genes_per_sample",
-              title = "Most expressed genes per sample"
-            ),
-            list(
-              extend = "pdf",
-              filename = "most_expressed_genes_per_sample",
-              title = "Most expressed genes per sample"
+              filename = "most_expressed_genes_by_sample",
+              title = "Most expressed genes by sample"
             )
           )
         )
@@ -164,18 +159,13 @@ output[["most_expressed_genes_by_cluster_table_present"]] <- DT::renderDataTable
             buttons = list(
             list(
               extend = "csv",
-              filename = "most_expressed_genes_per_cluster",
-              title = "Most expressed genes per cluster"
+              filename = "most_expressed_genes_by_cluster",
+              title = "Most expressed genes by cluster"
             ),
             list(
               extend = "excel",
-              filename = "most_expressed_genes_per_cluster",
-              title = "Most expressed genes per cluster"
-            ),
-            list(
-              extend = "pdf",
-              filename = "most_expressed_genes_per_cluster",
-              title = "Most expressed genes per cluster"
+              filename = "most_expressed_genes_by_cluster",
+              title = "Most expressed genes by cluster"
             )
           )
         )
