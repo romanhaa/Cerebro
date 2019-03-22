@@ -350,8 +350,10 @@ output[["geneSetExpression_projection"]] <- plotly::renderPlotly({
       ),
       hoverlabel = list(
         font = list(
-          size = 11
-        )
+          size = 11,
+          color = "black"
+        ),
+        bgcolor = "lightgrey"
       )
     )
   } else {
@@ -409,8 +411,10 @@ output[["geneSetExpression_projection"]] <- plotly::renderPlotly({
       dragmode = "pan",
       hoverlabel = list(
         font = list(
-          size = 11
-        )
+          size = 11,
+          color = "black"
+        ),
+        bgcolor = "lightgrey"
       )
     )
   }

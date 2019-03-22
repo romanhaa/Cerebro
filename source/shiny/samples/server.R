@@ -143,7 +143,7 @@ output[["samples_nUMI_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Number of UMIs",
       type = "log",
-      hoverformat = ".2f",
+      hoverformat = ".0f",
       mirror = TRUE,
       showline = TRUE
     ),
@@ -214,7 +214,7 @@ output[["samples_nGene_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Number of expressed genes",
       type = "log",
-      hoverformat = ".2f",
+      hoverformat = ".0f",
       mirror = TRUE,
       showline = TRUE
     ),
@@ -285,7 +285,7 @@ output[["samples_percent_mt_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Percentage of mitochondrial gene expression",
       range = c(0,100),
-      hoverformat = ".2f",
+      hoverformat = ".1f",
       mirror = TRUE,
       showline = TRUE
     ),
@@ -354,7 +354,7 @@ output[["samples_percent_ribo_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Percentage of ribosomal gene expression",
       range = c(0,100),
-      hoverformat = ".2f",
+      hoverformat = ".1f",
       mirror = TRUE,
       showline = TRUE
     ),

@@ -186,7 +186,7 @@ output[["clusters_nUMI_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Number of UMIs",
       type = "log",
-      hoverformat = ".2f",
+      hoverformat = ".0f",
       mirror = TRUE,
       showline = TRUE
     ),
@@ -257,7 +257,7 @@ output[["clusters_nGene_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Number of expressed genes",
       type = "log",
-      hoverformat = ".2f",
+      hoverformat = ".0f",
       mirror = TRUE,
       showline = TRUE
     ),
@@ -328,7 +328,7 @@ output[["clusters_percent_mt_plot"]] <- plotly::renderPlotly({
     yaxis = list(
       title = "Percentage of mitochondrial gene expression",
       range = c(0, 100),
-      hoverformat = ".2f",
+      hoverformat = ".1f",
       mirror = TRUE,
       showline = TRUE
     ),

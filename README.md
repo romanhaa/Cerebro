@@ -71,7 +71,8 @@ If computed in `cerebroPrepare`, provides tables of enriched pathways in marker 
 ### Gene expression
 
 Allows to show the expression of specified genes (showing the average per cell if multiple genes) in the data set.
-Genes must be pasted in separate lines or separated by either space, comma, semicolon.
+Calculation is triggered after pressing `SPACE` or `ENTER`.
+Multiple genes must be submitted in separate lines or separated by either space, comma, semicolon.
 Shows which genes are available or missing (or misspelled) in data set.
 Expression levels are shown in dimensional reductions and as violin plots for every sample and cluster.
 Average expression across all cells of the 50 most expressed genes (of the ones specified by the user) are shown as well to quickly spot which genes drive the color scale.
@@ -174,17 +175,12 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 
 ## To Do
 
-* [ ] Logo inside app?
-* [ ] Is there a more robust way to match gene (set) expression values to cells without assuming that columns in `expression` are in the same order as rows in `cells`?
+* [ ] Show logo inside app.
 * [ ] Check where hallmark gene sets would appear in pathway enrichement.
 * [ ] Add parameters of marker gene detection to info tab.
 * [ ] Check if `require()` could be a way to make startup faster.
-* [ ] Make `hoverinfo` background white, like in scatterD3.
 * [ ] Check which packages can be removed. / Clean up R libraries.
-* [ ] Custom hoverinfo for all plots.
 * [ ] Display only the sample information that is available.
-* [ ] Check how well dimensional reductions scale in plotly.
-  * 3D is doable up to 150,000 cells. At 300,000 cells it is barely usable on my MacBook Pro.
 * [ ] Exporting dimensional reductions is misleading when using 3D because a plot is created but only the first 2 dimensions used. Either deactivate or find a way to plot an angled 3D with ggplot.
   * Add warning message when exporting.
 * [ ] Do thorough performance check. What step could/should be improved? Gene (set) expression?
@@ -193,7 +189,6 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 * [ ] Export analysis parameters.
   * What to do about R environment?
 * [ ] Create release and upload to GitHub.
-* [ ] Update required UI elements for export functions.
 
 
 

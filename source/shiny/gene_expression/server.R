@@ -407,8 +407,10 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
       ),
       hoverlabel = list(
         font = list(
-          size = 11
-        )
+          size = 11,
+          color = "black"
+        ),
+        bgcolor = "lightgrey"
       )
     )
   } else {
@@ -466,8 +468,10 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
       dragmode = "pan",
       hoverlabel = list(
         font = list(
-          size = 11
-        )
+          size = 11,
+          color = "black"
+        ),
+        bgcolor = "lightgrey"
       )
     )
   }
