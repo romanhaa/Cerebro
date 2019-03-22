@@ -39,7 +39,7 @@ server <- function(input, output, session) {
     default = 5
   )
 
-  scatter_plot_opacity <- list(
+  scatter_plot_dot_opacity <- list(
     min = 0.1,
     max = 1.0,
     step = 0.1,

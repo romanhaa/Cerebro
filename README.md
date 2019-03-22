@@ -183,7 +183,6 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 * [ ] Check which packages can be removed. / Clean up R libraries.
 * [ ] Custom hoverinfo for all plots.
 * [ ] Display only the sample information that is available.
-* [ ] Be more consistent with "dot", "cell" and "point".
 * [ ] Check how well dimensional reductions scale in plotly.
   * 3D is doable up to 150,000 cells. At 300,000 cells it is barely usable on my MacBook Pro.
 * [ ] Exporting dimensional reductions is misleading when using 3D because a plot is created but only the first 2 dimensions used. Either deactivate or find a way to plot an angled 3D with ggplot.
@@ -194,7 +193,7 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 * [ ] Export analysis parameters.
   * What to do about R environment?
 * [ ] Create release and upload to GitHub.
-
+* [ ] Update required UI elements for export functions.
 
 
 

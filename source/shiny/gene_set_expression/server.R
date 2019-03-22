@@ -88,19 +88,19 @@ output[["geneSetExpression_UI"]] <- renderUI({
     ),
     sliderInput(
       "geneSetExpression_projection_dot_size",
-      label = "Point size:",
+      label = "Dot size:",
       min = scatter_plot_dot_size[["min"]],
       max = scatter_plot_dot_size[["max"]],
       step = scatter_plot_dot_size[["step"]],
       value = scatter_plot_dot_size[["default"]]
     ),
     sliderInput(
-      "geneSetExpression_projection_opacity",
-      label = "Point opacity:",
-      min = scatter_plot_opacity[["min"]],
-      max = scatter_plot_opacity[["max"]],
-      step = scatter_plot_opacity[["step"]],
-      value = scatter_plot_opacity[["default"]]
+      "geneSetExpression_projection_dot_opacity",
+      label = "Dot opacity:",
+      min = scatter_plot_dot_opacity[["min"]],
+      max = scatter_plot_dot_opacity[["max"]],
+      step = scatter_plot_dot_opacity[["step"]],
+      value = scatter_plot_dot_opacity[["default"]]
     )
   )
 })
@@ -273,7 +273,7 @@ geneSetExpression_plot_data <- reactive({
 #     col_var = to_plot$level,
 #     col_lab = "Gene expression",
 #     col_continuous = TRUE,
-#     point_opacity = input$geneSetExpression_projection_opacity,
+#     point_opacity = input$geneSetExpression_projection_dot_opacity,
 #     hover_size = 4,
 #     hover_opacity = 1,
 #     transitions = FALSE,
@@ -290,7 +290,7 @@ geneSetExpression_plot_data <- reactive({
 
 output[["geneSetExpression_projection"]] <- plotly::renderPlotly({
   req(
-    input[["geneSetExpression_projection_opacity"]],
+    input[["geneSetExpression_projection_dot_opacity"]],
     input[["geneSetExpression_projection_dot_size"]],
     input[["geneSetExpression_projection_scale_x_manual_range"]],
     input[["geneSetExpression_projection_scale_y_manual_range"]]
@@ -308,7 +308,7 @@ output[["geneSetExpression_projection"]] <- plotly::renderPlotly({
           title = "Expression"
         ),
         color = ~level,
-        opacity = input[["geneSetExpression_projection_opacity"]],
+        opacity = input[["geneSetExpression_projection_dot_opacity"]],
         colorscale = "YlGnBu",
         reversescale = TRUE,
         line = list(
@@ -366,7 +366,7 @@ output[["geneSetExpression_projection"]] <- plotly::renderPlotly({
           title = "Expression"
         ),
         color = ~level,
-        opacity = input[["geneSetExpression_projection_opacity"]],
+        opacity = input[["geneSetExpression_projection_dot_opacity"]],
         colorscale = "YlGnBu",
         reversescale = TRUE,
         line = list(
@@ -436,7 +436,7 @@ observeEvent(input[["geneSetExpression_projection_info"]], {
 # observeEvent(input[["geneSetExpression_projection_export"]], {
 #   library("ggplot2")
 #   req(
-#     input[["geneSetExpression_projection_opacity"]],
+#     input[["geneSetExpression_projection_dot_opacity"]],
 #     input[["geneSetExpression_projection_dot_size"]],
 #     input[["geneSetExpression_projection_scale_x_manual_range"]],
 #     input[["geneSetExpression_projection_scale_y_manual_range"]]
@@ -535,7 +535,7 @@ observeEvent(input[["geneSetExpression_projection_info"]], {
 observeEvent(input[["geneSetExpression_projection_export"]], {
   req(
     input[["geneSetExpression_projection_to_display"]],
-    input[["geneSetExpression_projection_opacity"]],
+    input[["geneSetExpression_projection_dot_opacity"]],
     input[["geneSetExpression_projection_dot_size"]],
     input[["geneSetExpression_plotting_order"]],
     input[["geneSetExpression_projection_scale_x_manual_range"]],
@@ -576,7 +576,7 @@ observeEvent(input[["geneSetExpression_projection_export"]], {
       size = input[["geneSetExpression_projection_dot_size"]]/3,
       stroke = 0.2,
       color = "#c4c4c4",
-      alpha = input[["geneSetExpression_projection_opacity"]]
+      alpha = input[["geneSetExpression_projection_dot_opacity"]]
     ) +
     scale_fill_distiller(
       palette = "YlGnBu",

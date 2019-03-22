@@ -41,32 +41,21 @@ output[["overview_UI"]] <- renderUI({
       label = "Color cells by",
       choices = names(sample_data()$cells)[! names(sample_data()$cells) %in% c("cell_barcode")]
     ),
-    # selectInput(
-    #   "overview_cell_size_variable",
-    #   label = "Change point size by",
-    #   choices = c("None", "nUMI", "nGene"),
-    #   selected = "None"
-    # ),
     sliderInput(
-      "overview_cell_size_value",
-      label = "Point size",
+      "overview_dot_size",
+      label = "Dot size",
       min = scatter_plot_dot_size[["min"]],
       max = scatter_plot_dot_size[["max"]],
       step = scatter_plot_dot_size[["step"]],
       value = scatter_plot_dot_size[["default"]]
     ),
-    # checkboxInput(
-    #   "overview_show_ellipses",
-    #   label = "Confidence ellipses",
-    #   value = FALSE
-    # ),
     sliderInput(
-      "overview_cell_opacity",
-      label = "Point opacity",
-      min = scatter_plot_opacity[["min"]],
-      max = scatter_plot_opacity[["max"]],
-      step = scatter_plot_opacity[["step"]],
-      value = scatter_plot_opacity[["default"]]
+      "overview_dot_opacity",
+      label = "Dot opacity",
+      min = scatter_plot_dot_opacity[["min"]],
+      max = scatter_plot_dot_opacity[["max"]],
+      step = scatter_plot_dot_opacity[["step"]],
+      value = scatter_plot_dot_opacity[["default"]]
     )
   )
 })
@@ -198,13 +187,13 @@ output[["overview_scales"]] <- renderUI({
 #         input$overview_scale_y_manual_range[1],
 #         input$overview_scale_y_manual_range[2]
 #       ),
-#     point_size = input$overview_cell_size_value,
+#     point_size = input$overview_dot_size,
 #     col_var = col_var,
 #     col_lab = input[["overview_cell_color"]],
 #     colors = colors,
 #     ellipses = input$overview_show_ellipses,
 #     size_var = size_var,
-#     point_opacity = input$overview_cell_opacity,
+#     point_opacity = input$overview_dot_opacity,
 #     hover_size = 4,
 #     hover_opacity = 1,
 #     transitions = FALSE,
@@ -228,8 +217,8 @@ output[["overview_projection"]] <- plotly::renderPlotly({
     input[["overview_percentage_cells_to_show"]],
     input[["overview_cell_color"]],
     # input[["overview_cell_size_variable"]],
-    input[["overview_cell_size_value"]],
-    input[["overview_cell_opacity"]],
+    input[["overview_dot_size"]],
+    input[["overview_dot_opacity"]],
     input[["overview_scale_x_manual_range"]],
     input[["overview_scale_y_manual_range"]]
   )
@@ -298,14 +287,14 @@ output[["overview_projection"]] <- plotly::renderPlotly({
             title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
           ),
           color = ~to_plot[ , input[["overview_cell_color"]] ],
-          opacity = input[["overview_cell_opacity"]],
+          opacity = input[["overview_dot_opacity"]],
           colorscale = "YlGnBu",
           reversescale = TRUE,
           line = list(
             color = "rgb(196,196,196)",
             width = 1
           ),
-          size = input[["overview_cell_size_value"]]
+          size = input[["overview_dot_size"]]
         ),
         hoverinfo = "text",
         text = ~paste(
@@ -354,12 +343,12 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         type = "scatter3d",
         mode = "markers",
         marker = list(
-          opacity = input[["overview_cell_opacity"]],
+          opacity = input[["overview_dot_opacity"]],
           line = list(
             color = "rgb(196,196,196)",
             width = 1
           ),
-          size = input[["overview_cell_size_value"]]
+          size = input[["overview_dot_size"]]
         ),
         hoverinfo = "text",
         text = ~paste(
@@ -407,14 +396,14 @@ output[["overview_projection"]] <- plotly::renderPlotly({
             title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_cell_color"]])]
           ),
           color = ~to_plot[ , input[["overview_cell_color"]] ],
-          opacity = input[["overview_cell_opacity"]],
+          opacity = input[["overview_dot_opacity"]],
           colorscale = "YlGnBu",
           reversescale = TRUE,
           line = list(
             color = "rgb(196,196,196)",
             width = 1
           ),
-          size = input[["overview_cell_size_value"]]
+          size = input[["overview_dot_size"]]
         ),
         hoverinfo = "text",
         text = ~paste(
@@ -453,12 +442,12 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         type = "scatter",
         mode = "markers",
         marker = list(
-          opacity = input[["overview_cell_opacity"]],
+          opacity = input[["overview_dot_opacity"]],
           line = list(
             color = "rgb(196,196,196)",
             width = 1
           ),
-          size = input[["overview_cell_size_value"]]
+          size = input[["overview_dot_size"]]
           # sizemode = 'area',
           # sizeref = 200
         ),
@@ -518,8 +507,8 @@ observeEvent(input[["overview_projection_export"]], {
     input[["overview_percentage_cells_to_show"]],
     input[["overview_cell_color"]],
     input[["overview_cell_size_variable"]],
-    input[["overview_cell_size_value"]],
-    input[["overview_cell_opacity"]],
+    input[["overview_dot_size"]],
+    input[["overview_dot_opacity"]],
     input[["overview_scale_x_manual_range"]],
     input[["overview_scale_y_manual_range"]]
   )
@@ -572,10 +561,10 @@ observeEvent(input[["overview_projection_export"]], {
       ) +
       geom_point(
         shape = 21,
-        size = input[["overview_cell_size_value"]]/3,
+        size = input[["overview_dot_size"]]/3,
         stroke = 0.2,
         color = "#c4c4c4",
-        alpha = input[["overview_cell_opacity"]]
+        alpha = input[["overview_dot_opacity"]]
       ) +
       scale_fill_manual(values = cols) +
       lims(x = xlim, y = ylim) +
@@ -594,7 +583,7 @@ observeEvent(input[["overview_projection_export"]], {
         size = 3,
         stroke = 0.2,
         color = "#c4c4c4",
-        alpha = input[["overview_cell_opacity"]]
+        alpha = input[["overview_dot_opacity"]]
       ) +
       scale_fill_distiller(
         palette = "YlGnBu",

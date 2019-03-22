@@ -58,12 +58,12 @@ output[["expression_UI"]] <- renderUI({
       value = scatter_plot_dot_size[["default"]]
     ),
     sliderInput(
-      "expression_projection_opacity",
+      "expression_projection_dot_opacity",
       label = "Point opacity:",
-      min = scatter_plot_opacity[["min"]],
-      max = scatter_plot_opacity[["max"]],
-      step = scatter_plot_opacity[["step"]],
-      value = scatter_plot_opacity[["default"]]
+      min = scatter_plot_dot_opacity[["min"]],
+      max = scatter_plot_dot_opacity[["max"]],
+      step = scatter_plot_dot_opacity[["step"]],
+      value = scatter_plot_dot_opacity[["default"]]
     )
   )
 })
@@ -244,7 +244,7 @@ gene_expression_plot_data <- reactive({
 #     col_var = to_plot$level,
 #     col_lab = "Gene expression",
 #     col_continuous = TRUE,
-#     point_opacity = input$expression_projection_opacity,
+#     point_opacity = input$expression_projection_dot_opacity,
 #     hover_size = 4,
 #     hover_opacity = 1,
 #     transitions = FALSE,
@@ -308,7 +308,7 @@ gene_expression_plot_data <- reactive({
 #         title = "Gene expression"
 #       ),
 #       color = ~level,
-#       opacity = input$expression_projection_opacity,
+#       opacity = input$expression_projection_dot_opacity,
 #       colorscale = "YlGnBu",
 #       reversescale = TRUE,
 #       line = list(
@@ -347,7 +347,7 @@ gene_expression_plot_data <- reactive({
 
 output[["expression_projection_plotly"]] <- plotly::renderPlotly({
   req(
-    input[["expression_projection_opacity"]],
+    input[["expression_projection_dot_opacity"]],
     input[["expression_projection_dot_size"]],
     input[["expression_projection_scale_x_manual_range"]],
     input[["expression_projection_scale_y_manual_range"]]
@@ -365,7 +365,7 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
           title = "Expression"
         ),
         color = ~level,
-        opacity = input[["expression_projection_opacity"]],
+        opacity = input[["expression_projection_dot_opacity"]],
         colorscale = "YlGnBu",
         reversescale = TRUE,
         line = list(
@@ -423,7 +423,7 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
           title = "Expression"
         ),
         color = ~level,
-        opacity = input[["expression_projection_opacity"]],
+        opacity = input[["expression_projection_dot_opacity"]],
         colorscale = "YlGnBu",
         reversescale = TRUE,
         line = list(
@@ -495,7 +495,7 @@ observeEvent(input[["expression_projection_export"]], {
     input[["expression_projection_to_display"]],
     input[["expression_plotting_order"]],
     input[["expression_projection_dot_size"]],
-    input[["expression_projection_opacity"]],
+    input[["expression_projection_dot_opacity"]],
     input[["expression_projection_scale_x_manual_range"]],
     input[["expression_projection_scale_y_manual_range"]]
   )
@@ -548,7 +548,7 @@ observeEvent(input[["expression_projection_export"]], {
       size = input[["expression_projection_dot_size"]]/3,
       stroke = 0.2,
       color = "#c4c4c4",
-      alpha = input[["expression_projection_opacity"]]
+      alpha = input[["expression_projection_dot_opacity"]]
     ) +
     scale_fill_distiller(
       palette = "YlGnBu",
