@@ -86,7 +86,7 @@ source("shiny/gene_set_expression/info.R")
 # print(Sys.getenv())
 
 ##----------------------------------------------------------------------------##
-## Allow upload of files up to 400 MB.
+## Allow upload of files up to 800 MB.
 ##----------------------------------------------------------------------------##
 options(shiny.maxRequestSize = 800*1024^2) 
 

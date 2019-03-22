@@ -176,12 +176,11 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 ## To Do
 
 * [ ] Show logo inside app.
-* [ ] Add parameters of marker gene detection to info tab.
-* [ ] Check if `require()` could be a way to make startup faster.
 * [ ] Check which packages can be removed. / Clean up R libraries.
   * Only in Windows, macOS is done.
 * [ ] Display only the sample/cluster information that is available.
 * [ ] Export analysis parameters.
+  * Add parameters of marker gene detection to info tab.
   * What to do about R environment?
 * [ ] Create release and upload to GitHub.
 
