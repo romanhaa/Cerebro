@@ -14,14 +14,14 @@ setwd("/data/pbmc_10k_v3")
 set.seed(1234567)
 
 ##----------------------------------------------------------------------------##
-##
+## Load libraries.
 ##----------------------------------------------------------------------------##
 library("cerebroPrepare")
 library("Seurat")
 library("tidyverse")
 
 ##----------------------------------------------------------------------------##
-##
+## Load count matrix.
 ##----------------------------------------------------------------------------##
 path_to_data <- "."
 
@@ -52,7 +52,7 @@ feature_matrix <- as.data.frame(feature_matrix)
 rownames(feature_matrix) <- genes
 
 ##----------------------------------------------------------------------------##
-##
+## Basic Seurat analysis.
 ##----------------------------------------------------------------------------##
 seurat <- CreateSeuratObject(
   project = "PBMC_10k_v3",
@@ -70,8 +70,6 @@ seurat <- FilterCells(
 seurat <- NormalizeData(seurat)
 
 seurat <- FindVariableGenes(seurat)
-length(seurat@var.genes)
-# 500
 
 seurat <- ScaleData(seurat, vars.to.regress = "nUMI")
 
@@ -112,11 +110,15 @@ seurat <- AddMetaData(
 
 seurat@meta.data$res.0.7 <- NULL
 
+##----------------------------------------------------------------------------##
+## Dimensional reductions.
+##----------------------------------------------------------------------------##
 seurat <- RunTSNE(
   seurat,
   reduction.name = "tSNE",
   reduction.key = "tSNE",
   dims.use = 1:30,
+  perplexity = 30,
   do.fast = TRUE,
   seed.use = 100
 )
@@ -127,6 +129,7 @@ seurat <- RunTSNE(
   reduction.key = "tSNE",
   dims.use = 1:30,
   dim.embed = 3,
+  perplexity = 30,
   do.fast = TRUE,
   seed.use = 100
 )
@@ -203,7 +206,33 @@ seurat@meta.data$sample <- factor(
 )
 
 ##----------------------------------------------------------------------------##
-##
+## Store meta data and parameters of analysis.
+##----------------------------------------------------------------------------##
+seurat@misc$experiment <- list(
+  experiment_name = "PBMC_10k",
+  organism = "hg",
+  date_of_analysis = Sys.Date()
+)
+
+seurat@misc$parameters <- list(
+  gene_nomenclature = "gene_name",
+  discard_genes_expressed_in_fewer_cells_than = 10,
+  keep_mitochondrial_genes = TRUE,
+  variables_to_regress_out = "nUMI",
+  number_PCs = 30,
+  tSNE_perplexity = 30,
+  cluster_resolution = 0.7
+)
+
+seurat@misc$parameters$filtering <- list(
+  UMI_min = 100,
+  UMI_max = Inf,
+  genes_min = 50,
+  genes_max = Inf
+)
+
+##----------------------------------------------------------------------------##
+## Perform further analysis with cerebroPrepare and export file for Cerebro.
 ##----------------------------------------------------------------------------##
 seurat <- cerebroPrepare::addPercentMtRibo(
   seurat,
@@ -225,6 +254,7 @@ seurat <- cerebroPrepare::getMarkerGenes(
   only.pos = TRUE,
   min.pct = 0.7,
   thresh.use = 0.25,
+  return.thresh = 0.01,
   test.use = "t"
 )
 
@@ -245,7 +275,7 @@ cerebroPrepare::exportFromSeurat(
 )
 
 ##----------------------------------------------------------------------------##
-##
+## Save Seurat object.
 ##----------------------------------------------------------------------------##
 saveRDS(seurat, "seurat.rds")
 
