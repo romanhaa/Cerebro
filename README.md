@@ -178,9 +178,6 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 * [ ] Show logo inside app.
 * [ ] Check which packages can be removed. / Clean up R libraries.
   * Only in Windows, macOS is done.
-* [ ] Export analysis parameters.
-  * Add parameters of marker gene detection to info tab.
-  * What to do about R environment?
 * [ ] Create release and upload to GitHub.
 
 

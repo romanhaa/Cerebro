@@ -15,7 +15,7 @@ Briefly, in the example we followed the basic [Seurat](https://satijalab.org/seu
 * Identify clusters and build a cluster tree (`FindClusters()`, `BuildClusterTree()`).
 * Perform 2D and 3D dimensional reduction: tSNE, UMAP, diffusion map, PHATE (`RunTSNE`, `RunUMAP`, `RunDiffusion`, `RunPHATE`).
 
-Then, we randomly assign each cell to one of three samples to simulate a dataset with multiple samples and subsequently use cerebroPrepare to:
+Then, we add some meta data, randomly assign each cell to one of three samples to simulate a dataset with multiple samples and subsequently use cerebroPrepare to:
 
 * Calculate the percent of mitochondrial and ribosomal gene expression (`addPercentMtRibo()`).
 * Get the most expressed genes in each sample and cluster (`getMostExpressedGenes()`).
@@ -30,7 +30,7 @@ To test Cerebro, download the `.crb` file and load it into Cerebro.
 I suggest to run the example R script in a container using [Singularity](https://singularity.lbl.gov/) (here I used Singularity 2.6.0).
 
 ```
-git clone romanhaa/Cerebro
+git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/test_data
 singularity build cerebro-example.simg docker://romanhaa/cerebro-example:latest
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Cerebro_example.R
