@@ -32,8 +32,8 @@ I suggest to run the example R script in a container using [Singularity](https:/
 ```
 git clone romanhaa/Cerebro
 cd Cerebro/test_data
-singularity build cerebro-manuscript.simg docker://romanhaa/cerebro-manuscript:2019-03-01
-singularity exec --bind ./:/data cerebroManuscript.simg Rscript /data/Cerebro_example.R
+singularity build cerebro-example.simg docker://romanhaa/cerebro-example:latest
+singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Cerebro_example.R
 ```
 
 This will reproduce the `.crb` file used as an example.
