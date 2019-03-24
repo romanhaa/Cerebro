@@ -37,3 +37,24 @@
 * Add export buttons for dimensional reductions using ggplot instead of the scatterD3 function which crashes with too many cells.
 * Manually modify code for scatterD3 legend to prevent sorting. A more consistent solution should be found however.
 * If marker genes haven't already been checked in the pipeline, this will be done in the browser for murine and human samples.
+
+# How to uninstall all non-base R packages
+
+Taken from: https://www.r-bloggers.com/how-to-remove-all-user-installed-packages-in-r/
+
+```r
+# create a list of all installed packages
+ip <- as.data.frame(installed.packages())
+
+# we don't want to remove base or recommended packages either\
+ip <- ip[!(ip[,"Priority"] %in% c("base", "recommended")),]
+
+# determine the library where the packages are installed
+path.lib <- unique(ip$LibPath)
+
+# create a vector with all the names of the packages you want to remove
+pkgs.to.remove <- ip[,1]
+
+# remove the packages
+sapply(pkgs.to.remove, remove.packages, lib = path.lib)
+```
