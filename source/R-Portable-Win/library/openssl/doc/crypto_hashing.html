@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-07-30" />
+<meta name="date" content="2019-03-22" />
 
 <title>Cryptographic Hashing in R</title>
 
@@ -255,9 +255,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -282,22 +280,92 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -307,7 +375,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Cryptographic Hashing in R</h1>
-<h4 class="date"><em>2018-07-30</em></h4>
+<h4 class="date">2019-03-22</h4>
 
 </div>
 
@@ -336,17 +404,17 @@ md5(url(&quot;http://cran.us.r-project.org/bin/windows/base/old/3.1.1/R-3.1.1-wi
 <pre class="r"><code># Compare to digest
 library(digest)</code></pre>
 <pre><code>
-Attaching package: 'digest'</code></pre>
-<pre><code>The following object is masked from 'package:openssl':
+Attaching package: &#39;digest&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:openssl&#39;:
 
     sha1</code></pre>
 <pre class="r"><code>digest(&quot;foo&quot;, &quot;md5&quot;, serialize = FALSE)</code></pre>
 <pre><code>[1] &quot;acbd18db4cc2f85cedef654fccc4a4d8&quot;</code></pre>
 <pre class="r"><code># Other way around
 digest(cars, skip = 0)</code></pre>
-<pre><code>[1] &quot;4a8f937901bbbd8bab05279091287dc1&quot;</code></pre>
+<pre><code>[1] &quot;27115e036ed896e63f2366062fcd5f7a&quot;</code></pre>
 <pre class="r"><code>md5(serialize(cars, NULL))</code></pre>
-<pre><code>md5 4a:8f:93:79:01:bb:bd:8b:ab:05:27:90:91:28:7d:c1 </code></pre>
+<pre><code>md5 27:11:5e:03:6e:d8:96:e6:3f:23:66:06:2f:cd:5f:7a </code></pre>
 </div>
 
 

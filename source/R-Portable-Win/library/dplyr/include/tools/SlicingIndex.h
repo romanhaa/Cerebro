@@ -1,17 +1,17 @@
 #ifndef dplyr_tools_SlicingIndex_H
 #define dplyr_tools_SlicingIndex_H
 
+#include <tools/VectorView.h>
+
 // A SlicingIndex allows specifying which rows of a data frame are selected in which order, basically a 0:n -> 0:m map.
 // It also can be used to split a data frame in groups.
 // Important special cases can be implemented without materializing the map.
 class SlicingIndex {
 public:
+  virtual ~SlicingIndex() {};
   virtual int size() const = 0;
   virtual int operator[](int i) const = 0;
   virtual int group() const = 0;
-  virtual bool is_identity(SEXP) const {
-    return FALSE;
-  };
 };
 
 // A GroupedSlicingIndex is the most general slicing index,
@@ -20,23 +20,42 @@ public:
 // It is used in grouped operations (group_by()).
 class GroupedSlicingIndex : public SlicingIndex {
 public:
-  GroupedSlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
-  GroupedSlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
+  GroupedSlicingIndex(): data(), group_index(-1) {
+    R_PreserveObject(data);
+  }
+
+  ~GroupedSlicingIndex() {
+    if (group_index == -1) {
+      R_ReleaseObject(data);
+    }
+  }
+
+  GroupedSlicingIndex(SEXP data_, int group_) : data(data_), group_index(group_) {}
 
   virtual int size() const {
     return data.size();
   }
 
   virtual int operator[](int i) const {
-    return data[i];
+    return data[i] - 1;
   }
 
   virtual int group() const {
     return group_index;
   }
 
+  inline operator SEXP() const {
+    return data;
+  }
+
 private:
-  IntegerVector data;
+  // in general we don't need to protect data because
+  // it is already protected by the .rows column of the grouped_df
+  //
+  // but we do when using the default constructor, hence the
+  // R_PreserveObject / R_ReleaseObject above
+  Rcpp::IntegerVectorView data;
+
   int group_index;
 };
 
@@ -44,6 +63,7 @@ private:
 // It is used in rowwise operations (rowwise()).
 class RowwiseSlicingIndex : public SlicingIndex {
 public:
+  RowwiseSlicingIndex(): start(0) {}
   RowwiseSlicingIndex(const int start_) : start(start_) {}
 
   inline int size() const {
@@ -51,13 +71,15 @@ public:
   }
 
   inline int operator[](int i) const {
-    if (i != 0)
-      stop("Can only use 0 for RowwiseSlicingIndex, queried %d", i);
     return start;
   }
 
   inline int group() const {
     return start;
+  }
+
+  inline operator SEXP() const {
+    return Rf_ScalarInteger(start + 1);
   }
 
 private:
@@ -69,6 +91,7 @@ private:
 // to address the rows.
 class NaturalSlicingIndex : public SlicingIndex {
 public:
+  NaturalSlicingIndex(): n(0) {}
   NaturalSlicingIndex(const int n_) : n(n_) {}
 
   virtual int size() const {
@@ -76,18 +99,11 @@ public:
   }
 
   virtual int operator[](int i) const {
-    if (i < 0 || i >= n)
-      stop("Out of bounds index %d queried for NaturalSlicingIndex", i);
     return i;
   }
 
   virtual int group() const {
-    return -1;
-  }
-
-  virtual bool is_identity(SEXP x) const {
-    const R_len_t length = Rf_length(x);
-    return length == n;
+    return 0 ;
   }
 
 private:
@@ -105,13 +121,11 @@ public:
   }
 
   inline int operator[](int i) const {
-    if (i < 0 || i >= n)
-      stop("Out of bounds index %d queried for OffsetSlicingIndex", i);
     return i + start;
   }
 
   inline int group() const {
-    return -1;
+    return 0;
   }
 
 private:

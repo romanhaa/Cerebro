@@ -1,7 +1,7 @@
 Package: rmarkdown
 Type: Package
 Title: Dynamic Documents for R
-Version: 1.10
+Version: 1.12
 Authors@R: c(
   person("JJ", "Allaire", role = "aut", email = "jj@rstudio.com"),
   person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
@@ -12,11 +12,15 @@ Authors@R: c(
   person("Hadley", "Wickham", role = "aut", email = "hadley@rstudio.com"),
   person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
   person("Winston", "Chang", role = "aut", email = "winston@rstudio.com"),
+  person("Richard", "Iannone", role = "aut", email = "rich@rstudio.com", comment = c(ORCID = "0000-0003-3925-190X")),
   person("Jeff", "Allen", role = "ctb", email = "jeff@rstudio.com"),
+  person("Barret", "Schloerke", role = "ctb"),
   person("Roy", "Storey", role = "ctb"),
   person("Rob", "Hyndman", role = "ctb", email = "Rob.Hyndman@monash.edu"),
   person("Ruben", "Arslan", role = "ctb", email = "ruben.arslan@uni-goettingen.de"),
   person("Frederik", "Aust", role = "ctb", email = "frederik.aust@uni-koeln.de", comment = c(ORCID = "0000-0003-4900-788X")),
+  person("Christophe", "Dervieux", role = "ctb"),
+  person("Malcolm", "Barrett", role = "ctb"),
   person(family = "RStudio, Inc.", role = "cph"),
   person(family = "jQuery Foundation", role = "cph",
          comment = "jQuery library"),
@@ -60,18 +64,19 @@ Authors@R: c(
 Maintainer: Yihui Xie <xie@yihui.name>
 Description: Convert R Markdown documents into a variety of formats.
 Depends: R (>= 3.0)
-Imports: tools, utils, knitr (>= 1.18), yaml (>= 2.1.5), htmltools (>=
-        0.3.5), evaluate (>= 0.8), base64enc, jsonlite, rprojroot,
-        mime, tinytex (>= 0.3), methods, stringr (>= 1.2.0)
-Suggests: shiny (>= 0.11), tufte, testthat, digest, dygraphs, tibble
+Imports: tools, utils, knitr (>= 1.22), yaml (>= 2.1.19), htmltools (>=
+        0.3.5), evaluate (>= 0.13), base64enc, jsonlite, mime, tinytex
+        (>= 0.11), methods, stringr (>= 1.2.0)
+Suggests: shiny (>= 0.11), tufte, testthat, digest, dygraphs, tibble,
+        fs, callr (>= 2.0.0)
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
-URL: https://rmarkdown.rstudio.com,
-        https://github.com/rstudio/rmarkdown
+URL: https://rmarkdown.rstudio.com
 BugReports: https://github.com/rstudio/rmarkdown/issues
 License: GPL-3
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
+Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-06-11 05:02:32 UTC; yihui
+Packaged: 2019-03-14 05:24:03 UTC; yihui
 Author: JJ Allaire [aut],
   Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Jonathan McPherson [aut],
@@ -81,11 +86,15 @@ Author: JJ Allaire [aut],
   Hadley Wickham [aut],
   Joe Cheng [aut],
   Winston Chang [aut],
+  Richard Iannone [aut] (<https://orcid.org/0000-0003-3925-190X>),
   Jeff Allen [ctb],
+  Barret Schloerke [ctb],
   Roy Storey [ctb],
   Rob Hyndman [ctb],
   Ruben Arslan [ctb],
   Frederik Aust [ctb] (<https://orcid.org/0000-0003-4900-788X>),
+  Christophe Dervieux [ctb],
+  Malcolm Barrett [ctb],
   RStudio, Inc. [cph],
   jQuery Foundation [cph] (jQuery library),
   jQuery contributors [ctb, cph] (jQuery library; authors listed in
@@ -109,5 +118,5 @@ Author: JJ Allaire [aut],
   Drifty [cph] (Ionicons),
   Aidan Lister [ctb, cph] (jQuery StickyTabs)
 Repository: CRAN
-Date/Publication: 2018-06-11 06:12:56 UTC
-Built: R 3.5.1; ; 2018-10-14 09:49:13 UTC; windows
+Date/Publication: 2019-03-14 08:50:03 UTC
+Built: R 3.5.3; ; 2019-03-21 13:45:49 UTC; windows

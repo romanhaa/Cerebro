@@ -52,14 +52,14 @@ ggtree(tree, branch.length="none")
 #  ggtree(tr, layout="daylight")
 #  ggtree(tr, branch.length='none')
 #  ggtree(tr, branch.length='none', layout='circular')
-#  ggtree(tr, layout="daylight", branch.length = 'none')
+#  ggtree(tr, layout="daylight", branch.length='none')
 
 ## ----echo=F,  fig.width=8, fig.height=8, message=FALSE-------------------
 library(ggtree)
 set.seed(2017-02-16)
 tr <- rtree(50)
 library(cowplot)
-theme_layout <- theme(plot.title = element_text(hjust = 0.5))
+theme_layout <- theme(plot.title=element_text(hjust=0.5))
 plot_grid(
     ggtree(tr) + ggtitle("rectangular (phylogram)")+ theme_layout,
     ggtree(tr, layout="slanted") + ggtitle("slanted (phylogram)")+theme_layout,
@@ -69,14 +69,14 @@ plot_grid(
     ggtree(tr, layout="daylight")+ ggtitle("daylight (unrooted)")+theme_layout,
     ggtree(tr, branch.length='none')+ ggtitle("rectangular (cladogram)")+theme_layout,
     ggtree(tr, branch.length='none', layout='circular')+ ggtitle("circular (cladogram)")+theme_layout,
-    ggtree(tr, layout="daylight", branch.length = 'none')+ ggtitle("daylight (cladogram)")+theme_layout,
+    ggtree(tr, layout="daylight", branch.length='none')+ ggtitle("daylight (cladogram)")+theme_layout,
     ncol=3)
 
 ## ----eval=FALSE----------------------------------------------------------
 #  ggtree(tr) + scale_x_reverse()
 #  ggtree(tr) + coord_flip()
 #  ggtree(tr) + scale_x_reverse() + coord_flip()
-#  print(ggtree(tr), newpage=TRUE, vp = grid::viewport(angle=-30, width=.9, height=.9))
+#  print(ggtree(tr), newpage=TRUE, vp=grid::viewport(angle=-30, width=.9, height=.9))
 #  ggtree(tr, layout='slanted') + coord_flip()
 #  ggtree(tr, layout='slanted', branch.length='none') +
 #      coord_flip() + scale_y_reverse() +scale_x_reverse()
@@ -98,14 +98,14 @@ plot_grid(
     ggtree(tr, layout='circular') + xlim(-10, NA),
     ggtree(tr) + scale_x_reverse() + coord_polar(theta='y'),
     ggtree(tr) + scale_x_reverse(limits=c(15, 0)) + coord_polar(theta='y'),
-    ncol = 3, labels = LETTERS[1:9])
+    ncol=3, labels=LETTERS[1:9])
 
 ## ----fig.width=8, fig.height=4, fig.align="center"-----------------------
 tree2d <- read.beast(system.file("extdata", "twoD.tree", package="treeio"))
-ggtree(tree2d, mrsd = "2014-05-01") + theme_tree2()
+ggtree(tree2d, mrsd="2014-05-01") + theme_tree2()
 
 ## ----fig.width=9, fig.height=4, fig.align="center"-----------------------
-ggtree(tree2d, mrsd = "2014-05-01",
+ggtree(tree2d, mrsd="2014-05-01",
        yscale="NGS", yscale_mapping=c(N2=2, N3=3, N4=4, N5=5, N6=6, N7=7)) +
            theme_classic() + theme(axis.line.x=element_line(), axis.line.y=element_line()) +
                theme(panel.grid.major.x=element_line(color="grey20", linetype="dotted", size=.3),
@@ -123,13 +123,13 @@ ggtree(tree) + geom_treescale()
 plot_grid(
     ggtree(tree)+geom_treescale(x=0, y=12, width=6, color='red'),
     ggtree(tree)+geom_treescale(fontsize=8, linesize=2, offset=-1),
-    ncol = 2, labels = LETTERS[1:2])
+    ncol=2, labels=LETTERS[1:2])
 
 ## ----fig.width=3, fig.height=3, fig.align="center"-----------------------
 ggtree(tree) + theme_tree2()
 
 ## ----fig.width=3, fig.height=3, fig.align="center"-----------------------
-ggtree(tree)+geom_point(aes(shape=isTip, color=isTip), size=3)
+ggtree(tree) + geom_point(aes(shape=isTip, color=isTip), size=3)
 
 ## ----fig.width=3, fig.height=3, fig.align="center"-----------------------
 p <- ggtree(tree) + geom_nodepoint(color="#b5e521", alpha=1/4, size=10)
@@ -170,10 +170,10 @@ btrees <- read.tree(system.file("extdata/RAxML", "RAxML_bootstrap.H3", package="
 ggtree(btrees) + facet_wrap(~.id, ncol=10)
 
 ## ------------------------------------------------------------------------
-p <- ggtree(btrees, layout="rectangular",   color="lightblue", alpha=.3)
+p <- ggtree(btrees, layout="rectangular", color="lightblue", alpha=.3)
 
 best_tree <- read.tree(system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio"))
-df <- fortify(best_tree, branch.length = 'none')
+df <- fortify(best_tree, branch.length='none')
 p+geom_tree(data=df, color='firebrick')
 
 ## ----fig.width=10, fig.height=5------------------------------------------
@@ -183,7 +183,7 @@ beast_tree <- read.beast(beast_file)
 beast_tree
 p1 <- ggtree(beast_tree, mrsd='2013-01-01') + theme_tree2() +
     ggtitle("Divergence time")
-p2 <- ggtree(beast_tree, branch.length = 'rate') + theme_tree2() +
+p2 <- ggtree(beast_tree, branch.length='rate') + theme_tree2() +
     ggtitle("Substitution rate")
 
 library(cowplot)
@@ -199,7 +199,7 @@ p2 <- ggtree(mlc_tree, branch.length='dN_vs_dS') + theme_tree2() +
 plot_grid(p1, p2, ncol=2)
 
 ## ------------------------------------------------------------------------
-beast_tree2 <- rescale_tree(beast_tree, branch.length = 'rate')
+beast_tree2 <- rescale_tree(beast_tree, branch.length='rate')
 ggtree(beast_tree2) + theme_tree2()
 
 ## ----fig.width=9, fig.height=5, fig.align="center"-----------------------

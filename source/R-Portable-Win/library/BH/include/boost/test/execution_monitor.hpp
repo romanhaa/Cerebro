@@ -237,7 +237,7 @@ protected:
 /// this class never allocates any memory and assumes that strings it refers to are either some constants or live in a some kind of persistent (preallocated) memory.
 // ************************************************************************** //
 
-class BOOST_TEST_DECL execution_exception {
+class BOOST_SYMBOL_VISIBLE execution_exception {
     typedef boost::unit_test::const_string const_string;
 public:
     /// These values are sometimes used as program return codes.
@@ -515,8 +515,12 @@ enum masks {
     BOOST_FPE_ALL       = MCW_EM,
 
 #elif !defined(BOOST_TEST_FPE_SUPPORT_WITH_GLIBC_EXTENSIONS__)/* *** */
+    BOOST_FPE_DIVBYZERO = BOOST_FPE_OFF,
+    BOOST_FPE_INEXACT   = BOOST_FPE_OFF,
+    BOOST_FPE_INVALID   = BOOST_FPE_OFF,
+    BOOST_FPE_OVERFLOW  = BOOST_FPE_OFF,
+    BOOST_FPE_UNDERFLOW = BOOST_FPE_OFF,
     BOOST_FPE_ALL       = BOOST_FPE_OFF,
-
 #else /* *** */
 
 #if defined(FE_DIVBYZERO)

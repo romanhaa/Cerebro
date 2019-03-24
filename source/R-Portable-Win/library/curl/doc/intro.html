@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-03-19" />
+<meta name="date" content="2019-01-09" />
 
 <title>The curl package: a modern R interface to libcurl</title>
 
@@ -1347,8 +1347,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -1357,14 +1363,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -1476,12 +1542,12 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">The curl package: a modern R interface to libcurl</h1>
-<h4 class="date"><em>2018-03-19</em></h4>
+<h4 class="date"><em>2019-01-09</em></h4>
 
 </div>
 
 
-<p>The curl package provides bindings to the <a href="http://curl.haxx.se/libcurl/">libcurl</a> C library for R. The package supports retrieving data in-memory, downloading to disk, or streaming using the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/connections.html">R “connection” interface</a>. Some knowledge of curl is recommended to use this package. For a more user-friendly HTTP client, have a look at the <a href="https://cran.r-project.org/package=httr/vignettes/quickstart.html">httr</a> package which builds on curl with HTTP specific tools and logic.</p>
+<p>The curl package provides bindings to the <a href="https://curl.haxx.se/libcurl/">libcurl</a> C library for R. The package supports retrieving data in-memory, downloading to disk, or streaming using the <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/connections.html">R “connection” interface</a>. Some knowledge of curl is recommended to use this package. For a more user-friendly HTTP client, have a look at the <a href="https://cran.r-project.org/package=httr/vignettes/quickstart.html">httr</a> package which builds on curl with HTTP specific tools and logic.</p>
 <div id="request-interfaces" class="section level2">
 <h2>Request interfaces</h2>
 <p>The curl package implements several interfaces to retrieve data from a URL:</p>
@@ -1495,61 +1561,67 @@ div.tocify {
 <div id="getting-in-memory" class="section level3">
 <h3>Getting in memory</h3>
 <p>The <code>curl_fetch_memory</code> function is a blocking interface which waits for the request to complete and returns a list with all content (data, headers, status, timings) of the server response.</p>
-<pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://httpbin.org/get&quot;)
+<pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/get?foo=123&quot;)
 str(req)</code></pre>
-<pre><code>List of 6
- $ url        : chr &quot;https://httpbin.org/get&quot;
+<pre><code>List of 7
+ $ url        : chr &quot;https://eu.httpbin.org/get?foo=123&quot;
  $ status_code: int 200
- $ headers    : raw [1:287] 48 54 54 50 ...
+ $ type       : chr &quot;application/json&quot;
+ $ headers    : raw [1:246] 48 54 54 50 ...
  $ modified   : POSIXct[1:1], format: NA
- $ times      : Named num [1:6] 0 0.00886 0.11403 0.43672 0.54605 ...
+ $ times      : Named num [1:6] 0 0.0233 0.0621 0.1715 0.2116 ...
   ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;redirect&quot; &quot;namelookup&quot; &quot;connect&quot; &quot;pretransfer&quot; ...
- $ content    : raw [1:302] 7b 0a 20 20 ...</code></pre>
+ $ content    : raw [1:335] 7b 0a 20 20 ...</code></pre>
 <pre class="r"><code>parse_headers(req$headers)</code></pre>
-<pre><code> [1] &quot;HTTP/1.1 200 OK&quot;                        &quot;Connection: keep-alive&quot;                
- [3] &quot;Server: meinheld/0.6.1&quot;                 &quot;Date: Mon, 19 Mar 2018 16:18:47 GMT&quot;   
- [5] &quot;Content-Type: application/json&quot;         &quot;Access-Control-Allow-Origin: *&quot;        
- [7] &quot;Access-Control-Allow-Credentials: true&quot; &quot;X-Powered-By: Flask&quot;                   
- [9] &quot;X-Processed-Time: 0&quot;                    &quot;Content-Length: 302&quot;                   
-[11] &quot;Via: 1.1 vegur&quot;                        </code></pre>
-<pre class="r"><code>cat(rawToChar(req$content))</code></pre>
+<pre><code>[1] &quot;HTTP/1.1 200 OK&quot;                        &quot;Connection: keep-alive&quot;                
+[3] &quot;Server: gunicorn/19.9.0&quot;                &quot;Date: Wed, 09 Jan 2019 22:29:46 GMT&quot;   
+[5] &quot;Content-Type: application/json&quot;         &quot;Content-Length: 335&quot;                   
+[7] &quot;Access-Control-Allow-Origin: *&quot;         &quot;Access-Control-Allow-Credentials: true&quot;
+[9] &quot;Via: 1.1 vegur&quot;                        </code></pre>
+<pre class="r"><code>jsonlite::prettify(rawToChar(req$content))</code></pre>
 <pre><code>{
-  &quot;args&quot;: {}, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;R (3.4.4 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
-  }, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;https://httpbin.org/get&quot;
-}</code></pre>
+    &quot;args&quot;: {
+        &quot;foo&quot;: &quot;123&quot;
+    },
+    &quot;headers&quot;: {
+        &quot;Accept&quot;: &quot;*/*&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
+        &quot;User-Agent&quot;: &quot;R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
+    },
+    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;url&quot;: &quot;https://eu.httpbin.org/get?foo=123&quot;
+}
+ </code></pre>
 <p>The <code>curl_fetch_memory</code> interface is the easiest interface and most powerful for building API clients. However it is not suitable for downloading really large files because it is fully in-memory. If you are expecting 100G of data, you probably need one of the other interfaces.</p>
 </div>
 <div id="downloading-to-disk" class="section level3">
 <h3>Downloading to disk</h3>
 <p>The second method is <code>curl_download</code>, which has been designed as a drop-in replacement for <code>download.file</code> in r-base. It writes the response straight to disk, which is useful for downloading (large) files.</p>
 <pre class="r"><code>tmp &lt;- tempfile()
-curl_download(&quot;https://httpbin.org/get&quot;, tmp)
-cat(readLines(tmp), sep = &quot;\n&quot;)</code></pre>
+curl_download(&quot;https://eu.httpbin.org/get?bar=456&quot;, tmp)
+jsonlite::prettify(readLines(tmp))</code></pre>
 <pre><code>{
-  &quot;args&quot;: {}, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;R (3.4.4 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
-  }, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;https://httpbin.org/get&quot;
-}</code></pre>
+    &quot;args&quot;: {
+        &quot;bar&quot;: &quot;456&quot;
+    },
+    &quot;headers&quot;: {
+        &quot;Accept&quot;: &quot;*/*&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
+        &quot;User-Agent&quot;: &quot;R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
+    },
+    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;url&quot;: &quot;https://eu.httpbin.org/get?bar=456&quot;
+}
+ </code></pre>
 </div>
 <div id="streaming-data" class="section level3">
 <h3>Streaming data</h3>
 <p>The most flexible interface is the <code>curl</code> function, which has been designed as a drop-in replacement for base <code>url</code>. It will create a so-called connection object, which allows for incremental (asynchronous) reading of the response.</p>
-<pre class="r"><code>con &lt;- curl(&quot;https://httpbin.org/get&quot;)
+<pre class="r"><code>con &lt;- curl(&quot;https://eu.httpbin.org/get&quot;)
 open(con)
 
 # Get 3 lines
@@ -1568,17 +1640,17 @@ cat(out, sep = &quot;\n&quot;)</code></pre>
 out &lt;- readLines(con)
 close(con)
 cat(out, sep = &quot;\n&quot;)</code></pre>
-<pre><code>    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;R (3.4.4 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
+<pre><code>    &quot;Host&quot;: &quot;eu.httpbin.org&quot;, 
+    &quot;User-Agent&quot;: &quot;R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
   }, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;https://httpbin.org/get&quot;
+  &quot;origin&quot;: &quot;213.127.74.204&quot;, 
+  &quot;url&quot;: &quot;https://eu.httpbin.org/get&quot;
 }</code></pre>
 <p>The example shows how to use <code>readLines</code> on an opened connection to read <code>n</code> lines at a time. Similarly <code>readBin</code> is used to read <code>n</code> bytes at a time for stream parsing binary data.</p>
 <div id="non-blocking-connections" class="section level4">
 <h4>Non blocking connections</h4>
 <p>As of version 2.3 it is also possible to open connections in non-blocking mode. In this case <code>readBin</code> and <code>readLines</code> will return immediately with data that is available without waiting. For non-blocking connections we use <code>isIncomplete</code> to check if the download has completed yet.</p>
-<pre class="r"><code># This httpbin mirror doesn't cache
+<pre class="r"><code># This httpbin mirror doesn&#39;t cache
 con &lt;- curl(&quot;https://nghttp2.org/httpbin/drip?duration=1&amp;numbytes=50&quot;)
 open(con, &quot;rb&quot;, blocking = FALSE)
 while(isIncomplete(con)){
@@ -1595,14 +1667,14 @@ close(con)</code></pre>
 <p>As of <code>curl 2.0</code> the package provides an async interface which can perform multiple simultaneous requests concurrently. The <code>curl_fetch_multi</code> adds a request to a pool and returns immediately; it does not actually perform the request.</p>
 <pre class="r"><code>pool &lt;- new_pool()
 cb &lt;- function(req){cat(&quot;done:&quot;, req$url, &quot;: HTTP:&quot;, req$status, &quot;\n&quot;)}
-curl_fetch_multi('https://www.google.com', done = cb, pool = pool)
-curl_fetch_multi('https://cloud.r-project.org', done = cb, pool = pool)
-curl_fetch_multi('https://httpbin.org/blabla', done = cb, pool = pool)</code></pre>
+curl_fetch_multi(&#39;https://www.google.com&#39;, done = cb, pool = pool)
+curl_fetch_multi(&#39;https://cloud.r-project.org&#39;, done = cb, pool = pool)
+curl_fetch_multi(&#39;https://httpbin.org/blabla&#39;, done = cb, pool = pool)</code></pre>
 <p>When we call <code>multi_run()</code>, all scheduled requests are performed concurrently. The callback functions get triggered when each request completes.</p>
 <pre class="r"><code># This actually performs requests:
 out &lt;- multi_run(pool = pool)</code></pre>
-<pre><code>done: https://www.google.nl/?gfe_rd=cr&amp;dcr=0&amp;ei=6OKvWsn_MsmGgAbr8ZHIDQ : HTTP: 200 
-done: https://cloud.r-project.org/ : HTTP: 200 
+<pre><code>done: https://cloud.r-project.org/ : HTTP: 200 
+done: https://www.google.com/ : HTTP: 200 
 done: https://httpbin.org/blabla : HTTP: 404 </code></pre>
 <pre class="r"><code>print(out)</code></pre>
 <pre><code>$success
@@ -1628,41 +1700,41 @@ $pending
 <h3>Error automatically</h3>
 <p>The <code>curl</code> and <code>curl_download</code> functions are safest to use because they automatically raise an error if the request was completed but the server returned a non-success (400 or higher) HTTP status. This mimics behavior of base functions <code>url</code> and <code>download.file</code>. Therefore we can safely write code like this:</p>
 <pre class="r"><code># This is OK
-curl_download('https://cloud.r-project.org/CRAN_mirrors.csv', 'mirrors.csv')
-mirros &lt;- read.csv('mirrors.csv')
-unlink('mirrors.csv')</code></pre>
+curl_download(&#39;https://cloud.r-project.org/CRAN_mirrors.csv&#39;, &#39;mirrors.csv&#39;)
+mirros &lt;- read.csv(&#39;mirrors.csv&#39;)
+unlink(&#39;mirrors.csv&#39;)</code></pre>
 <p>If the HTTP request was unsuccessful, R will not continue:</p>
 <pre class="r"><code># Oops! A typo in the URL!
-curl_download('https://cloud.r-project.org/CRAN_mirrorZ.csv', 'mirrors.csv')</code></pre>
+curl_download(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;, &#39;mirrors.csv&#39;)</code></pre>
 <pre><code>Error in curl_download(&quot;https://cloud.r-project.org/CRAN_mirrorZ.csv&quot;, : HTTP error 404.</code></pre>
-<pre class="r"><code>con &lt;- curl('https://cloud.r-project.org/CRAN_mirrorZ.csv')
+<pre class="r"><code>con &lt;- curl(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;)
 open(con)</code></pre>
 <pre><code>Error in open.connection(con): HTTP error 404.</code></pre>
 </div>
 <div id="check-manually" class="section level3">
 <h3>Check manually</h3>
 <p>When using any of the <code>curl_fetch_*</code> functions it is important to realize that these do <strong>not</strong> raise an error if the request was completed but returned a non-200 status code. When using <code>curl_fetch_memory</code> or <code>curl_fetch_disk</code> you need to implement such application logic yourself and check if the response was successful.</p>
-<pre class="r"><code>req &lt;- curl_fetch_memory('https://cloud.r-project.org/CRAN_mirrors.csv')
+<pre class="r"><code>req &lt;- curl_fetch_memory(&#39;https://cloud.r-project.org/CRAN_mirrors.csv&#39;)
 print(req$status_code)</code></pre>
 <pre><code>[1] 200</code></pre>
 <p>Same for downloading to disk. If you do not check your status, you might have downloaded an error page!</p>
 <pre class="r"><code># Oops a typo!
-req &lt;- curl_fetch_disk('https://cloud.r-project.org/CRAN_mirrorZ.csv', 'mirrors.csv')
+req &lt;- curl_fetch_disk(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;, &#39;mirrors.csv&#39;)
 print(req$status_code)</code></pre>
 <pre><code>[1] 404</code></pre>
 <pre class="r"><code># This is not the CSV file we were expecting!
-head(readLines('mirrors.csv'))</code></pre>
+head(readLines(&#39;mirrors.csv&#39;))</code></pre>
 <pre><code>[1] &quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//IETF//DTD HTML 2.0//EN\&quot;&gt;&quot;                    
 [2] &quot;&lt;html&gt;&lt;head&gt;&quot;                                                            
 [3] &quot;&lt;title&gt;404 Not Found&lt;/title&gt;&quot;                                            
 [4] &quot;&lt;/head&gt;&lt;body&gt;&quot;                                                           
 [5] &quot;&lt;h1&gt;Not Found&lt;/h1&gt;&quot;                                                      
 [6] &quot;&lt;p&gt;The requested URL /CRAN_mirrorZ.csv was not found on this server.&lt;/p&gt;&quot;</code></pre>
-<pre class="r"><code>unlink('mirrors.csv')</code></pre>
+<pre class="r"><code>unlink(&#39;mirrors.csv&#39;)</code></pre>
 <p>If you <em>do</em> want the <code>curl_fetch_*</code> functions to automatically raise an error, you should set the <a href="https://curl.haxx.se/libcurl/c/CURLOPT_FAILONERROR.html"><code>FAILONERROR</code></a> option to <code>TRUE</code> in the handle of the request.</p>
 <pre class="r"><code>h &lt;- new_handle(failonerror = TRUE)
-curl_fetch_memory('https://cloud.r-project.org/CRAN_mirrorZ.csv', handle = h)</code></pre>
-<pre><code>Error in curl_fetch_memory(&quot;https://cloud.r-project.org/CRAN_mirrorZ.csv&quot;, : The requested URL returned error: 404 Not Found</code></pre>
+curl_fetch_memory(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;, handle = h)</code></pre>
+<pre><code>Error in curl_fetch_memory(&quot;https://cloud.r-project.org/CRAN_mirrorZ.csv&quot;, : The requested URL returned error: 404 </code></pre>
 </div>
 </div>
 <div id="customizing-requests" class="section level2">
@@ -1678,76 +1750,97 @@ handle_setheaders(h,
   &quot;Cache-Control&quot; = &quot;no-cache&quot;,
   &quot;User-Agent&quot; = &quot;A cow&quot;
 )</code></pre>
-<p>Use the <code>curl_options()</code> function to get a list of the options supported by your version of libcurl. The <a href="http://curl.haxx.se/libcurl/c/curl_easy_setopt.html">libcurl documentation</a> explains what each option does. Option names are not case sensitive.</p>
+<p>Use the <code>curl_options()</code> function to get a list of the options supported by your version of libcurl. The <a href="https://curl.haxx.se/libcurl/c/curl_easy_setopt.html">libcurl documentation</a> explains what each option does. Option names are not case sensitive.</p>
 <p>After the handle has been configured, it can be used with any of the download interfaces to perform the request. For example <code>curl_fetch_memory</code> will load store the output of the request in memory:</p>
-<pre class="r"><code>req &lt;- curl_fetch_memory(&quot;http://httpbin.org/post&quot;, handle = h)
-cat(rawToChar(req$content))</code></pre>
+<pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/post&quot;, handle = h)
+jsonlite::prettify(rawToChar(req$content))</code></pre>
 <pre><code>{
-  &quot;args&quot;: {}, 
-  &quot;data&quot;: &quot;moo=moomooo&quot;, 
-  &quot;files&quot;: {}, 
-  &quot;form&quot;: {}, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Cache-Control&quot;: &quot;no-cache&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
-    &quot;Content-Length&quot;: &quot;11&quot;, 
-    &quot;Content-Type&quot;: &quot;text/moo&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;A cow&quot;
-  }, 
-  &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;http://httpbin.org/post&quot;
-}</code></pre>
+    &quot;args&quot;: {
+
+    },
+    &quot;data&quot;: &quot;moo=moomooo&quot;,
+    &quot;files&quot;: {
+
+    },
+    &quot;form&quot;: {
+
+    },
+    &quot;headers&quot;: {
+        &quot;Accept&quot;: &quot;*/*&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Cache-Control&quot;: &quot;no-cache&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Content-Length&quot;: &quot;11&quot;,
+        &quot;Content-Type&quot;: &quot;text/moo&quot;,
+        &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
+        &quot;User-Agent&quot;: &quot;A cow&quot;
+    },
+    &quot;json&quot;: null,
+    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
+}
+ </code></pre>
 <p>Alternatively we can use <code>curl()</code> to read the data of via a connection interface:</p>
-<pre class="r"><code>con &lt;- curl(&quot;http://httpbin.org/post&quot;, handle = h)
-cat(readLines(con), sep = &quot;\n&quot;)</code></pre>
+<pre class="r"><code>con &lt;- curl(&quot;https://eu.httpbin.org/post&quot;, handle = h)
+jsonlite::prettify(readLines(con))</code></pre>
 <pre><code>{
-  &quot;args&quot;: {}, 
-  &quot;data&quot;: &quot;moo=moomooo&quot;, 
-  &quot;files&quot;: {}, 
-  &quot;form&quot;: {}, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Cache-Control&quot;: &quot;no-cache&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
-    &quot;Content-Length&quot;: &quot;11&quot;, 
-    &quot;Content-Type&quot;: &quot;text/moo&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;A cow&quot;
-  }, 
-  &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;http://httpbin.org/post&quot;
-}</code></pre>
+    &quot;args&quot;: {
+
+    },
+    &quot;data&quot;: &quot;moo=moomooo&quot;,
+    &quot;files&quot;: {
+
+    },
+    &quot;form&quot;: {
+
+    },
+    &quot;headers&quot;: {
+        &quot;Accept&quot;: &quot;*/*&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Cache-Control&quot;: &quot;no-cache&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Content-Length&quot;: &quot;11&quot;,
+        &quot;Content-Type&quot;: &quot;text/moo&quot;,
+        &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
+        &quot;User-Agent&quot;: &quot;A cow&quot;
+    },
+    &quot;json&quot;: null,
+    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
+}
+ </code></pre>
 <p>Or we can use <code>curl_download</code> to write the response to disk:</p>
 <pre class="r"><code>tmp &lt;- tempfile()
-curl_download(&quot;http://httpbin.org/post&quot;, destfile = tmp, handle = h)
-cat(readLines(tmp), sep = &quot;\n&quot;)</code></pre>
+curl_download(&quot;https://eu.httpbin.org/post&quot;, destfile = tmp, handle = h)
+jsonlite::prettify(readLines(tmp))</code></pre>
 <pre><code>{
-  &quot;args&quot;: {}, 
-  &quot;data&quot;: &quot;moo=moomooo&quot;, 
-  &quot;files&quot;: {}, 
-  &quot;form&quot;: {}, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Cache-Control&quot;: &quot;no-cache&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
-    &quot;Content-Length&quot;: &quot;11&quot;, 
-    &quot;Content-Type&quot;: &quot;text/moo&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;A cow&quot;
-  }, 
-  &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;http://httpbin.org/post&quot;
-}</code></pre>
+    &quot;args&quot;: {
+
+    },
+    &quot;data&quot;: &quot;moo=moomooo&quot;,
+    &quot;files&quot;: {
+
+    },
+    &quot;form&quot;: {
+
+    },
+    &quot;headers&quot;: {
+        &quot;Accept&quot;: &quot;*/*&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Cache-Control&quot;: &quot;no-cache&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Content-Length&quot;: &quot;11&quot;,
+        &quot;Content-Type&quot;: &quot;text/moo&quot;,
+        &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
+        &quot;User-Agent&quot;: &quot;A cow&quot;
+    },
+    &quot;json&quot;: null,
+    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
+}
+ </code></pre>
 <p>Or perform the same request with a multi pool:</p>
-<pre class="r"><code>curl_fetch_multi(&quot;http://httpbin.org/post&quot;, handle = h, done = function(res){
+<pre class="r"><code>curl_fetch_multi(&quot;https://eu.httpbin.org/post&quot;, handle = h, done = function(res){
   cat(&quot;Request complete! Response content:\n&quot;)
   cat(rawToChar(res$content))
 })
@@ -1767,12 +1860,12 @@ out &lt;- multi_run()</code></pre>
     &quot;Connection&quot;: &quot;close&quot;, 
     &quot;Content-Length&quot;: &quot;11&quot;, 
     &quot;Content-Type&quot;: &quot;text/moo&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
+    &quot;Host&quot;: &quot;eu.httpbin.org&quot;, 
     &quot;User-Agent&quot;: &quot;A cow&quot;
   }, 
   &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;http://httpbin.org/post&quot;
+  &quot;origin&quot;: &quot;213.127.74.204&quot;, 
+  &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }</code></pre>
 </div>
 <div id="reading-cookies" class="section level3">
@@ -1782,37 +1875,37 @@ out &lt;- multi_run()</code></pre>
 h &lt;- new_handle()
 
 # Ask server to set some cookies
-req &lt;- curl_fetch_memory(&quot;http://httpbin.org/cookies/set?foo=123&amp;bar=ftw&quot;, handle = h)
-req &lt;- curl_fetch_memory(&quot;http://httpbin.org/cookies/set?baz=moooo&quot;, handle = h)
+req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/cookies/set?foo=123&amp;bar=ftw&quot;, handle = h)
+req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/cookies/set?baz=moooo&quot;, handle = h)
 handle_cookies(h)</code></pre>
-<pre><code>       domain  flag path secure expiration name value
-1 httpbin.org FALSE    /  FALSE       &lt;NA&gt;  bar   ftw
-2 httpbin.org FALSE    /  FALSE       &lt;NA&gt;  foo   123
-3 httpbin.org FALSE    /  FALSE       &lt;NA&gt;  baz moooo</code></pre>
+<pre><code>          domain  flag path secure expiration name value
+1 eu.httpbin.org FALSE    /   TRUE       &lt;NA&gt;  foo   123
+2 eu.httpbin.org FALSE    /   TRUE       &lt;NA&gt;  bar   ftw
+3 eu.httpbin.org FALSE    /   TRUE       &lt;NA&gt;  baz moooo</code></pre>
 <pre class="r"><code># Unset a cookie
-req &lt;- curl_fetch_memory(&quot;http://httpbin.org/cookies/delete?foo&quot;, handle = h)
+req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/cookies/delete?foo&quot;, handle = h)
 handle_cookies(h)</code></pre>
-<pre><code>       domain  flag path secure          expiration name value
-1 httpbin.org FALSE    /  FALSE                &lt;NA&gt;  bar   ftw
-2 httpbin.org FALSE    /  FALSE 2018-03-19 17:18:51  foo  &lt;NA&gt;
-3 httpbin.org FALSE    /  FALSE                &lt;NA&gt;  baz moooo</code></pre>
+<pre><code>          domain  flag path secure          expiration name value
+1 eu.httpbin.org FALSE    /  FALSE 2019-01-09 23:29:49  foo  &lt;NA&gt;
+2 eu.httpbin.org FALSE    /   TRUE                &lt;NA&gt;  bar   ftw
+3 eu.httpbin.org FALSE    /   TRUE                &lt;NA&gt;  baz moooo</code></pre>
 <p>The <code>handle_cookies</code> function returns a data frame with 7 columns as specified in the <a href="http://www.cookiecentral.com/faq/#3.5">netscape cookie file format</a>.</p>
 </div>
 <div id="on-reusing-handles" class="section level3">
 <h3>On reusing handles</h3>
 <p>In most cases you should not re-use a single handle object for more than one request. The only benefit of reusing a handle for multiple requests is to keep track of cookies set by the server (seen above). This could be needed if your server uses session cookies, but this is rare these days. Most APIs set state explicitly via http headers or parameters, rather than implicitly via cookies.</p>
 <p>In recent versions of the curl package there are no performance benefits of reusing handles. The overhead of creating and configuring a new handle object is negligible. The safest way to issue multiple requests, either to a single server or multiple servers is by using a separate handle for each request (which is the default)</p>
-<pre class="r"><code>req1 &lt;- curl_fetch_memory(&quot;https://httpbin.org/get&quot;)
-req2 &lt;- curl_fetch_memory(&quot;http://www.r-project.org&quot;)</code></pre>
+<pre class="r"><code>req1 &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/get&quot;)
+req2 &lt;- curl_fetch_memory(&quot;https://www.r-project.org&quot;)</code></pre>
 <p>In past versions of this package you needed to manually use a handle to take advantage of http Keep-Alive. However as of version 2.3 this is no longer the case: curl automatically maintains global a pool of open http connections shared by all handles. When performing many requests to the same server, curl automatically uses existing connections when possible, eliminating TCP/SSL handshaking overhead:</p>
 <pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://api.github.com/users/ropensci&quot;)
 req$times</code></pre>
 <pre><code>     redirect    namelookup       connect   pretransfer starttransfer         total 
-     0.000000      0.303599      0.404196      0.631182      0.767828      0.767945 </code></pre>
+     0.000000      0.018480      0.126421      0.362924      0.492815      0.492979 </code></pre>
 <pre class="r"><code>req2 &lt;- curl_fetch_memory(&quot;https://api.github.com/users/rstudio&quot;)
 req2$times</code></pre>
 <pre><code>     redirect    namelookup       connect   pretransfer starttransfer         total 
-     0.000000      0.000049      0.000052      0.000114      0.128413      0.128563 </code></pre>
+     0.000000      0.000045      0.000048      0.000118      0.135673      0.135838 </code></pre>
 <p>If you really need to re-use a handle, do note that that curl does not cleanup the handle after each request. All of the options and internal fields will linger around for all future request until explicitly reset or overwritten. This can sometimes leads to unexpected behavior.</p>
 <pre class="r"><code>handle_reset(h)</code></pre>
 <p>The <code>handle_reset</code> function will reset all curl options and request headers to the default values. It will <strong>not</strong> erase cookies and it will still keep alive the connections. Therefore it is good practice to call <code>handle_reset</code> after performing a request if you want to reuse the handle for a subsequent request. Still it is always safer to create a new fresh handle when possible, rather than recycling old ones.</p>
@@ -1827,9 +1920,9 @@ handle_setform(h,
   bar = charToRaw(&quot;boeboe&quot;),
   iris = form_data(serialize(iris, NULL), &quot;application/rda&quot;),
   description = form_file(system.file(&quot;DESCRIPTION&quot;)),
-  logo = form_file(file.path(Sys.getenv(&quot;R_DOC_DIR&quot;), &quot;html/logo.jpg&quot;), &quot;image/jpeg&quot;)
+  logo = form_file(file.path(R.home(&#39;doc&#39;), &quot;html/logo.jpg&quot;), &quot;image/jpeg&quot;)
 )
-req &lt;- curl_fetch_memory(&quot;http://httpbin.org/post&quot;, handle = h)</code></pre>
+req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/post&quot;, handle = h)</code></pre>
 <p>The <code>form_file</code> function is used to upload files with the form post. It has two arguments: a file path, and optionally a content-type value. If no content-type is set, curl will guess the content type of the file based on the file extension.</p>
 <p>The <code>form_data</code> function is similar but simply posts a string or raw value with a custom content-type.</p>
 </div>
@@ -1840,27 +1933,35 @@ req &lt;- curl_fetch_memory(&quot;http://httpbin.org/post&quot;, handle = h)</co
 
 new_handle() %&gt;%
   handle_setopt(copypostfields = &quot;moo=moomooo&quot;) %&gt;%
-  handle_setheaders(&quot;Content-Type&quot; = &quot;text/moo&quot;, &quot;Cache-Control&quot; = &quot;no-cache&quot;, &quot;User-Agent&quot; = &quot;A cow&quot;) %&gt;%
-  curl_fetch_memory(url = &quot;http://httpbin.org/post&quot;) %$% content %&gt;% rawToChar %&gt;% cat</code></pre>
+  handle_setheaders(&quot;Content-Type&quot;=&quot;text/moo&quot;, &quot;Cache-Control&quot;=&quot;no-cache&quot;, &quot;User-Agent&quot;=&quot;A cow&quot;) %&gt;%
+  curl_fetch_memory(url = &quot;https://eu.httpbin.org/post&quot;) %$% content %&gt;% 
+  rawToChar %&gt;% jsonlite::prettify()</code></pre>
 <pre><code>{
-  &quot;args&quot;: {}, 
-  &quot;data&quot;: &quot;moo=moomooo&quot;, 
-  &quot;files&quot;: {}, 
-  &quot;form&quot;: {}, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Cache-Control&quot;: &quot;no-cache&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
-    &quot;Content-Length&quot;: &quot;11&quot;, 
-    &quot;Content-Type&quot;: &quot;text/moo&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;A cow&quot;
-  }, 
-  &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;145.136.143.156&quot;, 
-  &quot;url&quot;: &quot;http://httpbin.org/post&quot;
-}</code></pre>
+    &quot;args&quot;: {
+
+    },
+    &quot;data&quot;: &quot;moo=moomooo&quot;,
+    &quot;files&quot;: {
+
+    },
+    &quot;form&quot;: {
+
+    },
+    &quot;headers&quot;: {
+        &quot;Accept&quot;: &quot;*/*&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Cache-Control&quot;: &quot;no-cache&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Content-Length&quot;: &quot;11&quot;,
+        &quot;Content-Type&quot;: &quot;text/moo&quot;,
+        &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
+        &quot;User-Agent&quot;: &quot;A cow&quot;
+    },
+    &quot;json&quot;: null,
+    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
+}
+ </code></pre>
 </div>
 </div>
 

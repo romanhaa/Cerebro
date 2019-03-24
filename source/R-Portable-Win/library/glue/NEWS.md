@@ -1,3 +1,16 @@
+# glue 1.3.1
+
+## Features
+
+* `glue()` now has a `+` method to combine strings.
+
+## Bugfixes and minor changes
+
+* `glue_sql()` now supports unquoting lists of Id objects.
+* `glue_sql()` now quotes characters with NAs appropriately (#115).
+* `glue_sql()` now quotes Dates appropriately (#98).
+* A potential protection error reported by rchk was fixed.
+
 # glue 1.3.0
 
 ## Breaking changes
@@ -18,6 +31,9 @@
   color.
 
 ## Bugfixes and minor changes
+
+* Glue now throws an informative error message when it cannot interpolate a
+  function into a string (#114, @haleyjeppson & @ijlyttle).
 
 * Glue now evaluates unnamed arguments lazily with `delayedAssign()`, so there
   is no performance cost if an argument is not used. (#83, @egnha).

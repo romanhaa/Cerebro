@@ -134,7 +134,7 @@ merged_tree
 library(tidytree)
 library(ggplot2)
 
-as_data_frame(merged_tree) %>%
+as_tibble(merged_tree) %>%
     dplyr::select(dN_vs_dS, dN, dS, rate) %>%
     subset(dN_vs_dS >=0 & dN_vs_dS <= 1.5) %>%
     tidyr::gather(type, value, dN_vs_dS:dS) %>%

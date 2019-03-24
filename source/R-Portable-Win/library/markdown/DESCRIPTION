@@ -1,11 +1,11 @@
 Package: markdown
 Type: Package
 Title: 'Markdown' Rendering for R
-Version: 0.8
-Date: 2017-04-20
+Version: 0.9
 Authors@R: c(
    person("JJ", "Allaire", role = "aut"),
    person("Jeffrey", "Horner", role = "aut"),
+   person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
    person("Henrik", "Bengtsson", role = "ctb"),
    person("Jim", "Hester", role = "ctb"),
    person("Yixuan", "Qiu", role = "ctb"),
@@ -18,13 +18,12 @@ Authors@R: c(
    person("Andrzej", "Oles", role = "ctb"),
    person("Vicent", "Marti", role = c("aut", "cph"), comment = "The Sundown library"),
    person("Natacha", "Porte", role = c("aut", "cph"), comment = "The Sundown library"),
-   person(family = "RStudio", role = "cph"),
-   person("Yihui", "Xie", role = c("cre", "ctb"), email = "xie@yihui.name")
+   person(family = "RStudio", role = "cph")
    )
 Description: Provides R bindings to the 'Sundown' 'Markdown' rendering library
-    (https://github.com/vmg/sundown). 'Markdown' is a plain-text formatting
+    (<https://github.com/vmg/sundown>). 'Markdown' is a plain-text formatting
     syntax that can be converted to 'XHTML' or other formats. See
-    http://en.wikipedia.org/wiki/Markdown for more information about 'Markdown'.
+    <http://en.wikipedia.org/wiki/Markdown> for more information about 'Markdown'.
 Depends: R (>= 2.11.1)
 Imports: utils, mime (>= 0.3)
 Suggests: knitr, RCurl
@@ -34,9 +33,10 @@ BugReports: https://github.com/rstudio/markdown/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2017-04-19 20:14:01 UTC; yihui
+Packaged: 2018-12-06 16:24:51 UTC; yihui
 Author: JJ Allaire [aut],
   Jeffrey Horner [aut],
+  Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Henrik Bengtsson [ctb],
   Jim Hester [ctb],
   Yixuan Qiu [ctb],
@@ -49,10 +49,9 @@ Author: JJ Allaire [aut],
   Andrzej Oles [ctb],
   Vicent Marti [aut, cph] (The Sundown library),
   Natacha Porte [aut, cph] (The Sundown library),
-  RStudio [cph],
-  Yihui Xie [cre, ctb]
+  RStudio [cph]
 Maintainer: Yihui Xie <xie@yihui.name>
 Repository: CRAN
-Date/Publication: 2017-04-20 09:07:54 UTC
-Built: R 3.5.1; x86_64-w64-mingw32; 2018-10-14 07:44:40 UTC; windows
+Date/Publication: 2018-12-07 00:50:11 UTC
+Built: R 3.5.3; x86_64-w64-mingw32; 2019-03-21 11:38:31 UTC; windows
 Archs: i386, x64

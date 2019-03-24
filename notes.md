@@ -58,3 +58,13 @@ pkgs.to.remove <- ip[,1]
 # remove the packages
 sapply(pkgs.to.remove, remove.packages, lib = path.lib)
 ```
+
+Then, re-install the libraries required by Cerebro.
+
+```r
+install.packages("BiocManager")
+BiocManager::install("shiny")
+setwd("../Cerebro/source/")
+library("shiny")
+runApp("app.R")
+```

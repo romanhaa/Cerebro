@@ -26,6 +26,7 @@ knit_params_ask         Run a shiny application asking for parameter
 knitr_options           Knitr options for an output format
 knitr_options_html      Knitr options for an HTML output format
 knitr_options_pdf       Knitr options for a PDF output format
+latex-dependencies      Provide common LaTeX dependencies
 latex_dependency        Define a LaTeX package dependency
 md_document             Convert to a markdown document
 metadata                The YAML metadata of the current R Markdown
@@ -41,6 +42,7 @@ pandoc_available        Check pandoc availability and version
 pandoc_citeproc_convert
                         Convert a bibliograpy file
 pandoc_convert          Convert a document with pandoc
+pandoc_exec             Get the path of the pandoc executable
 pandoc_options          Pandoc options for an output format
 pandoc_path_arg         Transform path for passing to pandoc
 pandoc_self_contained_html

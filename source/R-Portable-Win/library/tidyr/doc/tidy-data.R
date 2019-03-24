@@ -20,7 +20,8 @@ preg2 <- preg %>%
 preg2
 
 ## ------------------------------------------------------------------------
-pew <- tbl_df(read.csv("pew.csv", stringsAsFactors = FALSE, check.names = FALSE))
+library(tibble)
+pew <- as_tibble(read.csv("pew.csv", stringsAsFactors = FALSE, check.names = FALSE))
 pew
 
 ## ------------------------------------------------------------------------
@@ -28,7 +29,7 @@ pew %>%
   gather(income, frequency, -religion)
 
 ## ------------------------------------------------------------------------
-billboard <- tbl_df(read.csv("billboard.csv", stringsAsFactors = FALSE))
+billboard <- as_tibble(read.csv("billboard.csv", stringsAsFactors = FALSE))
 billboard
 
 ## ------------------------------------------------------------------------
@@ -51,7 +52,7 @@ billboard3 %>% arrange(artist, track, week)
 billboard3 %>% arrange(date, rank)
 
 ## ------------------------------------------------------------------------
-tb <- tbl_df(read.csv("tb.csv", stringsAsFactors = FALSE))
+tb <- as_tibble(read.csv("tb.csv", stringsAsFactors = FALSE))
 tb
 
 ## ------------------------------------------------------------------------
@@ -65,7 +66,7 @@ tb3 <- tb2 %>%
 tb3
 
 ## ------------------------------------------------------------------------
-weather <- tbl_df(read.csv("weather.csv", stringsAsFactors = FALSE))
+weather <- as_tibble(read.csv("weather.csv", stringsAsFactors = FALSE))
 weather
 
 ## ------------------------------------------------------------------------

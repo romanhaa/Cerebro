@@ -2,7 +2,7 @@
 #define dplyr_checks_H
 
 #include <tools/SymbolString.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 
@@ -91,6 +91,13 @@ inline void check_length(const int actual, const int expected, const char* comme
   message.set_encoding(CE_UTF8);
   stop(message.get_cstring());
 }
+
+inline void check_not_null(SEXP result, const SymbolString& name) {
+  if (Rf_isNull(result)) {
+    bad_col(name, "is of unsupported type NULL");
+  }
+}
+
 
 }
 #endif

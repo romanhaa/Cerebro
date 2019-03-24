@@ -50,7 +50,7 @@ public:
 
     Matrix() : VECTOR(Dimension(0, 0)), nrows(0) {}
 
-    Matrix(SEXP x) : VECTOR( r_cast<RTYPE>( x ) ), nrows( VECTOR::dims()[0] ) {}
+    Matrix(SEXP x) : VECTOR(x), nrows( VECTOR::dims()[0] ) {}
 
     Matrix( const Dimension& dims) : VECTOR( Rf_allocMatrix( RTYPE, dims[0], dims[1] ) ), nrows(dims[0]) {
         if( dims.size() != 2 ) throw not_a_matrix();
@@ -89,9 +89,7 @@ public:
     }
     Matrix& operator=( const SubMatrix<RTYPE>& ) ;
 
-    explicit Matrix( const no_init_matrix& obj) {
-        Storage::set__( Rf_allocMatrix( RTYPE, obj.nrow(), obj.ncol() ) );
-    }
+    explicit Matrix( const no_init_matrix& obj) : VECTOR(Rf_allocMatrix(RTYPE, obj.nrow(), obj.ncol())), nrows(obj.nrow()) {}
 
     inline int ncol() const {
         return VECTOR::dims()[1];

@@ -106,7 +106,7 @@ plot_grid(p, p2, ncol=2)
 #  p <- ggtree(tree <- rtree(50)) + geom_tiplab()
 #  for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
 #      p <- rotate(p, n)
-#      print(p + geom_point2(aes(subset = (node == n)), color='red'))
+#      print(p + geom_point2(aes(subset=(node == n)), color='red'))
 #  }
 
 ## ----fig.width=8, fig.height=4-------------------------------------------
@@ -114,7 +114,7 @@ plot_grid(p, flip(p, 17, 21), ncol=2)
 
 ## ----eval=FALSE----------------------------------------------------------
 #  set.seed(123)
-#  tr = rtree(50)
+#  tr <- rtree(50)
 #  
 #  p <- ggtree(tr, layout='circular') + geom_tiplab2()
 #  

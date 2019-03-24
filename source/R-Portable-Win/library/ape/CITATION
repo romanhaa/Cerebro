@@ -5,9 +5,9 @@ citEntry(entry="Article",
         author = personList(as.person("E. Paradis"), as.person("K. Schliep")),
 	journal = "Bioinformatics",
   	year = "2018",
-	volume = "xx",
-	pages = "xxx-xxx",
+	volume = "35",
+	pages = "526-528",
 
-        textVersion = "Paradis E. & Schliep K. 2018. ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R. Bioinformatics xx: xxx-xxx.")
+        textVersion = "Paradis E. & Schliep K. 2018. ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R. Bioinformatics 35: 526-528.")
 
 citFooter("As ape is evolving quickly, you may want to cite also its version number (found with 'library(help = ape)' or 'packageVersion(\"ape\")').")

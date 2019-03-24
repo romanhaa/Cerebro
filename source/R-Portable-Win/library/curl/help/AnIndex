@@ -3,6 +3,7 @@ curl_download	curl_download
 curl_echo	curl_echo
 curl_escape	curl_escape
 curl_fetch_disk	curl_fetch
+curl_fetch_echo	curl_fetch
 curl_fetch_memory	curl_fetch
 curl_fetch_multi	curl_fetch
 curl_fetch_stream	curl_fetch
@@ -10,6 +11,7 @@ curl_options	curl_options
 curl_symbols	curl_options
 curl_unescape	curl_escape
 curl_version	curl_options
+file_writer	file_writer
 form_data	multipart
 form_file	multipart
 handle	handle

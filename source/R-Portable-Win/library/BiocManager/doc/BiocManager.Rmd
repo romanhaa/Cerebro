@@ -1,0 +1,170 @@
+---
+title: "Installing and Managing _Bioconductor_ Packages"
+author:
+- name: Marcel Ramos
+  affiliation: Roswell Park Comprehensive Cancer Center, Buffalo, NY
+- name: Martin Morgan
+  affiliation: Roswell Park Comprehensive Cancer Center, Buffalo, NY
+output:
+  BiocStyle::html_document:
+      toc: true
+vignette: |
+  %\VignetteIndexEntry{Installing and Managing Bioconductor Packages}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Use the [BiocManager][1] package to install and manage packages from the
+_[Bioconductor][2]_ project for the statistical analysis and comprehension of
+high-throughput genomic data.
+
+Current _Bioconductor_ packages are available on a 'release' version intended
+for every-day use, and a 'devel' version where new features are introduced. A
+new release version is created every six months. Using the [BiocManager][1]
+package helps users install packages from the same release.
+
+# Basic use
+
+Use standard _R_ installation procedures to install the
+[BiocManager][1] package. This command is requried only once per _R_
+installation.
+
+```{r, eval = FALSE}
+chooseCRANmirror()
+install.packages("BiocManager")
+```
+
+Install _Bioconductor_ (or CRAN) packages with
+
+```{r, eval = FALSE}
+BiocManager::install(c("GenomicRanges", "Organism.dplyr"))
+```
+
+Installed packages can be updated to their current version with
+
+```{r, eval = FALSE}
+BiocManager::install()
+```
+
+Use `version()` to discover the version of _Bioconductor_ currently in
+use.
+
+```{r}
+BiocManager::version()
+```
+
+_Bioconductor_ packages work best when they are all from the same release. Use
+`valid()` to identify packages that are out-of-date or from unexpected
+versions.
+
+```{r}
+BiocManager::valid()
+```
+
+`valid()` returns an object that can be queried for detailed
+information about invalid packages, as illustrated in the following
+screen capture
+
+```
+> v <- valid()
+Warning message:
+6 packages out-of-date; 0 packages too new
+> names(v)
+[1] "out_of_date" "too_new"
+> head(v$out_of_date, 2)
+    Package LibPath
+bit "bit"   "/home/mtmorgan/R/x86_64-pc-linux-gnu-library/3.5-Bioc-3.8"
+ff  "ff"    "/home/mtmorgan/R/x86_64-pc-linux-gnu-library/3.5-Bioc-3.8"
+    Installed Built   ReposVer Repository
+bit "1.1-12"  "3.5.0" "1.1-13" "https://cran.rstudio.com/src/contrib"
+ff  "2.2-13"  "3.5.0" "2.2-14" "https://cran.rstudio.com/src/contrib"
+>
+```
+
+Packages available for your version of _Bioconductor_ can be
+discovered with `available()`; the first argument can be used to
+filter package names based on a regular expression, e.g., 'BSgenome' package available for _Homo sapiens_
+```{r}
+avail <- BiocManager::available()
+length(avail)
+BiocManager::available("BSgenome.Hsapiens")
+```
+
+Questions about installing and managing _Bioconductor_ packages should be
+addressed to the [_Bioconductor_ support site][3].
+
+# Advanced use
+
+## Changing version
+
+Use the `version=` argument to update all packages to a specific _Bioconductor_
+version
+
+```{r, eval = FALSE}
+BiocManager::install(version="3.7")
+```
+
+_Bioconductor_ versions are associated with specific _R_ versions, as
+summarized [here][5]. To use the most recent version of _Bioconductor_
+may require installing a new version of _R_.
+
+A special version, `version="devel"`, allows use of _Bioconductor_
+packages that are under development.
+
+## Managing multiple versions
+
+It is possible to have multiple versions of _Bioconductor_ installed on the
+same computer. A best practice is to [create an initial _R_ installation][6].
+Then create and use a library for each version of _Bioconductor_. The library
+will contain all _Bioconductor_, CRAN, and other packages for that version of
+_Bioconductor_. We illustrate the process assuming use of _Bioconductor_
+version 3.7, available using _R_ version 3.5
+
+Create a directory to contain the library (replace `USER_NAME` with your user
+name on Windows)
+
+- Linux: `~/R/3.5-Bioc-3.7`
+- macOS: `~/Library/R/3.5-Bioc-3.7/library`
+- Windows: `C:\Users\USER_NAME\Documents\R\3.5-Bioc-3.7`
+
+Set the environment variable `R_LIBS_USER` to this directory, and invoke _R_.
+Command line examples for Linux are
+
+- Linux: `R_LIBS_USER=~/R/3.5-Bioc-3.7 R`
+- macOS: `R_LIBS_USER=~~/Library/R/3.5-Bioc-3.7/library R`
+- Windows: `cmd /C "set R_LIBS_USER=C:\Users\USER_NAME\Documents\R\3.5-Bioc-3.7 && R"`
+
+Once in _R_, confirm that the version-specific library path has been set
+
+```{r, eval = FALSE}
+.libPaths()
+```
+
+On Linux and macOS, create a bash alias to save typing, e.g.,
+
+- Linux: `alias Bioc3.7='R_LIBS_USER=~/R/3.5-Bioc-3.7 R'`
+- macOS: `alias Bioc3.7='R_LIBS_USER=~/Library/R/3.5-Bioc-3.7/library R'`
+
+Invoke these from the command line as `Bioc3.7`.
+
+On Windows, create a shortcut. Go to My Computer and navigate to a directory
+that is in your PATH. Then right-click and choose New->Shortcut.
+In the "type the location of the item" box, put:
+
+```
+cmd /C "set R_LIBS_USER=C:\Users\USER_NAME\Documents\R\3.5-Bioc-3.7 && R"
+```
+
+Click "Next". In the "Type a name for this shortcut" box, type `Bioc-3.7`.
+
+[1]: https://cran.r-project.org/package=BiocManager
+[2]: https://bioconductor.org
+[3]: https://support.bioconductor.org
+[5]: https://bioconductor.org/about/release-announcements/
+[6]: https://cran.R-project.org/

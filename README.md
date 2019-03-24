@@ -144,9 +144,17 @@ npm install
 # run the app
 npm start
 # build the app
-npm run package-win
-# or
 npm run package-mac
+```
+
+To build the Windows version under macOS you'll have to install Wine.
+I experienced problems with missing libraries of the stable version (4.0) so I recommend to use the developers version (4.4) using Homebrew:
+
+```bash
+brew tap caskroom/versions
+brew update
+brew install caskroom/versions/wine-devel
+npm run package-win
 ```
 
 ### On Windows
@@ -176,8 +184,6 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 ## To Do
 
 * [ ] Show logo inside app.
-* [ ] Check which packages can be removed. / Clean up R libraries.
-  * Only in Windows, macOS is done.
 * [ ] Create release and upload to GitHub.
 
 

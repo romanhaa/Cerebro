@@ -40,7 +40,7 @@ namespace boost
 #if defined(BOOST_CLANG)
 // Intel C++ on Mac defines __clang__ but doesn't support the pragma
 # pragma clang diagnostic push
-  // # pragma clang diagnostic ignored "-Wweak-vtables"
+//# pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
 
 class bad_weak_ptr: public std::exception

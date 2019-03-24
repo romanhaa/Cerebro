@@ -22,6 +22,8 @@ str_remove              Remove matched patterns in a string.
 str_replace             Replace matched patterns in a string.
 str_replace_na          Turn NA into "NA"
 str_split               Split up a string into pieces.
+str_starts              Detect the presence or absence of a pattern at
+                        the beginning or end of a string.
 str_sub                 Extract and replace substrings from a character
                         vector.
 str_subset              Keep strings matching a pattern, or find

@@ -8,6 +8,8 @@ bam.update	bam.update
 bandchol	bandchol
 betar	Beta
 bug.reports.mgcv	bug.reports.mgcv
+choldrop	chol.down
+cholup	chol.down
 choose.k	choose.k
 coef.pdIdnot	pdIdnot
 coef.pdTens	pdTens
@@ -29,6 +31,7 @@ extract.lme.cov	extract.lme.cov
 extract.lme.cov2	extract.lme.cov
 factor.smooth.interaction	smooth.construct.fs.smooth.spec
 family.mgcv	family.mgcv
+FFdes	FFdes
 fix.family.link	fix.family.link
 fix.family.ls	fix.family.link
 fix.family.qf	fix.family.link
@@ -66,6 +69,7 @@ gamSim	gamSim
 gaulss	gaulss
 get.var	get.var
 gevlss	gevlss
+ginla	ginla
 gp.smooth	smooth.construct.gp.smooth.spec
 identifiability	identifiability
 in.out	in.out
@@ -213,6 +217,7 @@ trichol	trichol
 trind.generator	trind.generator
 tw	Tweedie
 Tweedie	Tweedie
+twlss	twlss
 uniquecombs	uniquecombs
 user.defined.smooth	smooth.construct
 vcov.gam	vcov.gam

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Subset tree objects by related nodes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tree_subset {treeio}"><tr><td>tree_subset {treeio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Subset tree objects by related nodes</h2>
+
+<h3>Description</h3>
+
+<p>This function allows for a tree object to be subset by specifying a
+node and returns all related nodes within a selected number of
+levels
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tree_subset(tree, node, levels_back = 5, group_node = TRUE)
+
+## S3 method for class 'phylo'
+tree_subset(tree, node, levels_back = 5,
+  group_node = TRUE)
+
+## S3 method for class 'treedata'
+tree_subset(tree, node, levels_back = 5,
+  group_node = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tree</code></td>
+<td>
+<p>a tree object of class phylo</p>
+</td></tr>
+<tr valign="top"><td><code>node</code></td>
+<td>
+<p>either a tip label or a node number for the given
+tree that will be the focus of the subsetted tree</p>
+</td></tr>
+<tr valign="top"><td><code>levels_back</code></td>
+<td>
+<p>a number specifying how many nodes back from
+the selected node the subsetted tree should include</p>
+</td></tr>
+<tr valign="top"><td><code>group_node</code></td>
+<td>
+<p>whether add grouping information of selected node</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function will take a tree and a specified node from
+that tree and subset the tree showing all relatives back to a specified
+number of nodes. This function allows for a combination of
+<code>ancestor</code> and <code>offspring</code> to return a subsetted
+tree that is of class phylo. This allows for easy graphing of the tree
+with <code>ggtree</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  nwk &lt;- system.file("extdata", "sample.nwk", package="treeio")
+  tree &lt;- read.tree(nwk)
+
+  sub_tree &lt;- tree_subset(tree, node = "A", levels_back = 3)
+  ggtree(sub_tree) + geom_tiplab() + geom_nodelab()
+
+## End(Not run)
+
+## Not run: 
+  nwk &lt;- system.file("extdata", "sample.nwk", package="treeio")
+  tree &lt;- read.tree(nwk)
+
+  sub_tree &lt;- tree_subset(tree, node = "A", levels_back = 3)
+  ggtree(sub_tree) + geom_tiplab() + geom_nodelab()
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>treeio</em> version 1.6.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

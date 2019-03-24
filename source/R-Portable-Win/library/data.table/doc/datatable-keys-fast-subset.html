@@ -11,14 +11,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2018-09-29" />
+<meta name="date" content="2019-01-11" />
 
 <title>Keys and fast binary search based subset</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -54,7 +54,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -68,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Keys and fast binary search based subset</h1>
-<h4 class="date"><em>2018-09-29</em></h4>
+<h4 class="date"><em>2019-01-11</em></h4>
 
 
 
@@ -521,7 +543,7 @@ flights[.(<span class="dv">24</span>), hour <span class="op">:</span><span class
 <p>We can choose if queries that do not match should return <code>NA</code> or be skipped altogether using the <code>nomatch</code> argument.</p>
 <div id="from-the-previous-example-subset-all-rows-only-if-theres-a-match" class="section level4">
 <h4>– From the previous example, Subset all rows only if there’s a match</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights[.(<span class="kw">c</span>(<span class="st">&quot;LGA&quot;</span>, <span class="st">&quot;JFK&quot;</span>, <span class="st">&quot;EWR&quot;</span>), <span class="st">&quot;XNA&quot;</span>), mult =<span class="st"> &quot;last&quot;</span>, nomatch =<span class="st"> </span>0L]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights[.(<span class="kw">c</span>(<span class="st">&quot;LGA&quot;</span>, <span class="st">&quot;JFK&quot;</span>, <span class="st">&quot;EWR&quot;</span>), <span class="st">&quot;XNA&quot;</span>), mult =<span class="st"> &quot;last&quot;</span>, nomatch =<span class="st"> </span><span class="ot">NULL</span>]
 <span class="co">#    year month day dep_delay arr_delay carrier origin dest air_time distance hour</span>
 <span class="co"># 1: 2014     5  23       163       148      MQ    LGA  XNA      158     1147   18</span>
 <span class="co"># 2: 2014     2   3       231       268      EV    EWR  XNA      184     1131   12</span></code></pre></div>
@@ -529,7 +551,7 @@ flights[.(<span class="dv">24</span>), hour <span class="op">:</span><span class
 <div id="section-14" class="section level4 bs-callout bs-callout-info">
 <h4></h4>
 <ul>
-<li><p>Default value for <code>nomatch</code> is <code>NA</code>. Setting <code>nomatch = 0L</code> skips queries with no matches.</p></li>
+<li><p>Default value for <code>nomatch</code> is <code>NA</code>. Setting <code>nomatch = NULL</code> skips queries with no matches.</p></li>
 <li><p>The query “JFK”, “XNA” doesn’t match any rows in flights and therefore is skipped.</p></li>
 </ul>
 </div>
@@ -565,7 +587,7 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 t1 &lt;-<span class="st"> </span><span class="kw">system.time</span>(ans1 &lt;-<span class="st"> </span>DT[x <span class="op">==</span><span class="st"> &quot;g&quot;</span> <span class="op">&amp;</span><span class="st"> </span>y <span class="op">==</span><span class="st"> </span>877L])
 t1
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.518   0.028   0.547</span>
+<span class="co">#   0.891   0.090   0.170</span>
 <span class="kw">head</span>(ans1)
 <span class="co">#    x   y       val</span>
 <span class="co"># 1: g 877 0.3946652</span>
@@ -599,7 +621,7 @@ t2
 <span class="kw">identical</span>(ans1<span class="op">$</span>val, ans2<span class="op">$</span>val)
 <span class="co"># [1] TRUE</span></code></pre></div>
 <ul>
-<li>The speed-up is <strong>~547x</strong>!</li>
+<li>The speed-up is <strong>~170x</strong>!</li>
 </ul>
 </div>
 <div id="b-why-does-keying-a-data.table-result-in-blazing-fast-susbets" class="section level3">

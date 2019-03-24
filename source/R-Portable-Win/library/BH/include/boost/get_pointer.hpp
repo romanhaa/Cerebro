@@ -9,11 +9,11 @@
 
 // In order to avoid circular dependencies with Boost.TR1
 // we make sure that our include of <memory> doesn't try to
-// pull in the TR1 headers: that's why we use this header 
+// pull in the TR1 headers: that's why we use this header
 // rather than including <memory> directly:
 #include <boost/config/no_tr1/memory.hpp>  // std::auto_ptr
 
-namespace boost { 
+namespace boost {
 
 // get_pointer(p) extracts a ->* capable pointer from p
 
@@ -41,7 +41,7 @@ template<class T> T * get_pointer(T * p)
 #if defined( BOOST_CORE_DETAIL_DISABLE_LIBSTDCXX_DEPRECATED_WARNINGS )
 // Disable libstdc++ warnings about std::auto_ptr being deprecated in C++11 mode
 #pragma GCC diagnostic push
-  //#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #define BOOST_CORE_DETAIL_DISABLED_DEPRECATED_WARNINGS
 #endif
 

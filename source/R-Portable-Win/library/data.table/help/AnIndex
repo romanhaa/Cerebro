@@ -83,6 +83,9 @@ foverlaps	foverlaps
 frank	frank
 frankv	frank
 fread	fread
+froll	froll
+frollmean	froll
+frollsum	froll
 fsetdiff	setops
 fsetequal	setops
 fsort	fsort
@@ -124,6 +127,7 @@ merge	merge
 merge.data.table	merge
 minute	IDateTime
 month	IDateTime
+moving	froll
 na.omit	na.omit.data.table
 na.omit.data.table	na.omit.data.table
 Ops.data.table	data.table
@@ -140,6 +144,8 @@ rep.IDate	IDateTime
 rep.ITime	IDateTime
 rleid	rleid
 rleidv	rleid
+roll	froll
+rolling	froll
 rollup	groupingsets
 rollup.data.table	groupingsets
 round.IDate	IDateTime
@@ -170,6 +176,7 @@ setorderv	setorder
 shift	shift
 shouldPrint	shouldPrint
 SJ	J
+sliding	froll
 special-symbols	special-symbols
 split	split
 split.data.table	split

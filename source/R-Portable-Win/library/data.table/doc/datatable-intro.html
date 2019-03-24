@@ -11,14 +11,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2018-09-29" />
+<meta name="date" content="2019-01-11" />
 
 <title>Introduction to data.table</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -54,7 +54,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -68,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Introduction to data.table</h1>
-<h4 class="date"><em>2018-09-29</em></h4>
+<h4 class="date"><em>2019-01-11</em></h4>
 
 
 
@@ -86,7 +108,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>In this vignette, we will use <a href="https://github.com/arunsrinivasan/flights/wiki/NYC-Flights-2014-data">NYC-flights14</a> data. It contains On-Time flights data from the <a href="http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236">Bureau of Transporation Statistics</a> for all the flights that departed from New York City airports in 2014 (inspired by <a href="https://github.com/hadley/nycflights13">nycflights13</a>). The data is available only for Jan-Oct’14.</p>
+<p>In this vignette, we will use <a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv">NYC-flights14</a> data obtained by <a href="https://github.com/arunsrinivasan/flights">flights</a> package (available on GitHub only). It contains On-Time flights data from the <a href="http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236">Bureau of Transporation Statistics</a> for all the flights that departed from New York City airports in 2014 (inspired by <a href="https://github.com/hadley/nycflights13">nycflights13</a>). The data is available only for Jan-Oct’14.</p>
 <p>We can use <code>data.table</code>’s fast-and-friendly file reader <code>fread</code> to load <code>flights</code> directly as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;flights14.csv&quot;</span>)
 flights

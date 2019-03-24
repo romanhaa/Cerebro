@@ -183,7 +183,7 @@ my_mutate(df, a)
 
 ## ------------------------------------------------------------------------
 my_summarise <- function(df, ...) {
-  group_var <- quos(...)
+  group_var <- enquos(...)
 
   df %>%
     group_by(!!! group_var) %>%
@@ -283,10 +283,6 @@ quo(UQ(my_fun)(x, y, z))
 my_var <- quo(x)
 quo(filter(df, !! my_var == 1))
 quo(filter(df, UQ(my_var) == 1))
-
-## ------------------------------------------------------------------------
-quo(UQE(my_fun)(x, y, z))
-quo(filter(df, UQE(my_var) == 1))
 
 ## ------------------------------------------------------------------------
 quo(list(!!! letters[1:5]))

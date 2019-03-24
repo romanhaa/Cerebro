@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;purrr&rsquo; version 0.2.5</h2>
+</div><h2>Documentation for package &lsquo;purrr&rsquo; version 0.3.2</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -26,7 +26,6 @@
 <a href="#D">D</a>
 <a href="#E">E</a>
 <a href="#F">F</a>
-<a href="#G">G</a>
 <a href="#H">H</a>
 <a href="#I">I</a>
 <a href="#K">K</a>
@@ -41,6 +40,7 @@
 <a href="#U">U</a>
 <a href="#V">V</a>
 <a href="#W">W</a>
+<a href="#Z">Z</a>
 <a href="#misc">misc</a>
 </p>
 
@@ -49,15 +49,17 @@
 
 <table width="100%">
 <tr><td style="width: 25%;"><a href="accumulate.html">accumulate</a></td>
-<td>Accumulate recursive folds across a list</td></tr>
-<tr><td style="width: 25%;"><a href="accumulate.html">accumulate_right</a></td>
-<td>Accumulate recursive folds across a list</td></tr>
+<td>Accumulate intermediate results of a vector reduction</td></tr>
+<tr><td style="width: 25%;"><a href="accumulate.html">accumulate2</a></td>
+<td>Accumulate intermediate results of a vector reduction</td></tr>
 <tr><td style="width: 25%;"><a href="array-coercion.html">array-coercion</a></td>
 <td>Coerce array to list</td></tr>
 <tr><td style="width: 25%;"><a href="array-coercion.html">array_branch</a></td>
 <td>Coerce array to list</td></tr>
 <tr><td style="width: 25%;"><a href="array-coercion.html">array_tree</a></td>
 <td>Coerce array to list</td></tr>
+<tr><td style="width: 25%;"><a href="modify_in.html">assign_in</a></td>
+<td>Modify a pluck location</td></tr>
 <tr><td style="width: 25%;"><a href="as_mapper.html">as_function</a></td>
 <td>Convert an object into a mapper function</td></tr>
 <tr><td style="width: 25%;"><a href="as_mapper.html">as_mapper</a></td>
@@ -70,8 +72,8 @@
 <td>Convert an object into a mapper function</td></tr>
 <tr><td style="width: 25%;"><a href="as_vector.html">as_vector</a></td>
 <td>Coerce a list to a vector</td></tr>
-<tr><td style="width: 25%;"><a href="modify.html">at_depth</a></td>
-<td>Modify elements selectively</td></tr>
+<tr><td style="width: 25%;"><a href="attr_getter.html">attr_getter</a></td>
+<td>Create an attribute getter function</td></tr>
 <tr><td style="width: 25%;"><a href="safely.html">auto_browse</a></td>
 <td>Capture side effects.</td></tr>
 </table>
@@ -79,6 +81,8 @@
 <h2><a name="C">-- C --</a></h2>
 
 <table width="100%">
+<tr><td style="width: 25%;"><a href="pluck.html">chuck</a></td>
+<td>Pluck or chuck a single element from a vector or environment</td></tr>
 <tr><td style="width: 25%;"><a href="keep.html">compact</a></td>
 <td>Keep or discard elements using a predicate function.</td></tr>
 <tr><td style="width: 25%;"><a href="compose.html">compose</a></td>
@@ -101,11 +105,13 @@
 
 <table width="100%">
 <tr><td style="width: 25%;"><a href="detect.html">detect</a></td>
-<td>Find the value or position of the first match.</td></tr>
+<td>Find the value or position of the first match</td></tr>
 <tr><td style="width: 25%;"><a href="detect.html">detect_index</a></td>
-<td>Find the value or position of the first match.</td></tr>
+<td>Find the value or position of the first match</td></tr>
 <tr><td style="width: 25%;"><a href="keep.html">discard</a></td>
 <td>Keep or discard elements using a predicate function.</td></tr>
+<tr><td style="width: 25%;"><a href="done.html">done</a></td>
+<td>Done box</td></tr>
 </table>
 
 <h2><a name="E">-- E --</a></h2>
@@ -113,6 +119,8 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="every.html">every</a></td>
 <td>Do every or some elements of a list satisfy a predicate?</td></tr>
+<tr><td style="width: 25%;"><a href="exec.html">exec</a></td>
+<td>Execute a function</td></tr>
 </table>
 
 <h2><a name="F">-- F --</a></h2>
@@ -134,13 +142,8 @@
 <td>Flatten a list of lists into a simple vector.</td></tr>
 <tr><td style="width: 25%;"><a href="flatten.html">flatten_lgl</a></td>
 <td>Flatten a list of lists into a simple vector.</td></tr>
-</table>
-
-<h2><a name="G">-- G --</a></h2>
-
-<table width="100%">
-<tr><td style="width: 25%;"><a href="get-attr.html">get-attr</a></td>
-<td>Infix attribute accessor</td></tr>
+<tr><td style="width: 25%;"><a href="flatten.html">flatten_raw</a></td>
+<td>Flatten a list of lists into a simple vector.</td></tr>
 </table>
 
 <h2><a name="H">-- H --</a></h2>
@@ -169,24 +172,14 @@
 <td>Apply a function to each element of a vector, and its index</td></tr>
 <tr><td style="width: 25%;"><a href="imap.html">imap_lgl</a></td>
 <td>Apply a function to each element of a vector, and its index</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_chr</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_dbl</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_df</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_dfc</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_dfr</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_int</a></td>
-<td>Invoke functions.</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">invoke_map_lgl</a></td>
-<td>Invoke functions.</td></tr>
+<tr><td style="width: 25%;"><a href="imap.html">imap_raw</a></td>
+<td>Apply a function to each element of a vector, and its index</td></tr>
+<tr><td style="width: 25%;"><a href="modify.html">imodify</a></td>
+<td>Modify elements selectively</td></tr>
+<tr><td style="width: 25%;"><a href="insistently.html">insistently</a></td>
+<td>Transform a function to make it run insistently or slowly</td></tr>
+<tr><td style="width: 25%;"><a href="rate-helpers.html">is_rate</a></td>
+<td>Create delaying rate settings</td></tr>
 <tr><td style="width: 25%;"><a href="imap.html">iwalk</a></td>
 <td>Apply a function to each element of a vector, and its index</td></tr>
 </table>
@@ -248,13 +241,15 @@
 <td>Map over multiple inputs simultaneously.</td></tr>
 <tr><td style="width: 25%;"><a href="map2.html">map2_lgl</a></td>
 <td>Map over multiple inputs simultaneously.</td></tr>
+<tr><td style="width: 25%;"><a href="map2.html">map2_raw</a></td>
+<td>Map over multiple inputs simultaneously.</td></tr>
 <tr><td style="width: 25%;"><a href="map.html">map_at</a></td>
 <td>Apply a function to each element of a vector</td></tr>
-<tr><td style="width: 25%;"><a href="invoke.html">map_call</a></td>
-<td>Invoke functions.</td></tr>
 <tr><td style="width: 25%;"><a href="map.html">map_chr</a></td>
 <td>Apply a function to each element of a vector</td></tr>
 <tr><td style="width: 25%;"><a href="map.html">map_dbl</a></td>
+<td>Apply a function to each element of a vector</td></tr>
+<tr><td style="width: 25%;"><a href="map.html">map_depth</a></td>
 <td>Apply a function to each element of a vector</td></tr>
 <tr><td style="width: 25%;"><a href="map.html">map_df</a></td>
 <td>Apply a function to each element of a vector</td></tr>
@@ -268,9 +263,13 @@
 <td>Apply a function to each element of a vector</td></tr>
 <tr><td style="width: 25%;"><a href="map.html">map_lgl</a></td>
 <td>Apply a function to each element of a vector</td></tr>
+<tr><td style="width: 25%;"><a href="map.html">map_raw</a></td>
+<td>Apply a function to each element of a vector</td></tr>
 <tr><td style="width: 25%;"><a href="modify.html">modify</a></td>
 <td>Modify elements selectively</td></tr>
 <tr><td style="width: 25%;"><a href="modify.html">modify.default</a></td>
+<td>Modify elements selectively</td></tr>
+<tr><td style="width: 25%;"><a href="modify.html">modify2</a></td>
 <td>Modify elements selectively</td></tr>
 <tr><td style="width: 25%;"><a href="modify.html">modify_at</a></td>
 <td>Modify elements selectively</td></tr>
@@ -284,6 +283,8 @@
 <td>Modify elements selectively</td></tr>
 <tr><td style="width: 25%;"><a href="modify.html">modify_if.default</a></td>
 <td>Modify elements selectively</td></tr>
+<tr><td style="width: 25%;"><a href="modify_in.html">modify_in</a></td>
+<td>Modify a pluck location</td></tr>
 </table>
 
 <h2><a name="N">-- N --</a></h2>
@@ -292,7 +293,7 @@
 <tr><td style="width: 25%;"><a href="negate.html">negate</a></td>
 <td>Negate a predicate function.</td></tr>
 <tr><td style="width: 25%;"><a href="null-default.html">null-default</a></td>
-<td>Default value for 'NULL'.</td></tr>
+<td>Default value for 'NULL'</td></tr>
 </table>
 
 <h2><a name="P">-- P --</a></h2>
@@ -300,6 +301,10 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="partial.html">partial</a></td>
 <td>Partial apply a function, filling in some arguments.</td></tr>
+<tr><td style="width: 25%;"><a href="pluck.html">pluck</a></td>
+<td>Pluck or chuck a single element from a vector or environment</td></tr>
+<tr><td style="width: 25%;"><a href="pluck.html">pluck&lt;-</a></td>
+<td>Pluck or chuck a single element from a vector or environment</td></tr>
 <tr><td style="width: 25%;"><a href="map2.html">pmap</a></td>
 <td>Map over multiple inputs simultaneously.</td></tr>
 <tr><td style="width: 25%;"><a href="map2.html">pmap_chr</a></td>
@@ -315,6 +320,8 @@
 <tr><td style="width: 25%;"><a href="map2.html">pmap_int</a></td>
 <td>Map over multiple inputs simultaneously.</td></tr>
 <tr><td style="width: 25%;"><a href="map2.html">pmap_lgl</a></td>
+<td>Map over multiple inputs simultaneously.</td></tr>
+<tr><td style="width: 25%;"><a href="map2.html">pmap_raw</a></td>
 <td>Map over multiple inputs simultaneously.</td></tr>
 <tr><td style="width: 25%;"><a href="safely.html">possibly</a></td>
 <td>Capture side effects.</td></tr>
@@ -334,18 +341,26 @@
 <h2><a name="R">-- R --</a></h2>
 
 <table width="100%">
+<tr><td style="width: 25%;"><a href="rate-helpers.html">rate-helpers</a></td>
+<td>Create delaying rate settings</td></tr>
+<tr><td style="width: 25%;"><a href="rate-helpers.html">rate_backoff</a></td>
+<td>Create delaying rate settings</td></tr>
+<tr><td style="width: 25%;"><a href="rate-helpers.html">rate_delay</a></td>
+<td>Create delaying rate settings</td></tr>
+<tr><td style="width: 25%;"><a href="rate_sleep.html">rate_reset</a></td>
+<td>Wait for a given time</td></tr>
+<tr><td style="width: 25%;"><a href="rate_sleep.html">rate_sleep</a></td>
+<td>Wait for a given time</td></tr>
 <tr><td style="width: 25%;"><a href="rbernoulli.html">rbernoulli</a></td>
 <td>Generate random sample from a Bernoulli distribution</td></tr>
 <tr><td style="width: 25%;"><a href="rdunif.html">rdunif</a></td>
 <td>Generate random sample from a discrete uniform distribution</td></tr>
 <tr><td style="width: 25%;"><a href="reduce.html">reduce</a></td>
-<td>Reduce a list to a single value by iteratively applying a binary function.</td></tr>
+<td>Reduce a list to a single value by iteratively applying a binary function</td></tr>
 <tr><td style="width: 25%;"><a href="reduce.html">reduce2</a></td>
-<td>Reduce a list to a single value by iteratively applying a binary function.</td></tr>
-<tr><td style="width: 25%;"><a href="reduce.html">reduce2_right</a></td>
-<td>Reduce a list to a single value by iteratively applying a binary function.</td></tr>
-<tr><td style="width: 25%;"><a href="reduce.html">reduce_right</a></td>
-<td>Reduce a list to a single value by iteratively applying a binary function.</td></tr>
+<td>Reduce a list to a single value by iteratively applying a binary function</td></tr>
+<tr><td style="width: 25%;"><a href="rep_along.html">rep_along</a></td>
+<td>Repeat a value with matching length</td></tr>
 <tr><td style="width: 25%;"><a href="rerun.html">rerun</a></td>
 <td>Re-run expressions multiple times.</td></tr>
 </table>
@@ -355,10 +370,14 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="safely.html">safely</a></td>
 <td>Capture side effects.</td></tr>
+<tr><td style="width: 25%;"><a href="set_names.html">set_names</a></td>
+<td>Set names in a vector</td></tr>
 <tr><td style="width: 25%;"><a href="as_vector.html">simplify</a></td>
 <td>Coerce a list to a vector</td></tr>
 <tr><td style="width: 25%;"><a href="as_vector.html">simplify_all</a></td>
 <td>Coerce a list to a vector</td></tr>
+<tr><td style="width: 25%;"><a href="insistently.html">slowly</a></td>
+<td>Transform a function to make it run insistently or slowly</td></tr>
 <tr><td style="width: 25%;"><a href="every.html">some</a></td>
 <td>Do every or some elements of a list satisfy a predicate?</td></tr>
 <tr><td style="width: 25%;"><a href="splice.html">splice</a></td>
@@ -397,12 +416,17 @@
 <td>Map over multiple inputs simultaneously.</td></tr>
 </table>
 
+<h2><a name="Z">-- Z --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="zap.html">zap</a></td>
+<td>Zap an element</td></tr>
+</table>
+
 <h2><a name="misc">-- misc --</a></h2>
 
 <table width="100%">
-<tr><td style="width: 25%;"><a href="get-attr.html">%@%</a></td>
-<td>Infix attribute accessor</td></tr>
 <tr><td style="width: 25%;"><a href="null-default.html">%||%</a></td>
-<td>Default value for 'NULL'.</td></tr>
+<td>Default value for 'NULL'</td></tr>
 </table>
 </body></html>

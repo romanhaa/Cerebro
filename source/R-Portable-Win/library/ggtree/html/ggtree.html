@@ -66,11 +66,13 @@ ggtree(tr, mapping = NULL, layout = "rectangular", open.angle = 0,
 </td></tr>
 <tr valign="top"><td><code>ladderize</code></td>
 <td>
-<p>logical</p>
+<p>logical (default <code>TRUE</code>). Should the tree be re-organized to have a 'ladder'
+aspect?</p>
 </td></tr>
 <tr valign="top"><td><code>right</code></td>
 <td>
-<p>logical</p>
+<p>logical. If <code>ladderize = TRUE</code>, should the ladder have the smallest clade on the
+right-hand side? See <code><a href="../../ape/html/ladderize.html">ladderize</a></code> for more information.</p>
 </td></tr>
 <tr valign="top"><td><code>branch.length</code></td>
 <td>
@@ -95,6 +97,12 @@ ggtree(tr, mapping = NULL, layout = "rectangular", open.angle = 0,
 </p>
 
 
+<h3>See Also</h3>
+
+<p><code><a href="../../ape/html/ladderize.html">ladderize</a></code>
+</p>
+
+
 <h3>Examples</h3>
 
 <pre>
@@ -103,5 +111,5 @@ tr &lt;- rtree(10)
 ggtree(tr)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>ggtree</em> version 1.12.7 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>ggtree</em> version 1.14.6 <a href="00Index.html">Index</a>]</div>
 </body></html>

@@ -11,14 +11,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2018-09-29" />
+<meta name="date" content="2019-01-11" />
 
 <title>Importing data.table</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -54,7 +54,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -68,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Importing <code>data.table</code></h1>
-<h4 class="date"><em>2018-09-29</em></h4>
+<h4 class="date"><em>2019-01-11</em></h4>
 
 
 
@@ -195,7 +217,7 @@ aggr =<span class="st"> </span><span class="cf">function</span> (x) {
 <p>Some users (<a href="https://github.com/Rdatatable/data.table/issues/2341">e.g.</a>) may prefer to eschew using <code>importFrom</code> or <code>import</code> in their <code>NAMESPACE</code> file and instead use <code>data.table::</code> qualification on all internal code (of course keeping <code>data.table</code> under their <code>Imports:</code> in <code>DESCRIPTION</code>).</p>
 <p>In this case, the un-exported function <code>[.data.table</code> will revert to calling <code>[.data.frame</code> as a safeguard since <code>data.table</code> has no way of knowing that the parent package is aware it’s attempting to make calls against the syntax of <code>data.table</code>’s query API (which could lead to unexpected behavior as the structure of calls to <code>[.data.frame</code> and <code>[.data.table</code> fundamentally differ, e.g. the latter has many more arguments).</p>
 <p>If this is anyway your preferred approach to package development, please define <code>.datatable.aware = TRUE</code> anywhere in your R source code (no need to export). This tells <code>data.table</code> that you as a package developer have designed your code to intentionally rely on <code>data.table</code> functionality even though it may not be obvious from inspecting your <code>NAMESPACE</code> file.</p>
-<p><code>data.table</code> determines on the fly whether the calling function is aware it’s tapping into <code>data.table</code> with the internal <code>cedta</code> function (<strong>C</strong>alling <strong>E</strong>nvironment is <strong>D</strong>ata <strong>T</strong>able <strong>A</strong>ware), which, beyond checking <code>the</code>?getNamespaceImports` for your package, also checks the existence of this variable (among other things).</p>
+<p><code>data.table</code> determines on the fly whether the calling function is aware it’s tapping into <code>data.table</code> with the internal <code>cedta</code> function (<strong>C</strong>alling <strong>E</strong>nvironment is <strong>D</strong>ata <strong>T</strong>able <strong>A</strong>ware), which, beyond checking the <code>?getNamespaceImports</code> for your package, also checks the existence of this variable (among other things).</p>
 </div>
 <div id="further-information-on-dependencies" class="section level2">
 <h2>Further information on dependencies</h2>

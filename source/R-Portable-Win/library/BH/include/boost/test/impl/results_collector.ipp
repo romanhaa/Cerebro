@@ -5,11 +5,9 @@
 
 //  See http://www.boost.org/libs/test for the library home page.
 //
-//  File        : $RCSfile$
-//
-//  Version     : $Revision$
-//
-//  Description : implements Unit Test results collecting facility.
+/// @file
+/// Test results collecting facility.
+///
 // ***************************************************************************
 
 #ifndef BOOST_TEST_RESULTS_COLLECTOR_IPP_021105GER
@@ -52,17 +50,29 @@ test_results::test_results()
 bool
 test_results::passed() const
 {
+    // if it is skipped, it is not passed. However, if any children is not failed/aborted
+    // then their skipped status is not taken into account.
     return  !p_skipped                                  &&
             p_test_cases_failed == 0                    &&
             p_assertions_failed <= p_expected_failures  &&
-            p_test_cases_skipped == 0                   &&
+            // p_test_cases_skipped == 0                   &&
             !p_aborted;
 }
+
+//____________________________________________________________________________//
 
 bool
 test_results::aborted() const
 {
     return  p_aborted;
+}
+
+//____________________________________________________________________________//
+
+bool
+test_results::skipped() const
+{
+    return  p_skipped;
 }
 
 //____________________________________________________________________________//
@@ -126,6 +136,10 @@ struct results_collector_impl {
 results_collector_impl& s_rc_impl() { static results_collector_impl the_inst; return the_inst; }
 
 } // local namespace
+
+//____________________________________________________________________________//
+
+BOOST_TEST_SINGLETON_CONS_IMPL( results_collector_t )
 
 //____________________________________________________________________________//
 

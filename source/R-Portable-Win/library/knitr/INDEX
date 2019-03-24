@@ -2,6 +2,7 @@ Sweave2knitr            Convert Sweave to knitr documents
 all_labels              Get all chunk labels in a document
 all_patterns            All built-in patterns
 asis_output             Mark an R object with a special class
+cache_engines           Cache engines of other languages
 clean_cache             Clean cache files that are probably no longer
                         needed
 combine_words           Combine multiple words into a single string
@@ -69,6 +70,8 @@ plot_crop               Crop a plot (remove the edges) using PDFCrop or
                         ImageMagick
 rand_seed               An unevaluated expression to return
                         .Random.seed if exists
+raw_block               Mark character strings as raw blocks in R
+                        Markdown
 read_chunk              Read chunks from an external script
 read_rforge             Read source code from R-Forge
 render_html             Set output hooks for different output formats

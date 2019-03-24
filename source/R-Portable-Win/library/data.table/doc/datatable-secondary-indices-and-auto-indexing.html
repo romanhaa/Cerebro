@@ -11,14 +11,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2018-09-29" />
+<meta name="date" content="2019-01-11" />
 
 <title>Secondary indices and auto indexing</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -54,7 +54,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -68,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Secondary indices and auto indexing</h1>
-<h4 class="date"><em>2018-09-29</em></h4>
+<h4 class="date"><em>2019-01-11</em></h4>
 
 
 
@@ -231,7 +253,7 @@ flights[<span class="st">&quot;LAX&quot;</span>]</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setindex</span>(flights, origin)
 flights[<span class="st">&quot;JFK&quot;</span>, on =<span class="st"> &quot;origin&quot;</span>, verbose =<span class="st"> </span><span class="ot">TRUE</span>][<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
 <span class="co"># on= matches existing index, using index</span>
-<span class="co"># Starting bmerge ...done in 0.000sec</span>
+<span class="co"># Starting bmerge ...done in 0.000s elapsed (0.001s cpu)</span>
 <span class="co">#    year month day dep_delay arr_delay carrier origin dest air_time distance hour</span>
 <span class="co"># 1: 2014     1   1        14        13      AA    JFK  LAX      359     2475    9</span>
 <span class="co"># 2: 2014     1   1        -3        13      AA    JFK  LAX      363     2475   11</span>
@@ -360,7 +382,7 @@ flights[, <span class="kw">sort</span>(<span class="kw">unique</span>(hour))]
 <p>We can choose if queries that do not match should return <code>NA</code> or be skipped altogether using the <code>nomatch</code> argument.</p>
 <div id="from-the-previous-example-subset-all-rows-only-if-theres-a-match" class="section level4">
 <h4>– From the previous example, subset all rows only if there’s a match</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights[.(<span class="kw">c</span>(<span class="st">&quot;LGA&quot;</span>, <span class="st">&quot;JFK&quot;</span>, <span class="st">&quot;EWR&quot;</span>), <span class="st">&quot;XNA&quot;</span>), mult =<span class="st"> &quot;last&quot;</span>, on =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;origin&quot;</span>, <span class="st">&quot;dest&quot;</span>), nomatch =<span class="st"> </span>0L]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights[.(<span class="kw">c</span>(<span class="st">&quot;LGA&quot;</span>, <span class="st">&quot;JFK&quot;</span>, <span class="st">&quot;EWR&quot;</span>), <span class="st">&quot;XNA&quot;</span>), mult =<span class="st"> &quot;last&quot;</span>, on =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;origin&quot;</span>, <span class="st">&quot;dest&quot;</span>), nomatch =<span class="st"> </span><span class="ot">NULL</span>]
 <span class="co">#    year month day dep_delay arr_delay carrier origin dest air_time distance hour</span>
 <span class="co"># 1: 2014    10  31        -5       -11      MQ    LGA  XNA      165     1147    6</span>
 <span class="co"># 2: 2014    10  31        -2       -25      EV    EWR  XNA      160     1131    6</span></code></pre></div>
@@ -387,7 +409,7 @@ dt =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 ## run thefirst time
 (t1 &lt;-<span class="st"> </span><span class="kw">system.time</span>(ans &lt;-<span class="st"> </span>dt[x <span class="op">==</span><span class="st"> </span>989L]))
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.173   0.020   0.193</span>
+<span class="co">#   0.822   0.037   0.131</span>
 <span class="kw">head</span>(ans)
 <span class="co">#      x         y</span>
 <span class="co"># 1: 989 0.5372007</span>
@@ -413,7 +435,7 @@ dt =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 <span class="co">#    user  system elapsed </span>
 <span class="co">#   0.001   0.000   0.001</span></code></pre></div>
 <ul>
-<li><p>Running the first time took 0.193 seconds where as the second time took 0.001 seconds.</p></li>
+<li><p>Running the first time took 0.131 seconds where as the second time took 0.001 seconds.</p></li>
 <li><p>Auto indexing can be disabled by setting the global argument <code>options(datatable.auto.index = FALSE)</code>.</p></li>
 <li><p>Disabling auto indexing still allows to use indices created explicitly with <code>setindex</code> or <code>setindexv</code>. You can disable indices fully by setting global argument <code>options(datatable.use.index = FALSE)</code>.</p></li>
 </ul>

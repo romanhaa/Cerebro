@@ -8,6 +8,7 @@ airMonthpickerInput	airDatepicker
 airYearpickerInput	airDatepicker
 animateOptions	animateOptions
 animations	animations
+appendVerticalTab	appendVerticalTab
 awesomeCheckbox	awesomeCheckbox
 awesomeCheckboxGroup	awesomeCheckboxGroup
 awesomeRadio	awesomeRadio
@@ -21,6 +22,7 @@ colorSelectorInput	colorSelectorInput
 confirmSweetAlert	confirmSweetAlert
 demoAirDatepicker	demoAirDatepicker
 demoNoUiSlider	demoNoUiSlider
+demoNumericRange	demoNumericRange
 downloadBttn	downloadBttn
 dropdown	dropdown
 dropdownButton	dropdownButton
@@ -29,11 +31,13 @@ knobInput	knobInput
 materialSwitch	materialSwitch
 multiInput	multiInput
 noUiSliderInput	noUiSliderInput
+numericRangeInput	numericRangeInput
 panel	panel
 pickerGroup-module	pickerGroup-module
 pickerGroupServer	pickerGroup-module
 pickerGroupUI	pickerGroup-module
 pickerInput	pickerInput
+pickerOptions	pickerOptions
 prettyCheckbox	prettyCheckbox
 prettyCheckboxGroup	prettyCheckboxGroup
 prettyRadioButtons	prettyRadioButtons
@@ -43,6 +47,8 @@ progress-bar	progress-bar
 progressBar	progress-bar
 progressSweetAlert	progressSweetAlert
 radioGroupButtons	radioGroupButtons
+removeVerticalTab	appendVerticalTab
+reorderVerticalTabs	appendVerticalTab
 searchInput	searchInput
 selectizeGroup-module	selectizeGroup-module
 selectizeGroupServer	selectizeGroup-module
@@ -50,6 +56,7 @@ selectizeGroupUI	selectizeGroup-module
 sendSweetAlert	sendSweetAlert
 setBackgroundColor	setBackgroundColor
 setBackgroundImage	setBackgroundImage
+setShadow	setShadow
 setSliderColor	setSliderColor
 shinyWidgets	shinyWidgets
 shinyWidgetsGallery	shinyWidgetsGallery
@@ -67,7 +74,9 @@ updateAwesomeRadio	updateAwesomeRadio
 updateCheckboxGroupButtons	updateCheckboxGroupButtons
 updateKnobInput	updateKnobInput
 updateMaterialSwitch	updateMaterialSwitch
+updateMultiInput	updateMultiInput
 updateNoUiSliderInput	updateNoUiSliderInput
+updateNumericRangeInput	updateNumericRangeInput
 updatePickerInput	updatePickerInput
 updatePrettyCheckbox	updatePrettyCheckbox
 updatePrettyCheckboxGroup	updatePrettyCheckboxGroup
@@ -80,7 +89,13 @@ updateSearchInput	updateSearchInput
 updateSliderTextInput	updateSliderTextInput
 updateSpectrumInput	updateSpectrumInput
 updateSwitchInput	updateSwitchInput
+updateVerticalTabsetPanel	updateVerticalTabsetPanel
+useArgonDash	useArgonDash
+useBs4Dash	useBs4Dash
 useShinydashboard	useShinydashboard
 useShinydashboardPlus	useShinydashboardPlus
 useSweetAlert	useSweetAlert
+vertical-tab	vertical-tab
+verticalTabPanel	vertical-tab
+verticalTabsetPanel	vertical-tab
 wNumbFormat	wNumbFormat

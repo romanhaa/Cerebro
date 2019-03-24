@@ -159,6 +159,10 @@ unit_test_log_impl& s_log_impl() { static unit_test_log_impl the_inst; return th
 
 //____________________________________________________________________________//
 
+BOOST_TEST_SINGLETON_CONS_IMPL( unit_test_log_t )
+
+//____________________________________________________________________________//
+
 void
 unit_test_log_t::test_start( counter_t test_cases_amount )
 {
@@ -523,6 +527,17 @@ unit_test_log_t::set_stream( output_format log_format, std::ostream& str )
             break;
         }
     }
+}
+
+std::ostream*
+unit_test_log_t::get_stream( output_format log_format ) const
+{
+    BOOST_TEST_FOREACH( unit_test_log_data_helper_impl&, current_logger_data, s_log_impl().m_log_formatter_data ) {
+        if( current_logger_data.m_format == log_format) {
+            return current_logger_data.m_stream;
+        }
+    }
+    return 0;
 }
 
 //____________________________________________________________________________//

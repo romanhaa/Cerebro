@@ -2,6 +2,7 @@
 addRow	proxy
 clearSearch	proxy
 coerceValue	coerceValue
+colReorder	proxy
 datatable	datatable
 dataTableAjax	dataTableAjax
 dataTableOutput	dataTableOutput
@@ -14,6 +15,7 @@ formatRound	formatCurrency
 formatSignif	formatCurrency
 formatString	formatCurrency
 formatStyle	formatCurrency
+hideCols	proxy
 JS	DT-imports
 reloadData	proxy
 renderDataTable	dataTableOutput
@@ -24,6 +26,7 @@ selectCells	proxy
 selectColumns	proxy
 selectPage	proxy
 selectRows	proxy
+showCols	proxy
 styleColorBar	styleInterval
 styleEqual	styleInterval
 styleInterval	styleInterval

@@ -1,3 +1,16 @@
+shinydashboard 0.7.1
+====================
+
+## Full changelog
+
+### New features
+
+* Shiny async support: render functions can now handle promises. Instead of returning a `valueBox` to `renderValueBox`, return a promise that resolves to a `valueBox` (for example).
+
+### Bug fixes
+
+* Fixed [#297](https://github.com/rstudio/shinydashboard/issues/297): recent versions of Shiny caused the sidebar toggle icon to not render because FontAwesome was upgraded in Shiny. ([#299](https://github.com/rstudio/shinydashboard/pull/299))
+
 shinydashboard 0.7.0
 ====================
 

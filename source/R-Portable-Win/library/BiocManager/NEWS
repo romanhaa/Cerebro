@@ -1,0 +1,146 @@
+CHANGES IN VERSION 1.31.3
+-------------------------
+
+NEW FEATURES
+
+    o 'BIOCONDUCTOR_ONLINE_VERSION_DIAGNOSIS' option allows users to skip
+    online version map validation. Local installation of 'BiocVersion' will be
+    used when this option is enabled.
+
+MINOR CHANGES
+
+    o Removed extra prompts when switching versions and updating packages
+
+    o Clarified 'See Also' documentation (@lwaldron #16)
+
+    o Added several unit tests to increase robustness (@mtmorgan)
+
+BUG FIXES
+
+    o Obtain CRAN 'repos' option independent of name (@kasperdanielhansen #17)
+
+    o Fixed a bug when switching to 'devel' version of Bioconductor
+    (@kasperdanielhansen #25)
+
+    o When installation is valid, return zero invalid packages rather than
+    accessing non-existent list structure
+
+CHANGES IN VERSION 1.31.2
+-------------------------
+
+USER VISIBLE CHANGES
+
+    o install() only allows Bioconductor version upgrades and downgrades with
+    an empty 'pkgs' argument. Otherwise, it gives the user an informative error.
+
+    o 'ask' argument is respected when in non-interactive mode (@lshep #9)
+
+    o valid() returns TRUE for valid Bioconductor installations otherwise,
+    it prints a report of out-of-date and/or too new packages
+
+MINOR CHANGES
+
+    o updated unit tests for install()
+
+    o when changing versions via 'install(version = "x.x")', Bioconductor
+    packages to be up or down-graded are now enumerated
+
+BUG FIXES
+
+    o Remove tests that were dependent on system configuration rather
+    than the package itself
+
+CHANGES IN VERSION 1.31.0
+-------------------------
+
+USER VISIBLE CHANGES
+
+    o install() '...' arguments must be named.
+
+CHANGES IN VERSION 1.30.0
+-------------------------
+
+NEW FEATURES
+
+    o package renamed to BiocManager
+
+    o install() supports github repositories using the remotes
+    package, rather than devtools. This change should be transparent
+    to end users. (@PeteHaitch, #4)
+
+    o functions renamed to the following: biocLite > install;
+    biocInstallRepos > repositories; biocValid > valid;
+    biocVersion > version
+
+    o functions removed: biocases_group, biocUpdatePackages, isDevel,
+    useDevel, *_group
+
+    o available() enables package discovery via grep()
+
+    o Removed support for MRAN (Microsoft R) archives.
+
+CHANGES IN VERSION 1.28.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() supports full URLs, e.g., to archived Bioconductor
+    packages.
+
+    o Support MRAN (Microsoft R) archives.
+
+CHANGES IN VERSION 1.24.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() uses lib.loc= to find devtools, reports more
+    informatively why devtools fails to load
+
+    o biocLite() only offers to update non-masked packages
+
+    o biocLite() reports when packages in unwriteable directories are
+    out-of-date, but does not try (and fail) to update them.
+
+    o isDevel() returns TRUE if the version of BiocInstaller
+    corresponds to the development version of Bioconductor.
+
+CHANGES IN VERSION 1.20.0
+-------------------------
+
+BUG FIXES
+
+    o biocLite() uses lib.loc when calling update.packages
+
+CHANGES IN VERSION 1.18.0
+-------------------------
+
+NEW FEATURES
+
+    o biocLite() supports github repositories (implicitly, 'packages'
+    following the 'maintainer/package' convention)
+
+CHANGES IN VERSION 1.14.0
+-------------------------
+
+NEW FEATURES
+
+    o biocUpdatePackages updates installed packages and their
+    dependencies.
+
+CHANGES IN VERSION 1.10.0
+-------------------------
+
+NEW FEATURES
+
+    o biocValid() checks that installed packages are consistent with
+    those available via biocLite().
+
+    o biocVersion() returns the version of Bioconductor expected with
+    this version of the BiocInstaller package.
+
+USER-VISIBLE CHANGES
+
+    o biocLite() invoked with no arguments updates currently installed
+    packages to their most-recent version.
+

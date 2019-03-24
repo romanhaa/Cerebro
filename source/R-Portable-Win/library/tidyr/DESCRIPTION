@@ -1,32 +1,39 @@
 Package: tidyr
 Title: Easily Tidy Data with 'spread()' and 'gather()' Functions
-Version: 0.8.1
-Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
-    person("Lionel", "Henry", , "lionel@rstudio.com", "aut"),
-    person("RStudio", role = "cph")
-    )
-Description: An evolution of 'reshape2'. It's designed specifically for data
-    tidying (not general reshaping or aggregating) and works well with
-    'dplyr' data pipelines.
+Version: 0.8.3
+Authors@R: 
+    c(person(given = "Hadley",
+             family = "Wickham",
+             role = c("aut", "cre"),
+             email = "hadley@rstudio.com"),
+      person(given = "Lionel",
+             family = "Henry",
+             role = "aut",
+             email = "lionel@rstudio.com"),
+      person(given = "RStudio",
+             role = "cph"))
+Description: An evolution of 'reshape2'. It's designed
+    specifically for data tidying (not general reshaping or aggregating)
+    and works well with 'dplyr' data pipelines.
 License: MIT + file LICENSE
 URL: http://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
 BugReports: https://github.com/tidyverse/tidyr/issues
 Depends: R (>= 3.1)
 Imports: dplyr (>= 0.7.0), glue, magrittr, purrr, Rcpp, rlang, stringi,
-        tibble, tidyselect
+        tibble, tidyselect (>= 0.2.5), utils
 Suggests: covr, gapminder, knitr, rmarkdown, testthat
 LinkingTo: Rcpp
 VignetteBuilder: knitr
+Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: yes
-Packaged: 2018-05-09 14:59:50 UTC; hadley
+Packaged: 2019-02-28 16:04:27 UTC; hadley
 Author: Hadley Wickham [aut, cre],
   Lionel Henry [aut],
   RStudio [cph]
 Maintainer: Hadley Wickham <hadley@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-05-18 11:17:55 UTC
-Built: R 3.5.1; x86_64-w64-mingw32; 2018-10-14 13:05:03 UTC; windows
+Date/Publication: 2019-03-01 23:00:03 UTC
+Built: R 3.5.3; x86_64-w64-mingw32; 2019-03-21 15:55:50 UTC; windows
 Archs: i386, x64

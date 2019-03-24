@@ -1,8 +1,8 @@
 Package: BH
 Type: Package
 Title: Boost C++ Header Files
-Version: 1.66.0-1
-Date: 2018-02-12
+Version: 1.69.0-1
+Date: 2019-01-07
 Author: Dirk Eddelbuettel, John W. Emerson and Michael J. Kane
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Boost provides free peer-reviewed portable C++ source 
@@ -12,9 +12,9 @@ Description: Boost provides free peer-reviewed portable C++ source
  for template use among CRAN package. By placing these libraries in 
  this package, we offer a more efficient distribution system for CRAN 
  as replication of this code in the sources of other packages is 
- avoided. As of release 1.65.0-1, the following Boost libraries are
+ avoided. As of release 1.69.0-1, the following Boost libraries are
  included: 'algorithm' 'align' 'any' 'atomic' 'bimap' 'bind'
- 'circular_buffer' 'compute' 'concept' 'config' 'container' 'date'_'time'
+ 'circular_buffer' 'compute' 'concept' 'config' 'container' 'date_time'
  'detail' 'dynamic_bitset' 'exception' 'filesystem' 'flyweight' 'foreach'
  'functional' 'fusion' 'geometry' 'graph' 'heap' 'icl' 'integer'
  'interprocess' 'intrusive' 'io' 'iostreams' 'iterator' 'math' 'move' 'mpl'
@@ -24,7 +24,7 @@ Description: Boost provides free peer-reviewed portable C++ source
 License: BSL-1.0
 BugReports: https://github.com/eddelbuettel/bh/issues
 NeedsCompilation: no
-Packaged: 2018-02-12 19:11:19.852233 UTC; deddelbuettel
+Packaged: 2019-01-07 12:00:43.681885 UTC; edd
 Repository: CRAN
-Date/Publication: 2018-02-13 23:48:11 UTC
-Built: R 3.5.0; ; 2018-04-21 03:20:11 UTC; windows
+Date/Publication: 2019-01-07 19:50:25 UTC
+Built: R 3.5.2; ; 2019-01-08 18:27:53 UTC; windows

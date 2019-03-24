@@ -13,6 +13,7 @@ as.polytomy             as.polytomy
 collapse.ggtree         collapse-ggtree
 decimal2Date            decimal2Date
 expand                  expand
+facet_labeller          facet_labeller
 facet_plot              facet_plot
 flip                    flip
 geom_aline              geom_aline
@@ -24,9 +25,11 @@ geom_hilight_encircle   geom_hilight_encircle
 geom_label2             geom_label2
 geom_motif              geom_motif
 geom_nodelab            geom_nodelab
+geom_nodelab2           @geom_nodelab2
 geom_nodepoint          geom_nodepoint
 geom_point2             geom_point2
 geom_range              geom_range
+geom_rootedge           geom_rootedge
 geom_rootpoint          geom_rootpoint
 geom_segment2           geom_segment2
 geom_strip              geom_strip

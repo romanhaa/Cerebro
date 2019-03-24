@@ -125,7 +125,7 @@ flights[.("JFK", "MIA"), mult = "first"]
 flights[.(c("LGA", "JFK", "EWR"), "XNA"), mult = "last"]
 
 ## -------------------------------------------------------------------------------------------------
-flights[.(c("LGA", "JFK", "EWR"), "XNA"), mult = "last", nomatch = 0L]
+flights[.(c("LGA", "JFK", "EWR"), "XNA"), mult = "last", nomatch = NULL]
 
 ## ----eval = FALSE---------------------------------------------------------------------------------
 #  # key by origin,dest columns
