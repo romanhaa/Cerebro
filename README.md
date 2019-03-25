@@ -24,7 +24,7 @@ Key features:
 * Tables of enriched pathways in marker gene lists.
 * Query gene(s) and gene sets from [MSigDB](https://http://software.broadinstitute.org/gsea/msigdb) and show their expression in dimensional reductions.
 * All plots can be exported to PNG. In addition, 2D dimensional reductions can be exported to PDF.
-* Tables can be downloaded to multiple formats: CSV, Excel, PDF.
+* Tables can be downloaded in CSV or Excel format.
 
 A basic example [Seurat](https://satijalab.org/seurat/) workflow and subsequent exporting can be found in the [`test_data`](test_data/) folder.
 There you can also find the raw data and the output file that can be loaded into Cerebro.
