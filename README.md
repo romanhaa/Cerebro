@@ -10,7 +10,7 @@ The core is an [Shiny](https://shiny.rstudio.com/) application which is bottled 
 Therefore, it can also be run on web servers and Linux machines, requiring only R and a set of R packages.
 
 Input data needs to be prepared using the [cerebroPrepare](https://github.com/romanhaa/cerebroPrepare) R package which was built specifically for this purpose.
-It offers functionality to export a [Seurat](https://satijalab.org/seurat/) object to the correct format in a single step.
+It offers functionality to export a [Seurat](https://satijalab.org/seurat/) object (both v2 and v3 are supported) to the correct format in a single step.
 The file should be saved either with the `.rds` or `.crb` extension, indicating that internally it is an RDS object.
 Furthermore, the cerebroPrepare package also provides functions to perform a set of (optional) analyses, e.g. pathway enrichment analysis based on marker gene lists of groups of cells.
 
@@ -26,7 +26,7 @@ Key features:
 * All plots can be exported to PNG. In addition, 2D dimensional reductions can be exported to PDF.
 * Tables can be downloaded in CSV or Excel format.
 
-A basic example [Seurat](https://satijalab.org/seurat/) workflow and subsequent exporting can be found in the [`test_data`](test_data/) folder.
+Basic examples for [Seurat](https://satijalab.org/seurat/) v2 and v3 workflows and subsequent exporting can be found in the [`test_data`](test_data/) folder.
 There you can also find the raw data and the output file that can be loaded into Cerebro.
 
 ## Interface panels in details
