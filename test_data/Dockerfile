@@ -1,5 +1,9 @@
 FROM r-base:3.5.2
 
+##----------------------------------------------------------------------------##
+## LABELS
+##----------------------------------------------------------------------------##
+
 LABEL org.label-schema.name = "cerebro-example"
 LABEL org.label-schema.description = "\
 Environment for analysis of example data set for Cerebro."
@@ -8,6 +12,10 @@ LABEL org.label-schema.schema-version = "1.0"
 LABEL maintainer = "roman.hillje@googlemail.com"
 LABEL org.label-schema.version = "1.0"
 LABEL org.label-schema.build-date = "2018-01-11T00:00:00.0Z"
+
+##----------------------------------------------------------------------------##
+## SYSTEM LIBRARIES
+##----------------------------------------------------------------------------##
 
 RUN apt update -y && apt upgrade -y
 RUN apt install -y \
@@ -32,21 +40,30 @@ RUN apt install -y libxml2-dev
 # hdf5r (R package)
 RUN apt install -y libhdf5-dev
 
+##----------------------------------------------------------------------------##
+## PYTHON PACKAGES
+##----------------------------------------------------------------------------##
+
 # for UMAP in Seurat (R package)
-# RUN pip install umap-learn
 RUN pip3 install umap-learn
 RUN pip3 install "numba<0.43" --force-reinstall
 
 # for phate in Seurat (R package)
-# not available for python2
 RUN pip3 install phate
 
-# use script here as soon as repo is public
-# ADD https://github.com/romanhaa/cerebro-prepare/archive/master.tar.gz /cerebro/
-# CMD Rscript install_packages.R
+##----------------------------------------------------------------------------##
+## R PACKAGES
+##----------------------------------------------------------------------------##
+
+# base stuff + Seurat v2
 RUN Rscript -e 'install.packages("BiocManager", repos="http://cran.us.r-project.org")'
-RUN Rscript -e 'BiocManager::install(c("destiny","phateR","reshape2","scales","sessioninfo","Seurat","tidyverse"))'
-RUN Rscript -e 'BiocManager::install("devtools")'
+RUN Rscript -e 'BiocManager::install(c("destiny","devtools","phateR","reshape2","scales","Seurat","sessioninfo","tidyverse"))'
+
+# cerebroPrepare
 RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare")'
+
+# Seurat v3
+RUN mkdir /other_R_packages
+RUN Rscript -e 'devtools::install_github("satijalab/seurat", ref = "release/3.0", lib = "/other_R_packages")'
 
 CMD R

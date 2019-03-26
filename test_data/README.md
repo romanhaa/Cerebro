@@ -33,7 +33,8 @@ I suggest to run the example R script in a container using [Singularity](https:/
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/test_data
 singularity build cerebro-example.simg docker://romanhaa/cerebro-example:latest
-singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Cerebro_example.R
+singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v2/Cerebro_example.R
+singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v3/Cerebro_example.R
 ```
 
 This will reproduce the `.crb` file used as an example.
