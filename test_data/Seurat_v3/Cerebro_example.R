@@ -9,7 +9,7 @@
   )
 )
 
-setwd("/data/pbmc_10k_v3")
+setwd("/data")
 
 set.seed(1234567)
 
@@ -17,13 +17,13 @@ set.seed(1234567)
 ## Load libraries.
 ##----------------------------------------------------------------------------##
 library("cerebroPrepare")
-library("Seurat")
+library("Seurat", lib.loc = "/other_R_packages")
 library("tidyverse")
 
 ##----------------------------------------------------------------------------##
 ## Load count matrix.
 ##----------------------------------------------------------------------------##
-path_to_data <- "."
+path_to_data <- "./pbmc_10k_v3"
 
 feature_matrix <- Matrix::readMM(paste0(path_to_data, "/matrix.mtx.gz"))
 feature_matrix <- as.matrix(feature_matrix)
@@ -56,22 +56,17 @@ rownames(feature_matrix) <- genes
 ##----------------------------------------------------------------------------##
 seurat <- CreateSeuratObject(
   project = "PBMC_10k_v3",
-  raw.data = feature_matrix,
+  counts = feature_matrix,
   min.cells = 10
 )
 
-seurat <- FilterCells(
-  seurat,
-  subset.names = c("nUMI", "nGene"),
-  low.thresholds = c(100, 50),
-  high.thresholds = c(Inf, Inf)
-)
+seurat <- subset(seurat, subset = nCount_RNA > 100 & nFeature_RNA > 50)
 
 seurat <- NormalizeData(seurat)
 
 seurat <- FindVariableGenes(seurat)
 
-seurat <- ScaleData(seurat, vars.to.regress = "nUMI")
+seurat <- ScaleData(seurat, vars.to.regress = "nCount_RNA")
 
 seurat <- CellCycleScoring(
   seurat,
@@ -81,34 +76,27 @@ seurat <- CellCycleScoring(
 
 seurat <- RunPCA(
   seurat,
-  pcs.compute = 30,
-  pc.genes = seurat@var.genes
+  npcs = 30,
+  features = seurat@assays$RNA@var.features
 )
 
-seurat <- FindClusters(
-  seurat,
-  reduction.type = "pca",
-  dims.use = 1:30,
-  resolution = 0.7,
-  print.output = FALSE,
-  save.SNN = TRUE
-)
+seurat <- FindNeighbors(seurat)
+seurat <- FindClusters(seurat, resolution = 0.7)
 
 seurat <- BuildClusterTree(
   seurat,
-  pcs.use = 1:30,
-  do.plot = FALSE,
-  do.reorder = TRUE,
+  dims = 1:30,
+  reorder = TRUE,
   reorder.numeric = TRUE
 )
 
-seurat <- AddMetaData(
-  seurat,
-  metadata = factor(seurat@ident, ordered = FALSE),
-  col.name = "cluster"
+seurat[["cluster"]] <- factor(
+  as.character(seurat@meta.data$tree.ident),
+  levels = sort(unique(seurat@meta.data$tree.ident))
 )
 
-seurat@meta.data$res.0.7 <- NULL
+seurat@meta.data$RNA_snn_res.0.7 <- NULL
+seurat@meta.data$tree.ident <- NULL
 
 ##----------------------------------------------------------------------------##
 ## Dimensional reductions.
@@ -117,9 +105,9 @@ seurat <- RunTSNE(
   seurat,
   reduction.name = "tSNE",
   reduction.key = "tSNE",
-  dims.use = 1:30,
+  dims = 1:30,
+  dim.embed = 2,
   perplexity = 30,
-  do.fast = TRUE,
   seed.use = 100
 )
 
@@ -127,57 +115,26 @@ seurat <- RunTSNE(
   seurat,
   reduction.name = "tSNE_3D",
   reduction.key = "tSNE",
-  dims.use = 1:30,
+  dims = 1:30,
   dim.embed = 3,
   perplexity = 30,
-  do.fast = TRUE,
   seed.use = 100
 )
 
 seurat <- RunUMAP(
   seurat,
   reduction.name = "UMAP",
-  dims.use = 1:30,
-  do.fast = TRUE,
+  dims = 1:30,
+  n.components = 2,
   seed.use = 100
 )
 
 seurat <- RunUMAP(
   seurat,
   reduction.name = "UMAP_3D",
-  dims.use = 1:30,
-  max.dim = 3,
-  do.fast = TRUE,
+  dims = 1:30,
+  n.components = 3,
   seed.use = 100
-)
-
-seurat <- RunDiffusion(
-  seurat,
-  reduction.name = "DM",
-  dims.use = 1:30
-)
-
-seurat <- RunDiffusion(
-  seurat,
-  reduction.name = "DM_3D",
-  dims.use = 1:30,
-  max.dim = 3
-)
-
-seurat <- RunPHATE(
-  seurat,
-  reduction.name = "PHATE",
-  npca = 30,
-  max.dim = 2,
-  n.jobs = -1
-)
-
-seurat <- RunPHATE(
-  seurat,
-  reduction.name = "PHATE_3D",
-  npca = 30,
-  max.dim = 3,
-  n.jobs = -1
 )
 
 ##----------------------------------------------------------------------------##
@@ -189,16 +146,7 @@ sample_dump <- c(
   rep("PBMC_5k_3", 10000)
 )
 
-sample <- data.frame(
-  "sample" = sample(sample_dump, nrow(seurat@meta.data)),
-  row.names = seurat@cell.names
-)
-
-seurat <- AddMetaData(
-  seurat,
-  metadata = sample,
-  col.name = "sample"
-)
+seurat[["sample"]] <- sample(sample_dump, nrow(seurat@meta.data))
 
 seurat@meta.data$sample <- factor(
   seurat@meta.data$sample,
@@ -250,12 +198,7 @@ seurat <- cerebroPrepare::getMarkerGenes(
   seurat,
   organism = "hg",
   column_sample = "sample",
-  column_cluster = "cluster",
-  only.pos = TRUE,
-  min.pct = 0.7,
-  thresh.use = 0.25,
-  return.thresh = 0.01,
-  test.use = "t"
+  column_cluster = "cluster"
 )
 
 seurat <- cerebroPrepare::getEnrichedPathways(
@@ -269,7 +212,7 @@ seurat <- cerebroPrepare::getEnrichedPathways(
 cerebroPrepare::exportFromSeurat(
   seurat,
   experiment_name = "PBMC_10k",
-  file = paste0("cerebro_PBMC_10k_", Sys.Date(), ".crb"),
+  file = paste0("Seurat_v3/cerebro_PBMC_10k_", Sys.Date(), ".crb"),
   organism = "hg",
   column_cell_cycle_seurat = "Phase"
 )
@@ -277,5 +220,5 @@ cerebroPrepare::exportFromSeurat(
 ##----------------------------------------------------------------------------##
 ## Save Seurat object.
 ##----------------------------------------------------------------------------##
-saveRDS(seurat, "seurat.rds")
+saveRDS(seurat, "Seurat_v3/seurat.rds")
 

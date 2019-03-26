@@ -9,7 +9,7 @@
   )
 )
 
-setwd("/data/pbmc_10k_v3")
+setwd("/data")
 
 set.seed(1234567)
 
@@ -23,7 +23,7 @@ library("tidyverse")
 ##----------------------------------------------------------------------------##
 ## Load count matrix.
 ##----------------------------------------------------------------------------##
-path_to_data <- "."
+path_to_data <- "./pbmc_10k_v3"
 
 feature_matrix <- Matrix::readMM(paste0(path_to_data, "/matrix.mtx.gz"))
 feature_matrix <- as.matrix(feature_matrix)
@@ -250,12 +250,7 @@ seurat <- cerebroPrepare::getMarkerGenes(
   seurat,
   organism = "hg",
   column_sample = "sample",
-  column_cluster = "cluster",
-  only.pos = TRUE,
-  min.pct = 0.7,
-  thresh.use = 0.25,
-  return.thresh = 0.01,
-  test.use = "t"
+  column_cluster = "cluster"
 )
 
 seurat <- cerebroPrepare::getEnrichedPathways(
@@ -269,7 +264,7 @@ seurat <- cerebroPrepare::getEnrichedPathways(
 cerebroPrepare::exportFromSeurat(
   seurat,
   experiment_name = "PBMC_10k",
-  file = paste0("cerebro_PBMC_10k_", Sys.Date(), ".crb"),
+  file = paste0("Seurat_v2/cerebro_PBMC_10k_", Sys.Date(), ".crb"),
   organism = "hg",
   column_cell_cycle_seurat = "Phase"
 )
@@ -277,5 +272,5 @@ cerebroPrepare::exportFromSeurat(
 ##----------------------------------------------------------------------------##
 ## Save Seurat object.
 ##----------------------------------------------------------------------------##
-saveRDS(seurat, "seurat.rds")
+saveRDS(seurat, "Seurat_v2/seurat.rds")
 
