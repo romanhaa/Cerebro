@@ -147,7 +147,7 @@ npm start
 npm run package-mac
 ```
 
-To build the Windows version under macOS you'll have to install Wine.
+To build the Windows version under macOS it is necessary to install Wine.
 I experienced problems with missing libraries of the stable version (4.0) so I recommend to use the developers version (4.4) using Homebrew:
 
 ```bash
@@ -173,7 +173,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 
 ## Contribute
 
-To report any bugs, submit patches, or request new features, please log an issue [through the issue tracker](https://github.com/romanhaa/Cerebro/issues/new). For direct inquiries, please send an email to roman.hillje@ieo.it.
+To report any bugs, submit patches, or request new features, please log an issue [through the issue tracker](https://github.com/romanhaa/Cerebro/issues/new). For direct inquiries, please send an email to <a href = "mailto: roman.hillje@ieo.it">roman.hillje@ieo.it</a>.
 
 ## License
 
@@ -183,7 +183,6 @@ Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 
 ## To Do
 
-* [ ] Show logo inside app.
 * [ ] Create release and upload to GitHub.
 
 
