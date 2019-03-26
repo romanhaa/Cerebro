@@ -3,8 +3,11 @@
 ![Screenshot Cerebro: overview panel](screenshots/Screenshot_2019-03-01_at_15.22.15.png?raw=true "Cerebro: overview panel")
 
 <center>
-![Video Cerebro](screenshots/Cerebro_2019-03-12.2019-03-12_14_37_20.gif?raw=true "Cerebro")
+<img src="screenshots/Cerebro_2019-03-12.2019-03-12_14_37_20.gif"/>
 </center>
+
+![Video Cerebro](screenshots/Cerebro_2019-03-12.2019-03-12_14_37_20.gif?raw=true "Cerebro")
+
 
 Cerebro (cell report browser) is a standalone desktop application (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
