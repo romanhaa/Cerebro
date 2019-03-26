@@ -37,4 +37,4 @@ singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v2/Ce
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v3/Cerebro_example.R
 ```
 
-This will reproduce the `.crb` file used as an example.
+This will reproduce the `.crb` files used as an example.

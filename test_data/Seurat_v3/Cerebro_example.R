@@ -16,8 +16,8 @@ set.seed(1234567)
 ##----------------------------------------------------------------------------##
 ## Load libraries.
 ##----------------------------------------------------------------------------##
-library("cerebroPrepare")
 library("Seurat", lib.loc = "/other_R_packages")
+library("cerebroPrepare")
 library("tidyverse")
 
 ##----------------------------------------------------------------------------##
@@ -64,14 +64,14 @@ seurat <- subset(seurat, subset = nCount_RNA > 100 & nFeature_RNA > 50)
 
 seurat <- NormalizeData(seurat)
 
-seurat <- FindVariableGenes(seurat)
+seurat <- FindVariableFeatures(seurat)
 
 seurat <- ScaleData(seurat, vars.to.regress = "nCount_RNA")
 
 seurat <- CellCycleScoring(
   seurat,
-  g2m.genes = cc.genes$g2m.genes,
-  s.genes = cc.genes$s.genes
+  g2m.features = cc.genes$g2m.genes,
+  s.features = cc.genes$s.genes
 )
 
 seurat <- RunPCA(
@@ -104,7 +104,6 @@ seurat@meta.data$tree.ident <- NULL
 seurat <- RunTSNE(
   seurat,
   reduction.name = "tSNE",
-  reduction.key = "tSNE",
   dims = 1:30,
   dim.embed = 2,
   perplexity = 30,
@@ -114,7 +113,6 @@ seurat <- RunTSNE(
 seurat <- RunTSNE(
   seurat,
   reduction.name = "tSNE_3D",
-  reduction.key = "tSNE",
   dims = 1:30,
   dim.embed = 3,
   perplexity = 30,
@@ -214,6 +212,8 @@ cerebroPrepare::exportFromSeurat(
   experiment_name = "PBMC_10k",
   file = paste0("Seurat_v3/cerebro_PBMC_10k_", Sys.Date(), ".crb"),
   organism = "hg",
+  column_nUMI = "nCount_RNA",
+  column_nGene = "nFeature_RNA",
   column_cell_cycle_seurat = "Phase"
 )
 
