@@ -16,8 +16,8 @@ set.seed(1234567)
 ##----------------------------------------------------------------------------##
 ## Load libraries.
 ##----------------------------------------------------------------------------##
-library("cerebroPrepare")
 library("Seurat")
+library("cerebroPrepare")
 library("tidyverse")
 
 ##----------------------------------------------------------------------------##
@@ -149,35 +149,6 @@ seurat <- RunUMAP(
   max.dim = 3,
   do.fast = TRUE,
   seed.use = 100
-)
-
-seurat <- RunDiffusion(
-  seurat,
-  reduction.name = "DM",
-  dims.use = 1:30
-)
-
-seurat <- RunDiffusion(
-  seurat,
-  reduction.name = "DM_3D",
-  dims.use = 1:30,
-  max.dim = 3
-)
-
-seurat <- RunPHATE(
-  seurat,
-  reduction.name = "PHATE",
-  npca = 30,
-  max.dim = 2,
-  n.jobs = -1
-)
-
-seurat <- RunPHATE(
-  seurat,
-  reduction.name = "PHATE_3D",
-  npca = 30,
-  max.dim = 3,
-  n.jobs = -1
 )
 
 ##----------------------------------------------------------------------------##

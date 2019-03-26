@@ -3,7 +3,7 @@
 As an example/test data set, we used a public scRNA-seq data set containing about 10k human PBMCs from a healthy donor (`pbmc_10k_v3`), generated using the v3 chemistry and processed using Cell Ranger 3.0.0.
 The dataset is available throught the 10x Genomics website (<https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3>) and is licensed under the Creative Commons Attribution license (<https://creativecommons.org/licenses/by/4.0/>).
 
-Briefly, in the example we followed the basic [Seurat](https://satijalab.org/seurat/) workflow:
+Briefly, in the example we followed the basic [Seurat](https://satijalab.org/seurat/) workflow (both Seurat v2 and Seurat v3 are supported):
 
 * Load the feature matrix and create a Seurat object (`CreateSeuratObject()`).
 * Filter cells based on the number of transcripts and expressed genes (`FilterCells()`).
@@ -37,4 +37,4 @@ singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v2/Ce
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v3/Cerebro_example.R
 ```
 
-This will reproduce the `.crb` file used as an example.
+This will reproduce the `.crb` files used as an example.
