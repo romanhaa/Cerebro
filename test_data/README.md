@@ -13,7 +13,7 @@ Briefly, in the example we followed the basic [Seurat](https://satijalab.org/seu
 * Perform cell cycle analysis (`CellCycleScoring()`).
 * Perform principal component analysis (`RunPCA`).
 * Identify clusters and build a cluster tree (`FindClusters()`, `BuildClusterTree()`).
-* Perform 2D and 3D dimensional reduction: tSNE, UMAP, diffusion map, PHATE (`RunTSNE`, `RunUMAP`, `RunDiffusion`, `RunPHATE`).
+* Perform 2D and 3D dimensional reduction: tSNE, UMAP (`RunTSNE`, `RunUMAP`).
 
 Then, we add some meta data, randomly assign each cell to one of three samples to simulate a dataset with multiple samples and subsequently use cerebroPrepare to:
 
