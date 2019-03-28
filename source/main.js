@@ -121,7 +121,7 @@ function cleanUpApplication(){
   if(childProcess){
     childProcess.kill();
     if(killStr != '')
-      child.execSync(killStr)      
+      child.execSync(killStr)
   }
 }
 
