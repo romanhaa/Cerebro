@@ -1,6 +1,6 @@
 Package: shinyWidgets
 Title: Custom Inputs Widgets for Shiny
-Version: 0.4.7
+Version: 0.4.8
 Authors@R: c(
   person("Victor", "Perrier", email = "victor.perrier@dreamrs.fr", role = c("aut", "cre")),
   person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = c("aut")),
@@ -41,7 +41,7 @@ RoxygenNote: 6.1.1
 Suggests: shinydashboard, viridisLite, RColorBrewer, testthat, covr,
         shinydashboardPlus, bs4Dash, argonR, argonDash
 NeedsCompilation: no
-Packaged: 2019-03-12 10:27:08 UTC; perri
+Packaged: 2019-03-18 18:30:25 UTC; perri
 Author: Victor Perrier [aut, cre],
   Fanny Meyer [aut],
   David Granjon [aut] (jQuery Knob shiny interface & sliders appearance),
@@ -69,5 +69,5 @@ Author: Victor Perrier [aut, cre],
   Tobias Ahlin [ctb, cph] (CSS spin)
 Maintainer: Victor Perrier <victor.perrier@dreamrs.fr>
 Repository: CRAN
-Date/Publication: 2019-03-12 10:50:03 UTC
-Built: R 3.5.2; ; 2019-03-18 20:31:04 UTC; unix
+Date/Publication: 2019-03-18 23:10:02 UTC
+Built: R 3.5.2; ; 2019-03-20 06:52:34 UTC; unix

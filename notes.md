@@ -60,11 +60,22 @@ sapply(pkgs.to.remove, remove.packages, lib = path.lib)
 ```
 
 Then, re-install the libraries required by Cerebro.
+The maintenance of portable R installations is tricky and I'm probably not doing this in a good way.
+
+On macOS, in my experience, it works best to run a "real" R installation, assign the library path of the portable installation and then install the `cerebroApp` package there with `BiocManager::install`.
+Trying to install packages from within the portable R usually fails during compilation.
+
+```r
+assign(".lib.loc", "...", envir = environment(.libPaths))
+install.packages("BiocManager")
+install.packages("remotes")
+BiocManager::install("romanhaa/cerebroApp")
+```
+
+On Windows, it usually works fine to run the portable R installation and install `cerebroApp` from there.
 
 ```r
 install.packages("BiocManager")
-BiocManager::install("shiny")
-setwd("../Cerebro/source/")
-library("shiny")
-runApp("app.R")
+install.packages("remotes")
+BiocManager::install("romanhaa/cerebroApp")
 ```

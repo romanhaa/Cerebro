@@ -4,7 +4,7 @@
 
 <p align="center"><img src="screenshots/Cerebro_2019-03-12.2019-03-12_14_37_20.gif"/></p>
 
-Cerebro (cell report browser) is a standalone desktop application (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
+This is the standalone version of [Cerebro](https://github.com/romanhaa/cerebroApp), **ce**ll **re**port **bro**wser, (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
 The core is an [Shiny](https://shiny.rstudio.com/) application which is bottled into a standalone app using [Electron](https://electronjs.org/).
 Therefore, it can also be run on web servers and Linux machines, requiring only R and a set of R packages.
