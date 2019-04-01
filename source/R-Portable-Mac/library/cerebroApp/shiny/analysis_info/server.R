@@ -5,7 +5,7 @@
 # general info
 output[["sample_info_general"]] <- renderText({
   info <- paste0(
-    "<strong><u>General:</u></strong>",
+    "<strong><u>General</u></strong>",
     "<ul>",
       "<li><b>Date of analysis:</b> ",
       sample_data()$experiment$date_of_analysis,
@@ -18,7 +18,7 @@ output[["sample_info_general"]] <- renderText({
       "<li><b>Number of clusters found:</b> ",
       nrow(sample_data()$clusters$overview),
     "</ul>",
-    "<strong><u>Parameters:</u></strong>",
+    "<strong><u>Parameters</u></strong>",
     "<ul>",
       "<li><b>Discard genes in fewer than X cells:</b> ",
       sample_data()$parameters$discard_genes_expressed_in_fewer_cells_than,
@@ -43,7 +43,7 @@ output[["sample_info_general"]] <- renderText({
       "<li><b>tSNE perplexity: </b>",
       sample_data()$parameters$tSNE_perplexity,
     "</ul>",
-    "<strong><u>Gene lists:</u></strong>",
+    "<strong><u>Gene lists</u></strong>",
     "<ul>",
       "<li><b>Mitochondrial genes:</b> ",
       paste0(sample_data()$gene_lists$mitochondrial_genes, collapse = ", "),
@@ -54,7 +54,7 @@ output[["sample_info_general"]] <- renderText({
       "<li><b>G2M phase genes:</b> ",
       paste0(sample_data()$gene_lists$G2M_phase_genes, collapse = ", "),
     "</ul>",
-    "<strong><u>Marker genes:</u></strong>",
+    "<strong><u>Marker genes</u></strong>",
     "<ul>",
       "<li><b>Only positive:</b> ",
       sample_data()$marker_genes$parameters$only_positive,
@@ -67,7 +67,7 @@ output[["sample_info_general"]] <- renderText({
       "<li><b>Test:</b> ",
       sample_data()$marker_genes$parameters$test,
     "</ul>",
-    "<strong><u>Pathway enrichment:</u></strong>",
+    "<strong><u>Pathway enrichment</u></strong>",
     "<ul>",
       "<li><b>Databases:</b> ",
       paste0(sample_data()$marker_genes$parameters_annotation$databases, collapse = ", "),
@@ -84,7 +84,13 @@ output[["sample_info_general"]] <- renderText({
   }
   paste0(
     info,
-    "<br><b>R environment and packages use in analysis:</b><br><pre>",
+    "<strong><u>Technical info (package versions)</u></strong>",
+    "<ul>",
+      "<li><strong>Seurat version:</strong> ",
+      sample_data()$technical_info$seurat_version,
+      "<li><strong>Session info:</strong> ",
+    "</ul>",
+    "<pre>",
     info_R,
     "</pre>"
   )
