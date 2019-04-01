@@ -6,8 +6,8 @@
 
 This is the standalone version of [Cerebro](https://github.com/romanhaa/cerebroApp), **ce**ll **re**port **bro**wser, (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
-The core is an [Shiny](https://shiny.rstudio.com/) application which is bottled into a standalone app using [Electron](https://electronjs.org/).
-Therefore, it can also be run on web servers and Linux machines, requiring only R and a set of R packages.
+The core is the [cerebroApp](https://github.com/romanhaa/cerebroApp) [Shiny](https://shiny.rstudio.com/) application which is bottled into a standalone app using [Electron](https://electronjs.org/).
+Therefore, it can also be run on web servers and Linux machines, requiring only R and a set of dependencies.
 
 Input data needs to be prepared using the [cerebroPrepare](https://github.com/romanhaa/cerebroPrepare) R package which was built specifically for this purpose.
 It offers functionality to export a [Seurat](https://satijalab.org/seurat/) object (both v2 and v3 are supported) to the correct format in a single step.
@@ -33,7 +33,7 @@ There you can also find the raw data and the output file that can be loaded into
 
 ### Load data
 
-Select `.rds` or `.crb` input file.
+Select input file (`.rds` or `.crb`).
 Shows number of cells, samples, clusters, as well as experiment name and organism.
 
 ### Overview
@@ -105,18 +105,19 @@ Cerebro provides an easy way to access the data without any bioinformatic expert
 Download release for your OS, unpack and run.
 Currently, Cerebro is available only for macOS and Windows.
 
-**Note:** Linux users have the option to launch the application through a Docker container or hosting the application using the `app.R` file and a local R installation.
+**Note:** Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package.
+All you need is R (version 3.5.1 or higher).
 A convenient IDE would be RStudio.
+Make sure to install `cerebroApp` using `BiocManager::install()` to get the most recent version of dependencies on Bioconductor.
 
 ```R
-install.packages("shiny")
-library("shiny")
-runApp("Cerebro/source/app.R")
+BiocManager::install("romanhaa/cerebroApp")
+cerebroApp::launchApp()
 ```
 
 ## Test data
 
-[Find documentation for a test data set here.](test_data/README.md)
+[Find documentation for the example data set here.](test_data/README.md)
 
 ## Technical notes
 
@@ -180,11 +181,5 @@ To report any bugs, submit patches, or request new features, please log an issue
 Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
 
 [The MIT License (MIT)](LICENSE.md)
-
-## To Do
-
-* [ ] Create release and upload to GitHub.
-
-
 
 

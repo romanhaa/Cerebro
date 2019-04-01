@@ -29,7 +29,7 @@ To test Cerebro, download the `.crb` file and load it into Cerebro.
 
 I suggest to run the example R script in a container using [Singularity](https://singularity.lbl.gov/) (here I used Singularity 2.6.0).
 
-```
+```sh
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/test_data
 singularity build cerebro-example.simg docker://romanhaa/cerebro-example:latest
