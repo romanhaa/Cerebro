@@ -56,7 +56,7 @@ RUN pip3 install phate
 ##----------------------------------------------------------------------------##
 
 # base stuff + Seurat v2
-RUN Rscript -e 'install.packages("BiocManager", repos="http://cran.us.r-project.org")'
+RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 RUN Rscript -e 'BiocManager::install(c("destiny","devtools","phateR","reshape2","scales","Seurat","sessioninfo","tidyverse"))'
 
 # cerebroPrepare
