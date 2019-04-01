@@ -1,17 +1,17 @@
 ##----------------------------------------------------------------------------##
 ## Cerebro
-## version 1.0
+## version 1.0.0
 ##
 ## Author:    Roman Hillje
 ## Institute: IEO
 ## Lab:       PGP
-## Date:      2019-03-29
+## Date:      2019-04-01
 ##----------------------------------------------------------------------------##
 
 ##----------------------------------------------------------------------------##
 ##
 ##----------------------------------------------------------------------------##
-if (grepl(tolower(Sys.info()['sysname']), pattern='^win')) {
+if (grepl(tolower(Sys.info()["sysname"]), pattern="^win")) {
   .libPaths(paste0(getwd(), "/R-Portable-Win/library"))
   plot_export_path <- paste0(Sys.getenv("USERPROFILE"), "\\Desktop\\")
 } else {

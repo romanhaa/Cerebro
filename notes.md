@@ -11,7 +11,7 @@
 * Remove `as.vector()` for gene expression, not necessary.
 * Check/update export scripts.
 * Move to z-score instead of log-counts?
-    * Not possible because occupy much more data.
+  * Not possible because occupy much more data.
 * Use `formattable`.
 * Make only RDS files selectable.
 * Change text in some panels.
