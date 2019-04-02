@@ -7,7 +7,7 @@
 .data	tidyeval-data
 :=	quasiquotation
 abort	abort
-add_backtrace	rlang__backtrace_on_error
+add_backtrace	rlang_backtrace_on_error
 are_na	are_na
 arg_match	arg_match
 as_box	as_box
@@ -424,7 +424,7 @@ rep_named	rep_along
 restarting	restarting
 return_from	return_from
 return_to	return_from
-rlang__backtrace_on_error	rlang__backtrace_on_error
+rlang_backtrace_on_error	rlang_backtrace_on_error
 rst_abort	rst_abort
 rst_exists	rst_list
 rst_jump	rst_list

@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-03-01" />
+<meta name="date" content="2019-03-22" />
 
 <title>Importing and exporting RSA/DSA/EC keys</title>
 
@@ -255,9 +255,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -288,8 +286,6 @@ summary {
 </style>
 
 
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -364,13 +360,22 @@ $(document).ready(function () {
 
 
 
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
 
 <div class="fluid-row" id="header">
 
 
 
 <h1 class="title toc-ignore">Importing and exporting RSA/DSA/EC keys</h1>
-<h4 class="date"><em>2019-03-01</em></h4>
+<h4 class="date">2019-03-22</h4>
 
 </div>
 
@@ -397,13 +402,13 @@ pubkey &lt;- key$pubkey
 bin &lt;- write_der(pubkey)
 print(bin)</code></pre>
 <pre><code> [1] 30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07
-[24] 03 42 00 04 4e 2c 93 c7 55 8e 3e a4 78 92 97 0b dd 12 2f 22 8e 70 a1
-[47] 2d c6 e4 e8 bf 96 66 04 04 45 b3 40 60 ab 13 ee 17 5c a6 00 71 b7 29
-[70] 72 22 6e 5b 96 d9 6d 10 f8 6f 00 27 02 6c fa 4a c8 6e 00 8b 95 d0</code></pre>
+[24] 03 42 00 04 1d 10 9c ac e6 38 38 43 a6 e5 28 16 61 9e f3 60 28 b0 3c
+[47] 58 ad 4d 48 b4 25 be db 17 3a 1d 8a df 21 9f f0 47 16 c4 5a a7 9f 31
+[70] 75 42 93 ae 21 b2 fa 32 d5 fd de 0e ad 38 c6 99 2f fa c8 79 f4 5d</code></pre>
 <p>To read a DER key use <code>read_key</code> or <code>read_pubkey</code> with <code>der = TRUE</code>.</p>
 <pre class="r"><code>read_pubkey(bin, der = TRUE)</code></pre>
 <pre><code>[256-bit ecdsa public key]
-md5: 10537c3b3dd0cffda041ec298472c4a6</code></pre>
+md5: fe6005f5c1e772c2b8779ade33a4df62</code></pre>
 <p>Users typically don’t need to worry about the key’s underlying primes, but have a look at <code>key$data</code> if you are curious.</p>
 </div>
 <div id="the-pem-format" class="section level3">
@@ -411,23 +416,23 @@ md5: 10537c3b3dd0cffda041ec298472c4a6</code></pre>
 <p>In practice the user rarely encounters DER because it is mainly for internal use. When humans exchange keys and certificates they typically use the PEM format. PEM is simply <strong>base64 encoded DER data, plus a header</strong>. The header identifies the key (and possibly encryption) type.</p>
 <pre class="r"><code>cat(write_pem(pubkey))</code></pre>
 <pre><code>-----BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAETiyTx1WOPqR4kpcL3RIvIo5woS3G
-5Oi/lmYEBEWzQGCrE+4XXKYAcbcpciJuW5bZbRD4bwAnAmz6SshuAIuV0A==
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHRCcrOY4OEOm5SgWYZ7zYCiwPFit
+TUi0Jb7bFzodit8hn/BHFsRap58xdUKTriGy+jLV/d4OrTjGmS/6yHn0XQ==
 -----END PUBLIC KEY-----</code></pre>
 <pre class="r"><code>cat(write_pem(key, password = NULL))</code></pre>
 <pre><code>-----BEGIN PRIVATE KEY-----
-MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgJucLrfmwzFZjoeTk
-uolBt5fh2QVQMHkmYYclG7GV2BehRANCAAROLJPHVY4+pHiSlwvdEi8ijnChLcbk
-6L+WZgQERbNAYKsT7hdcpgBxtylyIm5bltltEPhvACcCbPpKyG4Ai5XQ
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg8p+r3PCHNCbbHxNh
+ua0eKfWj6JGbz8eOa9QAGdaoR/ahRANCAAQdEJys5jg4Q6blKBZhnvNgKLA8WK1N
+SLQlvtsXOh2K3yGf8EcWxFqnnzF1QpOuIbL6MtX93g6tOMaZL/rIefRd
 -----END PRIVATE KEY-----</code></pre>
 <p>The PEM format allows for protecting private keys with a password. R will prompt you for the password when reading such a protected key.</p>
 <pre class="r"><code>cat(write_pem(key, password = &quot;supersecret&quot;))</code></pre>
 <pre><code>-----BEGIN ENCRYPTED PRIVATE KEY-----
-MIHjME4GCSqGSIb3DQEFDTBBMCkGCSqGSIb3DQEFDDAcBAgmgJNuq/5YwQICCAAw
-DAYIKoZIhvcNAgkFADAUBggqhkiG9w0DBwQIqHBk/g7LHawEgZAe/7qnYigSOVDY
-74tPEuUh0+7Qj+rjJqZmsEcyyvW/fTXX3yYILXRRnJhNblzNF9cDajO5DjO3OJZU
-s7qt9Dvc2Lm/xI1/0e/OJiMIigVpMPLyTel4j1ps4Ip4aXsSmK82YqsHSAMzLZ3R
-MdutHwm9HjGkN4/rnQgVEcycJ+8qTX+IHOzgcoEMUzZxDn4eHak=
+MIHjME4GCSqGSIb3DQEFDTBBMCkGCSqGSIb3DQEFDDAcBAgQ8vC9IWd23wICCAAw
+DAYIKoZIhvcNAgkFADAUBggqhkiG9w0DBwQIHZayeIwkXa8EgZCaVuCUoyA3rNgL
+/Vx4Gu74vRFLthqGQotSjOOpuWBVQrrr7eJHk+brNROLISzcx+nKIbhg0X4NxZST
+eyOM52uN81B+7PSwYWUaBppgpn0oZw0ASmr6L9c1IByqfCAYL50qdrikaja97CUq
+tihdScaceJ1+k9Kr+IgWp3XZGZ/dmoG+x8dafpoAjSrhKP6UnBU=
 -----END ENCRYPTED PRIVATE KEY-----</code></pre>
 </div>
 <div id="the-openssh-format" class="section level3">
@@ -435,11 +440,11 @@ MdutHwm9HjGkN4/rnQgVEcycJ+8qTX+IHOzgcoEMUzZxDn4eHak=
 <p>For better or worse, OpenSSH uses a custom format for <strong>public keys</strong>. The advantage of this format is that it fits on a single line which is nice for e.g. your <code>~/.ssh/known_hosts</code> file. There is no special format for private keys, OpenSSH uses PEM as well.</p>
 <pre class="r"><code>str &lt;- write_ssh(pubkey)
 print(str)</code></pre>
-<pre><code>[1] &quot;ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE4sk8dVjj6keJKXC90SLyKOcKEtxuTov5ZmBARFs0BgqxPuF1ymAHG3KXIibluW2W0Q+G8AJwJs+krIbgCLldA=&quot;</code></pre>
+<pre><code>[1] &quot;ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBB0QnKzmODhDpuUoFmGe82AosDxYrU1ItCW+2xc6HYrfIZ/wRxbEWqefMXVCk64hsvoy1f3eDq04xpkv+sh59F0=&quot;</code></pre>
 <p>The <code>read_pubkey</code> function will automatically detect if a file contains a <code>PEM</code> or <code>SSH</code> key.</p>
 <pre class="r"><code>read_pubkey(str)</code></pre>
 <pre><code>[256-bit ecdsa public key]
-md5: 10537c3b3dd0cffda041ec298472c4a6</code></pre>
+md5: fe6005f5c1e772c2b8779ade33a4df62</code></pre>
 </div>
 <div id="the-json-web-key-jwk-format" class="section level3">
 <h3>The JSON Web Key (JWK) format</h3>
@@ -450,8 +455,8 @@ jsonlite::prettify(json)</code></pre>
 <pre><code>{
     &quot;kty&quot;: &quot;EC&quot;,
     &quot;crv&quot;: &quot;P-256&quot;,
-    &quot;x&quot;: &quot;TiyTx1WOPqR4kpcL3RIvIo5woS3G5Oi_lmYEBEWzQGA&quot;,
-    &quot;y&quot;: &quot;qxPuF1ymAHG3KXIibluW2W0Q-G8AJwJs-krIbgCLldA&quot;
+    &quot;x&quot;: &quot;HRCcrOY4OEOm5SgWYZ7zYCiwPFitTUi0Jb7bFzodit8&quot;,
+    &quot;y&quot;: &quot;IZ_wRxbEWqefMXVCk64hsvoy1f3eDq04xpkv-sh59F0&quot;
 }
  </code></pre>
 <p>Keys from <code>jose</code> and <code>openssl</code> are the same.</p>
@@ -460,7 +465,7 @@ identical(mykey, pubkey)</code></pre>
 <pre><code>[1] TRUE</code></pre>
 <pre class="r"><code>print(mykey)</code></pre>
 <pre><code>[256-bit ecdsa public key]
-md5: 10537c3b3dd0cffda041ec298472c4a6</code></pre>
+md5: fe6005f5c1e772c2b8779ade33a4df62</code></pre>
 </div>
 
 

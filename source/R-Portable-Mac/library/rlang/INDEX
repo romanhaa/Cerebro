@@ -115,7 +115,7 @@ rep_along               Create vectors matching the length of a given
                         vector
 restarting              Create a restarting handler
 return_from             Jump to or from a frame
-rlang__backtrace_on_error
+rlang_backtrace_on_error
                         Display backtrace on error
 rst_abort               Jump to the abort restart
 rst_list                Restarts utilities

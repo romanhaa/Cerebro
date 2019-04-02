@@ -1,4 +1,27 @@
 
+# rlang 0.3.3
+
+* Fixed an issue in knitr that caused backtraces to print even when `error = TRUE`.
+
+* `maybe_missing()` gains a `default` argument.
+
+
+# rlang 0.3.2
+
+* Fixed protection issue reported by rchk.
+
+* The experimental option `rlang__backtrace_on_error` is no longer
+  experimental and has been renamed to `rlang_backtrace_on_error`.
+
+* New "none" option for `rlang_backtrace_on_error`.
+
+* Unary operators applied to quosures now give better error messages.
+
+* Fixed issue with backtraces of warnings promoted to error, and
+  entraced via `withCallingHandlers()`. The issue didn't affect
+  entracing via top level `options(error = rlang::entrace)` handling.
+
+
 # rlang 0.3.1
 
 This patch release polishes the new backtrace feature introduced in
@@ -116,13 +139,6 @@ have plenty of time to change your code.
 
 * `new_box()` now accepts additional attributes passed to `structure()`.
 
-* `as_string()` now unwraps quosured symbols automatically.
-
-  Note that `quo_name()` is *not* appropriate for transforming symbols
-  to strings. `quo_name()` is suitable for creating default labels,
-  not for deterministic conversions between symbol and string. Please
-  use `as_string()` instead.
-
 * Fixed a quotation bug with binary operators of zero or one argument
   such as `` `/`(1) `` (#652). They are now deparsed and printed
   properly as well.
@@ -159,6 +175,7 @@ have plenty of time to change your code.
 
 * Base errors set as `parent` of rlang errors are now printed
   correctly.
+
 
 
 # rlang 0.3.0

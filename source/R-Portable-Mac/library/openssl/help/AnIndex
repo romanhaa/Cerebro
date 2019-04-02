@@ -10,6 +10,7 @@ aes_keygen	aes_cbc
 askpass	reexports
 base64_decode	base64_encode
 base64_encode	base64_encode
+bcrypt_pbkdf	pbkdf
 bignum	bignum
 bignum_mod_exp	bignum
 bignum_mod_inv	bignum

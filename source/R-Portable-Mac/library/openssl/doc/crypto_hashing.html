@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-03-01" />
+<meta name="date" content="2019-03-22" />
 
 <title>Cryptographic Hashing in R</title>
 
@@ -255,9 +255,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -288,8 +286,6 @@ summary {
 </style>
 
 
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -364,13 +360,22 @@ $(document).ready(function () {
 
 
 
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
 
 <div class="fluid-row" id="header">
 
 
 
 <h1 class="title toc-ignore">Cryptographic Hashing in R</h1>
-<h4 class="date"><em>2019-03-01</em></h4>
+<h4 class="date">2019-03-22</h4>
 
 </div>
 
@@ -407,9 +412,9 @@ Attaching package: &#39;digest&#39;</code></pre>
 <pre><code>[1] &quot;acbd18db4cc2f85cedef654fccc4a4d8&quot;</code></pre>
 <pre class="r"><code># Other way around
 digest(cars, skip = 0)</code></pre>
-<pre><code>[1] &quot;c6408c6bc0833b2a374c19edf3e16b33&quot;</code></pre>
+<pre><code>[1] &quot;27115e036ed896e63f2366062fcd5f7a&quot;</code></pre>
 <pre class="r"><code>md5(serialize(cars, NULL))</code></pre>
-<pre><code>md5 c6:40:8c:6b:c0:83:3b:2a:37:4c:19:ed:f3:e1:6b:33 </code></pre>
+<pre><code>md5 27:11:5e:03:6e:d8:96:e6:3f:23:66:06:2f:cd:5f:7a </code></pre>
 </div>
 
 
