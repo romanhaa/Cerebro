@@ -1,4 +1,11 @@
 
+# rlang 0.3.3
+
+* Fixed an issue in knitr that caused backtraces to print even when `error = TRUE`.
+
+* `maybe_missing()` gains a `default` argument.
+
+
 # rlang 0.3.2
 
 * Fixed protection issue reported by rchk.

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Yihui Xie" />
 
-<meta name="date" content="2019-02-20" />
+<meta name="date" content="2019-04-01" />
 
 <title>An Introduction to xfun</title>
 
@@ -327,6 +327,9 @@ code > span.fu { color: #900; font-weight: bold; }
 code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -335,9 +338,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">An Introduction to xfun</h1>
-<h3 class="subtitle"><em>A Collection of Miscellaneous Functions</em></h3>
-<h4 class="author"><em>Yihui Xie</em></h4>
-<h4 class="date"><em>2019-02-20</em></h4>
+<h3 class="subtitle">A Collection of Miscellaneous Functions</h3>
+<h4 class="author">Yihui Xie</h4>
+<h4 class="date">2019-04-01</h4>
 
 
 <div id="TOC">
@@ -507,14 +510,14 @@ woRld</code></pre>
 <p>Since I have never been fully satisfied by the output of <code>sessionInfo()</code>, I tweaked it to make it more useful in my use cases. For example, it is rarely useful to print out the names of base R packages, or information about the matrix products / BLAS / LAPACK. Often times I want additional information in the session information, such as the Pandoc version when <strong>rmarkdown</strong> is used. The function <code>session_info()</code> tweaks the output of <code>sessionInfo()</code>, and makes it possible for other packages to append information in the output of <code>session_info()</code>.</p>
 <p>You can choose to print out the versions of only the packages you specify, e.g.,</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">xfun<span class="op">::</span><span class="kw">session_info</span>(<span class="kw">c</span>(<span class="st">&quot;xfun&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;tinytex&quot;</span>), <span class="dt">dependencies =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## R version 3.5.2 (2018-12-20)
+<pre><code>## R version 3.5.3 (2019-03-11)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Mojave 10.14.3
+## Running under: macOS Mojave 10.14.4
 ## 
 ## Locale: C / en_US.UTF-8 / en_US.UTF-8 / C / en_US.UTF-8 / en_US.UTF-8
 ## 
 ## Package version:
-##   knitr_1.21.7   rmarkdown_1.11 tinytex_0.10.4 xfun_0.5      
+##   knitr_1.22     rmarkdown_1.12 tinytex_0.11   xfun_0.6      
 ## 
 ## Pandoc version: 2.3.1</code></pre>
 </div>

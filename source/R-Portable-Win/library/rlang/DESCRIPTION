@@ -1,5 +1,5 @@
 Package: rlang
-Version: 0.3.2
+Version: 0.3.3
 Title: Functions for Base Types and Core R and 'Tidyverse' Features
 Description: A toolbox for working with base types, core R features
   like the condition system, and core 'Tidyverse' features like tidy
@@ -14,18 +14,19 @@ LazyData: true
 ByteCompile: true
 Biarch: true
 Depends: R (>= 3.1.0)
-Suggests: crayon, magrittr, methods, pillar, testthat (>= 2.0.0), covr
+Suggests: covr, crayon, magrittr, methods, pillar, rmarkdown, testthat
+        (>= 2.0.0)
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 URL: http://rlang.r-lib.org, https://github.com/r-lib/rlang
 BugReports: https://github.com/r-lib/rlang/issues
 NeedsCompilation: yes
-Packaged: 2019-03-21 11:02:51 UTC; lionel
+Packaged: 2019-03-28 06:30:23 UTC; lionel
 Author: Lionel Henry [aut, cre],
   Hadley Wickham [aut],
   RStudio [cph]
 Maintainer: Lionel Henry <lionel@rstudio.com>
 Repository: CRAN
-Date/Publication: 2019-03-21 14:50:03 UTC
-Built: R 3.5.3; x86_64-w64-mingw32; 2019-03-23 22:21:44 UTC; windows
+Date/Publication: 2019-03-29 07:40:10 UTC
+Built: R 3.5.3; x86_64-w64-mingw32; 2019-03-31 12:09:47 UTC; windows
 Archs: i386, x64

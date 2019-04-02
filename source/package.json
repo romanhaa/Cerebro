@@ -6,15 +6,15 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64  --out=App --icon=icon/icon.icns",
-    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=App --icon=icon/icon.ico"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64  --out=Cerebo --icon=icon/icon.icns",
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=Cerebo --icon=icon/icon.ico"
   },
   "repository": "https://github.com/romanhaa/Cerebro",
   "keywords": "scRNAseq",
   "author": "Roman Hillje",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^2.0.17"
+    "electron": "^2.0.18"
   },
   "dependencies": {
     "electron-log": "^2.2.17",

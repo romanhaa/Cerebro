@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Upload to an FTP server via 'curl'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for upload_ftp {xfun}"><tr><td>upload_ftp {xfun}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Upload to an FTP server via <code>curl</code></h2>
+
+<h3>Description</h3>
+
+<p>Run the command <code>curl -T file server</code> to upload a file to an FTP
+server. These functions require the system package (<em>not the R package</em>)
+<code>curl</code> to be installed (which should be available on macOS by
+default). The function <code>upload_win_builder()</code> uses <code>upload_ftp()</code>
+to upload packages to the win-builder server.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+upload_ftp(file, server, dir = "")
+
+upload_win_builder(file, version = c("R-devel", "R-release", "R-oldrelease"), 
+    server = "ftp://win-builder.r-project.org/")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Path to a local file.</p>
+</td></tr>
+<tr valign="top"><td><code>server</code></td>
+<td>
+<p>The address of the FTP server.</p>
+</td></tr>
+<tr valign="top"><td><code>dir</code></td>
+<td>
+<p>The remote directory to which the file should be uploaded.</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>The R version(s) on win-builder.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions were written mainly to save package developers the trouble of
+going to the win-builder web page and uploading packages there manually. You
+may also consider using <code>devtools::check_win_*</code>, which currently only
+allows you to upload a package to one folder on win-builder each time, and
+<code>xfun::upload_win_builder()</code> uploads to all three folders, which is more
+likely to be what you need.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Status code returned from <code><a href="../../base/html/system2.html">system2</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>xfun</em> version 0.6 <a href="00Index.html">Index</a>]</div>
+</body></html>
