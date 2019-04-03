@@ -43,7 +43,7 @@ output[["marker_genes_by_sample_table_present"]] <- DT::renderDataTable(server =
       "avg. logFC" = formattable::color_tile("white", "orange"),
       "% cells in this sample" = formattable::color_bar("pink"),
       "% cells in other samples" = formattable::color_bar("pink"),
-      "present on cell surface" = formattable::formatter("span", style=x~style(color=ifelse(x, "green", "red")))
+      "present on cell surface" = formattable::formatter("span", style=x~formattable::style(color=ifelse(x, "green", "red")))
     ))
   } else {
     table <- sample_data()$marker_genes$by_sample[ which(sample_data()$marker_genes$by_sample$sample == input[["marker_genes_by_sample_input"]]) , c(2,4,5,6,7) ]
@@ -161,7 +161,7 @@ output[["marker_genes_by_cluster_table_present"]] <- DT::renderDataTable(server 
       "avg. logFC" = formattable::color_tile("white", "orange"),
       "% cells in this cluster" = formattable::color_bar("pink"),
       "% cells in other clusters" = formattable::color_bar("pink"),
-      "present on cell surface" = formattable::formatter("span", style=x~style(color=ifelse(x, "green", "red")))
+      "present on cell surface" = formattable::formatter("span", style=x~formattable::style(color=ifelse(x, "green", "red")))
     ))
   } else {
     table <- sample_data()$marker_genes$by_cluster[ which(sample_data()$marker_genes$by_cluster$cluster == input[["marker_genes_by_cluster_input"]]) , c(2,4,5,6,7) ]

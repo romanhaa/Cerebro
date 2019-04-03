@@ -12,8 +12,18 @@ Depends: R (>= 3.5.1)
 biocViews:
 Imports: dplyr, DT, formattable, ggplot2, ggtree (>= 1.14.6), Matrix,
         msigdbr, plotly, reshape2, shiny, shinydashboard, shinyWidgets
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: cerebroApp
+RemoteUsername: romanhaa
+RemoteRef: master
+RemoteSha: 1b1928f7fc61c7626dc351943f8d001df467d16f
+GithubRepo: cerebroApp
+GithubUsername: romanhaa
+GithubRef: master
+GithubSHA1: 1b1928f7fc61c7626dc351943f8d001df467d16f
 NeedsCompilation: no
-Packaged: 2019-04-02 18:01:28 UTC; ieo4169
+Packaged: 2019-04-03 07:00:38 UTC; ieo4169
 Author: Roman Hillje [aut, cre]
 Maintainer: Roman Hillje <roman.hillje@googlemail.com>
-Built: R 3.5.3; ; 2019-04-02 18:01:30 UTC; unix
+Built: R 3.5.3; ; 2019-04-03 07:00:40 UTC; unix
