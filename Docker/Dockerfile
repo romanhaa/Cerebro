@@ -1,5 +1,7 @@
 FROM r-base:3.5.2
 
+RUN mkdir /plots
+
 RUN apt-get update --yes && \
   apt-get upgrade --yes
 
@@ -11,6 +13,8 @@ RUN Rscript -e 'install.packages(c("BiocManager","remotes"))'
 RUN Rscript -e 'BiocManager::install("romanhaa/cerebroApp", auth_token = "c21eae3bd91dd22b551915c330ed97f45352432e")'
 
 EXPOSE 8080
+
+ENV DOCKER=TRUE
 
 CMD Rscript -e 'shiny::runApp(cerebroApp::launchApp(), port=8080, host="0.0.0.0", launch.browser=FALSE)'
 

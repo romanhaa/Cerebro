@@ -105,8 +105,12 @@ Cerebro provides an easy way to access the data without any bioinformatic expert
 Download release for your OS, unpack and run.
 Currently, Cerebro is available only for macOS and Windows.
 
-**Note:** Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package.
-All you need is R (version 3.5.1 or higher).
+Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package or `romanhaa/cerebro` Docker container.
+
+### Alternative 1: `cerebroApp` R package
+
+Requirements: R (version 3.5.1 or higher)
+
 A convenient IDE would be RStudio.
 Make sure to install `cerebroApp` using `BiocManager::install()` to get the most recent version of dependencies on Bioconductor.
 
@@ -115,9 +119,32 @@ BiocManager::install("romanhaa/cerebroApp")
 cerebroApp::launchApp()
 ```
 
+### Alternative 2: `romanhaa/cerebro` Docker container
+
+Requirements: Docker
+
+```bash
+docker pull romanhaa/cerebro:latest
+docker run -p 8080:8080 -v <export_folder>:/plots romanhaa/cerebro
+# for example
+docker run -p 8080:8080 -v ~/Desktop:/plots romanhaa/cerebro
+```
+
+Then, in your browser you navigate to the address printed in the terminal, e.g. `127.0.0.1:8080`.
+
+**Note 1**: Binding a local directory with `-v <export_folder>:/plots` is only necessary if you want to export dimensional reductions from Cerebro.
+
+**Note 2**: If you need to change the port, you can do that like this:
+
+```bash
+docker run -p <port_of_choice>:8080 -v <export_folder>:/plots romanhaa/cerebro
+# OR
+docker run -p <port_of_choice>:<port_of_choice> -v <export_folder>:/plots romanhaa/cerebro Rscript -e 'shiny::runApp(cerebroApp::launchApp(), port=<port_of_choice>, host="0.0.0.0", launch.browser=FALSE)'
+```
+
 ## Test data
 
-[Find documentation for the example data set here.](test_data/README.md)
+[Find documentation and commands for the example data set here.](test_data/README.md)
 
 ## Technical notes
 
