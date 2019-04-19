@@ -81,7 +81,7 @@ seurat <- RunPCA(
 )
 
 seurat <- FindNeighbors(seurat)
-seurat <- FindClusters(seurat, resolution = 0.7)
+seurat <- FindClusters(seurat, resolution = 0.5)
 
 seurat <- BuildClusterTree(
   seurat,

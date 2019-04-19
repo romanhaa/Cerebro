@@ -89,7 +89,7 @@ seurat <- FindClusters(
   seurat,
   reduction.type = "pca",
   dims.use = 1:30,
-  resolution = 0.7,
+  resolution = 0.5,
   print.output = FALSE,
   save.SNN = TRUE
 )
