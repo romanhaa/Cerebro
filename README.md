@@ -205,7 +205,7 @@ To report any bugs, submit patches, or request new features, please log an issue
 
 ## License
 
-Copyright (c) 2019 <COPYRIGHT HOLDER> http://www.ieo.it
+Copyright (c) 2019 Roman Hillje
 
 [The MIT License (MIT)](LICENSE.md)
 
