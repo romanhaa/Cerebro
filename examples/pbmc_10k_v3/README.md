@@ -1,7 +1,7 @@
 # Example data
 
-As an example/test data set, we used a public scRNA-seq data set containing about 10k human PBMCs from a healthy donor (`pbmc_10k_v3`), generated using the v3 chemistry and processed using Cell Ranger 3.0.0.
-The dataset is available through the 10x Genomics website (<https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3>) and is licensed under the Creative Commons Attribution license (<https://creativecommons.org/licenses/by/4.0/>).
+As an example data set, we used a public scRNA-seq data set containing about 10k human PBMCs from a healthy donor (`pbmc_10k_v3`), generated using the v3 chemistry and processed using Cell Ranger 3.0.0.
+The data set is available through the [10x Genomics website](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3) and is licensed under the [Creative Commons Attribution 4.0 license](https://creativecommons.org/licenses/by/4.0/).
 
 Briefly, in the example we followed the basic [Seurat](https://satijalab.org/seurat/) workflow (both Seurat v2 and Seurat v3 are supported):
 
@@ -23,7 +23,7 @@ Then, we add some meta data, randomly assign each cell to one of three samples t
 * Perform pathway enrichment analysis using the marker genes of each sample and cluster (`getEnrichedPathways()`).
 * Export a `.crb` file that can be loaded into Cerebro (`exportFromSeurat()`).
 
-To test Cerebro, download the `.crb` file and load it into Cerebro.
+To test Cerebro, download the `.crb` file from either [Seurat v2](Seurat_v2) or [Seurat v3](Seurat_v3) and load it into Cerebro.
 
 ## How to reproduce
 
