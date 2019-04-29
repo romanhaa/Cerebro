@@ -26,7 +26,7 @@ Key features:
 * All plots can be exported to PNG. In addition, 2D dimensional reductions can be exported to PDF.
 * Tables can be downloaded in CSV or Excel format.
 
-Basic examples for [Seurat](https://satijalab.org/seurat/) v2 and v3 workflows and subsequent exporting can be found in the [`example`](examples) folder.
+Basic examples for [Seurat](https://satijalab.org/seurat/) v2 and v3 workflows and subsequent exporting can be found in the [`examples`](examples) folder.
 There you can also find the raw data and the output file that can be loaded into Cerebro.
 
 ## Interface panels in details
