@@ -9,14 +9,14 @@
   )
 )
 
-setwd("/data/examples")
+setwd("/data")
 
 set.seed(1234567)
 
 ##----------------------------------------------------------------------------##
 ## Load libraries.
 ##----------------------------------------------------------------------------##
-library("Seurat")
+library("Seurat", lib.loc = "/other_R_packages")
 library("cerebroPrepare")
 library("tidyverse")
 

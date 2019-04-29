@@ -16,14 +16,14 @@ set.seed(1234567)
 ##----------------------------------------------------------------------------##
 ## Load libraries.
 ##----------------------------------------------------------------------------##
-library("Seurat", lib.loc = "/other_R_packages")
+library("Seurat")
 library("cerebroPrepare")
 library("tidyverse")
 
 ##----------------------------------------------------------------------------##
 ## Load count matrix.
 ##----------------------------------------------------------------------------##
-path_to_data <- "./pbmc_10k_v3"
+path_to_data <- "./raw_data"
 
 feature_matrix <- Matrix::readMM(paste0(path_to_data, "/matrix.mtx.gz"))
 feature_matrix <- as.matrix(feature_matrix)
