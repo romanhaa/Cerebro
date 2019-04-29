@@ -368,77 +368,86 @@ observeEvent(input[["geneSetExpression_projection_export"]], {
     input[["geneSetExpression_projection_scale_y_manual_range"]]
   )
   library("ggplot2")
-  xlim <- c(
-    input[["geneSetExpression_projection_scale_x_manual_range"]][1],
-    input[["geneSetExpression_projection_scale_x_manual_range"]][2]
-  )
-  ylim <- c(
-    input[["geneSetExpression_projection_scale_y_manual_range"]][1],
-    input[["geneSetExpression_projection_scale_y_manual_range"]][2]
-  )
-
-  out_filename <- paste0(
-    plot_export_path, "Cerebro_", sample_data()$experiment$experiment_name,
-    "_gene_set_expression_", input[["geneSetExpression_select_geneSet"]], "_",
-    input[["geneSetExpression_projection_to_display"]]
-  )
-
-  if ( input[["geneSetExpression_projection_plotting_order"]] == "Random" ) {
-    out_filename <- paste0(out_filename, "_random_order.pdf")
-  } else if ( input[["geneSetExpression_projection_plotting_order"]] == "Highest expression on top" ) {
-    out_filename <- paste0(out_filename, "_highest_expression_on_top.pdf")
-  }
-
-  if ( ncol(sample_data()$projections[[ input[["geneSetExpression_projection_to_display"]] ]]) == 3 ) {
-    shinyWidgets::sendSweetAlert(
-      session = session,
-      title = "Sorry!",
-      text = "It's currently not possible to create PDF plots from 3D dimensional reductions. Please use the PNG export button in the panel or a 2D dimensional reduction instead.",
-      type = "error"
+  if ( exists("plot_export_path") ) {
+    xlim <- c(
+      input[["geneSetExpression_projection_scale_x_manual_range"]][1],
+      input[["geneSetExpression_projection_scale_x_manual_range"]][2]
     )
-  } else {
-    p <- ggplot(
-        geneSetExpression_plot_data(),
-        aes_q(
-          x = as.name(colnames(geneSetExpression_plot_data())[1]),
-          y = as.name(colnames(geneSetExpression_plot_data())[2]),
-          fill = as.name("level")
-        )
-      ) +
-      geom_point(
-        shape = 21,
-        size = input[["geneSetExpression_projection_dot_size"]]/3,
-        stroke = 0.2,
-        color = "#c4c4c4",
-        alpha = input[["geneSetExpression_projection_dot_opacity"]]
-      ) +
-      scale_fill_distiller(
-        palette = "YlGnBu",
-        direction = 1,
-        name = "Log-normalised\nexpression",
-        guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
-      ) +
-      lims(x = xlim, y = ylim) +
-      theme_bw()
+    ylim <- c(
+      input[["geneSetExpression_projection_scale_y_manual_range"]][1],
+      input[["geneSetExpression_projection_scale_y_manual_range"]][2]
+    )
 
-    pdf(NULL)
-    ggsave(out_filename, p, height = 8, width = 11)
+    out_filename <- paste0(
+      plot_export_path, "Cerebro_", sample_data()$experiment$experiment_name,
+      "_gene_set_expression_", input[["geneSetExpression_select_geneSet"]], "_",
+      input[["geneSetExpression_projection_to_display"]]
+    )
 
-    if ( file.exists(out_filename) ) {
+    if ( input[["geneSetExpression_projection_plotting_order"]] == "Random" ) {
+      out_filename <- paste0(out_filename, "_random_order.pdf")
+    } else if ( input[["geneSetExpression_projection_plotting_order"]] == "Highest expression on top" ) {
+      out_filename <- paste0(out_filename, "_highest_expression_on_top.pdf")
+    }
+
+    if ( ncol(sample_data()$projections[[ input[["geneSetExpression_projection_to_display"]] ]]) == 3 ) {
       shinyWidgets::sendSweetAlert(
         session = session,
-        title = "Success!",
-        text = paste0("Plot saved successfully as: ", out_filename),
-        type = "success"
-      )
-    } else {
-      shinyWidgets::sendSweetAlert(
-        session = session,
-        title = "Error!",
-        text = "Sorry, it seems something went wrong...",
+        title = "Sorry!",
+        text = "It's currently not possible to create PDF plots from 3D dimensional reductions. Please use the PNG export button in the panel or a 2D dimensional reduction instead.",
         type = "error"
       )
+    } else {
+      p <- ggplot(
+          geneSetExpression_plot_data(),
+          aes_q(
+            x = as.name(colnames(geneSetExpression_plot_data())[1]),
+            y = as.name(colnames(geneSetExpression_plot_data())[2]),
+            fill = as.name("level")
+          )
+        ) +
+        geom_point(
+          shape = 21,
+          size = input[["geneSetExpression_projection_dot_size"]]/3,
+          stroke = 0.2,
+          color = "#c4c4c4",
+          alpha = input[["geneSetExpression_projection_dot_opacity"]]
+        ) +
+        scale_fill_distiller(
+          palette = "YlGnBu",
+          direction = 1,
+          name = "Log-normalised\nexpression",
+          guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
+        ) +
+        lims(x = xlim, y = ylim) +
+        theme_bw()
+
+      pdf(NULL)
+      ggsave(out_filename, p, height = 8, width = 11)
+
+      if ( file.exists(out_filename) ) {
+        shinyWidgets::sendSweetAlert(
+          session = session,
+          title = "Success!",
+          text = paste0("Plot saved successfully as: ", out_filename),
+          type = "success"
+        )
+      } else {
+        shinyWidgets::sendSweetAlert(
+          session = session,
+          title = "Error!",
+          text = "Sorry, it seems something went wrong...",
+          type = "error"
+        )
+      }
     }
+  } else {
+    shinyWidgets::sendSweetAlert(
+      session = session,
+      title = "Error!",
+      text = "Sorry, we couldn't find a place to store the figure. Please submit an issue on GitHub @ https://github.com/romanhaa/cerebroApp",
+      type = "error"
+    )
   }
 })
 

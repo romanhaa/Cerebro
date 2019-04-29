@@ -398,127 +398,136 @@ observeEvent(input[["overview_projection_export"]], {
     input[["overview_scale_y_manual_range"]]
   )
   library("ggplot2")
-  projection_to_display <- input[["overview_projection_to_display"]]
-  samples_to_display <- input[["overview_samples_to_display"]]
-  clusters_to_display <- input[["overview_clusters_to_display"]]
-  cells_to_display <- which(
-    grepl(
-      sample_data()$cells$sample,
-      pattern = paste0("^", samples_to_display, "$", collapse = "|")
-    ) &
-    grepl(
-      sample_data()$cells$cluster,
-      pattern = paste0("^", clusters_to_display, "$", collapse = "|")
-    )
-  )
-  to_plot <- cbind(
-    sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
-    sample_data()$cells[ cells_to_display , ]
-  )
-  to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
-  xlim <- c(
-    input[["overview_scale_x_manual_range"]][1],
-    input[["overview_scale_x_manual_range"]][2]
-  )
-  ylim <- c(
-    input[["overview_scale_y_manual_range"]][1],
-    input[["overview_scale_y_manual_range"]][2]
-  )
-
-  if ( ncol(sample_data()$projections[[ projection_to_display ]]) == 3 ) {
-    shinyWidgets::sendSweetAlert(
-      session = session,
-      title = "Sorry!",
-      text = "It's currently not possible to create PDF plots from 3D dimensional reductions. Please use the PNG export button in the panel or a 2D dimensional reduction instead.",
-      type = "error"
-    )
-  } else {
-    if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) || is.character(to_plot[ , input[["overview_dot_color"]] ]) ) {
-      if ( input[["overview_dot_color"]] == "sample" ) {
-        cols <- sample_data()$samples$colors
-      } else if ( input[["overview_dot_color"]] == "cluster" ) {
-        cols <- sample_data()$clusters$colors
-      } else if ( input[["overview_dot_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
-        cols <- cell_cycle_colorset
-      } else if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) ) {
-        cols <- setNames(colors[1:length(levels(to_plot[ , input[["overview_dot_color"]] ]))], levels(to_plot[ , input[["overview_dot_color"]] ]))
-      } else {
-        cols <- colors
-      }
-      p <- ggplot(
-          to_plot,
-          aes_q(
-            x = as.name(colnames(to_plot)[1]),
-            y = as.name(colnames(to_plot)[2]),
-            fill = as.name(input[["overview_dot_color"]])
-          )
-        ) +
-        geom_point(
-          shape = 21,
-          size = input[["overview_dot_size"]]/3,
-          stroke = 0.2,
-          color = "#c4c4c4",
-          alpha = input[["overview_dot_opacity"]]
-        ) +
-        scale_fill_manual(values = cols) +
-        lims(x = xlim, y = ylim) +
-        theme_bw()
-    } else {
-      p <- ggplot(
-          to_plot,
-          aes_q(
-            x = as.name(colnames(to_plot)[1]),
-            y = as.name(colnames(to_plot)[2]),
-            fill = as.name(input[["overview_dot_color"]])
-          )
-        ) +
-        geom_point(
-          shape = 21,
-          size = input[["overview_dot_size"]]/3,
-          stroke = 0.2,
-          color = "#c4c4c4",
-          alpha = input[["overview_dot_opacity"]]
-        ) +
-        scale_fill_distiller(
-          palette = "YlGnBu",
-          direction = 1,
-          guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
-        ) +
-        lims(x = xlim, y = ylim) +
-        theme_bw()
-    }
-
-    out_filename <- paste0(
-        plot_export_path, "Cerebro_",
-        gsub(
-          sample_data()$experiment$experiment_name,
-          pattern = " ", replacement = "_"
-        ),
-        "_overview_", input[["overview_projection_to_display"]], "_by_",
-        gsub(
-          input[["overview_dot_color"]],
-          pattern = "\\.", replacement = "_"
-        ),
-        ".pdf"
+  if ( exists("plot_export_path") ) {
+    projection_to_display <- input[["overview_projection_to_display"]]
+    samples_to_display <- input[["overview_samples_to_display"]]
+    clusters_to_display <- input[["overview_clusters_to_display"]]
+    cells_to_display <- which(
+      grepl(
+        sample_data()$cells$sample,
+        pattern = paste0("^", samples_to_display, "$", collapse = "|")
+      ) &
+      grepl(
+        sample_data()$cells$cluster,
+        pattern = paste0("^", clusters_to_display, "$", collapse = "|")
       )
+    )
+    to_plot <- cbind(
+      sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
+      sample_data()$cells[ cells_to_display , ]
+    )
+    to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
+    xlim <- c(
+      input[["overview_scale_x_manual_range"]][1],
+      input[["overview_scale_x_manual_range"]][2]
+    )
+    ylim <- c(
+      input[["overview_scale_y_manual_range"]][1],
+      input[["overview_scale_y_manual_range"]][2]
+    )
 
-    pdf(NULL)
-    ggsave(out_filename, p, height = 8, width = 11)
-
-    if ( file.exists(out_filename) ) {
+    if ( ncol(sample_data()$projections[[ projection_to_display ]]) == 3 ) {
       shinyWidgets::sendSweetAlert(
         session = session,
-        title = "Success!",
-        text = paste0("Plot saved successfully as: ", out_filename),
-        type = "success"
-      )
-    } else {
-      shinyWidgets::sendSweetAlert(
-        session = session,
-        title = "Error!",
-        text = "Sorry, it seems something went wrong...",
+        title = "Sorry!",
+        text = "It's currently not possible to create PDF plots from 3D dimensional reductions. Please use the PNG export button in the panel or a 2D dimensional reduction instead.",
         type = "error"
       )
+    } else {
+      if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) || is.character(to_plot[ , input[["overview_dot_color"]] ]) ) {
+        if ( input[["overview_dot_color"]] == "sample" ) {
+          cols <- sample_data()$samples$colors
+        } else if ( input[["overview_dot_color"]] == "cluster" ) {
+          cols <- sample_data()$clusters$colors
+        } else if ( input[["overview_dot_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
+          cols <- cell_cycle_colorset
+        } else if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) ) {
+          cols <- setNames(colors[1:length(levels(to_plot[ , input[["overview_dot_color"]] ]))], levels(to_plot[ , input[["overview_dot_color"]] ]))
+        } else {
+          cols <- colors
+        }
+        p <- ggplot(
+            to_plot,
+            aes_q(
+              x = as.name(colnames(to_plot)[1]),
+              y = as.name(colnames(to_plot)[2]),
+              fill = as.name(input[["overview_dot_color"]])
+            )
+          ) +
+          geom_point(
+            shape = 21,
+            size = input[["overview_dot_size"]]/3,
+            stroke = 0.2,
+            color = "#c4c4c4",
+            alpha = input[["overview_dot_opacity"]]
+          ) +
+          scale_fill_manual(values = cols) +
+          lims(x = xlim, y = ylim) +
+          theme_bw()
+      } else {
+        p <- ggplot(
+            to_plot,
+            aes_q(
+              x = as.name(colnames(to_plot)[1]),
+              y = as.name(colnames(to_plot)[2]),
+              fill = as.name(input[["overview_dot_color"]])
+            )
+          ) +
+          geom_point(
+            shape = 21,
+            size = input[["overview_dot_size"]]/3,
+            stroke = 0.2,
+            color = "#c4c4c4",
+            alpha = input[["overview_dot_opacity"]]
+          ) +
+          scale_fill_distiller(
+            palette = "YlGnBu",
+            direction = 1,
+            guide = guide_colorbar(frame.colour = "black", ticks.colour = "black")
+          ) +
+          lims(x = xlim, y = ylim) +
+          theme_bw()
+      }
+
+      out_filename <- paste0(
+          plot_export_path, "Cerebro_",
+          gsub(
+            sample_data()$experiment$experiment_name,
+            pattern = " ", replacement = "_"
+          ),
+          "_overview_", input[["overview_projection_to_display"]], "_by_",
+          gsub(
+            input[["overview_dot_color"]],
+            pattern = "\\.", replacement = "_"
+          ),
+          ".pdf"
+        )
+
+      pdf(NULL)
+      ggsave(out_filename, p, height = 8, width = 11)
+
+      if ( file.exists(out_filename) ) {
+        shinyWidgets::sendSweetAlert(
+          session = session,
+          title = "Success!",
+          text = paste0("Plot saved successfully as: ", out_filename),
+          type = "success"
+        )
+      } else {
+        shinyWidgets::sendSweetAlert(
+          session = session,
+          title = "Error!",
+          text = "Sorry, it seems something went wrong...",
+          type = "error"
+        )
+      }
     }
+  } else {
+    shinyWidgets::sendSweetAlert(
+      session = session,
+      title = "Error!",
+      text = "Sorry, we couldn't find a place to store the figure. Please submit an issue on GitHub @ https://github.com/romanhaa/cerebroApp",
+      type = "error"
+    )
   }
 })

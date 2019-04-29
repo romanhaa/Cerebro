@@ -61,3 +61,8 @@
 ### Information about analysis
 
 ![Cerebro v1.0.0: Information about analysis](cerebro_v1.0.0_pbmc_10k_v3/2019-04-29_at_17.45.31.png?raw=true "Cerebro v1.0.0: Information about analysis")
+
+### About Cerebro
+
+![Cerebro v1.0.0: About Cerebro](cerebro_v1.0.0_pbmc_10k_v3/2019-04-29_at_17.51.37.png?raw=true "Cerebro v1.0.0: About Cerebro")
+
