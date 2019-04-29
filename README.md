@@ -104,7 +104,7 @@ Cerebro provides an easy way to access the data without any bioinformatic expert
 
 ## Installation
 
-Download release for your OS from [here](https://github.com/romanhaa/Cerebro/releases), unpack and run.
+Download Cerebro for your OS from [here](https://github.com/romanhaa/Cerebro/releases), unpack and launch.
 Currently, Cerebro is available only for macOS and Windows.
 
 Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package or `romanhaa/cerebro` Docker container.
