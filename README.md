@@ -29,6 +29,8 @@ Key features:
 Basic examples for [Seurat](https://satijalab.org/seurat/) v2 and v3 workflows and subsequent exporting can be found in the [`examples`](examples) folder.
 There you can also find the raw data and the output file that can be loaded into Cerebro.
 
+Further screenshots can be found in the [`screenshots`](screenshots) folder.
+
 ## Interface panels in details
 
 ### Load data
@@ -102,7 +104,7 @@ Cerebro provides an easy way to access the data without any bioinformatic expert
 
 ## Installation
 
-Download release for your OS, unpack and run.
+Download release for your OS from [here](releases), unpack and run.
 Currently, Cerebro is available only for macOS and Windows.
 
 Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package or `romanhaa/cerebro` Docker container.
