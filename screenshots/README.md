@@ -1,11 +1,13 @@
 # Screenshots of Cerebro
 
-<figure>
-  <img src="2019-03-01_at_15.22.08.png" alt="Cerebro v1.0: Load data" style="width:100%">
-  <figcaption>Cerebro v1.0: Load data</figcaption>
-</figure>
+## Cerebro v1.0
+
+### Load data
 
 ![Cerebro v1.0: Load data](2019-03-01_at_15.22.08.png?raw=true "Cerebro v1.0: Load data")
+
+### t-SNE projection with cells colored by sample
+
 ![Cerebro v1.0: t-SNE projection with cells colored by sample](2019-03-01_at_15.22.15.png?raw=true "Cerebro v1.0: t-SNE projection with cells colored by sample")
 ![Cerebro v1.0: t-SNE projection with cells colored by cell cycle](2019-03-01_at_15.22.23.png?raw=true "Cerebro v1.0: t-SNE projection with cells colored by cell cycle")
 ![Cerebro v1.0: Composition of samples by cluster](2019-03-01_at_15.22.31.png?raw=true "Cerebro v1.0: Composition of samples by cluster")
