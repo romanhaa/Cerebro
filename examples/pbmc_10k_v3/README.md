@@ -31,8 +31,8 @@ I suggest to run the example R script in a container using [Singularity](https:/
 
 ```sh
 git clone https://github.com/romanhaa/Cerebro
-cd Cerebro/test_data
-singularity build cerebro-example.simg docker://romanhaa/cerebro-example:latest
+cd Cerebro/examples/pbmc_10k_v3
+singularity build cerebro-example.simg docker://romanhaa/cerebro-example:2019-04-29
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v2/Cerebro_example.R
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v3/Cerebro_example.R
 ```

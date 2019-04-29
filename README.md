@@ -26,7 +26,7 @@ Key features:
 * All plots can be exported to PNG. In addition, 2D dimensional reductions can be exported to PDF.
 * Tables can be downloaded in CSV or Excel format.
 
-Basic examples for [Seurat](https://satijalab.org/seurat/) v2 and v3 workflows and subsequent exporting can be found in the [`test_data`](test_data/) folder.
+Basic examples for [Seurat](https://satijalab.org/seurat/) v2 and v3 workflows and subsequent exporting can be found in the [`example`](examples) folder.
 There you can also find the raw data and the output file that can be loaded into Cerebro.
 
 ## Interface panels in details
@@ -142,9 +142,9 @@ docker run -p <port_of_choice>:8080 -v <export_folder>:/plots romanhaa/cerebro
 docker run -p <port_of_choice>:<port_of_choice> -v <export_folder>:/plots romanhaa/cerebro Rscript -e 'shiny::runApp(cerebroApp::launchApp(), port=<port_of_choice>, host="0.0.0.0", launch.browser=FALSE)'
 ```
 
-## Test data
+## `pbmc_10k_v3` example data set
 
-[Find documentation and commands for the example data set here.](test_data/README.md)
+[Find documentation and commands for the `pbmc_10k_v3` example data set here.](examples/pbmc_10k_v3/)
 
 ## Technical notes
 
