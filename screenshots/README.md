@@ -58,3 +58,6 @@
 
 ![Cerebro v1.0.0: Expression of MSigDB gene sets by sample and cluster and average expression of 50 most expressed genes in gene set](cerebro_v1.0.0_pbmc_10k_v3/2019-03-01_at_15.28.03.png?raw=true "Cerebro v1.0.0: Expression of MSigDB gene sets by sample and cluster and average expression of 50 most expressed genes in gene set")
 
+### Information about analysis
+
+![Cerebro v1.0.0: Information about analysis](cerebro_v1.0.0_pbmc_10k_v3/2019-04-29_at_17.45.31.png?raw=true "Cerebro v1.0.0: Information about analysis")
