@@ -1,8 +1,8 @@
 # Cerebro
 
-![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0_pbmc_10k_v3/2019-03-01_at_15.22.15.png?raw=true "Cerebro: overview panel")
+![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-03-01_at_15.22.15.png?raw=true "Cerebro: overview panel")
 
-<p align="center"><img src="screenshots/cerebro_v1.0_pbmc_10k_v3/2019-03-12.2019-03-12_14_37_20.gif"/></p>
+<p align="center"><img src="screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-03-12.2019-03-12_14_37_20.gif"/></p>
 
 This is the standalone version of [Cerebro](https://github.com/romanhaa/cerebroApp), **ce**ll **re**port **bro**wser, (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
