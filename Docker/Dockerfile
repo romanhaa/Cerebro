@@ -10,7 +10,7 @@ RUN apt-get install --yes \
   libssl-dev
 
 RUN Rscript -e 'install.packages(c("BiocManager","remotes"))'
-RUN Rscript -e 'BiocManager::install("romanhaa/cerebroApp", auth_token = "c21eae3bd91dd22b551915c330ed97f45352432e")'
+RUN Rscript -e 'BiocManager::install("romanhaa/cerebroApp")'
 
 EXPOSE 8080
 
