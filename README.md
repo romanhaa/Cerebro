@@ -1,6 +1,6 @@
 # Cerebro
 
-![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-04-02_at_13.28.42?raw=true "Cerebro: overview panel")
+![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-04-02_at_13.28.42.png?raw=true "Cerebro: overview panel")
 
 <p align="center"><img src="screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-03-18_2019-05-11_11_52_44.gif"/></p>
 
