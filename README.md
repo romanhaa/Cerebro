@@ -148,6 +148,17 @@ docker run -p <port_of_choice>:<port_of_choice> -v <export_folder>:/plots romanh
 
 [Find documentation and commands for the `pbmc_10k_v3` example data set here.](examples/pbmc_10k_v3/)
 
+## Conversion of other single cell data formats
+
+Currently, the `cerebroPrepare` R package only provides a functions to export a `Seurat` (v2 or v3) object to the Cerebro input file.
+However, there are a few other important single cell data storage formats, e.g. `AnnData` (used by [scanpy](https://scanpy.readthedocs.io/en/stable/), `SingleCellExperiment` (used by [scran](https://bioconductor.org/packages/release/bioc/html/scran.html) and [scater](https://bioconductor.org/packages/release/bioc/html/scater.html), and `CellDataSet` (used by [Monocle](https://cole-trapnell-lab.github.io/monocle-release/).
+Ideally, we would like to provide export functions for all of those formats.
+However, the reality is, especially considering that these formats can change with updates of the respective packages, this would correspond to an enormous maintance effort.
+For the moment, we can take advantage of the conversion and export functions that some of those packages mentioned before already provide.
+In the figure below, we highlight how you can generate the Cerebro input file from any of the four major formats.
+
+![Single cell data formats](images/data_formats.jpg?raw=true "Single cell data formats")
+
 ## Technical notes
 
 * Cerebro is a [Shiny](https://shiny.rstudio.com/) app that is bottled into a standalone application using [Electron](https://electronjs.org/).
