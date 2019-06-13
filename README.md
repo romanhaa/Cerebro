@@ -158,7 +158,7 @@ For the moment, we can take advantage of the conversion and export functions tha
 
 In the figure below, we highlight how you can generate the Cerebro input file from any of the four major formats.
 
-<img src="images/data_formats.jpg" alt="Single cell data formats" width="500"/>
+<p align="center"><img src="images/data_formats.jpg" alt="Single cell data formats" width="600"/></p>
 
 ## Technical notes
 
