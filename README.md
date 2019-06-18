@@ -144,14 +144,16 @@ docker run -p <port_of_choice>:8080 -v <export_folder>:/plots romanhaa/cerebro
 docker run -p <port_of_choice>:<port_of_choice> -v <export_folder>:/plots romanhaa/cerebro Rscript -e 'shiny::runApp(cerebroApp::launchApp(), port=<port_of_choice>, host="0.0.0.0", launch.browser=FALSE)'
 ```
 
-## `pbmc_10k_v3` example data set
+## Example data sets
 
-[Find documentation and commands for the `pbmc_10k_v3` example data set here.](examples/pbmc_10k_v3/)
+We provide documentation and commands for the following example data sets:
+
+* [`pbmc_10k_v3`](examples/pbmc_10k_v3/)
 
 ## Conversion of other single cell data formats
 
 Currently, the `cerebroPrepare` R package only provides a functions to export a `Seurat` (v2 or v3) object to the Cerebro input file.
-However, there are a few other important single cell data storage formats, e.g. `AnnData` (used by [scanpy](https://scanpy.readthedocs.io/en/stable/), `SingleCellExperiment` (used by [scran](https://bioconductor.org/packages/release/bioc/html/scran.html) and [scater](https://bioconductor.org/packages/release/bioc/html/scater.html), and `CellDataSet` (used by [Monocle](https://cole-trapnell-lab.github.io/monocle-release/)).
+However, there are a few other important single cell data storage formats, e.g. `AnnData` (used by [scanpy](https://scanpy.readthedocs.io/en/stable/), `SingleCellExperiment` (used by [scran](https://bioconductor.org/packages/release/bioc/html/scran.html) and [scater](https://bioconductor.org/packages/release/bioc/html/scater.html)), and `CellDataSet` (used by [Monocle](https://cole-trapnell-lab.github.io/monocle-release/)).
 Ideally, we would like to provide export functions for all of those formats.
 However, the reality is, especially considering that these formats can change with updates of the respective packages, this would correspond to an enormous maintance effort.
 For the moment, we can take advantage of the conversion and export functions that some of those packages mentioned before already provide.
@@ -165,7 +167,7 @@ In the figure below, we highlight how you can generate the Cerebro input file fr
 * Cerebro is a [Shiny](https://shiny.rstudio.com/) app that is bottled into a standalone application using [Electron](https://electronjs.org/).
 * Plotting relies heavily on [`ggplot2`](https://ggplot2.tidyverse.org/) and [`plotly`](https://plot.ly/r/).
 * Tables are built with [`formattable`](https://renkun-ken.github.io/formattable/).
-* Access to MSigDB through [`msigdbr`](https://cran.r-project.org/web/packages/msigdbr/vignettes/msigdbr-intro.html)
+* Access to MSigDB through [`msigdbr`](https://cran.r-project.org/web/packages/msigdbr/vignettes/msigdbr-intro.html).
 
 ## Building from source
 
