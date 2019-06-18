@@ -1,9 +1,5 @@
 # Cerebro
 
-![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-04-02_at_13.28.42.png?raw=true "Cerebro: overview panel")
-
-<p align="center"><img src="screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-03-18_2019-05-11_11_52_44.gif"/></p>
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
@@ -37,6 +33,10 @@
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-04-02_at_13.28.42.png?raw=true "Cerebro: overview panel")
+
+<p align="center"><img src="screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-03-18_2019-05-11_11_52_44.gif"/></p>
 
 This is the standalone version of [Cerebro](https://github.com/romanhaa/cerebroApp), **ce**ll **re**port **bro**wser, (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
@@ -149,6 +149,13 @@ Download Cerebro for your OS from [here](https://github.com/romanhaa/Cerebro/rel
 Currently, Cerebro is available only for macOS and Windows.
 
 Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package or `romanhaa/cerebro` Docker container.
+
+| | **R package** | **Standalone desktop application** | **Docker container** |
+|-:|:-:|:-:|:-:|
+| **Supported OS** | macOS, Windows, Linux| macOS, Windows | macOS, Windows, Linux<br>(not all tested) |
+| **Requirements** | R (3.5.1 or higher) | - | Docker client |
+| **Installation** | Through BiocManager::install() | Download executable from GitHub repository | Pull container from Docker Hub |
+| **Launch Cerebro** | Inside R | Double-click application | Start container |
 
 ### Alternative 1: `cerebroApp` R package
 
