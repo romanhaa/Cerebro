@@ -152,13 +152,13 @@ More experienced users of all platforms can alternatively launch the app through
 
 Please check the table below for an overview of the supported operating systems and requirements of each way to start Cerebo.
 
-| | **cerebroApp R package** | **Standalone desktop application** | **Docker container** |
+| | **Standalone desktop application** | **cerebroApp R package** | **Docker container** |
 |-:|:-:|:-:|:-:|
-| **Link** | [GitHub](https://github.com/romanhaa/cerebroApp) | [GitHub](https://github.com/romanhaa/Cerebro/releases) | [Docker Hub](https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro) |
-| **Supported OS** | macOS, Windows, Linux| macOS, Windows | macOS, Windows, Linux<br>(not all tested) |
-| **Requirements** | R (3.5.1 or higher) | - | Docker client |
-| **Installation** | Through BiocManager::install() | Download current release from GitHub repository | Pull container from Docker Hub |
-| **Launch Cerebro** | Inside R | Double-click executable | Start container |
+| **Link** | [Releases](https://github.com/romanhaa/Cerebro/releases) | [GitHub](https://github.com/romanhaa/cerebroApp) | [Docker Hub](https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro) |
+| **Supported OS** | macOS, Windows | macOS, Windows, Linux | macOS, Windows, Linux<br>(not all tested) |
+| **Requirements** | - | R (3.5.1 or higher) | Docker client |
+| **Installation** | Download current release from GitHub repository | Through BiocManager::install() | Pull container from Docker Hub |
+| **Launch Cerebro** | Double-click executable | Inside R | Start container |
 
 ### Details: `cerebroApp` R package
 
