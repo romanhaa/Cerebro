@@ -19,8 +19,8 @@
   - [Analysis info](#analysis-info)
 - [Motivation](#motivation)
 - [Installation](#installation)
-  - [Alternative 1: `cerebroApp` R package](#alternative-1-cerebroapp-r-package)
-  - [Alternative 2: `romanhaa/cerebro` Docker container](#alternative-2-romanhaacerebro-docker-container)
+  - [Details: `cerebroApp` R package](#details-cerebroapp-r-package)
+  - [Details: `romanhaa/cerebro` Docker container](#details-romanhaacerebro-docker-container)
 - [Example data sets](#example-data-sets)
 - [Conversion of other single cell data formats](#conversion-of-other-single-cell-data-formats)
 - [Technical notes](#technical-notes)
@@ -145,10 +145,12 @@ Cerebro provides an easy way to access the data without any bioinformatic expert
 
 ## Installation
 
-Download Cerebro for your OS from [here](https://github.com/romanhaa/Cerebro/releases), unpack and launch.
+For people without any experience in using the command line, getting access to Cerebro is probably easiest by downloading Cerebro for your OS from [here](https://github.com/romanhaa/Cerebro/releases), then unpacking and launching it.
 Currently, Cerebro is available only for macOS and Windows.
 
-Users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package or `romanhaa/cerebro` Docker container.
+More experienced users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package - which is the core Cerebro - or the `romanhaa/cerebro` Docker container.
+
+Please check the table below for an overview of the supported operating systems and requirements of each way to start Cerebo.
 
 | | **cerebroApp R package** | **Standalone desktop application** | **Docker container** |
 |-:|:-:|:-:|:-:|
@@ -162,17 +164,17 @@ Users of all platforms can alternatively launch the app through the dedicated `c
 
 Requirements: R (version 3.5.1 or higher)
 
-A convenient IDE would be RStudio.
+A convenient IDE would be RStudio but it can be done from any R session.
 Make sure to install `cerebroApp` using `BiocManager::install()` to get the most recent version of dependencies on Bioconductor.
 
-```R
+```r
 BiocManager::install("romanhaa/cerebroApp")
 cerebroApp::launchApp()
 ```
 
 ### Details: `romanhaa/cerebro` Docker container
 
-Requirements: Docker
+Requirements: Docker client
 
 ```bash
 docker pull romanhaa/cerebro:latest
