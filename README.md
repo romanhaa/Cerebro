@@ -1,3 +1,37 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Cerebro](#cerebro)
+  - [Interface panels in details](#interface-panels-in-details)
+    - [Load data](#load-data)
+    - [Overview](#overview)
+    - [Samples](#samples)
+    - [Clusters](#clusters)
+    - [Most expressed genes](#most-expressed-genes)
+    - [Marker genes](#marker-genes)
+    - [Enriched pathways](#enriched-pathways)
+    - [Gene expression](#gene-expression)
+    - [Gene set expression](#gene-set-expression)
+    - [Gene ID conversion](#gene-id-conversion)
+    - [Analysis info](#analysis-info)
+  - [Motivation](#motivation)
+  - [Installation](#installation)
+    - [Alternative 1: `cerebroApp` R package](#alternative-1-cerebroapp-r-package)
+    - [Alternative 2: `romanhaa/cerebro` Docker container](#alternative-2-romanhaacerebro-docker-container)
+  - [Example data sets](#example-data-sets)
+  - [Conversion of other single cell data formats](#conversion-of-other-single-cell-data-formats)
+  - [Technical notes](#technical-notes)
+  - [Building from source](#building-from-source)
+    - [On macOS](#on-macos)
+    - [On Windows](#on-windows)
+  - [Troubleshooting](#troubleshooting)
+  - [Credits](#credits)
+  - [Contribute](#contribute)
+  - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Cerebro
 
 ![Screenshot Cerebro: overview panel](screenshots/cerebro_v1.0.0_pbmc_10k_v3/2019-04-02_at_13.28.42.png?raw=true "Cerebro: overview panel")
