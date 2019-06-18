@@ -152,7 +152,7 @@ Users of all platforms can alternatively launch the app through the dedicated `c
 
 | | **cerebroApp R package** | **Cerebro standalone desktop application** | **Docker container** |
 |-:|:-:|:-:|:-:|
-| **Link** | [GitHub](https://github.com/romanhaa/cerebroApp) | [GitHub]([https://github.com/romanhaa/Cerebro/releases](https://github.com/romanhaa/Cerebro/releases)) | [Docker Hub]([https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro](https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro)) |
+| **Link** | [GitHub](https://github.com/romanhaa/cerebroApp) | [GitHub](https://github.com/romanhaa/Cerebro/releases) | [Docker Hub](https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro) |
 | **Supported OS** | macOS, Windows, Linux| macOS, Windows | macOS, Windows, Linux<br>(not all tested) |
 | **Requirements** | R (3.5.1 or higher) | - | Docker client |
 | **Installation** | Through BiocManager::install() | Download current release from GitHub repository | Pull container from Docker Hub |
