@@ -1,16 +1,38 @@
-FROM r-base:3.5.2
+FROM r-base:3.6.0
 
-RUN mkdir /plots
+##----------------------------------------------------------------------------##
+## LABELS
+##----------------------------------------------------------------------------##
 
-RUN apt-get update --yes && \
-  apt-get upgrade --yes
+LABEL org.label-schema.name = "cerebro"
+LABEL org.label-schema.description = "Cerebro as Docker container."
+LABEL org.label-schema.url = "https://github.com/romanhaa/Cerebro"
+LABEL org.label-schema.schema-version = "1.0"
+LABEL maintainer = "roman.hillje@googlemail.com"
+LABEL org.label-schema.version = "1.0.0"
+LABEL org.label-schema.build-date = "2019-04-29T00:00:00.0Z"
 
-RUN apt-get install --yes \
-  libcurl4-openssl-dev \
-  libssl-dev
+##----------------------------------------------------------------------------##
+## SYSTEM LIBRARIES
+##----------------------------------------------------------------------------##
+
+RUN apt-get update --yes \
+ && apt-get upgrade --yes \
+ && apt-get install --yes \
+  libcurl4-openssl-dev libssl-dev
+
+##----------------------------------------------------------------------------##
+## R PACKAGES
+##----------------------------------------------------------------------------##
 
 RUN Rscript -e 'install.packages(c("BiocManager","remotes"))'
 RUN Rscript -e 'BiocManager::install("romanhaa/cerebroApp")'
+
+##----------------------------------------------------------------------------##
+## FINISHING
+##----------------------------------------------------------------------------##
+
+RUN mkdir /plots
 
 EXPOSE 8080
 

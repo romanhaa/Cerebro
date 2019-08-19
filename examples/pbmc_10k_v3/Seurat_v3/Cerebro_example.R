@@ -39,7 +39,7 @@ gene_names <- read_tsv(paste0(path_to_data, "/features.tsv.gz"), col_names = FAL
   t() %>%
   as.vector()
 
-feature_matrix <- feature_matrix %>% 
+feature_matrix <- feature_matrix %>%
   mutate(gene = gene_names) %>%
   select("gene", everything()) %>%
   group_by(gene) %>%
@@ -207,6 +207,44 @@ seurat <- cerebroPrepare::getEnrichedPathways(
   max_terms = 100
 )
 
+##----------------------------------------------------------------------------##
+## Trajectory analysis with Monocle using all cells.
+##----------------------------------------------------------------------------##
+monocle_all_cells <- newCellDataSet(
+  seurat@assays$RNA@data,
+  phenoData = new("AnnotatedDataFrame", data = seurat@meta.data),
+  featureData = new("AnnotatedDataFrame", data = data.frame(gene_short_name = rownames(seurat@assays$RNA@data), row.names = rownames(seurat@assays$RNA@data)))
+)
+
+monocle_all_cells <- estimateSizeFactors(monocle_all_cells)
+monocle_all_cells <- estimateDispersions(monocle_all_cells)
+monocle_all_cells <- setOrderingFilter(monocle_all_cells, seurat@assays$RNA@var.features)
+monocle_all_cells <- reduceDimension(monocle_all_cells, max_components = 2, method = 'DDRTree')
+monocle_all_cells <- orderCells(monocle_all_cells)
+
+seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, "trajectory_all_cells")
+
+##----------------------------------------------------------------------------##
+## Trajectory analysis with Monocle using only cells in G1 phase.
+##----------------------------------------------------------------------------##
+G1_cells <- which(seurat@meta.data$Phase == "G1")
+
+monocle_subset_of_cells <- newCellDataSet(
+  seurat@assays$RNA@data[,G1_cells],
+  phenoData = new("AnnotatedDataFrame", data = seurat@meta.data[G1_cells,]),
+  featureData = new("AnnotatedDataFrame", data = data.frame(gene_short_name = rownames(seurat@assays$RNA@data), row.names = rownames(seurat@assays$RNA@data)))
+)
+monocle_subset_of_cells <- estimateSizeFactors(monocle_subset_of_cells)
+monocle_subset_of_cells <- estimateDispersions(monocle_subset_of_cells)
+monocle_subset_of_cells <- setOrderingFilter(monocle_subset_of_cells, seurat@assays$RNA@var.features)
+monocle_subset_of_cells <- reduceDimension(monocle_subset_of_cells, max_components = 2, method = 'DDRTree')
+monocle_subset_of_cells <- orderCells(monocle_subset_of_cells)
+
+seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_subset_of_cells, seurat, "trajectory_subset_of_cells")
+
+##----------------------------------------------------------------------------##
+## Export data for Cerebro.
+##----------------------------------------------------------------------------##
 cerebroPrepare::exportFromSeurat(
   seurat,
   experiment_name = "PBMC_10k",
