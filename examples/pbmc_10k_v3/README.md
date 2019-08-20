@@ -21,7 +21,11 @@ Then, we add some meta data, randomly assign each cell to one of three samples t
 * Get the most expressed genes in each sample and cluster (`getMostExpressedGenes()`).
 * Get marker genes for each sample and cluster (`getMarkerGenes()`).
 * Perform pathway enrichment analysis using the marker genes of each sample and cluster (`getEnrichedPathways()`).
-* Export a `.crb` file that can be loaded into Cerebro (`exportFromSeurat()`).
+
+Next, we calculate trajectories of (1) all cells and (2) a subset of cells (those in G1 phase) using Monocle v2 and the variable features identified by Seurat.
+We extract these trajectories from the respective Monocle objects and add them to our Seurat object through the `extractMonocleTrajectory()` function.
+
+Lastly, from the Seurat object we export a Cerebro file (`.crb` extension) that can be loaded into Cerebro (`exportFromSeurat()`).
 
 To test Cerebro, download the `.crb` file from either [Seurat v2](Seurat_v2) or [Seurat v3](Seurat_v3) and load it into Cerebro.
 
@@ -32,7 +36,7 @@ I suggest to run the example R script in a container using [Singularity](https:/
 ```sh
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/examples/pbmc_10k_v3
-singularity build cerebro-example.simg docker://romanhaa/cerebro-example:2019-04-29
+singularity build cerebro-example_2019-08-20.simg docker://romanhaa/cerebro-example:2019-08-20
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v2/Cerebro_example.R
 singularity exec --bind ./:/data cerebro-example.simg Rscript /data/Seurat_v3/Cerebro_example.R
 ```

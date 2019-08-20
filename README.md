@@ -4,33 +4,34 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Interface panels in details](#interface-panels-in-details)
-  - [Load data](#load-data)
-  - [Overview](#overview)
-  - [Samples](#samples)
-  - [Clusters](#clusters)
-  - [Most expressed genes](#most-expressed-genes)
-  - [Marker genes](#marker-genes)
-  - [Enriched pathways](#enriched-pathways)
-  - [Gene expression](#gene-expression)
-  - [Gene set expression](#gene-set-expression)
-  - [Trajectory](#trajectory)
-  - [Gene ID conversion](#gene-id-conversion)
-  - [Analysis info](#analysis-info)
-- [Motivation](#motivation)
-- [Installation](#installation)
-  - [Details: `cerebroApp` R package](#details-cerebroapp-r-package)
-  - [Details: `romanhaa/cerebro` Docker container](#details-romanhaacerebro-docker-container)
-- [Example data sets](#example-data-sets)
-- [Conversion of other single cell data formats](#conversion-of-other-single-cell-data-formats)
-- [Technical notes](#technical-notes)
-- [Building from source](#building-from-source)
-  - [On macOS](#on-macos)
-  - [On Windows](#on-windows)
-- [Troubleshooting](#troubleshooting)
-- [Credits](#credits)
-- [Contribute](#contribute)
-- [License](#license)
+- [Cerebro](#cerebro)
+  - [Interface panels in details](#interface-panels-in-details)
+    - [Load data](#load-data)
+    - [Overview](#overview)
+    - [Samples](#samples)
+    - [Clusters](#clusters)
+    - [Most expressed genes](#most-expressed-genes)
+    - [Marker genes](#marker-genes)
+    - [Enriched pathways](#enriched-pathways)
+    - [Gene expression](#gene-expression)
+    - [Gene set expression](#gene-set-expression)
+    - [Trajectory](#trajectory)
+    - [Gene ID conversion](#gene-id-conversion)
+    - [Analysis info](#analysis-info)
+  - [Motivation](#motivation)
+  - [Installation](#installation)
+    - [Details: `cerebroApp` R package](#details-cerebroapp-r-package)
+    - [Details: `romanhaa/cerebro` Docker container](#details-romanhaacerebro-docker-container)
+  - [Example data sets](#example-data-sets)
+  - [Conversion of other single cell data formats](#conversion-of-other-single-cell-data-formats)
+  - [Technical notes](#technical-notes)
+  - [Building from source](#building-from-source)
+    - [On macOS](#on-macos)
+    - [On Windows](#on-windows)
+  - [Troubleshooting](#troubleshooting)
+  - [Credits](#credits)
+  - [Contribute](#contribute)
+  - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -52,6 +53,7 @@ The exported `.crb` file is then loaded into Cerebro and shows all available inf
 
 Key features:
 
+* **NEW** Visualize trajectories calculate with Monocle v2.
 * Interactive 2D and 3D dimensional reductions.
 * Sample and cluster overview panels.
 * Tables of most expressed genes and marker genes for samples and clusters.

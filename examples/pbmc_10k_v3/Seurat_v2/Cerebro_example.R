@@ -243,7 +243,7 @@ seurat <- cerebroPrepare::getEnrichedPathways(
 ## Trajectory analysis with Monocle using all cells.
 ##----------------------------------------------------------------------------##
 monocle_all_cells <- newCellDataSet(
-  seurat@assays$RNA@data,
+  seurat@data,
   phenoData = new('AnnotatedDataFrame', data = seurat@meta.data),
   featureData = new('AnnotatedDataFrame', data = data.frame(gene_short_name = rownames(seurat@data), row.names = rownames(seurat@data)))
 )
