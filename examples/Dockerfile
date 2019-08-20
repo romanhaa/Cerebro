@@ -35,7 +35,7 @@ RUN apt-get update --yes \
 ## PYTHON PACKAGES
 ##----------------------------------------------------------------------------##
 
-RUN pip3 install umap-learn phate
+RUN pip3 install umap-learn
 
 ##----------------------------------------------------------------------------##
 ## R PACKAGES
@@ -43,10 +43,10 @@ RUN pip3 install umap-learn phate
 
 # dependencies + Seurat v3
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
-RUN Rscript -e 'BiocManager::install(c("destiny","devtools","phateR","reshape2","scales","Seurat","sessioninfo","tidyverse","monocle"))'
+RUN Rscript -e 'BiocManager::install(c("devtools","reshape2","scales","Seurat","tidyverse","monocle"))'
 
 # cerebroPrepare
-RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare")'
+RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare", ref = "add_trajectory")'
 
 # Seurat v2.3.4
 RUN mkdir /other_R_packages
