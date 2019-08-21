@@ -9,6 +9,8 @@
   )
 )
 
+options(width = 100)
+
 setwd('/data')
 
 set.seed(1234567)
