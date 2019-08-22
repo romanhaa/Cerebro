@@ -46,7 +46,7 @@ RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-projec
 RUN Rscript -e 'BiocManager::install(c("devtools","reshape2","scales","Seurat","tidyverse","monocle"))'
 
 # cerebroPrepare
-RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare", ref = "add_trajectory")'
+RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare", ref = "develop")'
 
 # Seurat v2.3.4
 RUN mkdir /other_R_packages
