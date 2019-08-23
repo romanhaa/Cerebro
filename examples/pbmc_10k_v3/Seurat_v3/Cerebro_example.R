@@ -233,7 +233,7 @@ monocle_all_cells <- setOrderingFilter(monocle_all_cells, seurat@assays$RNA@var.
 monocle_all_cells <- reduceDimension(monocle_all_cells, max_components = 2, method = 'DDRTree')
 monocle_all_cells <- orderCells(monocle_all_cells)
 
-seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, 'trajectory_all_cells')
+seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, 'all_cells')
 
 ##----------------------------------------------------------------------------##
 ## Trajectory analysis with Monocle using only cells in G1 phase.
@@ -251,7 +251,7 @@ monocle_subset_of_cells <- setOrderingFilter(monocle_subset_of_cells, seurat@ass
 monocle_subset_of_cells <- reduceDimension(monocle_subset_of_cells, max_components = 2, method = 'DDRTree')
 monocle_subset_of_cells <- orderCells(monocle_subset_of_cells)
 
-seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_subset_of_cells, seurat, 'trajectory_subset_of_cells')
+seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_subset_of_cells, seurat, 'subset_of_cells')
 
 ##----------------------------------------------------------------------------##
 ## Export data for Cerebro.
