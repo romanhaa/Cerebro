@@ -1,4 +1,4 @@
-FROM r-base:3.6.0
+FROM r-base:3.6.1
 
 ##----------------------------------------------------------------------------##
 ## LABELS
@@ -7,10 +7,8 @@ FROM r-base:3.6.0
 LABEL org.label-schema.name = "cerebro-example"
 LABEL org.label-schema.description = "Environment for analysis of example data set for Cerebro."
 LABEL org.label-schema.url = "https://github.com/romanhaa/Cerebro"
-LABEL org.label-schema.schema-version = "1.0"
 LABEL maintainer = "roman.hillje@googlemail.com"
-LABEL org.label-schema.version = "1.0.0"
-LABEL org.label-schema.build-date = "2019-04-29T00:00:00.0Z"
+LABEL org.label-schema.build-date = "2019-09-18T00:00:00.0Z"
 
 ##----------------------------------------------------------------------------##
 ## SYSTEM LIBRARIES
@@ -43,10 +41,10 @@ RUN pip3 install umap-learn
 
 # dependencies + Seurat v3
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
-RUN Rscript -e 'BiocManager::install(c("devtools","reshape2","scales","Seurat","tidyverse","monocle"))'
+RUN Rscript -e 'BiocManager::install(c("devtools","remotes"), update = TRUE, ask = FALSE)'
 
 # cerebroPrepare
-RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare", ref = "develop")'
+RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare@develop")'
 
 # Seurat v2.3.4
 RUN mkdir /other_R_packages
