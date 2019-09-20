@@ -1,6 +1,7 @@
 # scanpy workflow for `pbmc_10k_v3` data set
 
 Here, we analyze the `pbmc_10k_v3` data set using [scanpy](https://scanpy.readthedocs.io), following the [basics workflow](https://scanpy-tutorials.readthedocs.io/en/latest/pbmc3k.html) described on their website which includes similar steps as those performed in Seurat.
+Then, import the [AnnData](https://anndata.readthedocs.io/en/stable) object produced by scanpy, import it into Seurat, and from there export it to Cerebro.
 
 ## Preparation
 
@@ -260,8 +261,8 @@ seurat@misc$parameters$filtering <- list(
   genes_max = Inf
 )
 
-seurat@misc$gene_lists$G2M_phase_genes <- cc.genes@g2m.genes
-seurat@misc$gene_lists$S_phase_genes <- cc.genes@s.genes
+seurat@misc$gene_lists$G2M_phase_genes <- cc.genes$g2m.genes
+seurat@misc$gene_lists$S_phase_genes <- cc.genes$s.genes
 
 seurat@misc$technical_info <- list(
   'R' = capture.output(devtools::session_info())
@@ -347,7 +348,7 @@ seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, 'a
 Then, we do the same procedure again, however this time only with a subset of cells (those which are in G1 phase of the cell cycle).
 
 ```r
-G1_cells <- which(seurat@meta.data$Phase == 'G1')
+G1_cells <- which(seurat@meta.data$phase == 'G1')
 
 monocle_subset_of_cells <- newCellDataSet(
   seurat@assays$RNA@data[,G1_cells],
@@ -357,6 +358,7 @@ monocle_subset_of_cells <- newCellDataSet(
     row.names = rownames(seurat@assays$RNA@data))
   )
 )
+
 monocle_subset_of_cells <- estimateSizeFactors(monocle_subset_of_cells)
 monocle_subset_of_cells <- estimateDispersions(monocle_subset_of_cells)
 monocle_subset_of_cells <- setOrderingFilter(monocle_subset_of_cells, seurat@assays$RNA@var.features)
@@ -378,7 +380,7 @@ cerebroPrepare::exportFromSeurat(
   organism = 'hg',
   column_nUMI = 'nCount_RNA',
   column_nGene = 'nFeatures_RNA',
-  column_cell_cycle_seurat = 'Phase'
+  column_cell_cycle_seurat = 'phase'
 )
 ```
 

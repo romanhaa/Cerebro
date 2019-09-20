@@ -128,8 +128,8 @@ seurat <- CellCycleScoring(
   s.genes = cc.genes$s.genes
 )
 
-seurat@misc$gene_lists$G2M_phase_genes <- cc.genes@g2m.genes
-seurat@misc$gene_lists$S_phase_genes <- cc.genes@s.genes
+seurat@misc$gene_lists$G2M_phase_genes <- cc.genes$g2m.genes
+seurat@misc$gene_lists$S_phase_genes <- cc.genes$s.genes
 ```
 
 ## Dimensional reduction
@@ -268,6 +268,7 @@ seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
   column_cluster = 'cluster',
   thresh_p_val = 0.05,
   thresh_q_val = 0.1,
+  parallel.sz = 1,
   verbose = FALSE
 )
 ```

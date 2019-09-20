@@ -118,8 +118,8 @@ seurat <- CellCycleScoring(
   s.features = cc.genes$s.genes
 )
 
-seurat@misc$gene_lists$G2M_phase_genes <- cc.genes@g2m.genes
-seurat@misc$gene_lists$S_phase_genes <- cc.genes@s.genes
+seurat@misc$gene_lists$G2M_phase_genes <- cc.genes$g2m.genes
+seurat@misc$gene_lists$S_phase_genes <- cc.genes$s.genes
 ```
 
 ## Dimensional reduction
@@ -254,6 +254,7 @@ seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
   column_cluster = 'cluster',
   thresh_p_val = 0.05,
   thresh_q_val = 0.1,
+  parallel.sz = 1,
   verbose = FALSE
 )
 ```
@@ -299,6 +300,7 @@ monocle_subset_of_cells <- newCellDataSet(
     row.names = rownames(seurat@assays$RNA@data))
   )
 )
+
 monocle_subset_of_cells <- estimateSizeFactors(monocle_subset_of_cells)
 monocle_subset_of_cells <- estimateDispersions(monocle_subset_of_cells)
 monocle_subset_of_cells <- setOrderingFilter(monocle_subset_of_cells, seurat@assays$RNA@var.features)
