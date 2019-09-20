@@ -53,7 +53,7 @@ The exported `.crb` file is then loaded into Cerebro and shows all available inf
 
 Key features:
 
-* **NEW** Visualize trajectories calculate with Monocle v2.
+* **NEW** Visualize trajectories calculated with Monocle v2.
 * Interactive 2D and 3D dimensional reductions.
 * Sample and cluster overview panels.
 * Tables of most expressed genes and marker genes for samples and clusters.
