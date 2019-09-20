@@ -33,7 +33,7 @@ RUN apt-get update --yes \
 ## PYTHON PACKAGES
 ##----------------------------------------------------------------------------##
 
-RUN pip3 install umap-learn
+RUN pip3 install louvain python-igraph scanpy umap-learn
 
 ##----------------------------------------------------------------------------##
 ## R PACKAGES
@@ -42,6 +42,7 @@ RUN pip3 install umap-learn
 # dependencies + Seurat v3
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 RUN Rscript -e 'BiocManager::install(c("devtools","remotes"), update = TRUE, ask = FALSE)'
+RUN Rscript -e 'BiocManager::install("satijalab/seurat@develop")'
 
 # cerebroPrepare
 RUN Rscript -e 'devtools::install_github("romanhaa/cerebroPrepare@develop")'
