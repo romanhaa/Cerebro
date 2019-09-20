@@ -1,6 +1,8 @@
 # Seurat v2 workflow for `pbmc_10k_v3` data set
 
-First, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
+Here, we analyze the `pbmc_10k_v3` data set using [Seurat](https://satijalab.org/seurat/) framework, following the basic [Seurat](https://satijalab.org/seurat/) workflow.
+
+Before starting, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
 One (optional) step of our analysis will require us to provide some gene sets in a GMT file.
 We manually download the `c2.all.v7.0.symbols.gmt` file from [MSigDB](http://software.broadinstitute.org/gsea/downloads.jsp#msigdb) and put it in our current working directory.
 Then, we pull the Docker image from the Docker Hub, convert it to Singularity, and start an R session inside.
@@ -243,7 +245,7 @@ seurat <- cerebroPrepare::getEnrichedPathways(
 
 seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
   seurat,
-  gene_sets = 'c2.all.v7.0.symbols.gmt',
+  GMT_file = 'c2.all.v7.0.symbols.gmt',
   column_sample = 'sample',
   column_cluster = 'cluster',
   thresh_p_val = 0.05,
