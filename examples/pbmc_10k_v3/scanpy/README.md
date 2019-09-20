@@ -2,6 +2,8 @@
 
 Here, we analyze the `pbmc_10k_v3` data set using [scanpy](https://scanpy.readthedocs.io), following the [basics workflow](https://scanpy-tutorials.readthedocs.io/en/latest/pbmc3k.html) described on their website which includes similar steps as those performed in Seurat.
 
+## Preparation
+
 Before starting, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
 One (optional) step of our analysis will require us to provide some gene sets in a GMT file.
 We manually download the `c2.all.v7.0.symbols.gmt` file from [MSigDB](http://software.broadinstitute.org/gsea/downloads.jsp#msigdb) and put it in our current working directory.
@@ -11,11 +13,13 @@ Then, we pull the Docker image from the Docker Hub, convert it to Singularity, a
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/examples/pbmc_10k_v3
 # download GMT file (if you want) and place it inside this folder
-singularity build <path_to>/cerebro-example_2019-09-18.simg docker://romanhaa/cerebro-example:2019-09-18
-singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-18.simg bash
+singularity build <path_to>/cerebro-example_2019-09-20.simg docker://romanhaa/cerebro-example:2019-09-20
+singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-20.simg bash
 cd /data
 python3
 ```
+
+## Analysis in scanpy
 
 First, we...
 
@@ -56,18 +60,23 @@ What follows is the standard pre-processing procedure of...
 * normalizing transcript counts per cell,
 * bringing transcript counts to log-scale,
 * putting transcript counts in raw data slot,
+* determine the cell cycle phase (genes taken from Seurat),
 * identifying highly variable genes and limiting the expression matrix to those genes,
 * regressing out the transcript count per cell,
 * scaling gene expression values,
 * performing PCA analysis,
-* calculating neighbors and clusters of cells,
-* generating dimensional reductions (tSNE + UMAP), and
-* writing the AnnData object to a file.
+* calculating neighbors and clusters of cells, and
+* generating dimensional reductions (tSNE + UMAP).
 
 ```python
 sc.pp.normalize_per_cell(adata)
 sc.pp.log1p(adata)
 adata.raw = adata
+sc.tl.score_genes_cell_cycle(
+  adata,
+  s_genes = ["MCM5","PCNA","TYMS","FEN1","MCM2","MCM4","RRM1","UNG","GINS2","MCM6","CDCA7","DTL","PRIM1","UHRF1","MLF1IP","HELLS","RFC2","RPA2","NASP","RAD51AP1","GMNN","WDR76","SLBP","CCNE2","UBR7","POLD3","MSH2","ATAD2","RAD51","RRM2","CDC45","CDC6","EXO1","TIPIN","DSCC1","BLM","CASP8AP2","USP1","CLSPN","POLA1","CHAF1B","BRIP1","E2F8"],
+  g2m_genes = ["HMGB2","CDK1","NUSAP1","UBE2C","BIRC5","TPX2","TOP2A","NDC80","CKS2","NUF2","CKS1B","MKI67","TMPO","CENPF","TACC3","FAM64A","SMC4","CCNB2","CKAP2L","CKAP2","AURKB","BUB1","KIF11","ANP32E","TUBB4B","GTSE1","KIF20B","HJURP","CDCA3","HN1","CDC20","TTK","CDC25C","KIF2C","RANGAP1","NCAPD2","DLGAP5","CDCA2","CDCA8","ECT2","KIF23","HMMR","AURKA","PSRC1","ANLN","LBR","CKAP5","CENPE","CTCF","NEK2","G2E3","GAS2L3","CBX5","CENPA"]
+)
 sc.pp.highly_variable_genes(adata)
 adata = adata[:, adata.var['highly_variable']]
 sc.pp.regress_out(adata, ['n_counts'])
@@ -77,6 +86,22 @@ sc.pp.neighbors(adata)
 sc.tl.louvain(adata, resolution = 0.5)
 sc.tl.tsne(adata, perplexity = 30, random_state = 100)
 sc.tl.umap(adata, random_state = 100)
+```
+
+This example data set consists of a single sample.
+To highlight the functionality of Cerebro when working with a multi-sample data set, we the cells of clusters 1-5 to `sample_A`, those in clusters 6-10 to `sample_B`, and those of clusters 11-14 to `sample_C`.
+
+```python
+meta_sample = adata.obs['louvain'].astype(str)
+meta_sample[meta_sample.isin(['0','1','2','3','4'])] = 'sample_A'
+meta_sample[meta_sample.isin(['5','6','7','8','9'])] = 'sample_B'
+meta_sample[meta_sample.isin(['10','11','12','13'])] = 'sample_C'
+adata.obs['sample'] = meta_sample.astype('category')
+```
+
+Now, we write our data to a `.h5ad` file.
+
+```python
 adata.write('scanpy/adata.h5ad')
 ```
 
@@ -86,13 +111,17 @@ It's good practice to keep track of package version we used.
 sc.logging.print_versions()
 # scanpy==1.4.4.post1
 # anndata==0.6.22.post1
-# umap==0.3.10 numpy==1.17.2
-# scipy==1.3.1 pandas==0.25.1
+# umap==0.3.10
+# numpy==1.17.2
+# scipy==1.3.1
+# pandas==0.25.1
 # scikit-learn==0.21.3
 # statsmodels==0.10.1
 # python-igraph==0.7.1
 # louvain==0.6.1
 ```
+
+## Import to Seurat
 
 Next,...
 
@@ -113,7 +142,27 @@ library('cerebroPrepare')
 seurat <- ReadH5AD('scanpy/adata.h5ad')
 ```
 
-Then,...
+Since factorized meta data isn't imported correctly, we need to fix that a little here.
+
+```r
+seurat@meta.data$sample <- factor(seurat@meta.data$sample, levels = c(0,1,2))
+levels(seurat@meta.data$sample) <- c('sample_A','sample_B','sample_C')
+
+seurat@meta.data$louvain <- factor(seurat@meta.data$louvain, levels = sort(unique(seurat@meta.data$louvain)))
+
+seurat@meta.data$phase <- factor(seurat@meta.data$phase, levels = c(0,1,2))
+levels(seurat@meta.data$phase) <- c('G1','G2M','S')
+```
+
+## Optional (but recommended) steps
+
+We could already export this object and visualize the contained in Cerebro.
+However, data exploration in Cerebro would greatly benefit from additional data generated by the functions of cerebroPrepare.
+What follows is a set of (mostly) optional steps.
+
+### Add raw counts
+
+First,...
 
 * we load the raw transcript counts that we exported earlier,
 * make sure the gene names match, and
@@ -133,6 +182,8 @@ identical(rownames(raw_counts), rownames(seurat@assays$RNA@data))
 seurat@assays$RNA@counts <- raw_counts
 ```
 
+### Add cluster tree
+
 Let's also...
 
 * factorize the cluster column in the meta data,
@@ -141,7 +192,6 @@ Let's also...
 * create a dedicated `cluster` column in the meta data.
 
 ```r
-seurat@meta.data$louvain <- factor(seurat@meta.data$louvain, levels = sort(unique(seurat@meta.data$louvain)))
 Idents(seurat) <- 'louvain'
 seurat <- BuildClusterTree(
   seurat,
@@ -157,15 +207,7 @@ seurat@meta.data$louvain <- NULL
 seurat@meta.data$tree.ident <- NULL
 ```
 
-Cell cycle scoring could've been done in scanpy as well but we'll do it here because Seurat also provides us the list of S and G2M phase specific genes.
-
-```r
-seurat <- CellCycleScoring(
-  seurat,
-  g2m.features = cc.genes$g2m.genes,
-  s.features = cc.genes$s.genes
-)
-```
+### Add 3D projections
 
 Let's also add 3D dimensional reductions for tSNE and UMAP.
 
@@ -190,16 +232,7 @@ seurat <- RunUMAP(
 )
 ```
 
-This example data set consists of a single sample.
-To highlight the functionality of Cerebro when working with a multi-sample data set, we the cells of clusters 1-5 to `sample_A`, those in clusters 6-10 to `sample_B`, and those of clusters 11-14 to `sample_C`.
-
-```r
-meta_sample <- seurat@meta.data$cluster %>% as.character()
-meta_sample[which(meta_sample %in% c('1','2','3','4','5'))] <- 'sample_A'
-meta_sample[which(meta_sample %in% c('6','7','8','9','10'))] <- 'sample_B'
-meta_sample[which(meta_sample %in% c('11','12','13','14'))] <- 'sample_C'
-seurat@meta.data$sample <- factor(meta_sample, levels = c('sample_A','sample_B','sample_C'))
-```
+### Add meta data
 
 In order to later be able to understand how we did the analysis, we add some meta data to the `misc` slot of the Seurat object.
 
@@ -227,10 +260,15 @@ seurat@misc$parameters$filtering <- list(
   genes_max = Inf
 )
 
+seurat@misc$gene_lists$G2M_phase_genes <- cc.genes@g2m.genes
+seurat@misc$gene_lists$S_phase_genes <- cc.genes@s.genes
+
 seurat@misc$technical_info <- list(
   'R' = capture.output(devtools::session_info())
 )
 ```
+
+### Run cerebroPrepare functions
 
 Using the functions provided by cerebroPrepare, we check the percentage of mitochondrial and ribosomal genes and, for every sample and cluster, we...
 
@@ -278,6 +316,10 @@ seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
 )
 ```
 
+### Perform trajectory analysis
+
+#### All cells
+
 Next, we perform trajectory analysis of all cells with Monocle using the previously identified highly variable genes.
 We extract the trajectory from the generated Monocle object with the `extractMonocleTrajectory()` function of cerebroPrepare and attach it to our Seurat object.
 
@@ -299,6 +341,8 @@ monocle_all_cells <- orderCells(monocle_all_cells)
 
 seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, 'all_cells')
 ```
+
+#### Only cells in G1 phase
 
 Then, we do the same procedure again, however this time only with a subset of cells (those which are in G1 phase of the cell cycle).
 
@@ -322,6 +366,8 @@ monocle_subset_of_cells <- orderCells(monocle_subset_of_cells)
 seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_subset_of_cells, seurat, 'subset_of_cells')
 ```
 
+## Export to Cerebro
+
 Finally, we use the `exportFromSeurat()` function of cerebroPrepare to export our Seurat object to a `.crb` file which can be loaded into Cerebro.
 
 ```r
@@ -335,6 +381,8 @@ cerebroPrepare::exportFromSeurat(
   column_cell_cycle_seurat = 'Phase'
 )
 ```
+
+## Save Seurat object
 
 Very last step: Save the Seurat object.
 

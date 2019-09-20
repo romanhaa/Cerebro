@@ -2,6 +2,8 @@
 
 Here, we analyze the `pbmc_10k_v3` data set using [Seurat](https://satijalab.org/seurat/) framework, following the basic [Seurat](https://satijalab.org/seurat/) workflow.
 
+## Preparation
+
 Before starting, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
 One (optional) step of our analysis will require us to provide some gene sets in a GMT file.
 We manually download the `c2.all.v7.0.symbols.gmt` file from [MSigDB](http://software.broadinstitute.org/gsea/downloads.jsp#msigdb) and put it in our current working directory.
@@ -11,8 +13,8 @@ Then, we pull the Docker image from the Docker Hub, convert it to Singularity, a
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/examples/pbmc_10k_v3
 # download GMT file (if you want) and place it inside this folder
-singularity build <path_to>/cerebro-example_2019-09-18.simg docker://romanhaa/cerebro-example:2019-09-18
-singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-18.simg R
+singularity build <path_to>/cerebro-example_2019-09-20.simg docker://romanhaa/cerebro-example:2019-09-20
+singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-20.simg R
 ```
 
 Then, we set the console width to `100`, change the working directory, and set the seed.
@@ -32,7 +34,9 @@ library('monocle')
 library('cerebroPrepare')
 ```
 
-Next, we load the raw data and add gene names / cell barcodes.
+## Load transcript counts
+
+First, we load the raw data and add gene names / cell barcodes.
 
 ```r
 path_to_data <- './raw_data'
@@ -63,6 +67,8 @@ feature_matrix <- dplyr::select(feature_matrix, -c('gene'))
 feature_matrix <- as.data.frame(feature_matrix)
 rownames(feature_matrix) <- genes
 ```
+
+## Pre-processing with Seurat
 
 With the transcript count loaded, we create a Seurat object, remove cells with less than `100` transcripts or fewer than `50` expressed genes.
 Then, we follow the standard Seurat workflow, including normalization, identifying highly variably genes, scaling expression values and regressing out the number of transcripts per cell, perform principal component analysis (PCA), find neighbors and clusters.
@@ -100,7 +106,10 @@ seurat@meta.data$RNA_snn_res.0.5 <- NULL
 seurat@meta.data$tree.ident <- NULL
 ```
 
+## Cell cycle analysis
+
 We also perform cell cycle analysis using the `CellCycleScoring` built into Seurat.
+The S and G2M phase-specific gene lists are stored in the Seurat object so we have access to these lists in Cerebro.
 
 ```r
 seurat <- CellCycleScoring(
@@ -108,7 +117,12 @@ seurat <- CellCycleScoring(
   g2m.features = cc.genes$g2m.genes,
   s.features = cc.genes$s.genes
 )
+
+seurat@misc$gene_lists$G2M_phase_genes <- cc.genes@g2m.genes
+seurat@misc$gene_lists$S_phase_genes <- cc.genes@s.genes
 ```
+
+## Dimensional reduction
 
 Next, we generate 4 dimensional reductions: tSNE, tSNE (3D), UMAP, UMAP (3D).
 
@@ -152,6 +166,8 @@ seurat <- RunUMAP(
 )
 ```
 
+## Meta data
+
 This example data set consists of a single sample.
 To highlight the functionality of Cerebro when working with a multi-sample data set, we the cells of clusters 1-6 to `sample_A`, those in clusters 7-12 to `sample_B`, and those of clusters 13-18 to `sample_C`.
 
@@ -193,6 +209,8 @@ seurat@misc$technical_info <- list(
   'R' = capture.output(devtools::session_info())
 )
 ```
+
+## cerebroPrepare functions (optional but recommended)
 
 Using the functions provided by cerebroPrepare, we check the percentage of mitochondrial and ribosomal genes and, for every sample and cluster, we...
 
@@ -240,6 +258,10 @@ seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
 )
 ```
 
+## Trajectory analysis with Monocle (optional)
+
+### All cells
+
 Next, we perform trajectory analysis of all cells with Monocle using the previously identified highly variable genes.
 We extract the trajectory from the generated Monocle object with the `extractMonocleTrajectory()` function of cerebroPrepare and attach it to our Seurat object.
 
@@ -261,6 +283,8 @@ monocle_all_cells <- orderCells(monocle_all_cells)
 
 seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, 'all_cells')
 ```
+
+### Cells in G1 phase
 
 Then, we do the same procedure again, however this time only with a subset of cells (those which are in G1 phase of the cell cycle).
 
@@ -284,6 +308,8 @@ monocle_subset_of_cells <- orderCells(monocle_subset_of_cells)
 seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_subset_of_cells, seurat, 'subset_of_cells')
 ```
 
+## Export to Cerebro format
+
 Finally, we use the `exportFromSeurat()` function of cerebroPrepare to export our Seurat object to a `.crb` file which can be loaded into Cerebro.
 
 ```r
@@ -297,6 +323,8 @@ cerebroPrepare::exportFromSeurat(
   column_cell_cycle_seurat = 'Phase'
 )
 ```
+
+## Save Seurat object
 
 Very last step: Save the Seurat object.
 
