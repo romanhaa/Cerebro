@@ -2,11 +2,11 @@
 
 ## Load data
 
-![Cerebro v1.1.0: Load data](2019-09_23_01.png?raw=true "Cerebro v1.1.0: Load data")
+![Cerebro v1.1.0: Load data](2019-09-23_01.png?raw=true "Cerebro v1.1.0: Load data")
 
 ## 3D UMAP projection with cells colored by cell cycle
 
-![Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle](2019-09_23_02.png?raw=true "Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle")
+![Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle](2019-09-23_02.png?raw=true "Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle")
 
 ## Composition of samples by cluster
 
@@ -60,9 +60,9 @@
 
 ![Cerebro v1.1.0: Monocle trajectory - distribution of states along pseudotime](2019-09-23_15.png?raw=true "Cerebro v1.1.0: Monocle trajectory - distribution of states along pseudotime")
 
-## Monocle trajectory - distribution of states by sample and cluster
+## Monocle trajectory - distribution of states by cluster and cell cycle
 
-![Cerebro v1.1.0: Monocle trajectory - distribution of states by sample and cluster](2019-09-23_16.png?raw=true "Cerebro v1.1.0: Monocle trajectory - distribution of states by sample and cluster")
+![Cerebro v1.1.0: Monocle trajectory - distribution of states by cluster and cell cycle](2019-09-23_16.png?raw=true "Cerebro v1.1.0: Monocle trajectory - distribution of states by cluster and cell cycle")
 
 ## Gene ID conversion
 
