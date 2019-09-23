@@ -158,7 +158,7 @@ More experienced users of all platforms can alternatively launch the app through
 
 Please check the image and table below for an overview of the supported operating systems and requirements of each way to start Cerebo.
 
-<p align="center"><img src="images/launching_Cerebro.jpg" alt="Options to launch Cerebro." width="600"/></p>
+<p align="center"><img src="images/launching_Cerebro.jpeg" alt="Options to launch Cerebro." width="600"/></p>
 
 | | **Standalone desktop application** | **cerebroApp R package** | **Docker container** |
 |-:|:-:|:-:|:-:|
@@ -219,7 +219,7 @@ For the moment, we can take advantage of the conversion and export functions tha
 
 In the figure below, we highlight how you can generate the Cerebro input file from any of the four major formats.
 
-<p align="center"><img src="images/data_formats.jpg" alt="Single cell data formats" width="600"/></p>
+<p align="center"><img src="images/data_formats.jpeg" alt="Single cell data formats" width="600"/></p>
 
 ## Technical notes
 
