@@ -171,7 +171,6 @@ If the meta data variable you selected at the top of the panel is a category, su
 The following plots are similar to what we have seen in the "Samples" and Clusters" panels.
 Namely, you see the composition of transcriptional states by sample, cluster and cell cycle, as well as their distribution of number of transcripts and expressed genes.
 
-
 ### Gene ID conversion
 
 The "Gene ID conversion" panel provides tables which allow to convert gene IDs and names.

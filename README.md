@@ -70,7 +70,8 @@ Further screenshots can be found in the [`screenshots`](screenshots) folder.
 ## Introduction to the Cerebro interface
 
 Below you find a brief description of what each panel of the Cerebro interface shows.
-For more detailed description, written for biologists without computational expertise, head over [here](README_for_biologists.md).
+
+**For more detailed description, written for biologists without computational expertise, head over [here](README_for_biologists.md).**
 
 ### Load data
 
