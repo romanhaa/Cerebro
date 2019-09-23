@@ -5,7 +5,7 @@
 **Table of Contents**
 
 - [Cerebro](#cerebro)
-  - [Interface panels in details](#interface-panels-in-details)
+  - [Introduction to the Cerebro interface](#introduction-to-the-cerebro-interface)
     - [Load data](#load-data)
     - [Overview](#overview)
     - [Samples](#samples)
@@ -53,12 +53,12 @@ The exported `.crb` file is then loaded into Cerebro and shows all available inf
 
 Key features:
 
-* **NEW** Visualize trajectories calculated with Monocle v2.
 * Interactive 2D and 3D dimensional reductions.
 * Sample and cluster overview panels.
 * Tables of most expressed genes and marker genes for samples and clusters.
-* Tables of enriched pathways in marker gene lists.
+* Tables of enriched pathways for samples and clusters.
 * Query gene(s) and gene sets from [MSigDB](https://http://software.broadinstitute.org/gsea/msigdb) and show their expression in dimensional reductions.
+* **NEW** Visualize trajectories calculated with Monocle v2.
 * All plots can be exported to PNG. In addition, 2D dimensional reductions can be exported to PDF.
 * Tables can be downloaded in CSV or Excel format.
 
@@ -67,7 +67,10 @@ There you can also find the raw data and the output file that can be loaded into
 
 Further screenshots can be found in the [`screenshots`](screenshots) folder.
 
-## Interface panels in details
+## Introduction to the Cerebro interface
+
+Below you find a brief description of what each panel of the Cerebro interface shows.
+For more detailed description, written for biologists without computational expertise, head over [here](README_for_biologists.md).
 
 ### Load data
 
