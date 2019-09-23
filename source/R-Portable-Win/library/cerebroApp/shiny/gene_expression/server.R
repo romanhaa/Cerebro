@@ -152,7 +152,7 @@ gene_expression_plot_data <- reactive({
   plot_order <- input[["expression_projection_plotting_order"]]
   # check which cells to display
   cells_to_display <- which(
-      grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE & 
+      grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE &
       grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|")) == TRUE
     )
   # randomly remove cells
@@ -258,11 +258,11 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
       )
     )
   } else {
-    plotly::plot_ly(
+    plot <- plotly::plot_ly(
       gene_expression_plot_data(),
       x = gene_expression_plot_data()[,1],
       y = gene_expression_plot_data()[,2],
-      type = "scattergl",
+      type = "scatter",
       mode = "markers",
       marker = list(
         colorbar = list(
@@ -318,6 +318,11 @@ output[["expression_projection_plotly"]] <- plotly::renderPlotly({
         bgcolor = "lightgrey"
       )
     )
+    if ( preferences$use_webgl == TRUE ) {
+      plot %>% plotly::toWebGL()
+    } else {
+      plot
+    }
   }
 })
 

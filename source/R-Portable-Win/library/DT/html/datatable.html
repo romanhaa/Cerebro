@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an HTML table widget using the DataTables library</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for datatable {DT}"><tr><td>datatable {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an HTML table widget using the DataTables library</h2>
+
+<h3>Description</h3>
+
+<p>This function creates an HTML widget to display rectangular data (a matrix or
+data frame) using the JavaScript library DataTables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+datatable(data, options = list(), class = "display", callback = JS("return table;"), 
+    rownames, colnames, container, caption = NULL, filter = c("none", 
+        "bottom", "top"), escape = TRUE, style = "default", width = NULL, 
+    height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", 
+        NULL), autoHideNavigation = getOption("DT.autoHideNavigation", 
+        NULL), selection = c("multiple", "single", "none"), extensions = list(), 
+    plugins = NULL, editable = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data object (either a matrix or a data frame)</p>
+</td></tr>
+<tr valign="top"><td><code>options</code></td>
+<td>
+<p>a list of initialization options (see
+<a href="http://datatables.net/reference/option/">http://datatables.net/reference/option/</a>); the character options
+wrapped in <code><a href="../../htmlwidgets/html/JS.html">JS</a>()</code> will be treated as literal
+JavaScript code instead of normal character strings; you can also set
+options globally via <code><a href="../../base/html/options.html">options</a>(DT.options = list(...))</code>, and
+global options will be merged into this <code>options</code> argument if set</p>
+</td></tr>
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p>the CSS class(es) of the table; see
+<a href="http://datatables.net/manual/styling/classes">http://datatables.net/manual/styling/classes</a></p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>the body of a JavaScript callback function with the argument
+<code>table</code> to be applied to the DataTables instance (i.e. <code>table</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>rownames</code></td>
+<td>
+<p><code>TRUE</code> (show row names) or <code>FALSE</code> (hide row names)
+or a character vector of row names; by default, the row names are displayed
+in the first column of the table if exist (not <code>NULL</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>colnames</code></td>
+<td>
+<p>if missing, the column names of the data; otherwise it can be
+an unnamed character vector of names you want to show in the table header
+instead of the default data column names; alternatively, you can provide a
+<em>named</em> numeric or character vector of the form <code>'newName1' = i1,
+'newName2' = i2</code> or <code>c('newName1' = 'oldName1', 'newName2' =
+'oldName2', ...)</code>, where <code>newName</code> is the new name you want to show in
+the table, and <code>i</code> or <code>oldName</code> is the index of the current
+column name</p>
+</td></tr>
+<tr valign="top"><td><code>container</code></td>
+<td>
+<p>a sketch of the HTML table to be filled with data cells; by
+default, it is generated from <code>htmltools::tags$table()</code> with a table
+header consisting of the column names of the data</p>
+</td></tr>
+<tr valign="top"><td><code>caption</code></td>
+<td>
+<p>the table caption; a character vector or a tag object
+generated from <code>htmltools::tags$caption()</code></p>
+</td></tr>
+<tr valign="top"><td><code>filter</code></td>
+<td>
+<p>whether/where to use column filters; <code>none</code>: no filters;
+<code>bottom/top</code>: put column filters at the bottom/top of the table; range
+sliders are used to filter numeric/date/time columns, select lists are used
+for factor columns, and text input boxes are used for character columns; if
+you want more control over the styles of filters, you can provide a list to
+this argument of the form <code>list(position = 'top', clear = TRUE, plain
+= FALSE)</code>, where <code>clear</code> indicates whether you want the clear buttons
+in the input boxes, and <code>plain</code> means if you want to use Bootstrap
+form styles or plain text input styles for the text input boxes</p>
+</td></tr>
+<tr valign="top"><td><code>escape</code></td>
+<td>
+<p>whether to escape HTML entities in the table: <code>TRUE</code> means
+to escape the whole table, and <code>FALSE</code> means not to escape it;
+alternatively, you can specify numeric column indices or column names to
+indicate which columns to escape, e.g. <code>1:5</code> (the first 5 columns),
+<code>c(1, 3, 4)</code>, or <code>c(-1, -3)</code> (all columns except the first and
+third), or <code>c('Species', 'Sepal.Length')</code>; since the row names take
+the first column to display, you should add the numeric column indices
+by one when using <code>rownames</code></p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>the style name (<a href="http://datatables.net/manual/styling/">http://datatables.net/manual/styling/</a>);
+currently only <code>'default'</code> and <code>'bootstrap'</code> are supported</p>
+</td></tr>
+<tr valign="top"><td><code>width, height</code></td>
+<td>
+<p>Width/Height in pixels (optional, defaults to automatic
+sizing)</p>
+</td></tr>
+<tr valign="top"><td><code>elementId</code></td>
+<td>
+<p>An id for the widget (a random string by default).</p>
+</td></tr>
+<tr valign="top"><td><code>fillContainer</code></td>
+<td>
+<p><code>TRUE</code> to configure the table to automatically fill
+it's containing element. If the table can't fit fully into it's container
+then vertical and/or horizontal scrolling of the table cells will occur.</p>
+</td></tr>
+<tr valign="top"><td><code>autoHideNavigation</code></td>
+<td>
+<p><code>TRUE</code> to automatically hide navigational UI
+when the number of total records is less than the page size.</p>
+</td></tr>
+<tr valign="top"><td><code>selection</code></td>
+<td>
+<p>the row/column selection mode (single or multiple selection
+or disable selection) when a table widget is rendered in a Shiny app;
+alternatively, you can use a list of the form <code>list(mode = 'multiple',
+selected = c(1, 3, 8), target = 'row')</code> to pre-select rows; the element
+<code>target</code> in the list can be <code>'column'</code> to enable column
+selection, or <code>'row+column'</code> to make it possible to select both rows
+and columns (click on the footer to select columns), or <code>'cell'</code> to
+select cells</p>
+</td></tr>
+<tr valign="top"><td><code>extensions</code></td>
+<td>
+<p>a character vector of the names of the DataTables
+extensions (<a href="https://datatables.net/extensions/index">https://datatables.net/extensions/index</a>)</p>
+</td></tr>
+<tr valign="top"><td><code>plugins</code></td>
+<td>
+<p>a character vector of the names of DataTables plug-ins
+(<a href="https://rstudio.github.io/DT/plugins.html">https://rstudio.github.io/DT/plugins.html</a>).  Note that only those
+plugins supported by the <code>DT</code> package can be used here.</p>
+</td></tr>
+<tr valign="top"><td><code>editable</code></td>
+<td>
+<p><code>FALSE</code> to disable the table editor, or <code>TRUE</code> (or
+<code>"cell"</code>) to enable editing a single cell. Alternatively, you can set
+it to <code>"row"</code> to be able to edit a row, or <code>"column"</code> to edit a
+column, or <code>"all"</code> to edit all cells on the current page of the table.
+In all modes, start editing by doubleclicking on a cell. This argument can
+also be a list of the form <code>list(target = TARGET, disable =
+list(columns = INDICES))</code>, where <code>TARGET</code> can be <code>cell</code>,
+<code>row</code>, <code>column</code>, or <code>all</code>, and <code>INDICES</code> is an integer
+vector of column indices. Use the list form if you want to disable editing
+certain columns.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>You are recommended to escape the table content for security reasons
+(e.g. XSS attacks) when using this function in Shiny or any other dynamic
+web applications.
+</p>
+
+
+<h3>References</h3>
+
+<p>See <a href="https://rstudio.github.io/DT">https://rstudio.github.io/DT</a> for the full
+documentation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(DT)
+
+# see the package vignette for examples and the link to website
+vignette('DT', package = 'DT')
+
+# some boring edge cases for testing purposes
+m = matrix(nrow = 0, ncol = 5, dimnames = list(NULL, letters[1:5]))
+datatable(m)  # zero rows
+datatable(as.data.frame(m))
+
+m = matrix(1, dimnames = list(NULL, 'a'))
+datatable(m)  # one row and one column
+datatable(as.data.frame(m))
+
+m = data.frame(a = 1, b = 2, c = 3)
+datatable(m)
+datatable(as.matrix(m))
+
+# dates
+datatable(data.frame(
+  date = seq(as.Date("2015-01-01"), by = "day", length.out = 5), x = 1:5
+))
+datatable(data.frame(x = Sys.Date()))
+datatable(data.frame(x = Sys.time()))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

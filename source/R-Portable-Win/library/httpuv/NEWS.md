@@ -1,3 +1,34 @@
+httpuv 1.5.2
+============
+
+* In the static file-serving code path, httpuv previously looked for a `Connection: upgrade` header; if it found this header, it would not try to serve a static file, and it would instead forward the HTTP request to the R code path. However, some proxies are configured to always set this header, even when the connection is not actually meant to be upgraded. Now, instead of looking for a `Connection: upgrade` header, httpuv looks for the presence of an `Upgrade` header (with any value), and should be more robust to incorrectly-configured proxies. ([#215](https://github.com/rstudio/httpuv/pull/215))
+
+* Fixed handling of messages without payloads: ([#219](https://github.com/rstudio/httpuv/pull/219))
+
+* Fixed [#224](https://github.com/rstudio/httpuv/issues/224): Static file serving on Windows did not work correctly if it was from a path that contained non-ASCII characters. ([#227](https://github.com/rstudio/httpuv/pull/227))
+
+* Resolved [#194](https://github.com/rstudio/httpuv/issues/194), [#233](https://github.com/rstudio/httpuv/issues/233): Added a `quiet` option to `startServer`, which suppresses startup error messages that are normally printed to console (and can't be intercepted with `capture.output()`). ([#234](https://github.com/rstudio/httpuv/pull/234))
+
+* Added a new function `randomPort()`, which returns a random available port for listening on. ([#234](https://github.com/rstudio/httpuv/pull/234))
+
+* Added a new (unexported) function `logLevel()`, for controlling debugging information that will be printed to the console. Previously, httpuv occasionally printed messages like `ERROR: [uv_write] broken pipe` and `ERROR: [uv_write] bad file descriptor` by default. This happened when the server tried to write to a pipe that was already closed, but the situation was not harmful, and was already being handled correctly. Now these messages are printed only if the log level is set to `INFO` or `DEBUG`. ([#223](https://github.com/rstudio/httpuv/pull/223))
+
+* If an application's `$call()` method is missing, it will now give a 404 response instead of a 500 response. ([#237](https://github.com/rstudio/httpuv/pull/237))
+
+* Disallowed backslash in static path, to prevent path traversal attacks. ([#235](https://github.com/rstudio/httpuv/pull/235))
+
+* Static file serving on Windows could fail if multiple requests accessed the same file simultaneously. ([#239](https://github.com/rstudio/httpuv/pull/239))
+
+httpuv 1.5.1
+============
+
+* Fixed issues for compilers that didn't support C++11, notably on RHEL and Centos 6. ([#210](https://github.com/rstudio/httpuv/pull/210))
+
+* Fixed [#208](https://github.com/rstudio/httpuv/issues/208): In some cases, a race condition could cause the R process to exit when starting a new server. ([#211](https://github.com/rstudio/httpuv/pull/211))
+
+* Updated to libuv 1.27.0. This fixed fixed [#213](https://github.com/rstudio/httpuv/issues/213): Valgrind reported an error about a pointer pointing to uninitialized memory. ([#214](https://github.com/rstudio/httpuv/pull/214))
+
+
 httpuv 1.5.0
 ============
 
@@ -18,6 +49,9 @@ httpuv 1.5.0
 * `service()` now executes a single `later` callback, rather than all eligible callbacks. This gives callers more opportunities to perform their own housekeeping when multiple expensive callbacks queue up. ([#176](https://github.com/rstudio/httpuv/pull/176))
 
 * Fixed [#173](https://github.com/rstudio/httpuv/pull/173): The source code is now compiled with `-DSTRICT_R_HEADERS`, which eliminates the need to undefine the `Realloc` and `Free` macros.
+
+* Updated to libuv 1.23.1. ([#174](https://github.com/rstudio/httpuv/pull/174))
+
 
 httpuv 1.4.5.1
 ==============

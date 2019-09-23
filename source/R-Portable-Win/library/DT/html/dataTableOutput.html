@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Helper functions for using DT in Shiny</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dataTableOutput {DT}"><tr><td>dataTableOutput {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Helper functions for using DT in Shiny</h2>
+
+<h3>Description</h3>
+
+<p>These two functions are like most <code>fooOutput()</code> and <code>renderFoo()</code>
+functions in the <span class="pkg">shiny</span> package. The former is used to create a
+container for table, and the latter is used in the server logic to render the
+table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dataTableOutput(outputId, width = "100%", height = "auto")
+
+DTOutput(outputId, width = "100%", height = "auto")
+
+renderDataTable(expr, server = TRUE, env = parent.frame(), quoted = FALSE, 
+    funcFilter = dataTablesFilter, ...)
+
+renderDT(expr, server = TRUE, env = parent.frame(), quoted = FALSE, 
+    funcFilter = dataTablesFilter, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>outputId</code></td>
+<td>
+<p>output variable to read the table from</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>the width of the table container</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>the height of the table container</p>
+</td></tr>
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>an expression to create a table widget (normally via
+<code><a href="datatable.html">datatable</a>()</code>), or a data object to be passed to
+<code>datatable()</code> to create a table widget</p>
+</td></tr>
+<tr valign="top"><td><code>server</code></td>
+<td>
+<p>whether to use server-side processing. If <code>TRUE</code>, then the
+data is kept on the server and the browser requests a page at a time; if
+<code>FALSE</code>, then the entire data frame is sent to the browser at once.
+Highly recommended for medium to large data frames, which can cause
+browsers to slow down or crash.</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p>The environment in which to evaluate <code>expr</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>quoted</code></td>
+<td>
+<p>Is <code>expr</code> a quoted expression (with <code>quote()</code>)? This
+is useful if you want to save an expression in a variable.</p>
+</td></tr>
+<tr valign="top"><td><code>funcFilter</code></td>
+<td>
+<p>(for expert use only) passed to the <code>filter</code> argument
+of <code><a href="dataTableAjax.html">dataTableAjax</a>()</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>ignored when <code>expr</code> returns a table widget, and passed as
+additional arguments to <code><a href="datatable.html">datatable</a>()</code> when <code>expr</code> returns a data
+object</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p><a href="https://rstudio.github.io/DT/shiny.html">https://rstudio.github.io/DT/shiny.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (interactive()) {
+  library(shiny)
+  library(DT)
+  shinyApp(
+    ui = fluidPage(fluidRow(column(12, DTOutput('tbl')))),
+    server = function(input, output) {
+      output$tbl = renderDT(
+        iris, options = list(lengthChange = FALSE)
+      )
+    }
+  )
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

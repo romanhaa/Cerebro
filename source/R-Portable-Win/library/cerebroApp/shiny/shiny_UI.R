@@ -38,6 +38,7 @@ source(system.file("shiny/marker_genes/UI.R", package = "cerebroApp"), local = T
 source(system.file("shiny/enriched_pathways/UI.R", package = "cerebroApp"), local = TRUE)
 source(system.file("shiny/gene_expression/UI.R", package = "cerebroApp"), local = TRUE)
 source(system.file("shiny/gene_set_expression/UI.R", package = "cerebroApp"), local = TRUE)
+source(system.file("shiny/trajectory/UI.R", package = "cerebroApp"), local = TRUE)
 source(system.file("shiny/gene_id_conversion/UI.R", package = "cerebroApp"), local = TRUE)
 source(system.file("shiny/analysis_info/UI.R", package = "cerebroApp"), local = TRUE)
 source(system.file("shiny/about/UI.R", package = "cerebroApp"), local = TRUE)
@@ -67,6 +68,7 @@ ui <- dashboardPage(
       tab_enriched_pathways,
       tab_gene_expression,
       tab_gene_set_expression,
+      tab_trajectory,
       tab_gene_id_conversion,
       tab_analysis_info,
       tab_about

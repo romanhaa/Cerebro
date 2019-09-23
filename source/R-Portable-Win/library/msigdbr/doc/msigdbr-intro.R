@@ -35,11 +35,11 @@ head(m_df)
 
 ## ----cp-entrez, eval=FALSE--------------------------------------------------------------
 #  m_t2g = m_df %>% dplyr::select(gs_name, entrez_gene) %>% as.data.frame()
-#  enricher(gene = genes_entrez, TERM2GENE = m_t2g, ...)
+#  enricher(gene = gene_ids_vector, TERM2GENE = m_t2g, ...)
 
 ## ----cp-symbols, eval=FALSE-------------------------------------------------------------
 #  m_t2g = m_df %>% dplyr::select(gs_name, gene_symbol) %>% as.data.frame()
-#  enricher(gene = genes_symbols, TERM2GENE = m_t2g, ...)
+#  enricher(gene = gene_symbols_vector, TERM2GENE = m_t2g, ...)
 
 ## ----fgsea, eval=FALSE------------------------------------------------------------------
 #  m_list = m_df %>% split(x = .$gene_symbol, f = .$gs_name)

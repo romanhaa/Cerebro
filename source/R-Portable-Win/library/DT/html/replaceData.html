@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Replace data in an existing table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for replaceData {DT}"><tr><td>replaceData {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Replace data in an existing table</h2>
+
+<h3>Description</h3>
+
+<p>Replace the data object of a table output and avoid regenerating the full
+table, in which case the state of the current table will be preserved
+(sorting, filtering, and pagination) and applied to the table with new data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+replaceData(proxy, data, ..., resetPaging = TRUE, clearSelection = "all")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>proxy</code></td>
+<td>
+<p>a proxy object created by <code>dataTableProxy()</code></p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>the new data object to be loaded in the table</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments to be passed to <code><a href="dataTableAjax.html">dataTableAjax</a>()</code></p>
+</td></tr>
+<tr valign="top"><td><code>resetPaging, clearSelection</code></td>
+<td>
+<p>passed to <code><a href="proxy.html">reloadData</a>()</code></p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>When you replace the data in an existing table, please make sure the
+new data has the same number of columns as the current data. When you have
+enabled column filters, you should also make sure the attributes of every
+column remain the same, e.g. factor columns should have the same or fewer
+levels, and numeric columns should have the same or smaller range,
+otherwise the filters may never be able to reach certain rows in the data.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Edit a data object using the information from the editor in a...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for editData {DT}"><tr><td>editData {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Edit a data object using the information from the editor in a DataTable</h2>
+
+<h3>Description</h3>
+
+<p>When editing cells in a DataTable in a Shiny app, we know the row/column
+indices and values of the cells that were edited. With these information, we
+can update the data object behind the DataTable accordingly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+editData(data, info, proxy = NULL, rownames = TRUE, resetPaging = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original data object used in the DataTable.</p>
+</td></tr>
+<tr valign="top"><td><code>info</code></td>
+<td>
+<p>The information about the edited cells. It should be obtained
+from <code>input$tableId_cell_edit</code> from Shiny, and is a data frame
+containing columns <code>row</code>, <code>column</code>, and <code>value</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>proxy, resetPaging, ...</code></td>
+<td>
+<p>(Optional) If <code>proxy</code> is provided, it must
+be either a character string of the output ID of the table or a proxy
+object created from <code><a href="proxy.html">dataTableProxy</a>()</code>, and the rest of
+arguments are passed to <code><a href="replaceData.html">replaceData</a>()</code> to update the data in a
+DataTable instance in a Shiny app.</p>
+</td></tr>
+<tr valign="top"><td><code>rownames</code></td>
+<td>
+<p>Whether row names are displayed in the table.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The updated data object.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

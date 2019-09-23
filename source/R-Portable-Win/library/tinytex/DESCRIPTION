@@ -2,11 +2,12 @@ Package: tinytex
 Type: Package
 Title: Helper Functions to Install and Maintain 'TeX Live', and Compile
         'LaTeX' Documents
-Version: 0.11
+Version: 0.16
 Authors@R: c(
   person("Yihui", "Xie", role = c("aut", "cre", "cph"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
   person(family = "RStudio, Inc.", role = "cph"),
   person("Fernando", "Cagua", role = "ctb"),
+  person("Ethan", "Heinzen", role = "ctb"),
   person()
   )
 Description: Helper functions to install and maintain the 'LaTeX' distribution
@@ -23,11 +24,12 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-03-12 14:18:30 UTC; yihui
+Packaged: 2019-09-17 04:27:50 UTC; yihui
 Author: Yihui Xie [aut, cre, cph] (<https://orcid.org/0000-0003-0645-5666>),
   RStudio, Inc. [cph],
-  Fernando Cagua [ctb]
+  Fernando Cagua [ctb],
+  Ethan Heinzen [ctb]
 Maintainer: Yihui Xie <xie@yihui.name>
 Repository: CRAN
-Date/Publication: 2019-03-12 19:20:03 UTC
-Built: R 3.5.3; ; 2019-03-31 13:07:38 UTC; windows
+Date/Publication: 2019-09-17 05:10:02 UTC
+Built: R 3.5.1; ; 2019-09-23 12:36:31 UTC; windows

@@ -7,10 +7,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
-<meta name="date" content="2019-01-09" />
+<meta name="date" content="2019-09-15" />
 
 <title>The curl package: a modern R interface to libcurl</title>
 
@@ -68,8 +69,6 @@ overflow: auto;
 margin-left: 2%;
 position: fixed;
 border: 1px solid #ccc;
-webkit-border-radius: 6px;
-moz-border-radius: 6px;
 border-radius: 6px;
 }
 
@@ -97,9 +96,14 @@ font-size: 12px;
 .tocify-subheader .tocify-subheader {
 text-indent: 30px;
 }
-
 .tocify-subheader .tocify-subheader .tocify-subheader {
 text-indent: 40px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 50px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 60px;
 }
 
 .tocify .tocify-item > a, .tocify .nav-list .nav-header {
@@ -503,13 +507,13 @@ float: none;
 
           item.append($("<a/>", {
 
-            "text": self.text()
+            "html": self.html()
 
           }));
 
         } else {
 
-          item.text(self.text());
+          item.html(self.html());
 
         }
 
@@ -1326,9 +1330,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -1342,7 +1344,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -1359,8 +1360,6 @@ summary {
 </style>
 
 
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -1418,48 +1417,9 @@ summary {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = false;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -1508,8 +1468,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -1524,6 +1482,16 @@ div.tocify {
 }
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -1542,7 +1510,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">The curl package: a modern R interface to libcurl</h1>
-<h4 class="date"><em>2019-01-09</em></h4>
+<h4 class="date">2019-09-15</h4>
 
 </div>
 
@@ -1567,17 +1535,19 @@ str(req)</code></pre>
  $ url        : chr &quot;https://eu.httpbin.org/get?foo=123&quot;
  $ status_code: int 200
  $ type       : chr &quot;application/json&quot;
- $ headers    : raw [1:246] 48 54 54 50 ...
+ $ headers    : raw [1:378] 48 54 54 50 ...
  $ modified   : POSIXct[1:1], format: NA
- $ times      : Named num [1:6] 0 0.0233 0.0621 0.1715 0.2116 ...
+ $ times      : Named num [1:6] 0 0.0565 0.1476 0.3513 0.4325 ...
   ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;redirect&quot; &quot;namelookup&quot; &quot;connect&quot; &quot;pretransfer&quot; ...
- $ content    : raw [1:335] 7b 0a 20 20 ...</code></pre>
+ $ content    : raw [1:321] 7b 0a 20 20 ...</code></pre>
 <pre class="r"><code>parse_headers(req$headers)</code></pre>
-<pre><code>[1] &quot;HTTP/1.1 200 OK&quot;                        &quot;Connection: keep-alive&quot;                
-[3] &quot;Server: gunicorn/19.9.0&quot;                &quot;Date: Wed, 09 Jan 2019 22:29:46 GMT&quot;   
-[5] &quot;Content-Type: application/json&quot;         &quot;Content-Length: 335&quot;                   
-[7] &quot;Access-Control-Allow-Origin: *&quot;         &quot;Access-Control-Allow-Credentials: true&quot;
-[9] &quot;Via: 1.1 vegur&quot;                        </code></pre>
+<pre><code> [1] &quot;HTTP/1.1 200 OK&quot;                             &quot;Access-Control-Allow-Credentials: true&quot;     
+ [3] &quot;Access-Control-Allow-Origin: *&quot;              &quot;Content-Encoding: gzip&quot;                     
+ [5] &quot;Content-Type: application/json&quot;              &quot;Date: Sun, 15 Sep 2019 18:40:08 GMT&quot;        
+ [7] &quot;Referrer-Policy: no-referrer-when-downgrade&quot; &quot;Server: nginx&quot;                              
+ [9] &quot;X-Content-Type-Options: nosniff&quot;             &quot;X-Frame-Options: DENY&quot;                      
+[11] &quot;X-XSS-Protection: 1; mode=block&quot;             &quot;Content-Length: 216&quot;                        
+[13] &quot;Connection: keep-alive&quot;                     </code></pre>
 <pre class="r"><code>jsonlite::prettify(rawToChar(req$content))</code></pre>
 <pre><code>{
     &quot;args&quot;: {
@@ -1585,12 +1555,11 @@ str(req)</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
-        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
-        &quot;User-Agent&quot;: &quot;R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
+        &quot;User-Agent&quot;: &quot;R (3.6.1 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
     },
-    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/get?foo=123&quot;
 }
  </code></pre>
@@ -1608,12 +1577,11 @@ jsonlite::prettify(readLines(tmp))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
-        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
-        &quot;User-Agent&quot;: &quot;R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
+        &quot;User-Agent&quot;: &quot;R (3.6.1 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
     },
-    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/get?bar=456&quot;
 }
  </code></pre>
@@ -1634,16 +1602,15 @@ cat(out, sep = &quot;\n&quot;)</code></pre>
 out &lt;- readLines(con, n = 3)
 cat(out, sep = &quot;\n&quot;)</code></pre>
 <pre><code>    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, </code></pre>
+    &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;, 
+    &quot;Host&quot;: &quot;eu.httpbin.org&quot;, </code></pre>
 <pre class="r"><code># Get remaining lines
 out &lt;- readLines(con)
 close(con)
 cat(out, sep = &quot;\n&quot;)</code></pre>
-<pre><code>    &quot;Host&quot;: &quot;eu.httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
+<pre><code>    &quot;User-Agent&quot;: &quot;R (3.6.1 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
   }, 
-  &quot;origin&quot;: &quot;213.127.74.204&quot;, 
+  &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;, 
   &quot;url&quot;: &quot;https://eu.httpbin.org/get&quot;
 }</code></pre>
 <p>The example shows how to use <code>readLines</code> on an opened connection to read <code>n</code> lines at a time. Similarly <code>readBin</code> is used to read <code>n</code> bytes at a time for stream parsing binary data.</p>
@@ -1673,8 +1640,8 @@ curl_fetch_multi(&#39;https://httpbin.org/blabla&#39;, done = cb, pool = pool)</
 <p>When we call <code>multi_run()</code>, all scheduled requests are performed concurrently. The callback functions get triggered when each request completes.</p>
 <pre class="r"><code># This actually performs requests:
 out &lt;- multi_run(pool = pool)</code></pre>
-<pre><code>done: https://cloud.r-project.org/ : HTTP: 200 
-done: https://www.google.com/ : HTTP: 200 
+<pre><code>done: https://www.google.com : HTTP: 200 
+done: https://cloud.r-project.org : HTTP: 200 
 done: https://httpbin.org/blabla : HTTP: 404 </code></pre>
 <pre class="r"><code>print(out)</code></pre>
 <pre><code>$success
@@ -1767,16 +1734,15 @@ jsonlite::prettify(rawToChar(req$content))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
-        &quot;Connection&quot;: &quot;close&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1796,16 +1762,15 @@ jsonlite::prettify(readLines(con))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
-        &quot;Connection&quot;: &quot;close&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1826,16 +1791,15 @@ jsonlite::prettify(readLines(tmp))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
-        &quot;Connection&quot;: &quot;close&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1855,16 +1819,15 @@ out &lt;- multi_run()</code></pre>
   &quot;form&quot;: {}, 
   &quot;headers&quot;: {
     &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;, 
     &quot;Cache-Control&quot;: &quot;no-cache&quot;, 
-    &quot;Connection&quot;: &quot;close&quot;, 
     &quot;Content-Length&quot;: &quot;11&quot;, 
     &quot;Content-Type&quot;: &quot;text/moo&quot;, 
     &quot;Host&quot;: &quot;eu.httpbin.org&quot;, 
     &quot;User-Agent&quot;: &quot;A cow&quot;
   }, 
   &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;213.127.74.204&quot;, 
+  &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;, 
   &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }</code></pre>
 </div>
@@ -1879,16 +1842,15 @@ req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/cookies/set?foo=123&amp
 req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/cookies/set?baz=moooo&quot;, handle = h)
 handle_cookies(h)</code></pre>
 <pre><code>          domain  flag path secure expiration name value
-1 eu.httpbin.org FALSE    /   TRUE       &lt;NA&gt;  foo   123
-2 eu.httpbin.org FALSE    /   TRUE       &lt;NA&gt;  bar   ftw
-3 eu.httpbin.org FALSE    /   TRUE       &lt;NA&gt;  baz moooo</code></pre>
+1 eu.httpbin.org FALSE    /  FALSE       &lt;NA&gt;  foo   123
+2 eu.httpbin.org FALSE    /  FALSE       &lt;NA&gt;  bar   ftw
+3 eu.httpbin.org FALSE    /  FALSE       &lt;NA&gt;  baz moooo</code></pre>
 <pre class="r"><code># Unset a cookie
 req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/cookies/delete?foo&quot;, handle = h)
 handle_cookies(h)</code></pre>
-<pre><code>          domain  flag path secure          expiration name value
-1 eu.httpbin.org FALSE    /  FALSE 2019-01-09 23:29:49  foo  &lt;NA&gt;
-2 eu.httpbin.org FALSE    /   TRUE                &lt;NA&gt;  bar   ftw
-3 eu.httpbin.org FALSE    /   TRUE                &lt;NA&gt;  baz moooo</code></pre>
+<pre><code>          domain  flag path secure expiration name value
+1 eu.httpbin.org FALSE    /  FALSE       &lt;NA&gt;  bar   ftw
+2 eu.httpbin.org FALSE    /  FALSE       &lt;NA&gt;  baz moooo</code></pre>
 <p>The <code>handle_cookies</code> function returns a data frame with 7 columns as specified in the <a href="http://www.cookiecentral.com/faq/#3.5">netscape cookie file format</a>.</p>
 </div>
 <div id="on-reusing-handles" class="section level3">
@@ -1901,11 +1863,11 @@ req2 &lt;- curl_fetch_memory(&quot;https://www.r-project.org&quot;)</code></pre>
 <pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://api.github.com/users/ropensci&quot;)
 req$times</code></pre>
 <pre><code>     redirect    namelookup       connect   pretransfer starttransfer         total 
-     0.000000      0.018480      0.126421      0.362924      0.492815      0.492979 </code></pre>
+     0.000000      0.097613      0.138805      0.202611      0.335395      0.335547 </code></pre>
 <pre class="r"><code>req2 &lt;- curl_fetch_memory(&quot;https://api.github.com/users/rstudio&quot;)
 req2$times</code></pre>
 <pre><code>     redirect    namelookup       connect   pretransfer starttransfer         total 
-     0.000000      0.000045      0.000048      0.000118      0.135673      0.135838 </code></pre>
+     0.000000      0.000029      0.000032      0.000089      0.124772      0.124917 </code></pre>
 <p>If you really need to re-use a handle, do note that that curl does not cleanup the handle after each request. All of the options and internal fields will linger around for all future request until explicitly reset or overwritten. This can sometimes leads to unexpected behavior.</p>
 <pre class="r"><code>handle_reset(h)</code></pre>
 <p>The <code>handle_reset</code> function will reset all curl options and request headers to the default values. It will <strong>not</strong> erase cookies and it will still keep alive the connections. Therefore it is good practice to call <code>handle_reset</code> after performing a request if you want to reuse the handle for a subsequent request. Still it is always safer to create a new fresh handle when possible, rather than recycling old ones.</p>
@@ -1949,16 +1911,15 @@ new_handle() %&gt;%
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
-        &quot;Connection&quot;: &quot;close&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;213.127.74.204&quot;,
+    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1983,6 +1944,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

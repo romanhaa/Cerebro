@@ -1,3 +1,61 @@
+# 4.8.0.9000
+
+## Changes to plotly.js
+
+* This version of the R package upgrades the version of the underlying plotly.js library from v1.42.3 to v1.46.1. The [plotly.js release page](https://github.com/plotly/plotly.js/releases) has the full list of changes, but here is summary most pertainent ones for the R package:
+  * New trace types: `sunburst`, `waterfall`, `isosurface`.
+  * New `hovertemplate` attribute allows for finer-tuned control over tooltip text. See [here](https://plotly-r.com/controlling-tooltips.html#fig:tooltip-format-heatmap) for an example.
+  * Providing a string to `title` is now deprecated (but still works). Instead, use `title = list(text = "title")`. This change was made to support a new title placement API (e.g., `title = list(text = "title", xanchor = "left")`). Note that these changes are relevant for `layout.title` as well as `layout.xaxis.title`/`layout.yaxis.title`/etc.
+
+## NEW FEATURES & IMPROVEMENTS
+
+* Several new features and improvements related to accessing plotly.js events in shiny (learn more about them in this RStudio [webinar](https://resources.rstudio.com/webinars/accessing-and-responding-to-plotly-events-in-shiny-carson-sievert)):
+    * The `event` argument of the `event_data()` function now supports the following events: `plotly_selecting`, `plotly_brushed`, `plotly_brushing`, `plotly_restyle`, `plotly_legendclick`, `plotly_legenddoubleclick`, `plotly_clickannotation`, `plotly_afterplot`, `plotly_doubleclick`, `plotly_deselect`, `plotly_unhover`. For examples, see `plotly_example("shiny", "event_data")`, `plotly_example("shiny", "event_data_legends")`, and  `plotly_example("shiny", "event_data_annotation")`, 
+    * New `event_register()` and `event_unregister()` functions for declaring which events to transmit over the wire (i.e., from the browser to the shiny server). Events that are likely to have large overhead are not registered by default, so you'll need to register these: `plotly_selecting`, `plotly_unhover`, `plotly_restyle`, `plotly_legendclick`, and `plotly_legenddoubleclick`.
+    * A new `priority` argument. By setting `priority='event'`, the `event` is treated like a true event: any reactive expression using the `event` becomes invalidated (regardless of whether the input values has changed). For an example, see `plotly_example("shiny", "event_priority")`.
+    * The `event_data()` function now relays the (official plotly.js) `customdata` attribute in similar fashion to (unofficial) `key` attribute (#1423). Run `plotly_example("shiny", "event_data")` for an example. 
+    * `event_data("plotly_selected")` is no longer too eager to clear. That is, it is no longer set to `NULL` when clicking on a plot *after* triggering the "plotly_selected" event (#1121) (#1122).
+    
+* Several new features and improvements for exporting static graphs with the orca command-line utility:
+    * The `orca()` function now supports conversion of much larger figures (#1322) and works without a mapbox api token (#1314).
+    * The `orca_serve()` function was added for efficient exporting of many plotly graphs. For examples, see `help(orca_serve)`.
+    * The `orca()` function gains new arguments `more_args` and `...` for finer control over the underlying system commands.
+
+* `ggplotly()` now respects horizontal alignment of **ggplot2** titles (e.g., `ggplotly(qplot(1:10) + ggtitle("A title") + theme(plot.title = element_text(hjust = 1)))`).
+* **plotly** objects can now be serialized and unserialized in different environments (i.e., you can now use `saveRDS()` to save an object as an rds file and restore it on another machine with `readRDS()`). Note this object is *dynamically* linked to JavaScript libraries, so one should take care to use consistent versions of **plotly** when serializing and unserializing (#1376).
+* The `style()` function now supports "partial updates" (i.e. modification of a particular property of an object, rather than the entire object). For example, notice how the first plot retains the original marker shape (a square): `p <- plot_ly(x = 1:10, y = 1:10, symbol = I(15)); subplot(style(p, marker.color = "red"), style(p, marker = list(color = "red")))` (#1342).
+* The `method` argument of `plotlyProxyInvoke()` gains support for a `"reconfig"` method. This makes it possible to modify just the configuration of a plot in a **shiny** app. For an example use, see `plotly_example("shiny", "event_data_annotation")`.
+* The `plotly_example()` function will now attempt to open the source file(s) used to run the example. Set `edit = FALSE` to prevent the source file(s) from opening.
+* An informative warning is now thrown if invalid argument names are supplied to `config()`.
+
+## CHANGES
+
+* If `stroke` is specified, `span` now defaults to `I(1)`. This results in a slightly narrower default span for some trace types (e.g., `box`, `contour`), but it also ensures the `stroke` is always visible when it's relevant (e.g. `plot_ly(x = 1:10, y = 1:10, stroke = I("black"))`), making for a more consistent overall default (#1507).
+* The 'collaborate' button no longer appears in the modebar, and is longer supported, so the `config()` function no longer has a `collaborate` argument.
+* The `cloud` argument is now deprecated and will be removed in a future version. Use `showSendToCloud` instead.
+* `ggplotly()` now translates title information to `layout.title.text` (instead of `layout.title`) and `layout.title.font` (instead of `layout.titlefont`)
+
+## BUG FIXES
+
+* `subplot()` now works much better with annotations, images, and shapes:
+  - When `xref`/`yref` references an x/y axis these references are bumped accordingly (#1181).
+  - When `xref`/`yref` references paper coordinates, these coordinates are updated accordingly (#1332).
+* `subplot()` now repositions shapes with fixed height/width (i.e., `xsizemode`/`ysizemode` of `"pixel"`) correctly (#1494).
+* The `colorscale` attribute now correctly handles a wider range of input values (#1432, #1485)
+* The colorscale generated via the `color` argument in `plot_ly()` now uses an evenly spaced grid of values instead of quantiles (#1308).
+* When using **shinytest** to test a **shiny** that contains **plotly** graph, false positive differences are no longer reported (rstudio/shinytest#174). 
+* When the `size` argument maps to `marker.size`, it now converts to an array of appropriate length (#1479).
+* The `color` and `stroke` arguments now work as expected for trace types with `fillcolor` but no `fill` attribute (e.g. `box` traces) (#1292).
+* Information emitted by in `event_data()` for heatmaps with atomic vectors for `x`/`y`/`z` is now correct (#1141).
+* Fixed issue where **dplyr** groups caused a problem in the ordering of data arrays passed to `marker` objects (#1351).
+* In some cases, a `ggplotly()` colorbar would cause issues with hover behavior, which is now fixed (#1381).
+* An articial marker no longer appears when clearing a crosstalk selection of a plot with a colorbar (#1406).
+* Clearing a highlight event via crosstalk no longer deletes all the traces added since initial draw (#1436).
+* Recursive attribute validation is now only performed on recursive objects (#1315).
+* The `text` attribute is no longer collapsed to a string when `hoveron='fills+points'` (#1448). 
+* `layout.[x-y]axis.domain` is no longer supplied a default when `layout.grid` is specified (#1427).
+* When uploading charts to a plot.ly account via `api_create()`, layout attributes are no longer incorrectly src-ified, which was causing inconsistencies in local/remote rendering of `ggplotly()` charts (#1197).
+
 # 4.8.0
 
 ## NEW FEATURES & IMPROVEMENTS
@@ -16,7 +74,7 @@
 ### Other improvements relevant for all **plotly** objects
 
 * LaTeX rendering via MathJax is now supported and the new `TeX()` function may be used to flag a character vector as LaTeX (#375). Use the new `mathjax` argument in `config()` to specify either external (`mathjax="cdn"`) or local (`mathjax="local"`) MathJaX. If `"cdn"`, mathjax is loaded externally (meaning an internet connection is needed for TeX rendering). If `"local"`, the PLOTLY_MATHJAX_PATH environment variable must be set to the location (a local file path) of MathJax. IMPORTANT: **plotly** uses SVG-based mathjax rendering which doesn't play nicely with HTML-based rendering (e.g., **rmarkdown** documents and **shiny** apps). To leverage both types of rendering, you must `<iframe>` your plotly graph(s) into the larger document (see [here](https://github.com/ropensci/plotly/blob/master/inst/examples/rmd/MathJax/index.Rmd) for an **rmarkdown** example  and [here](https://github.com/ropensci/plotly/blob/master/inst/examples/rmd/MathJax/index.Rmd) for a **shiny** example).
-* The selection (i.e., linked-brushing) mode can now switch from 'transient' to 'persistent' by holding the 'shift' key. It's still possible to _force_ persistent selection by setting `persistent = TRUE` in `highlight()`, but `persistent = FALSE` (the default) is now recommended since it allows one to switch between [persistent/transient selection](https://plotly-book.cpsievert.me/linking-views-without-shiny.html#transient-versus-persistent-selection) in the browser, rather than at the command line.
+* The selection (i.e., linked-brushing) mode can now switch from 'transient' to 'persistent' by holding the 'shift' key. It's still possible to _force_ persistent selection by setting `persistent = TRUE` in `highlight()`, but `persistent = FALSE` (the default) is now recommended since it allows one to switch between [persistent/transient selection](https://plotly-r.com/client-side-linking.html#fig:txmissing-modes) in the browser, rather than at the command line.
 * The `highlight()` function gains a `debounce` argument for throttling the rate at which `on` events may be fired. This is mainly useful for improving user experience when `highlight(on = "plotly_hover")` and mousing over relevant markers at a rapid rate (#1277)
 * The new `partial_bundle()` function makes it easy to leverage [partial bundles of plotly.js](https://github.com/plotly/plotly.js#partial-bundles) for reduced file sizes and faster render times.
 * The `config()` function gains a `locale` argument for easily changing localization defaults (#1270). This makes it possible localize date axes, and in some cases, modebar buttons (#1270).
@@ -124,7 +182,7 @@
 * `ggplotly()` gains a new argument, `dynamicTicks`, which allows axis ticks to update upon zoom/pan interactions (fixes #485).
 * Sensible sizing and positioning defaults are now provided for subplots multiple colorbars.
 * R linebreaks are translated to HTML linebreaks (i.e., '\n' translates to '<br />') (fixes #851).
-* Added a `plot_dendro()` function for a quick and dirty interactive dendrogram with support for hierarchial selection. For more, see -- <https://cpsievert.github.io/plotly_book/linking-views-without-shiny.html#nested-selections>
+* Added a `plot_dendro()` function for a quick and dirty interactive dendrogram with support for hierarchial selection. For more, see -- <https://plotly-r.com/client-side-linking.html#fig:dendro>
 * The `export()` function gains a `selenium` argument for rendering/exporting WebGL plots and exporting to 'svg'/'webp' file formats (via the plotly.js function [Plotly.downloadImage()](https://plot.ly/javascript/plotlyjs-function-reference/#plotlydownloadimage)).
 * Better type checking of trace attributes will now automatically reduce a single-valued vector to a constant (when appropriate). This is particularly useful for anchoring multiple traces to a single legend entry via `legendgroup` (see #675, #817, #826).
 * The `plotlyOutput()` function gains a `inline` argument which makes it easier to place multiple plots in the same row (in a shiny application).

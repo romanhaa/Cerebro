@@ -125,6 +125,12 @@
 #  } )
 
 ## ---- eval=FALSE---------------------------------------------------------
+#  foo <- new(Foo)
+#  bar <- new(Bar)
+#  bar$handleFoo(foo)
+#  #> Got a Foo!
+
+## ---- eval=FALSE---------------------------------------------------------
 #  # for code compiled on the fly using
 #  # cxxfunction() into 'fx_vec', we use
 #  mod_vec <- Module("mod_vec",

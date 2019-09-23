@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Format table columns</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for formatCurrency {DT}"><tr><td>formatCurrency {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Format table columns</h2>
+
+<h3>Description</h3>
+
+<p>Format numeric columns in a table as currency (<code>formatCurrency()</code>) or
+percentages (<code>formatPercentage()</code>), or round numbers to a specified
+number of decimal places (<code>formatRound()</code>), or a specified number
+of significant figures (<code>formatSignif()</code>).  The function
+<code>formatStyle()</code> applies CSS styles to table cells by column.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+formatCurrency(table, columns, currency = "$", interval = 3, mark = ",", 
+    digits = 2, dec.mark = getOption("OutDec"), before = TRUE)
+
+formatString(table, columns, prefix = "", suffix = "")
+
+formatPercentage(table, columns, digits = 0, interval = 3, mark = ",", 
+    dec.mark = getOption("OutDec"))
+
+formatRound(table, columns, digits = 2, interval = 3, mark = ",", 
+    dec.mark = getOption("OutDec"))
+
+formatSignif(table, columns, digits = 2, interval = 3, mark = ",", 
+    dec.mark = getOption("OutDec"))
+
+formatDate(table, columns, method = "toDateString", params = NULL)
+
+formatStyle(table, columns, valueColumns = columns, target = c("cell", 
+    "row"), fontWeight = NULL, color = NULL, backgroundColor = NULL, 
+    background = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>table</code></td>
+<td>
+<p>a table object created from <code><a href="datatable.html">datatable</a>()</code></p>
+</td></tr>
+<tr valign="top"><td><code>columns</code></td>
+<td>
+<p>the indices of the columns to be formatted (can be character,
+numeric, logical, or a formula of the form <code>~ V1 + V2</code>, which is
+equivalent to <code>c('V1', 'V2')</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>currency</code></td>
+<td>
+<p>the currency symbol</p>
+</td></tr>
+<tr valign="top"><td><code>interval</code></td>
+<td>
+<p>put a marker after how many digits of the numbers</p>
+</td></tr>
+<tr valign="top"><td><code>mark</code></td>
+<td>
+<p>the marker after every <code>interval</code> decimals in the numbers</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>the number of decimal places to round to</p>
+</td></tr>
+<tr valign="top"><td><code>dec.mark</code></td>
+<td>
+<p>a character to indicate the decimal point</p>
+</td></tr>
+<tr valign="top"><td><code>before</code></td>
+<td>
+<p>whether to place the currency symbol before or after the values</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+<p>string to put in front of the column values</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>string to put after the column values</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method(s) to convert a date to string in JavaScript; see
+<code>DT:::DateMethods</code> for a list of possible methods, and
+<a href="http://mzl.la/1xGe99W">http://mzl.la/1xGe99W</a> for a full reference</p>
+</td></tr>
+<tr valign="top"><td><code>params</code></td>
+<td>
+<p>a list parameters for the specific date conversion method,
+e.g., for the <code>toLocaleDateString()</code> method, your browser may support
+<code>params = list('ko-KR', list(year = 'numeric', month = 'long', day =
+'numeric'))</code></p>
+</td></tr>
+<tr valign="top"><td><code>valueColumns</code></td>
+<td>
+<p>indices of the columns from which the cell values are
+obtained; this can be different with the <code>columns</code> argument, e.g. you
+may style one column based on the values of a different column</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>the target to apply the CSS styles to (the current cell or the
+full row)</p>
+</td></tr>
+<tr valign="top"><td><code>fontWeight</code></td>
+<td>
+<p>the font weight, e.g. <code>'bold'</code> and <code>'normal'</code></p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p>the font color, e.g. <code>'red'</code> and <code>'#ee00aa'</code></p>
+</td></tr>
+<tr valign="top"><td><code>backgroundColor</code></td>
+<td>
+<p>the background color of table cells</p>
+</td></tr>
+<tr valign="top"><td><code>background</code></td>
+<td>
+<p>the background of table cells</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other CSS properties, e.g. <code>'border'</code>, <code>'font-size'</code>,
+<code>'text-align'</code>, and so on; if you want to condition CSS styles on the
+cell values, you may use the helper functions such as
+<code><a href="styleInterval.html">styleInterval</a>()</code>; note the actual CSS property names are
+dash-separated, but you can use camelCase names in this function (otherwise
+you will have to use backticks to quote the names, e.g. <code>`font-size` =
+'12px'</code>), and this function will automatically convert camelCase names to
+dash-separated names (e.g. <code>'fontWeight'</code> will be converted to
+<code>'font-weight'</code> internally)</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>See <a href="https://rstudio.github.io/DT/functions.html">https://rstudio.github.io/DT/functions.html</a> for detailed
+documentation and examples.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(DT)
+m = cbind(matrix(rnorm(120, 1e5, 1e6), 40), runif(40), rnorm(40, 100))
+colnames(m) = head(LETTERS, ncol(m))
+m
+
+# format the columns A and C as currency, and D as percentages
+datatable(m) %&gt;% formatCurrency(c('A', 'C')) %&gt;% formatPercentage('D', 2)
+
+# the first two columns are Euro currency, and round column E to 3 decimal places
+datatable(m) %&gt;% formatCurrency(1:2, '\U20AC') %&gt;% formatRound('E', 3)
+
+# render vapor pressure with only two significant figures.
+datatable(pressure) %&gt;% formatSignif('pressure',2)
+
+# apply CSS styles to columns
+datatable(iris) %&gt;%
+  formatStyle('Sepal.Length', fontWeight = styleInterval(5, c('bold', 'weight'))) %&gt;%
+  formatStyle('Sepal.Width',
+    color = styleInterval(3.4, c('red', 'white')),
+    backgroundColor = styleInterval(3.4, c('yellow', 'gray'))
+  )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

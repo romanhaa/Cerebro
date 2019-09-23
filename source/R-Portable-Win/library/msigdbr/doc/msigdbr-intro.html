@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,59 +18,93 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceLine, a.sourceLine { display: inline-block; min-height: 1.25em; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-div.sourceLine, a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource div.sourceLine, .numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource div.sourceLine::before, .numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em; }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; color: #aaaaaa;  padding-left: 4px; }
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; color: initial; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code span.dt { color: #902000; } /* DataType */
 code span.dv { color: #40a070; } /* DecVal */
-code span.bn { color: #40a070; } /* BaseN */
-code span.fl { color: #40a070; } /* Float */
-code span.ch { color: #4070a0; } /* Char */
-code span.st { color: #4070a0; } /* String */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.ot { color: #007020; } /* Other */
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.fu { color: #06287e; } /* Function */
 code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code span.cn { color: #880000; } /* Constant */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.im { } /* Import */
-code span.va { color: #19177c; } /* Variable */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.op { color: #666666; } /* Operator */
-code span.bu { } /* BuiltIn */
 code span.ex { } /* Extension */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.at { color: #7d9029; } /* Attribute */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -257,6 +292,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -275,101 +313,101 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <ul>
 <li>in an R-friendly format (a data frame in a “long” format with one gene per row)</li>
 <li>for multiple frequently studied model organisms (human, mouse, rat, pig, fly, yeast, etc.)</li>
-<li>as both gene symbols and Entrez Gene IDs (for better compatibility with pathway enrichment tools)</li>
+<li>as both gene symbols and NCBI/Entrez Gene IDs (for better compatibility with pathway enrichment tools)</li>
 <li>that can be used in a script without requiring additional external files</li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>The package can be installed from CRAN.</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;msigdbr&quot;</span>)</div></code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;msigdbr&quot;</span>)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
 <p>Load package.</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(msigdbr)</div></code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(msigdbr)</span></code></pre></div>
 <p>Check the available species.</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">msigdbr_show_species</span>()</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt;  [1] &quot;Bos taurus&quot;               &quot;Caenorhabditis elegans&quot;   &quot;Canis lupus familiaris&quot;  </span></div>
-<div class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;  [4] &quot;Danio rerio&quot;              &quot;Drosophila melanogaster&quot;  &quot;Gallus gallus&quot;           </span></div>
-<div class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;  [7] &quot;Homo sapiens&quot;             &quot;Mus musculus&quot;             &quot;Rattus norvegicus&quot;       </span></div>
-<div class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; [10] &quot;Saccharomyces cerevisiae&quot; &quot;Sus scrofa&quot;</span></div></code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">msigdbr_show_species</span>()</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;  [1] &quot;Bos taurus&quot;               &quot;Caenorhabditis elegans&quot;   &quot;Canis lupus familiaris&quot;  </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;  [4] &quot;Danio rerio&quot;              &quot;Drosophila melanogaster&quot;  &quot;Gallus gallus&quot;           </span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;  [7] &quot;Homo sapiens&quot;             &quot;Mus musculus&quot;             &quot;Rattus norvegicus&quot;       </span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; [10] &quot;Saccharomyces cerevisiae&quot; &quot;Sus scrofa&quot;</span></span></code></pre></div>
 <p>Retrieve all human gene sets.</p>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Homo sapiens&quot;</span>)</div>
-<div class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">head</span>(m_df)</div>
-<div class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 9</span></div>
-<div class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   gs_name        gs_id  gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources</span></div>
-<div class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  </span></div>
-<div class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 1 AAACCAC_MIR140 M12609 C3     MIR       ABCC4      Homo sap…     10257 ABCC4     &lt;NA&gt;   </span></div>
-<div class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 2 AAACCAC_MIR140 M12609 C3     MIR       ACTN4      Homo sap…        81 ACTN4     &lt;NA&gt;   </span></div>
-<div class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 3 AAACCAC_MIR140 M12609 C3     MIR       ACVR1      Homo sap…        90 ACVR1     &lt;NA&gt;   </span></div>
-<div class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 4 AAACCAC_MIR140 M12609 C3     MIR       ADAM9      Homo sap…      8754 ADAM9     &lt;NA&gt;   </span></div>
-<div class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 5 AAACCAC_MIR140 M12609 C3     MIR       ADAMTS5    Homo sap…     11096 ADAMTS5   &lt;NA&gt;   </span></div>
-<div class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 6 AAACCAC_MIR140 M12609 C3     MIR       AGER       Homo sap…       177 AGER      &lt;NA&gt;</span></div></code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Homo sapiens&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">head</span>(m_df)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; # A tibble: 6 x 9</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;   gs_name     gs_id  gs_cat gs_subcat human_gene_s… species_n… entrez_g… gene_sym… sources</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  </span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 1 AAACCAC_MI… M12609 C3     MIR       ABCC4         Homo sapi…     10257 ABCC4     &lt;NA&gt;   </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 2 AAACCAC_MI… M12609 C3     MIR       ABRAXAS2      Homo sapi…     23172 ABRAXAS2  &lt;NA&gt;   </span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 3 AAACCAC_MI… M12609 C3     MIR       ACTN4         Homo sapi…        81 ACTN4     &lt;NA&gt;   </span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 4 AAACCAC_MI… M12609 C3     MIR       ACVR1         Homo sapi…        90 ACVR1     &lt;NA&gt;   </span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; 5 AAACCAC_MI… M12609 C3     MIR       ADAM9         Homo sapi…      8754 ADAM9     &lt;NA&gt;   </span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; 6 AAACCAC_MI… M12609 C3     MIR       ADAMTS5       Homo sapi…     11096 ADAMTS5   &lt;NA&gt;</span></span></code></pre></div>
 <p>Retrieve mouse hallmark collection gene sets.</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>, <span class="dt">category =</span> <span class="st">&quot;H&quot;</span>)</div>
-<div class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">head</span>(m_df)</div>
-<div class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 9</span></div>
-<div class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   gs_name   gs_id gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources      </span></div>
-<div class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;        </span></div>
-<div class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 1 HALLMARK… M5905 H      &quot;&quot;        ABCA1      Mus musc…     11303 Abca1     Inparanoid,H…</span></div>
-<div class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 2 HALLMARK… M5905 H      &quot;&quot;        ABCB8      Mus musc…     74610 Abcb8     Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 3 HALLMARK… M5905 H      &quot;&quot;        ACAA2      Mus musc…     52538 Acaa2     Inparanoid,O…</span></div>
-<div class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 4 HALLMARK… M5905 H      &quot;&quot;        ACADL      Mus musc…     11363 Acadl     Inparanoid,O…</span></div>
-<div class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 5 HALLMARK… M5905 H      &quot;&quot;        ACADM      Mus musc…     11364 Acadm     Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 6 HALLMARK… M5905 H      &quot;&quot;        ACADS      Mus musc…     11409 Acads     Inparanoid,O…</span></div></code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>, <span class="dt">category =</span> <span class="st">&quot;H&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">head</span>(m_df)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; # A tibble: 6 x 9</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;   gs_name   gs_id gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources       </span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;         </span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; 1 HALLMARK… M5905 H      &quot;&quot;        ABCA1      Mus musc…     11303 Abca1     Inparanoid,Ho…</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; 2 HALLMARK… M5905 H      &quot;&quot;        ABCB8      Mus musc…     74610 Abcb8     Inparanoid,Ho…</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 3 HALLMARK… M5905 H      &quot;&quot;        ACAA2      Mus musc…     52538 Acaa2     Inparanoid,Ho…</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 4 HALLMARK… M5905 H      &quot;&quot;        ACADL      Mus musc…     11363 Acadl     Inparanoid,Ho…</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 5 HALLMARK… M5905 H      &quot;&quot;        ACADM      Mus musc…     11364 Acadm     Inparanoid,Ho…</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 6 HALLMARK… M5905 H      &quot;&quot;        ACADS      Mus musc…     11409 Acads     Inparanoid,Ho…</span></span></code></pre></div>
 <p>Retrieve mouse C2 (curated) CGP (chemical and genetic perturbations) gene sets.</p>
-<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>, <span class="dt">category =</span> <span class="st">&quot;C2&quot;</span>, <span class="dt">subcategory =</span> <span class="st">&quot;CGP&quot;</span>)</div>
-<div class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(m_df)</div>
-<div class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 9</span></div>
-<div class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   gs_name   gs_id gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources      </span></div>
-<div class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;        </span></div>
-<div class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 1 ABBUD_LI… M1423 C2     CGP       AHNAK      Mus musc…     66395 Ahnak     Inparanoid,H…</span></div>
-<div class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 2 ABBUD_LI… M1423 C2     CGP       ALCAM      Mus musc…     11658 Alcam     Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 3 ABBUD_LI… M1423 C2     CGP       ANKRD40    Mus musc…     71452 Ankrd40   Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 4 ABBUD_LI… M1423 C2     CGP       BCKDHB     Mus musc…     12040 Bckdhb    Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 5 ABBUD_LI… M1423 C2     CGP       C16orf89   Mus musc…    239691 AU021092  Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 6 ABBUD_LI… M1423 C2     CGP       CAPN9      Mus musc…     73647 Capn9     Inparanoid,O…</span></div></code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>, <span class="dt">category =</span> <span class="st">&quot;C2&quot;</span>, <span class="dt">subcategory =</span> <span class="st">&quot;CGP&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">head</span>(m_df)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; # A tibble: 6 x 9</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;   gs_name   gs_id gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources       </span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;         </span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; 1 ABBUD_LI… M1423 C2     CGP       AHNAK      Mus musc…     66395 Ahnak     Inparanoid,Ho…</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; 2 ABBUD_LI… M1423 C2     CGP       ALCAM      Mus musc…     11658 Alcam     Inparanoid,Ho…</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt; 3 ABBUD_LI… M1423 C2     CGP       ANKRD40    Mus musc…     71452 Ankrd40   Inparanoid,Ho…</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; 4 ABBUD_LI… M1423 C2     CGP       ARID1A     Mus musc…     93760 Arid1a    Inparanoid,Ho…</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; 5 ABBUD_LI… M1423 C2     CGP       BCKDHB     Mus musc…     12040 Bckdhb    Inparanoid,Ho…</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; 6 ABBUD_LI… M1423 C2     CGP       C16orf89   Mus musc…    239691 AU021092  Inparanoid,Ho…</span></span></code></pre></div>
 <p>The <code>msigdbr()</code> function output can also be manipulated as a standard data frame.</p>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(gs_cat <span class="op">==</span><span class="st"> &quot;H&quot;</span>)</div>
-<div class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">head</span>(m_df)</div>
-<div class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; # A tibble: 6 x 9</span></div>
-<div class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   gs_name   gs_id gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources      </span></div>
-<div class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;        </span></div>
-<div class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1 HALLMARK… M5905 H      &quot;&quot;        ABCA1      Mus musc…     11303 Abca1     Inparanoid,H…</span></div>
-<div class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2 HALLMARK… M5905 H      &quot;&quot;        ABCB8      Mus musc…     74610 Abcb8     Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3 HALLMARK… M5905 H      &quot;&quot;        ACAA2      Mus musc…     52538 Acaa2     Inparanoid,O…</span></div>
-<div class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 4 HALLMARK… M5905 H      &quot;&quot;        ACADL      Mus musc…     11363 Acadl     Inparanoid,O…</span></div>
-<div class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 5 HALLMARK… M5905 H      &quot;&quot;        ACADM      Mus musc…     11364 Acadm     Inparanoid,P…</span></div>
-<div class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 6 HALLMARK… M5905 H      &quot;&quot;        ACADS      Mus musc…     11409 Acads     Inparanoid,O…</span></div></code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>m_df =<span class="st"> </span><span class="kw">msigdbr</span>(<span class="dt">species =</span> <span class="st">&quot;Mus musculus&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(gs_cat <span class="op">==</span><span class="st"> &quot;H&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">head</span>(m_df)</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; # A tibble: 6 x 9</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;   gs_name   gs_id gs_cat gs_subcat human_gen… species_… entrez_g… gene_sym… sources       </span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;         </span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; 1 HALLMARK… M5905 H      &quot;&quot;        ABCA1      Mus musc…     11303 Abca1     Inparanoid,Ho…</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; 2 HALLMARK… M5905 H      &quot;&quot;        ABCB8      Mus musc…     74610 Abcb8     Inparanoid,Ho…</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 3 HALLMARK… M5905 H      &quot;&quot;        ACAA2      Mus musc…     52538 Acaa2     Inparanoid,Ho…</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; 4 HALLMARK… M5905 H      &quot;&quot;        ACADL      Mus musc…     11363 Acadl     Inparanoid,Ho…</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; 5 HALLMARK… M5905 H      &quot;&quot;        ACADM      Mus musc…     11364 Acadm     Inparanoid,Ho…</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; 6 HALLMARK… M5905 H      &quot;&quot;        ACADS      Mus musc…     11409 Acads     Inparanoid,Ho…</span></span></code></pre></div>
 </div>
 <div id="integrating-with-pathway-analysis-packages" class="section level2">
 <h2>Integrating with Pathway Analysis Packages</h2>
 <p>Use the gene sets data frame for <code>clusterProfiler</code> (for genes as Entrez Gene IDs).</p>
-<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">m_t2g =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(gs_name, entrez_gene) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()</div>
-<div class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">enricher</span>(<span class="dt">gene =</span> genes_entrez, <span class="dt">TERM2GENE =</span> m_t2g, ...)</div></code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>m_t2g =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(gs_name, entrez_gene) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">enricher</span>(<span class="dt">gene =</span> gene_ids_vector, <span class="dt">TERM2GENE =</span> m_t2g, ...)</span></code></pre></div>
 <p>Use the gene sets data frame for <code>clusterProfiler</code> (for genes as gene symbols).</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">m_t2g =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(gs_name, gene_symbol) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()</div>
-<div class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">enricher</span>(<span class="dt">gene =</span> genes_symbols, <span class="dt">TERM2GENE =</span> m_t2g, ...)</div></code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>m_t2g =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(gs_name, gene_symbol) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.data.frame</span>()</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">enricher</span>(<span class="dt">gene =</span> gene_symbols_vector, <span class="dt">TERM2GENE =</span> m_t2g, ...)</span></code></pre></div>
 <p>Use the gene sets data frame for <code>fgsea</code>.</p>
-<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">m_list =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">split</span>(<span class="dt">x =</span> .<span class="op">$</span>gene_symbol, <span class="dt">f =</span> .<span class="op">$</span>gs_name)</div>
-<div class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">fgsea</span>(<span class="dt">pathways =</span> m_list, ...)</div></code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>m_list =<span class="st"> </span>m_df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">split</span>(<span class="dt">x =</span> .<span class="op">$</span>gene_symbol, <span class="dt">f =</span> .<span class="op">$</span>gs_name)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">fgsea</span>(<span class="dt">pathways =</span> m_list, ...)</span></code></pre></div>
 </div>
 <div id="questions-and-concerns" class="section level2">
 <h2>Questions and Concerns</h2>
 <p>Which version of MSigDB was used?</p>
 <blockquote>
-<p>This package was generated with MSigDB v6.2 (released July 2018). The MSigDB version is used as the base of the package version. You can check the installed version with <code>packageVersion(&quot;msigdbr&quot;)</code>.</p>
+<p>This package was generated with MSigDB v7.0 (released August 2019). The MSigDB version is used as the base of the package version. You can check the installed version with <code>packageVersion(&quot;msigdbr&quot;)</code>.</p>
 </blockquote>
-<p>Can’t I just download the gene sets from MSigDB?</p>
+<p>Can I download the gene sets directly from MSigDB instead of using this package?</p>
 <blockquote>
-<p>Yes. You can then import the GMT files with <code>getGmt()</code> from the <code>GSEABase</code> package. The GMTs only include the human genes, even for gene sets generated from mouse data. If you are not working with human data, you then have to convert the MSigDB genes to your organism or your genes to human.</p>
+<p>Yes. You can then import the GMT files (with <code>getGmt()</code> from the <code>GSEABase</code> package, for example). The GMTs only include the human genes, even for gene sets generated from mouse data. If you are not working with human data, you then have to convert the MSigDB genes to your organism or your genes to human.</p>
 </blockquote>
-<p>Can’t I just convert between human and mouse genes by adjusting gene capitalization?</p>
+<p>Can I convert between human and mouse genes just by adjusting gene capitalization?</p>
 <blockquote>
 <p>That will work for most genes, but not all.</p>
 </blockquote>
-<p>Can’t I just convert human genes to any organism myself?</p>
+<p>Can I convert human genes to any organism myself instead of using this package?</p>
 <blockquote>
 <p>Yes. A popular method is using the <code>biomaRt</code> package. You may still end up with dozens of homologs for some genes, so additional cleanup may be helpful.</p>
 </blockquote>
@@ -384,6 +422,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>Gene homologs are provided by HUGO Gene Nomenclature Committee at the European Bioinformatics Institute which integrates the orthology assertions predicted for human genes by eggNOG, Ensembl Compara, HGNC, HomoloGene, Inparanoid, NCBI Gene Orthology, OMA, OrthoDB, OrthoMCL, Panther, PhylomeDB, TreeFam and ZFIN. For each human equivalent within each species, only the ortholog supported by the largest number of databases is used.</p>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

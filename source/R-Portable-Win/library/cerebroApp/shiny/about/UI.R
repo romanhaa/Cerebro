@@ -8,7 +8,10 @@ tab_about <- tabItem(
     fluidRow(
       column(12,
         titlePanel("About this application"),
-        htmlOutput("about")
+        htmlOutput("about"),
+        uiOutput("preferences"),
+        actionButton("browser", "browser"),
+        tags$script("$('#browser').hide();")
       )
     )
   )

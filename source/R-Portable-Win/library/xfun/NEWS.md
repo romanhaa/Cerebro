@@ -1,3 +1,21 @@
+# CHANGES IN xfun VERSION 0.9
+
+## NEW FEATURES
+
+- Added a function `rename_seq()` to rename files to add an incremental numeric prefix to the filenames, e.g., rename `a.txt`, `b.txt`, `c.txt` to `1-a.txt`, `2-b.txt`, `3-c.txt`.
+
+# CHANGES IN xfun VERSION 0.8
+
+## MINOR CHANGES
+
+- `xfun::write_utf8(NULL)` is equivalent to `xfun::write_utf8(character(0))` now (thanks, @schloerke, yihui/knitr#1714).
+
+# CHANGES IN xfun VERSION 0.7
+
+## MINOR CHANGES
+
+- `loadable()` is quiet with R 3.6.0 (https://stat.ethz.ch/pipermail/r-devel/2019-May/077774.html).
+
 # CHANGES IN xfun VERSION 0.6
 
 ## NEW FEATURES

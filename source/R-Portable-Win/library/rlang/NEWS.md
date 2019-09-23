@@ -1,9 +1,184 @@
 
-# rlang 0.3.3
+# rlang 0.4.0
+
+## Tidy evaluation
+
+### Interpolate function inputs with the curly-curly operator
+
+The main change of this release is the new tidy evaluation operator
+`{{`.  This operator abstracts the quote-and-unquote idiom into a
+single interpolation step:
+
+```
+my_wrapper <- function(data, var, by) {
+  data %>%
+    group_by({{ by }}) %>%
+    summarise(average = mean({{ var }}, na.rm = TRUE))
+}
+```
+
+`{{ var }}` is a shortcut for `!!enquo(var)` that should be easier on
+the eyes, and easier to learn and teach.
+
+Note that for multiple inputs, the existing documentation doesn't
+stress enough that you can just pass dots straight to other tidy eval
+functions. There is no need for quote-and-unquote unless you need to
+modify the inputs or their names in some way:
+
+```
+my_wrapper <- function(data, var, ...) {
+  data %>%
+    group_by(...) %>%
+    summarise(average = mean({{ var }}, na.rm = TRUE))
+}
+```
+
+
+### More robust `.env` pronoun
+
+Another improvement to tidy evaluation should make it easier to use
+the `.env` pronoun. Starting from this release, subsetting an object
+from the `.env` pronoun now evaluates the corresponding symbol. This
+makes `.env` more robust, in particular in magrittr pipelines. The
+following example would previously fail:
+
+```
+foo <- 10
+mtcars %>% mutate(cyl = cyl * .env$foo)
+```
+
+This way, using the `.env` pronoun is now equivalent to unquoting a
+constant objects, but with an easier syntax:
+
+```
+mtcars %>% mutate(cyl = cyl * !!foo)
+```
+
+Note that following this change, and despite its name, `.env` is no
+longer referring to a bare environment. Instead, it is a special
+shortcut with its own rules. Similarly, the `.data` pronoun is not
+really a data frame.
+
+
+## New functions and features
+
+* New `pairlist2()` function with splicing support. It preserves
+  missing arguments, which makes it useful for lists of formal
+  parameters for functions.
+
+* `is_bool()` is a scalar type predicate that checks whether its input
+  is a single `TRUE` or `FALSE`. Like `is_string()`, it returns
+  `FALSE` when the input is missing. This is useful for type-checking
+  function arguments (#695).
+
+* `is_string()` gains a `string` argument. `is_string(x, "foo")` is a
+  shortcut for `is_character(x) && length(x) == 1 && identical(x,
+  "foo")`.
+
+* Lists of quosures now have pillar methods for display in tibbles.
+
+* `set_names()` now names unnamed input vectors before applying a
+  function. The following expressions are now equivalent:
+
+  ```
+  letters %>% set_names() %>% set_names(toupper)
+
+  letters %>% set_names(toupper)
+  ```
+
+* You can now pass a character vector as message argument for
+  `abort()`, `warn()`, `inform()`, and `signal()`. The vector is
+  collapsed to a single string with a `"\n"` newline separating each
+  element of the input vector (#744).
+
+* `maybe_missing()` gains a `default` argument.
+
+* New functions for weak references: `new_weakref()`, `weakref_key()`,
+  `weakref_value()`, and `is_weakref()` (@wch, #787).
+
+
+## Performance
+
+* The performance of `exec()` has been improved. It is now on the same
+  order of performance as `do.call()`, though slightly slower.
+
+* `call2()` now uses the new `pairlist2()` function internally. This
+  considerably improves its performance. This also means it now
+  preserves empty arguments:
+
+  ```
+  call2("fn", 1, , foo = )
+  #> fn(1, , foo = )
+  ```
+
+
+## Bugfixes and small improvements
+
+* `with_handlers()` now installs calling handlers first on the stack,
+  no matter their location in the argument list. This way they always
+  take precedence over exiting handlers, which ensures their side
+  effects (such as logging) take place (#718).
+
+* In rlang backtraces, the `global::` prefix is now only added when
+  the function directly inherits from the global environment.
+  Functions inheriting indirectly no longer have a namespace
+  qualifier (#733).
+
+* `options(error = rlang::entrace)` now has better support for errors
+  thrown from C (#779). It also saves structured errors in the `error`
+  field of `rlang::last_error()`.
+
+* `ns_env()` and `ns_env_name()` (experimental functions) now support
+  functions and environments consisently. They also require an
+  argument from now on.
+
+* `is_interactive()` is aware of the `TESTTHAT` environment variable and
+  returns `FALSE` when it is `"true"` (@jennybc, #738).
+
+* `fn_fmls()` and variants no longer coerce their input to a
+  closure. Instead, they throw an error.
 
 * Fixed an issue in knitr that caused backtraces to print even when `error = TRUE`.
 
-* `maybe_missing()` gains a `default` argument.
+* The return object from `as_function()` now inherits from
+  `"function"` (@richierocks, #735).
+
+
+## Lifecycle
+
+We commit to support 5 versions of R. As R 3.6 is about to be
+released, rlang now requires R 3.2 or greater. We're also continuing
+our efforts to streamline and narrow the rlang API.
+
+* `modify()` and `prepend()` (two experimental functions marked as in
+  the questioning stage since rlang 0.3.0) are now deprecated. Vector
+  functions are now out of scope for rlang. They might be revived in
+  the vctrs or funs packages.
+
+* `exiting()` is soft-deprecated because `with_handlers()` treats
+  handlers as exiting by default.
+
+* The vector constructors like `lgl()` or `new_logical()` are now in
+  the questioning stage. They are likely to be moved to the vctrs
+  package at some point. Same for the missing values shortcuts like
+  `na_lgl`.
+
+* `as_logical()`, `as_integer()`, etc have been soft-deprecated in
+  favour of `vctrs::vec_cast()`.
+
+* `type_of()`, `switch_type()`, `coerce_type()`, and friends are
+  soft-deprecated.
+
+* The encoding and locale API was summarily archived. This API didn't
+  bring any value and wasn't used on CRAN.
+
+* `lang_type_of()`, `switch_lang()`, and `coerce_lang()` were
+  archived. These functions were not used on CRAN or internally.
+
+* Subsetting quosures with `[` or `[[` is soft-deprecated.
+
+* All functions that were soft-deprecated, deprecated, or defunct in
+  previous releases have been bumped to the next lifecycle stage.
 
 
 # rlang 0.3.2

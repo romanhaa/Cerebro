@@ -1,7 +1,7 @@
 Package: shiny
 Type: Package
 Title: Web Application Framework for R
-Version: 1.2.0
+Version: 1.3.2
 Authors@R: c(
     person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
     person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
@@ -60,12 +60,12 @@ Description: Makes it incredibly easy to build interactive web
     beautiful, responsive, and powerful applications with minimal effort.
 License: GPL-3 | file LICENSE
 Depends: R (>= 3.0.2), methods
-Imports: utils, grDevices, httpuv (>= 1.4.4), mime (>= 0.3), jsonlite
-        (>= 0.9.16), xtable, digest, htmltools (>= 0.3.5), R6 (>= 2.0),
+Imports: utils, grDevices, httpuv (>= 1.5.0), mime (>= 0.3), jsonlite
+        (>= 0.9.16), xtable, digest, htmltools (>= 0.3.6), R6 (>= 2.0),
         sourcetools, later (>= 0.7.2), promises (>= 1.0.1), tools,
         crayon, rlang
 Suggests: datasets, Cairo (>= 1.5-5), testthat, knitr (>= 1.6),
-        markdown, rmarkdown, ggplot2, magrittr
+        markdown, rmarkdown, ggplot2, reactlog (>= 1.0.0), magrittr
 URL: http://shiny.rstudio.com
 BugReports: https://github.com/rstudio/shiny/issues
 Collate: 'app.R' 'bookmark-state-local.R' 'stack.R' 'bookmark-state.R'
@@ -87,9 +87,10 @@ Collate: 'app.R' 'bookmark-state-local.R' 'stack.R' 'bookmark-state.R'
         'server-input-handlers.R' 'server.R' 'shiny-options.R'
         'shiny.R' 'shinyui.R' 'shinywrappers.R' 'showcase.R'
         'snapshot.R' 'tar.R' 'test-export.R' 'timer.R' 'update-input.R'
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
+Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-11-02 16:06:02 UTC; jcheng
+Packaged: 2019-04-19 16:39:03 UTC; winston
 Author: Winston Chang [aut, cre],
   Joe Cheng [aut],
   JJ Allaire [aut],
@@ -122,5 +123,5 @@ Author: Winston Chang [aut, cre],
   R Core Team [ctb, cph] (tar implementation from R)
 Maintainer: Winston Chang <winston@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-11-02 19:20:03 UTC
-Built: R 3.5.3; ; 2019-03-31 16:46:00 UTC; windows
+Date/Publication: 2019-04-22 16:00:09 UTC
+Built: R 3.5.3; ; 2019-09-17 04:01:02 UTC; windows

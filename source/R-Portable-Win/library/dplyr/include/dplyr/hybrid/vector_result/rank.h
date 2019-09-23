@@ -14,7 +14,7 @@ namespace hybrid {
 namespace internal {
 
 struct min_rank_increment {
-  typedef IntegerVector OutputVector;
+  typedef Rcpp::IntegerVector OutputVector;
   typedef int scalar_type;
   enum { rtype = INTSXP };
 
@@ -35,7 +35,7 @@ struct min_rank_increment {
 };
 
 struct dense_rank_increment {
-  typedef IntegerVector OutputVector;
+  typedef Rcpp::IntegerVector OutputVector;
   typedef int scalar_type;
   enum { rtype = INTSXP };
 
@@ -56,7 +56,7 @@ struct dense_rank_increment {
 };
 
 struct percent_rank_increment {
-  typedef NumericVector OutputVector;
+  typedef Rcpp::NumericVector OutputVector;
   typedef double scalar_type;
   enum { rtype = REALSXP };
 
@@ -78,7 +78,7 @@ struct percent_rank_increment {
 };
 
 struct cume_dist_increment {
-  typedef NumericVector OutputVector;
+  typedef Rcpp::NumericVector OutputVector;
   typedef double scalar_type;
   enum { rtype = REALSXP };
 
@@ -125,6 +125,16 @@ public:
   }
 };
 
+template <typename T>
+inline T fix_na(T value) {
+  return value;
+}
+
+template <>
+inline double fix_na<double>(double value) {
+  return R_IsNA(value) ? NA_REAL : value;
+}
+
 template <typename SlicedTibble, int RTYPE, bool ascending, typename Increment>
 class RankImpl :
   public HybridVectorVectorResult<Increment::rtype, SlicedTibble, RankImpl<SlicedTibble, RTYPE, ascending, Increment> >,
@@ -155,7 +165,7 @@ public:
 
     int m = indices.size();
     for (int j = 0; j < m; j++) {
-      map[ slice[j] ].push_back(j);
+      map[ fix_na(slice[j]) ].push_back(j);
     }
     STORAGE na = Rcpp::traits::get_na<RTYPE>();
     typename Map::const_iterator it = map.find(na);
@@ -225,7 +235,7 @@ inline SEXP rank_(const SlicedTibble& data, Column column, const Operation& op) 
 template <typename SlicedTibble, typename Operation, typename Increment>
 SEXP rank_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
   Column x;
-  if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+  if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
     return internal::rank_<SlicedTibble, Operation, Increment>(data, x, op);
   }
   return R_UnboundValue;

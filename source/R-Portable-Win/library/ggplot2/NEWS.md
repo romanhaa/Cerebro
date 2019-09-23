@@ -1,3 +1,200 @@
+# ggplot2 3.2.1
+
+This is a patch release fixing a few regressions introduced in 3.2.0 as well as
+fixing some unit tests that broke due to upstream changes.
+
+* `position_stack()` no longer changes the order of the input data. Changes to 
+  the internal behaviour of `geom_ribbon()` made this reordering problematic 
+  with ribbons that spanned `y = 0` (#3471)
+* Using `qplot()` with a single positional aesthetic will no longer title the
+  non-specified scale as `"NULL"` (#3473)
+* Fixes unit tests for sf graticule labels caused by chages to sf
+
+# ggplot2 3.2.0
+
+This is a minor release with an emphasis on internal changes to make ggplot2 
+faster and more consistent. The few interface changes will only affect the 
+aesthetics of the plot in minor ways, and will only potentially break code of
+extension developers if they have relied on internals that have been changed. 
+This release also sees the addition of Hiroaki Yutani (@yutannihilation) to the 
+core developer team.
+
+With the release of R 3.6, ggplot2 now requires the R version to be at least 3.2,
+as the tidyverse is committed to support 5 major versions of R.
+
+## Breaking changes
+
+* Two patches (#2996 and #3050) fixed minor rendering problems. In most cases,
+  the visual changes are so subtle that they are difficult to see with the naked
+  eye. However, these changes are detected by the vdiffr package, and therefore
+  any package developers who use vdiffr to test for visual correctness of ggplot2
+  plots will have to regenerate all reference images.
+  
+* In some cases, ggplot2 now produces a warning or an error for code that previously
+  produced plot output. In all these cases, the previous plot output was accidental,
+  and the plotting code uses the ggplot2 API in a way that would lead to undefined
+  behavior. Examples include a missing `group` aesthetic in `geom_boxplot()` (#3316),
+  annotations across multiple facets (#3305), and not using aesthetic mappings when
+  drawing ribbons with `geom_ribbon()` (#3318).
+
+## New features
+
+* This release includes a range of internal changes that speeds up plot 
+  generation. None of the changes are user facing and will not break any code,
+  but in general ggplot2 should feel much faster. The changes includes, but are
+  not limited to:
+  
+  - Caching ascent and descent dimensions of text to avoid recalculating it for
+    every title.
+  
+  - Using a faster data.frame constructor as well as faster indexing into 
+    data.frames
+    
+  - Removing the plyr dependency, replacing plyr functions with faster 
+    equivalents.
+
+* `geom_polygon()` can now draw polygons with holes using the new `subgroup` 
+  aesthetic. This functionality requires R 3.6.0 (@thomasp85, #3128)
+
+* Aesthetic mappings now accept functions that return `NULL` (@yutannihilation,
+  #2997).
+
+* `stat_function()` now accepts rlang/purrr style anonymous functions for the 
+  `fun` parameter (@dkahle, #3159).
+
+* `geom_rug()` gains an "outside" option to allow for moving the rug tassels to 
+  outside the plot area (@njtierney, #3085) and a `length` option to allow for 
+  changing the length of the rug lines (@daniel-wells, #3109). 
+  
+* All geoms now take a `key_glyph` paramter that allows users to customize
+  how legend keys are drawn (@clauswilke, #3145). In addition, a new key glyph
+  `timeseries` is provided to draw nice legends for time series
+  (@mitchelloharawild, #3145).
+
+## Extensions
+
+* Layers now have a new member function `setup_layer()` which is called at the
+  very beginning of the plot building process and which has access to the 
+  original input data and the plot object being built. This function allows the 
+  creation of custom layers that autogenerate aesthetic mappings based on the 
+  input data or that filter the input data in some form. For the time being, this
+  feature is not exported, but it has enabled the development of a new layer type,
+  `layer_sf()` (see next item). Other special-purpose layer types may be added
+  in the future (@clauswilke, #2872).
+  
+* A new layer type `layer_sf()` can auto-detect and auto-map sf geometry
+  columns in the data. It should be used by extension developers who are writing
+  new sf-based geoms or stats (@clauswilke, #3232).
+
+* `x0` and `y0` are now recognized positional aesthetics so they will get scaled 
+  if used in extension geoms and stats (@thomasp85, #3168)
+  
+* Continuous scale limits now accept functions which accept the default
+  limits and return adjusted limits. This makes it possible to write
+  a function that e.g. ensures the limits are always a multiple of 100,
+  regardless of the data (@econandrew, #2307).
+
+## Minor improvements and bug fixes
+
+* `cut_width()` now accepts `...` to pass further arguments to `base::cut.default()`
+   like `cut_number()` and `cut_interval()` already did (@cderv, #3055)
+
+* `coord_map()` now can have axes on the top and right (@karawoo, #3042).
+
+* `coord_polar()` now correctly rescales the secondary axis (@linzi-sg, #3278)
+
+* `coord_sf()`, `coord_map()`, and `coord_polar()` now squash `-Inf` and `Inf`
+  into the min and max of the plot (@yutannihilation, #2972).
+
+* `coord_sf()` graticule lines are now drawn in the same thickness as panel grid 
+  lines in `coord_cartesian()`, and seting panel grid lines to `element_blank()` 
+  now also works in `coord_sf()` 
+  (@clauswilke, #2991, #2525).
+
+* `economics` data has been regenerated. This leads to some changes in the
+  values of all columns (especially in `psavert`), but more importantly, strips 
+  the grouping attributes from `economics_long`.
+
+* `element_line()` now fills closed arrows (@yutannihilation, #2924).
+
+* Facet strips on the left side of plots now have clipping turned on, preventing
+  text from running out of the strip and borders from looking thicker than for
+  other strips (@karawoo, #2772 and #3061).
+
+* ggplot2 now works in Turkish locale (@yutannihilation, #3011).
+
+* Clearer error messages for inappropriate aesthetics (@clairemcwhite, #3060).
+
+* ggplot2 no longer attaches any external packages when using functions that 
+  depend on packages that are suggested but not imported by ggplot2. The 
+  affected functions include `geom_hex()`, `stat_binhex()`, 
+  `stat_summary_hex()`, `geom_quantile()`, `stat_quantile()`, and `map_data()` 
+  (@clauswilke, #3126).
+  
+* `geom_area()` and `geom_ribbon()` now sort the data along the x-axis in the 
+  `setup_data()` method rather than as part of `draw_group()` (@thomasp85, 
+  #3023)
+
+* `geom_hline()`, `geom_vline()`, and `geom_abline()` now throw a warning if the 
+  user supplies both an `xintercept`, `yintercept`, or `slope` value and a 
+  mapping (@RichardJActon, #2950).
+
+* `geom_rug()` now works with `coord_flip()` (@has2k1, #2987).
+
+* `geom_violin()` no longer throws an error when quantile lines fall outside 
+  the violin polygon (@thomasp85, #3254).
+
+* `guide_legend()` and `guide_colorbar()` now use appropriate spacing between legend
+  key glyphs and legend text even if the legend title is missing (@clauswilke, #2943).
+
+* Default labels are now generated more consistently; e.g., symbols no longer
+  get backticks, and long expressions are abbreviated with `...`
+  (@yutannihilation, #2981).
+
+* All-`Inf` layers are now ignored for picking the scale (@yutannihilation, 
+  #3184).
+  
+* Diverging Brewer colour palette now use the correct mid-point colour 
+  (@dariyasydykova, #3072).
+  
+* `scale_color_continuous()` now points to `scale_colour_continuous()` so that 
+  it will handle `type = "viridis"` as the documentation states (@hlendway, 
+  #3079).
+
+* `scale_shape_identity()` now works correctly with `guide = "legend"` 
+  (@malcolmbarrett, #3029)
+  
+* `scale_continuous` will now draw axis line even if the length of breaks is 0
+  (@thomasp85, #3257)
+
+* `stat_bin()` will now error when the number of bins exceeds 1e6 to avoid 
+  accidentally freezing the user session (@thomasp85).
+  
+* `sec_axis()` now places ticks accurately when using nonlinear transformations (@dpseidel, #2978).
+
+* `facet_wrap()` and `facet_grid()` now automatically remove NULL from facet
+  specs, and accept empty specs (@yutannihilation, #3070, #2986).
+
+* `stat_bin()` now handles data with only one unique value (@yutannihilation 
+  #3047).
+
+* `sec_axis()` now accepts functions as well as formulas (@yutannihilation, #3031).
+
+*   New theme elements allowing different ticks lengths for each axis. For instance,
+    this can be used to have inwards ticks on the x-axis (`axis.ticks.length.x`) and
+    outwards ticks on the y-axis (`axis.ticks.length.y`) (@pank, #2935).
+
+* The arguments of `Stat*$compute_layer()` and `Position*$compute_layer()` are
+  now renamed to always match the ones of `Stat$compute_layer()` and
+  `Position$compute_layer()` (@yutannihilation, #3202).
+
+* `geom_*()` and `stat_*()` now accepts purrr-style lambda notation
+  (@yutannihilation, #3138).
+
+* `geom_tile()` and `geom_rect()` now draw rectangles without notches at the
+  corners. The style of the corner can be controlled by `linejoin` parameters
+  (@yutannihilation, #3050).
+
 # ggplot2 3.1.0
 
 ## Breaking changes
@@ -106,7 +303,6 @@ This is a minor release and breaking changes have been kept to a minimum. End us
     `ncount`. Also, `stat_density()` now includes the calculated statistic 
     `nlevel`, an alias for `scaled`, to better match the syntax of `stat_bin()`
     (@bjreisman, #2679).
-
 
 # ggplot2 3.0.0
 

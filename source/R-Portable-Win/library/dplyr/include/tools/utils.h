@@ -3,11 +3,11 @@
 
 #include <tools/SymbolVector.h>
 
-void check_valid_colnames(const DataFrame& df, bool warn_only = false);
+void check_valid_colnames(const Rcpp::DataFrame& df, bool warn_only = false);
 int check_range_one_based(int x, int max);
-void assert_all_allow_list(const DataFrame&);
+void assert_all_allow_list(const Rcpp::DataFrame&);
 SEXP shared_SEXP(SEXP x);
-SEXP shallow_copy(const List& data);
+SEXP shallow_copy(const Rcpp::List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
 SEXP null_if_empty(SEXP x);
@@ -24,21 +24,23 @@ SEXP child_env(SEXP parent);
 
 int get_size(SEXP x);
 
-
 namespace dplyr {
+
+SEXP get_time_classes();
+SEXP get_date_classes();
 
 SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);
-CharacterVector default_chars(SEXP x, R_xlen_t len);
-CharacterVector get_class(SEXP x);
-SEXP set_class(SEXP x, const CharacterVector& class_);
+Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len);
+Rcpp::CharacterVector get_class(SEXP x);
+SEXP set_class(SEXP x, const Rcpp::CharacterVector& class_);
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol);
 void copy_class(SEXP out, SEXP origin);
 void copy_names(SEXP out, SEXP origin);
-CharacterVector get_levels(SEXP x);
-SEXP set_levels(SEXP x, const CharacterVector& levels);
+Rcpp::CharacterVector get_levels(SEXP x);
+SEXP set_levels(SEXP x, const Rcpp::CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);
-bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
+bool character_vector_equal(const Rcpp::CharacterVector& x, const Rcpp::CharacterVector& y);
 
 SymbolVector get_vars(SEXP x);
 
@@ -113,6 +115,10 @@ inline SEXP as_data_pronoun(SEXP data) {
 
 inline SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
   return dplyr::internal::rlang_api().eval_tidy(expr, data, env);
+}
+
+inline SEXP new_quosure(SEXP expr, SEXP env) {
+  return dplyr::internal::rlang_api().new_quosure(expr, env);
 }
 
 }

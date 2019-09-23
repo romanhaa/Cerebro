@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coerce a character string to the same type as a target value</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for coerceValue {DT}"><tr><td>coerceValue {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coerce a character string to the same type as a target value</h2>
+
+<h3>Description</h3>
+
+<p>Create a new value from a character string based on an old value, e.g., if
+the old value is an integer, call <code>as.integer()</code> to coerce the string to
+an integer.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coerceValue(val, old)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>val</code></td>
+<td>
+<p>A character string.</p>
+</td></tr>
+<tr valign="top"><td><code>old</code></td>
+<td>
+<p>An old value, whose type is the target type of <code>val</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function only works with integer, double, date, time (<code>POSIXlt</code> or
+<code>POSIXct</code>), and factor values. The date must be of the format
+<code>%Y-%m-%dT%H:%M:%SZ</code>. The factor value must be in the levels of
+<code>old</code>, otherwise it will be coerced to <code>NA</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A value of the same data type as <code>old</code> if possible.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(DT)
+coerceValue("100", 1L)
+coerceValue("1.23", 3.1416)
+coerceValue("2018-02-14", Sys.Date())
+coerceValue("2018-02-14T22:18:52Z", Sys.time())
+coerceValue("setosa", iris$Species)
+coerceValue("setosa2", iris$Species)  # NA
+coerceValue("FALSE", TRUE)  # not supported
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

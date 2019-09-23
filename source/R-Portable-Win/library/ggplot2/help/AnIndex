@@ -75,6 +75,7 @@ draw_key_polygon	draw_key
 draw_key_rect	draw_key
 draw_key_smooth	draw_key
 draw_key_text	draw_key
+draw_key_timeseries	draw_key
 draw_key_vline	draw_key
 draw_key_vpath	draw_key
 dup_axis	sec_axis
@@ -257,6 +258,7 @@ layer	layer
 layer_data	ggplot_build
 layer_grob	ggplot_build
 layer_scales	ggplot_build
+layer_sf	layer_sf
 Layout	ggplot2-ggproto
 limits	limits
 lims	lims

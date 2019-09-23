@@ -1,11 +1,19 @@
 Package: httpuv
 Type: Package
+Encoding: UTF-8
 Title: HTTP and WebSocket Server Library
-Version: 1.5.0
+Version: 1.5.2
 Author: Joe Cheng, Hector Corrada Bravo [ctb], Jeroen Ooms [ctb],
     Winston Chang [ctb]
 Copyright: RStudio, Inc.; Joyent, Inc.; Nginx Inc.; Igor Sysoev; Niels
-        Provos; Internet Systems Consortium, Inc.; Alexander Chemeris
+        Provos; Internet Systems Consortium, Inc.; Alexander Chemeris;
+        Berkeley Software Design; Google Inc.; Sony Mobile
+        Communications AB; Alexander Peslyak; Free Software Foundation,
+        Inc.; X Consortium; Ben Noordhuis; StrongLoop, Inc.; SaC:l
+        Ibarra CorretgC); Bert Belder; Fedor Indutny; libuv project;
+        Refael Ackermann; Kenneth MacKay; Emergya; Diego PettenC2; xine
+        project, The Regents of the University of California, Dariusz
+        Dwornikowski
 Maintainer: Joe Cheng <joe@rstudio.com>
 Description: Provides low-level socket and protocol support for handling
     HTTP and WebSocket requests directly from within R. It is primarily
@@ -21,12 +29,12 @@ LinkingTo: Rcpp, BH, later
 URL: https://github.com/rstudio/httpuv
 SystemRequirements: GNU make
 RoxygenNote: 6.1.1
-Suggests: testthat, callr, curl
-Collate: 'RcppExports.R' 'httpuv.R' 'server.R' 'static_paths.R'
-        'utils.R'
+Suggests: testthat, callr, curl, websocket
+Collate: 'RcppExports.R' 'httpuv.R' 'random_port.R' 'server.R'
+        'static_paths.R' 'utils.R'
 NeedsCompilation: yes
-Packaged: 2019-03-15 20:27:18 UTC; winston
+Packaged: 2019-09-11 04:12:10 UTC; jcheng
 Repository: CRAN
-Date/Publication: 2019-03-15 21:00:03 UTC
-Built: R 3.5.3; x86_64-w64-mingw32; 2019-03-31 16:21:19 UTC; windows
+Date/Publication: 2019-09-11 05:40:02 UTC
+Built: R 3.5.3; x86_64-w64-mingw32; 2019-09-17 03:38:41 UTC; windows
 Archs: i386, x64

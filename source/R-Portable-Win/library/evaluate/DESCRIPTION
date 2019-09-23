@@ -2,7 +2,7 @@ Package: evaluate
 Type: Package
 Title: Parsing and Evaluation Tools that Provide More Details than the
         Default
-Version: 0.13
+Version: 0.14
 Authors@R: c(
     person("Hadley", "Wickham", role = "aut"),
     person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
@@ -12,7 +12,8 @@ Authors@R: c(
     person("Barret", "Schloerke", role = "ctb"),
     person("Adam", "Ryczkowski", role = "ctb"),
     person("Hiroaki", "Yutani", role = "ctb"),
-    person("Michel", "Lang", role = "ctb")
+    person("Michel", "Lang", role = "ctb"),
+    person("Karolis", "Koncevičius", role = "ctb")
     )
 Description: Parsing and evaluation tools that make it easy to recreate the
     command line behaviour of R.
@@ -25,7 +26,7 @@ Suggests: testthat, lattice, ggplot2
 RoxygenNote: 6.1.1
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2019-02-12 17:20:33 UTC; yihui
+Packaged: 2019-05-28 15:30:02 UTC; yihui
 Author: Hadley Wickham [aut],
   Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Michael Lawrence [ctb],
@@ -34,8 +35,9 @@ Author: Hadley Wickham [aut],
   Barret Schloerke [ctb],
   Adam Ryczkowski [ctb],
   Hiroaki Yutani [ctb],
-  Michel Lang [ctb]
+  Michel Lang [ctb],
+  Karolis Koncevičius [ctb]
 Maintainer: Yihui Xie <xie@yihui.name>
 Repository: CRAN
-Date/Publication: 2019-02-12 19:20:03 UTC
-Built: R 3.5.3; ; 2019-03-31 13:04:43 UTC; windows
+Date/Publication: 2019-05-28 15:50:02 UTC
+Built: R 3.5.3; ; 2019-09-17 00:28:22 UTC; windows

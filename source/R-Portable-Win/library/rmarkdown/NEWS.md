@@ -1,3 +1,48 @@
+rmarkdown 1.15
+================================================================================
+
+- Exclude `README.R?md` from files processed by `render_site()`,
+
+- `html_document` with `code_folding: hide` supports showing individual source code chunks if they are assigned the `fold-show` class via the chunk option `class.source="fold-show"` (thanks, @atusy, #1602).
+
+- The `extra_dependencies` argument only works with `template: default` in `pdf_document`. Now it works with any Pandoc LaTeX templates as long as the template uses the `header-includes` variable.
+
+rmarkdown 1.14
+================================================================================
+
+- Fixed a regression in `ioslides_presentation` that background colors via the `data-background` attribute on slides stopped working (thanks, @ShKlinkenberg, #1265).
+
+- Fixed the bug #1577 introduced in **rmarkdown** v1.12: tabsets, floating TOC, and code folding in the `html_document` format no longer work with the `shiny` runtime (thanks, @RLesur for the fix #1587, and @fawda123 @ColinChisholm @JasonAizkalns for the bug report).
+
+- Added the `keep_md` argument to `pdf_document()` to keep the intermediate `.md` output file (thanks, @broomej, #1001).
+
+- For `render()`, if the input filename contains special characters such as spaces or question marks (as defined in `rmarkdown:::.shell_chars_regex`), the file will be temporarily renamed with the special characters replaced by `-` (dash) instead of `_` (underscore, as in previous versions of **rmarkdown**). This change will affect users who render such files with caching (cache will be invalidated and regenerated). The change is due to the fact that `-` is generally a safer character than `_`, especially for LaTeX output (#1396).
+
+- Added a **pkgdown** site for the **rmarkdown** package: https://rmarkdown.rstudio.com/docs/ (thanks, @apreshill, #1574).
+
+- Fixed the bug #1593: in HTML documents, when a MathJax URL is used with a custom template, the source code of the MathJax library is included in the document. This bug was first declared in **bookdown** (thanks, @topepo for the bug report rstudio/bookdown#683, and @RLesur for the fix #1594).
+
+
+rmarkdown 1.13
+================================================================================
+
+- For `pdf_document()`, do not override margins to 1 inch when a custom document class or geometry settings are specified in the YAML front matter (thanks, @adunning, #1550)
+
+- The default value of the `encoding` argument in all functions in this package (such as `render()` and `render_site()`) has been changed from `getOption("encoding")` to `UTF-8`. We have been hoping to support UTF-8 only in **rmarkdown**, **knitr**, and other related packages in the future. For more info, you may read https://yihui.name/en/2018/11/biggest-regret-knitr/.
+
+- The option `toc_float: true` for `html_document` now preserves the text formatting (thanks, @codetrainee, #1548).
+
+- For the `output_file` argument of `render()`, a file extension will be automatically added if the filename does not contain an extension (e.g., `render('foo.Rmd', 'html_document', output_file = 'bar')` will generate `bar.html`); see the help page `?rmarkdown::render` for details (thanks, @apreshill, #1551).
+
+- TOC items are not correctly indented when `toc_float` is enabled for the `html_document` format (thanks, @carolynwclayton #1235 and @RLesur #1243).
+
+- Fixed rstudio/shiny#2307 where the second execution of a `shiny_prerendred` document with `href` dependencies would cause a prerender check error (thanks, @schloerke, #1562).
+
+- The `*_files` directory is not properly cleared due to the inappropriate fix for #1503 and #1472 in the last version (thanks, @wxli0 #1553, @cderv #1566).
+
+- Added an `output_extensions` argument to `pdf_document()` to make it possible to enable/disable Pandoc extensions for the LaTeX output format (thanks, @hongyuanjia, rstudio/bookdown#687).
+
+
 rmarkdown 1.12
 ================================================================================
 

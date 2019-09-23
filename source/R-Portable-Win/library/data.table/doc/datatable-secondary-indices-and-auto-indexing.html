@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2019-01-11" />
+<meta name="date" content="2019-03-28" />
 
 <title>Secondary indices and auto indexing</title>
 
@@ -90,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Secondary indices and auto indexing</h1>
-<h4 class="date"><em>2019-01-11</em></h4>
+<h4 class="date"><em>2019-03-28</em></h4>
 
 
 
@@ -409,7 +409,7 @@ dt =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 ## run thefirst time
 (t1 &lt;-<span class="st"> </span><span class="kw">system.time</span>(ans &lt;-<span class="st"> </span>dt[x <span class="op">==</span><span class="st"> </span>989L]))
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.822   0.037   0.131</span>
+<span class="co">#   0.709   0.032   0.217</span>
 <span class="kw">head</span>(ans)
 <span class="co">#      x         y</span>
 <span class="co"># 1: 989 0.5372007</span>
@@ -430,12 +430,12 @@ dt =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## successive subsets
 (t2 &lt;-<span class="st"> </span><span class="kw">system.time</span>(dt[x <span class="op">==</span><span class="st"> </span>989L]))
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.001   0.000   0.001</span>
+<span class="co">#   0.002   0.001   0.001</span>
 <span class="kw">system.time</span>(dt[x <span class="op">%in%</span><span class="st"> </span><span class="dv">1989</span><span class="op">:</span><span class="dv">2012</span>])
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.001   0.000   0.001</span></code></pre></div>
+<span class="co">#   0.001   0.000   0.002</span></code></pre></div>
 <ul>
-<li><p>Running the first time took 0.131 seconds where as the second time took 0.001 seconds.</p></li>
+<li><p>Running the first time took 0.217 seconds where as the second time took 0.001 seconds.</p></li>
 <li><p>Auto indexing can be disabled by setting the global argument <code>options(datatable.auto.index = FALSE)</code>.</p></li>
 <li><p>Disabling auto indexing still allows to use indices created explicitly with <code>setindex</code> or <code>setindexv</code>. You can disable indices fully by setting global argument <code>options(datatable.use.index = FALSE)</code>.</p></li>
 </ul>

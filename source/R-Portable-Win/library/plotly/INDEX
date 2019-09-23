@@ -14,6 +14,8 @@ config                  Set the default configuration for plotly
 embed_notebook          Embed a plot as an iframe into a Jupyter
                         Notebook
 event_data              Access plotly user input event data in shiny
+event_register          Register a shiny input value
+event_unregister        Un-register a shiny input value
 export                  Export a plotly graph to a static file
 geom2trace              Convert a "basic" geoms to a plotly.js trace.
 get_figure              Request a figure object
@@ -37,7 +39,7 @@ last_plot               Retrieve the last plot to be modified or
 layout                  Modify the layout of a plotly visualization
 mic                     Mic data
 offline                 Plotly Offline
-orca                    Static image export via orca
+orca                    Static image exporting
 partial_bundle          Use a partial bundle of plotly.js
 plot_dendro             Plot an interactive dendrogram
 plot_geo                Initiate a plotly-geo object

@@ -1,4 +1,5 @@
 +.gg                    Add components to a plot
+CoordSf                 Visualise sf objects
 aes                     Construct aesthetic mappings
 aes_                    Define aesthetic mappings programmatically
 aes_colour_fill_alpha   Colour related aesthetics: colour, fill and
@@ -27,6 +28,7 @@ coord_polar             Polar coordinates
 coord_trans             Transformed Cartesian coordinate system
 cut_interval            Discretise numeric data into categorical
 diamonds                Prices of 50,000 round cut diamonds
+draw_key                Key glyphs for legends
 economics               US economic time series
 expand_limits           Expand the plot limits, using data
 expand_scale            Generate expansion vector for scales.
@@ -70,7 +72,6 @@ ggplot                  Create a new ggplot
 ggproto                 Create a new ggproto object
 ggsave                  Save a ggplot (or other grid object) with
                         sensible defaults
-ggsf                    Visualise sf objects
 guide_colourbar         Continuous colour bar guide
 guide_legend            Legend guide
 guides                  Set guides for each scale
@@ -129,7 +130,6 @@ stat_sf_coordinates     Extract coordinates from 'sf' objects
 stat_summary_2d         Bin and summarise in 2d (rectangle & hexagons)
 stat_summary_bin        Summarise y values at unique/binned x
 stat_unique             Remove duplicates
-summarise_plot          Summarise built plot objects
 theme                   Modify components of a theme
 theme_get               Get, set, and modify the active theme
 theme_grey              Complete themes

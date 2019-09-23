@@ -72,8 +72,7 @@ ggplot(shapes, aes(x, y)) +
   geom_text(aes(label = shape), hjust = 0, nudge_x = 0.15) +
   scale_shape_identity() +
   expand_limits(x = 4.1) +
-  scale_x_continuous(NULL, breaks = NULL) + 
-  scale_y_continuous(NULL, breaks = NULL)
+  theme_void()
 
 ## ----out.width = "90%", fig.asp = 0.4, fig.width = 8---------------------
 shape_names <- c(
@@ -95,8 +94,7 @@ ggplot(shapes, aes(x, y)) +
   geom_point(aes(shape = shape_names), fill = "red", size = 5) +
   geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) +
   scale_shape_identity() +
-  scale_x_continuous(NULL, breaks = NULL) +
-  scale_y_continuous(NULL, breaks = NULL)
+  theme_void()
 
 ## ------------------------------------------------------------------------
 sizes <- expand.grid(size = (0:3) * 2, stroke = (0:3) * 2)

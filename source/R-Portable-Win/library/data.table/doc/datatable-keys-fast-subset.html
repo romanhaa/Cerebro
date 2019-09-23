@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2019-01-11" />
+<meta name="date" content="2019-03-28" />
 
 <title>Keys and fast binary search based subset</title>
 
@@ -90,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Keys and fast binary search based subset</h1>
-<h4 class="date"><em>2019-01-11</em></h4>
+<h4 class="date"><em>2019-03-28</em></h4>
 
 
 
@@ -587,7 +587,7 @@ DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt"
 t1 &lt;-<span class="st"> </span><span class="kw">system.time</span>(ans1 &lt;-<span class="st"> </span>DT[x <span class="op">==</span><span class="st"> &quot;g&quot;</span> <span class="op">&amp;</span><span class="st"> </span>y <span class="op">==</span><span class="st"> </span>877L])
 t1
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.891   0.090   0.170</span>
+<span class="co">#   0.889   0.098   0.327</span>
 <span class="kw">head</span>(ans1)
 <span class="co">#    x   y       val</span>
 <span class="co"># 1: g 877 0.3946652</span>
@@ -606,7 +606,7 @@ t1
 t2 &lt;-<span class="st"> </span><span class="kw">system.time</span>(ans2 &lt;-<span class="st"> </span>DT[.(<span class="st">&quot;g&quot;</span>, 877L)])
 t2
 <span class="co">#    user  system elapsed </span>
-<span class="co">#   0.001   0.000   0.001</span>
+<span class="co">#   0.001   0.001   0.001</span>
 <span class="kw">head</span>(ans2)
 <span class="co">#    x   y       val</span>
 <span class="co"># 1: g 877 0.3946652</span>
@@ -621,7 +621,7 @@ t2
 <span class="kw">identical</span>(ans1<span class="op">$</span>val, ans2<span class="op">$</span>val)
 <span class="co"># [1] TRUE</span></code></pre></div>
 <ul>
-<li>The speed-up is <strong>~170x</strong>!</li>
+<li>The speed-up is <strong>~327x</strong>!</li>
 </ul>
 </div>
 <div id="b-why-does-keying-a-data.table-result-in-blazing-fast-susbets" class="section level3">

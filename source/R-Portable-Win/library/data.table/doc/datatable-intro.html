@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2019-01-11" />
+<meta name="date" content="2019-03-28" />
 
 <title>Introduction to data.table</title>
 
@@ -90,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Introduction to data.table</h1>
-<h4 class="date"><em>2019-01-11</em></h4>
+<h4 class="date"><em>2019-03-28</em></h4>
 
 
 
@@ -110,7 +110,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Data</h2>
 <p>In this vignette, we will use <a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv">NYC-flights14</a> data obtained by <a href="https://github.com/arunsrinivasan/flights">flights</a> package (available on GitHub only). It contains On-Time flights data from the <a href="http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236">Bureau of Transporation Statistics</a> for all the flights that departed from New York City airports in 2014 (inspired by <a href="https://github.com/hadley/nycflights13">nycflights13</a>). The data is available only for Jan-Oct’14.</p>
 <p>We can use <code>data.table</code>’s fast-and-friendly file reader <code>fread</code> to load <code>flights</code> directly as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;flights14.csv&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="cf">if</span> (<span class="kw">file.exists</span>(<span class="st">&quot;flights14.csv&quot;</span>)) {
+   <span class="st">&quot;flights14.csv&quot;</span>
+} <span class="cf">else</span> {
+  <span class="st">&quot;https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv&quot;</span>
+}
+flights &lt;-<span class="st"> </span><span class="kw">fread</span>(input)
 flights
 <span class="co">#         year month day dep_delay arr_delay carrier origin dest air_time distance hour</span>
 <span class="co">#      1: 2014     1   1        14        13      AA    JFK  LAX      359     2475    9</span>
@@ -704,7 +709,7 @@ DT[, <span class="kw">print</span>(.SD), by =<span class="st"> </span>ID]
 <span class="co"># 2: 5 11 17</span>
 <span class="co">#    a  b  c</span>
 <span class="co"># 1: 6 12 18</span>
-<span class="co"># Empty data.table (0 rows) of 1 col: ID</span></code></pre></div>
+<span class="co"># Empty data.table (0 rows and 1 cols): ID</span></code></pre></div>
 </div>
 <div id="section-15" class="section level4 bs-callout bs-callout-info">
 <h4></h4>
@@ -823,7 +828,7 @@ DT[, <span class="kw">print</span>(<span class="kw">c</span>(a,b)), by =<span cl
 <span class="co"># [1] 1 2 3 7 8 9</span>
 <span class="co"># [1]  4  5 10 11</span>
 <span class="co"># [1]  6 12</span>
-<span class="co"># Empty data.table (0 rows) of 1 col: ID</span>
+<span class="co"># Empty data.table (0 rows and 1 cols): ID</span>
 
 ## (2) and
 DT[, <span class="kw">print</span>(<span class="kw">list</span>(<span class="kw">c</span>(a,b))), by =<span class="st"> </span>ID]
@@ -835,7 +840,7 @@ DT[, <span class="kw">print</span>(<span class="kw">list</span>(<span class="kw"
 <span class="co"># </span>
 <span class="co"># [[1]]</span>
 <span class="co"># [1]  6 12</span>
-<span class="co"># Empty data.table (0 rows) of 1 col: ID</span></code></pre></div>
+<span class="co"># Empty data.table (0 rows and 1 cols): ID</span></code></pre></div>
 <p>In (1), for each group, a vector is returned, with length = 6,4,2 here. However (2) returns a list of length 1 for each group, with its first element holding vectors of length 6,4,2. Therefore (1) results in a length of <code>6+4+2 = 12</code>, whereas (2) returns <code>1+1+1=3</code>.</p>
 </div>
 </div>

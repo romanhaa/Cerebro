@@ -1,3 +1,41 @@
+# pillar 1.4.2
+
+- List columns are shown with their perceived dimensions, which may be different from those stored in the `"dim"` attribute. Regression introduced in 1.4.0 (#167).
+
+- Add ellipsis to `vec_ptype_abbr()` method.
+
+
+# pillar 1.4.1
+
+- More careful specification of minimum package versions for the dependencies (#165).
+- Fix `type_sum.vctrs_vctr()` that also led to a NOTE in `R CMD check`.
+- Resolve `vec_is()` at runtime instead of during `.onLoad()` (#163, @lionel-).
+- Implement methods for vctrs objects.
+
+
+# pillar 1.4.0
+
+## Breaking changes
+
+- `type_sum()` forwards to `vctrs::vec_ptype_abbr()` (#134). This makes sure that `list_of` columns (for values of the same type) are properly displayed. The value returned for `factor` and `complex` remains unchanged, because this will change in vctrs.
+- The `class` argument to `new_pillar_shaft()` deprecates the existing `subclass` argument. Passing a `subclass` argument leads to a warning once per session (#157).
+
+## Output
+
+- Removed extra space for pillars with a negative value of lower magnitude than the largest positive value (example: -1 and 23).
+- 0-col tibble and matrix columns are now formatted with a capital containing `[,0]` and an empty shaft (#149).
+
+## Performance
+
+- `squeeze()` is now faster (because the width computation in `pillar_shaft.numeric()` now uses more arithmetics instead of string concatenation). Further speedups may require implemetation of crucial parts in C (#147).
+- Styling output is faster: an expensive check for availability of colored output is carried out only once per call to `colonnade()`, and styling is implemented manually (#133, @jimhester).
+
+## Internal
+
+- All internal S3 classes have the `pillar_` prefix (#156).
+- Only check native output on Windows, due to subtle differences when running on Linux in a latin1 locale.
+
+
 # pillar 1.3.1
 
 ## Bug fixes

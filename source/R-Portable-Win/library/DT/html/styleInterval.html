@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Conditional CSS styles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for styleInterval {DT}"><tr><td>styleInterval {DT}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Conditional CSS styles</h2>
+
+<h3>Description</h3>
+
+<p>A few helper functions for the <code><a href="formatCurrency.html">formatStyle</a>()</code> function to
+calculate CSS styles for table cells based on the cell values. Under the
+hood, they just generate JavaScript and CSS code from the values specified in
+R.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+styleInterval(cuts, values)
+
+styleEqual(levels, values, default = NULL)
+
+styleColorBar(data, color, angle = 90)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cuts</code></td>
+<td>
+<p>a vector of cut points (sorted increasingly)</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>a vector of CSS values</p>
+</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+<p>a character vector of data values to be mapped (one-to-one) to
+CSS values</p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+<p>a string or <code>NULL</code> used as the the default CSS value
+for values other than levels. If <code>NULL</code>, the CSS value of non-matched
+cells will be left unchanged.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a numeric vector whose range will be used for scaling the
+table data from 0-100 before being represented as color bars. A vector
+of length 2 is acceptable here for specifying a range possibly wider or
+narrower than the range of the table data itself.</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p>the color of the bars</p>
+</td></tr>
+<tr valign="top"><td><code>angle</code></td>
+<td>
+<p>a number of degrees representing the direction to fill the
+gradient relative to a horizontal line and the gradient line, going
+counter-clockwise. For example, 90 fills right to left and -90 fills
+left to right.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code>styleInterval()</code> maps intervals to CSS values. Its
+argument <code>values</code> must be of length <code>n + 1</code> where <code>n =
+length(cuts)</code>. The right-closed interval <span class="samp">(cuts[i - 1], cuts[i]]</span> is
+mapped to <span class="samp">values[i]</span> for <span class="samp">i = 2, 3, ..., n</span>; <span class="samp">values[1]</span> is
+for the interval <span class="samp">(-Inf, cuts[1]]</span>, and <span class="samp">values[n + 1]</span> is for
+<span class="samp">(cuts[n], +Inf)</span>. You can think of the order of <code>cuts</code> and
+<code>values</code> using this diagram: <span class="samp">-Inf -&gt; values[1] -&gt; cuts[1] -&gt;
+values[2] -&gt; cuts[2] -&gt; ... -&gt; values[n] -&gt; cuts[n] -&gt; values[n + 1] -&gt;
++Inf</span>.
+</p>
+<p>The function <code>styleEqual()</code> maps data values to CSS values in the
+one-to-one manner, i.e. <code>values[i]</code> is used when the table cell value is
+<code>levels[i]</code>.
+</p>
+<p>The function <code>styleColorBar()</code> can be used to draw background color bars
+behind table cells in a column, and the width of bars is proportional to the
+column values.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>DT</em> version 0.9 <a href="00Index.html">Index</a>]</div>
+</body></html>

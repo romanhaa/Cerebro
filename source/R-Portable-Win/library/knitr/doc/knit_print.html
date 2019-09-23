@@ -7,12 +7,13 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="author" content="Yihui Xie" />
 
-<meta name="date" content="2019-03-08" />
+<meta name="date" content="2019-09-17" />
 
 <title>Custom Print Methods</title>
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -327,6 +328,9 @@ code > span.fu { color: #900; font-weight: bold; }
 code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -335,8 +339,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">Custom Print Methods</h1>
-<h4 class="author"><em>Yihui Xie</em></h4>
-<h4 class="date"><em>2019-03-08</em></h4>
+<h4 class="author">Yihui Xie</h4>
+<h4 class="date">2019-09-17</h4>
 
 
 <div id="TOC">
@@ -374,7 +378,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 ##         UseMethod(&quot;knit_print&quot;)
 ##     }
 ## }
-## &lt;bytecode: 0x7fc5816029b8&gt;
+## &lt;bytecode: 0x7fd2c54f1620&gt;
 ## &lt;environment: namespace:knitr&gt;</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">methods</span>(knit_print)</a></code></pre></div>
 <pre><code>##  [1] knit_print.data.frame*     knit_print.default*       
@@ -390,12 +394,12 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 ##         x
 ##     else normal_print(x)
 ## }
-## &lt;bytecode: 0x7fc57dd1c4a0&gt;
+## &lt;bytecode: 0x7fd2c15f9ee0&gt;
 ## &lt;environment: namespace:knitr&gt;</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">normal_print</a></code></pre></div>
 <pre><code>## function (x, ...) 
 ## if (isS4(x)) methods::show(x) else print(x)
-## &lt;bytecode: 0x7fc5812131c8&gt;
+## &lt;bytecode: 0x7fd2c206c2a0&gt;
 ## &lt;environment: namespace:evaluate&gt;</code></pre>
 <p>As we can see, <code>knit_print()</code> has a <code>default</code> method, which is basically <code>print()</code> or <code>show()</code>, depending on whether the object is an S4 object. This means it does nothing special when printing R objects:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">knit_print</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</a>
@@ -673,7 +677,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 ## {
 ##     structure(x, class = &quot;knit_asis&quot;, knit_meta = meta, knit_cacheable = cacheable)
 ## }
-## &lt;bytecode: 0x7fc582878a18&gt;
+## &lt;bytecode: 0x7fd2c4d5a190&gt;
 ## &lt;environment: namespace:knitr&gt;</code></pre>
 <p>Note that you can actually put <strong>knitr</strong> in the <code>Suggests</code> field in DESCRIPTION, and use <code>knitr::asis_output()</code>, so that you can avoid the “hard” dependency on <strong>knitr</strong>.</p></li>
 </ol>
@@ -707,6 +711,9 @@ window.onload = function() {
   }
 }
 </script>
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

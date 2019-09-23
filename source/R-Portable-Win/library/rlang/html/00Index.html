@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;rlang&rsquo; version 0.3.3</h2>
+</div><h2>Documentation for package &lsquo;rlang&rsquo; version 0.4.0</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 </ul>
@@ -75,10 +75,6 @@
 <td>Create a default name for an R object</td></tr>
 <tr><td style="width: 25%;"><a href="as_name.html">as_name</a></td>
 <td>Extract names from symbols</td></tr>
-<tr><td style="width: 25%;"><a href="as_utf8_character.html">as_native_character</a></td>
-<td>Coerce to a character vector and attempt encoding conversion</td></tr>
-<tr><td style="width: 25%;"><a href="as_utf8_character.html">as_native_string</a></td>
-<td>Coerce to a character vector and attempt encoding conversion</td></tr>
 <tr><td style="width: 25%;"><a href="as_quosure.html">as_quosure</a></td>
 <td>Coerce object to quosure</td></tr>
 <tr><td style="width: 25%;"><a href="new_quosures.html">as_quosures</a></td>
@@ -86,8 +82,6 @@
 <tr><td style="width: 25%;"><a href="as_string.html">as_string</a></td>
 <td>Cast symbol to string</td></tr>
 <tr><td style="width: 25%;"><a href="as_utf8_character.html">as_utf8_character</a></td>
-<td>Coerce to a character vector and attempt encoding conversion</td></tr>
-<tr><td style="width: 25%;"><a href="as_utf8_character.html">as_utf8_string</a></td>
 <td>Coerce to a character vector and attempt encoding conversion</td></tr>
 </table>
 
@@ -111,8 +105,8 @@
 <td>Get the current or caller environment</td></tr>
 <tr><td style="width: 25%;"><a href="caller_fn.html">caller_fn</a></td>
 <td>Get properties of the current or caller frame</td></tr>
-<tr><td style="width: 25%;"><a href="exiting.html">calling</a></td>
-<td>Create an exiting or in place handler</td></tr>
+<tr><td style="width: 25%;"><a href="with_handlers.html">calling</a></td>
+<td>Establish handlers on the stack</td></tr>
 <tr><td style="width: 25%;"><a href="call_args.html">call_args</a></td>
 <td>Extract arguments from a call</td></tr>
 <tr><td style="width: 25%;"><a href="call_args.html">call_args_names</a></td>
@@ -140,7 +134,7 @@
 <tr><td style="width: 25%;"><a href="cnd_muffle.html">cnd_muffle</a></td>
 <td>Muffle a condition</td></tr>
 <tr><td style="width: 25%;"><a href="cnd_signal.html">cnd_signal</a></td>
-<td>Signal a condition</td></tr>
+<td>Signal a condition object</td></tr>
 <tr><td style="width: 25%;"><a href="cnd_type.html">cnd_type</a></td>
 <td>What type is a condition?</td></tr>
 <tr><td style="width: 25%;"><a href="vector-construction.html">cpl</a></td>
@@ -239,8 +233,6 @@
 <td>Evaluate an expression with quosures and pronoun support</td></tr>
 <tr><td style="width: 25%;"><a href="exec.html">exec</a></td>
 <td>Execute a function</td></tr>
-<tr><td style="width: 25%;"><a href="exiting.html">exiting</a></td>
-<td>Create an exiting or in place handler</td></tr>
 <tr><td style="width: 25%;"><a href="quotation.html">expr</a></td>
 <td>Quotation</td></tr>
 <tr><td style="width: 25%;"><a href="quotation.html">exprs</a></td>
@@ -367,6 +359,8 @@
 <td>Bare type predicates</td></tr>
 <tr><td style="width: 25%;"><a href="bare-type-predicates.html">is_bare_vector</a></td>
 <td>Bare type predicates</td></tr>
+<tr><td style="width: 25%;"><a href="scalar-type-predicates.html">is_bool</a></td>
+<td>Scalar type predicates</td></tr>
 <tr><td style="width: 25%;"><a href="box.html">is_box</a></td>
 <td>Box a value</td></tr>
 <tr><td style="width: 25%;"><a href="type-predicates.html">is_bytes</a></td>
@@ -487,6 +481,8 @@
 <td>Is object identical to TRUE or FALSE?</td></tr>
 <tr><td style="width: 25%;"><a href="type-predicates.html">is_vector</a></td>
 <td>Type predicates</td></tr>
+<tr><td style="width: 25%;"><a href="is_weakref.html">is_weakref</a></td>
+<td>Is object a weak reference?</td></tr>
 <tr><td style="width: 25%;"><a href="zap.html">is_zap</a></td>
 <td>Create zap objects</td></tr>
 </table>
@@ -588,6 +584,8 @@
 <td>Create vectors matching a given length</td></tr>
 <tr><td style="width: 25%;"><a href="new-vector-along-retired.html">new_raw_along</a></td>
 <td>Create vectors matching the length of a given vector</td></tr>
+<tr><td style="width: 25%;"><a href="new_weakref.html">new_weakref</a></td>
+<td>Create a weak reference</td></tr>
 </table>
 
 <h2><a name="O">-- O --</a></h2>
@@ -604,6 +602,8 @@
 <h2><a name="P">-- P --</a></h2>
 
 <table width="100%">
+<tr><td style="width: 25%;"><a href="pairlist2.html">pairlist2</a></td>
+<td>Create pairlists with splicing support</td></tr>
 <tr><td style="width: 25%;"><a href="parse_expr.html">parse_expr</a></td>
 <td>Parse R code</td></tr>
 <tr><td style="width: 25%;"><a href="parse_expr.html">parse_exprs</a></td>
@@ -777,6 +777,10 @@
 <td>Change global options</td></tr>
 <tr><td style="width: 25%;"><a href="with_restarts.html">with_restarts</a></td>
 <td>Establish a restart point on the stack</td></tr>
+<tr><td style="width: 25%;"><a href="wref_key.html">wref_key</a></td>
+<td>Get key/value from a weak reference object</td></tr>
+<tr><td style="width: 25%;"><a href="wref_key.html">wref_value</a></td>
+<td>Get key/value from a weak reference object</td></tr>
 </table>
 
 <h2><a name="Z">-- Z --</a></h2>

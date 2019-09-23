@@ -4,6 +4,7 @@ httpuv-package          HTTP and WebSocket server
 interrupt               Interrupt httpuv runloop
 ipFamily                Check whether an address is IPv4 or IPv6
 listServers             List all running httpuv servers
+randomPort              Find an open TCP port
 rawToBase64             Convert raw vector to Base64-encoded string
 runServer               Run a server
 service                 Process requests

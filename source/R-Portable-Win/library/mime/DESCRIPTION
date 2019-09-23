@@ -1,7 +1,7 @@
 Package: mime
 Type: Package
 Title: Map Filenames to MIME Types
-Version: 0.6
+Version: 0.7
 Authors@R: c(
     person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
     person("Jeffrey", "Horner", role = "ctb"),
@@ -17,12 +17,12 @@ LazyData: TRUE
 RoxygenNote: 6.1.0
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2018-10-05 16:50:15 UTC; yihui
+Packaged: 2019-06-11 19:49:18 UTC; yihui
 Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Jeffrey Horner [ctb],
   Beilei Bian [ctb]
 Maintainer: Yihui Xie <xie@yihui.name>
 Repository: CRAN
-Date/Publication: 2018-10-05 18:10:03 UTC
-Built: R 3.5.2; x86_64-w64-mingw32; 2018-12-26 00:47:07 UTC; windows
+Date/Publication: 2019-06-11 20:10:03 UTC
+Built: R 3.5.3; x86_64-w64-mingw32; 2019-06-15 17:13:07 UTC; windows
 Archs: i386, x64

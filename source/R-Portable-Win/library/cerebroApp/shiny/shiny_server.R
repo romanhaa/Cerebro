@@ -53,6 +53,8 @@ server <- function(input, output, session) {
     default = 100
   )
 
+  preferences <- reactiveValues(use_webgl = TRUE)
+
   ##--------------------------------------------------------------------------##
   ## Sidebar menu.
   ##--------------------------------------------------------------------------##
@@ -95,6 +97,10 @@ server <- function(input, output, session) {
         icon = icon("list")
       ),
       menuItem(
+        "Trajectory", tabName = "trajectory",
+        icon = icon("random")
+      ),
+      menuItem(
         "Gene ID conversion", tabName = "geneIdConversion",
         icon = icon("barcode")
       ),
@@ -113,11 +119,11 @@ server <- function(input, output, session) {
   ## Sample data.
   ##--------------------------------------------------------------------------##
   sample_data <- reactive({
-    if ( is.null(input$RDS_file) || is.na(input$RDS_file) ) {
+    if ( is.null(input[["input_file"]]) || is.na(input[["input_file"]]) ) {
       sample_data <- readRDS(system.file("resources/example.rds", package = "cerebroApp"))
     } else {
-      req(input$RDS_file)
-      sample_data <- readRDS(input$RDS_file$datapath)
+      req(input[["input_file"]])
+      sample_data <- readRDS(input[["input_file"]]$datapath)
     }
     sample_data$sample_names <- levels(sample_data$cells$sample)
     sample_data$cluster_names <- levels(sample_data$cells$cluster)
@@ -137,6 +143,7 @@ server <- function(input, output, session) {
   source(system.file("shiny/gene_expression/server.R", package = "cerebroApp"), local = TRUE)
   source(system.file("shiny/gene_set_expression/server.R", package = "cerebroApp"), local = TRUE)
   source(system.file("shiny/gene_id_conversion/server.R", package = "cerebroApp"), local = TRUE)
+  source(system.file("shiny/trajectory/server.R", package = "cerebroApp"), local = TRUE)
   source(system.file("shiny/analysis_info/server.R", package = "cerebroApp"), local = TRUE)
   source(system.file("shiny/about/server.R", package = "cerebroApp"), local = TRUE)
 

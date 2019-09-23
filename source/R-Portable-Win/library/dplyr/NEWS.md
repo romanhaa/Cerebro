@@ -1,4 +1,99 @@
-# dplyr 0.8.0
+# dplyr 0.8.3 (2019-07-04)
+
+* Fixed performance regression introduced in version 0.8.2 (#4458). 
+
+# dplyr 0.8.2 (2019-06-28)
+
+## New functions
+
+* `top_frac(data, proportion)` is a shorthand for `top_n(data, proportion * n())` (#4017).  
+
+## colwise changes
+
+* Using quosures in colwise verbs is deprecated (#4330).
+
+* Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343).
+
+* `rename_at()` handles empty selection (#4324). 
+
+* `*_if()` functions correctly handle columns with special names (#4380).
+
+* colwise functions support constants in formulas (#4374). 
+
+## Hybrid evaluation changes
+
+* hybrid rank functions correctly handle NA (#4427). 
+
+* `first()`, `last()` and `nth()` hybrid version handles factors (#4295).
+
+## Minor changes
+
+* `top_n()` quotes its `n` argument, `n` no longer needs to be constant for all groups (#4017).  
+
+* `tbl_vars()` keeps information on grouping columns by returning a `dplyr_sel_vars` object (#4106). 
+
+* `group_split()` always sets the `ptype` attribute, which make it more robust in the case where there
+  are 0 groups. 
+
+* `group_map()` and `group_modify()` work in the 0 group edge case (#4421)
+
+* `select.list()` method added so that `select()` does not dispatch on lists (#4279). 
+
+* `view()` is reexported from tibble (#4423). 
+
+* `group_by()` puts NA groups last in character vectors (#4227).
+
+* `arrange()` handles integer64 objects (#4366). 
+
+* `summarise()` correctly resolves summarised list columns (#4349). 
+
+# dplyr 0.8.1 (2019-05-14)
+
+## Breaking changes
+
+* `group_modify()` is the new name of the function previously known as `group_map()`
+
+## New functions
+
+* `group_map()` now only calls the function on each group and return a list. 
+
+* `group_by_drop_default()`, previously known as `dplyr:::group_drops()` is exported (#4245).
+
+## Minor changes
+
+* Lists of formulas passed to colwise verbs are now automatically named.
+
+* `group_by()` does a shallow copy even in the no groups case (#4221).
+
+* Fixed `mutate()` on rowwise data frames with 0 rows (#4224).
+
+* Fixed handling of bare formulas in colwise verbs (#4183).
+
+* Fixed performance of `n_distinct()` (#4202). 
+
+* `group_indices()` now ignores empty groups by default for `data.frame`, which is
+  consistent with the default of `group_by()` (@yutannihilation, #4208). 
+
+* Fixed integer overflow in hybrid `ntile()` (#4186). 
+
+* colwise functions `summarise_at()` ... can rename vars in the case of multiple functions (#4180).
+
+* `select_if()` and `rename_if()` handle logical vector predicate (#4213). 
+
+* hybrid `min()` and `max()` cast to integer when possible (#4258).
+
+* `bind_rows()` correctly handles the cases where there are multiple consecutive `NULL` (#4296). 
+
+* Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. 
+  https://www.tidyverse.org/articles/2019/04/r-version-support/
+
+* `rename_at()` handles empty selection (#4324). 
+
+# dplyr 0.8.0.1 (2019-02-15)
+
+* Fixed integer C/C++ division, forced released by CRAN (#4185). 
+
+# dplyr 0.8.0 (2019-02-14)
 
 ## Breaking changes
 

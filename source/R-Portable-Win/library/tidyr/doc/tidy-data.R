@@ -20,16 +20,13 @@ preg2 <- preg %>%
 preg2
 
 ## ------------------------------------------------------------------------
-library(tibble)
-pew <- as_tibble(read.csv("pew.csv", stringsAsFactors = FALSE, check.names = FALSE))
-pew
+relig_income
 
 ## ------------------------------------------------------------------------
-pew %>%
+relig_income %>%
   gather(income, frequency, -religion)
 
 ## ------------------------------------------------------------------------
-billboard <- as_tibble(read.csv("billboard.csv", stringsAsFactors = FALSE))
 billboard
 
 ## ------------------------------------------------------------------------
@@ -86,14 +83,14 @@ weather3 %>% spread(element, value)
 
 ## ------------------------------------------------------------------------
 song <- billboard3 %>% 
-  select(artist, track, year, time) %>%
+  select(artist, track) %>%
   unique() %>%
   mutate(song_id = row_number())
 song
 
 ## ------------------------------------------------------------------------
 rank <- billboard3 %>%
-  left_join(song, c("artist", "track", "year", "time")) %>%
+  left_join(song, c("artist", "track")) %>%
   select(song_id, date, week, rank) %>%
   arrange(song_id, date)
 rank
