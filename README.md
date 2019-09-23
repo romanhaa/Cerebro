@@ -1,3 +1,6 @@
+[![](https://img.shields.io/github/license/romanhaa/Cerebro)](LICENSE.md)
+[![](https://img.shields.io/twitter/url/https/twitter.com/fakechek1.svg?label=Follow%20%40fakechek1&style=social)](https://twitter.com/fakechek1)
+
 # Cerebro
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -213,9 +216,9 @@ We provide documentation and commands for the following example data sets:
 
 Currently, the `cerebroPrepare` R package only provides a functions to export a `Seurat` (v2 or v3) object to the Cerebro input file.
 However, there are a few other important single cell data storage formats, e.g. `AnnData` (used by [scanpy](https://scanpy.readthedocs.io/en/stable/), `SingleCellExperiment` (used by [scran](https://bioconductor.org/packages/release/bioc/html/scran.html) and [scater](https://bioconductor.org/packages/release/bioc/html/scater.html)), and `CellDataSet` (used by [Monocle](https://cole-trapnell-lab.github.io/monocle-release/)).
-Ideally, we would like to provide export functions for all of those formats.
-However, the reality is, especially considering that these formats can change with updates of the respective packages, this would correspond to an enormous maintance effort.
-For the moment, we can take advantage of the conversion and export functions that some of those packages mentioned before already provide.
+
+We believe using the existing network of conversion/exporting functions is more efficient than creating a dedicated export function for scanpy data.
+To highlight how data processed with scanpy (stored in `AnnData` format) can be prepared for loading into Cerebro, we have prepared a [scanpy-based workflow](examples/pbmc_10k_v3/scanpy) for the `pbmc_10k_v3` example data set.
 
 In the figure below, we highlight how you can generate the Cerebro input file from any of the four major formats.
 
