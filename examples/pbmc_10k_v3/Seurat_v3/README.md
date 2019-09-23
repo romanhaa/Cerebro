@@ -84,11 +84,7 @@ seurat <- subset(seurat, subset = nCount_RNA > 100 & nFeature_RNA > 50)
 seurat <- NormalizeData(seurat)
 seurat <- FindVariableFeatures(seurat)
 seurat <- ScaleData(seurat, vars.to.regress = 'nCount_RNA')
-seurat <- RunPCA(
-  seurat,
-  npcs = 30,
-  features = seurat@assays$RNA@var.features
-)
+seurat <- RunPCA(seurat, npcs = 30, features = seurat@assays$RNA@var.features)
 seurat <- FindNeighbors(seurat)
 seurat <- FindClusters(seurat, resolution = 0.5)
 seurat <- BuildClusterTree(
@@ -113,7 +109,7 @@ The S and G2M phase-specific gene lists are stored in the Seurat object so we ha
 
 ```r
 seurat <- CellCycleScoring(
-  seurat,
+seurat,
   g2m.features = cc.genes$g2m.genes,
   s.features = cc.genes$s.genes
 )
