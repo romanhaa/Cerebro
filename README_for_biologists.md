@@ -1,4 +1,4 @@
-# Biologist-friendly introduction to Cerebro
+# Introduction to Cerebro
 
 This article is meant to give an introduction to Cerebro for people who don't have any bioinformatic skills.
 Maybe you are an experimental biologists who performed a scRNA-seq experiment and the computational biologists who analysed the data for you gave you a file and told you to load it into Cerebro.
