@@ -28,6 +28,7 @@ as.tbl_cube.data.frame	as.tbl_cube
 as.tbl_cube.matrix	as.tbl_cube
 as.tbl_cube.table	as.tbl_cube
 as_data_frame	reexports
+as_label	tidyeval
 as_tibble	reexports
 as_tibble.tbl_cube	as.table.tbl_cube
 auto_copy	auto_copy
@@ -95,18 +96,17 @@ do_	se-deprecated
 dplyr	dplyr-package
 dr_dplyr	dr_dplyr
 ends_with	reexports
-enexpr	tidyeval
-enexprs	tidyeval
+enexpr	tidyeval-compat
+enexprs	tidyeval-compat
 enquo	tidyeval
 enquos	tidyeval
-ensym	tidyeval
-ensyms	tidyeval
+ensym	tidyeval-compat
+ensyms	tidyeval-compat
 eval_tbls	bench_compare
 eval_tbls2	bench_compare
 everything	reexports
 explain	explain
 expr	tidyeval
-exprs	tidyeval
 failwith	failwith
 filter	filter
 filter_	se-deprecated
@@ -126,6 +126,7 @@ group_by	group_by
 group_by_	se-deprecated
 group_by_all	group_by_all
 group_by_at	group_by_all
+group_by_drop_default	group_by_drop_default
 group_by_if	group_by_all
 group_by_prepare	group_by_prepare
 group_cols	group_cols
@@ -134,6 +135,7 @@ group_indices	group_indices
 group_indices_	se-deprecated
 group_keys	group_split
 group_map	group_map
+group_modify	group_map
 group_nest	group_nest
 group_rows	group_data
 group_size	group_size
@@ -193,9 +195,9 @@ order_by	order_by
 percent_rank	ranking
 progress_estimated	progress_estimated
 pull	pull
-quo	tidyeval
-quos	tidyeval
-quo_name	tidyeval
+quo	tidyeval-compat
+quos	tidyeval-compat
+quo_name	tidyeval-compat
 ranking	ranking
 rbind_all	bind
 rbind_list	bind
@@ -282,6 +284,8 @@ tbl_sum	reexports
 tbl_vars	tbl_vars
 tibble	reexports
 tidyeval	tidyeval
+tidyeval-compat	tidyeval-compat
+top_frac	top_n
 top_n	top_n
 transmute	mutate
 transmute_	se-deprecated
@@ -296,5 +300,6 @@ union	setops
 union_all	setops
 validate_grouped_df	new_grouped_df
 vars	vars
+view	reexports
 with_order	with_order
 wrap_dbplyr_obj	check_dbplyr

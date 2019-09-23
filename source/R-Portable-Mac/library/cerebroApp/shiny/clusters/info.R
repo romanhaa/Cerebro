@@ -34,7 +34,7 @@ clusters_percent_ribo_info <- list(
 
 clusters_by_cell_cycle_seurat_info <- list(
   title = "Cell cycle analysis (Seurat)",
-  text = p("Cell cycle distribution by cluster using the method embedded in the Seurat framework. For each cell, it calculates scores for both G2M and S phase based on lists of genes (see 'Sample info' tab on the left) and assigns the cell cycle phase on the basis of these scores.")
+  text = p("Cell cycle distribution by cluster using the method embedded in the Seurat framework. For each cell, it calculates scores for both G2M and S phase based on lists of genes (see 'Analysis info' tab on the left) and assigns the cell cycle phase on the basis of these scores.")
 )
 
 clusters_by_cell_cycle_cyclone_info <- list(

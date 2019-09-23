@@ -31,6 +31,7 @@ filter_all              Filter within a selection of variables
 funs                    Create a list of functions calls.
 group_by                Group by one or more variables
 group_by_all            Group by a selection of variables
+group_by_drop_default   Default value for .drop argument of group_by
 group_cols              Select grouping variables
 group_keys              Split data frame by groups
 group_map               Apply a function to each group

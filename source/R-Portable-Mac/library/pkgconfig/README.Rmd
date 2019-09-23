@@ -15,10 +15,8 @@ Call `get_config()` to query it.
 
 ## Installation
 
-Use the `devtools` package:
-
 ```r
-devtools::install_github("r-lib/pkgconfig")
+install.packages("pkgconfig")
 ```
 
 ## Typical usage
@@ -84,8 +82,8 @@ igraph_func <- function() {
 
 If `igraph_func` is called from `pkgA` (maybe through other packages),
 `get_config` will return `TRUE`, and if it is called from `pkgB`,
-`get_config` will return `FALSE`. For all other packages the
-`igraph::return.vs.es` option is not set, and the default value is used,
+`get_config` will return `FALSE`. If no package on the call stack
+sets the `igraph::return.vs.es` option, then its default value is used,
 as specified in `igraph`.
 
 ## What if `pkgA` calls `pkgB`?

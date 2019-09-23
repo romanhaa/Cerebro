@@ -53,6 +53,8 @@ do_	reexports
 do_.plotly	plotly_data
 embed_notebook	embed_notebook
 event_data	event_data
+event_register	event_register
+event_unregister	event_unregister
 export	export
 filter	reexports
 filter_	reexports
@@ -84,6 +86,7 @@ mutate_	reexports
 mutate_.plotly	plotly_data
 offline	offline
 orca	orca
+orca_serve	orca
 partial_bundle	partial_bundle
 plotly	plotly
 plotly-shiny	plotly-shiny

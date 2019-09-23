@@ -65,7 +65,7 @@ output[["overview_UI"]] <- renderUI({
 ##----------------------------------------------------------------------------##
 output[["overview_scales"]] <- renderUI({
   projection_to_display <- if ( is.null(input[["overview_projection_to_display"]]) || is.na(input[["overview_projection_to_display"]]) ) {
-    names(sample_data()$projections)[1] 
+    names(sample_data()$projections)[1]
   } else {
     input[["overview_projection_to_display"]]
   }
@@ -116,7 +116,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
       grepl(
         sample_data()$cells$sample,
         pattern = paste0("^", samples_to_display, "$", collapse="|")
-      ) & 
+      ) &
       grepl(
         sample_data()$cells$cluster,
         pattern = paste0("^", clusters_to_display, "$", collapse="|")
@@ -138,9 +138,6 @@ output[["overview_projection"]] <- plotly::renderPlotly({
     )
   to_plot <- to_plot[ sample(1:nrow(to_plot)) , ]
 
-  # define variable used to color cells by
-  col_var <- to_plot[ , input[["overview_dot_color"]] ]
-
   # define colors
   colors <- if ( input[["overview_dot_color"]] == "sample" ) {
     sample_data()$samples$colors
@@ -148,9 +145,9 @@ output[["overview_projection"]] <- plotly::renderPlotly({
     sample_data()$clusters$colors
   } else if ( input[["overview_dot_color"]] %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
     cell_cycle_colorset
-  } else if ( is.factor(to_plot[ , input[["overview_dot_color"]] ]) ) {
+  } else if ( is.factor(to_plot[[ input[["overview_dot_color"]] ]]) ) {
     setNames(colors[1:length(levels(to_plot[ , input[["overview_dot_color"]] ]))], levels(to_plot[ , input[["overview_dot_color"]] ]))
-  } else if ( is.character(to_plot[ , input[["overview_dot_color"]] ]) ) {
+  } else if ( is.character(to_plot[[ input[["overview_dot_color"]] ]]) ) {
     colors
   } else {
     NULL
@@ -160,7 +157,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   # size_var <- if ( input[["overview_cell_size_variable"]] == "None" ) NULL else to_plot[ , input[["overview_cell_size_variable"]] ]
 
   if ( ncol(sample_data()$projections[[ projection_to_display ]]) == 3 ) {
-    if ( is.numeric(to_plot[ , input[["overview_dot_color"]] ]) ) {
+    if ( is.numeric(to_plot[[ input[["overview_dot_color"]] ]]) ) {
       plotly::plot_ly(
         to_plot,
         x = ~to_plot[,1],
@@ -170,7 +167,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         mode = "markers",
         marker = list(
           colorbar = list(
-            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_dot_color"]])]
+            title = input[["overview_dot_color"]]
           ),
           color = ~to_plot[ , input[["overview_dot_color"]] ],
           opacity = input[["overview_dot_opacity"]],
@@ -270,8 +267,8 @@ output[["overview_projection"]] <- plotly::renderPlotly({
       )
     }
   } else {
-    if ( is.numeric(to_plot[ , input[["overview_dot_color"]] ]) ) {
-      plotly::plot_ly(
+    if ( is.numeric(to_plot[[ input[["overview_dot_color"]] ]]) ) {
+      plot <- plotly::plot_ly(
         to_plot,
         x = ~to_plot[,1],
         y = ~to_plot[,2],
@@ -279,7 +276,7 @@ output[["overview_projection"]] <- plotly::renderPlotly({
         mode = "markers",
         marker = list(
           colorbar = list(
-            title = colnames(to_plot)[which(colnames(to_plot) == input[["overview_dot_color"]])]
+            title = input[["overview_dot_color"]]
           ),
           color = ~to_plot[ , input[["overview_dot_color"]] ],
           opacity = input[["overview_dot_opacity"]],
@@ -316,14 +313,18 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           range = input[["overview_scale_y_manual_range"]]
         ),
         hoverlabel = list(font = list(size = 11))
-      ) %>%
-      plotly::toWebGL()
+      )
+      if ( preferences[["use_webgl"]] == TRUE ) {
+        plot %>% plotly::toWebGL()
+      } else {
+        plot
+      }
     } else {
-      plotly::plot_ly(
+      plot <- plotly::plot_ly(
         to_plot,
         x = ~to_plot[,1],
         y = ~to_plot[,2],
-        color = ~to_plot[ , input[["overview_dot_color"]] ],
+        color = ~to_plot[[ input[["overview_dot_color"]] ]],
         colors = colors,
         type = "scatter",
         mode = "markers",
@@ -334,16 +335,14 @@ output[["overview_projection"]] <- plotly::renderPlotly({
             width = 1
           ),
           size = input[["overview_dot_size"]]
-          # sizemode = 'area',
-          # sizeref = 200
         ),
         hoverinfo = "text",
         text = ~paste(
-          "<b>Cell</b>: ", to_plot[ , "cell_barcode" ], "<br>",
-          "<b>Sample</b>: ", to_plot[ , "sample" ], "<br>",
-          "<b>Cluster</b>: ", to_plot[ , "cluster" ], "<br>",
-          "<b>Transcripts</b>: ", formatC(to_plot[ , "nUMI" ], format = "f", big.mark = ",", digits = 0), "<br>",
-          "<b>Expressed genes</b>: ", formatC(to_plot[ , "nGene" ], format = "f", big.mark = ",", digits = 0)
+          "<b>Cell</b>: ", to_plot[[ "cell_barcode" ]], "<br>",
+          "<b>Sample</b>: ", to_plot[[ "sample" ]], "<br>",
+          "<b>Cluster</b>: ", to_plot[[ "cluster" ]], "<br>",
+          "<b>Transcripts</b>: ", formatC(to_plot[[ "nUMI" ]], format = "f", big.mark = ",", digits = 0), "<br>",
+          "<b>Expressed genes</b>: ", formatC(to_plot[[ "nGene" ]], format = "f", big.mark = ",", digits = 0)
         )
       ) %>%
       plotly::layout(
@@ -362,8 +361,12 @@ output[["overview_projection"]] <- plotly::renderPlotly({
           range = input[["overview_scale_y_manual_range"]]
         ),
         hoverlabel = list(font = list(size = 11))
-      ) %>%
-      plotly::toWebGL()
+      )
+      if ( preferences[["use_webgl"]] == TRUE ) {
+        plot %>% plotly::toWebGL()
+      } else {
+        plot
+      }
     }
   }
 })

@@ -35,6 +35,7 @@ rbindlist               Makes one data.table from a list of many
 rleid                   Generate run-length type group id
 roll                    Rolling functions
 rowid                   Generate unique row ids within each group
+set2key                 Deprecated.
 setDF                   Coerce a data.table to data.frame by reference
 setDT                   Coerce lists and data.frames to data.table by
                         reference
@@ -44,7 +45,7 @@ setNumericRounding      Change or turn off numeric rounding
 setattr                 Set attributes of objects by reference
 setcolorder             Fast column reordering of a data.table by
                         reference
-setkey                  Create key on a data table
+setkey                  Create key on a data.table
 setops                  Set operations for data tables
 setorder                Fast row reordering of a data.table by
                         reference

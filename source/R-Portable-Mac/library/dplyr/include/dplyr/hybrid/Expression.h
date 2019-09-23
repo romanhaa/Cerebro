@@ -108,6 +108,7 @@ private:
   hybrid_id id;
 
   SEXP dot_alias;
+  int colwise_position;
 
 public:
   typedef std::pair<bool, SEXP> ArgPair;
@@ -121,10 +122,28 @@ public:
     data_mask(data_mask_),
     n(0),
     id(NOMATCH),
-    dot_alias(R_NilValue)
+    dot_alias(R_NilValue),
+    colwise_position(-1)
   {
+    // handle the case when the expression has been colwise spliced
+    SEXP position_attr = Rf_getAttrib(expr, symbols::position);
+    if (!Rf_isNull(position_attr)) {
+      colwise_position = Rcpp::as<int>(position_attr);
+    }
+
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
+
+    // when it's a inline_colwise_function, we use the formula attribute
+    // to test for hybridability
+    if (TYPEOF(head) == CLOSXP && Rf_inherits(head, "inline_colwise_function")) {
+      dot_alias = CADR(expr);
+      expr = CADR(Rf_getAttrib(head, symbols::formula));
+      if (TYPEOF(expr) != LANGSXP) {
+        return;
+      }
+      head = CAR(expr);
+    }
 
     if (TYPEOF(head) == SYMSXP) {
       handle_symbol(head);
@@ -202,7 +221,7 @@ public:
     {
       if (Rf_length(val) != 1) return false;
       int value = INTEGER(val)[0];
-      if (IntegerVector::is_na(value)) {
+      if (Rcpp::IntegerVector::is_na(value)) {
         return false;
       }
       out = unary_minus ? -value : value;
@@ -212,7 +231,7 @@ public:
     {
       if (Rf_length(val) != 1) return false;
       int value = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]);
-      if (IntegerVector::is_na(value)) {
+      if (Rcpp::IntegerVector::is_na(value)) {
         return false;
       }
       out = unary_minus ? -value : value;
@@ -228,25 +247,22 @@ public:
   inline bool is_column(int i, Column& column) const {
     LOG_VERBOSE << "is_column(" << i << ")";
 
-    SEXP val = values[i];
-
+    SEXP val = PROTECT(values[i]);
+    int nprot = 1;
     // when val is a quosure, grab its expression
     //
     // this allows for things like mean(!!quo(x)) or mean(!!quo(!!sym("x")))
     // to go through hybrid evaluation
     if (rlang::is_quosure(val)) {
       LOG_VERBOSE << "is quosure";
-      val = rlang::quo_get_expr(val);
+      val = PROTECT(rlang::quo_get_expr(val));
+      nprot++;
     }
 
     LOG_VERBOSE << "is_column_impl(false)";
-    if (is_column_impl(val, column, false)) {
-      return true;
-    }
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == symbols::desc && is_column_impl(CADR(val), column, true)) {
-      return true;
-    }
-    return false;
+    bool result = is_column_impl(i, val, column, false) || is_desc_column_impl(i, val, column);
+    UNPROTECT(nprot);
+    return result;
   }
 
   inline SEXP get_fun() const {
@@ -289,9 +305,18 @@ private:
     return f;
   }
 
-  inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
+  inline bool is_desc_column_impl(int i, SEXP val, Column& column) const {
+    return TYPEOF(val) == LANGSXP &&
+           Rf_length(val) == 1 &&
+           CAR(val) == symbols::desc &&
+           is_column_impl(i, CADR(val), column, true)
+           ;
+  }
+
+
+  inline bool is_column_impl(int i, SEXP val, Column& column, bool desc) const {
     if (TYPEOF(val) == SYMSXP) {
-      return test_is_column(val, column, desc);
+      return test_is_column(i, val, column, desc);
     }
 
     if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == symbols::dot_data) {
@@ -300,31 +325,42 @@ private:
 
       if (fun == R_DollarSymbol) {
         // .data$x
-        if (TYPEOF(rhs) == SYMSXP) return test_is_column(rhs, column, desc);
+        if (TYPEOF(rhs) == SYMSXP) return test_is_column(i, rhs, column, desc);
 
         // .data$"x"
-        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column, desc);
+        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(i, Rf_installChar(STRING_ELT(rhs, 0)), column, desc);
       } else if (fun == R_Bracket2Symbol) {
         // .data[["x"]]
-        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column, desc);
+        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(i, Rf_installChar(STRING_ELT(rhs, 0)), column, desc);
       }
     }
     return false;
   }
 
-  inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
-    if (!Rf_isNull(dot_alias) && (s == symbols::dot || s == symbols::dot_x)) {
-      s = dot_alias;
+  inline bool test_is_column(int i, Rcpp::Symbol s, Column& column, bool desc) const {
+    bool is_alias = !Rf_isNull(dot_alias) && (s == symbols::dot || s == symbols::dot_x);
+    SEXP data;
+    if (i == 0 && colwise_position > 0 && is_alias) {
+      // we know the position for sure because this has been colwise spliced
+      const ColumnBinding<SlicedTibble>* subset = data_mask.get_subset_binding(colwise_position - 1);
+      if (subset->is_summary()) {
+        return false;
+      }
+      data = subset->get_data();
+    } else {
+      // otherwise use the hashmap
+      if (is_alias) {
+        s = dot_alias;
+      }
+      SymbolString symbol(s);
+
+      // does the data mask have this symbol, and if so is it a real column (not a summarised)
+      const ColumnBinding<SlicedTibble>* subset = data_mask.maybe_get_subset_binding(symbol);
+      if (!subset || subset->is_summary()) {
+        return false;
+      }
+      data = subset->get_data() ;
     }
-    SymbolString symbol(s);
-
-    // does the data mask have this symbol, and if so is it a real column (not a summarised)
-    const ColumnBinding<SlicedTibble>* subset = data_mask.maybe_get_subset_binding(symbol);
-    if (!subset || subset->is_summary()) return false;
-
-    // only treat very simple columns as columns, leave other to R
-    SEXP data = subset->get_data() ;
-    if (Rf_isObject(data) || Rf_isS4(data) || RCPP_GET_CLASS(data) != R_NilValue) return false;
 
     column.data = data;
     column.is_desc = desc;
@@ -336,7 +372,6 @@ private:
     // If this happens to be a rlang_lambda_function we need to look further
     SEXP f = resolve_rlang_lambda(finder.res);
 
-    // this also may update expr
     dplyr_hash_map<SEXP, hybrid_function>& map = get_hybrid_inline_map();
     dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = map.find(f);
     if (it != map.end()) {
@@ -414,7 +449,6 @@ private:
   }
 
   inline void handle_arguments(SEXP expr) {
-    // the arguments
     for (SEXP p = CDR(expr); !Rf_isNull(p); p = CDR(p)) {
       n++;
       values.push_back(CAR(p));

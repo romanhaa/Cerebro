@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2019-01-11" />
+<meta name="date" content="2019-03-28" />
 
 <title>Frequently Asked Questions about data.table</title>
 
@@ -90,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Frequently Asked Questions about data.table</h1>
-<h4 class="date"><em>2019-01-11</em></h4>
+<h4 class="date"><em>2019-03-28</em></h4>
 
 
 <div id="TOC">
@@ -344,7 +344,7 @@ DT[ , <span class="kw">c</span>(y, z)]
 <p>An <em>empty</em> data.table (<code>DT[0]</code>) has one or more columns, all of which are empty. Those empty columns still have names and types.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DT =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">a =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">b =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="dt">d =</span> <span class="kw">c</span>(7L,8L,9L))
 DT[<span class="dv">0</span>]
-<span class="co"># Empty data.table (0 rows) of 3 cols: a,b,d</span>
+<span class="co"># Empty data.table (0 rows and 3 cols): a,b,d</span>
 <span class="kw">sapply</span>(DT[<span class="dv">0</span>], class)
 <span class="co">#         a         b         d </span>
 <span class="co"># &quot;integer&quot; &quot;numeric&quot; &quot;integer&quot;</span></code></pre></div>

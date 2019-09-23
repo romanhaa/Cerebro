@@ -25,7 +25,7 @@ caller_fn               Get properties of the current or caller frame
 catch_cnd               Catch a condition
 cnd                     Create a condition object
 cnd_muffle              Muffle a condition
-cnd_signal              Signal a condition
+cnd_signal              Signal a condition object
 cnd_type                What type is a condition?
 done                    Box a final value for early termination
 dots_n                  How many arguments are currently forwarded in
@@ -54,7 +54,6 @@ eval_bare               Evaluate an expression in an environment
 eval_tidy               Evaluate an expression with quosures and
                         pronoun support
 exec                    Execute a function
-exiting                 Create an exiting or in place handler
 expr_interp             Process unquote operators in a captured
                         expression
 expr_label              Turn an expression to a label
@@ -88,6 +87,7 @@ is_reference            Is an object referencing another?
 is_stack                Is object a stack?
 is_symbol               Is object a symbol?
 is_true                 Is object identical to TRUE or FALSE?
+is_weakref              Is object a weak reference?
 lang_head               Return the head or tail of a call
 last_error              Last 'abort()' error
 lifecycle               Life cycle of the rlang package
@@ -101,9 +101,11 @@ new-vector-along-retired
 new_formula             Create a formula
 new_function            Create a function
 new_quosures            Create a list of quosures
+new_weakref             Create a weak reference
 op-get-attr             Infix attribute accessor and setter
 op-na-default           Replace missing values
 op-null-default         Default value for 'NULL'
+pairlist2               Create pairlists with splicing support
 parse_expr              Parse R code
 prim_name               Name of a primitive function
 quasiquotation          Quasiquotation of an expression
@@ -138,4 +140,5 @@ with_env                Evaluate an expression within a given
                         environment
 with_handlers           Establish handlers on the stack
 with_restarts           Establish a restart point on the stack
+wref_key                Get key/value from a weak reference object
 zap                     Create zap objects

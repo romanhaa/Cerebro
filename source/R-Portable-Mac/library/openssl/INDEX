@@ -3,6 +3,7 @@ base64_encode           Encode and decode base64
 bcrypt_pbkdf            Bcrypt PWKDF
 bignum                  Big number arithmetic
 cert_verify             X509 certificates
+curve25519              Curve25519
 ec_dh                   Diffie-Hellman Key Agreement
 encrypt_envelope        Envelope encryption
 fingerprint             OpenSSH fingerprint

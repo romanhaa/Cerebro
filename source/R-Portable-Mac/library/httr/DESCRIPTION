@@ -1,6 +1,6 @@
 Package: httr
 Title: Tools for Working with URLs and HTTP
-Version: 1.4.0
+Version: 1.4.1
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
@@ -13,20 +13,20 @@ Description: Useful tools for working with HTTP organised by
     to control additional request components (authenticate(),
     add_headers() and so on).
 License: MIT + file LICENSE
-URL: https://github.com/r-lib/httr
+URL: https://httr.r-lib.org/, https://github.com/r-lib/httr
 BugReports: https://github.com/r-lib/httr/issues
-Depends: R (>= 3.1)
-Imports: curl (>= 0.9.1), jsonlite, mime, openssl (>= 0.8), R6
+Depends: R (>= 3.2)
+Imports: curl (>= 3.0.0), jsonlite, mime, openssl (>= 0.8), R6
 Suggests: covr, httpuv, jpeg, knitr, png, readr, rmarkdown, testthat
         (>= 0.8.0), xml2
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2018-12-06 20:11:59 UTC; hadley
+Packaged: 2019-07-30 13:44:18 UTC; hadley
 Author: Hadley Wickham [aut, cre],
   RStudio [cph]
 Maintainer: Hadley Wickham <hadley@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-12-11 08:40:06 UTC
-Built: R 3.5.0; ; 2018-12-12 13:59:18 UTC; unix
+Date/Publication: 2019-08-05 14:30:02 UTC
+Built: R 3.5.2; ; 2019-08-06 04:24:16 UTC; unix

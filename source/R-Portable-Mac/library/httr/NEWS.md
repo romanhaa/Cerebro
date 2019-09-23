@@ -1,3 +1,19 @@
+# httr 1.4.1
+
+* Remove the default `cainfo` option on Windows. Providing a CA bundle is not 
+  needed anymore because `curl` now uses the native schannel SSL backend.
+  For recent versions of libcurl, overriding the CA bundle actually breaks 
+  custom trust certificates on corporate networks. (@jeroen, #603)
+
+* `http_status()` now throws the correct error message if http status code is 
+  not in the list of known codes (@Javdat, #567).
+
+* `POST()` gains an example on how to use `encode = "raw"` for specific json
+  string body (@cderv, #563)
+
+* `RETRY()` now throws the correct error message if an error occurs during the 
+  request (@austin3dickey, #581).
+
 # httr 1.4.0
 
 ## OAuth
@@ -8,7 +24,7 @@ OAuth2.0 has been made somewhat more flexible in order to support more websites:
    basic authentication for OAuth 2.0 (@peterhartman, #484).
 
 * `oauth2.0_token()` (and `init_oauth2.0()`) gains a `oob_value` argument 
-  that been allows arbitrary values to be sent for the `request_uri` 
+  that allows arbitrary values to be sent for the `request_uri` 
   parameter during OOB flows (@ctrombley, #493).
 
 * `oauth2.0_token()` (and `init_oauth2.0()`) gain a new 

@@ -1,3 +1,134 @@
+# remotes 2.1.0
+
+## New features
+
+* `install_*()` functions gain `build_manual` and `build_vignette` arguments
+  that previously existed in devtools versions < 2.0 (#353).
+
+* The interactive menu has been modified to provide more clear instructions on
+  the skipping behavior (#207)
+
+* Credentials are now passed via HTTP headers, to reduce exposure when requests
+  fail (#391).
+
+## Minor improvements and fixes
+
+* `download()` with the external curl download method now always uses `-L` to
+  follow redirects. (#350)
+
+* `update_packages()` now has a more informative error message when the update
+  fails (#223, #232)
+
+* `install_git()` now can take credentials from the global option
+  `remotes.git_credentials` (#378).
+
+* `install_git()` now works with SHA references and external git (#389).
+
+* GitHub remotes that point to branches no longer fail when the branch is later
+  deleted (#274).
+
+* Local remotes whose original location has been moved will no longer error
+  when updating (#370).
+
+* `update_deps()` no longer sorts the dependencies alphabetically (#296, #301)
+
+* `github_resolve_ref()` now takes a `host` parameter (#284)
+
+* Remotes specific environment variables now accept 0 and 1 as valid values (#238)
+
+* remotes now uses locking by default when installing binary packages, which avoids
+  issues when installing binaries that are already open in other R processes
+  (#368)
+
+* `update_deps()` no longer fails if a local package no longer exists (#289)
+
+* `install_version()` now errors with a more informative message when `type` is
+  not 'source' (#323)
+
+* Bioc `remote_sha()` now always returns a character result (#379)
+
+* Fix API call for private repositories in `install_gitlab` 
+  (@aornugent, #359, #363)
+
+* git submodules now work if the submodule file is empty (@muschellij2, #234)
+
+* `install_gitlab()` no longer adds the access token twice to the request
+  (@aornugent, #363).
+
+* Bitbucket dependencies now actually use the `BITBUCKET_USER` and 
+  `BITBUCKET_PASSWORD` environment variables (@antoine-sachet, #347).
+
+* `parse_deps()` now ignores trailing whitespaces around comparison operators
+  in DESCRIPTION fields (@LiNk-NY, #366)
+
+# remotes 2.0.4
+
+* `update.package_dependencies()` now uses the pkg_type for the cran remote
+  rather than a global type attribute, fixing errors when this global attribute
+  is lost (#291, #304).
+
+* Credentials are no longer passed to dependencies, as this breaks dependencies
+  which use different credentials or hosts. If you have relied on this behavior
+  a more robust way to provide the credentials is using the appropriate
+  environment variables, e.g. `GITHUB_PAT`, `BITBUCKET_USER` etc.
+  (@antoine-sachet, #345).
+
+* The hash of bitbucket hosts is now correctly retrieved (@antoine-sachet, #344)
+
+* Fix parsing of Additional_Repositories which have a leading newline
+  (@tmelliott, #251).
+
+# remotes 2.0.3
+
+* The order of choices for `upgrade = "ask"` now puts the stable ones 'All',
+  'CRAN only', 'none' first, so they always have the same numbers (#287).
+
+* `update_submodules()` now works with empty .gitmodules files (@jsilve24, #329).
+
+* remotes now understands the "standard" remote type, as produced by packages
+  installed from CRAN using `pak` (#309)
+
+* `install_dev()` now supports ref/pull format, e.g.
+  `install_dev('shiny@v1.2-rc')` (@mkearney, #279).
+
+* Fix return type of `install_remote()` when there is a circular dependency (#225)
+
+* `remote_package_name.github_remote()` now works properly on Windows (#248)
+
+* `install_bioc()` repositories now updated for the Bioconductor 3.8 release.
+  (#239)
+
+* `install_*` functions now set the `R_LIBS*` environment variables for
+  child processes correctly on Windows (@HenrikBengtsson, #253)
+
+* `install_*` functions now support the `R_REMOTES_UPGRADE` environment
+  variable, to set the default for the `upgrade` argument. See README for
+  details (@kevinushey, #240).
+
+* `install_*` functions perform basic HTTP authentication using HTTP
+  headers now. This fixes an issue with `install_bitbucket()` and private
+  repos (#255).
+
+* `install_*` functions now respect the `download.file.method` option,
+  if `download_file()` is used for HTTP.
+
+* `install_*` functions now use the _libcurl_ method, if the
+  `download.file.method` option is not set to a different one, and libcurl
+  is available. Before, the _wininet_ method was preferred on Windows.
+  If you rely on the proxy configuration of _wininet_, then you might
+  want to set the `download.file.method` option, or use another way to
+  set up proxies, see `?download.file`.
+* Remotes without package names are now unconditionally installed (#246).
+
+* `install_github()` now includes a more informative error message when the 
+  status code is 404, asking the user to check that they have spelled the
+  repo owner and repo correctly (included in the error message), and that 
+  they have the required permissions to access the repository.
+
+* `install_*` fuctions (via the underlying private `install` function) now set
+  `RGL_USE_NULL="TRUE"` in order to avoid errors when running headless
+  and installing any package using `rgl` (@jefferis, ##333)
+  
 # remotes 2.0.2
 
 * `install_deps()` now installs un-installed remotes packages even when

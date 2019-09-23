@@ -1,7 +1,7 @@
 Package: rmarkdown
 Type: Package
 Title: Dynamic Documents for R
-Version: 1.12
+Version: 1.15
 Authors@R: c(
   person("JJ", "Allaire", role = "aut", email = "jj@rstudio.com"),
   person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
@@ -13,14 +13,20 @@ Authors@R: c(
   person("Joe", "Cheng", role = "aut", email = "joe@rstudio.com"),
   person("Winston", "Chang", role = "aut", email = "winston@rstudio.com"),
   person("Richard", "Iannone", role = "aut", email = "rich@rstudio.com", comment = c(ORCID = "0000-0003-3925-190X")),
-  person("Jeff", "Allen", role = "ctb", email = "jeff@rstudio.com"),
+  #
+  # Contributors, ordered alphabetically by first name
+  person("Atsushi", "Yasumoto", role = "ctb", comment = c(ORCID = "0000-0002-8335-495X")),
   person("Barret", "Schloerke", role = "ctb"),
-  person("Roy", "Storey", role = "ctb"),
-  person("Rob", "Hyndman", role = "ctb", email = "Rob.Hyndman@monash.edu"),
-  person("Ruben", "Arslan", role = "ctb", email = "ruben.arslan@uni-goettingen.de"),
-  person("Frederik", "Aust", role = "ctb", email = "frederik.aust@uni-koeln.de", comment = c(ORCID = "0000-0003-4900-788X")),
   person("Christophe", "Dervieux", role = "ctb"),
+  person("Frederik", "Aust", role = "ctb", email = "frederik.aust@uni-koeln.de", comment = c(ORCID = "0000-0003-4900-788X")),
+  person("Jeff", "Allen", role = "ctb", email = "jeff@rstudio.com"),
   person("Malcolm", "Barrett", role = "ctb"),
+  person("Rob", "Hyndman", role = "ctb", email = "Rob.Hyndman@monash.edu"),
+  person("Romain", "Lesur", role = "ctb"),
+  person("Roy", "Storey", role = "ctb"),
+  person("Ruben", "Arslan", role = "ctb", email = "ruben.arslan@uni-goettingen.de"),
+  #
+  # Copyright holders
   person(family = "RStudio, Inc.", role = "cph"),
   person(family = "jQuery Foundation", role = "cph",
          comment = "jQuery library"),
@@ -66,17 +72,18 @@ Description: Convert R Markdown documents into a variety of formats.
 Depends: R (>= 3.0)
 Imports: tools, utils, knitr (>= 1.22), yaml (>= 2.1.19), htmltools (>=
         0.3.5), evaluate (>= 0.13), base64enc, jsonlite, mime, tinytex
-        (>= 0.11), methods, stringr (>= 1.2.0)
+        (>= 0.11), xfun, methods, stringr (>= 1.2.0)
 Suggests: shiny (>= 0.11), tufte, testthat, digest, dygraphs, tibble,
-        fs, callr (>= 2.0.0)
+        fs, pkgdown, callr (>= 2.0.0)
 SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
-URL: https://rmarkdown.rstudio.com
+URL: https://github.com/rstudio/rmarkdown
 BugReports: https://github.com/rstudio/rmarkdown/issues
 License: GPL-3
 RoxygenNote: 6.1.1
 Encoding: UTF-8
+VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-03-14 05:24:03 UTC; yihui
+Packaged: 2019-08-21 00:08:48 UTC; yihui
 Author: JJ Allaire [aut],
   Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Jonathan McPherson [aut],
@@ -87,14 +94,16 @@ Author: JJ Allaire [aut],
   Joe Cheng [aut],
   Winston Chang [aut],
   Richard Iannone [aut] (<https://orcid.org/0000-0003-3925-190X>),
-  Jeff Allen [ctb],
+  Atsushi Yasumoto [ctb] (<https://orcid.org/0000-0002-8335-495X>),
   Barret Schloerke [ctb],
-  Roy Storey [ctb],
-  Rob Hyndman [ctb],
-  Ruben Arslan [ctb],
-  Frederik Aust [ctb] (<https://orcid.org/0000-0003-4900-788X>),
   Christophe Dervieux [ctb],
+  Frederik Aust [ctb] (<https://orcid.org/0000-0003-4900-788X>),
+  Jeff Allen [ctb],
   Malcolm Barrett [ctb],
+  Rob Hyndman [ctb],
+  Romain Lesur [ctb],
+  Roy Storey [ctb],
+  Ruben Arslan [ctb],
   RStudio, Inc. [cph],
   jQuery Foundation [cph] (jQuery library),
   jQuery contributors [ctb, cph] (jQuery library; authors listed in
@@ -118,5 +127,5 @@ Author: JJ Allaire [aut],
   Drifty [cph] (Ionicons),
   Aidan Lister [ctb, cph] (jQuery StickyTabs)
 Repository: CRAN
-Date/Publication: 2019-03-14 08:50:03 UTC
-Built: R 3.5.2; ; 2019-03-18 21:09:30 UTC; unix
+Date/Publication: 2019-08-21 10:50:02 UTC
+Built: R 3.5.2; ; 2019-08-22 04:47:21 UTC; unix

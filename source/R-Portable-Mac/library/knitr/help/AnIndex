@@ -15,6 +15,7 @@ fig_chunk	fig_chunk
 fig_path	fig_path
 hook_ffmpeg_html	hook_animation
 hook_gifski	hook_animation
+hook_mogrify	chunk_hook
 hook_movecode	hook_document
 hook_optipng	chunk_hook
 hook_pdfcrop	chunk_hook
@@ -45,6 +46,7 @@ knit2pdf	knit2pdf
 knit2wp	knit2wp
 knitr	knitr-package
 knit_child	knit_child
+knit_code	knit_code
 knit_engines	knit_engines
 knit_exit	knit_exit
 knit_expand	knit_expand

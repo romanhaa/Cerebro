@@ -26,8 +26,9 @@ public:
 
   void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int m = indices.size();
+    double ratio = static_cast<double>(ntiles) / m;
     for (int j = m - 1; j >= 0; j--) {
-      out[ indices[j] ] = (ntiles * j) / m + 1;
+      out[ indices[j] ] = static_cast<int>(floor(ratio * j)) + 1;
     }
   }
 
@@ -72,8 +73,9 @@ public:
         break;
       }
     }
+    double ratio = static_cast<double>(ntiles) / m;
     for (; j >= 0; j--) {
-      out_slice[idx[j]] = (ntiles * j) / m + 1;
+      out_slice[idx[j]] = static_cast<int>(floor(ratio * j)) + 1;
     }
   }
 
@@ -125,7 +127,7 @@ SEXP ntile_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& ex
   case 2:
     // ntile( <column>, n = <int> )
     Column x;
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
       return ntile_2(data, x, n, op);
     }
   default:

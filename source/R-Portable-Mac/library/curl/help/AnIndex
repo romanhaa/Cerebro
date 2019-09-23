@@ -10,6 +10,7 @@ curl_fetch_stream	curl_fetch
 curl_options	curl_options
 curl_symbols	curl_options
 curl_unescape	curl_escape
+curl_upload	curl_upload
 curl_version	curl_options
 file_writer	file_writer
 form_data	multipart
@@ -17,6 +18,8 @@ form_file	multipart
 handle	handle
 handle_cookies	handle_cookies
 handle_data	handle
+handle_getcustom	handle
+handle_getheaders	handle
 handle_reset	handle
 handle_setform	handle
 handle_setheaders	handle
@@ -39,3 +42,4 @@ nslookup	nslookup
 parse_date	parse_date
 parse_headers	parse_headers
 parse_headers_list	parse_headers
+send_mail	send_mail

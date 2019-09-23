@@ -1,6 +1,6 @@
 Package: plotly
 Title: Create Interactive Web Graphics via 'plotly.js'
-Version: 4.8.0
+Version: 4.9.0
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     email = "cpsievert1@gmail.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Chris", "Parmer", role = "aut",
@@ -12,38 +12,39 @@ Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     person("Karthik", "Ram", role = "aut",
     email = "karthik.ram@gmail.com"),
     person("Marianne", "Corvellec", role = "aut",
-    email = "marianne@plot.ly"),
+    email = "marianne.corvellec@igdore.org", comment = c(ORCID = "0000-0002-1994-3581")),
     person("Pedro", "Despouy", role = "aut",
     email = "pedro@plot.ly"),
     person("Plotly Technologies Inc.", role = "cph"))
 License: MIT + file LICENSE
-Description: Easily translate 'ggplot2' graphs to an interactive web-based version and/or create custom web-based visualizations directly from R. Once uploaded to a 'plotly' account, 'plotly' graphs (and the data behind them) can be viewed and modified in a web browser.
-URL: https://plot.ly/r, https://cpsievert.github.io/plotly_book/,
-        https://github.com/ropensci/plotly#readme
+Description: Create interactive web graphics from 'ggplot2' graphs and/or a custom interface to the (MIT-licensed) JavaScript library 'plotly.js' inspired by the grammar of graphics.
+URL: https://plotly-r.com, https://github.com/ropensci/plotly#readme,
+        https://plot.ly/r
 BugReports: https://github.com/ropensci/plotly/issues
 Depends: R (>= 3.2.0), ggplot2 (>= 3.0.0)
-Imports: tools, scales, httr, jsonlite, magrittr, digest, viridisLite,
-        base64enc, htmltools, htmlwidgets (>= 1.2), tidyr, hexbin,
-        RColorBrewer, dplyr, tibble, lazyeval (>= 0.2.0), rlang,
-        crosstalk, purrr, data.table, promises
+Imports: tools, scales, httr, jsonlite (>= 1.6), magrittr, digest,
+        viridisLite, base64enc, htmltools (>= 0.3.6), htmlwidgets (>=
+        1.3), tidyr, hexbin, RColorBrewer, dplyr, tibble, lazyeval (>=
+        0.2.0), rlang, crosstalk, purrr, data.table, promises
 Suggests: MASS, maps, ggthemes, GGally, testthat, knitr, devtools,
-        shiny (>= 1.1.0), curl, rmarkdown, Rserve, RSclient, Cairo,
-        broom, webshot, listviewer, dendextend, sf, maptools, rgeos,
-        png, IRdisplay, processx, plotlyGeoAssets, forcats
+        shiny (>= 1.1.0), shinytest (>= 1.3.0), curl, rmarkdown,
+        vdiffr, Cairo, broom, webshot, listviewer, dendextend, sf,
+        maptools, rgeos, png, IRdisplay, processx, plotlyGeoAssets,
+        forcats
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-07-20 16:25:19 UTC; cpsievert
+Packaged: 2019-04-10 17:54:42 UTC; cpsievert
 Author: Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>),
   Chris Parmer [aut],
   Toby Hocking [aut],
   Scott Chamberlain [aut],
   Karthik Ram [aut],
-  Marianne Corvellec [aut],
+  Marianne Corvellec [aut] (<https://orcid.org/0000-0002-1994-3581>),
   Pedro Despouy [aut],
   Plotly Technologies Inc. [cph]
 Maintainer: Carson Sievert <cpsievert1@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-07-20 17:30:17 UTC
-Built: R 3.5.3; ; 2019-03-29 16:58:11 UTC; unix
+Date/Publication: 2019-04-10 19:33:05 UTC
+Built: R 3.5.1; ; 2019-09-23 10:13:40 UTC; unix

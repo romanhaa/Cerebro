@@ -1,3 +1,53 @@
+shiny 1.3.2
+===========
+
+### Bug fixes
+
+* Fixed [#2285](https://github.com/rstudio/shiny/issues/2285), [#2288](https://github.com/rstudio/shiny/issues/2288): Static CSS/JS resources in subapps in R Markdown documents did not render properly. ([#2386](https://github.com/rstudio/shiny/pull/2386))
+
+* Fixed [#2280](https://github.com/rstudio/shiny/issues/2280): Shiny applications that used a www/index.html file did not serve up the index file. ([#2382](https://github.com/rstudio/shiny/pull/2382))
+
+
+shiny 1.3.1
+===========
+
+### Bug fixes
+
+* Fixed a performance issue introduced in v1.3.0 when using large nested lists within Shiny. ([#2377](https://github.com/rstudio/shiny/pull/2377))
+
+
+shiny 1.3.0
+===========
+
+## Full changelog
+
+### Breaking changes
+
+### New features
+
+* Revamped Shiny's [reactlog](https://github.com/rstudio/reactlog) viewer which debugs reactivity within a shiny application.  This allows users to traverse the reactivity history of a shiny application, filter to the dependency tree of a selected reactive object, and search for matching reactive objects.  See `?reactlogShow` for more details and how to enable this feature. ([#2107](https://github.com/rstudio/shiny/pull/2107))
+
+* Shiny now serves static files on a background thread. This means that things like JavaScript and CSS assets can be served without blocking or being blocked by the main R thread, and should result in significantly better performance for heavily loaded servers. ([#2280](https://github.com/rstudio/shiny/pull/2280))
+
+### Minor new features and improvements
+
+* The `Shiny-Shared-Secret` security header is now checked using constant-time comparison to prevent timing attacks (thanks @dirkschumacher!). ([#2319](https://github.com/rstudio/shiny/pull/2319))
+
+### Bug fixes
+
+* Fixed [#2245](https://github.com/rstudio/shiny/issues/2245): `updateSelectizeInput()` did not update labels. ([#2248](https://github.com/rstudio/shiny/pull/2248))
+
+* Fixed [#2308](https://github.com/rstudio/shiny/issues/2308): When restoring a bookmarked application, inputs with a leading `.` would not be restored. ([#2311](https://github.com/rstudio/shiny/pull/2311))
+
+* Fixed [#2305](https://github.com/rstudio/shiny/issues/2305), [#2322](https://github.com/rstudio/shiny/issues/2322), [#2351](https://github.com/rstudio/shiny/issues/2351): When an input in dynamic UI is restored from bookmarks, it would keep getting set to the same value. ([#2360](https://github.com/rstudio/shiny/pull/2360))
+
+* Fixed [#2349](https://github.com/rstudio/shiny/issues/2349), [#2329](https://github.com/rstudio/shiny/issues/2329), [#1817](https://github.com/rstudio/shiny/issues/1817): These were various bugs triggered by the presence of the [networkD3](https://christophergandrud.github.io/networkD3/) package's Sankey plot in an app. Impacted features included `dateRangeInput`, `withProgressBar`, and bookmarking ([#2359](https://github.com/rstudio/shiny/pull/2359))
+
+### Documentation Updates
+
+* Fixed [#2247](https://github.com/rstudio/shiny/issues/2247): `renderCachedPlot` now supports using promises for either `expr` or `cacheKeyExpr`. (Shiny v1.2.0 supported async `expr`, but only if `cacheKeyExpr` was async as well; now you can use any combination of sync/async for `expr` and `cacheKeyExpr`.) [#2261](https://github.com/rstudio/shiny/pull/2261)
+
+
 shiny 1.2.0
 ===========
 
@@ -117,7 +167,7 @@ This is a significant release for Shiny, with a major new feature that was nearl
 
 * Improved the error handling inside the `addResourcePath()` function, to give end users more informative error messages when the `directoryPath` argument cannot be normalized. This is especially useful for `runtime: shiny_prerendered` Rmd documents, like `learnr` tutorials. ([#1968](https://github.com/rstudio/shiny/pull/1968))
 
-* Changed script tags in reactlog ([inst/www/reactive-graph.html](https://github.com/rstudio/shiny/blob/master/inst/www/reactive-graph.html)) from HTTP to HTTPS in order to avoid mixed content blocking by most browsers. (Thanks, @jekriske-lilly! [#1844](https://github.com/rstudio/shiny/pull/1844))
+* Changed script tags in reactlog ([inst/www/reactive-graph.html](https://github.com/rstudio/shiny/blob/v1.1.0/inst/www/reactive-graph.html)) from HTTP to HTTPS in order to avoid mixed content blocking by most browsers. (Thanks, @jekriske-lilly! [#1844](https://github.com/rstudio/shiny/pull/1844))
 
 * Addressed [#1784](https://github.com/rstudio/shiny/issues/1784): `runApp()` will avoid port 6697, which is considered unsafe by Chrome.
 

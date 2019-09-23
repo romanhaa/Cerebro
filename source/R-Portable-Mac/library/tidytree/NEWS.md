@@ -1,8 +1,21 @@
+# tidytree 0.2.7
+
++ allow calling `MRCA` with only one node and will return the node itself (2019-08-30, Fri)
+
+# tidytree 0.2.6
+
++ `nodeid` and `nodelab` methods for converting from label to node number and vice versa (2019-08-09, Fri)
++ allow determine MRCA of a vector of tips (2019-08-08, Thu)
+
+# tidytree 0.2.5
+
++ convert elements of roxygen documentation to markdown (2019-05-05, Thu)
+
 # tidytree 0.2.4
 
 + call `child.tbl_tree` instead of `child` in `offspring`, (2019-02-26, Tue)
   so that it works more robust for `data.frame`.
-  
+
 # tidytree 0.2.3
 
 + more parameter for `offspring` (2019-01-28, Mon)

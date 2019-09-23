@@ -1,7 +1,7 @@
 Package: Rcpp
 Title: Seamless R and C++ Integration
-Version: 1.0.1
-Date: 2019-03-16
+Version: 1.0.2
+Date: 2019-07-20
 Author: Dirk Eddelbuettel, Romain Francois, JJ Allaire, Kevin Ushey, Qiang Kou,
  Nathan Russell, Douglas Bates and John Chambers
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
@@ -25,10 +25,10 @@ License: GPL (>= 2)
 BugReports: https://github.com/RcppCore/Rcpp/issues
 MailingList: Please send questions and comments regarding Rcpp to
         rcpp-devel@lists.r-forge.r-project.org
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: yes
-Packaged: 2019-03-16 15:29:08.470813 UTC; edd
+Packaged: 2019-07-20 14:40:03.829344 UTC; edd
 Repository: CRAN
-Date/Publication: 2019-03-17 07:15:10 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-03-18 19:05:39 UTC; unix
+Date/Publication: 2019-07-25 10:10:04 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-07-26 04:31:17 UTC; unix
 Archs: Rcpp.so.dSYM

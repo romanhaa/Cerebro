@@ -1,11 +1,10 @@
 Package: shinyWidgets
 Title: Custom Inputs Widgets for Shiny
-Version: 0.4.8
+Version: 0.4.9
 Authors@R: c(
   person("Victor", "Perrier", email = "victor.perrier@dreamrs.fr", role = c("aut", "cre")),
-  person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = c("aut")),
-  person("David", "Granjon", email = "david.granjon@uzh.ch", role = "aut",
-         comment = "jQuery Knob shiny interface & sliders appearance"),
+  person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = "aut"),
+  person("David", "Granjon", email = "david.granjon@uzh.ch", role = "aut"),
   person("Ian", "Fellows", role = "ctb", comment = "Methods for mutating vertical tabs & updateMultiInput"),
   person("Wil", "Davis", role = "ctb", comment = "numericRangeInput function"),
   person("SnapAppointments", "", role = "cph", comment = "bootstrap-select"),
@@ -39,12 +38,12 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Suggests: shinydashboard, viridisLite, RColorBrewer, testthat, covr,
-        shinydashboardPlus, bs4Dash, argonR, argonDash
+        shinydashboardPlus, bs4Dash, argonR, argonDash, tablerDash
 NeedsCompilation: no
-Packaged: 2019-03-18 18:30:25 UTC; perri
+Packaged: 2019-09-10 16:05:59 UTC; perri
 Author: Victor Perrier [aut, cre],
   Fanny Meyer [aut],
-  David Granjon [aut] (jQuery Knob shiny interface & sliders appearance),
+  David Granjon [aut],
   Ian Fellows [ctb] (Methods for mutating vertical tabs &
     updateMultiInput),
   Wil Davis [ctb] (numericRangeInput function),
@@ -69,5 +68,5 @@ Author: Victor Perrier [aut, cre],
   Tobias Ahlin [ctb, cph] (CSS spin)
 Maintainer: Victor Perrier <victor.perrier@dreamrs.fr>
 Repository: CRAN
-Date/Publication: 2019-03-18 23:10:02 UTC
-Built: R 3.5.2; ; 2019-03-20 06:52:34 UTC; unix
+Date/Publication: 2019-09-10 16:40:05 UTC
+Built: R 3.5.2; ; 2019-09-11 04:34:50 UTC; unix

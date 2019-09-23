@@ -1,7 +1,7 @@
 Package: sys
 Type: Package
 Title: Powerful and Reliable Tools for Running System Commands in R
-Version: 3.1
+Version: 3.3
 Authors@R: c(person("Jeroen", "Ooms", role = c("aut", "cre"), 
       email = "jeroen@berkeley.edu", comment = c(ORCID = "0000-0002-4035-0289")),
     person("Gábor", "Csárdi", , "csardi.gabor@gmail.com", role = "ctb"))
@@ -11,7 +11,7 @@ Description: Drop-in replacements for the base system2() function with fine cont
     connections. Arguments on Windows automatically get encoded and quoted to work 
     on different locales.
 License: MIT + file LICENSE
-URL: https://github.com/jeroen/sys#readme
+URL: https://github.com/jeroen/sys
 BugReports: https://github.com/jeroen/sys/issues
 Encoding: UTF-8
 LazyData: true
@@ -19,11 +19,11 @@ RoxygenNote: 6.1.1
 Suggests: unix (>= 1.4), spelling, testthat
 Language: en-US
 NeedsCompilation: yes
-Packaged: 2019-03-10 17:35:59 UTC; jeroen
+Packaged: 2019-08-21 11:45:42 UTC; jeroen
 Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
   Gábor Csárdi [ctb]
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Repository: CRAN
-Date/Publication: 2019-03-10 20:40:03 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-03-11 17:51:16 UTC; unix
+Date/Publication: 2019-08-21 14:20:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-08-22 04:38:54 UTC; unix
 Archs: sys.so.dSYM

@@ -30,6 +30,7 @@ protect_math            Protect math expressions in pairs of backticks
                         in Markdown
 raw_string              Print a character vector in its raw form
 read_utf8               Read / write files encoded in UTF-8
+rename_seq              Rename files with a sequential numeric prefix
 rev_check               Run 'R CMD check' on the reverse dependencies
                         of a package
 rstudio_type            Type a character vector into the RStudio source

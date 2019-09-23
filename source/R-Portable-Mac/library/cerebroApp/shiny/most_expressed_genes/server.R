@@ -46,7 +46,7 @@ output[["most_expressed_genes_by_sample_table_present"]] <- DT::renderDataTable(
   ) %>%
   formattable::as.datatable(
     filter = "none",
-    selection = "multiple",
+    selection = "none",
     escape = FALSE,
     autoHideNavigation = TRUE,
     rownames = FALSE,
@@ -57,7 +57,7 @@ output[["most_expressed_genes_by_sample_table_present"]] <- DT::renderDataTable(
       lengthMenu = c(15, 30, 50, 100),
       pageLength = 15,
       buttons = list(
-        "colvis", 
+        "colvis",
           list(
             extend = "collection",
             text = "Download",
@@ -141,7 +141,7 @@ output[["most_expressed_genes_by_cluster_table_present"]] <- DT::renderDataTable
   ) %>%
   formattable::as.datatable(
     filter = "none",
-    selection = "multiple",
+    selection = "none",
     escape = FALSE,
     autoHideNavigation = TRUE,
     rownames = FALSE,
@@ -152,7 +152,7 @@ output[["most_expressed_genes_by_cluster_table_present"]] <- DT::renderDataTable
       lengthMenu = c(15, 30, 50, 100),
       pageLength = 15,
       buttons = list(
-        "colvis", 
+        "colvis",
           list(
             extend = "collection",
             text = "Download",

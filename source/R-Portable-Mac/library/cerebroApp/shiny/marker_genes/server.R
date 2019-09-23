@@ -62,7 +62,7 @@ output[["marker_genes_by_sample_table_present"]] <- DT::renderDataTable(server =
   formattable::as.datatable(
     table,
     filter = "top",
-    selection = "multiple",
+    selection = "none",
     escape = FALSE,
     autoHideNavigation = TRUE,
     rownames = FALSE,
@@ -73,7 +73,7 @@ output[["marker_genes_by_sample_table_present"]] <- DT::renderDataTable(server =
       lengthMenu = c(15, 30, 50, 100),
       pageLength = 15,
       buttons = list(
-        "colvis", 
+        "colvis",
         list(
           extend = "collection",
           text = "Download",
@@ -92,7 +92,7 @@ output[["marker_genes_by_sample_table_present"]] <- DT::renderDataTable(server =
         )
       )
     )
-  ) %>% 
+  ) %>%
   DT::formatStyle(
     columns = c("avg. logFC", "% cells in this sample", "% cells in other samples", "adj. p-value"),
     textAlign = "right"
@@ -179,7 +179,7 @@ output[["marker_genes_by_cluster_table_present"]] <- DT::renderDataTable(server 
   formattable::as.datatable(
     table,
     filter = "top",
-    selection = "multiple",
+    selection = "none",
     escape = FALSE,
     autoHideNavigation = TRUE,
     rownames = FALSE,
@@ -190,7 +190,7 @@ output[["marker_genes_by_cluster_table_present"]] <- DT::renderDataTable(server 
       lengthMenu = c(15, 30, 50, 100),
       pageLength = 15,
       buttons = list(
-        "colvis", 
+        "colvis",
         list(
           extend = "collection",
           text = "Download",
@@ -209,7 +209,7 @@ output[["marker_genes_by_cluster_table_present"]] <- DT::renderDataTable(server 
         )
       )
     )
-  ) %>% 
+  ) %>%
   DT::formatStyle(
     columns = c("avg. logFC", "% cells in this cluster", "% cells in other clusters", "adj. p-value"),
     textAlign = "right"

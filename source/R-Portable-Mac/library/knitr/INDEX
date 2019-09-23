@@ -37,6 +37,7 @@ knit2pdf                Convert Rnw or Rrst files to PDF
 knit2wp                 Knit an R Markdown document and post it to
                         WordPress
 knit_child              Knit a child document
+knit_code               The code manager to manage code in all chunks
 knit_engines            Engines of other languages
 knit_exit               Exit knitting early
 knit_expand             A simple macro preprocessor for templating

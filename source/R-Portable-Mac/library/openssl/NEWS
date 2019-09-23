@@ -1,3 +1,13 @@
+1.4.1
+ - write_pkcs1 now supports RSA/DSA/EC keys for legacy ssh compatibility
+ - as.list.cert() gains a parameter 'name_format' to control printing #72
+
+1.4.0
+ - Expose ed25519 and x25519 functions for signatures and diffie hellman using
+   curve25519. This is only supported when building against version 1.1.1 or newer
+   of the openssl library.
+ - Unit tests for curve25519 (this requires sodium)
+
 1.3.0
  - read_key() now supports the new openssh private key format
  - Added bcrypt KDF which is needed to read the new openssh keys

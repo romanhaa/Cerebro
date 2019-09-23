@@ -170,6 +170,9 @@ reactiveUI	reactiveUI
 reactiveVal	reactiveVal
 reactiveValues	reactiveValues
 reactiveValuesToList	reactiveValuesToList
+reactlog	reactlog
+reactlogReset	reactlog
+reactlogShow	reactlog
 registerInputHandler	registerInputHandler
 removeInputHandler	removeInputHandler
 removeModal	showModal
@@ -213,7 +216,7 @@ shinyUI	shinyUI
 showBookmarkUrlModal	showBookmarkUrlModal
 showModal	showModal
 showNotification	showNotification
-showReactLog	showReactLog
+showReactLog	reactlog
 showTab	showTab
 sidebarLayout	sidebarLayout
 sidebarPanel	sidebarPanel

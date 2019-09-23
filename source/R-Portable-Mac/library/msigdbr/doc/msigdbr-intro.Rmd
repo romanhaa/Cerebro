@@ -29,7 +29,7 @@ The `msigdbr` R package provides Molecular Signatures Database (MSigDB) gene set
 
 * in an R-friendly format (a data frame in a "long" format with one gene per row)
 * for multiple frequently studied model organisms (human, mouse, rat, pig, fly, yeast, etc.)
-* as both gene symbols and Entrez Gene IDs (for better compatibility with pathway enrichment tools)
+* as both gene symbols and NCBI/Entrez Gene IDs (for better compatibility with pathway enrichment tools)
 * that can be used in a script without requiring additional external files
 
 ## Installation
@@ -88,14 +88,14 @@ Use the gene sets data frame for `clusterProfiler` (for genes as Entrez Gene IDs
 
 ```{r cp-entrez, eval=FALSE}
 m_t2g = m_df %>% dplyr::select(gs_name, entrez_gene) %>% as.data.frame()
-enricher(gene = genes_entrez, TERM2GENE = m_t2g, ...)
+enricher(gene = gene_ids_vector, TERM2GENE = m_t2g, ...)
 ```
 
 Use the gene sets data frame for `clusterProfiler` (for genes as gene symbols).
 
 ```{r cp-symbols, eval=FALSE}
 m_t2g = m_df %>% dplyr::select(gs_name, gene_symbol) %>% as.data.frame()
-enricher(gene = genes_symbols, TERM2GENE = m_t2g, ...)
+enricher(gene = gene_symbols_vector, TERM2GENE = m_t2g, ...)
 ```
 
 Use the gene sets data frame for `fgsea`.
@@ -109,22 +109,22 @@ fgsea(pathways = m_list, ...)
 
 Which version of MSigDB was used?
 
-> This package was generated with MSigDB v6.2 (released July 2018).
+> This package was generated with MSigDB v7.0 (released August 2019).
 > The MSigDB version is used as the base of the package version.
 > You can check the installed version with `packageVersion("msigdbr")`.
 
-Can't I just download the gene sets from MSigDB?
+Can I download the gene sets directly from MSigDB instead of using this package?
 
 > Yes.
-> You can then import the GMT files with `getGmt()` from the `GSEABase` package.
+> You can then import the GMT files (with `getGmt()` from the `GSEABase` package, for example).
 > The GMTs only include the human genes, even for gene sets generated from mouse data.
 > If you are not working with human data, you then have to convert the MSigDB genes to your organism or your genes to human.
 
-Can't I just convert between human and mouse genes by adjusting gene capitalization?
+Can I convert between human and mouse genes just by adjusting gene capitalization?
 
 > That will work for most genes, but not all.
 
-Can't I just convert human genes to any organism myself?
+Can I convert human genes to any organism myself instead of using this package?
 
 > Yes.
 > A popular method is using the `biomaRt` package.

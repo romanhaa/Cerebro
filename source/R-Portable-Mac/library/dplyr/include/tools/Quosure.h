@@ -4,6 +4,7 @@
 #include <tools/SymbolString.h>
 #include <tools/utils.h>
 #include "SymbolVector.h"
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -49,6 +50,11 @@ public:
     return quosure;
   }
 
+  bool is_rlang_lambda() const {
+    SEXP expr_ = expr();
+    return TYPEOF(expr_) == LANGSXP && Rf_inherits(CAR(expr_), "rlang_lambda_function");
+  }
+
 private:
   Quosure quosure;
   SymbolString name_;
@@ -60,21 +66,21 @@ namespace dplyr {
 
 class QuosureList {
 public:
-  QuosureList(const List& data_) : data() {
+  QuosureList(const Rcpp::List& data_) : data() {
     int n = data_.size();
     if (n == 0) return;
 
     data.reserve(n);
 
-    CharacterVector names = data_.names();
+    Rcpp::Shield<SEXP> names(Rf_getAttrib(data_, symbols::names));
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 
       if (!rlang::is_quosure(x)) {
-        stop("corrupt tidy quote");
+        Rcpp::stop("corrupt tidy quote");
       }
 
-      data.push_back(NamedQuosure(x, SymbolString(names[i])));
+      data.push_back(NamedQuosure(x, SymbolString(STRING_ELT(names, i))));
     }
   }
 
@@ -95,14 +101,15 @@ public:
     return true;
   }
 
-  SymbolVector names() const {
-    CharacterVector out(data.size());
+  SEXP names() const {
+    R_xlen_t n = data.size();
+    Rcpp::Shield<SEXP> out(Rf_allocVector(STRSXP, n));
 
     for (size_t i = 0; i < data.size(); ++i) {
-      out[i] = data[i].name().get_string();
+      SET_STRING_ELT(out, i, data[i].name().get_sexp());
     }
 
-    return SymbolVector(out);
+    return out;
   }
 
 private:

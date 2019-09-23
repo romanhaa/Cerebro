@@ -18,7 +18,6 @@ as_closure	as_function
 as_complex	vector-coercion
 as_data_mask	as_data_mask
 as_data_pronoun	as_data_mask
-as_dictionary	dictionary
 as_double	vector-coercion
 as_env	as_env
 as_environment	as_environment
@@ -28,16 +27,12 @@ as_label	as_label
 as_list	vector-coercion
 as_logical	vector-coercion
 as_name	as_name
-as_native_character	as_utf8_character
-as_native_string	as_utf8_character
 as_overscope	as_overscope
 as_pairlist	as_pairlist
 as_quosure	as_quosure
-as_quosureish	is_quosureish
 as_quosures	new_quosures
 as_string	as_string
 as_utf8_character	as_utf8_character
-as_utf8_string	as_utf8_character
 bare-type-predicates	bare-type-predicates
 base_env	search_envs
 box	box
@@ -48,7 +43,7 @@ call2	call2
 caller_env	caller_env
 caller_fn	caller_fn
 caller_frame	caller_frame
-calling	exiting
+calling	with_handlers
 call_args	call_args
 call_args_names	call_args
 call_depth	stack
@@ -64,7 +59,6 @@ catch_cnd	catch_cnd
 child_env	env
 chr	vector-construction
 chr_along	vector-old-ctors
-chr_encoding	set_chr_encoding
 chr_len	vector-old-ctors
 chr_unserialise_unicode	chr_unserialise_unicode
 cnd	cnd
@@ -72,7 +66,6 @@ cnd_muffle	cnd_muffle
 cnd_signal	cnd_signal
 cnd_type	cnd_type
 coerce_class	switch_type
-coerce_lang	switch_lang
 coerce_type	switch_type
 cpl	vector-construction
 cpl_along	vector-old-ctors
@@ -86,7 +79,6 @@ current_frame	stack
 dbl	vector-construction
 dbl_along	vector-old-ctors
 dbl_len	vector-old-ctors
-dictionary	dictionary
 done	done
 dots_definitions	dots_definitions
 dots_list	tidy-dots
@@ -137,7 +129,6 @@ env_unlock	env_unlock
 error_cnd	cnd
 eval_bare	eval_bare
 eval_tidy	eval_tidy
-eval_tidy_	eval_tidy_
 exec	exec
 exiting	exiting
 expr	quotation
@@ -211,6 +202,7 @@ is_bare_raw	bare-type-predicates
 is_bare_string	bare-type-predicates
 is_bare_vector	bare-type-predicates
 is_binary_lang	is_lang
+is_bool	scalar-type-predicates
 is_box	box
 is_bytes	type-predicates
 is_call	is_call
@@ -224,7 +216,6 @@ is_copyable	is_copyable
 is_cpl_na	are_na
 is_dbl_na	are_na
 is_definition	op-definition
-is_dictionary	dictionary
 is_dictionaryish	is_named
 is_done_box	done
 is_double	type-predicates
@@ -261,7 +252,6 @@ is_primitive	is_function
 is_primitive_eager	is_function
 is_primitive_lazy	is_function
 is_quosure	quosure
-is_quosureish	is_quosureish
 is_quosures	new_quosures
 is_raw	type-predicates
 is_reference	is_reference
@@ -286,6 +276,7 @@ is_syntactic_literal	is_expression
 is_true	is_true
 is_unary_lang	is_lang
 is_vector	type-predicates
+is_weakref	is_weakref
 is_zap	zap
 lang	lang
 lang_args	lang_modify
@@ -296,7 +287,6 @@ lang_modify	lang_modify
 lang_name	lang_modify
 lang_standardise	lang_modify
 lang_tail	lang_head
-lang_type_of	switch_lang
 last_error	last_error
 last_trace	last_error
 lgl	vector-construction
@@ -312,10 +302,8 @@ maybe_missing	missing_arg
 message_cnd	cnd
 missing	missing
 missing_arg	missing_arg
-modify	modify
+modify	prepend
 mut_attrs	set_attrs
-mut_latin1_locale	mut_utf8_locale
-mut_mbcs_locale	mut_utf8_locale
 mut_node_caar	mut_node_car
 mut_node_cadr	mut_node_car
 mut_node_car	mut_node_car
@@ -323,7 +311,6 @@ mut_node_cdar	mut_node_car
 mut_node_cddr	mut_node_car
 mut_node_cdr	mut_node_car
 mut_node_tag	mut_node_car
-mut_utf8_locale	mut_utf8_locale
 names2	names2
 na_chr	missing
 na_cpl	missing
@@ -358,6 +345,7 @@ new_quosure	as_quosure
 new_quosures	new_quosures
 new_raw	new-vector
 new_raw_along	new-vector-along-retired
+new_weakref	new_weakref
 node	vector-old-ctors
 node_caar	new_node
 node_cadr	new_node
@@ -382,6 +370,7 @@ op-na-default	op-na-default
 op-null-default	op-null-default
 overscope_clean	as_overscope
 overscope_eval_next	overscope_eval_next
+pairlist2	pairlist2
 parse_expr	parse_expr
 parse_exprs	parse_expr
 parse_quo	parse_expr
@@ -442,11 +431,9 @@ search_envs	search_envs
 seq2	seq2
 seq2_along	seq2
 set_attrs	set_attrs
-set_chr_encoding	set_chr_encoding
 set_env	get_env
 set_expr	set_expr
 set_names	set_names
-set_str_encoding	set_chr_encoding
 signal	abort
 splice	splice
 squash	flatten
@@ -460,9 +447,7 @@ squash_raw	flatten
 stack	stack
 stack_trim	stack_trim
 string	string
-str_encoding	set_chr_encoding
 switch_class	switch_type
-switch_lang	switch_lang
 switch_type	switch_type
 sym	sym
 syms	sym
@@ -473,7 +458,6 @@ type-predicates	type-predicates
 type_of	type_of
 unbox	box
 UQ	quasiquotation
-UQE	UQE
 UQS	quasiquotation
 vector-coercion	vector-coercion
 vector-construction	vector-construction
@@ -489,4 +473,6 @@ with_handlers	with_handlers
 with_interactive	is_interactive
 with_options	scoped_options
 with_restarts	with_restarts
+wref_key	wref_key
+wref_value	wref_key
 zap	zap

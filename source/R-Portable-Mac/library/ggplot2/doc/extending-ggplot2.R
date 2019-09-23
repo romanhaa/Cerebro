@@ -334,7 +334,7 @@ layout <- function(data, params) {
 
 ## ------------------------------------------------------------------------
 mapping <- function(data, layout, params) {
-  if (plyr::empty(data)) {
+  if (is.null(data) || nrow(data) == 0) {
     return(cbind(data, PANEL = integer(0)))
   }
   rbind(
@@ -458,7 +458,7 @@ FacetTrans <- ggproto("FacetTrans", Facet,
   },
   # Same as before
   map_data = function(data, layout, params) {
-    if (plyr::empty(data)) {
+    if (is.null(data) || nrow(data) == 0) {
       return(cbind(data, PANEL = integer(0)))
     }
     rbind(
@@ -470,7 +470,7 @@ FacetTrans <- ggproto("FacetTrans", Facet,
   init_scales = function(layout, x_scale = NULL, y_scale = NULL, params) {
     scales <- list()
     if (!is.null(x_scale)) {
-      scales$x <- plyr::rlply(max(layout$SCALE_X), x_scale$clone())
+      scales$x <- lapply(seq_len(max(layout$SCALE_X)), function(i) x_scale$clone())
     }
     if (!is.null(y_scale)) {
       y_scale_orig <- y_scale$clone()

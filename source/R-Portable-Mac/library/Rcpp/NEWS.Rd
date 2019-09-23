@@ -3,6 +3,42 @@
 \newcommand{\ghpr}{\href{https://github.com/RcppCore/Rcpp/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/RcppCore/Rcpp/issues/#1}{##1}}
 
+\section{Changes in Rcpp version 1.0.2 (2019-07-20)}{
+  \itemize{
+    \item Changes in Rcpp API:
+    \itemize{
+      \item Files in \code{src/} are now consistentely lowercase (Dirk
+      in \ghpr{956}).
+      \item The Rcpp 'API Version' is now accessible via
+      \code{getRcppVersion()} (Dirk in \ghpr{963}).
+    }
+    \item Changes in Rcpp Attributes:
+    \itemize{
+      \item The second END wrapper macro also gets \code{UNPROTECT} and
+      a variable reference suppressing compiler warnings (Dirk in
+      \ghpr{953}) fixing \ghit{951}).
+      \item Default function arguments are parsed correctly (Pierrick
+      Roger in \ghpr{977} fixing \ghit{975})
+    }
+    \item Changes in Rcpp Sugar:
+    \itemize{
+      \item Added decreasing parameter to \code{sort_unique()}
+      (James Balamuta in \ghpr{958} addressing \ghit{950}).
+    }
+    \item Changes in Rcpp Deployment:
+    \itemize{
+      \item Travis CI unit tests are now always running irrespective of
+      the package version (Dirk in \ghpr{954}).
+    }
+    \item Changes in Rcpp Documentation:
+    \itemize{
+      \item The \code{Rcpp-modules} vignette now covers the
+      \code{RCPP_EXPOSED_*} macros, and the \code{Rcpp-extending} vignette
+      references it (Ralf Stubner in \ghpr{959} fixing \ghit{952})
+    }
+  }
+}
+
 \section{Changes in Rcpp version 1.0.1 (2019-03-17)}{
   \itemize{
     \item Changes in Rcpp API:
@@ -14,7 +50,7 @@
       \item \code{Shelter} increases count only on non-null objects
       (Dirk in \ghpr{940} as suggested by Stepan Sindelar in \ghit{935}).
       \item \code{AttributeProxy::set()} and a few related setters get
-      \code{Shiled<>} to ensure rchk is happy (Romain in \ghpr{947})
+      \code{Shield<>} to ensure \code{rchk} is happy (Romain in \ghpr{947}
       fixing \ghit{946}).
     }
     \item Changes in Rcpp Attributes:
@@ -23,8 +59,8 @@
       \item Fixed an issue where 'stale' symbols could become registered in
       RcppExports.cpp, leading to linker errors and other related issues
       (Kevin in \ghpr{939} fixing \ghit{733} and \ghit{934}).
-      \item The wrapper macro gets an \code{UNPROTECT} to ensure rchk is
-      happy (Romain in \ghpr{949}) fixing \ghit{948}).
+      \item The wrapper macro gets an \code{UNPROTECT} to ensure \code{rchk}
+      is happy (Romain in \ghpr{949}) fixing \ghit{948}).
     }
     \item Changes in Rcpp Documentation:
     \itemize{

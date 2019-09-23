@@ -78,6 +78,7 @@ fexcept	setops
 fintersect	setops
 first	first
 forder	setorder
+forderv	setorder
 format.ITime	IDateTime
 foverlaps	foverlaps
 frank	frank
@@ -113,8 +114,8 @@ ITime	IDateTime
 ITime-class	IDateTime
 J	J
 key	setkey
-key2	setkey
-key<-	setkey
+key2	set2key
+key<-	set2key
 lag	shift
 last	last
 lead	shift
@@ -155,8 +156,8 @@ rowidv	rowid
 second	IDateTime
 seq.IDate	IDateTime
 set	assign
-set2key	setkey
-set2keyv	setkey
+set2key	set2key
+set2keyv	set2key
 setattr	setattr
 setcolorder	setcolorder
 setDF	setDF

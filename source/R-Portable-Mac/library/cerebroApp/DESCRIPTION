@@ -1,6 +1,6 @@
 Package: cerebroApp
 Title: Interactive visualization of scRNA-seq data with Cerebro.
-Version: 1.0.0
+Version: 1.1
 Authors@R: 
   person("Roman", "Hillje", email = "roman.hillje@googlemail.com", role = c("aut", "cre"))
 Description: Cerebro is a Shiny application that allows to interactively visualize scRNA-seq data. Data must be exported from a Seurat object using the cerebroPrepare package which also allows to perform analysis such as pathway enrichment analysis based on marker genes of samples and/or clusters.
@@ -10,20 +10,22 @@ LazyData: true
 RoxygenNote: 6.1.1
 Depends: R (>= 3.5.1)
 biocViews:
-Imports: dplyr, DT, formattable, ggplot2, ggtree (>= 1.14.6), Matrix,
-        msigdbr, plotly, reshape2, shiny, shinydashboard, shinyWidgets
+Imports: dplyr (>= 0.8.3), DT (>= 0.8), formattable (>= 0.2.0.1),
+        ggplot2 (>= 3.2.1), ggtree (>= 1.14.6), Matrix, msigdbr (>=
+        6.2.1), plotly (>= 4.9.0), reshape2 (>= 1.4.3), shiny (>=
+        1.3.2), shinydashboard (>= 0.7.1), shinyWidgets (>= 0.4.8)
 RemoteType: github
 RemoteHost: api.github.com
 RemoteRepo: cerebroApp
 RemoteUsername: romanhaa
-RemoteRef: master
-RemoteSha: 8bc1a9be38afcf297e8aa6c780038efbb1cada41
+RemoteRef: develop
+RemoteSha: 7ff9d684f3a2e1e008b6d3f95e8d88aed415bd15
 GithubRepo: cerebroApp
 GithubUsername: romanhaa
-GithubRef: master
-GithubSHA1: 8bc1a9be38afcf297e8aa6c780038efbb1cada41
+GithubRef: develop
+GithubSHA1: 7ff9d684f3a2e1e008b6d3f95e8d88aed415bd15
 NeedsCompilation: no
-Packaged: 2019-04-29 15:50:30 UTC; ieo4169
+Packaged: 2019-09-23 10:11:28 UTC; ieo4169
 Author: Roman Hillje [aut, cre]
 Maintainer: Roman Hillje <roman.hillje@googlemail.com>
-Built: R 3.5.3; ; 2019-04-29 15:50:32 UTC; unix
+Built: R 3.5.1; ; 2019-09-23 10:11:29 UTC; unix

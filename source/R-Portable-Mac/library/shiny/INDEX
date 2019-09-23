@@ -101,6 +101,7 @@ reactiveUI              UI output (deprecated)
 reactiveVal             Create a (single) reactive value
 reactiveValues          Create an object for storing reactive values
 reactiveValuesToList    Convert a reactivevalues object to a list
+reactlog                Reactive Log Visualizer
 registerInputHandler    Register an Input Handler
 removeInputHandler      Deregister an Input Handler
 removeUI                Remove UI objects
@@ -134,7 +135,6 @@ shinyUI                 Create a Shiny UI handler
 showBookmarkUrlModal    Display a modal dialog for bookmarking
 showModal               Show or remove a modal dialog
 showNotification        Show or remove a notification
-showReactLog            Reactive Log Visualizer
 showTab                 Dynamically hide/show a tabPanel
 sidebarLayout           Layout a sidebar and main area
 sidebarPanel            Create a sidebar panel

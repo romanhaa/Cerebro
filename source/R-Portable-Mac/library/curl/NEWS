@@ -1,3 +1,27 @@
+4.1
+ - Fixed typechecking code for new internal macro names in libcurl 7.66
+ - Rewrite typechecking to work better with clang and old libcurl (#192)
+ - has_internet() now checks for connectivity via a proxy server if one is detected
+ - Windows: respect the CURL_SSL_BACKEND variable for people that want to use OpenSSL.
+ - Windows: respect CURL_CA_BUNDLE if (and only if) CURL_SSL_BACKEND == openssl
+ - curl_download now writes to a temporary file, which is renamed to the destfile
+   upon success. This prevents corrupt files when a download fails or is interrupted.
+ - Automatically set forbid_reuse = TRUE in curl_echo() handles
+ - Update symbol table to 7.66.0
+
+4.0
+ - Stricter type checking for handle options based on <curl/typecheck-gcc.h> macros
+ - curl_symbols is now a function instead of a static table to allow easy filtering
+ - curl_fetch_memory now over-allocates also on unix to avoid many realloc calls
+ - Re-enable cookie unit test which should be fixed in curl 7.64.0
+ - Fix encoding of paths for downloading and uploading files (@jennybc, #183)
+ - Fix LTO declaration warning for R_get_proxy_for_url
+ - Better support for setting slist (string vector) options such as mail_rcpt
+ - New send_mail() function to send emails with the libcurl smtp client
+ - Add function curl_upload() to upload file to FTP or SCP server
+ - Windows: upgrade to libcurl 7.64.1
+ - Update symbol data to curl 7.64.1
+
 3.3
  - The 'data' callback from multi_add() gains a 'final' parameter
  - The 'data' callback from multi_add() can be given a file path to stream to files
