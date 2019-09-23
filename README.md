@@ -41,13 +41,13 @@
 
 This is the standalone version of [Cerebro](https://github.com/romanhaa/cerebroApp), **ce**ll **re**port **bro**wser, (currently available for macOS and Windows) which allows users to **interactively** visualize various parts of single cell transcriptomics data without requiring bioinformatic expertise.
 
-The core is the [cerebroApp](https://github.com/romanhaa/cerebroApp) [Shiny](https://shiny.rstudio.com/) application which is bottled into a standalone app using [Electron](https://electronjs.org/).
+The core of Cerebro is the [cerebroApp](https://github.com/romanhaa/cerebroApp) [Shiny](https://shiny.rstudio.com/) application which is bottled into a standalone app using [Electron](https://electronjs.org/).
 Therefore, it can also be run on web servers and Linux machines, requiring only R and a set of dependencies.
 
 Input data needs to be prepared using the [cerebroPrepare](https://github.com/romanhaa/cerebroPrepare) R package which was built specifically for this purpose.
 It offers functionality to export a [Seurat](https://satijalab.org/seurat/) object (both v2 and v3 are supported) to the correct format in a single step.
-The file should be saved either with the `.rds` or `.crb` extension, indicating that internally it is an RDS object.
-Furthermore, the cerebroPrepare package also provides functions to perform a set of (optional) analyses, e.g. pathway enrichment analysis based on marker gene lists of groups of cells.
+The file should be saved either with the `.crb` or `.rds` extension, indicating that internally it is an RDS object.
+Furthermore, the cerebroPrepare package also provides functions to perform a set of (optional) analyses, e.g. gene set enrichment analysis, pathway enrichment analysis based on marker gene lists of groups of cells, and more.
 
 The exported `.crb` file is then loaded into Cerebro and shows all available information.
 
@@ -156,7 +156,9 @@ Currently, Cerebro is available only for macOS and Windows.
 
 More experienced users of all platforms can alternatively launch the app through the dedicated `cerebroApp` R package - which is the core Cerebro - or the `romanhaa/cerebro` Docker container.
 
-Please check the table below for an overview of the supported operating systems and requirements of each way to start Cerebo.
+Please check the image and table below for an overview of the supported operating systems and requirements of each way to start Cerebo.
+
+<p align="center"><img src="images/launching_Cerebro.jpg" alt="Options to launch Cerebro." width="600"/></p>
 
 | | **Standalone desktop application** | **cerebroApp R package** | **Docker container** |
 |-:|:-:|:-:|:-:|
