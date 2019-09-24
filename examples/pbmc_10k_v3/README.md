@@ -19,7 +19,7 @@ The workflows of all three frameworks are conceptually the same, containing the 
 * Identify clusters and build a cluster tree.
 * Perform dimensional reduction.
 
-Then, using the functions of cerebroPrepare, we add some more data:
+Then, using the functions of cerebroApp, we add some more data:
 
 * Calculate the percent of mitochondrial and ribosomal gene expression (`addPercentMtRibo()`).
 * Get the most expressed genes in each sample and cluster (`getMostExpressedGenes()`).

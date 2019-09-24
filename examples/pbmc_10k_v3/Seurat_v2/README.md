@@ -29,7 +29,7 @@ To do our analysis, we load the following libraries.
 library('dplyr')
 library('Seurat', lib.loc = '/other_R_packages')
 library('monocle')
-library('cerebroPrepare')
+library('cerebroApp')
 ```
 
 ## Load transcript counts
@@ -87,11 +87,7 @@ seurat <- FilterCells(
 seurat <- NormalizeData(seurat)
 seurat <- FindVariableGenes(seurat)
 seurat <- ScaleData(seurat, vars.to.regress = 'nUMI')
-seurat <- RunPCA(
-  seurat,
-  pcs.compute = 30,
-  pc.genes = seurat@var.genes
-)
+seurat <- RunPCA(seurat, pcs.compute = 30, pc.genes = seurat@var.genes)
 seurat <- FindClusters(
   seurat,
   reduction.type = 'pca',
@@ -224,9 +220,9 @@ seurat@misc$technical_info <- list(
 )
 ```
 
-## cerebroPrepare functions (optional but recommended)
+## cerebroApp functions (optional but recommended)
 
-Using the functions provided by cerebroPrepare, we check the percentage of mitochondrial and ribosomal genes and, for every sample and cluster, we...
+Using the functions provided by cerebroApp, we check the percentage of mitochondrial and ribosomal genes and, for every sample and cluster, we...
 
 * get the 100 most expressed genes,
 * identify marker genes (with the `FindAllMarkers` of Seurat),
@@ -234,26 +230,26 @@ Using the functions provided by cerebroPrepare, we check the percentage of mitoc
 * and perform gene set enrichment analysis (using GSVA).
 
 ```r
-seurat <- cerebroPrepare::addPercentMtRibo(
+seurat <- cerebroApp::addPercentMtRibo(
   seurat,
   organism = 'hg',
   gene_nomenclature = 'name'
 )
 
-seurat <- cerebroPrepare::getMostExpressedGenes(
+seurat <- cerebroApp::getMostExpressedGenes(
   seurat,
   column_sample = 'sample',
   column_cluster = 'cluster'
 )
 
-seurat <- cerebroPrepare::getMarkerGenes(
+seurat <- cerebroApp::getMarkerGenes(
   seurat,
   organism = 'hg',
   column_sample = 'sample',
   column_cluster = 'cluster'
 )
 
-seurat <- cerebroPrepare::getEnrichedPathways(
+seurat <- cerebroApp::getEnrichedPathways(
   seurat,
   column_sample = 'sample',
   column_cluster = 'cluster',
@@ -261,7 +257,7 @@ seurat <- cerebroPrepare::getEnrichedPathways(
   max_terms = 100
 )
 
-seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
+seurat <- cerebroApp::performGeneSetEnrichmentAnalysis(
   seurat,
   GMT_file = 'c2.all.v7.0.symbols.gmt',
   column_sample = 'sample',
@@ -278,7 +274,7 @@ seurat <- cerebroPrepare::performGeneSetEnrichmentAnalysis(
 ### All cells
 
 Next, we perform trajectory analysis of all cells with Monocle using the previously identified highly variable genes.
-We extract the trajectory from the generated Monocle object with the `extractMonocleTrajectory()` function of cerebroPrepare and attach it to our Seurat object.
+We extract the trajectory from the generated Monocle object with the `extractMonocleTrajectory()` function of cerebroApp and attach it to our Seurat object.
 
 ```r
 monocle_all_cells <- newCellDataSet(
@@ -296,7 +292,7 @@ monocle_all_cells <- setOrderingFilter(monocle_all_cells, seurat@var.genes)
 monocle_all_cells <- reduceDimension(monocle_all_cells, max_components = 2, method = 'DDRTree')
 monocle_all_cells <- orderCells(monocle_all_cells)
 
-seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_all_cells, seurat, 'all_cells')
+seurat <- cerebroApp::extractMonocleTrajectory(monocle_all_cells, seurat, 'all_cells')
 ```
 
 ### Cells in G1 phase
@@ -321,15 +317,15 @@ monocle_subset_of_cells <- setOrderingFilter(monocle_subset_of_cells, seurat@var
 monocle_subset_of_cells <- reduceDimension(monocle_subset_of_cells, max_components = 2, method = 'DDRTree')
 monocle_subset_of_cells <- orderCells(monocle_subset_of_cells)
 
-seurat <- cerebroPrepare::extractMonocleTrajectory(monocle_subset_of_cells, seurat, 'subset_of_cells')
+seurat <- cerebroApp::extractMonocleTrajectory(monocle_subset_of_cells, seurat, 'subset_of_cells')
 ```
 
 ## Export to Cerebro format
 
-Finally, we use the `exportFromSeurat()` function of cerebroPrepare to export our Seurat object to a `.crb` file which can be loaded into Cerebro.
+Finally, we use the `exportFromSeurat()` function of cerebroApp to export our Seurat object to a `.crb` file which can be loaded into Cerebro.
 
 ```r
-cerebroPrepare::exportFromSeurat(
+cerebroApp::exportFromSeurat(
   seurat,
   experiment_name = 'PBMC_10k',
   file = paste0('Seurat_v2/cerebro_PBMC_10k_', Sys.Date(), '.crb'),
