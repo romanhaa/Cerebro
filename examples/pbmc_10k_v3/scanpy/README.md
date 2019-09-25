@@ -14,8 +14,8 @@ Then, we pull the Docker image from the Docker Hub, convert it to Singularity, a
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/examples/pbmc_10k_v3
 # download GMT file (if you want) and place it inside this folder
-singularity build <path_to>/cerebro-example_2019-09-20.simg docker://romanhaa/cerebro-example:2019-09-20
-singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-20.simg bash
+singularity build <path_to>/cerebro_v1.1.simg docker://romanhaa/cerebro:v1.1
+singularity exec --bind ./:/data <path_to>/cerebro_v1.1.simg bash
 cd /data
 python3
 ```
@@ -25,7 +25,7 @@ python3
 First, we...
 
 * load the required Python libraries and the raw data,
-* merge duplicated gene names,
+* make gene names unique,
 * remove cells with less than `100` transcripts or fewer than `50` expressed genes,
 * calculate the number of transcripts per cell, and
 * remove genes expressed in fewer than `10` cells.
@@ -35,11 +35,7 @@ import numpy as np
 import pandas as pd
 import scanpy as sc
 
-adata = sc.read_10x_mtx(
-  'raw_data/',
-  var_names = 'gene_symbols',
-  cache = True
-)
+adata = sc.read_10x_h5('raw_data/filtered_feature_bc_matrix.h5')
 adata.var_names_make_unique()
 sc.pp.filter_cells(adata, min_counts = 101)
 sc.pp.filter_cells(adata, min_genes = 51)

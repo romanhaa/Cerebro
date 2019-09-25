@@ -48,7 +48,7 @@ RUN Rscript -e 'BiocManager::install("satijalab/seurat@develop")'
 RUN Rscript -e 'BiocManager::install("monocle")'
 
 # cerebroApp
-RUN Rscript -e 'devtools::install_github("romanhaa/cerebroApp@merge_packages")'
+RUN Rscript -e 'devtools::install_github("romanhaa/cerebroApp@develop")'
 
 # Seurat v2.3.4
 RUN mkdir /other_R_packages

@@ -13,8 +13,8 @@ Then, we pull the Docker image from the Docker Hub, convert it to Singularity, a
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/examples/pbmc_10k_v3
 # download GMT file (if you want) and place it inside this folder
-singularity build <path_to>/cerebro-example_2019-09-20.simg docker://romanhaa/cerebro-example:2019-09-20
-singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-20.simg R
+singularity build <path_to>/cerebro_v1.1.simg docker://romanhaa/cerebro:v1.1
+singularity exec --bind ./:/data <path_to>/cerebro_v1.1.simg R
 ```
 
 Then, we set the console width to `100`, change the working directory, and set the seed.
@@ -34,47 +34,14 @@ library('monocle')
 library('cerebroApp')
 ```
 
-## Load transcript counts
-
-First, we load the raw data and add gene names / cell barcodes.
-
-```r
-path_to_data <- './raw_data'
-
-feature_matrix <- Matrix::readMM(paste0(path_to_data, '/matrix.mtx.gz'))
-feature_matrix <- as.matrix(feature_matrix)
-feature_matrix <- as.data.frame(feature_matrix)
-
-colnames(feature_matrix) <- readr::read_tsv(paste0(path_to_data, '/barcodes.tsv.gz'), col_names = FALSE) %>%
-  dplyr::select(1) %>%
-  t() %>%
-  as.vector()
-
-gene_names <- readr::read_tsv(paste0(path_to_data, '/features.tsv.gz'), col_names = FALSE) %>%
-  dplyr::select(2) %>%
-  t() %>%
-  as.vector()
-
-feature_matrix <- feature_matrix %>%
-  dplyr::mutate(gene = gene_names) %>%
-  dplyr::select('gene', everything()) %>%
-  dplyr::group_by(gene) %>%
-  dplyr::summarise_all(sum)
-
-genes <- feature_matrix$gene
-
-feature_matrix <- dplyr::select(feature_matrix, -c('gene'))
-feature_matrix <- as.data.frame(feature_matrix)
-rownames(feature_matrix) <- genes
-```
-
 ## Pre-processing with Seurat
 
-With the transcript count loaded, we create a Seurat object, remove cells with less than `100` transcripts or fewer than `50` expressed genes.
+We load the transcript count matrix, create a Seurat object and remove cells with less than `100` transcripts or fewer than `50` expressed genes.
 Then, we follow the standard Seurat workflow, including normalization, identifying highly variably genes, scaling expression values and regressing out the number of transcripts per cell, perform principal component analysis (PCA), find neighbors and clusters.
 Furthermore, we build a cluster tree that represents the similarity between clusters and create a dedicated `cluster` column in the meta data.
 
 ```r
+feature_matrix <- Read10X_h5('raw_data/filtered_feature_bc_matrix.h5')
 seurat <- CreateSeuratObject(
   project = 'PBMC_10k_v3',
   counts = feature_matrix,

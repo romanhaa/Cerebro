@@ -11,8 +11,8 @@ Then, we pull the Docker image from the Docker Hub, convert it to Singularity, a
 git clone https://github.com/romanhaa/Cerebro
 cd Cerebro/examples/pbmc_10k_v3
 # download GMT file (if you want) and place it inside this folder
-singularity build <path_to>/cerebro-example_2019-09-20.simg docker://romanhaa/cerebro-example:2019-09-20
-singularity exec --bind ./:/data <path_to>/cerebro-example_2019-09-20.simg R
+singularity build <path_to>/cerebro_v1.1.simg docker://romanhaa/cerebro:v1.1
+singularity exec --bind ./:/data <path_to>/cerebro_v1.1.simg R
 ```
 
 Then, we set the console width to `100`, change the working directory, and set the seed.
@@ -34,41 +34,27 @@ library('cerebroApp')
 
 ## Load transcript counts
 
-First, we load the raw data and add gene names / cell barcodes.
+Unfortunately, the `Read10X_h5()` function of Seurat v2 has problems with the `.h5` file downloaded from the 10x Genomics website so instead we load it manually and convert it to a sparse matrix.
 
 ```r
-path_to_data <- './raw_data'
+h5_data <- hdf5r::H5File$new('raw_data/filtered_feature_bc_matrix.h5', mode = 'r')
 
-feature_matrix <- Matrix::readMM(paste0(path_to_data, '/matrix.mtx.gz'))
-feature_matrix <- as.matrix(feature_matrix)
-feature_matrix <- as.data.frame(feature_matrix)
-
-colnames(feature_matrix) <- readr::read_tsv(paste0(path_to_data, '/barcodes.tsv.gz'), col_names = FALSE) %>%
-  dplyr::select(1) %>%
-  t() %>%
-  as.vector()
-
-gene_names <- readr::read_tsv(paste0(path_to_data, '/features.tsv.gz'), col_names = FALSE) %>%
-  dplyr::select(2) %>%
-  t() %>%
-  as.vector()
-
-feature_matrix <- feature_matrix %>%
-  dplyr::mutate(gene = gene_names) %>%
-  dplyr::select('gene', everything()) %>%
-  dplyr::group_by(gene) %>%
-  dplyr::summarise_all(sum)
-
-genes <- feature_matrix$gene
-
-feature_matrix <- dplyr::select(feature_matrix, -c('gene'))
-feature_matrix <- as.data.frame(feature_matrix)
-rownames(feature_matrix) <- genes
+feature_matrix <- Matrix::sparseMatrix(
+  i = h5_data[['matrix/indices']][],
+  p = h5_data[['matrix/indptr']][],
+  x = h5_data[['matrix/data']][],
+  dimnames = list(
+    h5_data[['matrix/features/name']][],
+    h5_data[['matrix/barcodes']][]
+  ),
+  dims = h5_data[['matrix/shape']][],
+  index1 = FALSE
+)
 ```
 
 ## Pre-processing with Seurat
 
-With the transcript count loaded, we create a Seurat object, remove cells with less than `100` transcripts or fewer than `50` expressed genes.
+With the transcript count loaded, we create a Seurat object and remove cells with less than `100` transcripts or fewer than `50` expressed genes.
 Then, we follow the standard Seurat workflow, including normalization, identifying highly variably genes, scaling expression values and regressing out the number of transcripts per cell, perform principal component analysis (PCA), find neighbors and clusters.
 Furthermore, we build a cluster tree that represents the similarity between clusters and create a dedicated `cluster` column in the meta data.
 
