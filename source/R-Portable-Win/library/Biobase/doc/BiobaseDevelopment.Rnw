@@ -1,0 +1,684 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{Notes for eSet developers}
+%\VignetteDepends{}
+%\VignetteKeywords{Expression Analysis}
+%\VignettePackage{Biobase}
+\documentclass[]{article}
+
+\usepackage{times}
+\usepackage{hyperref}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\R}{\textsf{R}}
+\newcommand{\eSet}{\Robject{eSet}}
+\newcommand{\ExpressionSet}{\Robject{ExpressionSet}}
+\newcommand{\Biobase}{\Rpackage{Biobase}}
+
+\newcommand{\term}[1]{\emph{#1}}
+\newcommand{\mref}[2]{\htmladdnormallinkfoot{#2}{#1}}
+
+\begin{document}
+
+\title{\Biobase{} development and the new \eSet}
+\author{\mref{mailto:mtmorgan@fhcrc.org}{Martin T. Morgan}}
+\date{7 August, 2006}
+\maketitle
+
+Revised 4 September, 2006 -- \Robject{featureData} slot.
+Revised 20 April 2007 -- minor wording changes; \Rfunarg{verbose} and
+other arguments passed through \Rmethod{updateObject} example;
+introduce a second variant of \Rmethod{initialize} illustrating its
+use as a copy constructor.
+Revised 4 November, 2010 -- \Robject{experimentData} slot as \Rclass{MIAxE} 
+class. \Rclass{MIAME} class is now subclass of \Rclass{MIAxE}.
+
+\section{Introduction}
+
+These notes help \emph{developers} who are interested in using and
+extending the \eSet{} class hierarchy, and using features in
+\Biobase. The information here is not useful to regular users of
+\Biobase.
+
+This document illustrates the \Biobase{} structures and approaches
+that make it it easy for developers to creatively use and extend the
+\eSet{} class hierarchy.
+
+The document starts with a brief description of the motivation for
+change, and a comparison of the old (before August, 2006) and new
+\eSet{}s and related functionality (e.g.,the \Rclass{Versioned} class
+and \Rfunction{updateObject} methods). We then illustrate how \eSet{}
+can be extended to handle additional types of data, and how new
+methods can exploit the \eSet{} class hierarchy. We conclude with a
+brief summary of lessons learned, useful developer-related
+side-effects of efforts to revise \eSet{}, and possible directions for
+future development.
+
+\section{Comparing old and new}
+
+What is an \eSet{}?
+\begin{itemize}
+\item Coordinate high through-put (e.g., gene expression) and phenotype data.
+\item Provide common data container for diverse Bioconductor packages.
+\end{itemize}
+Motivation for change (August, 2006).
+\begin{itemize}
+\item What was broken?  Complex data structure. Inconsistent object
+  validity. No straight-forward way to extend \eSet{} to new data
+  types. 
+\item What forward-looking design goals did we have? Flexible storage
+  model. Class hierarchy to promote code reuse and facilitate
+  extension to new data objects. Methods for updating serialized instances.
+\end{itemize}
+Key features in the redesign.
+\begin{itemize}
+\item Simplified data content.
+\item Structured class hierarchy .
+\item Alternative storage modes.
+\item More validity checking.
+\item Conversion of example data in \Biobase{}, and many other data
+  sets elsewhere in Bioconductor, to \Rclass{ExpressionSet}.
+\item \Rclass{Versioned} class information (in the development branch).
+\item \Rfunction{updateObject} methods (in the development branch).
+\end{itemize}
+
+\section{A quick tour}
+<<Biobase,echo=FALSE,results=hide>>=
+options(width=69)
+library(Biobase)
+@ 
+
+\subsection{The \eSet{} object: high-throughput experiments}
+Purpose.
+\begin{itemize}
+\item Coordinate and contain high-throughput genomic data.
+\end{itemize}
+Structure: virtual base class.
+<<eSet-class>>=
+getClass("eSet")
+@ 
+\begin{itemize}
+\item \Robject{assayData}: high-throughput data.
+\item \Robject{phenoData}: sample covariates.
+\item \Robject{featureData}: feature covariates.
+\item \Robject{experimentData}: experimental description.
+\item \Robject{annotation}: assay description.
+\item See below, and \verb|?"eSet-class"|
+\end{itemize}
+
+\subsubsection{\Robject{assayData}: high-throughput data}
+Purpose.
+\begin{itemize}
+\item Efficiently and flexibly contain high-volume data.
+\end{itemize}
+Structure: \Rclass{list}, \Rclass{environment}, or \Rclass{lockEnvironment} class union.
+\begin{itemize}
+\item Each element of \Rclass{list} / \Rclass{environment} / \Rclass{lockEnvironment} is a matrix
+\item Rows: \emph{features}, e.g., gene names.
+\item Columns: \emph{samples} represented on each chip. 
+\item All matricies must have the same dimensions, row names, and column names.
+\item Subclasses determine which matricies \emph{must} be present.
+\item See \verb|?"AssayData-class"|
+\end{itemize}
+
+\subsubsection{\Robject{phenoData}: sample covariates}
+Purpose.
+\begin{itemize}
+\item Contain and document sample covariates.
+\end{itemize}
+Structure: \Rclass{AnnotatedDataFrame}.
+\begin{itemize}
+\item \Robject{data}: \Rclass{data.frame}.
+  \begin{itemize}
+  \item Rows: sample identifiers.
+  \item Columns: measured covariates.
+  \end{itemize}
+\item \Robject{varMetadata}: \Rclass{data.frame}.
+  \begin{itemize}
+  \item Rows: measured covariate labels.
+  \item Columns: covariate descriptors. 
+  \end{itemize}
+\item See \verb|?"AnnotatedDataFrame-class"|
+\end{itemize}
+
+\subsubsection{\Robject{featureData}: feature covariates}
+Purpose.
+\begin{itemize}
+\item Contain and document feature covariates specific to the
+  experiment; use the \Robject{annotation} slot for chip-level descriptions.
+\end{itemize}
+Structure: \Rclass{AnnotatedDataFrame}.
+\begin{itemize}
+\item \Robject{data}: \Rclass{data.frame}.
+  \begin{itemize}
+  \item Rows: feature identifiers. These match row names of \Robject{assayData}.
+  \item Columns: measured covariates.
+  \end{itemize}
+\item \Robject{varMetadata}: \Rclass{data.frame}.
+  \begin{itemize}
+  \item Rows: measured covariate labels.
+  \item Columns: covariate descriptors. 
+  \end{itemize}
+\item See \verb|?"AnnotatedDataFrame-class"|
+\end{itemize}
+
+\subsubsection{\Robject{experimentData}: experiment description}
+Purpose.
+\begin{itemize}
+\item Summarize where and how the experiment was performed.
+\end{itemize}
+Structure: \Rclass{MIAxE} virtual class
+\begin{itemize}
+\item[] {In Biobase version 2.11 the \Rclass{MIAxE} virtual class was introduced 
+as a general container for experiment meta-data. The \Rclass{MIAME} class
+is now a subclass of \Rclass{MIAxE}. See \verb|?"MIAxE-class"|. 
+The \Rclass{MIAME} class structure is as follows} 
+\end{itemize}
+\begin{itemize}
+\item \Robject{title}: experiment title.
+\item \Robject{name}: experimenter name(s).
+\item \Robject{preprocessing}: \Robject{list} of pre-processing steps.
+\item Additional slots.
+\item See \verb|?"MIAME-class"|.
+\end{itemize}
+
+\subsubsection{\Robject{annotation}: assay description}
+Purpose.
+\begin{itemize}
+\item Link experiment to annotation package.
+\end{itemize}
+Structure: \Rclass{character}
+\begin{itemize}
+\item Label identifying annotation package.
+\end{itemize}
+
+%% Methods
+
+\subsection{Important \eSet{} methods}
+Initialization.
+\begin{itemize}
+\item \eSet{} is \verb|VIRTUAL|, initialize via subclass \Rfunction{callNextMethod}
+\end{itemize}
+Accessors (get, set).
+\begin{itemize}
+\item \Rfunction{assayData(obj); assayData(obj) <- value}: access or assign \Robject{assayData}
+\item \Rfunction{phenoData(obj); phenoData(obj) <- value}: access or assign \Robject{phenoData}
+\item \Rfunction{experimentData(obj); experimentData(obj) <- value}: access or assign \Robject{experimentData}
+\item \Rfunction{annotation(obj); annotation(obj) <- value}: access or assign \Robject{annotation}
+\end{itemize}
+Subsetting.
+\begin{itemize}
+\item \Rfunction{obj[i, j]}: select genes $i$ and samples $j$.
+\item \Rfunction{obj\$name; obj\$name <- value}:
+  retrieve  or assign covariate \Robject{name} in \Robject{phenoData}
+\end{itemize}
+
+\subsubsection{Additional \eSet{} methods}
+\begin{itemize}
+\item \Rfunction{show}.
+\item \Rfunction{storageMode}: influence how \Robject{assayData} is stored.
+\item \Rfunction{updateObject}: update \eSet{} objects to their current version.
+\item \Rfunction{validObject}: ensure that \eSet{} is valid.
+\end{itemize}
+
+The \Rfunction{validObject} method is particularly important to
+\eSet{}, ensuring that \eSet{} contains consistent structure to data.
+<<eSet-validity>>=
+getValidity(getClass("eSet"))
+@ 
+The validity methods for \eSet{} reflect our design goals. All
+\Robject{assayData} members must have identical row and column
+dimensions and \Robject{featureNames}. The names and numbers of
+samples must be the same in \Robject{assayData} and
+\Robject{phenoData} slots. Validity methods are defined for the
+classes underlying each slot as well. For instance, the validity
+methods for \Robject{AnnotatedDataFrame} check that variables used in
+\Robject{pData} are at least minimally described in \Robject{varMetadata}.
+
+%% Subclasses
+
+\subsection{Subclasses of \eSet}
+\Biobase{} defines three classes that extend \eSet{}. \ExpressionSet{}
+(discussed further below) is meant to contain microarray gene
+expression data. \Rclass{SnpSet} is a preliminary class to contain SNP
+data; other classes in development (e.g., in \Rpackage{oligo}) may
+provide alternative implementations for SNP data. \Rclass{MultiSet} is
+an \ExpressionSet-like class, but without restriction on the names
+(though not structure) of elements in the \Robject{assayData} slot.
+
+\subsubsection{\ExpressionSet}
+Purpose: 
+\begin{itemize}
+\item Contain gene expression data.
+\end{itemize}
+Required \Robject{assayData} members.
+\begin{itemize}
+\item \Robject{exprs}, a matrix of expression values.
+\end{itemize}
+Important methods.
+\begin{itemize}
+\item Initialization (additional details below):
+<<ExpressionSet-initialize,eval=FALSE>>=
+obj <- new("ExpressionSet", phenoData = new("AnnotatedDataFrame"), experimentData = new("MIAME"), annotation = character(), exprs = new("matrix")) 
+@ 
+\item \Rfunction{exprs(obj), exprs(obj) <- value}: get or set \Robject{exprs}; methods defined for \Rclass{ExpressionSet}, \Rclass{AssayData}.
+\end{itemize}
+ 
+
+\subsubsection{\Rclass{MultiSet} and \Rclass{SnpSet}}
+\Rclass{MultiSet}.
+\begin{itemize}
+\item Purpose: flexibly contain a collection of expression data matricies.
+\item Required \Robject{assayData} members: none.
+\end{itemize}
+\Rclass{SnpSet}.
+\begin{itemize}
+\item Purpose: contain genomic SNP calls.
+\item Required \Robject{assayData} members: \Robject{call}, \Robject{callProbability}.
+\end{itemize}
+
+\section{Comments on \Robject{assayData}: high-throughput data storage}
+The \Robject{assayData} slot is meant to store high-throughput
+data. The idea is that the slot contains identically sized matrices
+containing expression or other data. All matrices in the slot must
+have the same dimension, and are structured so that rows represent
+`features' and columns represent `samples'. Validity methods enforce
+that row and column names of slot elements are identical. 
+
+For technical reasons, creating instance of \Rclass{AssayData} is
+slightly different from the way this is usually done in
+\R{}. Normally, one creates an instance of a class with an expression
+like \Rfunction{new("ExpressionSet", ...)}, with the \ldots
+representing additional arguments. \Rclass{AssayData} objects are
+created with
+<<newAssayData,eval=FALSE>>=
+assayDataNew("environment", elt)
+@ 
+where \Robject{elt} might be a matrix of expression values. For the
+curious, the reason for this setup stems from our desire to have a
+class that \Rfunction{is} a list or environment, rather than a class
+that has a slot that contains a list or environment. The
+\Rfunction{is} relationship is desirable to avoid unnecessary
+function calls to access slots, and requires that a class
+\Rfunction{contain} the base type (e.g., \Rclass{environment}). Until
+recently an \R{} object could not \Rfunction{contain} an
+\Rclass{environment}.
+
+The \Robject{assayData} slot of \ExpressionSet{} objects must contain
+a matrix named \Robject{exprs}. Nonetheless, the \ExpressionSet{}
+validity method tries to be liberal -- it guarantees that the object
+has an \Robject{exprs} element, but allows for other elements too. The
+prudent developer wanting consistent additional data elements should
+derive a class from \ExpressionSet{} that enforces the presence of
+their desired elements.
+
+The \Rclass{AssayData} class allows for data elements to be stored in
+three different ways (see \Rfunction{?storageMode} and
+\Rfunction{?"storageMode<-"} for details): as a \Robject{list},
+\Robject{environment}, or \Robject{lockedEnvironment}.  Developers are
+probably familiar with \Robject{list} objects; a drawback is that
+\Robject{exprs} elements may be large, and some operations on lists in
+\R{} may trigger creation of many copies of the the \Robject{exprs}
+element. This can be expensive in both space and time. Environments
+are nearly unique in \R{}, in that they are passed by reference rather
+than value. This eliminates some copying, but has the unfortunate
+consequence that side-effects occur -- modifications to an environment
+inside a function influence the value of elements outside the
+function. For these reasons, environments can be useful as `read only'
+arguments to functions, but can have unexpected consequences when
+functions modify their arguments.  Locked environments implemented in
+\Biobase{} try to strike a happy medium, allowing pass by reference for
+most operations but triggering (whole-environment) copying when
+elements in the environment are modified. The locking mechanism is
+enforced by only allowing known `safe' operations to occur, usually by
+channeling user actions through the accessor methods:
+<<assayData-storageMode>>=
+data(sample.ExpressionSet)
+storageMode(sample.ExpressionSet)
+tryCatch(assayData(sample.ExpressionSet)$exprs <- log(exprs(sample.ExpressionSet)),
+         error=function(err) cat(conditionMessage(err)))
+exprs(sample.ExpressionSet) <- log(exprs(sample.ExpressionSet))
+@ 
+The \Rfunction{setReplaceMethod} for \Robject{exprs} (and
+\Robject{assayData}) succeeds by performing a deep copy of the entire
+environment. Because this is very inefficient, the recommended paradigm
+to update an element in a \Robject{lockedEnvironment} is to extract
+it, make many changes, and then reassign it. Developers can study
+\Robject{assayData} methods to learn more about how to lock and unlock
+environment bindings.  \Biobase{} allows the experienced user to
+employ (and run the risks of) environments, but the expectation is
+that most user objects are construced with the default
+\Robject{lockedEnvironment} or \Robject{list}.
+
+A longer term consideration in designing \Rclass{AssayData} was to
+allow more flexible methods of data storage, e.g., through
+database-hosted arrays. This is facilitated by using generic functions
+such as \Rfunction{exprs()} for data access, so that classes derived
+from \Rclass{AssayData} can provide implementations appropriate for
+their underlying storage mode.
+
+
+\section{Extending \eSet}
+A designer wanting to implement \eSet{} for a particular type of data
+creates a class that `contains' \eSet{}. The steps for doing this are
+described below. One example of such a class is \ExpressionSet,
+designed to hold a matrix of gene expression values in the
+\Robject{assayData} slot. 
+<<ExpressionSet-class>>=
+getClass("ExpressionSet")
+getValidity(getClass("ExpressionSet"))
+@ 
+The data structure of an \ExpressionSet{} is identical to that of
+\eSet, and in fact is inherited (without additional slot creation)
+from \eSet{}. The main difference is that the validity methods of
+\eSet{} are augmented by a method to check that the
+\Robject{assayData} slot contains an entity named \Robject{"exprs"}. A
+valid \ExpressionSet{} object must also satisfy all the validity
+requirements of \eSet{}, but the developer does not explicitly invoke
+validity checking of the parts of the data structure inherited from
+\eSet{}.
+
+\subsection{Implementing a new class: a \Rclass{SwirlSet} example}
+
+We want the \emph{Swirl} data set (see the \Robject{SW} two color data
+set that motivates this class) to contain four elements in the
+\Robject{assayData} slot: \Robject{R}, \Robject{G}, \Robject{Rb},
+\Robject{Gb}. To derive a class from \eSet{} for this data, we create
+a class, and provide initializaation and validation methods.
+
+We create a class as follows:
+<<SwirlSet-class>>=
+setClass("SwirlSet", contains="eSet")
+@ 
+Notice that there are no new data elements in \Rclass{SwirlSet}
+compared with \eSet{}. The \Rfunction{initialize} method is written as
+<<SwirlSet-initialize>>=
+setMethod("initialize", "SwirlSet",
+          function(.Object,
+                   R = new("matrix"),
+                   G = new("matrix"),
+                   Rb = new("matrix"),
+                   Gb = new("matrix"),
+                   ...) {
+            callNextMethod(.Object,
+                           R=R, G=G, Rb=Rb, Gb=Gb,
+                           ...)
+        })
+@ 
+% 
+A slightly different \Rmethod{initialize} method allows the user to
+specify either the \Robject{assayData} or the \Robject{assayData}
+content. In advanced use, this has the advantage that
+\Rmethod{initialize} can be used as a `copy constructor' to update
+several slots simultaneously.
+<<SwirlSet-initialize-2>>=
+setMethod("initialize", "SwirlSet",
+          function(.Object,
+                   assayData=assayDataNew(
+                     R=R, G=G, Rb=Rb, Gb=Gb),
+                   R = new("matrix"),
+                   G = new("matrix"),
+                   Rb = new("matrix"),
+                   Gb = new("matrix"),
+                   ...) {
+            if (!missing(assayData) && 
+                any(!missing(R), !missing(G), !missing(Rb), !missing(Gb))) {
+                warning("using 'assayData'; ignoring 'R', 'G', 'Rb', 'Gb'")
+            }
+            callNextMethod(.Object, assayData=assayData, ...)
+        })
+@ 
+
+The structure of the \Rfunction{initialize} method is a bit different
+from those often seen in \R{}. Often, \Rfunction{initialize} has only
+\Robject{.Object} as a named argument, or, if there are other named
+arguments, they correspond to slot names. Here our initialize method
+accepts four arguments, named after the \Robject{assayData} elements.
+Inside the \Rfunction{initialize} method, the named arguments are
+passed to the next initialization method in the hierarch (i.e.,
+\Rfunction{initialize} defined for \eSet). The \eSet{}
+\Rfunction{initialize} method then uses these arguments to populate
+the data slots in \Robject{.Object}. In particular, \eSet{} places all
+arguments other \Rfunction{phenoData}, \Rfunction{experimentData}, and
+\Rfunction{annotation} into the \Robject{assayData} slot.  The \eSet{}
+\Rfunction{initialize} method then returns the result to the
+\Rfunction{initialize} method of \Rclass{SwirlSet}, which returns a
+\Rclass{SwirlSet} object to the user:
+<<SwirlSet-new>>=
+new("SwirlSet")
+@ 
+
+General programing guidelines emerge from experience with the
+\Rfunction{initialize} method of \eSet{} and derived classes. First,
+an appropriate strategy is to name only those data elements that will
+be manipulated directly by the \Rfunction{initialize} method. For
+instance, the definition above did \emph{not} name \Robject{phenoData}
+and other \eSet{} slots by name. To do so is not incorrect, but would
+require that they be explicitly named (e.g.,
+\Rfunction{phenoData=phenoData}) in the \Rfunction{callNextMethod}
+code. Second, the arguments \Robject{R, G, Rb, Rg} are present in the
+\Rfunction{initialize} method to provide defaults consistent with
+object construction; the `full' form of \Rfunction{callNextMethod},
+replicating the named arguments, is required in the version of \R{} in
+which this class was developed. Third, named arguments can be
+manipulated before \Rfunction{callNextMethod} is invoked.  Fourth, the
+return value of \Rfunction{callNextMethod} can be captured\ldots
+<<initialize-.Object,eval=FALSE>>=
+setMethod("initialize", "MySet",
+          function(.Object, ...) {
+              .Object <- callNextMethod(.Object, ...)
+          })
+              .
+@ 
+and manipulated before being returned to the user. Finally, it is the
+responsbilitiy of the developer to ensure that a valid object is
+created; \Rfunction{callNextMethod} is a useful way to exploit
+correctly designed \Rfunction{initialize} methods for classes that the
+object extends, but the developer is free to use other techniques to
+create valid versions of their class.
+
+A validity method might complete our new class. A validity method is
+essential to ensure that the unique features of \Rclass{SwirlSet} --
+our reason for designing the new class -- are indeed present. We
+define our validity method to ensure that the \Robject{assayData} slot
+contains our four types of expression elements:
+<<SwirlSet-validity>>=
+setValidity("SwirlSet", function(object) {
+  assayDataValidMembers(assayData(object), c("R", "G", "Rb", "Gb"))
+})
+@ 
+
+Notice that we do not have to explicitly request that the validity of
+other parts of the \Rclass{SwirlSet} object are valid; this is done
+for us automatically. Objects are checked for validity when they are
+created, but not when modified. This is partly for efficiency reasons,
+and partly because object updates might transiently make them
+invalid. So a good programing practice is to ensure validity after
+modification, e.g.,
+<<validity-sometimes,eval=FALSE>>=
+myFancyFunction <- function(obj) {
+  assayData(obj) <- fancyAssaydData # obj invalid...
+  phenoData(obj) <- justAsFancyPhenoData # but now valid
+  validObject(obj)
+  obj
+}
+@ 
+Assigning \Robject{fancyAssaydData} might invalidate the object, but
+\Robject{justAsFancyPhenoData} restores validity.
+
+\section{\Rclass{Versioned}}
+
+One problem encountered in the Bioconductor project is that data
+objects stored to disk become invalid as the underlying class
+definition changes. For instance, earlier releases of \Biobase{}
+contain a sample \Rclass{eSet} object. But under the changes discussed
+here, \eSet{} is virtual and the stored object is no longer valid. The
+challenge is to easily identify invalid objects, and to provide a
+mechanism for updating old objects to their new representation.
+
+\Biobase{} introduces the \Rclass{Versioned} and
+\Rclass{VersionedBiobase} classes to facilitate this. These classes
+are incorporated into key \Biobase class definitions.\Biobase also
+defines \Rmethod{updateObject} methods (the \Rfunction{updateObject}
+generic function is defined in the \Rpackage{BiocGenerics} package)
+for conveniently updating old objects to their new representation.
+<<updateObject-eg>>=
+data(sample.ExpressionSet)
+classVersion(sample.ExpressionSet)
+obj <- updateObject(sample.ExpressionSet)
+@ 
+The version information for this object is a named list. The first two
+elements indicate the version of R and Biobase used to create the
+object. The latter two elements are contained in the class prototype,
+and the class prototype is consulted to see if the instance of an
+object is 'current'. These lists can be subsetted in the usual way,
+e.g.,
+<<isCurrent>>=
+isCurrent(sample.ExpressionSet)[c("eSet", "ExpressionSet")]
+@ 
+
+Versioned classes, \Rfunction{updateObject} and related methods
+simplify the long-term maintenance of data objects. Take the fictious
+\Rclass{MySet} as an example. 
+<<MultiSet-obj>>=
+setClass("MySet",
+         contains = "eSet",
+         prototype = prototype(
+           new("VersionedBiobase",
+               versions=c(classVersion("eSet"), MySet="1.0.0"))))
+obj <- new("MySet")
+classVersion(obj)
+@ 
+This is a new class, and might undergo changes in its structure at
+some point in the future. When these changes are introduced, the
+developer will change the version number of the class in its prototype
+(the last line, below):
+<<MultiSetRevised>>=
+setClass("MySet",
+         contains = "eSet",
+         prototype = prototype(
+           new("VersionedBiobase",
+               versions=c(classVersion("eSet"), MySet="1.0.1"))))
+isCurrent(obj)
+@ 
+and add code to update to the new version
+<<updateObject-MultiSet>>=
+setMethod("updateObject", signature(object="MySet"),
+          function(object, ..., verbose=FALSE) {
+              if (verbose) message("updateObject(object = 'MySet')")
+              object <- callNextMethod()
+              if (isCurrent(object)["MySet"]) return(object)
+              ## Create an updated instance.
+              if (!isVersioned(object))
+                  ## Radical surgery -- create a new, up-to-date instance
+                  new("MySet",
+                      assayData = updateObject(assayData(object),
+                        ...., verbose=verbose),
+                      phenoData = updateObject(phenoData(object),
+                        ..., verbose=verbose),
+                      experimentData = updateObject(experimentData(object),
+                        ..., verbose=verbose),
+                      annotation = updateObject(annotation(object),
+                        ..., verbose=verbose))
+              else {
+                  ## Make minor changes, and update version by consulting class definition
+                  classVersion(object)["MySet"] <-
+                      classVersion("MySet")["MySet"]
+                  object
+              }
+          })
+@ 
+The code after \Rfunction{if(!isVersioned)} illustrates one way of
+performing `radical surgery, creating a new up-to-date instance by
+updating all slots. The \Rfunction{else} clause represents more modest
+changes, using methods to update stale
+information. \Rfunction{updateObject} then returns a new, enhanced
+object:  
+<<updateObject>>=
+classVersion(updateObject(obj))
+@ 
+
+As in the example, versioning helps in choosing which modifications to
+perform -- minor changes for a slightly out-of-date object, radical
+surgery for something more ancient. Version information might also be
+used in methods, where changing class representation might facilitate
+more efficient routines.
+
+\subsection{\Rclass{Versioned} versus \Rclass{VersionedBiobase}}
+
+The information on \R{} and \Biobase{} versions is present in \eSet{}
+derived classes because \eSet{} contains \Rclass{VersionedBiobase}. On
+the other hand, \Rclass{AnnotatedDataFrame} contains \Rclass{Versioned}, and
+has only information about its own class version.
+<<classVersion-AnnotatedDataFrame>>=
+classVersion(new("AnnotatedDataFrame"))
+@ 
+The rationale for this is that \Rclass{AnnotatedDataFrame} is and will likely
+remain relatively simple, and details about \R{} and \Biobase{} are
+probably irrelevant to its use. On the other hand, some aspects of
+\eSet{} and the algorithms that operate on them are more cutting edge
+and subject to changes in \R{} or \Biobase{}. Knowing the version of
+\R{} and \Biobase{} used to create an instance might provide valuable
+debugging information.
+
+\subsection{Adding \Rclass{Versioned} information to your own classes}
+
+The key to versioning your own classes is to define your class to
+\Rfunction{contain} \Rclass{Versioned} or \Rclass{VersionedBiobase},
+and to add the version information in the prototype. For instance, to
+add a class-specific version stamp to \Rclass{SwirlSet} we would
+modify the class defintion to
+<<SwirlSet-version>>=
+setClass("SwirlSet", contains = "eSet",
+         prototype = prototype(
+           new("VersionedBiobase",
+               versions=c(classVersion("eSet"), SwirlSet="1.0.0"))))
+classVersion(new("SwirlSet"))
+@ 
+See additional examples in the \Rclass{Versioned} help page. 
+
+It is also possible to add arbitrary information to particular
+instances.
+<<arbitraryClassVersions>>=
+obj <- new("SwirlSet")
+classVersion(obj)["MyID"] <- "0.0.1"
+classVersion(obj)
+classVersion(updateObject(obj))
+@ 
+
+There is additional documentation about these classes and methods in
+\Biobase{}.
+
+\section{Summary}
+
+This document summarizes \Biobase, outlining strategies that
+developers using \Biobase{} may find useful. The main points are to
+introduce the \eSet{} class hierarchy, to illustrate how developers
+can effectively extend this class, and to introduce class versions as
+a way of tracking and easily updating objects. It is anticipated that
+\eSet{}-derived classes will play an increasingly important role in
+\Biobase{} development.
+
+\section{Session Information}
+
+The version number of \R{} and packages loaded for generating the vignette were:
+<<echo=FALSE,results=tex>>=
+toLatex(sessionInfo())
+@
+
+\end{document}

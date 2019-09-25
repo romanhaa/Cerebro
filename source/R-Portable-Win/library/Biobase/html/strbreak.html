@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Break Character Strings to Fit Width</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for strbreak {Biobase}"><tr><td>strbreak {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Break Character Strings to Fit Width</h2>
+
+<h3>Description</h3>
+
+<p>Inserts line breaks (<code>collapse</code>) into input character strings.
+The main intention of this
+function is to prepare long strings for printing, so the output
+is not wider than <code>width</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  strbreak(x, width=getOption("width"), exdent=2, collapse="\n")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a character vector</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>a positive integer giving the width of the output.</p>
+</td></tr>
+<tr valign="top"><td><code>exdent</code></td>
+<td>
+<p>a positive integer specifying the indentation of
+subsequent lines after the first line.</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+<p>a character.  This is inserted to break lines.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.ebi.ac.uk/huber">http://www.ebi.ac.uk/huber</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/strwrap.html">strwrap</a></code>, <code><a href="../../base/html/substr.html">substring</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+longString = paste(rep(LETTERS, 10), collapse="", sep="")
+cat(strbreak(longString))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

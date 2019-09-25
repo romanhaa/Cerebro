@@ -1,0 +1,21 @@
+import(methods)
+import(RCurl,XML)
+
+importFrom(utils, edit, head, read.table)
+importFrom(AnnotationDbi, keys, columns, keytypes, select)
+importFrom(progress, progress_bar)
+importFrom(stringr, str_extract_all, str_match)
+importFrom(httr, POST, content, timeout, set_cookies)
+
+#for some reason RCurl needs to have findHTTPHeaderEncoding exported -
+#remove it from the exports if this ever gets fixed
+export(listMarts, getGene, getSequence, exportFASTA, useMart, listDatasets, 
+       useDataset, listEnsembl, useEnsembl, listAttributes, listFilters, 
+       getBM, getXML,getLDS, attributePages, filterOptions,filterType, 
+       getBMlist, NP2009code, keys, columns, keytypes, select,
+       listEnsemblArchives, searchAttributes, searchDatasets, searchFilters)
+
+exportClasses(Mart)
+
+exportMethods("show")
+

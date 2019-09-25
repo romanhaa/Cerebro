@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the longest common prefix or suffix of a string</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lcSuffix {Biobase}"><tr><td>lcSuffix {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the longest common prefix or suffix of a string</h2>
+
+<h3>Description</h3>
+
+<p>These functions find the longest common prefix or suffix among the
+strings in a character vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lcPrefix(x, ignore.case=FALSE)
+lcPrefixC(x, ignore.case=FALSE)
+lcSuffix(x, ignore.case=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a character vector. </p>
+</td></tr>
+<tr valign="top"><td><code>ignore.case</code></td>
+<td>
+<p> A logical value indicating whether or
+not to ignore the case in making comparisons. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Computing the longest common suffix is helpful for truncating names of
+objects, like microarrays, that often have a common suffix, such as .CEL.
+</p>
+<p>There are some potential problems with the approach used if
+multibyte character encodings are being used.
+</p>
+<p><code>lcPrefixC</code> is a faster implementation in C.  It only handles
+ascii characters.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The common prefix or suffix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../base/html/nchar.html">nchar</a></code>, <code><a href="../../base/html/nchar.html">nchar</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+s1 &lt;- c("ABC.CEL", "DEF.CEL")
+lcSuffix(s1)
+
+s2 &lt;- c("ABC.123", "ABC.456")
+lcPrefix(s2)
+
+
+CHK &lt;- stopifnot
+
+CHK(".CEL" == lcSuffix(s1))
+CHK("bc" == lcSuffix(c("abc", "333abc", "bc")))
+CHK("c" == lcSuffix(c("c", "abc", "xxxc")))
+CHK("" == lcSuffix(c("c", "abc", "xxx")))
+
+CHK("ABC." == lcPrefix(s2))
+CHK("ab" == lcPrefix(c("abcd", "abcd123", "ab", "abc", "abc333333")))
+CHK("a" == lcPrefix(c("abcd", "abcd123", "ax")))
+CHK("a" == lcPrefix(c("a", "abcd123", "ax")))
+CHK("" == lcPrefix(c("a", "abc", "xxx")))
+
+CHK("ab" == lcPrefixC(c("abcd", "abcd123", "ab", "abc", "abc333333")))
+CHK("a" == lcPrefixC(c("abcd", "abcd123", "ax")))
+CHK("a" == lcPrefixC(c("a", "abcd123", "ax")))
+CHK("" == lcPrefixC(c("a", "abc", "xxx")))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

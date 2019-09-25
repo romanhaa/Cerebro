@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of Views</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ViewsList-class {IRanges}"><tr><td>ViewsList-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of Views</h2>
+
+<h3>Description</h3>
+
+<p>An extension of <a href="../../S4Vectors/html/List-class.html">List</a> that holds only
+<a href="Views-class.html">Views</a> objects.
+</p>
+
+
+<h3>Details</h3>
+
+<p>ViewsList is a virtual class.
+Specialized subclasses like e.g. <a href="RleViewsList-class.html">RleViewsList</a> are useful
+for storing coverage vectors over a set of spaces (e.g. chromosomes),
+each of which requires a separate <a href="RleViews-class.html">RleViews</a> object.
+</p>
+<p>As a <a href="../../S4Vectors/html/List-class.html">List</a> subclass, ViewsList inherits all the methods
+available for <a href="../../S4Vectors/html/List-class.html">List</a> objects. It also presents an API that
+is very similar to that of <a href="Views-class.html">Views</a>, where operations are
+vectorized over the elements and generally return lists.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun and H. Pagès</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../S4Vectors/html/List-class.html">List-class</a>,
+<a href="RleViewsList-class.html">RleViewsList-class</a>.
+</p>
+<p><code><a href="findOverlaps-methods.html">findOverlaps</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  showClass("ViewsList")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

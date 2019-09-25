@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Row and column names</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for row+colnames {BiocGenerics}"><tr><td>row+colnames {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Row and column names</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the row or column names of a matrix-like object.
+</p>
+<p>NOTE: This man page is for the <code>rownames</code>, <code>`rownames&lt;-`</code>,
+<code>colnames</code>, and <code>`colnames&lt;-`</code> <em>S4 generic functions</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/rownames.html">rownames</a></code> for the default methods
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+(typically matrix-like) not supported by the default methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rownames(x, do.NULL=TRUE, prefix="row")
+rownames(x) &lt;- value
+
+colnames(x, do.NULL=TRUE, prefix="col")
+colnames(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A matrix-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>do.NULL, prefix</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/rownames.html">rownames</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>Either <code>NULL</code> or a character vector equal of length equal to the
+appropriate dimension.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The getters will return <code>NULL</code> or a character vector of length
+<code><a href="nrow.html">nrow</a>(x)</code> for <code>rownames</code> and length <code><a href="nrow.html">ncol</a>(x)</code>
+for <code>colnames(x)</code>.
+</p>
+<p>See <code>?base::<a href="../../base/html/rownames.html">rownames</a></code> for more information about the
+default methods, including how the setters are expected to behave.
+</p>
+<p>Specific methods defined in Bioconductor packages should 
+behave as consistently as possible with the default methods.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/rownames.html">rownames</a></code> for the default <code>rownames</code>,
+<code>`rownames&lt;-`</code>, <code>colnames</code>, and <code>`colnames&lt;-`</code>
+methods.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/rownames,DataFrame-method.html">rownames,DataFrame-method</a> in the <span class="pkg">S4Vectors</span>
+package for an example of a specific <code>rownames</code> method (defined
+for <a href="../../S4Vectors/html/DataFrame.html">DataFrame</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## rownames() getter:
+rownames  # note the dispatch on the 'x' arg only
+showMethods("rownames")
+selectMethod("rownames", "ANY")  # the default method
+
+## rownames() setter:
+`rownames&lt;-`
+showMethods("rownames&lt;-")
+selectMethod("rownames&lt;-", "ANY")  # the default method
+
+## colnames() getter:
+colnames  # note the dispatch on the 'x' arg only
+showMethods("colnames")
+selectMethod("colnames", "ANY")  # the default method
+
+## colnames() setter:
+`colnames&lt;-`
+showMethods("colnames&lt;-")
+selectMethod("colnames&lt;-", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

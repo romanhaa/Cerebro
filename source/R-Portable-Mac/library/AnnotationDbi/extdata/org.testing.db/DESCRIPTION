@@ -1,0 +1,14 @@
+Package: org.testing.db
+Title: Genome wide annotation for Taeniopygia guttataTestingSubset
+Description: Genome wide annotation for Taeniopygia guttataTestingSubset, primarily based on mapping using Entrez Gene identifiers.
+Version: 0.1
+Author: Some One <so@someplace.org>
+Maintainer: Some One <so@someplace.org>
+Depends: R (>= 2.7.0), methods, AnnotationDbi (>= 1.23.23)
+Suggests: annotate, RUnit
+Imports: methods, AnnotationDbi
+License: Artistic-2.0
+organism: Taeniopygia guttataTestingSubset
+species: Taeniopygia guttataTestingSubset
+biocViews: OrgDb, annotation
+

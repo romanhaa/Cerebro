@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: KEGG Integrin Mediated Cell Adhesion graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for integrinMediatedCellAdhesion {graph}"><tr><td>integrinMediatedCellAdhesion {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>KEGG Integrin Mediated Cell Adhesion graph</h2>
+
+<h3>Description</h3>
+
+<p>A graph representing the integrin-mediated cell adhesion pathway from
+KEGG, as well as a list of attributes for use in plotting the
+graph with <code>Rgraphviz</code>.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(integrinMediatedCellAdhesion)
+</pre>
+
+
+<h3>Details</h3>
+
+<p>The <code>integrinMediatedCellAdhesion</code> data set contains two objects:
+</p>
+<p>The first is <code>IMCAGraph</code>, which is an object of class
+<code>graph-NEL</code> and represents the hsa04510 graph from <code>KEGG</code>.
+</p>
+<p>The second is <code>IMCAAttrs</code>, which is a list of four elements.  The
+first element, <code>defAttrs</code> corresponds to the <code>attrs</code>
+arguments of <code><a href="../../Rgraphviz/html/agopen.html">agopen</a></code> and 
+<code><a href="../../Rgraphviz/html/plot-methods.html">plot.graph</a></code>.  The
+second element is <code>nodeAttrs</code> which corresponds to the
+<code>nodeAttrs</code> argument in the same two functions from
+<code>Rgraphviz</code>.  The third element, <code>subGList</code> corresponds to
+the <code>subGList</code> argument in those functions.  Lastly, the fourth
+element, <code>LocusLink</code> provides a named list where the names are
+the nodes and the values are vectors of LocusLink ID values which
+correspond to those nodes.
+</p>
+<p>The values from <code>defAttrs</code>, <code>nodeAttrs</code> and <code>subGList</code>
+in the <code>IMCAAttrs</code> list are part of an ongoing attempt by
+Bioconductor to provide the set of options to most accurately recreate
+the actual visual image of the pathway from the KEGG site using
+<code>Rgraphviz</code>.  Users may try out their own combination of
+attributes and settings for their own needs, but these represent our
+own efforts at as closely recreating the image as possible.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="http://www.genome.ad.jp/kegg/pathway/hsa/hsa04510.html">http://www.genome.ad.jp/kegg/pathway/hsa/hsa04510.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(integrinMediatedCellAdhesion)
+if (require("Rgraphviz") &amp; interactive())
+  plot(IMCAGraph, attrs=IMCAAttrs$defAttrs,
+       nodeAttrs=IMCAAttrs$nodeAttrs, subGList=IMCAAttrs$subGList)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

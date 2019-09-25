@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add percentage of mitochondrial and ribosomal transcripts.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for addPercentMtRibo {cerebroApp}"><tr><td>addPercentMtRibo {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add percentage of mitochondrial and ribosomal transcripts.</h2>
+
+<h3>Description</h3>
+
+<p>Get percentage of transcripts of gene list compared to all
+transcripts per cell.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addPercentMtRibo(object, organism, gene_nomenclature)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>organism</code></td>
+<td>
+<p>Organism, can be either human ('hg') or mouse ('mm'). Genes
+need to annotated as gene symbol, e.g. MKI67 (human) / Mki67 (mouse).</p>
+</td></tr>
+<tr valign="top"><td><code>gene_nomenclature</code></td>
+<td>
+<p>Define if genes are saved by their name ('name'),
+ENSEMBL ID ('ensembl') or GENCODE ID ('gencode_v27', 'gencode_vM16').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Add percentage of mitochondrial and ribosomal transcripts.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Seurat object with two new meta data columns containing the
+percentage of mitochondrial and ribosomal gene expression for each cell.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seurat &lt;- addPercentMtRibo(
+  object = seurat,
+  organism = 'hg',
+  gene_nomenclature = 'name'
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

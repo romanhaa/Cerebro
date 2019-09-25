@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: CompressedList objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for CompressedList-class {IRanges}"><tr><td>CompressedList-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>CompressedList objects</h2>
+
+<h3>Description</h3>
+
+<p>Like the <a href="../../S4Vectors/html/SimpleList.html">SimpleList</a> class defined in the <span class="pkg">S4Vectors</span>
+package, the CompressedList class extends the <a href="../../S4Vectors/html/List.html">List</a>
+virtual class.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Unlike the <a href="../../S4Vectors/html/SimpleList.html">SimpleList</a> class, CompressedList is virtual,
+that is, it cannot be instantiated. Many concrete (i.e. non-virtual)
+CompressedList subclasses are defined and documented in this package
+(e.g. <a href="AtomicList-class.html">CompressedIntegerList</a>, <a href="AtomicList-class.html">CompressedCharacterList</a>,
+<a href="AtomicList-class.html">CompressedRleList</a>, etc...), as well as in other packages (e.g.
+<a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a> in the <span class="pkg">GenomicRanges</span> package,
+<a href="../../GenomicAlignments/html/GAlignmentsList.html">GAlignmentsList</a> in the <span class="pkg">GenomicAlignments</span>
+package, etc...). It's easy for developers to extend CompressedList
+to create a new CompressedList subclass and there is generally very little
+work involved to make this new subclass fully operational.
+</p>
+<p>In a CompressedList object the list elements are concatenated together
+in a single vector-like object. The <em>partitioning</em> of this single
+vector-like object (i.e. the information about where each original
+list element starts and ends) is also kept in the CompressedList object.
+This internal representation is generally more memory efficient than
+<a href="../../S4Vectors/html/SimpleList.html">SimpleList</a>, especially if the object has many list
+elements (e.g. thousands or millions). Also it makes it possible to
+implement many basic list operations very efficiently.
+</p>
+<p>Many objects like <a href="AtomicList-class.html">LogicalList</a>, <a href="AtomicList-class.html">IntegerList</a>,
+<a href="AtomicList-class.html">CharacterList</a>, <a href="AtomicList-class.html">RleList</a>, etc... exist in 2 flavors:
+CompressedList and <a href="../../S4Vectors/html/SimpleList.html">SimpleList</a>. Each flavor is
+incarnated by a concrete subclass: <a href="AtomicList-class.html">CompressedLogicalList</a> and
+<a href="AtomicList-class.html">SimpleLogicalList</a> for virtual class <a href="AtomicList-class.html">LogicalList</a>,
+<a href="AtomicList-class.html">CompressedIntegerList</a> and <a href="AtomicList-class.html">SimpleIntegerList</a> for
+virtual class <a href="AtomicList-class.html">IntegerList</a>, etc...
+It's easy to switch from one representation to the other with
+<code>as(x, "CompressedList")</code> and <code>as(x, "SimpleList")</code>.
+Also the constructor function for those virtual classes have a
+switch that lets the user choose the representation at construction
+time e.g. <code>CharacterList(..., compress=TRUE)</code> or
+<code>CharacterList(..., compress=FALSE)</code>. See below for more
+information.
+</p>
+
+
+<h3>Constructor</h3>
+
+<p>See the <a href="../../S4Vectors/html/List.html">List</a> man page in the <span class="pkg">S4Vectors</span> package
+for a quick overview of how to construct <a href="../../S4Vectors/html/List-class.html">List</a> objects in general.
+</p>
+<p>Unlike for <a href="../../S4Vectors/html/SimpleList.html">SimpleList</a> objects, there is no
+<code>CompressedList</code> constructor function.
+</p>
+<p>However, many constructor functions for <a href="../../S4Vectors/html/List.html">List</a> objects
+have a switch that lets the user choose between the CompressedList and
+<a href="../../S4Vectors/html/SimpleList.html">SimpleList</a> representation at construction time.
+For example, a <a href="AtomicList-class.html">CompressedCharacterList</a> object can be constructed
+with <code>CharacterList(..., compress=TRUE)</code>.
+</p>
+
+
+<h3>Accessors</h3>
+
+<p>Same as for <a href="../../S4Vectors/html/List.html">List</a> objects. See the <a href="../../S4Vectors/html/List.html">List</a>
+man page in the <span class="pkg">S4Vectors</span> package for more information.
+</p>
+
+
+<h3>Coercion</h3>
+
+<p>All the coercions documented in the <a href="../../S4Vectors/html/List.html">List</a> man page
+apply to CompressedList objects.
+</p>
+
+
+<h3>Subsetting</h3>
+
+<p>Same as for <a href="../../S4Vectors/html/List.html">List</a> objects. See the <a href="../../S4Vectors/html/List.html">List</a>
+man page for more information.
+</p>
+
+
+<h3>Looping and functional programming</h3>
+
+<p>Same as for <a href="../../S4Vectors/html/List.html">List</a> objects. See
+<code>?`<a href="../../S4Vectors/html/List-utils.html">List-utils</a>`</code> in the <span class="pkg">S4Vectors</span> package
+for more information.
+</p>
+
+
+<h3>Displaying</h3>
+
+<p>When a CompressedList object is displayed, the &quot;Compressed&quot; prefix is
+removed from the real class name of the object.
+See <code><a href="../../S4Vectors/html/classNameForDisplay.html">classNameForDisplay</a></code> in the <span class="pkg">S4Vectors</span>
+package for more information about this.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="../../S4Vectors/html/List.html">List</a> class defined and documented in the
+<span class="pkg">S4Vectors</span> package for the parent class.
+</p>
+</li>
+<li><p> The <a href="../../S4Vectors/html/SimpleList.html">SimpleList</a> class defined and documented in the
+<span class="pkg">S4Vectors</span> package for an alternative to CompressedList.
+</p>
+</li>
+<li><p> The <a href="AtomicList-class.html">CompressedIntegerList</a> class for a CompressedList
+subclass example.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Displaying a CompressedList object:
+x &lt;- IntegerList(11:12, integer(0), 3:-2, compress=TRUE)
+class(x)
+
+## The "Simple" prefix is removed from the real class name of the
+## object:
+x
+
+## This is controlled by internal helper classNameForDisplay():
+classNameForDisplay(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

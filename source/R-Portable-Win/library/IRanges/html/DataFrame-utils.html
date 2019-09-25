@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Common operations on DataFrame objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for DataFrame-utils {IRanges}"><tr><td>DataFrame-utils {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Common operations on DataFrame objects</h2>
+
+<h3>Description</h3>
+
+<p>Common operations on <a href="../../MultiAssayExperiment/html/reexports.html">DataFrame</a> objects.
+</p>
+
+
+<h3>Splitting</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataFrame</code>.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>split(x, f, drop = FALSE)</code>:
+Splits <code>x</code> into a <code><a href="DataFrameList-class.html">CompressedSplitDataFrameList</a></code>,
+according to <code>f</code>, dropping elements corresponding to
+unrepresented levels if <code>drop</code> is <code>TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>mstack(..., .index.var = "name")</code>: Stacks the data frames
+passed as through ..., using <code>.index.var</code> as the index
+column name. See <code><a href="../../utils/html/stack.html">stack</a></code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../S4Vectors/html/DataTable-class.html">DataTable</a></code> and <code><a href="../../S4Vectors/html/Vector-class.html">Vector</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## split
+
+sw &lt;- DataFrame(swiss)
+swsplit &lt;- split(sw, sw[["Education"]])
+  
+## rbind
+
+do.call(rbind, as.list(swsplit))
+
+## cbind
+
+cbind(DataFrame(score), DataFrame(counts))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

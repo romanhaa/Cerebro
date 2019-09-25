@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract list fragments from a list-like object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for extractListFragments {IRanges}"><tr><td>extractListFragments {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract list fragments from a list-like object</h2>
+
+<h3>Description</h3>
+
+<p>Utilities for extracting <em>list fragments</em> from a list-like object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+extractListFragments(x, aranges, use.mcols=FALSE,
+                     msg.if.incompatible=INCOMPATIBLE_ARANGES_MSG)
+
+equisplit(x, nchunk, chunksize, use.mcols=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The list-like object from which to extract the list fragments.
+</p>
+<p>Can be any <a href="../../S4Vectors/html/List-class.html">List</a> derivative for <code>extractListFragments</code>.
+Can also be an ordinary list if <code>extractListFragments</code> is
+called with <code>use.mcols=TRUE</code>.
+</p>
+<p>Can be any <a href="../../S4Vectors/html/List-class.html">List</a> derivative that supports <code>relist()</code>
+for <code>equisplit</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>aranges</code></td>
+<td>
+
+<p>An <a href="IntegerRanges-class.html">IntegerRanges</a> derivative containing the <em>absolute ranges</em>
+(i.e. the ranges <em>along <code>unlist(x)</code></em>) of the list fragments
+to extract.
+</p>
+<p>The ranges in <code>aranges</code> must be compatible with the
+<em>cumulated length</em> of all the list elements in <code>x</code>,
+that is, <code>start(aranges)</code> and <code>end(aranges)</code> must
+be &gt;= 1 and &lt;= <code>sum(elementNROWS(x))</code>, respectively.
+</p>
+<p>Also please note that only <a href="IntegerRanges-class.html">IntegerRanges</a> objects that are
+disjoint and sorted are supported at the moment.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.mcols</code></td>
+<td>
+
+<p>Whether to propagate the metadata columns on <code>x</code> (if any) or not.
+</p>
+<p>Must be <code>TRUE</code> or <code>FALSE</code> (the default).
+If set to <code>FALSE</code>, instead of having the metadata columns propagated
+from <code>x</code>, the object returned by <code>extractListFragments</code> has
+metadata columns <code>revmap</code> and <code>revmap2</code>, and the object
+returned by <code>equisplit</code> has metadata column <code>revmap</code>. Note that
+this is the default.
+</p>
+</td></tr>
+<tr valign="top"><td><code>msg.if.incompatible</code></td>
+<td>
+
+<p>The error message to use if <code>aranges</code> is not compatible with
+the <em>cumulated length</em> of all the list elements in <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nchunk</code></td>
+<td>
+
+<p>The number of chunks. Must be a single positive integer.
+</p>
+</td></tr>
+<tr valign="top"><td><code>chunksize</code></td>
+<td>
+
+<p>The size of the chunks (last chunk might be smaller). Must be a single
+positive integer.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A <em>list fragment</em> of list-like object <code>x</code> is a window in one of
+its list elements.
+</p>
+<p><code>extractListFragments</code> is a low-level utility that extracts list
+fragments from list-like object <code>x</code> according to the absolute ranges
+in <code>aranges</code>.
+</p>
+<p><code>equisplit</code> fragments and splits list-like object <code>x</code> into a
+specified number of partitions with equal (total) width. This is useful
+for instance to ensure balanced loading of workers in parallel evaluation.
+For example, if <code>x</code> is a <a href="../../GenomicRanges/html/GRanges.html">GRanges</a> object,
+each partition is also a <a href="../../GenomicRanges/html/GRanges.html">GRanges</a> object and the
+set of all partitions is returned as a <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of the same class as <code>x</code> for <code>extractListFragments</code>.
+</p>
+<p>An object of class <code><a href="../../S4Vectors/html/relistToClass.html">relistToClass</a>(x)</code> for
+<code>equisplit</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="IRanges-constructor.html">IRanges</a> and <a href="IRangesList-class.html">IRangesList</a> objects.
+</p>
+</li>
+<li> <p><a href="Grouping-class.html">Partitioning</a> objects.
+</p>
+</li>
+<li> <p><a href="AtomicList-class.html">IntegerList</a> objects.
+</p>
+</li>
+<li> <p><code><a href="IRanges-utils.html">breakInChunks</a></code> from breaking a vector-like object
+in chunks.
+</p>
+</li>
+<li> <p><a href="../../GenomicRanges/html/GRanges.html">GRanges</a> and <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+objects defined in the <span class="pkg">GenomicRanges</span> package.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/List.html">List</a> objects defined in the <span class="pkg">S4Vectors</span>
+package.
+</p>
+</li>
+<li> <p><a href="intra-range-methods.html">intra-range-methods</a> and <a href="inter-range-methods.html">inter-range-methods</a>
+for intra range and inter range transformations.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## A. extractListFragments()
+## ---------------------------------------------------------------------
+
+x &lt;- IntegerList(a=101:109, b=5:-5)
+x
+
+aranges &lt;- IRanges(start=c(2, 4, 8, 17, 17), end=c(3, 6, 14, 16, 19))
+aranges
+extractListFragments(x, aranges)
+
+x2 &lt;- IRanges(c(1, 101, 1001, 10001), width=c(10, 5, 0, 12),
+              names=letters[1:4])
+mcols(x2)$label &lt;- LETTERS[1:4]
+x2
+
+aranges &lt;- IRanges(start=13, end=20)
+extractListFragments(x2, aranges)
+extractListFragments(x2, aranges, use.mcols=TRUE)
+
+aranges2 &lt;- PartitioningByWidth(c(3, 9, 13, 0, 2))
+extractListFragments(x2, aranges2)
+extractListFragments(x2, aranges2, use.mcols=TRUE)
+
+x2b &lt;- as(x2, "IntegerList")
+extractListFragments(x2b, aranges2)
+
+x2c &lt;- as.list(x2b)
+extractListFragments(x2c, aranges2, use.mcols=TRUE)
+
+## ---------------------------------------------------------------------
+## B. equisplit()
+## ---------------------------------------------------------------------
+
+## equisplit() first calls breakInChunks() internally to create a
+## PartitioningByWidth object that contains the absolute ranges of the
+## chunks, then calls extractListFragments() on it 'x' to extract the
+## fragments of 'x' that correspond to these absolute ranges. Finally
+## the IRanges object returned by extractListFragments() is split into
+## an IRangesList object where each list element corresponds to a chunk.
+equisplit(x2, nchunk=2)
+equisplit(x2, nchunk=2, use.mcols=TRUE)
+
+equisplit(x2, chunksize=5)
+
+library(GenomicRanges)
+gr &lt;- GRanges(c("chr1", "chr2"), IRanges(1, c(100, 1e5)))
+equisplit(gr, nchunk=2)
+equisplit(gr, nchunk=1000)
+
+## ---------------------------------------------------------------------
+## C. ADVANCED extractListFragments() EXAMPLES
+## ---------------------------------------------------------------------
+
+## === D1. Fragment list-like object into length 1 fragments ===
+
+## First we construct a Partitioning object where all the partitions
+## have a width of 1:
+x2_cumlen &lt;- nobj(PartitioningByWidth(x2))  # Equivalent to
+                                            # length(unlist(x2)) except
+                                            # that it doesn't unlist 'x2'
+                                            # so is much more efficient.
+aranges1 &lt;- PartitioningByEnd(seq_len(x2_cumlen))
+aranges1
+
+## Then we use it to fragment 'x2':
+extractListFragments(x2, aranges1)
+extractListFragments(x2b, aranges1)
+extractListFragments(x2c, aranges1, use.mcols=TRUE)
+
+## === D2. Fragment a Partitioning object ===
+
+partitioning2 &lt;- PartitioningByEnd(x2b)  # same as PartitioningByEnd(x2)
+extractListFragments(partitioning2, aranges2)
+
+## Note that when the 1st arg is a Partitioning derivative, then
+## swapping the 1st and 2nd elements in the call to extractListFragments()
+## doesn't change the returned partitioning:
+extractListFragments(aranges2, partitioning2)
+
+## ---------------------------------------------------------------------
+## D. SANITY CHECKS
+## ---------------------------------------------------------------------
+
+## If 'aranges' is 'PartitioningByEnd(x)' or 'PartitioningByWidth(x)'
+## and 'x' has no zero-length list elements, then
+## 'extractListFragments(x, aranges, use.mcols=TRUE)' is a no-op.
+check_no_ops &lt;- function(x) {
+  aranges &lt;- PartitioningByEnd(x)
+  stopifnot(identical(
+    extractListFragments(x, aranges, use.mcols=TRUE), x
+  ))
+  aranges &lt;- PartitioningByWidth(x)
+  stopifnot(identical(
+    extractListFragments(x, aranges, use.mcols=TRUE), x
+  ))
+}
+
+check_no_ops(x2[lengths(x2) != 0])
+check_no_ops(x2b[lengths(x2b) != 0])
+check_no_ops(x2c[lengths(x2c) != 0])
+check_no_ops(gr)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

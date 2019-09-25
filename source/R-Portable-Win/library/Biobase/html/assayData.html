@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve assay data from eSets and ExpressionSets.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for assayData {Biobase}"><tr><td>assayData {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve assay data from eSets and ExpressionSets.</h2>
+
+<h3>Description</h3>
+
+<p>This generic function accesses assay data stored in an object derived from 
+the <code><a href="class.eSet.html">eSet</a></code> or <code><a href="class.ExpressionSet.html">ExpressionSet</a></code> class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+assayData(object)
+assayData(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object derived from class eSet</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Named list or environment containing one or more matrices with 
+identical dimensions</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>assayData</code> applied to <code>eSet</code>-derived classes returns a list
+or environment; applied to <code>ExpressionSet</code>, the method returns an
+environment. See the class documentation for specific details.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet-class</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, 
+<code><a href="class.SnpSet.html">SnpSet-class</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

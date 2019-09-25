@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Function mapIdentifiers in Package 'GSEABase'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mapIdentifiers-methods {GSEABase}"><tr><td>mapIdentifiers-methods {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for Function mapIdentifiers in Package &lsquo;GSEABase&rsquo;</h2>
+
+<h3>Description</h3>
+
+<p>These methods convert the genes identifiers of a gene set from one
+type to another, e.g., from <code><a href="GeneIdentifierType-constructors.html">EntrezIdentifier</a></code> to
+<code><a href="GeneIdentifierType-constructors.html">AnnotationIdentifier</a></code>. Methods can be called directly by
+the user; <code><a href="GeneSet-class.html">geneIdType&lt;-</a></code> provides similar
+functionality. <code>verbose=TRUE</code>  produces warning messages when
+maps between identifier types are not 1:1, or a map has to be
+constructed on the fly (this situation does not apply when using the
+DBI-based annotation packages).
+</p>
+
+
+<h3>Methods</h3>
+
+<p>The following methods are defined on <code>what="GeneSet"</code>:
+</p>
+
+<dl>
+<dt>what = &quot;ANY&quot;, to = &quot;ANY&quot;, from = &quot;ANY&quot;, verbose=FALSE</dt><dd>
+<p>This method warns of attempts to map <code>from</code> and <code>to</code> the
+same type, or generates an error if no suitable
+<code>mapIdentifiers</code> methods are available.</p>
+</dd>
+<dt>what = &quot;GeneSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;missing&quot;, verbose=FALSE</dt><dd>
+<p>This method will re-dispatch to a method with signature
+<code>signature(what=what, to=to, from=geneIdType(what))</code>, and is
+present so that a user can call <code>mapIdentifiers</code> without providing an
+explicit <code>from</code> argument.</p>
+</dd>
+<dt>what = &quot;GeneSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;NullIdentifier&quot;, verbose=FALSE</dt><dd>
+<p>This maps a gene set from gene identifiers represented by the
+<code>NullIdentifier</code> type (i.e., no type associated with the genes) to
+gene identifiers represent by any class derived from
+<code>GeneIdentifierType</code>.</p>
+</dd>
+<dt>what = &quot;GeneSet&quot;, to = &quot;NullIdentifier&quot;, from = &quot;GeneIdentifierType&quot;, verbose=FALSE</dt><dd> 
+<p>This maps a gene set from gene identifiers represented by any
+<code>GeneIdentifierType</code> type to one represented by the
+<code>NullIdentifier</code> (i.e., no type associated with the genes).</p>
+</dd>
+<dt>what = &quot;GeneSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;environment&quot;, verbose=FALSE</dt><dd>
+<p>Maps identifiers found in <code>what</code> to the type described by
+<code>to</code>, using the map (key-value pairs) found in <code>from</code>.</p>
+</dd>
+<dt>what = &quot;GeneSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;AnnDbBimap&quot;, verbose=FALSE</dt><dd>
+<p>Maps identifiers found in <code>what</code> to the type described by
+<code>to</code>, using the map (key-value pairs) found in <code>from</code>.</p>
+</dd>
+</dl>
+
+<p>The following methods are defined for <code>what=GeneColorSet</code>. These methods
+map gene- and phenotype color appropriately, and fail if coloring of
+gene identifiers involved in several-to-1 mappings conflict.
+</p>
+
+<dl>
+<dt>what = &quot;GeneColorSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;missing&quot;, verbose=FALSE</dt><dd>
+<p>This method will re-dispatch to a method with signature
+<code>signature(what=what, to=to, from=geneIdType(what))</code>, and is
+present so that a user can call <code>mapIdentifiers</code> without providing an
+explicit <code>from</code> argument.</p>
+</dd>
+<dt>what = &quot;GeneColorSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;NullIdentifier&quot;, verbose=FALSE</dt><dd>
+<p>This maps a gene set from gene identifiers represented by the
+<code>NullIdentifier</code> type (i.e., no type associated with the genes) to
+gene identifiers represent by any class derived from
+<code>GeneIdentifierType</code>.</p>
+</dd>
+<dt>what = &quot;GeneColorSet&quot;, to = &quot;NullIdentifier&quot;, from = &quot;GeneIdentifierType&quot;, verbose=FALSE</dt><dd> 
+<p>This maps a gene set from gene identifiers represented by any
+<code>GeneIdentifierType</code> type to one represented by the
+<code>NullIdentifier</code> (i.e., no type associated with the genes).</p>
+</dd>
+<dt>what = &quot;GeneColorSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;environment&quot;, verbose=FALSE</dt><dd>
+<p>This method is not implemented, and exists to stop incorrect
+application of the <code>GeneSet</code> method.</p>
+</dd>
+<dt>what = &quot;GeneColorSet&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;AnnDbBimap&quot;, verbose=FALSE</dt><dd>
+<p>This method is not implemented, and exists to stop incorrect
+application of the <code>GeneSet</code> method.</p>
+</dd>
+</dl>
+
+<p>A method exists for <code>what="GeneSetCollection"</code>:
+</p>
+
+<dl>
+<dt>what = &quot;GeneSetCollection&quot;, to = &quot;GeneIdentifierType&quot;, from = &quot;missing&quot;, verbose = FALSE</dt><dd>
+<p>Map each gene set in <code>what</code> to gene identifier type
+<code>to</code>, using methods described above.</p>
+</dd>
+</dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

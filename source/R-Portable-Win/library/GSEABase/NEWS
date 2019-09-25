@@ -1,0 +1,125 @@
+CHANGES IN VERSION 1.39
+-----------------------
+
+BUG FIXES
+
+    o goSlim() did not correctly count duplicate identifiers.
+    (https://support.bioconductor.org/p/100403/)
+
+CHANGES IN VERSION 1.35
+-----------------------
+
+BUG FIXES
+
+    o some multi-line warnings and errors would fail without reporting
+    the error message.
+
+    o getGmt(), GO GeneSetCollection methods much faster.
+
+CHANGES IN VERSION 1.31
+-----------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Support 'h' Broad set
+
+BUG FIXES
+
+    o as(OBOCollection, "graphNEL") failed to include multiple
+    children
+
+CHANGES IN VERSION 1.23
+-----------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Support 'c7' broad set
+
+    o Warn or remove duplicate geneIds when parsing GMT or Broad XML
+
+CHANGES IN VERSION 1.21
+-----------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o GeneSetCollection,*,*,GOCollection-method respects evidenceCode
+    and ontology
+
+CHANGES IN VERSION 1.19
+-----------------------
+
+NEW FEATURES
+
+    o Added UniprotIdentifier class
+
+CHANGES IN VERSION 1.13
+-----------------------
+
+NEW FEATURES
+
+    o Parse Broad gene set sub-categories.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o An ad-hoc identifier replaces the Ruuid-based one.
+
+CHANGES IN VERSION 1.5
+----------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Constructors for classes EntrezIdentifier, EnzymeIdentifier,
+    GenenameIdentifier, RefseqIdentifier, SymbolIdentifier,
+    UnigeneIdentifier can now accept an 'annotation' argument. This is
+    used to indicate which annotation package the identifiers are
+    from, e.g., EntrezIdentifier("hgu95av2.db") indicates that the
+    EntrezId's are from the hgu95av2.db package.
+
+    o GOCollection now tracks ontology as well as evidenceCode.
+
+    o Add ComputedCollection class to describe gene set collections
+    resulting from computations.
+
+    o Additional GeneSetCollection constructors
+
+    o Add OBOCollection class for reading OBO gene sets, including
+    functions to retrieve OBO collections from the internet
+    (getOBOCollectoin) and convert OBOCollections to and from graphNEL
+    objects.
+
+    o GeneSets constructed from GOCollections require a geneIdType
+    with an appropriate (i.e., GO to identifier) mapping, e.g.,
+    geneIdType=EntrezIdentifier("org.Hs.eg.db")
+
+NEW FEATURES
+
+    o geneIdType<- and mapIdentifiers can now map between any two
+    identifier types within an annotation package, e.g.,
+    SymbolIdentifer('org.Hs.eg.db') to
+    GenenameIdentifier('org.Hs.eg.db')
+
+    o Parse revised Broad gene sets.
+
+    o More extensive information in some 'show' methods
+
+    o Added a mapIdentifiers method to allow maps with user-supplied
+    AnnDbBimap objects
+
+BUG FIXES
+
+    o GO evidenceCodes updated to current codes available as defined
+    in GO
+    
+    o GeneSetCollection,ExpressionSet,(Pfam|Prosite|Chrloc)Collection-method
+    now correctly navigate the underlying annotations and create gene
+    set collections
+
+    o A GeneSetCollection constructed with a named list could
+    incorrectly propagate the set names.
+
+    o Export MapCollection class
+
+    o Mapping AnnotationIdentifer to AnnotationIdentifier failed due
+    to incorrect method selection
+
+(start date: 9 February, 2008)

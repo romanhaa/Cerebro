@@ -1,0 +1,42 @@
+ACCNUM                  Descriptions of available values for 'columns'
+                        and 'keytypes'.
+ACYRTHOSIPHON_PISUM     Descriptions of available values for 'columns'
+                        and 'keytypes' for inparanpoid packages.
+AnnDbObj-objects        AnnDbObj objects
+AnnDbPkg-checker        Check the SQL data contained in an SQLite-based
+                        annotation package
+AnnotationDb            AnnotationDb objects and their progeny, methods
+                        etc.
+Bimap                   Bimap objects and the Bimap interface
+Bimap-direction         Methods for getting/setting the direction of a
+                        Bimap object, and undirected methods for
+                        getting/counting/setting its keys
+Bimap-envirAPI          Environment-like API for Bimap objects
+Bimap-keys              Methods for manipulating the keys of a Bimap
+                        object
+Bimap-toTable           Methods for manipulating a Bimap object in a
+                        data-frame style
+BimapFormatting         Formatting a Bimap as a list or character
+                        vector
+GOFrame                 GOFrame and GOAllFrame objects
+GOID                    Descriptions of available values for 'columns'
+                        and 'keytypes' for GO.db.
+GOTerms-class           Class "GOTerms"
+KEGGFrame               KEGGFrame objects
+createSimpleBimap       Creates a simple Bimap from a SQLite database
+                        in an situation that is external to
+                        AnnotationDbi
+inpIDMapper             Convenience functions for mapping IDs through
+                        an appropriate set of annotation packages
+makeGOGraph             A convenience function to generate graphs based
+                        on the GO.db package
+make_eg_to_go_map       Create GO to Entrez Gene maps for chip-based
+                        packages
+orgPackageName          Org package contained in annotation object
+print.probetable        Print method for probetable objects
+toSQLStringSet          Convert a vector to a quoted string for use as
+                        a SQL value list
+toggleProbes            Methods for getting/setting the filters on a
+                        Bimap object
+unlist2                 A replacement for unlist() that does not mangle
+                        the names

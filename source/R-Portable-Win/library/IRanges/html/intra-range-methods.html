@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Intra range transformations of an IRanges, IPos, Views,...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for intra-range-methods {IRanges}"><tr><td>intra-range-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Intra range transformations of an IRanges, IPos, Views, RangesList,
+or MaskCollection object</h2>
+
+<h3>Description</h3>
+
+<p>Range-based transformations are grouped in 2 categories:
+</p>
+
+<ol>
+<li> <p><em>Intra range transformations</em> (e.g. <code>shift()</code>)
+transform each range individually (and independently of the other
+ranges). They return an object <em>parallel</em> to the input object,
+that is, where the i-th range corresponds to the i-th range in the
+input.
+Those transformations are described below.
+</p>
+</li>
+<li> <p><em>Inter range transformations</em> (e.g. <code><a href="inter-range-methods.html">reduce</a>()</code>)
+transform all the ranges together as a set to produce a new set
+of ranges. They return an object that is generally <em>NOT</em>
+parallel to the input object.
+Those transformations are described in the <a href="inter-range-methods.html">inter-range-methods</a>
+man page (see <code>?`<a href="inter-range-methods.html">inter-range-methods</a>`</code>).
+</p>
+</li></ol>
+
+<p>Except for <code>threebands()</code>, all the transformations described in this
+man page are <em>endomorphisms</em> that operate on a single &quot;range-based&quot;
+object, that is, they transform the ranges contained in the input object
+and return them in an object of the <em>same class</em> as the input object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+shift(x, shift=0L, use.names=TRUE)
+
+narrow(x, start=NA, end=NA, width=NA, use.names=TRUE)
+
+resize(x, width, fix="start", use.names=TRUE, ...)
+
+flank(x, width, start=TRUE, both=FALSE, use.names=TRUE, ...)
+
+promoters(x, upstream=2000, downstream=200, use.names=TRUE, ...)
+
+reflect(x, bounds, use.names=TRUE)
+
+restrict(x, start=NA, end=NA, keep.all.ranges=FALSE, use.names=TRUE)
+
+threebands(x, start=NA, end=NA, width=NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a>, <a href="Views-class.html">Views</a>, RangesList, or
+<a href="MaskCollection-class.html">MaskCollection</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>shift</code></td>
+<td>
+
+<p>An integer vector containing the shift information. Recycled as
+necessary so that each element corresponds to a range in <code>x</code>.
+</p>
+<p>Can also be a list-like object <em>parallel</em> to <code>x</code>
+if <code>x</code> is a RangesList object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.names</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>. Should names be preserved?
+</p>
+</td></tr>
+<tr valign="top"><td><code>start, end</code></td>
+<td>
+
+<p>If <code>x</code> is an <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a> or <a href="Views-class.html">Views</a> object:
+A vector of integers for all functions except for <code>flank</code>.
+For <code>restrict</code>, the supplied <code>start</code> and <code>end</code>
+arguments must be vectors of integers, eventually with NAs, that
+specify the restriction interval(s). Recycled as necessary so
+that each element corresponds to a range in <code>x</code>.
+Same thing for <code>narrow</code> and <code>threebands</code>, except that
+here <code>start</code> and <code>end</code> must contain coordinates relative
+to the ranges in <code>x</code>. See the Details section below.
+For <code>flank</code>, <code>start</code> is a logical indicating whether
+<code>x</code> should be flanked at the start (<code>TRUE</code>) or the end
+(<code>FALSE</code>). Recycled as necessary so that each element
+corresponds to a range in <code>x</code>.
+</p>
+<p>Can also be list-like objects <em>parallel</em> to <code>x</code>
+if <code>x</code> is a RangesList object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+
+<p>If <code>x</code> is an <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a> or <a href="Views-class.html">Views</a> object:
+For <code>narrow</code> and <code>threebands</code>, a vector of integers,
+eventually with NAs. See the SEW (Start/End/Width) interface for
+the details (<code>?solveUserSEW</code>).
+For <code>resize</code> and <code>flank</code>, the width of the resized or
+flanking regions. Note that if <code>both</code> is <code>TRUE</code>, this
+is effectively doubled. Recycled as necessary so that each
+element corresponds to a range in <code>x</code>.
+</p>
+<p>Can also be a list-like object <em>parallel</em> to <code>x</code>
+if <code>x</code> is a RangesList object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fix</code></td>
+<td>
+
+<p>If <code>x</code> is an <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a> or <a href="Views-class.html">Views</a> object:
+A character vector or character-Rle of length 1 or <code>length(x)</code>
+containing the values <code>"start"</code>, <code>"end"</code>, and
+<code>"center"</code> denoting what to use as an anchor for each
+element in <code>x</code>.
+</p>
+<p>Can also be a list-like object <em>parallel</em> to <code>x</code>
+if <code>x</code> is a RangesList object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments for methods.
+</p>
+</td></tr>
+<tr valign="top"><td><code>both</code></td>
+<td>
+
+<p>If <code>TRUE</code>, extends the flanking region <code>width</code> positions
+<em>into</em> the range. The resulting range thus straddles the end
+point, with <code>width</code> positions on either side.
+</p>
+</td></tr>
+<tr valign="top"><td><code>upstream, downstream</code></td>
+<td>
+
+<p>Vectors of non-NA non-negative integers. Recycled as
+necessary so that each element corresponds to a range in <code>x</code>.
+Can also be list-like objects <em>parallel</em> to <code>x</code>
+if <code>x</code> is a RangesList object.
+</p>
+<p><code>upstream</code> defines the number of nucleotides toward the 5' end
+and <code>downstream</code> defines the number toward the 3' end, relative
+to the transcription start site. Promoter regions are formed by merging
+the upstream and downstream ranges.
+</p>
+<p>Default values for <code>upstream</code> and <code>downstream</code> were chosen based
+on our current understanding of gene regulation. On average, promoter
+regions in the mammalian genome are 5000 bp upstream and downstream of the
+transcription start site.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bounds</code></td>
+<td>
+
+<p>An <a href="IRanges-constructor.html">IRanges</a> object to serve as the reference bounds for the
+reflection, see below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>keep.all.ranges</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>. Should ranges that don't overlap with
+the restriction interval(s) be kept?
+Note that &quot;don't overlap&quot; means that they end strictly before
+<code>start - 1</code> or start strictly after <code>end + 1</code>.
+Ranges that end at <code>start - 1</code> or start at <code>end + 1</code>
+are always kept and their width is set to zero in the returned
+<a href="IRanges-constructor.html">IRanges</a> object.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Unless specified otherwise, when <code>x</code> is a RangesList
+object, any transformation described here is equivalent to applying the
+transformation to each list element in <code>x</code>.
+</p>
+
+
+<h4>shift</h4>
+
+<p><code>shift</code> shifts all the ranges in <code>x</code> by the amount specified
+by the <code>shift</code> argument.
+</p>
+
+
+<h4>narrow</h4>
+
+<p><code>narrow</code> narrows the ranges in <code>x</code> i.e. each range in the
+returned <a href="IntegerRanges-class.html">IntegerRanges</a> object is a subrange of the corresponding
+range in <code>x</code>.
+The supplied start/end/width values are solved by a call to
+<code>solveUserSEW(width(x), start=start, end=end, width=width)</code>
+and therefore must be compliant with the rules of the SEW
+(Start/End/Width) interface (see <code>?<a href="IRanges-constructor.html">solveUserSEW</a></code>
+for the details).
+Then each subrange is derived from the original range according
+to the solved start/end/width values for this range. Note that those
+solved values are interpreted relatively to the original range.
+</p>
+
+
+<h4>resize</h4>
+
+<p><code>resize</code> resizes the ranges to the specified width where either
+the start, end, or center is used as an anchor.
+</p>
+
+
+<h4>flank</h4>
+
+<p><code>flank</code> generates flanking ranges for each range in <code>x</code>. If
+<code>start</code> is <code>TRUE</code> for a given range, the flanking occurs at
+the start, otherwise the end. The widths of the flanks are given by
+the <code>width</code> parameter. The widths can be negative, in which case
+the flanking region is reversed so that it represents a prefix or
+suffix of the range in <code>x</code>. The <code>flank</code> operation is
+illustrated below for a call of the form <code>flank(x, 3, TRUE)</code>,
+where <code>x</code> indicates a range in <code>x</code> and <code>-</code> indicates
+the resulting flanking region:
+</p>
+<pre>    ---xxxxxxx</pre>
+<p>If <code>start</code> were <code>FALSE</code>:
+</p>
+<pre>       xxxxxxx---</pre>
+<p>For negative width, i.e. <code>flank(x, -3, FALSE)</code>, where <code>*</code>
+indicates the overlap between <code>x</code> and the result:
+</p>
+<pre>       xxxx***</pre>
+<p>If <code>both</code> is <code>TRUE</code>, then, for all ranges in <code>x</code>, the
+flanking regions are extended <em>into</em> (or out of, if width is
+negative) the range, so that the result straddles the given endpoint
+and has twice the width given by <code>width</code>. This is illustrated below
+for <code>flank(x, 3, both=TRUE)</code>:
+</p>
+<pre>    ---***xxxx</pre>
+
+
+<h4>promoters</h4>
+
+<p><code>promoters</code> generates promoter ranges for each range in <code>x</code>
+relative to the transcription start site (TSS), where TSS is
+<code>start(x)</code>. The promoter range is expanded around the TSS
+according to the <code>upstream</code> and <code>downstream</code> arguments.
+<code>upstream</code> represents the number of nucleotides in the 5'
+direction and <code>downstream</code> the number in the 3' direction.
+The full range is defined as,
+(start(x) - upstream) to (start(x) + downstream - 1).
+For documentation for using <code>promoters</code> on a
+<a href="../../GenomicRanges/html/GRanges.html">GRanges</a> object see
+<code>?`<a href="../../GenomicRanges/html/promoters,GenomicRanges-method.html">promoters,GenomicRanges-method</a>`</code> in
+the <span class="pkg">GenomicRanges</span> package.
+</p>
+
+
+<h4>reflect</h4>
+
+<p><code>reflect</code> &quot;reflects&quot; or reverses each range in <code>x</code> relative to
+the corresponding range in <code>bounds</code>, which is recycled as
+necessary. Reflection preserves the width of a range, but shifts it
+such the distance from the left bound to the start of the range
+becomes the distance from the end of the range to the right
+bound. This is illustrated below, where <code>x</code> represents
+a range in <code>x</code> and <code>[</code> and <code>]</code> indicate the bounds:
+</p>
+<pre>      [..xxx.....]
+      becomes
+      [.....xxx..]</pre>
+
+
+<h4>restrict</h4>
+
+<p><code>restrict</code> restricts the ranges in <code>x</code> to the interval(s)
+specified by the <code>start</code> and <code>end</code> arguments.
+</p>
+
+
+<h4>threebands</h4>
+
+<p><code>threebands</code> extends the capability of <code>narrow</code> by returning
+the 3 ranges objects associated to the narrowing operation.
+The returned value <code>y</code> is a list of 3 ranges objects named
+<code>"left"</code>, <code>"middle"</code> and <code>"right"</code>.
+The middle component is obtained by calling <code>narrow</code> with the
+same arguments (except that names are dropped). The left and right
+components are also instances of the same class as <code>x</code> and they
+contain what has been removed on the left and right sides (respectively)
+of the original ranges during the narrowing.
+</p>
+<p>Note that original object <code>x</code> can be reconstructed from the
+left and right bands with <code>punion(y$left, y$right, fill.gap=TRUE)</code>.
+</p>
+
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pagès, M. Lawrence, and P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="inter-range-methods.html">inter-range-methods</a> for inter range transformations.
+</p>
+</li>
+<li><p> The <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a>, <a href="Views-class.html">Views</a>, RangesList,
+and <a href="MaskCollection-class.html">MaskCollection</a> classes.
+</p>
+</li>
+<li><p> The <a href="../../GenomicRanges/html/intra-range-methods.html">intra-range-methods</a> man page in the
+<span class="pkg">GenomicRanges</span> package for <em>intra range transformations</em>
+of genomic ranges.
+</p>
+</li>
+<li> <p><a href="setops-methods.html">setops-methods</a> for set operations on <a href="IRanges-constructor.html">IRanges</a>
+objects.
+</p>
+</li>
+<li> <p><code><a href="../../S4Vectors/html/endoapply.html">endoapply</a></code> in the <span class="pkg">S4Vectors</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## shift()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+ir1 &lt;- successiveIRanges(c(19, 5, 0, 8, 5))
+ir1
+shift(ir1, shift=-3)
+
+## On an IRangesList object:
+range1 &lt;- IRanges(start=c(1, 2, 3), end=c(5, 2, 8))
+range2 &lt;- IRanges(start=c(15, 45, 20, 1), end=c(15, 100, 80, 5))
+range3 &lt;- IRanges(start=c(-2, 6, 7), width=c(8, 0, 0))  # with empty ranges
+collection &lt;- IRangesList(one=range1, range2, range3)
+shift(collection, shift=5)  # same as endoapply(collection, shift, shift=5)
+
+## Sanity check:
+res1 &lt;- shift(collection, shift=5)
+res2 &lt;- endoapply(collection, shift, shift=5)
+stopifnot(identical(res1, res2))
+
+## ---------------------------------------------------------------------
+## narrow()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+ir2 &lt;- ir1[width(ir1) != 0]
+narrow(ir2, start=4, end=-2)
+narrow(ir2, start=-4, end=-2)
+narrow(ir2, end=5, width=3)
+narrow(ir2, start=c(3, 4, 2, 3), end=c(12, 5, 7, 4))
+
+## On an IRangesList object:
+narrow(collection[-3], start=2)
+narrow(collection[-3], end=-2)
+
+## On a MaskCollection object:
+mask1 &lt;- Mask(mask.width=29, start=c(11, 25, 28), width=c(5, 2, 2))
+mask2 &lt;- Mask(mask.width=29, start=c(3, 10, 27), width=c(5, 8, 1))
+mask3 &lt;- Mask(mask.width=29, start=c(7, 12), width=c(2, 4))
+mymasks &lt;- append(append(mask1, mask2), mask3)
+mymasks
+narrow(mymasks, start=8)
+
+## ---------------------------------------------------------------------
+## resize()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+resize(ir2, 200)
+resize(ir2, 2, fix="end")
+
+## On an IRangesList object:
+resize(collection, width=200)
+
+## ---------------------------------------------------------------------
+## flank()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+ir3 &lt;- IRanges(c(2,5,1), c(3,7,3))
+flank(ir3, 2)
+flank(ir3, 2, start=FALSE)
+flank(ir3, 2, start=c(FALSE, TRUE, FALSE))
+flank(ir3, c(2, -2, 2))
+flank(ir3, 2, both = TRUE)
+flank(ir3, 2, start=FALSE, both=TRUE)
+flank(ir3, -2, start=FALSE, both=TRUE)
+
+## On an IRangesList object:
+flank(collection, width=10)
+
+## ---------------------------------------------------------------------
+## promoters()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+ir4 &lt;- IRanges(20:23, width=3)
+promoters(ir4, upstream=0, downstream=0) ## no change
+promoters(ir4, upstream=0, downstream=1) ## start value only
+promoters(ir4, upstream=1, downstream=0) ## single upstream nucleotide
+
+## On an IRangesList object:
+promoters(collection, upstream=5, downstream=2)
+
+## ---------------------------------------------------------------------
+## reflect()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+bounds &lt;- IRanges(c(0, 5, 3), c(10, 6, 9))
+reflect(ir3, bounds)
+
+## reflect() does not yet support IRangesList objects!
+
+## ---------------------------------------------------------------------
+## restrict()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+restrict(ir1, start=12, end=34)
+restrict(ir1, start=20)
+restrict(ir1, start=21)
+restrict(ir1, start=21, keep.all.ranges=TRUE)
+
+## On an IRangesList object:
+restrict(collection, start=2, end=8)
+
+## ---------------------------------------------------------------------
+## threebands()
+## ---------------------------------------------------------------------
+
+## On an IRanges object:
+z &lt;- threebands(ir2, start=4, end=-2)
+ir2b &lt;- punion(z$left, z$right, fill.gap=TRUE)
+stopifnot(identical(ir2, ir2b))
+threebands(ir2, start=-5)
+
+## threebands() does not support IRangesList objects.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

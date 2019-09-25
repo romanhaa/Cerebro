@@ -1,0 +1,130 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+
+
+% \VignetteIndexEntry{HowTo: use chromosomal information}
+% \VignetteDepends{annotate, hgu95av2.db}
+% \VignetteKeywords{Expression Analysis, Annotation}
+%\VignettePackage{annotate}
+\documentclass{article}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+
+\bibliographystyle{plainnat}
+
+\author{Jeff Gentry}
+
+\begin{document}
+\title{HowTo: Build and use chromosomal information}
+\maketitle{}
+
+\section{Overview}
+
+The annotate package provides a class that can be used to model
+chromosomal information about a species, using one of the metadata
+packages provided by Bioconductor.  This class contains information
+about the organism and its chromosomes and provides a standardized
+interface to the information in the metadata packages for other
+software to quickly extract necessary chromosomal information.  An
+example of using \Rclass{chromLocation} objects in other software can
+be found with the \Rfunction{alongChrom} function of the
+\Rpackage{geneplotter} package in Bioconductor.
+
+\section{The chromLocation class}
+
+The \Rclass{chromLocation} class is used to provide a structure for
+chromosomal data of a particular organism.  In this section, we will
+discuss the various slots of the class and the methods for interacting
+with them.  Before this though, we will create an object of class
+\Rclass{chromLocation} for demonstration purposes later.  The helper
+function \Rfunction{buildChromLocation} is used, and it takes as an
+argument the name of a Bioconductor metadata package, which is itself
+used to extract the data.  For this vignette, we will be using the
+\Rpackage{hgu95av2.db} package.
+
+<<buildCL>>=
+library("annotate")
+z <- buildChromLocation("hgu95av2")
+z
+@
+
+Once we have an object of the \Rclass{chromLocation} class, we can now
+access its various slots to get the information contained within it.
+There are six slots in this class:
+\begin{verbatim}
+organism:       This lists the organism that this object is describing.
+dataSource:     Where this data was acquired from.
+chromLocs:      A list with an element for every unique chromosome 
+                name, where each element contains a named vector where
+                the names are probe IDs and the values describe the
+                location of that probe on the chromosome.  Negative
+                values indicate that the location is on the antisense
+                strand. 
+probesToChrom:  A hash table which will translate a probe ID to the 
+                chromosome it belongs to.
+chromInfo:      A numerical vector representing each chromosome, where
+                the names are the names of the chromosomes and the
+                values are the lengths of those chromosomes.
+geneSymbols:    An environment that maps a probe ID to the appropriate
+                gene symbol.
+\end{verbatim}
+
+There is a basic 'get' type method for each of these slots, all with
+the same name as the respective slot.  In the following example, we
+will demonstrate these basic methods.  For the
+\Rfunction{probesToChrom} and \Rfunction{geneSymbols} methods, the
+return value is an environment which maps a probe ID to other values,
+we will be using the probe ID '32972\_at', which was selected at
+random for these examples.  We are showing only part of the
+\Rfunction{chromLocs} method's output as it is quite long in its entirety.
+
+<<showBasicMethods>>=
+organism(z)
+
+dataSource(z)
+
+## The chromLocs list is extremely large.  Let's only
+## look at one of the elements.
+names(chromLocs(z))
+chromLocs(z)[["Y"]]
+
+get("32972_at", probesToChrom(z))
+
+chromInfo(z)
+
+get("32972_at", geneSymbols(z))
+
+@
+
+Another method which can be used to access information about the
+particular \Rclass{chromLocation} object is the \Rfunction{nChrom}
+method, which will list how many chromosomes this organism has:
+
+<<nChrom>>=
+nChrom(z)
+@
+
+\section{Summary}
+
+The \Rclass{chromLocation} class has a simple design, but can be
+powerful if one wants to store the chromosomal data contained in a
+Bioconductor package into a single object.  These objects can be
+created once and then passed around to multiple functions, which can
+cut down on computation time to access the desired information from
+the package.  These objects allow access to basic but also important
+information, and provide a standard interface for writers of other
+software to access this information.
+
+\end{document}

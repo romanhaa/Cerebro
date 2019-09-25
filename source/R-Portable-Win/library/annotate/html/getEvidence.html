@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get the Evidence codes for a set of GO terms.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getEvidence {annotate}"><tr><td>getEvidence {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the Evidence codes for a set of GO terms.</h2>
+
+<h3>Description</h3>
+
+<p>For each mapping of a gene to a GO term there are a set of evidence
+codes that are used. Genes can be mapped using one, or more evidence
+codes and this function obtains the evidence codes for all genes
+provided in the input list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getEvidence(inlist)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inlist</code></td>
+<td>
+<p>A list of GO identifers.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code>list</code> of the same length as the input list, each element is a
+vector of evidence codes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getOntology.html">getOntology</a></code>, <code><a href="dropECode.html">dropECode</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ library("hgu95av2.db")
+ bb &lt;- hgu95av2GO[["39613_at"]]
+ getEvidence(bb)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

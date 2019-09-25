@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fixed-width running window summaries</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Rle-runstat {S4Vectors}"><tr><td>Rle-runstat {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fixed-width running window summaries</h2>
+
+<h3>Description</h3>
+
+<p>The <code>runsum</code>, <code>runmean</code>, <code>runmed</code>, <code>runwtsum</code>,
+<code>runq</code> functions calculate the sum, mean, median, weighted sum,
+and order statistic for fixed width running windows.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+runsum(x, k, endrule = c("drop", "constant"), ...)
+
+runmean(x, k, endrule = c("drop", "constant"), ...)
+
+## S4 method for signature 'Rle'
+smoothEnds(y, k = 3)
+
+## S4 method for signature 'Rle'
+runmed(x, k, endrule = c("median", "keep", "drop", "constant"), 
+       algorithm = NULL, print.level = 0)
+
+runwtsum(x, k, wt, endrule = c("drop", "constant"), ...)
+
+runq(x, k, i, endrule = c("drop", "constant"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+
+<p>The data object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>An integer indicating the fixed width of the running window. Must be
+odd when <code>endrule != "drop"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>endrule</code></td>
+<td>
+
+<p>A character string indicating how the values at the beginning
+and the end (of the data) should be treated.
+</p>
+
+<dl>
+<dt><code>"median"</code></dt><dd><p>see <code><a href="../../stats/html/runmed.html">runmed</a></code>;</p>
+</dd>
+<dt><code>"keep"</code></dt><dd><p>see <code><a href="../../stats/html/runmed.html">runmed</a></code>;</p>
+</dd>
+<dt><code>"drop"</code></dt><dd><p>do not extend the running statistics to
+be the same length as the underlying vectors;</p>
+</dd>
+<dt><code>"constant"</code></dt><dd><p>copies running statistic to the
+first values and analogously for the last ones making the
+smoothed ends <em>constant</em>.</p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>wt</code></td>
+<td>
+
+<p>A numeric vector of length <code>k</code> that provides the weights to use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+
+<p>An integer in [0, k] indicating which order statistic to calculate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>algorithm,print.level</code></td>
+<td>
+
+<p>See <code>?stats::<a href="../../stats/html/runmed.html">runmed</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to methods. Specifically,
+<code>na.rm</code>. When <code>na.rm = TRUE</code>, the <code>NA</code> and <code>NaN</code>
+values are removed. When <code>na.rm = FALSE</code>, <code>NA</code> is returned
+if either <code>NA</code> or <code>NaN</code> are in the specified window.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>runsum</code>, <code>runmean</code>, <code>runmed</code>, <code>runwtsum</code>,
+and <code>runq</code> functions provide efficient methods for calculating
+the specified numeric summary by performing the looping in compiled code.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of the same class as <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun and V. Obenchain</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/runmed.html">runmed</a></code>, <a href="Rle-class.html">Rle-class</a>, <a href="../../IRanges/html/RleList-class.html">RleList-class</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  x &lt;- Rle(1:10, 1:10)
+  runsum(x, k = 3)
+  runsum(x, k = 3, endrule = "constant")
+  runmean(x, k = 3)
+  runwtsum(x, k = 3, wt = c(0.25, 0.5, 0.25))
+  runq(x, k = 5, i = 3, endrule = "constant")
+
+  ## Missing and non-finite values
+  x &lt;- Rle(c(1, 2, NA, 0, 3, Inf, 4, NaN))
+  runsum(x, k = 2)
+  runsum(x, k = 2, na.rm = TRUE)
+  runmean(x, k = 2, na.rm = TRUE)
+  runwtsum(x, k = 2, wt =  c(0.25, 0.5), na.rm = TRUE)
+  runq(x, k = 2, i = 2, na.rm = TRUE) ## max value in window
+
+  ## The .naive_runsum() function demonstrates the semantics of 
+  ## runsum(). This test ensures the behavior is consistent with
+  ## base::sum().
+
+  .naive_runsum &lt;- function(x, k, na.rm=FALSE)
+      sapply(0:(length(x)-k),
+          function(offset) sum(x[1:k + offset], na.rm=na.rm))
+
+  x0 &lt;- c(1, Inf, 3, 4, 5, NA)
+  x &lt;- Rle(x0)
+  target1 &lt;- .naive_runsum(x0, 3, na.rm = TRUE)
+  target2 &lt;- .naive_runsum(x, 3, na.rm = TRUE)
+  stopifnot(target1 == target2)
+  current &lt;- as.vector(runsum(x, 3, na.rm = TRUE))
+  stopifnot(target1 == current)
+
+  ## runmean() and runwtsum() :
+  x &lt;- Rle(c(2, 1, NA, 0, 1, -Inf))
+  runmean(x, k = 3)
+  runmean(x, k = 3, na.rm = TRUE)
+  runwtsum(x, k = 3, wt = c(0.25, 0.50, 0.25))
+  runwtsum(x, k = 3, wt = c(0.25, 0.50, 0.25), na.rm = TRUE)
+
+  ## runq() :
+  runq(x, k = 3, i = 1, na.rm = TRUE) ## smallest value in window
+  runq(x, k = 3, i = 3, na.rm = TRUE) ## largest value in window
+
+  ## When na.rm = TRUE, it is possible the number of non-NA 
+  ## values in the window will be less than the 'i' specified.
+  ## Here we request the 4th smallest value in the window,
+  ## which tranlates to the value at the 4/5 (0.8) percentile.
+  x &lt;- Rle(c(1, 2, 3, 4, 5))
+  runq(x, k=length(x), i=4, na.rm=TRUE)
+
+  ## The same request on a Rle with two missing values
+  ## finds the value at the 0.8 percentile of the vector 
+  ## at the new length of 3 after the NA's have been removed.
+  ## This translates to round((0.8) * 3).
+  x &lt;- Rle(c(1, 2, 3, NA, NA))
+  runq(x, k=length(x), i=4, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

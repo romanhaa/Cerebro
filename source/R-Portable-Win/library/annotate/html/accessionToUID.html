@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to convert accession values to NCBI UIDs.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for accessionToUID {annotate}"><tr><td>accessionToUID {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to convert accession values to NCBI UIDs.</h2>
+
+<h3>Description</h3>
+
+<p>Given one or more accession values, this function will attempt to
+convert them into NCBI UID values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+accessionToUID(...,db=c("genbank","pubmed"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Accession numbers to be transformed.</p>
+</td></tr>
+<tr valign="top"><td><code>db</code></td>
+<td>
+<p>Which database this accession number refers to, defaults to Genbank</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Utilizes the PubMed tool esearch.fcgi to convert an accession number
+into a valid NCBI UID number.
+</p>
+<p>WARNING:  The powers that be at NCBI have been known to ban the IP
+addresses of users who abuse their servers (currently defined as less
+then 2 seconds between queries).  Do NOT put this function in a type
+loop or you may find your access revoked.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns either a valid NCBI UID value or NULL (if there was nothing
+available).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pubmed.html">pubmed</a></code>, <code><a href="../../XML/html/xmlTreeParse.html">xmlTreeParse</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+     ## The two returns from genbank should be the same
+     xdoc &lt;- genbank("U03397",type="accession",disp="data")
+     x &lt;- accessionToUID("U03397",db="genbank")
+     xdoc &lt;- genbank(x, type="uid",disp="data")
+
+     ## Can handle multiple inputs
+     y &lt;- accessionToUID("M16653","U892893",db="genbank")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

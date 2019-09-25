@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: DataTable objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for DataTable-class {S4Vectors}"><tr><td>DataTable-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>DataTable objects</h2>
+
+<h3>Description</h3>
+
+<p>DataTable is an API only (i.e. virtual class with no slots) for accessing
+objects with a rectangular shape like <a href="DataFrame-class.html">DataFrame</a> or
+<a href="../../DelayedArray/html/DelayedMatrix.html">DelayedMatrix</a> objects.
+</p>
+
+
+<h3>Accessors</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataTable</code>.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>nrow(x)</code>, <code>ncol(x)</code>:
+Get the number of rows and columns, respectively.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>NROW(x)</code>, <code>NCOL(x)</code>:
+Same as <code>nrow(x)</code> and <code>ncol(x)</code>, respectively.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>dim(x)</code>:
+Length two integer vector defined as <code>c(nrow(x), ncol(x))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rownames(x)</code>, <code>colnames(x)</code>:
+Get the names of the rows and columns, respectively.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>dimnames(x)</code>:
+Length two list of character vectors defined as
+<code>list(rownames(x), colnames(x))</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the code snippets below, <code>x</code> is a DataTable object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i, j, drop=TRUE]</code>:
+Return a new DataTable object made of the selected rows and columns. For
+single column selection, the <code>drop</code> argument specifies whether or not
+to coerce the returned sequence to a standard vector.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>head(x, n=6L)</code>:
+If <code>n</code> is non-negative, returns the first n rows of the DataTable
+object.
+If <code>n</code> is negative, returns all but the last <code>abs(n)</code> rows of
+the DataTable object.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>tail(x, n=6L)</code>:
+If <code>n</code> is non-negative, returns the last n rows of the DataTable
+object.
+If <code>n</code> is negative, returns all but the first <code>abs(n)</code> rows of
+the DataTable object.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>subset(x, subset, select, drop=FALSE)</code>:
+Return a new DataTable object using:
+</p>
+
+<dl>
+<dt>subset</dt><dd><p>logical expression indicating rows to keep, where missing
+values are taken as FALSE.</p>
+</dd>
+<dt>select</dt><dd><p>expression indicating columns to keep.</p>
+</dd>
+<dt>drop</dt><dd><p>passed on to <code>[</code> indexing operator.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code><a href="../../stats/html/na.fail.html">na.omit</a>(object)</code>:
+Returns a subset with incomplete cases removed.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code><a href="../../stats/html/na.fail.html">na.exclude</a>(object)</code>:
+Returns a subset with incomplete cases removed (but to be
+included with NAs in statistical results).
+</p>
+</dd>
+<dt></dt><dd>
+<p><code><a href="../../base/html/NA.html">is.na</a>(x)</code>:
+Returns a logical matrix indicating which cells are missing.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code><a href="../../stats/html/complete.cases.html">complete.cases</a>(x)</code>:
+Returns a logical vector identifying which cases have no missing values.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Combining</h3>
+
+<p>In the code snippets below, <code>x</code> is a DataTable object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>cbind(...)</code>: Creates a new <code>DataTable</code> by combining the columns
+of the <code>DataTable</code> objects in <code>...</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rbind(...)</code>: Creates a new <code>DataTable</code> by combining the rows of
+the <code>DataTable</code> objects in <code>...</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>merge(x, y, ...)</code>: Merges two <code>DataTable</code>
+objects <code>x</code> and <code>y</code>, with arguments in <code>...</code> being
+the same as those allowed by the base <code><a href="Vector-merge.html">merge</a></code>. It is
+allowed for either <code>x</code> or <code>y</code> to be a <code>data.frame</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Looping</h3>
+
+<p>In the code snippets below, <code>x</code> is a DataTable object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>by(data, INDICES, FUN, ..., simplify = TRUE)</code>:
+Apply <code>FUN</code> to each group of <code>data</code>, a <code>DataTable</code>,
+formed by the factor (or list of factors) <code>INDICES</code>. Exactly 
+the same contract as <code><a href="../../base/html/as.data.frame.html">as.data.frame</a></code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Transforming</h3>
+
+<p>In the code snippets below, <code>x</code> is a DataTable object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>transform(`_data`, ...)</code>: adds or replaces columns based on
+expressions in <code>...</code>. See <code><a href="../../base/html/transform.html">transform</a></code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Utilities</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>duplicated(x)</code>: Returns a logical vector indicating the rows
+that are identical to a previous row.
+</p>
+</dd>
+<dt></dt><dd><p><code>unique(x)</code>: Returns a new <code>DataTable</code> after
+removing the duplicated rows from <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>as.env(x, enclos = parent.frame())</code>:
+Creates an environment from <code>x</code> with a symbol for each
+<code>colnames(x)</code>. The values are not actually copied into the
+environment. Rather, they are dynamically bound using
+<code><a href="../../base/html/bindenv.html">makeActiveBinding</a></code>. This prevents unnecessary copying
+of the data from the external vectors into R vectors. The values
+are cached, so that the data is not copied every time the symbol
+is accessed.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.data.frame(x, row.names=NULL, optional=FALSE,
+	...)</code>: 
+Creates the corresponding data.frame.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Statistical modeling with DataTable</h3>
+
+<p>A number of wrappers are implemented for performing statistical
+procedures, such as model fitting, with DataTable objects.
+</p>
+
+
+<h4>Tabulation</h4>
+
+
+<dl>
+<dt></dt><dd><p><code>xtabs(formula = ~., data, subset, na.action,
+          exclude = c(NA, NaN), drop.unused.levels = FALSE)</code>:
+Like the original <code><a href="../../stats/html/xtabs.html">xtabs</a></code>, except <code>data</code> is a
+<code>DataTable</code>.
+</p>
+</dd>
+</dl>
+
+
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="DataFrame-class.html">DataFrame</a> for an implementation that mimics <code>data.frame</code>.
+</p>
+</li>
+<li> <p><a href="../../base/html/data.frame.html">data.frame</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+showClass("DataTable")  # shows (some of) the known subclasses
+
+library(IRanges)
+df &lt;- DataFrame(as.data.frame(UCBAdmissions))
+xtabs(Freq ~ Gender + Admit, df)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

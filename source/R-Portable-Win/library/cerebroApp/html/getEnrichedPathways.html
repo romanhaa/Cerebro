@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get enriched pathways based on marker genes from EnrichR.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getEnrichedPathways {cerebroApp}"><tr><td>getEnrichedPathways {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get enriched pathways based on marker genes from EnrichR.</h2>
+
+<h3>Description</h3>
+
+<p>This function uses the enrichR API to look for enriched pathways
+in marker gene sets of samples and clusters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getEnrichedPathways(object, column_sample = "sample",
+  column_cluster = "cluster",
+  databases = c("GO_Biological_Process_2018",
+  "GO_Cellular_Component_2018", "GO_Molecular_Function_2018", "KEGG_2016",
+  "WikiPathways_2016", "Reactome_2016", "Panther_2016", "Human_Gene_Atlas",
+  "Mouse_Gene_Atlas"), adj_p_cutoff = 0.05, max_terms = 100,
+  URL_API = "http://amp.pharm.mssm.edu/Enrichr/enrich")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>column_sample</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about sample; defaults to 'sample'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cluster</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about cluster; defaults to 'cluster'.</p>
+</td></tr>
+<tr valign="top"><td><code>databases</code></td>
+<td>
+<p>Which databases to query. Use enrichR::listEnrichrDbs() to
+check what databases are available.</p>
+</td></tr>
+<tr valign="top"><td><code>adj_p_cutoff</code></td>
+<td>
+<p>Cut-off for adjusted p-value of enriched pathways;
+defaults to 0.05,</p>
+</td></tr>
+<tr valign="top"><td><code>max_terms</code></td>
+<td>
+<p>Save only first n entries of each database; defaults to 100.</p>
+</td></tr>
+<tr valign="top"><td><code>URL_API</code></td>
+<td>
+<p>URL to send requests to (Enrichr API). Allows to overwrite
+default URL with an alternative taken from the Enrichr website in case the
+original is out-of-service; defaults to
+'http://amp.pharm.mssm.edu/Enrichr/enrich'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Get enriched pathways based on marker genes from EnrichR.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Seurat object with Enrichr results for samples and clusters stored in
+object@misc$enriched_pathways$enrichr
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seurat &lt;- getEnrichedPathways(
+  object = seurat,
+  column_sample = 'sample',
+  column_cluster = 'cluster',
+  databases = c('GO_Biological_Process_2018','GO_Cellular_Component_2018'),
+  adj_p_cutoff = 0.01,
+  max_terms = 100,
+  URL_API = 'http://amp.pharm.mssm.edu/Enrichr/enrich'
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

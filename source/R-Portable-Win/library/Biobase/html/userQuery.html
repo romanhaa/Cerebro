@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to query the user for input</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for userQuery {Biobase}"><tr><td>userQuery {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to query the user for input</h2>
+
+<h3>Description</h3>
+
+<p>This function will output a given message and seek a response from the
+user, repeating the message until the input is from a valid set
+provided by the code.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+userQuery(msg, allowed = c("y", "n"), default = "n", case.sensitive = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>msg</code></td>
+<td>
+<p>The output message</p>
+</td></tr>
+<tr valign="top"><td><code>allowed</code></td>
+<td>
+<p>Allowed input from the user</p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+<p>Default response if called in batch mode</p>
+</td></tr>
+<tr valign="top"><td><code>case.sensitive</code></td>
+<td>
+<p>Is the response case sensitive? Defaults to
+<code>FALSE</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The input from the user
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

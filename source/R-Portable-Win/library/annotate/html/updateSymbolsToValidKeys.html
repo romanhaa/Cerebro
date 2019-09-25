@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Take a list of symbols and translate them into the best...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for updateSymbolsToValidKeys {annotate}"><tr><td>updateSymbolsToValidKeys {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Take a list of symbols and translate them into the best possible
+ID for a package.</h2>
+
+<h3>Description</h3>
+
+<p>Given a list of gene symbols and a package, find a valid ID for that
+package.  If there isn't a valid ID, then return the original symbol.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+updateSymbolsToValidKeys(symbols, pkg)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>symbols</code></td>
+<td>
+<p>A character vector containing gene symbols that you
+wish to try and translate into valid IDs.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>The package name of the chip for which we wish to validate IDs.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a convenience function for getting from a possibly varied list
+of gene symbols mapped onto something that is a nice concrete ID such as an
+entrez gene ID.  When such an ID cannot be found, the original symbol
+will come back to prevent the loss of any information.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns a vector of IDs corresponding to the symbols
+that were input.  If the symbols don't have a valid ID, then they come
+back instead.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="isValidkey.html">isValidKey</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## one "bad" ID, one that can be mapped onto a valid ID, and a 3rd
+  ## which already is a valid ID
+  syms &lt;- c("15S_rRNA_2","21S_rRNA_4","15S_rRNA")
+  updateSymbolsToValidKeys(syms, "org.Sc.sgd")
+
+  ## 3 symbols and a 4th that will NOT be valid
+  syms &lt;- c("MAPK11","P38B","FLJ45465", "altSymbol")
+  updateSymbolsToValidKeys(syms, "org.Hs.eg")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

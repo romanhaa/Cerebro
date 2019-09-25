@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: MA-plot: plot differences versus averages for high-throughput...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plotMA {BiocGenerics}"><tr><td>plotMA {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>MA-plot: plot differences versus averages for high-throughput data</h2>
+
+<h3>Description</h3>
+
+<p>A generic function which produces an MA-plot for an object containing microarray, RNA-Seq
+or other data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotMA(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>A data object, typically containing count values from an RNA-Seq experiment or microarray intensity values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Undefined. The function exists for its side effect, producing a plot.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><code><a href="../../limma/html/plotMA.html">plotMA</a></code> in the <span class="pkg">limma</span> package
+for a function with the same name that is not dispatched through this generic function.
+</p>
+</li>
+<li> <p><code><a href="BiocGenerics-package.html">BiocGenerics</a></code> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+showMethods("plotMA")
+
+suppressWarnings(
+  if(require("DESeq2"))
+    example("plotMA", package="DESeq2", local=TRUE)
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

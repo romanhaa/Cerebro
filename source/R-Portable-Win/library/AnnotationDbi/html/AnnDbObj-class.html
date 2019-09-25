@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: AnnDbObj objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AnnDbObj-objects {AnnotationDbi}"><tr><td>AnnDbObj-objects {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>AnnDbObj objects</h2>
+
+<h3>Description</h3>
+
+<p>The AnnDbObj class is the most general container for storing any kind
+of SQLite-based annotation data.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Many classes in AnnotationDbi inherit directly or indirectly
+from the AnnDbObj class. One important particular case is the
+<a href="Bimap.html">AnnDbBimap</a> class which is the lowest class in the AnnDbObj
+hierarchy to also inherit the <a href="Bimap.html">Bimap</a> interface.
+</p>
+
+
+<h3>Accessor-like methods</h3>
+
+<p>In the code snippets below,
+<code>x</code> is an AnnDbObj object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>dbconn(x)</code>:
+Return a connection object to the SQLite DB containing <code>x</code>'s data.
+</p>
+</dd>
+</dl>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>dbfile(x)</code>:
+Return the path (character string) to the SQLite DB (file) containing
+<code>x</code>'s data.
+</p>
+</dd>
+</dl>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>dbmeta(x, name)</code>:
+Print the value of metadata whose name is 'name'.
+Also works if <code>x</code> is a DBIConnection object.
+</p>
+</dd>
+</dl>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>dbschema(x, file="", show.indices=FALSE)</code>:
+Print the schema definition of the SQLite DB.
+Also works if <code>x</code> is a DBIConnection object.
+</p>
+<p>The <code>file</code> argument must be a connection, or a character string
+naming the file to print to (see the <code>file</code> argument of the
+<code><a href="../../base/html/cat.html">cat</a></code> function for the details).
+</p>
+<p>The CREATE INDEX statements are not shown by default.
+Use <code>show.indices=TRUE</code> to get them.
+</p>
+</dd>
+</dl>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>dbInfo(x)</code>:
+Prints other information about the SQLite DB.
+Also works if <code>x</code> is a DBIConnection object.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../DBI/html/dbConnect.html">dbConnect</a></code>,
+<code><a href="../../DBI/html/dbListTables.html">dbListTables</a></code>,
+<code><a href="../../DBI/html/dbListTables.html">dbListFields</a></code>,
+<code><a href="../../DBI/html/dbSendQuery.html">dbGetQuery</a></code>,
+<a href="Bimap.html">Bimap</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+
+  dbconn(hgu95av2ENTREZID)              # same as hgu95av2_dbconn()
+  dbfile(hgu95av2ENTREZID)              # same as hgu95av2_dbfile()
+
+  dbmeta(hgu95av2_dbconn(), "ORGANISM")
+  dbmeta(hgu95av2_dbconn(), "DBSCHEMA")
+  dbmeta(hgu95av2_dbconn(), "DBSCHEMAVERSION")
+
+  library("DBI")
+  dbListTables(hgu95av2_dbconn())       #lists all tables on connection
+
+  ## If you use dbSendQuery instead of dbGetQuery
+  ## (NOTE: for ease of use, this is defintitely NOT reccomended)
+  ## Then you may need to know how to list results objects
+  dbListResults(hgu95av2_dbconn())      #for listing results objects
+
+
+  ## You can also list the fields by using this connection
+  dbListFields(hgu95av2_dbconn(), "probes")
+  dbListFields(hgu95av2_dbconn(), "genes")
+  dbschema(hgu95av2ENTREZID)        # same as hgu95av2_dbschema()
+  ## According to the schema, the probes._id column references the genes._id
+  ## column. Note that in all tables, the "_id" column is an internal id with
+  ## no biological meaning (provided for allowing efficient joins between
+  ## tables).
+  ## The information about the probe to gene mapping is in probes:
+  dbGetQuery(hgu95av2_dbconn(), "SELECT * FROM probes LIMIT 10")
+  ## This mapping is in fact the ENTREZID map:
+  toTable(hgu95av2ENTREZID)[1:10, ] # only relevant columns are retrieved
+
+  dbInfo(hgu95av2GO)                # same as hgu95av2_dbInfo()
+
+  ##Advanced example:
+  ##Sometimes you may wish to join data from across multiple databases at
+  ##once:
+  ## In the following example we will attach the GO database to the
+  ## hgu95av2 database, and then grab information from separate tables
+  ## in each database that meet a common criteria.
+  library(hgu95av2.db)
+  library("GO.db")
+  attachSql &lt;- paste('ATTACH "', GO_dbfile(), '" as go;', sep = "")
+  dbGetQuery(hgu95av2_dbconn(), attachSql)
+  sql &lt;- 'SELECT  DISTINCT a.go_id AS "hgu95av2.go_id",
+           a._id AS "hgu95av2._id",
+           g.go_id AS "GO.go_id", g._id AS "GO._id",
+           g.term, g.ontology, g.definition
+           FROM go_bp_all AS a, go.go_term AS g
+           WHERE a.go_id = g.go_id LIMIT 10;'
+  data &lt;- dbGetQuery(hgu95av2_dbconn(), sql)
+  data
+  ## For illustration purposes, the internal id "_id" and the "go_id"
+  ## from both tables is included in the output.  This makes it clear
+  ## that the "go_ids" can be used to join these tables but the internal
+  ## ids can NOT.  The internal IDs (which are always shown as _id) are
+  ## suitable for joins within a single database, but cannot be used
+  ## across databases.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

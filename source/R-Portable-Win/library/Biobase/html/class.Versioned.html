@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;Versioned&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Versioned {Biobase}"><tr><td>Versioned {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;Versioned&quot;</h2>
+
+<h3>Description</h3>
+
+<p>Use this class as a &lsquo;superclass&rsquo; for classes requiring information
+about versions.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>The following are defined; package developers may write additional methods.
+</p>
+
+<dl>
+<dt><code>new("Versioned", ..., versions=list())</code></dt><dd><p>Create a new <code>Versioned-class</code> instance,
+perhaps with additional named version elements (the contents of
+<code>versions</code>) added. Named elements of <code>versions</code> are
+character strings that can be coerced using <code><a href="../../base/html/numeric_version.html">package_version</a></code>, or <code>package_version</code> instances.</p>
+</dd>
+<dt><code>classVersion(object)</code></dt><dd><p>Obtain version information about instance <code>object</code>. See <code><a href="classVersion.html">classVersion</a></code>.</p>
+</dd>
+<dt><code>classVersion(object) &lt;- value</code></dt><dd><p>Set version information on instance <code>object</code> to <code>value</code>; useful when <code>object</code> is an instance of a class that contains <code>VersionClass</code>. See <code><a href="classVersion.html">classVersion</a></code>.</p>
+</dd>
+<dt><code>classVersion(object)["id"] &lt;- value</code></dt><dd><p>Create or update version information <code>"id"</code> on instance <code>object</code> to <code>value</code>; useful when <code>object</code> is an instance of a class that contains <code>VersionClass</code>. See <code><a href="classVersion.html">classVersion</a></code>.</p>
+</dd>
+<dt><code>show(object)</code></dt><dd><p>Default method returns <code>invisible</code>,
+to avoid printing confusing information when your own class does
+not have a <code>show</code> method defined. Use
+<code>classVersion(object)</code> to get or set version information.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.Versions.html">Versions-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+obj &lt;- new("Versioned", versions=list(A="1.0.0"))
+obj
+classVersion(obj)
+
+A &lt;- setClass("A", contains="Versioned")
+
+classVersion("A")
+a &lt;- A()
+a # 'show' nothing by default
+classVersion(a)
+
+B &lt;- setClass("B", contains="Versioned",
+         prototype=prototype(new("Versioned",versions=list(B="1.0.0"))))
+
+classVersion("B")
+b &lt;- B()
+classVersion(b)
+
+classVersion(b)["B"] &lt;- "1.0.1"
+classVersion(b)
+classVersion("B")
+
+classVersion("B") &lt; classVersion(b)
+classVersion(b) == "1.0.1"
+
+C &lt;- setClass("C",
+         representation(x="numeric"),
+         contains=("VersionedBiobase"),
+         prototype=prototype(new("VersionedBiobase", versions=c(C="1.0.1"))))
+
+setMethod("show", signature(object="C"),
+          function(object) print(object@x))
+
+c &lt;- C(x=1:10)
+c
+
+classVersion(c)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

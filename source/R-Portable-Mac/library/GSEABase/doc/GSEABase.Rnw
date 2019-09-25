@@ -1,0 +1,339 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{An introduction to GSEABase}
+%\VignetteDepends{hgu95av2.db,GO.db, ReportingTools}
+%\VignetteKeywords{Gene Set Enrichment Analysis}
+%\VignettePackage{GSEABase}
+%\VignetteEngine{knitr::knitr}
+\documentclass[]{article}
+
+<<style-knitr, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
+
+\newcommand{\GSEABase}{\Biocpkg{GSEABase}}
+\newcommand{\GeneSet}{\Rclass{GeneSet}}
+\newcommand{\GeneColorSet}{\Rclass{GeneColorSet}}
+\newcommand{\GeneSetCollection}{\Rclass{GeneSetCollection}}
+\newcommand{\ExpressionSet}{\Rclass{ExpressionSet}}
+\newcommand{\AnnotationIdentifier}{\Rclass{AnnotationIdentifier}}
+\newcommand{\GOCollection}{\Rclass{GOCollection}}
+
+\bioctitle[GSEABase]{An Introduction to GSEABase}
+\author{Martin Morgan}
+\affil{Roswell Park Cancer Institute, Buffalo, NY}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The \Biocpkg{GSEABase} package implements data structures and methods to 
+represent, manipulate, and analyze gene sets in the context of gene set
+enrichment analysis. This includes construction of gene sets from reference
+resources, ID mapping, coloring according to phenotype association, and storing
+in gene set collections.
+\end{abstract}
+
+\packageVersion{\Sexpr{BiocStyle::pkg_ver("GSEABase")}}
+
+Report issues on \url{https://github.com/Bioconductor/GSEABase/issues}
+
+\tableofcontents
+
+<<preliminaries, echo=FALSE>>=
+## FIXME: <adjMat> adjacency matrix -- color w. +/- 1
+## FIXME: limma topTable --> GeneColorSet
+## w. verbose=TRUE
+suppressPackageStartupMessages({
+    library(GSEABase)
+    library(hgu95av2.db)
+    library(GO.db)
+})
+@ 
+
+
+\section{\GeneSet{}}
+
+A \GeneSet{} stores a set of related gene identifiers. Important
+components of the gene set are a vector of identifiers, general
+descriptive information about the set, and information about how the
+gene set was constructed. To construct a gene set, use
+\Rfunction{GeneSet}. For example, to create a gene set from the
+identifiers in a subset of the sample \ExpressionSet{} in the
+\Biocpkg{Biobase} package use
+<<GeneSet>>=
+data(sample.ExpressionSet) # from Biobase
+egs <- GeneSet(sample.ExpressionSet[201:250,], setName="Sample")
+egs
+@ 
+% 
+Each gene set may have a name. The gene set contains
+\Sexpr{length(geneIds(egs))} identifiers ('genes') from the \ExpressionSet{}. 
+These are accessible using \Rfunction{geneIds}, e.g.,
+<<geneIds>>=
+head(geneIds(egs))
+@ 
+% 
+The gene set records that the identifiers are probeset names from the
+annotation package \Biocpkg{hgu95av2.db}, and that the source
+of the gene set was an \ExpressionSet{}. Additional details are
+available:
+<<details>>=
+details(egs)
+@ 
+%% 
+The set identifier, set version, and creation date provide mechanisms
+for carefully curating gene sets. Additional information is
+automatically copied from the expression set used to create
+\Robject{egs}. 
+
+<<>>=
+  ## FIXME: GeneSet(AnnotationIdentifier("hgu95av2")) --> non-empty
+  ## FIXME: GeneSet(AnnotationIdentifier("hgu95av2"),
+  ## collectionType=GOCollection()) filters on GOCollection (or KEGG)
+@ 
+
+View additional methods for creating gene sets with:
+<<GeneSet-methods>>=
+showMethods("GeneSet", inherited=FALSE)
+@ 
+%% 
+These are described on the \Rfunction{GeneSet} help page. 
+
+The identifier type of gene sets created from expression sets is
+\Sexpr{as.character(class(geneIdType(egs)))}. Additional predefined
+identifiers are available:
+<<GeneIdentifierTypes>>=
+names(slot(getClass("GeneIdentifierType"), "subclasses"))
+@ 
+%% 
+It is possible to map between identifier types (provided the
+corresponding map in the annotation package exists):
+<<mapIdentifiers>>=
+mapIdentifiers(egs, EntrezIdentifier())
+@ 
+%% 
+\Rfunction{mapIdentifiers} consults the gene set to determine that
+annotation (probeset) identifiers are to be converted to Entrez IDs
+based on the mapping in the \Biocpkg{hgu95av2.db} package. 
+The function \Rfunction{mapIdentifiers} can automatically determine many
+of the common maps; it is also possible to provide as a third argument
+an environment containing an arbitrary map. Use the
+\Rfunction{verbose} argument of \Rfunction{mapIdentifiers} to be
+informed when the map between identifier types is not 1:1.
+
+A gene set can be created with different types of identifier, e.g., to
+create a gene set with Entrez IDs, use
+<<GeneSet_Identifiers>>=
+library(annotate)                       # getEG
+eids <- unique(getEG(geneIds(egs), "hgu95av2"))
+eids <- eids[!is.na(eids)]
+GeneSet(EntrezIdentifier(), geneIds=as.character(eids))
+@ 
+
+The \Rfunction{collectionType} of a gene set provides additional
+information about a gene set. Available collection types are
+<<CollectionType>>=
+names(slot(getClass("CollectionType"), "subclasses"))
+@ 
+%% 
+Collection types are most important when creating gene sets. For
+instance, the \GOCollection{} class allows creation of gene sets based
+on gene ontology (GO) terms. The following command creates a gene set
+from two terms, including all genes with a particular evidence code. 
+<<GOCollection>>=
+GeneSet(GOCollection(c("GO:0005488", "GO:0019825"),
+                     evidenceCode="IDA"),
+        geneIdType=EntrezIdentifier("org.Hs.eg.db"),
+        setName="Sample GO Collection")
+@ 
+%% 
+This creates a gene set by consulting an object in the
+\Biocpkg{GO.db} package. A gene set created from an expression set, and
+with collection type \GOCollection{} consults
+the appropriate environment in the annotation package associated with
+the expression set. 
+
+Gene sets encoded in XML following the schema and
+conventions of the Broad Institute can be read into \R{} as follows:
+<<Broad>>=
+fl <- system.file("extdata", "Broad1.xml", package="GSEABase")
+bgs <- GeneSet(BroadCollection(), urls=fl)
+bgs
+@ 
+%% 
+The example above uses a local file, but the source for the gene set
+might also be a web address accessible via the \Rcode{http://}
+protocol. The file name is added to the url of the gene set. The set
+name and category of the Broad collection indicate that the gene set
+contains gene symbols from band 24 of the q arm of chromosome 16. The
+probe sets in chip \Rcode{hgu95av2} corresponding to these symbols can
+be determined by mapping identifiers
+<<Broad-to-annotation>>=
+bgs1 <- mapIdentifiers(bgs, AnnotationIdentifier("hgu95av2"))
+bgs1
+@ 
+%% 
+
+Subsetting creates sets with just the symbols identified. Subsetting
+can use indices or symbol names.
+<<subset>>=
+bgs[1:5]
+bgs[c("GALNS", "LOC646365")]
+@ 
+%% 
+
+Logical operations provide a convenient way to identify genes with
+particular properties. For instance, the intersection
+<<egs-bgs>>=
+egs & bgs1
+@ 
+%% 
+is empty (note that the identifiers in the two sets were of the same
+type), indicating that none of the identifiers in \Robject{egs} are on
+\Rcode{16q24}. Additional operations on sets include union (performed
+with \Rfunction{|}) and difference (\Rfunction{setdiff}).
+
+Methods exist to directly subset expression sets using gene sets
+<<subset-ExpressionSet>>=
+sample.ExpressionSet[bgs,]
+@ 
+%% 
+Remember that \Robject{sample.ExpressionSet} contains just
+\Sexpr{nrow(sample.ExpressionSet)} probe sets, so the small size of the
+subset is not surprising. Note also that subsetting required mapping
+of symbol identifiers in \Robject{bgs} to \AnnotationIdentifier{}s;
+this map used the annotation information in the expression set,
+and is not necessarily 1:1.
+
+\section{\GeneColorSet{}}
+
+A \GeneColorSet{} is a gene set with ``coloring'' to indicate how
+features of genes and phenotypes are associated. The following sample
+data describes how changes in expression levels of several genes (with
+Entrez and Symbol names) influence cisplatin resistance phenotype.
+<<GeneColorSet-setup, echo=FALSE, results="hide">>=
+conn <- textConnection("
+Entrez ID, Gene Symbol, Expression level, Phenotype response
+##used to be MRP2
+1244, ABCC2, Increase, Resistant
+538, ATP7A, Increase, Resistant
+540, ATP7B, Increase, Resistant
+9961, MVP, Increase, Resistant
+##the LRP below must be MVP
+##LRP, Increase, Resistant - need to know which one
+7507,XPA, Increase, Resistant
+2067, ERCC1, Increase, Resistant
+##TOP, Increase, Resistant  - need to know which one, notes say II
+672, BRCA1, Increase, Resistant
+3725, JUN, Increase, Resistant
+#GCS, Increase, Resistant  - my notes say alpha-GCS - so which one?
+##I only found gamma at PubMed as being related
+2730, GCLM, Increase, Resistant")
+tbl <- read.csv(conn, strip.white=TRUE, comment.char="#")
+close(conn) 
+unlink(conn)
+@
+ 
+<<GeneColorSet-phenotype>>=
+tbl
+@ 
+%% 
+Note that three different aspects of data influence coloring: the
+phenotype under consideration (cisplatin resistance), whether
+expression responses refer to increasing or decreasing levels of
+gene expression, and whether the phenotypic response represents
+greater resistance or sensitivity to cisplatin. Here is the resulting
+gene color set:
+<<GeneColorSet-constructor>>=
+gcs <- GeneColorSet(EntrezIdentifier(),
+                    setName="A color set",
+                    geneIds=as.character(tbl$Entrez.ID),
+                    phenotype="Cisplatin resistance",
+                    geneColor=tbl$Expression.level,
+                    phenotypeColor=tbl$Phenotype.response)
+gcs
+@ 
+%% 
+Gene color sets can be used in the same way as gene sets, e.g., for
+subsetting expression sets (provided the map between identifiers is
+1:1, so that coloring corresponding to identifiers can be
+determined). The \Rfunction{coloring} method allows access to the coloring
+information with a data frame interface; \Rfunction{phenotype},
+\Rfunction{geneColor} and \Rfunction{phenotypeColor} provide additional
+accessors.
+
+\section{\GeneSetCollection{}}
+
+A \GeneSetCollection{} is a collection of gene sets. Sets in the
+collection must have distinct \Rfunction{setName}s, but can be a mix of
+\GeneSet{} and \GeneColorSet{}. Two convenient ways to create a gene
+set collection are by specifying a source of identifiers (e.g., an
+\ExpressionSet{} or \AnnotationIdentifier{}) and how the identifiers
+are to be induced into sets (e.g., by consulting the GO or KEGG
+ontologies):
+<<GeneSetCollection>>=
+gsc <- GeneSetCollection(sample.ExpressionSet[201:250,], setType=GOCollection())
+gsc
+gsc[["GO:0005737"]]
+@ 
+%% 
+In this example, the annotation identifiers of the sample expression
+set are organized into gene sets based on their presence in GO
+pathways. Providing arguments such as \Rfunction{evidenceCode} to
+\GOCollection{} act to select just those pathways satisfying the GO
+collection constraint:
+<<GeneSetCollection-GOCollection>>=
+GeneSetCollection(sample.ExpressionSet[201:300,],
+                  setType=GOCollection(evidenceCode="IMP"))
+@ 
+%% 
+Sets in the collection are named after the GO terms, and can be
+accessed by numeric index or name.
+
+A file or url containing several gene sets defined by Broad XML can be
+used to create a gene set collection, e.g.,
+<<GeneSetCollection-BroadCollection>>=
+  ## FIXME: BroadCollection default to paste("c", 1:4, sep="")
+  ## FIXME: GeneSetCollection(BroadCollection(), urls=fl); filters on bcCategory
+fl <- system.file("extdata", "Broad.xml", package="GSEABase")
+gss <- getBroadSets(fl)
+gss
+names(gss)
+@ 
+
+Identifiers within a gene set collection can be mapped to a common
+type (provided maps are available) with, for example,
+<<mapIds-GeneSetCollection>>=
+gsc <- mapIdentifiers(gsc, EntrezIdentifier())
+gsc
+gsc[["GO:0005737"]]
+@ 
+%% 
+
+A convenient way to visualize a \GeneSetCollection{} is with the
+\Biocpkg{ReportingTools} package.
+<<ReportingTools>>=
+## 'interesting' gene sets
+idx <- sapply(gsc, function(x) length(geneIds(x))) > 2
+
+library(ReportingTools)
+gscReport <- HTMLReport(
+    shortName="gsc_example",
+    title="GSEABase Vignette GeneSetCollection",
+    basePath=tempdir())
+publish(gsc[idx], gscReport, annotation.db="org.Hs.eg")
+url <- finish(gscReport)
+@ 
+%% 
+The report can be viewed with
+<<ReportingTools-view, eval=FALSE>>=
+browseURL(url)
+@ 
+
+This concludes a brief tour of gene sets and gene set collections
+available in the \GSEABase{} package.
+
+\end{document}

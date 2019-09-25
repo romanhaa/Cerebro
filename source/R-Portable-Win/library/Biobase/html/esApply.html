@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: An apply-like function for ExpressionSet and related...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for esApply {Biobase}"><tr><td>esApply {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+An apply-like function for ExpressionSet and related structures.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>esApply</code> is a wrapper to <code>apply</code> for use with <code>ExpressionSet</code>s.
+The application of a function to rows of an expression array usually involves
+variables in <code>pData</code>. <code>esApply</code> uses a special evaluation paradigm
+to make this easy. The function <code>FUN</code> may reference any data in
+<code>pData</code> by name.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+esApply(X, MARGIN, FUN, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>An instance of class <code><a href="class.ExpressionSet.html">ExpressionSet</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+<p>The margin to apply to, either 1 for rows (samples) or
+2 for columns (features).</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>Any function </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional parameters for <code>FUN</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>pData</code> from <code>X</code> is installed in an
+environment. This environment is installed as the environment of
+<code>FUN</code>. This will then provide bindings for any symbols in
+<code>FUN</code> that are the same as the names of the <code>pData</code> of
+<code>X</code>. If <code>FUN</code> has an environment already it is retained but
+placed after the newly created environment. Some variable shadowing
+could occur under these circumstances.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result of <code>with(pData(x), apply(exprs(X), MARGIN, FUN, ...))</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>V.J. Carey &lt;stvjc@channing.harvard.edu&gt;, R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/apply.html">apply</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(sample.ExpressionSet)
+## sum columns of exprs
+res &lt;- esApply(sample.ExpressionSet, 1, sum)
+
+## t-test, spliting samples by 'sex'
+f &lt;- function(x) {
+    xx &lt;- split(x, sex)
+    t.test(xx[[1]], xx[[2]])$p.value
+}
+res &lt;- esApply(sample.ExpressionSet, 1, f)
+
+## same, but using a variable passed in the function call
+
+f &lt;- function(x, s) {
+    xx &lt;- split(x, s)
+    mean(xx[[1]]) - mean(xx[[2]])
+}
+sex &lt;- sample.ExpressionSet[["sex"]]
+res &lt;- esApply(sample.ExpressionSet, 1, f, s = sex)
+
+# obtain the p-value of the t-test for sex difference
+mytt.demo &lt;- function(y) {
+ ys &lt;- split(y, sex)
+ t.test(ys[[1]], ys[[2]])$p.value
+}
+sexPValue &lt;- esApply(sample.ExpressionSet, 1, mytt.demo)
+
+# obtain the p-value of the slope associated with score, adjusting for sex
+# (if we were concerned with sign we could save the z statistic instead at coef[3,3]
+myreg.demo &lt;- function(y) {
+   summary(lm(y ~ sex + score))$coef[3,4]
+}
+scorePValue &lt;- esApply(sample.ExpressionSet, 1, myreg.demo)
+
+# a resampling method
+resamp &lt;- function(ESET) {
+ ntiss &lt;- ncol(exprs(ESET))
+ newind &lt;- sample(1:ntiss, size = ntiss, replace = TRUE)
+ ESET[newind,]
+}
+
+# a filter
+q3g100filt &lt;- function(eset) {
+ apply(exprs(eset), 1, function(x) quantile(x,.75) &gt; 100)
+}
+
+# filter after resampling and then apply
+set.seed(123)
+rest &lt;- esApply({bool &lt;- q3g100filt(resamp(sample.ExpressionSet)); sample.ExpressionSet[bool,]},
+                1, mytt.demo)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

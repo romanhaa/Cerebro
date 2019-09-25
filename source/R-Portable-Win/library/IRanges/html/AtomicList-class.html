@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lists of Atomic Vectors in Natural and Rle Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AtomicList {IRanges}"><tr><td>AtomicList {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lists of Atomic Vectors in Natural and Rle Form</h2>
+
+<h3>Description</h3>
+
+<p>An extension of <code><a href="../../S4Vectors/html/List-class.html">List</a></code> that holds
+only atomic vectors in either a natural or run-length encoded form.</p>
+
+
+<h3>Details</h3>
+
+<p>The lists of atomic vectors are <code>LogicalList</code>, <code>IntegerList</code>,
+<code>NumericList</code>, <code>ComplexList</code>, <code>CharacterList</code>, and
+<code>RawList</code>. There is also an <code>RleList</code> class for
+run-length encoded versions of these atomic vector types.
+</p>
+<p>Each of the above mentioned classes is virtual with Compressed* and Simple*
+non-virtual representations.
+</p>
+
+
+<h3>Constructors</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>LogicalList(..., compress = TRUE)</code>: Concatenates the
+<code>logical</code> vectors in <code>...</code> into a new <code>LogicalList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>IntegerList(..., compress = TRUE)</code>: Concatenates the
+<code>integer</code> vectors in <code>...</code> into a new <code>IntegerList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>NumericList(..., compress = TRUE)</code>: Concatenates the
+<code>numeric</code> vectors in <code>...</code> into a new <code>NumericList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>ComplexList(..., compress = TRUE)</code>: Concatenates the
+<code>complex</code> vectors in <code>...</code> into a new <code>ComplexList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>CharacterList(..., compress = TRUE)</code>: Concatenates the
+<code>character</code> vectors in <code>...</code> into a new <code>CharacterList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>RawList(..., compress = TRUE)</code>: Concatenates the
+<code>raw</code> vectors in <code>...</code> into a new <code>RawList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>RleList(..., compress = TRUE)</code>: Concatenates the
+run-length encoded atomic vectors in <code>...</code> into a new
+<code>RleList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+<dt></dt><dd><p><code>FactorList(..., compress = TRUE)</code>: Concatenates the
+<code>factor</code> objects in <code>...</code> into a new <code>FactorList</code>.
+If <code>compress</code>, the internal storage of the data is compressed.</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>as(from, "CompressedSplitDataFrameList")</code>,
+<code>as(from, "SimpleSplitDataFrameList")</code>: Creates a
+<a href="DataFrameList-class.html">CompressedSplitDataFrameList</a>/<a href="DataFrameList-class.html">SimpleSplitDataFrameList</a>
+instance from an AtomicList instance.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "IRangesList")</code>, <code>as(from, "CompressedIRangesList")</code>,
+<code>as(from, "SimpleIRangesList")</code>: Creates a
+<a href="IRangesList-class.html">CompressedIRangesList</a>/<a href="IRangesList-class.html">SimpleIRangesList</a>
+instance from a LogicalList or logical RleList instance. Note that the
+elements of this instance are guaranteed to be normal.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "NormalIRangesList")</code>,
+<code>as(from, "CompressedNormalIRangesList")</code>,
+<code>as(from, "SimpleNormalIRangesList")</code>: Creates a
+<a href="IRangesList-class.html">CompressedNormalIRangesList</a>/<a href="IRangesList-class.html">SimpleNormalIRangesList</a>
+instance from a LogicalList or logical RleList instance.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "CharacterList")</code>,
+<code>as(from, "ComplexList")</code>,
+<code>as(from, "IntegerList")</code>,
+<code>as(from, "LogicalList")</code>,
+<code>as(from, "NumericList")</code>,
+<code>as(from, "RawList")</code>,
+<code>as(from, "RleList")</code>:
+Coerces an <code>AtomicList</code> <code>from</code> to another derivative of
+<code>AtomicList</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "AtomicList")</code>: If <code>from</code> is a vector,
+converts it to an <code>AtomicList</code> of the appropriate type.
+</p>
+</dd>
+<dt></dt><dd><p><code>drop(x)</code>: Checks if every element of <code>x</code> is of
+length one, and, if so, unlists <code>x</code>. Otherwise, an error is
+thrown.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "RleViews")</code>: Creates an RleViews where each
+view corresponds to an element of <code>from</code>. The subject is
+<code>unlist(from)</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.matrix(x, col.names=NULL)</code>: Maps the elements of
+the list to rows of a matrix. The column mapping depends on
+whether there are inner names (either on the object or provided
+via <code>col.names</code> as a List object). If there are no inner
+names, each row is padded with NAs to reach the length of the
+longest element. If there are inner names, there is a column for
+each unique name and the mapping is by name. To provide inner
+names, the <code>col.names</code> argument should be a List, usually a
+CharacterList or FactorList (which is particularly efficient). If
+<code>col.names</code> is a character vector, it names the columns of
+the result, but does not imply inner names.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Compare, Order, Tabulate</h3>
+
+<p>The following methods are provided for element-wise comparison of
+2 AtomicList objects, and ordering or tabulating of each list element
+of an AtomicList object: <code>is.na</code>, <code>duplicated</code>, <code>unique</code>,
+<code>match</code>, <code>%in%</code>, <code>table</code>, <code>order</code>, <code>sort</code>.
+</p>
+
+
+<h3>RleList Methods</h3>
+
+<p>RleList has a number of methods that are not shared by other
+AtomicList derivatives.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>runLength(x)</code>: Gets the run lengths of each element of the
+list, as an IntegerList.
+</p>
+</dd>
+<dt></dt><dd><p><code>runValue(x)</code>, <code>runValue(x) &lt;- value</code>: Gets or
+sets the run values of each element of the list, as an AtomicList.
+</p>
+</dd>
+<dt></dt><dd><p><code>ranges(x)</code>: Gets the run ranges as a
+<code>IntegerRangesList</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="AtomicList-utils.html">AtomicList-utils</a> for common operations on AtomicList objects.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/List.html">List</a> objects in the <span class="pkg">S4Vectors</span> package for
+the parent class.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+int1 &lt;- c(1L,2L,3L,5L,2L,8L)
+int2 &lt;- c(15L,45L,20L,1L,15L,100L,80L,5L)
+collection &lt;- IntegerList(int1, int2)
+
+## names
+names(collection) &lt;- c("one", "two")
+names(collection)
+names(collection) &lt;- NULL # clear names
+names(collection)
+names(collection) &lt;- "one"
+names(collection) # c("one", NA)
+
+## extraction
+collection[[1]] # range1
+collection[["1"]] # NULL, does not exist
+collection[["one"]] # range1
+collection[[NA_integer_]] # NULL
+
+## subsetting
+collection[numeric()] # empty
+collection[NULL] # empty
+collection[] # identity
+collection[c(TRUE, FALSE)] # first element
+collection[2] # second element
+collection[c(2,1)] # reversed
+collection[-1] # drop first
+collection$one
+
+## replacement
+collection$one &lt;- int2
+collection[[2]] &lt;- int1
+
+## concatenating
+col1 &lt;- IntegerList(one = int1, int2)
+col2 &lt;- IntegerList(two = int2, one = int1)
+col3 &lt;- IntegerList(int2)
+append(col1, col2)
+append(col1, col2, 0)
+col123 &lt;- c(col1, col2, col3)
+col123
+
+## revElements
+revElements(col123)
+revElements(col123, 4:5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

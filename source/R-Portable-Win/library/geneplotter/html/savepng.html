@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Save the contents of the current graphics device to a file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for savepng {geneplotter}"><tr><td>savepng {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Save the contents of the current graphics device to a file</h2>
+
+<h3>Description</h3>
+
+<p>Save the contents of the current graphics device to file</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  savepdf(fn, dir, width=6, asp=1)
+  saveeps(fn, dir, width=6, asp=1) 
+  savepng(fn, dir, width=480, asp=1)
+  savetiff(fn, dir, density=360, keeppdf=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fn</code></td>
+<td>
+<p>character: name of the output file (without extension). 
+An extension <code>.pdf</code>, <code>.eps</code>, <code>.png</code>, or <code>.tiff</code>
+will be added automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>dir</code></td>
+<td>
+<p>character: directory to which the file should be written.</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>numeric: width of the image in pixels (png) or inches
+(pdf, eps).</p>
+</td></tr>
+<tr valign="top"><td><code>asp</code></td>
+<td>
+<p>numeric: aspect ratio; height=width*asp.</p>
+</td></tr>
+<tr valign="top"><td><code>density</code></td>
+<td>
+<p>pixels per inch (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>keeppdf</code></td>
+<td>
+<p>Should the intermediate PDF file (see Details)
+be kept? If <code>FALSE</code>, it is deleted before the function
+returns.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments that are passed on to <code>savepdf</code>
+(see Details).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions are called for their side effect, writing a
+graphics file.
+</p>
+<p><code>savepdf</code>, <code>savepng</code>, and <code>saveeps</code> use the
+devices <code><a href="../../grDevices/html/pdf.html">pdf</a></code>, <code><a href="../../grDevices/html/png.html">png</a></code>, and
+<code><a href="../../grDevices/html/postscript.html">postscript</a></code>, respectively.
+</p>
+<p>There is currently no TIFF device for R, so <code>savetiff</code>
+works differently. It relies on the external tool <code>convert</code> from
+the ImageMagick software package. First, <code>savetiff</code> produces
+a PDF files with <code>savepdf</code>, then uses <code><a href="../../base/html/system.html">system</a></code> to
+invoke <code>convert</code> with the parameter <code>density</code>.
+<code>savetiff</code> does <b>not</b> check for the existence of 
+<code>convert</code> or the success of the system call, and returns silently
+no matter what.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Character: name of the file that was written.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.dkfz.de/abt0840/whuber">http://www.dkfz.de/abt0840/whuber</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../grDevices/html/dev2.html">dev.copy</a></code>,
+<code><a href="../../grDevices/html/pdf.html">pdf</a></code>, <code><a href="../../grDevices/html/png.html">png</a></code>, 
+<code><a href="../../grDevices/html/postscript.html">postscript</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  x = seq(0, 20*pi, len=1000)
+  plot(x*sin(x), x*cos(x), type="l")
+
+  try({   ## on some machines, some of the devices may not be available
+    c(
+      savepdf("spiral", dir=tempdir()),
+      savepng("spiral", dir=tempdir()),
+      saveeps("spiral", dir=tempdir()),
+      savetiff("spiral", dir=tempdir())
+     )
+  })    
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,212 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+% \VignetteIndexEntry{HowTo: Get HTML Output}
+% \VignetteDepends{annotate, hgu95av2.db}
+% \VignetteKeywords{Expression Analysis, Annotation}
+% \VignettePackage{annotate}
+\documentclass[11pt]{article}
+
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage[authoryear,round]{natbib}
+
+
+\bibliographystyle{plainnat}
+
+\usepackage{hyperref}
+
+\begin{document}
+\title{HowTo: get pretty HTML output for my gene list}
+\author{James W. MacDonald}
+\maketitle{}
+
+\section{Overview}
+The intent of this vignette is to show how to make reasonably nice
+looking HTML tables for presenting the results of a microarray
+analysis. These tables are a very nice format because you can insert
+clickable links to various public annotation databases, which
+facilitates the downstream analysis.  In addition, the format is quite
+compact, can be posted on the web, and can be viewed using any number
+of free web browsers. One caveat; an HTML table is probably not the
+best format for presenting the results for \emph{all} of the genes on
+a chip. For even a small (5000 gene) chip, the file could be 10 Mb or
+more, which would take an inordinate amount of time to open and
+view. Also note that the Bioconductor project supplies annotation
+packages for many of the more popular Affymetrix chips, as well as for
+many commercial spotted cDNA chips. For chips that have annotation
+packages, the \Rpackage{annaffy} package is the preferred method for
+making HTML tables.
+
+To make an annotated HTML table, the only requirement is that we have
+some sort of annotation data for the microarray that we are
+using. Most manufacturers supply data in various formats that can be
+read into \Rpackage{R}. For instance, Affymetrix supplies CSV files
+that can be read into \Rpackage{R} using the \Rmethod{read.csv()}
+function
+\url{http://www.affymetrix.com/support/technical/byproduct.affx?cat=arrays}.
+
+\section{Alternate methods}
+Please note that one can also make these HTML tables by parsing data from
+e.g., an online (or local) Biomart database, using functions in the biomaRt
+package. This may be easier, and may result in more current annotation data.
+Please see the prettyOutput vignette in the biomaRt package for more information. 
+
+\section{Data Analysis}
+I will assume that the reader is familiar with the analysis of
+microarray data, and has a set of genes that she would like to use. In
+addition, I will assume that the reader is familiar enough with
+\Rpackage{R} that she can subset the data based on a list of genes,
+and reorder based on a particular statistic. For any questions about
+subsetting or ordering data, please see ``An Introduction to R''. For
+questions regarding microarray analysis, please consult the vignettes
+for, say \Rpackage{limma}, \Rpackage{multtest}, or \Rpackage{marray}.
+
+\section{Getting Started}
+We first load the \Rpackage{annotate} package, as well as some
+data. These data will be from the Affymetrix HG-U95Av2 chip (for which
+we would normally use \Rpackage{annaffy}). To keep the HTML table
+small, we will take a subset of fifteen genes as an example.
+
+<<echo=FALSE, eval=TRUE>>=
+options(width=70)
+@
+
+<<>>=
+library("annotate")
+data(sample.ExpressionSet)
+igenes <- featureNames(sample.ExpressionSet)[246:260]
+@
+
+\section{Annotation Data}
+<<echo=FALSE>>=
+ug <- c("Hs.169284 // ---", "Hs.268515 // full length", "Hs.103419 // full length", "Hs.380429 // ---" ,"--- // ---",
+        "Hs.169331 // full length", "Hs.381231 // full length", "Hs.283781 // full length", "--- // ---", "--- // ---",
+        "Hs.3195 // full length", "--- // ---", "Hs.176660 // full length", "Hs.272484 // full length", "Hs.372679 // full length")
+ll <- c("221823", "4330", "9637", "---", "---", "6331", "841", "27335", "---", "---", "6375", "---", "2543", "2578", "2215")
+gb <- c("M57423", "Z70218", "L17328", "S81916", "U63332", "M77235", "X98175", "AB019392", "J03071", "D25272", "D63789",
+        "D63789", "U19142", "U19147", "X16863")
+sp <- c("P21108", "Q10571", "Q9UHY8", "Q16444", "---", "Q14524 /// Q8IZC9 /// Q8WTQ6 /// Q8WWN5 /// Q96J69", "Q14790", "Q9UBQ5",
+        "---", "---", "P47992", "---", "Q13065 /// Q8IYC5", "Q13070", "O75015")
+
+@ 
+For this vignette I have supplied the annotation data. In a normal
+situation, these data would be subset from the manufacturer's
+annotation data, using the manufacturer's gene identifiers (which is
+how I got these IDs).
+
+First, we will look at the GenBank and LocusLink IDs. We will be able
+to use these IDs without further modification. Note that the LocusLink
+IDs contain some missing data (``---''). This will not pose a problem
+because LocusLink IDs are all numeric, so we have incorporated code in
+\Rmethod{htmlpage()} to automatically convert any non-numeric ID to an
+HTML empty cell character (``\&nbsp;''). GenBank IDs (which often
+correspond to either RefSeq or GenBank IDs) are not as consistent, so
+any missing data would have to be manually converted to the HTML empty
+cell character. Missing data for LocusLink, UniGene and OMIM IDs are
+automatically converted, whereas Affymetrix, SwissProt and GenBank IDs
+have to be done manually. I will give examples of how to do this
+below.
+<<>>=
+gb
+ll
+@
+
+The UniGene and SwissProt IDs present different challenges, so we will
+modify them separately. For the UniGene IDs we need to strip off the
+extra information appended to each ID. If we didn't do this, our
+hyperlink would not work correctly.
+
+<<>>=
+ug
+ug <- sub(" //.*$", "", ug)
+ug
+@
+
+The SwissProt IDs present a different challenge. Here there isn't any
+extra information. Instead, we have multiple IDs for some of the
+genes, and missing IDs for some of the others. Because the code for
+SwissProt IDs will not automatically handle missing data, we have to
+convert the missing data to an HTML empty cell identifier
+(``\&nbsp;''). For \Rmethod{htmlpage()} to correctly handle multiple
+IDs, we have to convert the character vector into a \emph{list} of
+character vectors.
+<<>>=
+sp
+sp <- strsplit(sub("---","&nbsp;",as.character(sp)), "///")
+sp
+@
+
+We have converted the data to a list of character vectors, and also
+converted the ``---'' missing data identifier to the HTML character
+for an empty cell.
+
+\section{Build the Table}
+
+Usually we would like to include the expression values for our genes
+along with some statistics, say a $t$-statistic, fold change, and
+$p$-value. As an example, we will make a comparison using the first
+ten samples.
+
+<<expDat>>=
+dat <- exprs(sample.ExpressionSet)[igenes,1:10]
+FC <- rowMeans(dat[igenes,1:5]) - rowMeans(dat[igenes,6:10])
+pval <- esApply(sample.ExpressionSet[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$p.value)
+tstat <- esApply(sample.ExpressionSet[igenes,1:10], 1, function(x) t.test(x[1:5], x[6:10])$statistic)
+@
+
+It is also usually a good idea to include gene names in the
+table. Normally the names would be subsetted from the annotation data,
+but here we have to supply them. Again, we have to manually convert
+any missing names to the HTML empty cell character.
+
+<<echo=False>>=
+name <- c("hypothetical protein LOC221823",
+          "meningioma (disrupted in balanced translocation) 1",
+          "fasciculation and elongation protein zeta 2 (zygin II)",
+          "Phosphoglycerate kinase {alternatively spliced}",
+          "---","sodium channel, voltage-gated, type V, alpha polypeptide",
+          "caspase 8, apoptosis-related cysteine protease","muscle specific gene","---","---","chemokine (C motif) ligand 1",
+          "---","G antigen 1","G antigen 6","Fc fragment of IgG, low affinity IIIb, receptor for (CD16)")
+@
+<<>>=
+name
+name <- gsub("---", "&nbsp;", name)
+name
+@
+
+
+We can now build our HTML table. To make the process more transparent,
+this will be done in steps. In practice however, this can be done in
+one line. Note here that the genelist consists of annotation data that
+will be hyperlinked to online databases, whereas othernames consists
+of other data that will not be hyperlinked.
+
+<<buildTable>>=
+genelist <- list(igenes, ug, ll, gb, sp)
+filename <- "Interesting_genes.html"
+title <- "An Artificial Set of Interesting Genes"
+othernames <- list(name, round(tstat, 2), round(pval, 3), round(FC, 1), round(dat, 2))
+head <- c("Probe ID", "UniGene", "LocusLink", "GenBank", "SwissProt", "Gene Name", "t-statistic", "p-value",
+          "Fold Change", "Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5", "Sample 6",
+          "Sample 7", "Sample 8", "Sample 9", "Sample 10")
+repository <- list("affy", "ug", "en", "gb", "sp")
+htmlpage(genelist, filename, title, othernames, head, repository = repository)
+@
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE>>=
+sessionInfo()
+@
+
+\end{document}

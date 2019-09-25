@@ -1,0 +1,43 @@
+Package: AnnotationDbi
+Title: Annotation Database Interface
+Description: Provides user interface and database connection code
+	for annotation data packages using SQLite data storage.
+Version: 1.44.0
+Encoding: UTF-8
+Author: Hervé Pagès, Marc Carlson, Seth Falcon, Nianhua Li
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Depends: R (>= 2.7.0), methods, utils, stats4, BiocGenerics (>=
+        0.23.1), Biobase (>= 1.17.0), IRanges
+Imports: DBI, RSQLite, S4Vectors (>= 0.9.25)
+Suggests: hgu95av2.db, GO.db, org.Sc.sgd.db, org.At.tair.db, KEGG.db,
+        RUnit, TxDb.Hsapiens.UCSC.hg19.knownGene, hom.Hs.inp.db,
+        org.Hs.eg.db, reactome.db, AnnotationForge, graph,
+        EnsDb.Hsapiens.v75, BiocStyle, knitr
+Collate: 00RTobjs.R AllGenerics.R AllClasses.R unlist2.R utils.R SQL.R
+        FlatBimap.R AnnDbObj-lowAPI.R Bimap.R GOTerms.R
+        BimapFormatting.R Bimap-envirAPI.R flatten.R
+        methods-AnnotationDb.R methods-SQLiteConnection.R
+        methods-geneCentricDbs.R methods-geneCentricDbs-keys.R
+        methods-ReactomeDb.R methods-Inparanoid.R methods-Inparanoid8.R
+        loadDb.R createAnnObjs-utils.R createAnnObjs.NCBIORG_DBs.R
+        createAnnObjs.NCBICHIP_DBs.R createAnnObjs.ORGANISM_DB.R
+        createAnnObjs.YEASTCHIP_DB.R createAnnObjs.COELICOLOR_DB.R
+        createAnnObjs.ARABIDOPSISCHIP_DB.R createAnnObjs.MALARIA_DB.R
+        createAnnObjs.YEAST_DB.R createAnnObjs.YEASTNCBI_DB.R
+        createAnnObjs.ARABIDOPSIS_DB.R createAnnObjs.GO_DB.R
+        createAnnObjs.KEGG_DB.R createAnnObjs.INPARANOID_DB.R
+        createAnnObjs.PFAM_DB.R AnnDbPkg-templates-common.R
+        AnnDbPkg-checker.R print.probetable.R makeMap.R inpIDMapper.R
+        test_AnnotationDbi_package.R
+License: Artistic-2.0
+biocViews: Annotation, Microarray, Sequencing, GenomeAnnotation
+VignetteBuilder: knitr
+Packaged: 2018-10-31 01:10:35 UTC; biocbuild
+Video: https://www.youtube.com/watch?v=8qvGNTVz3Ik
+git_url: https://git.bioconductor.org/packages/AnnotationDbi
+git_branch: RELEASE_3_8
+git_last_commit: ce191b0
+git_last_commit_date: 2018-10-30
+Date/Publication: 2018-10-30
+NeedsCompilation: no
+Built: R 3.5.1; ; 2018-10-31 10:39:56 UTC; windows

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Split elements belonging to multiple groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multisplit {IRanges}"><tr><td>multisplit {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Split elements belonging to multiple groups
+</h2>
+
+<h3>Description</h3>
+
+<p>This is like <code><a href="../../base/html/split.html">split</a></code>, except elements can belong to
+multiple groups, in which case they are repeated to appear in multiple
+elements of the return value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multisplit(x, f)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The object to split, like a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>f</code></td>
+<td>
+
+<p>A list-like object of vectors, the same length as <code>x</code>, where
+each element indicates the groups to which each element of <code>x</code>
+belongs.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list-like object, with an element for each unique value in the
+unlisted <code>f</code>, containing the elements in <code>x</code> where the
+corresponding element in <code>f</code> contained that value. Just try it.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+multisplit(1:3, list(letters[1:2], letters[2:3], letters[2:4]))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

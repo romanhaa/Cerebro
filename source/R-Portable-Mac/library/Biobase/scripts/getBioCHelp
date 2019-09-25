@@ -1,0 +1,39 @@
+GetBioC is a function that gets the required Bioconductor libraries
+from correct web sites and install them to the R library on a local machine.
+The function takes the following arguements:
+    
+libName: a character string for the name of the Bioconductor library to be
+installed. Current valid names include "all" - all the released packages;
+"affy" - package "affy" plus packages included in "exprs";
+"CDNA" - package "CDNA" plus packages included in "exprs"; and "exprs"
+- packages "Biobase", "annotate", "genefilter", "geneploter", "edd",
+"Roc", and "tkWidgets". 
+
+destdir: a character string for the directory on a local machine where
+the downloaded packages will be stored.
+
+isDevel: a boolean indicating whether the released (FALSE) or
+developer (TRUE) version of the packages will be downloaded and installed.
+
+verbose: a boolean indicating whether any error related to the
+downloading process will be (TRUE) printed out on the screen. Error
+messages will still be returned but invisible if verbose is set to
+FALSE.
+
+Source getBioC.R on a local machine and run the function with proper
+arguements will allow for obtaining and installing all the required
+packages for a Bioconductor library.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

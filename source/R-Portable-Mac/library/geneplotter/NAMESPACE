@@ -1,0 +1,60 @@
+
+## import(methods)
+importClassesFrom(methods, character, list, matrix, missing, oldClass)
+
+importClassesFrom(Biobase, ExpressionSet)
+
+importMethodsFrom(annotate, chromLengths, chromLocs, chromNames,
+                  geneSymbols, organism, probesToChrom)
+
+importMethodsFrom(AnnotationDbi, colnames, exists, get, mget, ncol,
+                  nrow, sample)
+
+importMethodsFrom(Biobase, annotation, contents, esApply, exprs,
+                  featureNames)
+
+importMethodsFrom(BiocGenerics, plotMA)
+
+importFrom(annotate, getAnnMap, usedChromGenes)
+
+importFrom(Biobase, addVigs2WinMenu, multiassign)
+
+importFrom(graphics, abline, axis, barplot, boxplot, bxp, hist, image,
+           lines, matplot, mtext, par, plot, plot.new, segments,
+           strheight, title)
+
+importFrom(grDevices, colorRampPalette, dev.copy, dev.off, pdf, png,
+           postscript, rgb)
+
+importFrom(grid, convertUnit, gpar, grid.rect, grid.text, stringWidth, unit)
+
+importFrom(RColorBrewer, brewer.pal)
+
+importFrom(stats, approx, density, ecdf, lowess, mad, median, quantile, sd)
+
+importFrom(utils, data)
+
+export(alongChrom, 
+       cColor, cPlot, cScale, 
+       dChip.colors,
+       greenred.colors, GetColor, 
+       plotChr, plotExpressionGraph, 
+       make.chromOrd, 
+       savepng, savepdf, saveeps, savetiff,
+       histStack, groupedHeatmap,
+       openHtmlPage, closeHtmlPage,
+       multiecdf, multidensity)
+
+exportMethods(imageMap, Makesense, plotMA)
+
+S3method(multiecdf, formula)
+S3method(multiecdf, matrix)
+S3method(multiecdf, list)
+S3method(multiecdf, data.frame)
+
+S3method(multidensity, formula)
+S3method(multidensity, matrix)
+S3method(multidensity, list)
+S3method(multidensity, data.frame)
+
+

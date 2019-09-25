@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accessors and generic functions used in the context of count...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dge {BiocGenerics}"><tr><td>dge {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accessors and generic functions used in the context of count datasets</h2>
+
+<h3>Description</h3>
+
+<p>These generic functions provide basic interfaces to operations on
+and data access to count datasets.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+counts(object, ...)
+counts(object, ...) &lt;- value
+dispTable(object, ...)
+dispTable(object, ...)  &lt;- value
+sizeFactors(object, ...)
+sizeFactors(object, ...) &lt;- value
+conditions(object, ...)
+conditions(object, ...) &lt;- value
+design(object, ...)
+design(object, ...) &lt;- value
+estimateSizeFactors(object, ...)
+estimateDispersions(object, ...)
+plotDispEsts(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object of class for which methods are defined, e.g.,
+<code>CountDataSet</code>, <code>DESeqSummarizedExperiment</code> or <code>ExonCountSet</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Value to be assigned to corresponding components of
+<code>object</code>; supported types depend on method implementation.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments, perhaps used by metohds</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For the details, please consult the manual pages of the
+methods in the <span class="pkg">DESeq</span>, <span class="pkg">DESeq2</span>, and <span class="pkg">DEXSeq</span> packages and the package
+vignettes.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>W. Huber, S. Anders</p>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

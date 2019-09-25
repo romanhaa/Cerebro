@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Make an R package from a data object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for makeDataPackage {Biobase}"><tr><td>makeDataPackage {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make an R package from a data object</h2>
+
+<h3>Description</h3>
+
+<p>This generic creates a valid R package from an R data object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+makeDataPackage(object, author, email,
+                packageName=deparse(substitute(object)),
+                packageVersion=package_version("1.0.0"),
+                license="Artistic-2.0",
+                biocViews="ExperimentData",
+                filePath=tempdir(),
+                ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An instance of an R data object.</p>
+</td></tr>
+<tr valign="top"><td><code>author</code></td>
+<td>
+<p>The author, as a character string.</p>
+</td></tr>
+<tr valign="top"><td><code>email</code></td>
+<td>
+<p>A valid email address for the maintainer, as a character string.</p>
+</td></tr>
+<tr valign="top"><td><code>packageName</code></td>
+<td>
+<p>The name of the package, defaults to the name of the object instance.</p>
+</td></tr>
+<tr valign="top"><td><code>packageVersion</code></td>
+<td>
+<p>The version number, as a character string.</p>
+</td></tr>
+<tr valign="top"><td><code>license</code></td>
+<td>
+<p>The license, as a character string.</p>
+</td></tr>
+<tr valign="top"><td><code>biocViews</code></td>
+<td>
+<p>A character vector of valid biocViews views.</p>
+</td></tr>
+<tr valign="top"><td><code>filePath</code></td>
+<td>
+<p>The location to create the package.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments to specific methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function makes use of various tools in R and Bioconductor to automatically
+generate the source files for a valid R package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The return value is that from a call to <code>link{createPackage}</code> which
+is invoked once the default arguments are set up. The data instance
+is stored in the data directory with a name the same as that of the
+resulting package.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Developers implementing derived methods might force correct
+package name evaluation by including 'packageName' in any
+<code>callNextMethod()</code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="createPackage.html">createPackage</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ data(sample.ExpressionSet)
+ ## package created in tempdir()
+ s1 &lt;- makeDataPackage(sample.ExpressionSet,
+                       author = "Foo Author",
+                       email = "foo@bar",
+                       packageName = "FooBarPkg",
+                       packageVersion = "1.0.0")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

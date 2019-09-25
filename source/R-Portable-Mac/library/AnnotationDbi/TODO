@@ -1,0 +1,12 @@
+Some TODOs:
+
+1) (from Marc)
+
+Add a function to the templates for all the classes to make the
+datacache available do this before we push out new devel packages in
+January. So near to where you see: 
+@ANNOBJPREFIX@_dbInfo <- function() dbInfo(datacache) 
+Add something that will produce:
+hgu95av2_datacache(), once it has been called.
+
+2) Defunct CHR* family and PFAM and PROSITE. Coordinate with AnnotationForge.

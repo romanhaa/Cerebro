@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: MIAxE objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MIAxE {Biobase}"><tr><td>MIAxE {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>MIAxE objects</h2>
+
+<h3>Description</h3>
+
+<p>The <code>MIAxE</code> virtual class is a general container for storing
+experiment metadata. Information such as experimental design, samples,
+normalization methods and pre-processing information can be stored in 
+these objets. 
+</p>
+<p>The <code>MIAxE</code> class is virtual and <code>MIAxE</code> 
+objects cannot be instantiated directly. The following classes
+derive directly from the <code>MIAxE</code> class: MIAME. 
+</p>
+
+
+<h3>Slots</h3>
+
+<p>Introduced in <code>MIAxE</code>:
+</p>
+
+<dl>
+<dt><code>.__classVersion__</code>:</dt><dd><p>A <code>Versions</code> object describing
+the <code>MIAxE</code> version number. Intended for developer use.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>show(object)</code></dt><dd><p>Informatively display object contents.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p>Related  classes
+<code><a href="class.MIAME.html">MIAME-class</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>.
+Derived classes
+<code><a href="class.MIAME.html">MIAME-class</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Create a new class
+MyData &lt;- setClass("MyData", contains="MIAxE")
+MyData()
+
+# MIAxE objects cannot be instantiated directly
+try(new("MIAxE"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;Versions&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Versions {Biobase}"><tr><td>Versions {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;Versions&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A class to record version number information. This class is used to
+report versions; to add version information to your own class, use
+<code><a href="class.Versioned.html">Versioned-class</a></code>.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>The following are defined; package developers may write additional methods.
+</p>
+
+<dl>
+<dt><code>new("Versions", ...)</code></dt><dd><p>Create a new <code>Versions-class</code> instance,
+perhaps with named version elements (the contents of
+<code>...</code>) added. Named elements of <code>versions</code> are
+character strings that can be coerced using
+<code><a href="../../base/html/numeric_version.html">package_version</a></code>, or <code>package_version</code>
+instances, <code>Versions-class</code> objects.</p>
+</dd>
+<dt><code>object["id"]</code></dt><dd><p>Obtain version information <code>"id"</code> from <code>object</code>.</p>
+</dd>
+<dt><code>object["id"] &lt;- value</code></dt><dd><p>Create or update version information <code>"id"</code> on instance <code>object</code>.</p>
+</dd>
+<dt><code>object[["id"]]</code></dt><dd><p>Obtain version information <code>"id"</code> from <code>object</code>. The result is a list of integers, corresponding to entries in the version string.</p>
+</dd>
+<dt><code>object[["id"]] &lt;- value</code></dt><dd><p>Create or update version information <code>"id"</code> on instance <code>object</code>.</p>
+</dd>
+<dt><code>object$id</code></dt><dd><p>Obtain version information <code>"id"</code> from <code>object</code>.The result is a list of integers, corresponding to entries in the version string.</p>
+</dd>
+<dt><code>object$id &lt;- value</code></dt><dd><p>Create or update version
+information <code>"id"</code> on instance <code>object</code>.</p>
+</dd>
+<dt><code>show(object)</code></dt><dd><p>Display version information.</p>
+</dd>
+<dt><code>updateObject(object)</code></dt><dd><p>Update <code>object</code> to the
+current <code>Versions-class</code> representation. Note that this does <em>not</em>
+update another class that uses <code>Versions-class</code> to track the
+class version.</p>
+</dd>
+<dt><code>as(object, "character")</code></dt><dd><p>Convert <code>object</code> to character representation, e.g., <code>1.0.0</code></p>
+</dd>
+<dt><code>object1 &lt; object2</code></dt><dd><p>Compare <code>object1</code> and <code>object2</code> using version class information. Symbols in addition to <code>&lt;</code> are admissible; see <code>?Ops</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="classVersion.html">classVersion</a></code>
+<code><a href="isCurrent.html">isCurrent</a></code>
+<code><a href="isVersioned.html">isVersioned</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+obj &lt;- new("Versions", A="1.0.0")
+obj
+
+obj["A"] &lt;- "1.0.1"
+obj
+obj["B"] &lt;- "2.0"
+obj
+
+obj1 &lt;- obj
+obj1["B"] &lt;- "2.0.1"
+
+obj1 == obj
+obj1["B"] &gt; "2.0.0"
+obj["B"] == "2.0" # TRUE!
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

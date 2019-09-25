@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods to Construct &quot;GeneColorSet&quot; Instances</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneColorSet {GSEABase}"><tr><td>GeneColorSet {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods to Construct &quot;GeneColorSet&quot; Instances</h2>
+
+<h3>Description</h3>
+
+<p><code>GeneColorSet</code> is a generic for constructing gene color sets
+(i.e., gene sets with &quot;coloring&quot; to indicate how features of genes and
+phenotypes are associated).  </p>
+
+
+<h3>Methods</h3>
+
+<p>Available methods are the same as those for
+<code>GeneSet</code>, but a <code>GeneColorSet</code> requires an additional
+<code>phenotype</code> argument to identify the phenotype that is being
+colored. See documentation for <code><a href="GeneColorSet-class.html">GeneColorSet</a></code> for
+examples.
+</p>
+<p>An additional method is:
+</p>
+
+<dl>
+<dt><code>signature(type = "GeneSet",
+        phenotype="character")</code></dt><dd><p>This method constructs a 'color' gene
+set from an uncolored gene set.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneColorSet-class.html">GeneColorSet-class</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Estimate the q-values for a given set of p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for qvalue {qvalue}"><tr><td>qvalue {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Estimate the q-values for a given set of p-values</h2>
+
+<h3>Description</h3>
+
+<p>Estimate the q-values for a given set of p-values.  The q-value of a
+test measures the proportion of false positives incurred (called the
+false discovery rate) when that particular test is called significant.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+qvalue(p, fdr.level = NULL, pfdr = FALSE, lfdr.out = TRUE, pi0 = NULL,
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>A vector of p-values (only necessary input).</p>
+</td></tr>
+<tr valign="top"><td><code>fdr.level</code></td>
+<td>
+<p>A level at which to control the FDR. Must be in (0,1]. Optional; if this is
+selected, a vector of TRUE and FALSE is returned that specifies
+whether each q-value is less than fdr.level or not.</p>
+</td></tr>
+<tr valign="top"><td><code>pfdr</code></td>
+<td>
+<p>An indicator of whether it is desired to make the
+estimate more robust for small p-values and a direct finite sample estimate of pFDR &ndash; optional.</p>
+</td></tr>
+<tr valign="top"><td><code>lfdr.out</code></td>
+<td>
+<p>If TRUE then local false discovery rates are returned. Default is TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>pi0</code></td>
+<td>
+<p>It is recommended to not input an estimate of pi0. Experienced users can use their own methodology to estimate
+the proportion of true nulls or set it equal to 1 for the BH procedure.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="pi0est.html">pi0est</a></code> and <code><a href="lfdr.html">lfdr</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code><a href="pi0est.html">pi0est</a></code> is called internally and calculates the estimate of <i>pi_0</i>,
+the proportion of true null hypotheses. The function <code><a href="lfdr.html">lfdr</a></code> is also called internally and
+calculates the estimated local FDR values.  Arguments for these functions can be included via <code>...</code> and
+will be utilized in the internal calls made in <code><a href="qvalue.html">qvalue</a></code>. See <a href="http://genomine.org/papers/Storey_FDR_2011.pdf">http://genomine.org/papers/Storey_FDR_2011.pdf</a>
+for a brief introduction to FDRs and q-values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of object type &quot;qvalue&quot; containing:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>Function call.</p>
+</td></tr>
+<tr valign="top"><td><code>pi0</code></td>
+<td>
+<p>An estimate of the proportion of null p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>qvalues</code></td>
+<td>
+<p>A vector of the estimated q-values (the main quantity of interest).</p>
+</td></tr>
+<tr valign="top"><td><code>pvalues</code></td>
+<td>
+<p>A vector of the original p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>lfdr</code></td>
+<td>
+<p>A vector of the estimated local FDR values.</p>
+</td></tr>
+<tr valign="top"><td><code>significant</code></td>
+<td>
+<p>If fdr.level is specified, and indicator of whether the
+q-value fell below fdr.level (taking all such q-values to be significant
+controls FDR at level fdr.level).</p>
+</td></tr>
+<tr valign="top"><td><code>pi0.lambda</code></td>
+<td>
+<p>An estimate of the proportion of null p-values at each <i>lambda</i> value (see vignette).</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>A vector of the <i>lambda</i> values utilized to obtain <code>pi0.lambda</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>John D. Storey
+</p>
+
+
+<h3>References</h3>
+
+<p>Storey JD. (2002) A direct approach to false discovery rates. Journal
+of the Royal Statistical Society, Series B, 64: 479-498. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract">http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract</a>
+Storey JD and Tibshirani R. (2003) Statistical significance for
+genome-wide experiments. Proceedings of the National Academy of Sciences,
+100: 9440-9445. <br />
+<a href="http://www.pnas.org/content/100/16/9440.full">http://www.pnas.org/content/100/16/9440.full</a>
+</p>
+<p>Storey JD. (2003) The positive false discovery rate: A Bayesian
+interpretation and the q-value. Annals of Statistics, 31: 2013-2035. <br />
+<a href="http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335">http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335</a>
+</p>
+<p>Storey JD, Taylor JE, and Siegmund D. (2004) Strong control,
+conservative point estimation, and simultaneous conservative
+consistency of false discovery rates: A unified approach. Journal of
+the Royal Statistical Society, Series B, 66: 187-205. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2004.00439.x/abstract">http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2004.00439.x/abstract</a>
+</p>
+<p>Storey JD. (2011) False discovery rates. In <em>International Encyclopedia of Statistical Science</em>. <br />
+<a href="http://genomine.org/papers/Storey_FDR_2011.pdf">http://genomine.org/papers/Storey_FDR_2011.pdf</a> <br />
+<a href="http://www.springer.com/statistics/book/978-3-642-04897-5">http://www.springer.com/statistics/book/978-3-642-04897-5</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pi0est.html">pi0est</a></code>, <code><a href="lfdr.html">lfdr</a></code>, <code><a href="summary.qvalue.html">summary.qvalue</a></code>,
+<code><a href="plot.qvalue.html">plot.qvalue</a></code>, <code><a href="hist.qvalue.html">hist.qvalue</a></code>, <code><a href="write.qvalue.html">write.qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+p &lt;- hedenfalk$p
+
+# get q-value object
+qobj &lt;- qvalue(p)
+plot(qobj)
+hist(qobj)
+
+# options available
+qobj &lt;- qvalue(p, lambda=0.5, pfdr=TRUE)
+qobj &lt;- qvalue(p, fdr.level=0.05, pi0.method="bootstrap", adj=1.2)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

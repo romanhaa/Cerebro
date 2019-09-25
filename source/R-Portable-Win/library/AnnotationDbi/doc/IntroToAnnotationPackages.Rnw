@@ -1,0 +1,414 @@
+%\VignetteIndexEntry{1. Introduction To Bioconductor Annotation Packages}
+%\VignetteDepends{org.Hs.eg.db, TxDb.Hsapiens.UCSC.hg19.knownGene, hom.Hs.inp.db, EnsDb.Hsapiens.v75}
+%\VignetteKeywords{annotation, database}
+%\VignettePackage{AnnotationDbi}
+%\VignetteEngine{knitr::knitr}
+
+\documentclass[11pt]{article}
+
+<<style, eval=TRUE, echo=FALSE, results='asis'>>=
+BiocStyle::latex()
+@
+
+%% Question, Exercise, Solution
+\usepackage{theorem}
+\theoremstyle{break}
+\newtheorem{Ext}{Exercise}
+\newtheorem{Question}{Question}
+
+\newenvironment{Exercise}{
+  \renewcommand{\labelenumi}{\alph{enumi}.}\begin{Ext}%
+}{\end{Ext}}
+\newenvironment{Solution}{%
+  \noindent\textbf{Solution:}\renewcommand{\labelenumi}{\alph{enumi}.}%
+}{\bigskip}
+
+\title{AnnotationDbi: Introduction To Bioconductor Annotation Packages}
+\author{Marc Carlson}
+
+<<include=FALSE>>=
+library(knitr)
+opts_chunk$set(tidy=FALSE)
+@
+
+\begin{document}
+
+\maketitle
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.6\textwidth]{databaseTypes.pdf}
+\caption{Annotation Packages: the big picture}
+\label{fig:dbtypes}
+\end{figure}
+
+\Bioconductor{} provides extensive annotation resources. These can be
+\emph{gene centric}, or \emph{genome centric}. Annotations can be
+provided in packages curated by \Bioconductor, or obtained from
+web-based resources.  This vignette is primarily concerned with
+describing the annotation resources that are available as
+packages. More advanced users who wish to learn about how to make new
+annotation packages should see the vignette titled "Creating select
+Interfaces for custom Annotation resources" from the
+\Rpackage{AnnotationForge} package.
+
+Gene centric \Rpackage{AnnotationDbi} packages include:
+\begin{itemize}
+  \item Organism level: e.g. \Rpackage{org.Mm.eg.db}.
+  \item Platform level: e.g. \Rpackage{hgu133plus2.db},
+        \Rpackage{hgu133plus2.probes}, \Rpackage{hgu133plus2.cdf}.
+  \item Homology level: e.g. \Rpackage{hom.Dm.inp.db}.
+  \item System-biology level: \Rpackage{GO.db}
+\end{itemize}
+Genome centric \Rpackage{GenomicFeatures} packages include
+\begin{itemize}
+  \item Transcriptome level:
+    e.g. \Rpackage{TxDb.Hsapiens.UCSC.hg19.knownGene},
+    \Rpackage{EnsDb.Hsapiens.v75}.
+  \item Generic genome features: Can generate via \Rpackage{GenomicFeatures}
+\end{itemize}
+One web-based resource accesses
+\href{http://www.biomart.org/}{biomart}, via the \Rpackage{biomaRt}
+package:
+\begin{itemize}
+  \item Query web-based `biomart' resource for genes, sequence,
+        SNPs, and etc.
+\end{itemize}
+
+The most popular annotation packages have been modified so that they
+can make use of a new set of methods to more easily access their
+contents.  These four methods are named: \Rfunction{columns},
+\Rfunction{keytypes}, \Rfunction{keys} and \Rfunction{select}.  And
+they are described in this vignette.  They can currently be used with
+all chip, organism, and \Rclass{TxDb} packages along with the popular
+GO.db package.
+
+For the older less popular packages, there are still conventient ways
+to retrieve the data.  The \emph{How to use bimaps from the ".db"
+  annotation packages} vignette in the \Rpackage{AnnotationDbi}
+package is a key reference for learnign about how to use bimap
+objects.
+
+Finally, all of the `.db' (and most other \Bioconductor{} annotation
+packages) are updated every 6 months corresponding to each release of
+\Bioconductor{}.  Exceptions are made for packages where the actual
+resources that the packages are based on have not themselves been
+updated.
+
+\section{AnnotationDb objects and the select method}
+
+As previously mentioned, a new set of methods have been added that
+allow a simpler way of extracting identifier based annotations.  All
+the annotation packages that support these new methods expose an
+object named exactly the same as the package itself.  These objects
+are collectively called \Rclass{AnntoationDb} objects for the class
+that they all inherit from.  The more specific classes (the ones that
+you will actually see in the wild) have names like \Rclass{OrgDb},
+\Rclass{ChipDb} or \Rclass{TxDb} objects.  These names correspond to
+the kind of package (and underlying schema) being represented.  The
+methods that can be applied to all of these objects are
+\Rfunction{columns}, \Rfunction{keys}, \Rfunction{keytypes} and
+\Rfunction{select}.
+
+In addition, another accessor has recently been added which allows
+extraction of one column at at time.  the \Rfunction{mapIds} method
+allows users to extract data into either a named character vector, a
+list or even a SimpleCharacterList.  This method should work with all
+the different kinds of \Rclass{AnntoationDb} objects described below.
+
+\section{ChipDb objects and the select method}
+
+An extremely common kind of Annotation package is the so called
+platform based or chip based package type.  This package is intended
+to make the manufacturer labels for a series of probes or probesets to
+a wide range of gene-based features.  A package of this kind will load
+an \Rclass{ChipDb} object.  Below is a set of examples to show how you
+might use the standard 4 methods to interact with an object of this
+type.
+
+First we need to load the package:
+
+<<loadChip>>=
+suppressPackageStartupMessages({
+    library(hgu95av2.db)
+})
+@
+
+If we list the contents of this package, we can see that one of the
+many things loaded is an object named after the package "hgu95av2.db":
+
+<<listContents>>=
+ls("package:hgu95av2.db")
+@
+
+We can look at this object to learn more about it:
+
+<<show>>=
+hgu95av2.db
+@
+
+If we want to know what kinds of data are retriveable via
+\Rfunction{select}, then we should use the \Rfunction{columns} method
+like this:
+
+<<columns>>=
+columns(hgu95av2.db)
+@
+
+If we are further curious to know more about those values for columns,
+we can consult the help pages.  Asking about any of these values will
+pull up a manual page describing the different fields and what they
+mean.
+
+<<help, eval=FALSE>>=
+help("SYMBOL")
+@
+
+If we are curious about what kinds of fields we could potentiall use
+as keys to query the database, we can use the \Rfunction{keytypes}
+method.  In a perfect world, this method will return values very
+similar to what was returned by \Rfunction{columns}, but in reality,
+some kinds of values make poor keys and so this list is often shorter.
+
+<<keytypes>>=
+keytypes(hgu95av2.db)
+@
+
+If we want to extract some sample keys of a particular type, we can
+use the \Rfunction{keys} method.
+
+<<keys>>=
+head(keys(hgu95av2.db, keytype="SYMBOL"))
+@
+
+And finally, if we have some keys, we can use \Rfunction{select} to
+extract them.  By simply using appropriate argument values with select
+we can specify what keys we want to look up values for (keys), what we
+want returned back (columns) and the type of keys that we are passing
+in (keytype)
+
+<<selectChip>>=
+#1st get some example keys
+k <- head(keys(hgu95av2.db,keytype="PROBEID"))
+# then call select
+select(hgu95av2.db, keys=k, columns=c("SYMBOL","GENENAME"), keytype="PROBEID")
+@
+
+And as you can see, when you call the code above, select will try to
+return a data.frame with all the things you asked for matched up to
+each other.
+
+Finally if you wanted to extract only one column of data you could
+instead use the mapIds method like this:
+
+<<mapIdsChip>>=
+#1st get some example keys
+k <- head(keys(hgu95av2.db,keytype="PROBEID"))
+# then call mapIds
+mapIds(hgu95av2.db, keys=k, column=c("GENENAME"), keytype="PROBEID")
+@
+
+\section{OrgDb objects and the select method}
+
+An organism level package (an `org' package) uses a central gene
+identifier (e.g. Entrez Gene id) and contains mappings between this
+identifier and other kinds of identifiers (e.g. GenBank or Uniprot
+accession number, RefSeq id, etc.).  The name of an org package is
+always of the form \emph{org.<Ab>.<id>.db}
+(e.g. \Rpackage{org.Sc.sgd.db}) where \emph{<Ab>} is a 2-letter
+abbreviation of the organism (e.g. \Rpackage{Sc} for
+\emph{Saccharomyces cerevisiae}) and \emph{<id>} is an abbreviation
+(in lower-case) describing the type of central identifier
+(e.g. \Rpackage{sgd} for gene identifiers assigned by the
+Saccharomyces Genome Database, or \Rpackage{eg} for Entrez Gene ids).
+
+Just as the chip packages load a \Rclass{ChipDb} object, the org
+packages will load a \Rclass{OrgDb} object.  The following exercise
+should acquaint you with the use of these methods in the context of an
+organism package.
+
+%% select exercise
+\begin{Exercise}
+  Display the \Rclass{OrgDb} object for the \Biocpkg{org.Hs.eg.db}
+  package.
+
+  Use the \Rfunction{columns} method to discover which sorts of
+  annotations can be extracted from it. Is this the same as the result
+  from the \Rfunction{keytypes} method?  Use the \Rfunction{keytypes}
+  method to find out.
+
+  Finally, use the \Rfunction{keys} method to extract UNIPROT
+  identifiers and then pass those keys in to the \Rfunction{select}
+  method in such a way that you extract the gene symbol and KEGG
+  pathway information for each.  Use the help system as needed to
+  learn which values to pass in to columns in order to achieve this.
+\end{Exercise}
+\begin{Solution}
+<<selectOrg1>>=
+library(org.Hs.eg.db)
+columns(org.Hs.eg.db)
+@
+<<selectOrg2, eval=FALSE>>=
+help("SYMBOL") ## for explanation of these columns and keytypes values
+@
+<<selectOrg3>>=
+keytypes(org.Hs.eg.db)
+uniKeys <- head(keys(org.Hs.eg.db, keytype="UNIPROT"))
+cols <- c("SYMBOL", "PATH")
+select(org.Hs.eg.db, keys=uniKeys, columns=cols, keytype="UNIPROT")
+@
+\end{Solution}
+
+So how could you use select to annotate your results? This next
+exercise should hlep you to understand how that should generally work.
+
+\begin{Exercise}
+  Please run the following code snippet (which will load a fake data
+  result that I have provided for the purposes of illustration):
+
+<<selectData>>=
+load(system.file("extdata", "resultTable.Rda", package="AnnotationDbi"))
+head(resultTable)
+@
+
+  The rownames of this table happen to provide entrez gene identifiers
+  for each row (for human).  Find the gene symbol and gene name for
+  each of the rows in resultTable and then use the merge method to
+  attach those annotations to it.
+\end{Exercise}
+\begin{Solution}
+<<selectOrgData>>=
+annots <- select(org.Hs.eg.db, keys=rownames(resultTable),
+                 columns=c("SYMBOL","GENENAME"), keytype="ENTREZID")
+resultTable <- merge(resultTable, annots, by.x=0, by.y="ENTREZID")
+head(resultTable)
+@
+\end{Solution}
+
+\section{Using select with GO.db}
+
+When you load the GO.db package, a \Rclass{GODb} object is also
+loaded. This allows you to use the \Rfunction{columns},
+\Rfunction{keys}, \Rfunction{keytypes} and \Rfunction{select} methods
+on the contents of the GO ontology.  So if for example, you had a few
+GO IDs and wanted to know more about it, you could do it like this:
+
+<<selectGO>>=
+library(GO.db)
+GOIDs <- c("GO:0042254","GO:0044183")
+select(GO.db, keys=GOIDs, columns="DEFINITION", keytype="GOID")
+@
+
+\section{Using select with TxDb packages}
+
+A \Rclass{TxDb} package (a 'TxDb' package) connects a set of genomic
+coordinates to various transcript oriented features.  The package can
+also contain Identifiers to features such as genes and transcripts,
+and the internal schema describes the relationships between these
+different elements.  All TxDb containing packages follow a specific
+naming scheme that tells where the data came from as well as which
+build of the genome it comes from.
+
+%% select exercise TxDb
+\begin{Exercise}
+  Display the \Rclass{TxDb} object for the
+  \Biocpkg{TxDb.Hsapiens.UCSC.hg19.knownGene} package.
+
+  As before, use the \Rfunction{columns} and \Rfunction{keytypes}
+  methods to discover which sorts of annotations can be extracted from
+  it.
+
+  Use the \Rfunction{keys} method to extract just a few gene
+  identifiers and then pass those keys in to the \Rfunction{select}
+  method in such a way that you extract the transcript ids and
+  transcript starts for each.
+\end{Exercise}
+\begin{Solution}
+<<selectTxDb>>=
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+txdb
+columns(txdb)
+keytypes(txdb)
+keys <- head(keys(txdb, keytype="GENEID"))
+cols <- c("TXID", "TXSTART")
+select(txdb, keys=keys, columns=cols, keytype="GENEID")
+
+@
+\end{Solution}
+
+As is widely known, in addition to providing access via the
+\Rfunction{select} method, \Rclass{TxDb} objects also provide access
+via the more familiar \Rfunction{transcripts}, \Rfunction{exons},
+\Rfunction{cds}, \Rfunction{transcriptsBy}, \Rfunction{exonsBy} and
+\Rfunction{cdsBy} methods.  For those who do not yet know about these
+other methods, more can be learned by seeing the vignette called:
+\emph{Making and Utilizing TxDb Objects} in the
+\Rpackage{GenomicFeatures} package.
+
+\section{Using select with EnsDb packages}
+
+Similar to the \Rclass{TxDb} objects/packages discussed in the
+previous section, \Rclass{EnsDb} objects/packages provide genomic
+coordinates of gene models along with additional annotations
+(e.g. gene names, biotypes etc) but are tailored to annotations
+provided by Ensembl. The central methods \Rfunction{columns},
+\Rfunction{keys}, \Rfunction{keytypes} and \Rfunction{select} are all
+implemented for \Rclass{EnsDb} objects. In addition, these methods
+allow also the use of the \Rclass{EnsDb} specific filtering framework
+to retrieve only selected information from the database (see vignette
+of the \Rpackage{ensembldb} package for more information).
+
+In the example below we first evaluate which columns, keys and
+keytypes are available for \Rclass{EnsDb} objects and fetch then the
+transcript ids, genomic start coordinate and transcript biotype for
+some genes.
+
+<<selectEnsDb>>=
+library(EnsDb.Hsapiens.v75)
+edb <- EnsDb.Hsapiens.v75
+edb
+
+## List all columns
+columns(edb)
+
+## List all keytypes
+keytypes(edb)
+
+## Get the first
+keys <- head(keys(edb, keytype="GENEID"))
+
+## Get the data
+select(edb, keys=keys, columns=c("TXID", "TXSEQSTART", "TXBIOTYPE"), 
+       keytype="GENEID")
+@
+
+We can modify the queries above to retrieve only genes encoded on
+chromosome Y. To this end we use filter objects available for
+\Rclass{EnsDb} objects and its methods.
+
+<<selectEnsDb.Y>>=
+## Retrieve all gene IDs of all lincRNAs encoded on chromosome Y
+linkY <- keys(edb,
+              filter=list(GeneBiotypeFilter("lincRNA"), SeqNameFilter("Y")))
+length(linkY)
+
+## We get now all transcripts for these genes.
+txs <- select(edb, keys=linkY, columns=c("TXID", "TXSEQSTART", "TXBIOTYPE"),
+              keytype="GENEID")
+nrow(txs)
+
+## Alternatively, we could specify/pass the filters with the keys argument.
+txs <- select(edb, keys=list(GeneBiotypeFilter("lincRNA"), SeqNameFilter("Y")),
+              columns=c("TXID", "TXSEQSTART", "TXBIOTYPE"))
+nrow(txs)
+@
+
+The version number of R and packages loaded for generating the
+vignette were:
+
+<<SessionInfo, echo=FALSE>>=
+sessionInfo()
+@
+
+\end{document}

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coercion methods between graphs and sparse matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for graph2SparseM {graph}"><tr><td>graph2SparseM {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coercion methods between graphs and sparse matrices  </h2>
+
+<h3>Description</h3>
+
+<p>These functions provide coercions between objects that inherit from
+the <code>graph</code> class to sparse matrices from the <code>SparseM</code>
+package. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+graph2SparseM(g, useweights=FALSE)
+sparseM2Graph(sM, nodeNames, edgemode=c("directed", "undirected")) 
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>g</code></td>
+<td>
+<p>An instance of the <code>graph</code> class. </p>
+</td></tr>
+<tr valign="top"><td><code>useweights</code></td>
+<td>
+<p>A logical value indicating whether to use the edge
+weights in the graph as values in the sparse matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>sM</code></td>
+<td>
+<p>A sparse matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>nodeNames</code></td>
+<td>
+<p>A <code>character</code> vector of the node names.</p>
+</td></tr>
+<tr valign="top"><td><code>edgemode</code></td>
+<td>
+<p>Specifies whether the graph to be created should have
+directed (default) or undirected edges.  If undirected, the input
+matrix <code>sM</code> must be symmetric.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A very simple coercion from one representation to another.
+</p>
+<p>Currently it is presumed that the matrix is square. For other graph
+formats, such as bipartite graphs, some improvements will be needed;
+patches are welcome.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>graph2SparseM</code> takes as input an instance of a subclass of the
+<code>graph</code> class and returns a sparse matrix.
+</p>
+<p><code>sparseM2Graph</code> takes a sparse matrix as input and returns an
+instance of the <code>graphNEL</code> class.  By default, the
+<code>graphNEL</code> returned will have directed edges.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graph-class.html">graph-class</a></code>,
+<code><a href="graphNEL-class.html">graphNEL-class</a></code>, and for
+other conversions, <code><a href="matrix2Graph.html">aM2bpG</a></code> and <code><a href="matrix2Graph.html">ftM2adjM</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(123)
+  g1 &lt;- randomGraph(letters[1:10], 1:4, p=.3)
+  s1 &lt;- graph2SparseM(g1, useweights=TRUE)
+  g2 &lt;- sparseM2Graph(s1, letters[1:10], edgemode="undirected")
+  ## consistency check
+  stopifnot(all.equal(g1, g2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

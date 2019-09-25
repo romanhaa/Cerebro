@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: combineNodes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for combineNodes {graph}"><tr><td>combineNodes {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> combineNodes  </h2>
+
+<h3>Description</h3>
+
+<p>A function to combine, or collapse, a specified set of nodes in a graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+combineNodes(nodes, graph, newName, ...)
+## S4 method for signature 'character,graphNEL,character'
+combineNodes(nodes, graph, newName, collapseFunction=sum)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nodes</code></td>
+<td>
+<p>A set of nodes that are to be collapsed. </p>
+</td></tr>
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>The graph containing the nodes </p>
+</td></tr>
+<tr valign="top"><td><code>newName</code></td>
+<td>
+<p>The name for the new, collapsed node. </p>
+</td></tr>
+<tr valign="top"><td><code>collapseFunction</code></td>
+<td>
+<p>Function or character giving the name of a function
+used to collapse the edge weights after combining nodes. The default
+is to sum up the weights, but mean would be a useful alternative.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments for the generic</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The nodes specified are reduced to a single new node with label given
+by <code>newName</code>. The in and out edges of the set of nodes are all
+made into in and out edges for the new node.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An new instance of a graph of the same class as <code>graph</code> is
+returned. This new graph has the specified nodes reduced to a single
+node. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="inEdges.html">inEdges</a></code>, <code><a href="addNode.html">addNode</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  V &lt;- LETTERS[1:4]
+  edL1 &lt;- vector("list", length=4)
+  names(edL1) &lt;- V
+  for(i in 1:4)
+    edL1[[i]] &lt;- list(edges=c(2,1,4,3)[i], weights=sqrt(i))
+  gR &lt;- graphNEL(nodes=V, edgeL=edL1, edgemode="directed")
+  gR &lt;- addNode("M", gR)
+  gR &lt;- addEdge("M", "A", gR, 1)
+  gR &lt;- addEdge("B", "D", gR, 1)
+  gX &lt;- combineNodes(c("B","D"), gR, "X")
+
+  gR &lt;- addNode("K", gR)
+  gR &lt;- addEdge(c("K","K"), c("D", "B"), gR, c(5,3))
+  edgeWeights(combineNodes(c("B","D"), gR, "X"))$K
+  edgeWeights(combineNodes(c("B","D"), gR, "X", mean))$K
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

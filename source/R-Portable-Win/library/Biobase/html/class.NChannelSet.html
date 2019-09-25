@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class to contain data from multiple channel array...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for NChannelSet-class {Biobase}"><tr><td>NChannelSet-class {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class to contain data from multiple channel array technologies</h2>
+
+<h3>Description</h3>
+
+<p>Container for high-throughput assays and experimental meta-data. Data
+are from experiments where a single &lsquo;chip&rsquo; contains several
+(more than 1) different &lsquo;channels&rsquo;. All channels on a chip have
+the same set of&lsquo;features&rsquo;. An experiment consists of a
+collection of several N-channel chips; each chip is a &lsquo;sample&rsquo;.
+</p>
+<p>An <code>NChannelSet</code> provides a way to coordinate assay data
+(expression values) with phenotype information and references to chip
+annotation data; it extends the <code><a href="class.eSet.html">eSet</a></code> class.
+</p>
+<p>An <code>NChannelSet</code> allows channels to be extracted (using the
+<code>channels</code> method, mentioned below), and subsets of features or
+samples to be selected (using <code>[&lt;features&gt;,
+    &lt;samples&gt;]</code>). Selection and subsetting occur so that relevant
+phenotypic data is maintained by the selection or subset.</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>NChannelSet(
+    assayData, phenoData, ...)</code>. See the examples below.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>assayData</code>:</dt><dd>
+<p>Object of class <code><a href="class.AssayData.html">AssayData</a></code>, usually
+an environment containing matrices of identical size. Each matrix
+represents a single channel. Columns in each matrix correspond to
+samples, rows to features. Once created, <code>NChannelSet</code> manages
+coordination of samples and channels.
+</p>
+</dd>
+<dt><code>phenoData</code>:</dt><dd>
+<p>Object of class <code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame</a></code>.
+</p>
+<p>The <code>data</code> component of the <code>AnnotatedDataFrame</code> is
+<code>data.frame</code> with number of rows equal to the number of
+samples. Columns of the <code>data</code> component correspond to measured
+covariates.
+</p>
+<p>The <code>varMetadata</code> component consists of mandatory columns
+<code>labelDescription</code> (providing a textual description of each column
+label in the <code>data</code> component) and <code>channel</code>. The <code>channel</code>
+of <code>varMetadata</code> is a <code>factor</code>, with levels equal to the names
+of the <code>assayData</code> channels, plus the special symbol
+<code>_ALL_</code>. The <code>channel</code> column is used to indicate which
+channel(s) the corresponding column in the <code>data</code> component
+of <code>AnnotatedDataFrame</code> correspond;  the <code>_ALL_</code> symbol
+indicates that the <code>data</code> column is applicable to all
+channels. <code>varMetadata</code> may contain additional columns with
+arbitrary information.
+</p>
+<p>Once created, <code>NChannelSet</code> coordinates selection and subsetting
+of channels in <code>phenoData</code>.
+</p>
+</dd>
+<dt><code>featureData</code>:</dt><dd>
+<p>Object of class <code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame</a></code>, used to contain
+feature data that is unique to this experiment; feature-level
+descriptions common to a particular chip are usually referenced
+through the <code>annotation</code> slot.
+</p>
+</dd>
+<dt><code>experimentData</code>:</dt><dd>
+<p>Object of class <code><a href="class.MIAME.html">MIAME</a></code> containing descriptions of the
+experiment.
+</p>
+</dd>
+<dt><code>annotation</code>:</dt><dd>
+<p>Object of class <code>"character"</code>. Usually a length-1 character
+string identifying the chip technology used during the
+experiment. The annotation string is used to retrieve information 
+about features, e.g., using the <code>annotation</code> package.</p>
+</dd>
+<dt><code>protocolData</code>:</dt><dd>
+<p>Object of class <code>"character"</code>. A character vector
+identifying the dates the samples were scanned during the
+experiment.</p>
+</dd>
+<dt><code>.__classVersion__</code>:</dt><dd>
+<p>Object of class <code><a href="class.Versions.html">Versions</a></code>, containing
+automatically created information about the class definition
+Biobase package version, and other information about the user
+system at the time the instance was created. See
+<code><a href="classVersion.html">classVersion</a></code> and <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code> for
+examples of use.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"<a href="class.eSet.html">eSet</a>"</code>, directly.
+Class <code>"<a href="class.VersionedBiobase.html">VersionedBiobase</a>"</code>, by class &quot;eSet&quot;, distance 2.
+Class <code>"<a href="class.Versioned.html">Versioned</a>"</code>, by class &quot;eSet&quot;, distance 3.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>Methods with class-specific functionality:
+</p>
+
+<dl>
+<dt><code>channel(object, name, ...)</code></dt><dd>
+<p><code>signature(object="NChannelSet", name="character")</code>.
+Return an <code>ExperessionSet</code> created from the channel and
+corresponding phenotype of argument <code>name</code>. <code>name</code> must
+have length 1. Arguments <code>...</code> are rarely used, but are
+passed to the <code>ExpressionSet</code> constructor, for instance
+to influence <code>storage.mode</code>.
+</p>
+</dd>
+<dt><code>channelNames(object)</code>, <code>channelNames(object) &lt;- value</code></dt><dd>
+<p><code>signature(object = "NChannelSet")</code>.
+Obtain, reorder, or rename channels contained in
+<code>object</code>. See <code><a href="channelNames.html">channelNames</a></code>.
+</p>
+</dd>
+<dt><code>selectChannels(object, names, ...</code></dt><dd>
+<p><code>signature(object = "NChannelSet", names = "character")</code>.
+Create a new <code>NChannelSet</code> from <code>object</code>, containing
+only channels in <code>names</code>. The <code>...</code> is not used by this
+method.
+</p>
+</dd>
+<dt><code>object[features, samples]</code></dt><dd>
+<p><code>signature(object = "NChannelSet",
+        features = "ANY", samples = "ANY")</code>.
+Create a new <code>NChannelSet</code> from <code>object</code>, containing
+only elements matching <code>features</code> and <code>samples</code>; either
+index may be missing, or a character, numeric, or logical vector.
+</p>
+</dd>
+<dt><code>sampleNames(object) &lt;- value</code></dt><dd>
+<p><code>signature(object = "NChannelSet", value = "list")</code> assign
+each (named) element of <code>value</code> to the <code>sampleNames</code> of
+the correspondingly named elements of <code>assayData</code> in
+<code>object</code>.
+</p>
+</dd>
+</dl>
+
+<p>Methods with functionality derived from <code><a href="class.eSet.html">eSet</a></code>:
+<code>annotation</code>, <code>annotation&lt;-</code>, <code>assayData</code>,
+<code>assayData&lt;-</code>, <code>classVersion</code>, <code>classVersion&lt;-</code>,
+<code>dim</code>, <code>dims</code>, <code>experimentData</code>, <code>experimentData&lt;-</code>,
+<code>featureData</code>, <code>featureData&lt;-</code>, <code>phenoData</code>,
+<code>phenoData&lt;-</code>, <code>protocolData</code>, <code>protocolData&lt;-</code>,
+<code>pubMedIds</code>, <code>pubMedIds&lt;-</code>, <code>sampleNames</code>,
+<code>sampleNames&lt;-</code>, <code>storageMode</code>, <code>storageMode&lt;-</code>,
+<code>varMetadata</code>, <code>varMetadata&lt;-</code>, <code>isCurrent</code>,
+<code>isVersioned</code>, <code>updateObject</code>.
+</p>
+<p>Additional methods: <code>coerce</code> (&lsquo;as&rsquo;, to convert between
+objects, if possible), <code>initialize</code> (used internally for
+creating objects), <code>show</code> (invoked automatically when the
+object is displayed to the screen)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmorgan@fhcrc.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet</a></code>. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## An empty NChannelSet
+obj &lt;- NChannelSet()
+
+## An NChannelSet with two channels (R, G) and no phenotypic data
+obj &lt;- NChannelSet(R=matrix(0,10,5), G=matrix(0,10,5))
+
+## An NChannelSet with two channels and channel-specific phenoData
+R &lt;- matrix(0, 10, 3, dimnames=list(NULL, LETTERS[1:3]))
+G &lt;- matrix(1, 10, 3, dimnames=list(NULL, LETTERS[1:3]))
+assayData &lt;- assayDataNew(R=R, G=G)
+data &lt;- data.frame(ChannelRData=numeric(ncol(R)),
+                   ChannelGData=numeric(ncol(R)),
+                   ChannelRAndG=numeric(ncol(R)))
+varMetadata &lt;- data.frame(labelDescription=c(
+                            "R-specific phenoData",
+                            "G-specific phenoData",
+                            "Both channel phenoData"),
+                          channel=factor(c("R", "G", "_ALL_")))
+phenoData &lt;- AnnotatedDataFrame(data=data, varMetadata=varMetadata)
+obj &lt;- NChannelSet(assayData=assayData, phenoData=phenoData)
+obj
+
+## G channel as NChannelSet
+selectChannels(obj, "G")
+
+## G channel as ExpressionSet
+channel(obj, "G")
+
+## Samples "A" and "C"
+obj[,c("A", "C")]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

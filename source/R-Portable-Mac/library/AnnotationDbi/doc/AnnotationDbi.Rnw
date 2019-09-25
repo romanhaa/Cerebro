@@ -1,0 +1,780 @@
+%\VignetteIndexEntry{2. (Deprecated) How to use bimaps from the ".db" annotation packages}
+%\VignetteDepends{hgu95av2.db}
+%\VignetteKeywords{annotation, database}
+%\VignettePackage{AnnotationDbi}
+%\VignetteEngine{knitr::knitr}
+
+\documentclass[11pt]{article}
+
+<<style, eval=TRUE, echo=FALSE, results='asis'>>=
+BiocStyle::latex()
+@
+
+%% Excercises and Questions
+\usepackage{theorem}
+\theoremstyle{break} \newtheorem{Ex}{Exercise}
+\theoremstyle{break} \newtheorem{Q}{Question}
+%% And solution or answer
+\newenvironment{solution}{\color{blue}}{\bigskip}
+
+\title{How to use bimaps from the ".db" annotation packages}
+\author{Marc Carlson, Herve Pages, Seth Falcon, Nianhua Li}
+
+<<include=FALSE>>=
+library(knitr)
+opts_chunk$set(tidy=FALSE)
+@
+
+\begin{document}
+
+\maketitle
+
+\textbf{NOTE} The `bimap' interface to annotation resources is not
+recommend; instead, use the approach in the vignette
+\href{http://bioconductor.org/packages/release/bioc/vignettes/AnnotationDbi/inst/doc/IntroToAnnotationPackages.pdf}{Introduction
+  To Bioconductor Annotation Packages}.
+
+\section{Introduction}
+
+\subsubsection{Purpose}
+
+AnnotationDbi is used primarily to create mapping objects that allow
+easy access from R to underlying annotation databases.  As such, it
+acts as the R interface for all the standard annotation packages.
+Underlying each AnnotationDbi supported annotation package is at least
+one (and often two) annotation databases.  AnnotationDbi also provides
+schemas for theses databases.  For each supported model organism, a
+standard gene centric database is maintained from public sources and
+is packaged up as an appropriate organism or "org" package.
+
+\subsubsection{Database Schemas}
+
+For developers, a lot of the benefits of having the information loaded
+into a real database will require some knowledge about the database
+schema.  For this reason the schemas that were used in the creation of
+each database type are included in AnnotationDbi.  The currently
+supported schemas are listed in the DBschemas directory of
+AnnotationDbi.  But it is also possible to simply print out the schema
+that a package is currently using by using its "\_dbschema" method.
+
+There is one schema/database in each kind of package.  These schemas
+specify which tables and indices will be present for each package of
+that type.  The schema that a particular package is using is also
+listed when you type the name of the package as a function to obtain
+quality control information.
+
+The code to make most kinds of the new database packages is also
+included in AnnotationDbi. Please see the vignette on SQLForge for
+more details on how to make additional database packages.
+
+\subsubsection{Internal schema Design of org packages}
+
+The current design of the organism packages is deliberately simple and
+gene centric.  Each table in the database contains a unique kind of
+information and also an internal identifier called \_id.  The internal
+\_id has no meaning outside of the context of a single database.  But
+\_id does connect all the data within a single database.
+
+As an example if we wanted to connect the values in the genes table
+with the values in the kegg table, we could simply join the two tables
+using the internal \_id column.  It is very important to note however
+that \_id does not have any absolute significance.  That is, it has no
+meaning outside of the context of the database where it is used.  It
+is tempting to think that an \_id could have such significance because
+within a single database, it looks and behaves similarly to an entrez
+gene ID. But \_id is definitely NOT an entrez gene ID. The entrez gene
+IDs are in another table entirely, and can be connected to using the
+internal \_id just like all the other meaningful information inside
+these databases.  Each organism package is centered around one type of
+gene identifier.  This identifier is found as the gene\_id field in
+the genes table and is both the central ID for the database as well as
+the foreign key that chip packages should join to.
+
+The chip packages are 'lightweight', and only contain information
+about the basic probe to gene mapping.  You might wonder how such
+packages can provide access to all the other information that they do.
+This is possible because all the other data provided by chip packages
+comes from joins that are performed by AnnotationDbi behind the scenes
+at run time.  All chip packages have a dependency on at least one
+organism package.  The name of the organism package being depended on
+can be found by looking at its "ORGPKG" value.  To learn about the
+schema from the appropriate organism package, you will need to look at
+the "\_dbschema" method for that package.  In the case of the chip
+packages, the gene\_id that in these packages is mapped to the
+probe\_ids, is used as a foreign key to the appropriate organism
+package.
+
+Specialized packages like the packages for GO and KEGG, will have
+their own schemas but will also adhere to the use of an internal \_id
+for joins between their tables.  As with the organism packages, this
+\_id is not suitable for use as a foreign key.
+
+For a complete listing of the different schemas used by various
+packages, users can use the \Rfunction{available.dbschemas} function.
+This list will also tell you which model organisms are supported.
+
+<<<available schemas, results='hide'>>=
+library(DBI)
+library(org.Hs.eg.db)
+library(AnnotationForge)
+available.dbschemas()
+@
+
+\section{Examples}
+
+\subsubsection{Basic information}
+
+The \Rpackage{AnnotationDbi} package provides an interface to
+SQLite-based annotation packages.  Each SQLite-based annotation
+package (identified by a ``.db'' suffix in the package name) contains
+a number of \Rclass{AnnDbBimap} objects in place of the
+\Rclass{environment} objects found in the old-style environment-based
+annotation packages.  The API provided by \Rpackage{AnnotationDbi}
+allows you to treat the \Rclass{AnnDbBimap} objects like
+\Rclass{environment} instances.  For example, the functions \verb+[[+,
+\Rfunction{get}, \Rfunction{mget}, and \Rfunction{ls} all behave the
+same as they did with the older environment based annotation packages.
+In addition, new methods like \Rfunction{[}, \Rfunction{toTable},
+\Rfunction{subset} and others provide some additional flexibility in
+accessing the annotation data.
+
+<<setup0, results='hide', echo=FALSE>>=
+options(continue=" ", prompt="R> ", width=72L)
+@
+
+<<setup, results='hide'>>=
+library(hgu95av2.db)
+@
+
+The same basic set of objects is provided with the db packages:
+
+<<objects>>=
+ls("package:hgu95av2.db")
+@
+
+\begin{Ex}
+  Start an R session and use the \Rfunction{library} function to load
+  the \Rpackage{hgu95av2.db} software package.  Use search() to see
+  that an organism package was also loaded and then use the approriate
+  "\_dbschema" methods to the schema for the \Rpackage{hgu95av2.db}
+  and \Rpackage{org.Hs.eg.db} packages.
+<<Question #1, echo=FALSE, results='hide'>>=
+library(hgu95av2.db)
+search()
+hgu95av2_dbschema()
+org.Hs.eg_dbschema()
+@
+\end{Ex}
+
+It is possible to call the package name as a function to get some QC
+information about it.
+
+<<QAlisting>>=
+qcdata = capture.output(hgu95av2())
+head(qcdata, 20)
+@
+
+Alternatively, you can get similar information on how many items are
+in each of the provided maps by looking at the MAPCOUNTs:
+
+<<mapcounts, eval=FALSE>>=
+hgu95av2MAPCOUNTS
+@
+
+To demonstrate the \Rclass{environment} API, we'll start with a random
+sample of probe set IDs.
+
+<<envApiDemo1>>=
+all_probes <- ls(hgu95av2ENTREZID)
+length(all_probes)
+
+set.seed(0xa1beef)
+probes <- sample(all_probes, 5)
+probes
+@
+
+The usual ways of accessing annotation data are also available.
+
+<<envApiDemo2>>=
+hgu95av2ENTREZID[[probes[1]]]
+hgu95av2ENTREZID$"31882_at"
+
+syms <- unlist(mget(probes, hgu95av2SYMBOL))
+syms
+@
+
+The annotation packages provide a huge variety of information in each
+package.  Some common types of information include gene symbols
+(SYMBOL), GO terms (GO), KEGG pathway IDs (KEGG), ENSEMBL IDs
+(ENSEMBL) and chromosome start and stop locations (CHRLOC and
+CHRLOCEND).  Each mapping will have a manual page that you can read to
+describe the data in the mapping and where it came from.
+<<helpDemo, eval= FALSE, results='hide'>>=
+?hgu95av2CHRLOC
+@
+
+\begin{Ex}
+  For the probes in 'probes' above, use the annotation mappings to
+  find the chromosome start locations.
+
+<<Question #2, echo=FALSE, results='hide'>>=
+mget(probes, hgu95av2CHRLOC, ifnotfound=NA)[1:2]
+@
+\end{Ex}
+
+\subsubsection{Manipulating Bimap Objects}
+
+Many filtering operations on the annotation \Rclass{Bimap} objects
+require conversion of the \Rclass{AnnDbBimap} into a \Rclass{list}.
+In general, converting to lists will not be the most efficient way to
+filter the annotation data when using a SQLite-based package.  Compare
+the following two examples for how you could get the 1st ten elements
+of the hgu95av2SYMBOL mapping.  In the 1st case we have to get the
+entire mapping into list form, but in the second case we first subset
+the mapping object itself and this allows us to only convert the ten
+elements that we care about.
+
+<<as.list, eval=FALSE>>=
+system.time(as.list(hgu95av2SYMBOL)[1:10])
+
+## vs:
+
+system.time(as.list(hgu95av2SYMBOL[1:10]))
+@
+
+There are many different kinds of \Rclass{Bimap} objects in
+AnnotationDbi, but most of them are of class \Rclass{AnnDbBimap}.  All
+/Rclass{Bimap} objects represent data as a set of left and right keys.
+The typical usage of these mappings is to search for right keys that
+match a set of left keys that have been supplied by the user.  But
+sometimes it is also convenient to go in the opposite direction.
+
+The annotation packages provide many reverse maps as objects in the
+package name space for backwards compatibility, but the reverse
+mappings of almost any map is also available using \Rfunction{revmap}.
+Since the data are stored as tables, no extra disk space is needed to
+provide reverse mappings.
+
+<<show.revmap>>=
+unlist(mget(syms, revmap(hgu95av2SYMBOL)))
+@
+
+So now that you know about the \Rfunction{revmap} function you might
+try something like this:
+
+<<thisworks>>=
+as.list(revmap(hgu95av2PATH)["00300"])
+@
+
+Note that in the case of the PATH map, we don't need to use revmap(x)
+because hgu95av2.db already provides the PATH2PROBE map:
+
+<<revmap2>>=
+x <- hgu95av2PATH
+## except for the name, this is exactly revmap(x)
+revx <- hgu95av2PATH2PROBE
+revx2 <- revmap(x, objName="PATH2PROBE")
+revx2
+identical(revx, revx2)
+
+as.list(revx["00300"])
+@
+
+Note that most maps are reversible with \Rfunction{revmap}, but some
+(such as the more complex GO mappings), are not.  Why is this?
+Because to reverse a mapping means that there has to be a "value" that
+will always become the "key" on the newly reversed map.  And GO
+mappings have several distinct possibilities to choose from (GO ID,
+Evidence code or Ontology).  In non-reversible cases like this,
+AnnotationDbi will usually provide a pre-defined reverse map.  That
+way, you will always know what you are getting when you call
+\Rfunction{revmap}
+
+While we are on the subject of GO and GO mappings, there are a series
+of special methods for GO mappings that can be called to find out
+details about these IDs. \Rfunction{Term},\Rfunction{GOID},
+\Rfunction{Ontology}, \Rfunction{Definition},\Rfunction{Synonym}, and
+\Rfunction{Secondary} are all useful ways of getting additional
+information about a particular GO ID.  For example:
+
+<<revmap2b>>=
+Term("GO:0000018")
+Definition("GO:0000018")
+@
+
+\begin{Ex}
+  Given the following set of RefSeq IDs:
+  c("NG\_005114","NG\_007432","NG\_008063"), Find the Entrez Gene IDs
+  that would correspond to those.  Then find the GO terms that are
+  associated with those entrez gene IDs.
+
+\Rpackage{org.Hs.eg.db} packages.
+<<Question #3, echo=FALSE, results='hide'>>=
+rs = ls(revmap(org.Hs.egREFSEQ))[4:6]
+EGs = mget(rs, revmap(org.Hs.egREFSEQ), ifnotfound=NA)
+##Then get the GO terms.
+GOs = mget(unlist(EGs), org.Hs.egGO, ifnotfound=NA)
+GOs
+##Extract the GOIDs from this list:
+GOIDs = as.character(unique(sapply(GOs, names)))
+##Then look up what these terms are:
+Term(GOIDs)
+@
+\end{Ex}
+
+\subsubsection{The Contents and Structure of Bimap Objects}
+
+Sometimes you may want to display or subset elements from an
+individual map. A \Rclass{Bimap} interface is available to access the
+data in table (\Rclass{data.frame}) format using \Rfunction{[} and
+\Rfunction{toTable}.
+
+<<toTable>>=
+head(toTable(hgu95av2GO[probes]))
+@
+
+The \Rfunction{toTable} function will display all of the information
+in a \Rclass{Bimap}.  This includes both the left and right values
+along with any other attributes that might be attached to those
+values.  The left and right keys of the \Rclass{Bimap} can be
+extracted using \Rfunction{Lkeys} and \Rfunction{Rkeys}.  If is is
+necessary to only display information that is directly associated with
+the left to right links in a \Rclass{Bimap}, then the
+\Rfunction{links} function can be used.  The \Rfunction{links} returns
+a data frame with one row for each link in the bimap that it is
+applied to.  It only reports the left and right keys along with any
+attributes that are attached to the edge between these two values.
+
+Note that the order of the cols returned by \Rfunction{toTable} does
+not depend on the direction of the map.  We refer to it as an
+'undirected method':
+
+<<undirectedMethod>>=
+toTable(x)[1:6, ]
+toTable(revx)[1:6, ]
+@
+
+Notice however that the Lkeys are always on the left (1st col), the
+Rkeys always in the 2nd col
+
+For length() and keys(), the result does depend on the direction,
+hence we refer to these as 'directed methods':
+
+<<directedMethods>>=
+length(x)
+length(revx)
+allProbeSetIds <- keys(x)
+allKEGGIds <- keys(revx)
+@
+
+There are more 'undirected' methods listed below:
+<<moreUndirectedMethods>>=
+junk <- Lkeys(x)        # same for all maps in hgu95av2.db (except pseudo-map
+                        # MAPCOUNTS)
+Llength(x)              # nb of Lkeys
+junk <- Rkeys(x)        # KEGG ids for PATH/PATH2PROBE maps, GO ids for
+                        # GO/GO2PROBE/GO2ALLPROBES maps, etc...
+Rlength(x)              # nb of Rkeys
+@
+
+Notice how they give the same result for x and revmap(x)
+
+You might be tempted to think that \Rfunction{Lkeys} and
+\Rfunction{Llength} will tell you all that you want to know about the
+left keys.  But things are more complex than this, because not all
+keys are mapped.  Often, you will only want to know about the keys
+that are mapped (ie. the ones that have a corresponding Rkey).  To
+learn this you want to use the \Rfunction{mappedkeys} or the
+undirected variants \Rfunction{mappedLkeys} and
+\Rfunction{mappedRkeys}.  Similarily, the
+\Rfunction{count.mappedkeys}, \Rfunction{count.mappedLkeys} and
+\Rfunction{count.mappedRkeys} methods are very fast ways to determine
+how many keys are mapped.  Accessing keys like this is usually very
+fast and so it can be a decent strategy to subset the mapping by 1st
+using the mapped keys that you want to find.
+
+<<moreKeysMethods>>=
+x = hgu95av2ENTREZID[1:10]
+## Directed methods
+mappedkeys(x)           # mapped keys
+count.mappedkeys(x)     # nb of mapped keys
+## Undirected methods
+mappedLkeys(x)          # mapped left keys
+count.mappedLkeys(x)    # nb of mapped Lkeys
+@
+
+If you want to find keys that are not mapped to anything, you might
+want to use \Rfunction{isNA}.
+
+<<isNA>>=
+y = hgu95av2ENTREZID[isNA(hgu95av2ENTREZID)]     # usage like is.na()
+Lkeys(y)[1:4]
+@
+
+\begin{Ex}
+  How many probesets do not have a GO mapping for the
+  \Rpackage{hgu95av2.db} package?  How many have no mapping?  Find a
+  probeset that has a GO mapping. Now look at the GO mappings for this
+  probeset in table form.
+
+<<Question #4, echo=FALSE, results='hide'>>=
+
+count.mappedLkeys(hgu95av2GO)
+Llength(hgu95av2GO) - count.mappedLkeys(hgu95av2GO)
+mappedLkeys(hgu95av2GO)[1]
+toTable(hgu95av2GO["1000_at"])
+@
+\end{Ex}
+
+\subsubsection{Some specific examples}
+
+Lets use what we have learned to get information about the probes that
+are are not assigned to a chromosome:
+<<revmapUseCases>>=
+x <- hgu95av2CHR
+Rkeys(x)
+chroms <- Rkeys(x)[23:24]
+chroms
+Rkeys(x) <- chroms
+toTable(x)
+@
+
+To get this in the classic named-list format:
+<<easy>>=
+z <- as.list(revmap(x)[chroms])
+names(z)
+z[["Y"]]
+@
+
+Many of the common methods for accessing \Rclass{Bimap} objects return
+things in list format.  This can be convenient.  But you have to be
+careful about this if you want to use unlist().  For example the
+following will return multiple probes for each chromosome:
+<<evilUnlist>>=
+chrs = c("12","6")
+mget(chrs, revmap(hgu95av2CHR[1:30]), ifnotfound=NA)
+@
+
+But look what happens here if we try to unlist that:
+<<evilUnlist2>>=
+unlist(mget(chrs, revmap(hgu95av2CHR[1:30]), ifnotfound=NA))
+@
+
+Yuck!  One trick that will sometimes help is to use
+Rfunction{unlist2}.  But be careful here too.  Depending on what step
+comes next, Rfunction{unlist2} may not really help you...
+<<evilUnlist3>>=
+unlist2(mget(chrs, revmap(hgu95av2CHR[1:30]), ifnotfound=NA))
+@
+
+Lets ask if the probes in 'pbids' mapped to cytogenetic location
+"18q11.2"?
+
+<<cytogenetic2>>=
+x <- hgu95av2MAP
+pbids <- c("38912_at", "41654_at", "907_at", "2053_at", "2054_g_at",
+           "40781_at")
+x <- subset(x, Lkeys=pbids, Rkeys="18q11.2")
+toTable(x)
+@
+
+To coerce this map to a named vector:
+<<coerce>>=
+  pb2cyto <- as.character(x)
+  pb2cyto[pbids]
+@
+
+The coercion of the reverse map works too but issues a warning because
+of the duplicated names for the reasons stated above:
+<<coercWarnings>>=
+  cyto2pb <- as.character(revmap(x))
+@
+
+\subsubsection{Accessing probes that map to multiple targets}
+
+In many probe packages, some probes are known to map to multiple
+genes.  The reasons for this can be biological as happens in the
+arabidopsis packages, but usually it is due to the fact that the
+genome builds that chip platforms were based on were less stable than
+desired.  Thus what may have originally been a probe designed to
+measure one thing can end up measuring many things.  Usually you don't
+want to use probes like this, because if they manufacturer doesn't
+know what they map to then their usefullness is definitely suspect.
+For this reason, by default all chip packages will normally hide such
+probes in the standard mappings.  But sometimes you may want access to
+the answers that the manufacturer says such a probe will map to.  In
+such cases, you will want to use the \Rfunction{toggleProbes}
+method. To use this method, just call it on a standard mapping and
+copy the result into a new mapping (you cannot alter the original
+mapping).  Then treat the new mapping as you would any other mapping.
+
+<<multiProbes>>=
+  ## How many probes?
+  dim(hgu95av2ENTREZID)
+  ## Make a mapping with multiple probes exposed
+  multi <- toggleProbes(hgu95av2ENTREZID, "all")
+  ## How many probes?
+  dim(multi)
+@
+
+If you then decide that you want to make a mapping that has only
+multiple mappings or you wish to revert one of your maps back to the
+default state of only showing the single mappings then you can use
+\Rfunction{toggleProbes} to switch back and forth.
+
+<<multiProbes2>>=
+  ## Make a mapping with ONLY multiple probes exposed
+  multiOnly <- toggleProbes(multi, "multiple")
+  ## How many probes?
+  dim(multiOnly)
+
+  ## Then make a mapping with ONLY single mapping probes
+  singleOnly <- toggleProbes(multiOnly, "single")
+  ## How many probes?
+  dim(singleOnly)
+@
+
+Finally, there are also a pair of test methods
+\Rfunction{hasMultiProbes} and \Rfunction{hasSingleProbes} that can be
+used to see what methods a mapping presently has exposed.
+
+<<multiProbes3>>=
+  ## Test the multiOnly mapping
+  hasMultiProbes(multiOnly)
+  hasSingleProbes(multiOnly)
+
+  ## Test the singleOnly mapping
+  hasMultiProbes(singleOnly)
+  hasSingleProbes(singleOnly)
+@
+
+\subsubsection{Using SQL to access things directly}
+
+While the mapping objects provide a lot of convenience, sometimes
+there are definite benefits to writing a simple SQL query.  But in
+order to do this, it is necessary to know a few things.  The 1st thing
+you will need to know is some SQL.  Fortunately, it is quite easy to
+learn enough basic SQL to get stuff out of a database.  Here are 4
+basic SQL things that you may find handy:
+
+First, you need to know about SELECT statements.  A simple example
+would look something like this:
+
+SELECT * FROM genes;
+
+Which would select everything from the genes table.
+
+SELECT gene\_id FROM genes;
+
+Will select only the gene\_id field from the genes table.
+
+Second you need to know about WHERE clauses:
+
+SELECT gene\_id,\_id FROM genes WHERE gene\_id=1;
+
+Will only get records from the genes table where the gene\_id is = 1.
+
+Thirdly, you will want to know about an inner join:
+
+SELECT * FROM genes,chromosomes WHERE genes.\_id=chromosomes.\_id;
+
+This is only slightly more complicated to understand.  Here we want to
+get all the records that are in both the 'genes' and 'chromosomes'
+tables, but we only want ones where the '\_id' field is identical.
+This is known as an inner join because we only want the elements that
+are in both of these tables with respect to '\_id'.  There are other
+kinds of joins that are worth learning about, but most of the time,
+this is all you will need to do.
+
+Finally, it is worthwhile to learn about the AS keyword which is
+useful for making long queries easier to read.  For the previous
+example, we could have written it this way to save space:
+
+SELECT * FROM genes AS g,chromosomes AS c WHERE g.\_id=c.\_id;
+
+In a simple example like this you might not see a lot of savings from
+using AS, so lets consider what happens when we want to also specify
+which fields we want:
+
+SELECT g.gene\_id,c.chromosome FROM genes AS g,chromosomes AS c WHERE g.\_id=c.\_id;
+
+Now you are most of the way there to being able to query the databases
+directly.  The only other thing you need to know is a little bit about
+how to access these databases from R.  With each package, you will
+also get a method that will print the schema for its database, you can
+view this to see what sorts of tables are present etc.
+
+<<orgSchema, results='hide'>>=
+org.Hs.eg_dbschema()
+@
+
+To access the data in a database, you will need to connect to it.
+Fortunately, each package will automatically give you a connection
+object to that database when it loads.
+
+<<connObj, results='hide'>>=
+org.Hs.eg_dbconn()
+@
+
+You can use this connection object like this:
+
+<<connObj2, results='hide'>>=
+query <- "SELECT gene_id FROM genes LIMIT 10;"
+result = dbGetQuery(org.Hs.eg_dbconn(), query)
+result
+@
+
+\begin{Ex}
+  Retrieve the entrez gene ID and chromosome by using a database
+  query.  Show how you could do the same thing by using
+  \Rfunction{toTable}
+
+<<Question #5, echo=FALSE, results='hide'>>=
+sql <- "SELECT gene_id, chromosome FROM genes AS g, chromosomes AS c WHERE g._id=c._id;"
+dbGetQuery(org.Hs.eg_dbconn(),sql)[1:10,]
+
+##OR
+toTable(org.Hs.egCHR)[1:10,]
+@
+\end{Ex}
+
+\subsubsection{Combining data from multiple annotation packages at the SQL level}
+
+For a more complex example, consider the task of obtaining all gene
+symbols which are probed on a chip that have at least one GO BP ID
+annotation with evidence code IMP, IGI, IPI, or IDA.  Here is one way
+to extract this using the environment-based packages:
+
+<<complexEnv, eval=FALSE>>=
+## Obtain SYMBOLS with at least one GO BP
+## annotation with evidence IMP, IGI, IPI, or IDA.
+system.time({
+bpids <- eapply(hgu95av2GO, function(x) {
+    if (length(x) == 1 && is.na(x))
+      NA
+    else {
+        sapply(x, function(z) {
+            if (z$Ontology == "BP")
+              z$GOID
+            else
+              NA
+            })
+    }
+})
+bpids <- unlist(bpids)
+bpids <- unique(bpids[!is.na(bpids)])
+g2p <- mget(bpids, hgu95av2GO2PROBE)
+wantedp <- lapply(g2p, function(x) {
+    x[names(x) %in% c("IMP", "IGI", "IPI", "IDA")]
+})
+wantedp <- wantedp[sapply(wantedp, length) > 0]
+wantedp <- unique(unlist(wantedp))
+ans <- unlist(mget(wantedp, hgu95av2SYMBOL))
+})
+length(ans)
+ans[1:10]
+@
+
+All of the above code could have been reduced to a single SQL query
+with the SQLite-based packages. But to put together this query, you
+would need to look 1st at the schema to know what tables are present:
+
+<<schema, results='hide'>>=
+hgu95av2_dbschema()
+@
+
+This function will give you an output of all the create table
+statements that were used to generate the hgu95av2 database.  In this
+case, this is a chip package, so you will also need to see the schema
+for the organism package that it depends on.  To learn what package it
+depends on, look at the ORGPKG value:
+
+<<schema2, results='hide'>>=
+hgu95av2ORGPKG
+@
+
+Then you can see that schema by looking at its schema method:
+
+<<schema3, results='hide'>>=
+org.Hs.eg_dbschema()
+@
+
+So now we can see that we want to connect the data in the go\_bp, and
+symbol tables from the org.Hs.eg.sqlite database along with the probes
+data in the hgu95av2.sqlite database.  How can we do that?
+
+It turns out that one of the great conveniences of SQLite is that it
+allows other databases to be `ATTACHed'.  Thus, we can keep our data
+in many differnt databases, and then 'ATTACH' them to each other in a
+modular fashion.  The databases for a given build have been built
+together and frozen into a single version specifically to allow this
+sort of behavoir.  To use this feature, the SQLite ATTACH command
+requires the filename for the database file on your filesystem.
+Fortunately, R provides a nice system independent way of getting that
+information.  Note that the name of the database is always the same as
+the name of the package, with the suffix '.sqlite'.:
+
+<<hgu95av2_org_join, tidy=FALSE>>=
+orgDBLoc = system.file("extdata", "org.Hs.eg.sqlite", package="org.Hs.eg.db")
+attachSQL = paste("ATTACH '", orgDBLoc, "' AS orgDB;", sep = "")
+dbGetQuery(hgu95av2_dbconn(), attachSQL)
+@
+
+Finally, you can assemble a cross-db sql query and use the helper
+function as follows.  Note that when we want to refer to tables in the
+attached database, we have to use the 'orgDB' prefix that we specified
+in the 'ATTACH' query above.:
+
+<<complexDb>>=
+system.time({
+SQL <- "SELECT DISTINCT probe_id,symbol FROM probes, orgDB.gene_info AS gi, orgDB.genes AS g, orgDB.go_bp AS bp WHERE bp._id=g._id AND gi._id=g._id AND probes.gene_id=g.gene_id AND bp.evidence IN ('IPI', 'IDA', 'IMP', 'IGI')"
+zz <- dbGetQuery(hgu95av2_dbconn(), SQL)
+})
+#its a good idea to always DETACH your database when you are finished...
+dbGetQuery(hgu95av2_dbconn(), "DETACH orgDB"         )
+@
+
+\begin{Ex}
+  Retrieve the entrez gene ID, chromosome location information and
+  cytoband infomration by using a single database query.
+<<Question #6, echo=FALSE, results='hide'>>=
+sql <- "SELECT gene_id, start_location, end_location, cytogenetic_location FROM genes AS g, chromosome_locations AS c, cytogenetic_locations AS cy WHERE g._id=c._id AND g._id=cy._id"
+dbGetQuery(org.Hs.eg_dbconn(),sql)[1:10,]
+@
+\end{Ex}
+
+\begin{Ex}
+  Expand on the example in the text above to combine data from the
+  \Rpackage{hgu95av2.db} and \Rpackage{org.Hs.eg.db} with the
+  \Rpackage{GO.db} package so as to include the GO ID, and term
+  definition in the output.
+<<Question #7, echo=FALSE, results='hide'>>=
+orgDBLoc = system.file("extdata", "org.Hs.eg.sqlite", package="org.Hs.eg.db")
+attachSQL = paste("ATTACH '", orgDBLoc, "' AS orgDB;", sep = "")
+dbGetQuery(hgu95av2_dbconn(), attachSQL)
+
+goDBLoc = system.file("extdata", "GO.sqlite", package="GO.db")
+attachSQL = paste("ATTACH '", goDBLoc, "' AS goDB;", sep = "")
+dbGetQuery(hgu95av2_dbconn(), attachSQL)
+
+SQL <- "SELECT DISTINCT p.probe_id, gi.symbol, gt.go_id, gt.definition
+    FROM probes 
+        AS p, orgDB.gene_info AS gi, orgDB.genes AS g, orgDB.go_bp 
+        AS bp, goDB.go_term AS gt  
+    WHERE bp._id=g._id AND gi._id=g._id AND p.gene_id=g.gene_id 
+        AND bp.evidence IN ('IPI', 'IDA', 'IMP', 'IGI') AND gt.go_id=bp.go_id"
+zz <- dbGetQuery(hgu95av2_dbconn(), SQL)
+
+dbGetQuery(hgu95av2_dbconn(), "DETACH orgDB")
+dbGetQuery(hgu95av2_dbconn(), "DETACH goDB")
+@
+\end{Ex}
+
+The version number of R and packages loaded for generating the
+vignette were:
+
+<<SessionInfo, echo=FALSE>>=
+sessionInfo()
+@
+
+\end{document}

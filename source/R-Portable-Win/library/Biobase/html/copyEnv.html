@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List-Environment interactions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for copyEnv {Biobase}"><tr><td>copyEnv {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List-Environment interactions</h2>
+
+<h3>Description</h3>
+
+<p>These functions can be used to make copies of environments, or to
+get/assign all of the objects inside of an environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+copyEnv(oldEnv, newEnv, all.names=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>oldEnv</code></td>
+<td>
+<p>An environment to copy from</p>
+</td></tr>
+<tr valign="top"><td><code>newEnv</code></td>
+<td>
+<p>An environment to copy to.  If missing, a new environment
+with the same parent environment as oldEnv.</p>
+</td></tr>
+<tr valign="top"><td><code>all.names</code></td>
+<td>
+<p>Whether to retrieve objects with names that start
+with a dot.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>copyEnv</code>: This function will make a copy of the contents from
+<code>oldEnv</code> and place them into <code>newEnv</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry and R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/environment.html">environment</a></code>, <code><a href="../../base/html/list.html">as.list</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   z &lt;- new.env(hash=TRUE, parent=emptyenv(), size=29L)
+   multiassign(c("a","b","c"), c(1,2,3), z)
+
+   a &lt;- copyEnv(z)
+   ls(a)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

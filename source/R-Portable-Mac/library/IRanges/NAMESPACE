@@ -1,0 +1,393 @@
+useDynLib(IRanges)
+
+import(methods)
+importFrom(utils, stack, read.table)
+importFrom(stats, cov, cor, median, quantile,
+           smoothEnds, runmed, "window<-", aggregate,
+           setNames)
+
+import(BiocGenerics)
+import(S4Vectors)
+importFrom(stats4, summary)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Export S4 classes
+###
+
+exportClasses(
+    ## DataFrameList-class.R:
+    DataFrameList, SimpleDataFrameList,
+    SplitDataFrameList, SimpleSplitDataFrameList,
+
+    ## AtomicList-class.R:
+    AtomicList, SimpleAtomicList,
+    LogicalList, SimpleLogicalList,
+    IntegerList, SimpleIntegerList,
+    NumericList, SimpleNumericList,
+    ComplexList, SimpleComplexList,
+    CharacterList, SimpleCharacterList,
+    RawList, SimpleRawList,
+    RleList, SimpleRleList,
+    FactorList, SimpleFactorList,
+
+    ## Ranges-and-RangesList-classes.R:
+    Ranges, IntegerRanges, Pos,
+    RangesList, SimpleRangesList,
+    IntegerRangesList, SimpleIntegerRangesList,
+    PosList, SimplePosList,
+
+    ## IPosRanges-class.R:
+    IPosRanges,
+
+    ## IntegerRangesList-class.R
+    IntegerRangesList, SimpleIntegerRangesList,
+
+    ## IRanges-class.R:
+    IRanges, NormalIRanges,
+
+    ## IPos-class.R:
+    IPos,
+
+    ## Grouping-class.R:
+    Grouping, ManyToOneGrouping, ManyToManyGrouping,
+    H2LGrouping, Dups,
+    GroupingRanges, GroupingIRanges,
+    Partitioning, PartitioningByEnd, PartitioningByWidth, PartitioningMap,
+
+    ## Views-class.R:
+    Views,
+
+    ## RleViews-class.R:
+    RleViews,
+
+    ## SimpleGrouping-class.R:
+    SimpleGrouping,
+    SimpleManyToOneGrouping,
+    BaseManyToManyGrouping,
+    SimpleManyToManyGrouping,
+
+    ## IRangesList-class.R:
+    IRangesList, SimpleIRangesList,
+    NormalIRangesList, SimpleNormalIRangesList,
+
+    ## IPosList-class.R:
+    IPosList, SimpleIPosList,
+
+    ## ViewsList-class.R:
+    ViewsList, SimpleViewsList,
+
+    ## RleViewsList-class.R:
+    RleViewsList, SimpleRleViewsList,
+
+    ## RangedSelection-class.R:
+    RangedSelection,
+
+    ## MaskCollection-class.R:
+    MaskCollection,
+
+    ## CompressedList-class.R:
+    CompressedList,
+
+    ## CompressedDataFrameList-class.R:
+    CompressedDataFrameList, CompressedSplitDataFrameList,
+
+    ## CompressedAtomicList-class.R:
+    CompressedAtomicList,
+    CompressedLogicalList,
+    CompressedIntegerList,
+    CompressedNumericList,
+    CompressedComplexList,
+    CompressedCharacterList,
+    CompressedRawList,
+    CompressedRleList,
+    CompressedFactorList,
+
+    ## CompressedGrouping-class.R:
+    CompressedGrouping,
+    CompressedManyToOneGrouping, CompressedManyToManyGrouping,
+
+    ## CompressedRangesList-class.R:
+    CompressedRangesList, CompressedPosList,
+    CompressedIntegerRangesList,
+    CompressedIRangesList, CompressedNormalIRangesList, CompressedIPosList,
+
+    ## RangedData-class.R:
+    RangedData,
+
+    ## NCList-class.R:
+    NCList, NCLists,
+
+    ## nearest-methods.R:
+    IntegerRanges_OR_missing
+)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Export S3 methods
+###
+
+S3method(diff, AtomicList)
+
+S3method(`window<-`, Vector)
+S3method(`window<-`, vector)
+S3method(`window<-`, factor)
+
+### We also export them thru the export() directive so that (a) they can be
+### called directly, (b) tab-completion on the name of the generic shows them,
+### and (c) methods() doesn't asterisk them.
+export(
+    diff.AtomicList,
+
+    "window<-.Vector",
+    "window<-.vector",
+    "window<-.factor"
+)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Export S4 methods for generics not defined in IRanges
+###
+
+exportMethods(
+    length, "length<-",
+    names, "names<-",
+    nrow, NROW,
+    ncol, NCOL,
+    dim,
+    rownames, "rownames<-",
+    colnames, "colnames<-",
+    dimnames, "dimnames<-",
+    "[", "[<-", "[[", "[[<-",
+    as.vector,
+    as.integer,
+    as.character,
+    as.factor,
+    as.matrix,
+    as.data.frame,
+    as.list,
+    coerce,
+    c,
+    show,
+    match, duplicated, unique, anyDuplicated, "%in%",
+    is.unsorted, order,
+    Ops, Math, Math2, Summary, Complex,
+    summary,
+    drop,
+    start, "start<-", end, "end<-", width, "width<-", pos,
+    min, max, range, which.max, which.min,
+    diff,
+    mean, var, cov, cor, sd, median, quantile, mad, IQR, smoothEnds, runmed,
+    "window<-", transform,
+    nchar, chartr, tolower, toupper, sub, gsub,
+    unlist, stack, "split<-", unsplit,
+    relist,
+    append,
+    "!", which,
+    merge,
+    with, within,
+    is.na,
+    by,
+    cbind, rbind,
+    lapply,
+    pmax, pmin, pmax.int, pmin.int,
+    paste,
+    table,
+    tapply,
+    union, intersect, setdiff,
+    updateObject,
+    bindROWS,
+    extractROWS, replaceROWS, getListElement,
+    parallelSlotNames,
+    values, "values<-",
+    classNameForDisplay,
+    from, to,
+    nLnode, nRnode,
+    pcompare, pcompareRecursively,
+    selfmatch,
+    runLength, "runValue<-",
+    runsum, runmean, runwtsum, runq,
+    elementNROWS, isEmpty,
+    relistToClass,
+    revElements,
+    as.env,
+    active, "active<-"
+)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Export non-generic functions
+###
+
+export(
+    splitAsList,
+    multisplit,
+    solveUserSEW0, IRanges, solveUserSEW,
+    successiveIRanges,
+    slidingIRanges,
+    breakInChunks,
+    whichAsIRanges,
+    asNormalIRanges,
+    rangeComparisonCodeToLetter,
+    IPos,
+    NCList, NCLists,
+    H2LGrouping, Dups,
+    PartitioningByEnd, PartitioningByWidth, PartitioningMap,
+    RangedData,
+    RangedSelection,
+    RangesList,
+    IRangesList,
+    RleViewsList,
+    "%over%", "%within%", "%outside%",
+    "%pover%", "%pwithin%", "%poutside%",
+    mergeByOverlaps, findOverlapPairs,
+    MaskCollection.show_frame,
+    Mask,
+    read.gapMask,
+    read.agpMask,
+    read.liftMask,
+    read.rmMask,
+    read.trfMask,
+    ##read.chain,
+    successiveViews, slidingViews,
+    LogicalList, IntegerList, NumericList, ComplexList,
+    CharacterList, RawList, RleList, FactorList,
+    DataFrameList, SplitDataFrameList,
+    ManyToOneGrouping, ManyToManyGrouping, regroup,
+    heads, tails,
+    selectNearest,
+    INCOMPATIBLE_ARANGES_MSG, extractListFragments, equisplit
+)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Export S4 generics defined in IRanges + export corresponding methods
+###
+
+export(
+    ## range-squeezers.R:
+    ranges, rglist,
+
+    ## Vector-class-leftovers.R:
+    showAsCell,
+    mstack,
+
+    ## Ranges-and-RangesList-classes.R:
+    mid,
+    isNormal, whichFirstNotNormal,
+
+    ## Views-class.R:
+    subject,
+    "ranges<-",
+    Views,
+    trim, subviews,
+    viewApply, viewMins, viewMaxs, viewSums, viewMeans,
+    viewWhichMins, viewWhichMaxs, viewRangeMins, viewRangeMaxs,
+
+    ## Grouping-class.R:
+    nobj, grouplengths, members, vmembers, togroup, togrouplength,
+    high2low, low2high, grouprank, togrouprank, mapOrder,
+
+    ## Rle-class-leftovers.R:
+    findRange, splitRanges,
+
+    ## extractList.R:
+    extractList,
+
+    ## DataFrameList-class.R:
+    columnMetadata, "columnMetadata<-",
+
+    ## IntegerRangesList-class.R:
+    universe, "universe<-", space,
+
+    ## MaskCollection-class.R:
+    nir_list,
+    desc, "desc<-",
+    maskedwidth, maskedratio,
+    collapse,
+
+    ## RangedData-class.R:
+    score, "score<-",
+
+    ## findOverlaps-methods.R:
+    findOverlaps, countOverlaps, overlapsAny, subsetByOverlaps,
+    overlapsRanges,
+    poverlaps,
+
+    ## windows-methods.R:
+    windows, narrow,
+
+    ## intra-range-methods.R:
+    update_ranges,
+    shift, resize, flank, reflect, promoters, restrict, threebands,
+
+    ## inter-range-methods.R:
+    reduce, gaps, disjoin, isDisjoint, disjointBins,
+
+    ## reverse-methods.R:
+    reverse,
+
+    ## coverage-methods.R:
+    coverage,
+
+    ## cvg-methods.R:
+    cvg,
+
+    ## slice-methods.R:
+    slice,
+
+    ## setops-methods.R:
+    punion, pintersect, psetdiff, pgap,
+
+    ## nearest-methods.R:
+    precede, follow, nearest, distance, distanceToNearest,
+
+    ## tile-methods.R:
+    tile, slidingWindows,
+
+    ## AtomicList-utils.R:
+    ifelse2
+)
+
+### Exactly the same list as above.
+exportMethods(
+    ranges, rglist,
+    runsum, runmean, runwtsum, runq,
+    showAsCell,
+    mstack,
+    mid,
+    isNormal, whichFirstNotNormal,
+    subject,
+    "ranges<-",
+    Views,
+    trim, subviews,
+    viewApply, viewMins, viewMaxs, viewSums, viewMeans,
+    viewWhichMins, viewWhichMaxs, viewRangeMins, viewRangeMaxs,
+    nobj, grouplengths, members, vmembers, togroup, togrouplength,
+    high2low, low2high, grouprank, togrouprank, mapOrder,
+    findRange, splitRanges,
+    extractList,
+    columnMetadata, "columnMetadata<-",
+    universe, "universe<-", space,
+    nir_list,
+    desc, "desc<-",
+    maskedwidth, maskedratio,
+    collapse,
+    score, "score<-",
+    findOverlaps, countOverlaps, overlapsAny, subsetByOverlaps,
+    overlapsRanges,
+    poverlaps,
+    windows, narrow,
+    update_ranges,
+    shift, resize, flank, reflect, promoters, restrict, threebands,
+    reduce, gaps, disjoin, isDisjoint, disjointBins,
+    reverse,
+    coverage,
+    cvg,
+    slice,
+    punion, pintersect, psetdiff, pgap,
+    precede, follow, nearest, distance, distanceToNearest,
+    tile, slidingWindows,
+    ifelse2
+)
+

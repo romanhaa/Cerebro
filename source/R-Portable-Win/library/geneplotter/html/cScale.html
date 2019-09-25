@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function for mapping chromosome length to a number of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cScale {geneplotter}"><tr><td>cScale {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function for mapping chromosome length to a number of points.</h2>
+
+<h3>Description</h3>
+
+<p>Given a number of points (generally representing the number of points
+on a plot's axis), and a vector of chromosome lengths - will generate
+a vector of the same length as the one passed in containing scaling
+factors for each chromosome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cScale(points, cLengths, method=c("max", "relative"), chrom)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>points</code></td>
+<td>
+<p>The number of points to scale the chromosome length to.</p>
+</td></tr>
+<tr valign="top"><td><code>cLengths</code></td>
+<td>
+<p>A vector of chromosome lengths.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Determines whether to use relative or absolute scaling.
+Default is &quot;max&quot; (absolute).</p>
+</td></tr>
+<tr valign="top"><td><code>chrom</code></td>
+<td>
+<p>Which chrom to determine the scale for</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The scale factor is calculated in a manner based on the <code>method</code>
+argument.  If method is <code>max</code>, the factor is derived by dividing the
+points argument by each chromosome's length (in base pairs).  If the
+method chosen is <code>relative</code>, then the scale is determined by dividing
+the points argument by the maximum chromsome length, and applying that
+value to each chromosome.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="cPlot.html">cPlot</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+   curWarn &lt;- options(warn=0)
+   on.exit(options(warn), add=TRUE)
+   if (require("hgu95av2.db")) {
+      z &lt;- buildChromLocation("hgu95av2")
+
+     for (sc in c("max","relative"))
+       scale &lt;- cScale(1000, chromLengths(z),sc,"Y")
+   } else print("This example needs the hgu95av2 data package")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

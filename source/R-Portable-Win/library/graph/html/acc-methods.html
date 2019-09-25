@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Accessibility Lists</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for acc-methods {graph}"><tr><td>acc-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for Accessibility Lists</h2>
+
+<h3>Description</h3>
+
+<p>This generic function takes an object that inherits from the <code>graph</code> 
+class and a node in that graph and returns a vector containing information
+about all other nodes that are accessible from the given node. The
+methods are vectorized so that <code>index</code> can be a vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'graph,character'
+acc(object, index)
+## S4 method for signature 'clusterGraph,character'
+acc(object, index)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An instance of the appropriate graph class.</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>A character vector specifying the nodes for which
+accessibilty information is wanted.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The methods should return a named list of integer vectors. The
+<code>names</code> of the list correspond to the names of the supplied
+nodes. For each element of the list the returned vector is named. The
+names of the vector elements correspond to the nodes that are
+accessible from the given node. The values in the vector indicate how
+many edges are between the given node and the node in the return vector.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>object = graph</dt><dd><p>An object of class graph.</p>
+</dd>
+<dt>object = clusterGraph</dt><dd><p>An instance of the <code>clusterGraph</code>
+class.</p>
+</dd> 
+<dt>index</dt><dd><p>A <code>character</code> vector of indices corresponding to nodes in the
+graph.</p>
+</dd>  </dl>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+ set.seed(123)
+ gR3 &lt;- randomGraph(LETTERS[1:10], M&lt;-1:2, p=.5)
+ acc(gR3, "A")
+ acc(gR3, c("B", "D"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

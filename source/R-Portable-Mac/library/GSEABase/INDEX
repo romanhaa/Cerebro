@@ -1,0 +1,28 @@
+CollectionType          Collection Type Class Constructors
+CollectionType-class    Class "CollectionType"
+GSEABase-package        Gene set enrichment data structures and methods
+GeneColorSet            Methods to Construct "GeneColorSet" Instances
+GeneColorSet-class      Class "GeneColorSet"
+GeneIdentifierType      Gene Identifier Class Constructors
+GeneIdentifierType-class
+                        Class "GeneIdentifierType"
+GeneSet                 Methods to construct GeneSet instances
+GeneSet-class           Class "GeneSet"
+GeneSetCollection-class
+                        Class "GeneSetCollection"
+GeneSetCollection-methods
+                        Methods to construct GeneSetCollection
+                        instances
+OBOCollection-class     Class "OBOCollection"
+details-methods         Methods for Displaying Detailed GeneSet
+                        Information
+getOBOCollection        Read OBO-specified Gene Ontology Collections
+goSlim-methods          Methods for Function goSlim in Package
+                        'GSEABase'
+incidence-methods       Methods for Constructing Incidence Matricies
+                        Between GeneSets
+io                      Read and write gene sets from Broad or GMT
+                        formats
+mapIdentifiers-methods
+                        Methods for Function mapIdentifiers in Package
+                        'GSEABase'

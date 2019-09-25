@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Make a chromOrd object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for make.chromOrd {geneplotter}"><tr><td>make.chromOrd {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make a chromOrd object  </h2>
+
+<h3>Description</h3>
+
+<p>This function makes a chromOrd object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+make.chromOrd(genome, gnames)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>genome</code></td>
+<td>
+<p>A character string. </p>
+</td></tr>
+<tr valign="top"><td><code>gnames</code></td>
+<td>
+<p>A character vector of the genes to be selected. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function reads in a lot of annotation data and creates a list
+with one element for each chromosome. The elements of this list are
+indices indicating the order of the genes that are on that chromosome
+(and in the annotation data set being used).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of chromOrd type. One element for each chromosome. Suitable for
+reordering other values according to the chromosomal location.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Robert Gentleman </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="amplicon.plot.html">amplicon.plot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  data(sample.ExpressionSet)
+  make.chromOrd("hgu95A", featureNames(sample.ExpressionSet))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

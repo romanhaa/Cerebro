@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Export Seurat object to Cerebro.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for exportFromSeurat {cerebroApp}"><tr><td>exportFromSeurat {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Export Seurat object to Cerebro.</h2>
+
+<h3>Description</h3>
+
+<p>This function allows to export a Seurat object to visualize in
+Cerebro.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+exportFromSeurat(object, file, experiment_name, organism,
+  column_sample = "sample", column_cluster = "cluster",
+  column_nUMI = "nUMI", column_nGene = "nGene",
+  column_cell_cycle_seurat = NULL, column_cell_cycle_cyclone = NULL,
+  add_all_meta_data = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Where to save the output.</p>
+</td></tr>
+<tr valign="top"><td><code>experiment_name</code></td>
+<td>
+<p>Experiment name.</p>
+</td></tr>
+<tr valign="top"><td><code>organism</code></td>
+<td>
+<p>Organism, e.g. hg (human), mm (mouse), etc.</p>
+</td></tr>
+<tr valign="top"><td><code>column_sample</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about sample; defaults to 'sample'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cluster</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about cluster; defaults to 'cluster'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_nUMI</code></td>
+<td>
+<p>Column in object@meta.data that contains information about
+number of transcripts per cell; defaults to 'nUMI'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_nGene</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about number of expressed genes per cell; defaults to 'nGene'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cell_cycle_seurat</code></td>
+<td>
+<p>Optional column in object@meta.data that
+contains information about cell cycle phase based on Regev method (default of
+Seurat); defaults to NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cell_cycle_cyclone</code></td>
+<td>
+<p>Optional column in object@meta.data that
+contains information about cell cycle phase based on Cyclone method; defaults
+to NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>add_all_meta_data</code></td>
+<td>
+<p>If set to TRUE, all further meta data columns will
+be extracted as well.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Export Seurat object to Cerebro.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nothing.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+exportFromSeurat(
+  object = seurat,
+  file = 'PDX_patient_A.crb',
+  experiment_name = 'PDX_patient_A',
+  organism = 'hg',
+  column_sample = 'sample',
+  column_cluster = 'cluster',
+  column_nUMI = 'nUMI',
+  column_nGene = 'nGene',
+  column_cell_cycle_seurat = 'cell_cycle_seurat',
+  column_cell_cycle_cyclone = 'cell_cycle_cyclone',
+  add_all_meta_data = TRUE
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Translate a graph to &quot;dot&quot; including rendering information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for toDotWithRI {graph}"><tr><td>toDotWithRI {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Translate a graph to &quot;dot&quot; including rendering information</h2>
+
+<h3>Description</h3>
+
+<p>The function takes a graph object and translates it into the dot
+format. All rendering information is written verbatim into the dot
+graph as well
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+toDotWithRI(graph, graph_name = NULL, subGraphList = list(),
+  isStrict = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>An object of graph <code>graph</code></p>
+</td></tr>
+<tr valign="top"><td><code>graph_name</code></td>
+<td>
+<p>The name of the graph</p>
+</td></tr>
+<tr valign="top"><td><code>subGraphList</code></td>
+<td>
+<p>A list of objects of class <code>graph</code>. Each of
+these is used as a subgraph in the graph. The names in the list are
+taken as the names of the subgraph. If a graph is to be seen as a
+cluster (i.e. with a box around it), its name has to start with
+<code>cluster</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>isStrict</code></td>
+<td>
+<p>Should the graph be strict</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Given a graph object, it is translated into the <code>dot</code> language so
+that it can be rendered using the <code>graphviz</code> software. In
+addition to plotting the graph itself, all the rendering information
+is being used as well.
+</p>
+<p><code>graphRenderInfo</code> attributes are written as an attribute list
+after the <code>graph</code> statement in dot.
+</p>
+<p><code>nodeRendenInfo</code> attributes are written as attribute lists after
+each node. If an attribute is constant across all node, a global node
+attribute is written instead of many individual ones.##' Newlines ##'
+in attributes do not lead to newlines in labels. In <code>label</code>,
+<code>headlabel</code> and <code>taillabel</code>, in order to get a newline,
+right justification or left justification, the two character sequences
+<code>\n</code>, <code>\r</code> and <code>\l</code> have to be written (i.e. in
+order to create this in R, the backslash has to be escaped in a
+string, that is has to be written as a double-backslash).
+</p>
+<p><code>edgeRenderInfo</code> attributes as written as attribute lists after
+each edge, unless an attribute is constant, then it is written as a
+global edge attribute.
+</p>
+<p>In general, all attribute values are being wrapped in double-quotes,
+unless the attibute value start with a <code>&lt;</code> and ends with a
+<code>&gt;</code>. In this case it is taken as html content and not wrapped in
+double quotes (nor are contained newlines escaped).
+</p>
+<p>The resulting graph in dot format is returned as a character vector.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector with the graph in dot format
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Holger Hoefling <a href="mailto:hhoeflin@gmail.com">hhoeflin@gmail.com</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Common operations on Rle objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Rle-utils {S4Vectors}"><tr><td>Rle-utils {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Common operations on Rle objects</h2>
+
+<h3>Description</h3>
+
+<p>Common operations on <a href="Rle-class.html">Rle</a> objects.
+</p>
+
+
+<h3>Group Generics</h3>
+
+<p>Rle objects have support for S4 group generic functionality:
+</p>
+
+<dl>
+<dt><code>Arith</code></dt><dd><p><code>"+"</code>, <code>"-"</code>, <code>"*"</code>, <code>"^"</code>,
+<code>"%%"</code>, <code>"%/%"</code>, <code>"/"</code></p>
+</dd>
+<dt><code>Compare</code></dt><dd><p><code>"=="</code>, <code>"&gt;"</code>, <code>"&lt;"</code>, <code>"!="</code>, 
+<code>"&lt;="</code>, <code>"&gt;="</code></p>
+</dd>
+<dt><code>Logic</code></dt><dd><p><code>"&amp;"</code>, <code>"|"</code></p>
+</dd>
+<dt><code>Ops</code></dt><dd><p><code>"Arith"</code>, <code>"Compare"</code>, <code>"Logic"</code></p>
+</dd>
+<dt><code>Math</code></dt><dd><p><code>"abs"</code>, <code>"sign"</code>, <code>"sqrt"</code>,
+<code>"ceiling"</code>, <code>"floor"</code>, <code>"trunc"</code>, <code>"cummax"</code>,
+<code>"cummin"</code>, <code>"cumprod"</code>, <code>"cumsum"</code>, <code>"log"</code>,
+<code>"log10"</code>, <code>"log2"</code>, <code>"log1p"</code>, <code>"acos"</code>,
+<code>"acosh"</code>, <code>"asin"</code>, <code>"asinh"</code>, <code>"atan"</code>,
+<code>"atanh"</code>, <code>"exp"</code>, <code>"expm1"</code>, <code>"cos"</code>,
+<code>"cosh"</code>, <code>"sin"</code>, <code>"sinh"</code>, <code>"tan"</code>, <code>"tanh"</code>,
+<code>"gamma"</code>, <code>"lgamma"</code>, <code>"digamma"</code>, <code>"trigamma"</code></p>
+</dd>
+<dt><code>Math2</code></dt><dd><p><code>"round"</code>, <code>"signif"</code></p>
+</dd>
+<dt><code>Summary</code></dt><dd><p><code>"max"</code>, <code>"min"</code>, <code>"range"</code>,
+<code>"prod"</code>, <code>"sum"</code>, <code>"any"</code>, <code>"all"</code></p>
+</dd>
+<dt><code>Complex</code></dt><dd><p><code>"Arg"</code>, <code>"Conj"</code>, <code>"Im"</code>,
+<code>"Mod"</code>, <code>"Re"</code></p>
+</dd>
+</dl>
+
+<p>See <a href="../../methods/html/S4groupGeneric.html">S4groupGeneric</a> for more details.
+</p>
+
+
+<h3>Summary</h3>
+
+<p>In the code snippets below, <code>x</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>summary(object, ..., digits = max(3, getOption("digits") - 3))</code>:
+Summarizes the Rle object using an atomic vector convention. The
+<code>digits</code> argument is used for number formatting with
+<code>signif()</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Logical Data Methods</h3>
+
+<p>In the code snippets below, <code>x</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>!x</code>:
+Returns logical negation (NOT) of <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>which(x)</code>:
+Returns an integer vector representing the <code>TRUE</code> indices of
+<code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Numerical Data Methods</h3>
+
+<p>In the code snippets below, <code>x</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>diff(x, lag = 1, differences = 1</code>:
+Returns suitably lagged and iterated differences of <code>x</code>.
+</p>
+
+<dl>
+<dt><code>lag</code></dt><dd><p>An integer indicating which lag to use.</p>
+</dd>
+<dt><code>differences</code></dt><dd><p>An integer indicating the order of the
+difference.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>pmax(..., na.rm = FALSE)</code>, <code>pmax.int(..., na.rm = FALSE)</code>:
+Parallel maxima of the Rle input values. Removes <code>NA</code>s when
+<code>na.rm = TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>pmin(..., na.rm = FALSE)</code>, <code>pmin.int(..., na.rm = FALSE)</code>:
+Parallel minima of the Rle input values. Removes <code>NA</code>s when
+<code>na.rm = TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>which.max(x)</code>: Returns the index of the first element matching
+the maximum value of <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>mean(x, na.rm = FALSE)</code>:
+Calculates the mean of <code>x</code>. Removes <code>NA</code>s when
+<code>na.rm = TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>var(x, y = NULL, na.rm = FALSE)</code>:
+Calculates the variance of <code>x</code> or covariance of <code>x</code> and <code>y</code>
+if both are supplied. Removes <code>NA</code>s when <code>na.rm = TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>cov(x, y, use = "everything")</code>, <code>cor(x, y, use = "everything")</code>:
+Calculates the covariance and correlation respectively of Rle objects
+<code>x</code> and <code>y</code>.
+The <code>use</code> argument is an optional character string giving a method for
+computing covariances in the presence of missing values. This must be
+(an abbreviation of) one of the strings <code>"everything"</code>,
+<code>"all.obs"</code>, <code>"complete.obs"</code>, <code>"na.or.complete"</code>, or
+<code>"pairwise.complete.obs"</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>sd(x, na.rm = FALSE)</code>:
+Calculates the standard deviation of <code>x</code>. Removes <code>NA</code>s
+when <code>na.rm = TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>median(x, na.rm = FALSE)</code>:
+Calculates the median of <code>x</code>. Removes <code>NA</code>s when
+<code>na.rm = TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>quantile(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type = 7, ...)</code>:
+Calculates the specified quantiles of <code>x</code>.
+</p>
+
+<dl>
+<dt><code>probs</code></dt><dd><p>A numeric vector of probabilities with values in
+[0,1].</p>
+</dd>
+<dt><code>na.rm</code></dt><dd><p>If <code>TRUE</code>, removes <code>NA</code>s from <code>x</code>
+before the quantiles are computed.</p>
+</dd>
+<dt><code>names</code></dt><dd><p>If <code>TRUE</code>, the result has names describing the
+quantiles.</p>
+</dd>
+<dt><code>type</code></dt><dd><p>An integer between 1 and 9 selecting one of the nine
+quantile algorithms detailed in <code><a href="../../stats/html/quantile.html">quantile</a></code>.</p>
+</dd>
+<dt>...</dt><dd><p>Further arguments passed to or from other methods.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>mad(x, center = median(x), constant = 1.4826, na.rm = FALSE, low = FALSE, high = FALSE)</code>:
+Calculates the median absolute deviation of <code>x</code>.
+</p>
+
+<dl>
+<dt><code>center</code></dt><dd><p>The center to calculate the deviation from.</p>
+</dd>
+<dt><code>constant</code></dt><dd><p>The scale factor.</p>
+</dd>
+<dt><code>na.rm</code></dt><dd><p>If <code>TRUE</code>, removes <code>NA</code>s from <code>x</code>
+before the mad is computed.</p>
+</dd>
+<dt><code>low</code></dt><dd><p>If <code>TRUE</code>, compute the 'lo-median'.</p>
+</dd>
+<dt><code>high</code></dt><dd><p>If <code>TRUE</code>, compute the 'hi-median'.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>IQR(x, na.rm = FALSE)</code>:
+Calculates the interquartile range of <code>x</code>.
+</p>
+
+<dl>
+<dt><code>na.rm</code></dt><dd><p>If <code>TRUE</code>, removes <code>NA</code>s from <code>x</code>
+before the IQR is computed.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>smoothEnds(y, k = 3)</code>:
+Smooth end points of an Rle <code>y</code> using subsequently smaller
+medians and Tukey's end point rule at the very end.
+</p>
+
+<dl>
+<dt><code>k</code></dt><dd><p>An integer indicating the width of largest median
+window; must be odd.</p>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+
+
+<h3>Character Data Methods</h3>
+
+<p>In the code snippets below, <code>x</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>nchar(x, type = "chars", allowNA = FALSE)</code>:
+Returns an integer Rle representing the number of characters in the
+corresponding values of <code>x</code>.
+</p>
+
+<dl>
+<dt><code>type</code></dt><dd><p>One of <code>c("bytes", "chars", "width")</code>.</p>
+</dd>
+<dt><code>allowNA</code></dt><dd><p>Should <code>NA</code> be returned for invalid multibyte
+strings rather than throwing an error?</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>substr(x, start, stop)</code>, <code>substring(text, first, last = 1000000L)</code>:
+Returns a character or factor Rle containing the specified substrings
+beginning at <code>start</code>/<code>first</code> and ending at
+<code>stop</code>/<code>last</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>chartr(old, new, x)</code>:
+Returns a character or factor Rle containing a translated version of
+<code>x</code>.
+</p>
+
+<dl>
+<dt><code>old</code></dt><dd><p>A character string specifying the characters to be
+translated.</p>
+</dd>
+<dt><code>new</code></dt><dd><p>A character string specifying the translations.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>tolower(x)</code>:
+Returns a character or factor Rle containing a lower case version of
+<code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>toupper(x)</code>:
+Returns a character or factor Rle containing an upper case version of
+<code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>sub(pattern, replacement, x, ignore.case = FALSE,
+                perl = FALSE, fixed = FALSE, useBytes = FALSE)</code>:
+Returns a character or factor Rle containing replacements based on
+matches determined by regular expression matching. See <code><a href="../../base/html/grep.html">sub</a></code>
+for a description of the arguments.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>gsub(pattern, replacement, x, ignore.case = FALSE,
+                 perl = FALSE, fixed = FALSE, useBytes = FALSE)</code>:
+Returns a character or factor Rle containing replacements based on
+matches determined by regular expression matching. See <code><a href="../../base/html/grep.html">gsub</a></code>
+for a description of the arguments.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>paste(..., sep = " ", collapse = NULL)</code>:
+Returns a character or factor Rle containing a concatenation of
+the values in <code>...</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Factor Data Methods</h3>
+
+<p>In the code snippets below, <code>x</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>levels(x)</code>, <code>levels(x) &lt;- value</code>:
+Gets and sets the factor levels, respectively.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>nlevels(x)</code>:
+Returns the number of factor levels.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>droplevels(x)</code>:
+Drops unused factor levels.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Rle-class.html">Rle</a> objects
+</p>
+<p><a href="../../methods/html/S4groupGeneric.html">S4groupGeneric</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- Rle(10:1, 1:10)
+x
+
+sqrt(x)
+x^2 + 2 * x + 1
+range(x)
+sum(x)
+mean(x)
+
+z &lt;- c("the", "quick", "red", "fox", "jumps", "over", "the", "lazy", "brown", "dog")
+z &lt;- Rle(z, seq_len(length(z)))
+chartr("a", "@", z)
+toupper(z)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

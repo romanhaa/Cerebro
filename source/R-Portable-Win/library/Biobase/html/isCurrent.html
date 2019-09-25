@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use version information to test whether class is current</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for isCurrent {Biobase}"><tr><td>isCurrent {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use version information to test whether class is current</h2>
+
+<h3>Description</h3>
+
+<p>This generic function uses <code><a href="class.Versioned.html">Versioned-class</a></code> information
+to ask whether an instance of a class (e.g., read from disk) has
+current version information.
+</p>
+<p>By default, <code>isCurrent</code> has the following behaviors:
+</p>
+
+<dl>
+<dt><code>isCurrent(Versioned-instance)</code></dt><dd><p>Returns a vector of
+logicals, indicating whether each version matches the current version
+from the class prototype.</p>
+</dd>
+<dt><code>isCurrent(ANY)</code></dt><dd><p>Return <code>NA</code>, indicating that the
+version cannot be determined</p>
+</dd>
+<dt><code>isCurrent(Versioned-instance, "class")</code></dt><dd><p>Returns a
+logical vector indicating whether version identifiers shared between
+<code>Versioned-instance</code> and <code>"class"</code> are current.</p>
+</dd>
+</dl>
+
+<p>Starting with R-2.6 / Bioconductor 2.1 / Biobase 1.15.1,
+<code>isCurrent(Versioned-instance, ...)</code> returns an element <code>S4</code>
+indicating whether the class has the &lsquo;S4&rsquo; bit set; a value of
+<code>FALSE</code> indicates that the object needs to be recreated.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isCurrent(object, value)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object whose version is to be determined, as described above.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>(Optional) character string identifying a class with which to compare versions.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>isCurrent</code> returns a logical vector.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.Versions.html">Versions-class</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+
+obj &lt;- new("VersionedBiobase")
+isCurrent(obj)
+
+isCurrent(1:10) # NA
+
+A &lt;- setClass("A", contains="VersionedBiobase",
+         prototype=prototype(new("VersionedBiobase", versions=c(A="1.0.0"))))
+
+a &lt;- A()
+classVersion(a)
+
+isCurrent(a, "VersionedBiobase") # is the 'VersionedBiobase' portion current?
+classVersion(a)["A"] &lt;- "1.0.1"
+classVersion(a)
+isCurrent(a, "VersionedBiobase")
+isCurrent(a) # more recent, so does not match 'current' defined by prototype
+
+removeClass("A")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

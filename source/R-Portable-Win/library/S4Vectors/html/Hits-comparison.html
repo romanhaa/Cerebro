@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Comparing and ordering hits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Hits-comparison {S4Vectors}"><tr><td>Hits-comparison {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Comparing and ordering hits</h2>
+
+<h3>Description</h3>
+
+<p><code>==</code>, <code>!=</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&gt;</code>,
+<code>match()</code>, <code>%in%</code>, <code>order()</code>, <code>sort()</code>, and
+<code>rank()</code> can be used on <a href="Hits-class.html">Hits</a> objects to compare and order hits.
+</p>
+<p>Note that only the <code>"pcompare"</code>, <code>"match"</code>, and <code>"order"</code>
+methods are actually defined for <a href="Hits-class.html">Hits</a> objects. This is all what is
+needed to make all the other comparing and ordering operations (i.e.
+<code>==</code>, <code>!=</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&gt;</code>,
+<code>%in%</code>, <code>sort()</code>, and <code>rank()</code>) work on these objects
+(see <code>?`<a href="Vector-comparison.html">Vector-comparison</a>`</code> for more information about this).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Hits,Hits'
+pcompare(x, y)
+
+## S4 method for signature 'Hits,Hits'
+match(x, table, nomatch=NA_integer_, incomparables=NULL,
+      method=c("auto", "quick", "hash"))
+
+## S4 method for signature 'Hits'
+order(..., na.last=TRUE, decreasing=FALSE, method=c("auto", "shell", "radix"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y, table</code></td>
+<td>
+
+<p><em>Compatible</em> <a href="Hits-class.html">Hits</a> objects, that is, <a href="Hits-class.html">Hits</a> objects with
+the same subject and query lengths.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nomatch</code></td>
+<td>
+
+<p>The value to be returned in the case when no match is found.
+It is coerced to an <code>integer</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>incomparables</code></td>
+<td>
+
+<p>Not supported.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>For <code>match</code>: Use a Quicksort-based (<code>method="quick"</code>) or a
+hash-based (<code>method="hash"</code>) algorithm.
+The latter tends to give better performance, except maybe for some
+pathological input that we've not encountered so far.
+When <code>method="auto"</code> is specified, the most efficient algorithm will
+be used, that is, the hash-based algorithm if <code>length(x) &lt;= 2^29</code>,
+otherwise the Quicksort-based algorithm.
+</p>
+<p>For <code>order</code>: The <code>method</code> argument is ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>One or more <a href="Hits-class.html">Hits</a> objects. The additional <a href="Hits-class.html">Hits</a> objects
+are used to break ties.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.last</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>decreasing</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Only hits that belong to <a href="Hits-class.html">Hits</a> objects with same subject and query
+lengths can be compared.
+</p>
+<p>Hits are ordered by query hit first, and then by subject hit.
+On a <a href="Hits-class.html">Hits</a> object, <code>order</code>, <code>sort</code>, and <code>rank</code>
+are consistent with this order.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>pcompare(x, y)</code>:
+Performs element-wise (aka &quot;parallel&quot;) comparison of 2 <a href="Hits-class.html">Hits</a>
+objects <code>x</code> and <code>y</code>, that is, returns an integer vector where
+the i-th element is less than, equal to, or greater than zero if
+<code>x[i]</code> is considered to be respectively less than, equal to, or
+greater than <code>y[i]</code>. See <code>?`<a href="Vector-comparison.html">Vector-comparison</a>`</code> for
+how <code>x</code> or <code>y</code> is recycled when the 2 objects don't have the
+same length.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>match(x, table, nomatch=NA_integer_, method=c("auto", "quick", "hash"))</code>:
+Returns an integer vector of the length of <code>x</code>, containing the
+index of the first matching hit in <code>table</code> (or <code>nomatch</code> if
+there is no matching hit) for each hit in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>order(...)</code>:
+Returns a permutation which rearranges its first argument (a <a href="Hits-class.html">Hits</a>
+object) into ascending order, breaking ties by further arguments (also
+<a href="Hits-class.html">Hits</a> objects).
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="Hits-class.html">Hits</a> objects.
+</p>
+</li>
+<li> <p><a href="Vector-comparison.html">Vector-comparison</a> for general information about comparing,
+ordering, and tabulating vector-like objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## A. ELEMENT-WISE (AKA "PARALLEL") COMPARISON OF 2 Hits OBJECTS
+## ---------------------------------------------------------------------
+hits &lt;- Hits(c(2, 4, 4, 4, 5, 5), c(3, 1, 3, 2, 3, 2), 6, 3)
+hits
+
+pcompare(hits, hits[3])
+pcompare(hits[3], hits)
+
+hits == hits[3]
+hits != hits[3]
+hits &gt;= hits[3]
+hits &lt; hits[3]
+
+## ---------------------------------------------------------------------
+## B. match(), %in%
+## ---------------------------------------------------------------------
+table &lt;- hits[-c(1, 3)]
+match(hits, table)
+
+hits %in% table
+
+## ---------------------------------------------------------------------
+## C. order(), sort(), rank()
+## ---------------------------------------------------------------------
+order(hits)
+sort(hits)
+rank(hits)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

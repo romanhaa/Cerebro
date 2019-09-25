@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function for plotting expression data from an ExpressionSet...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for alongChrom {geneplotter}"><tr><td>alongChrom {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function for plotting expression data from an ExpressionSet for a
+given chromosome.</h2>
+
+<h3>Description</h3>
+
+<p>Given a particular ExpressionSet object, a chromLocation object, and a
+chromosome name, will plot selected ExpressionSet data using various methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+   alongChrom(eSet, chrom, specChrom,  xlim, whichGenes, 
+   plotFormat=c("cumulative", "local","image"),
+   xloc=c("equispaced", "physical"), 
+   scale=c("none","zscale","rankscale","rangescale","zrobustscale"),
+   geneSymbols=FALSE, byStrand=FALSE, colors="red", lty=1, type="S",
+   ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>eSet</code></td>
+<td>
+<p>The ExpressionSet object to be used.</p>
+</td></tr>
+<tr valign="top"><td><code>chrom</code></td>
+<td>
+<p>The desired chromosome.</p>
+</td></tr>
+<tr valign="top"><td><code>specChrom</code></td>
+<td>
+<p>An object of type chromLocation for the species being
+represented.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>A pair of values - either character or integer, which will
+denote the range of genes to display (based on base pair: either directly
+in the case of integers, or using the locations of the named genes if
+character).  If not supplied, the entire chromosome is used.</p>
+</td></tr>
+<tr valign="top"><td><code>whichGenes</code></td>
+<td>
+<p>If supplied, will limit the displayed genes to the ones
+provided in this vector.</p>
+</td></tr>
+<tr valign="top"><td><code>xloc</code></td>
+<td>
+<p>Determines whether the X axis points (gene names) will be
+displayed according to their relative position on the chromosome
+(physical), or spaced evenly (equispaced).  Default is equispaced.</p>
+</td></tr>
+<tr valign="top"><td><code>plotFormat</code></td>
+<td>
+<p>Determines the method which to plot the data.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Determines what method of scaling will be applied to the
+data.  Default is none.</p>
+</td></tr>
+<tr valign="top"><td><code>geneSymbols</code></td>
+<td>
+<p>Notes whether to use Affy IDs or Gene Symbols,
+default is Affy IDs</p>
+</td></tr>
+<tr valign="top"><td><code>byStrand</code></td>
+<td>
+<p>Determines whether to show the entire plot at once, or
+a split plot by strands.  Default is a singular plot</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>A vector of line types, which will be cycled. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Plot type, from par.  Defaults to &quot;S&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>colors</code></td>
+<td>
+<p>A vector of colors for the plots, which will be cycled.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any remaining graphics commands may be passed along as per plot()</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The genes on the chromosome of interest are extracted from the
+<code>chromLocation</code> object passed in, which are then intersected with the
+genes listed in the ExpressionSet.  These remaining genes will then be
+plotted according to the <code>plotFormat</code> argument.  If <code>image</code> is
+specified, an image plot is created showing the expression levels of
+the samples by gene, using a colour map to denote the levels.  If
+<code>cumulative</code> is chosen, the cumulative expression level is plotted
+against the genes for each sample.  Likewise, if <code>local</code> is used, the
+raw data is plotted for each sample against the genes using a boxplot format.
+</p>
+<p>Not all parameters are honored for all plotformats.  <code>xloc</code>,
+<code>lty</code>, and <code>type</code> are only used with the <code>cumulative</code>
+plotformat.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   data(sample.ExpressionSet)
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+   curWarn &lt;- options(warn=0)
+   on.exit(options(curWarn), add=TRUE)
+   if (require("hgu95av2.db")) {
+      z &lt;- buildChromLocation("hgu95av2")
+      lty &lt;- c(1, 2, 3, 4, 5)
+      cols &lt;- c("red", "green", "blue", "orange", "magenta", "black")
+      cols &lt;- cols[sample.ExpressionSet$type]
+      if (interactive()) {
+         par(ask=TRUE)
+      }
+
+      ## Here we're using xlim to denote a physical region to display
+      xlim &lt;- c(87511280,127717880)
+      for (xl in c("equispaced", "physical"))
+        for (sc in c("none","rangescale"))
+        {
+           alongChrom(sample.ExpressionSet, "1", z, xlim=xlim, xloc=xl,
+              plotFormat="cumulative", scale=sc,lty=lty, colors=cols)
+        }
+
+     ## Here we're looking for specific genes
+     which &lt;- c("31540_at","31583_at", "31508_at", "31529_at", "31439_f_at",
+               "31729_at")
+     ## Gene "31529_at" does not exist in the current set of genes,
+     ## here it demonstrates how genes not available are dropped.
+      for (xl in c("equispaced", "physical"))
+        for (sc in c("none","rangescale"))
+        {
+            alongChrom(sample.ExpressionSet, "1", z, which=which, xloc=xl,
+               plotFormat="cumulative", scale=sc,lty=lty, col=cols)
+         }
+
+      ## Do an image plot
+      for (bs in c(TRUE,FALSE))
+         alongChrom(sample.ExpressionSet, "1",z, xlim=xlim, plotFormat="image",
+                   scale="zscale", byStrand=bs)
+
+      ## A boxplot
+      for (st in c(TRUE,FALSE))
+         alongChrom(sample.ExpressionSet, "1", z, plotFormat="local",
+                    colors=cols, byStrand=st)
+    } else print("Example can not be run without the hgu95av2 data package")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

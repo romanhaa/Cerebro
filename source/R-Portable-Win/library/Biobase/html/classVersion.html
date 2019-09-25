@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve information about versioned classes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for classVersion {Biobase}"><tr><td>classVersion {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve information about versioned classes</h2>
+
+<h3>Description</h3>
+
+<p>These generic functions return version information for classes
+derived from <code><a href="class.Versioned.html">Versioned-class</a></code>, or
+<code><a href="class.VersionsNull.html">VersionsNull-class</a></code> for unversioned objects. The
+version information is an object of <code><a href="class.Versions.html">Versions-class</a></code>.
+</p>
+<p>By default, <code>classVersion</code> has the following behaviors:
+</p>
+
+<dl>
+<dt><code>classVersion(Versioned-instance)</code></dt><dd><p>Returns a <code>Versions-class</code> object obtained from the object.</p>
+</dd>
+<dt><code>classVersion{"class"}</code></dt><dd><p>Consults the definition of <code>class</code> and return the current version information, if available.</p>
+</dd>
+<dt><code>classVersion(ANY)</code></dt><dd><p>Return a <code><a href="class.VersionsNull.html">VersionsNull-class</a></code> object to indicate no version information available.</p>
+</dd>
+</dl>
+
+<p>By default, the <code>classVersion&lt;-</code> method has the following behavior:
+</p>
+
+<dl>
+<dt><code>classVersion(Versioned-instance)["id"] &lt;- value</code></dt><dd><p>Assign (update or add) <code>value</code> to <code>Versions-instance</code>. <code>value</code> is coerced to a valid version description. see <code><a href="class.Versions.html">Versions-class</a></code> for additional access methods.</p>
+</dd>
+</dl>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+classVersion(object)
+classVersion(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object whose version is to be determined, as described above.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p><code>Version-class</code> object to assign to object of <code>Versioned-class</code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>classVersion</code> returns an instance of <code><a href="class.Versions.html">Versions-class</a></code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.Versions.html">Versions-class</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+obj &lt;- new("VersionedBiobase")
+
+classVersion(obj)
+classVersion(obj)["Biobase"]
+classVersion(1:10) # no version
+classVersion("ExpressionSet") # consult ExpressionSet prototype
+
+classVersion(obj)["MyVersion"] &lt;- "1.0.0"
+classVersion(obj)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

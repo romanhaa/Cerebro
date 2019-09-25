@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the leaves of a graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for leaves {graph}"><tr><td>leaves {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find the leaves of a graph</h2>
+
+<h3>Description</h3>
+
+<p>A leaf of an undirected graph is a node with degree equal to one.  A
+leaf of a directed graph is defined with respect to in-degree or
+out-degree.  The leaves of a directed graph with respect to in-degree
+(out-degree) are those nodes with in-degree (out-degree) equal to
+zero.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+leaves(object, degree.dir)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A <code>graph</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>degree.dir</code></td>
+<td>
+<p>One of <code>"in"</code> or <code>"out"</code>.  This argument
+is ignored when <code>object</code> is undirected and required otherwise.
+When <code>degree.dir="in"</code> (<code>degree.dir="out"</code>), nodes have no
+in coming (out going) edges will be returned. </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character vector giving the node labels of the leaves.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(graphExamples)
+graphExamples[[1]]
+leaves(graphExamples[[1]])
+
+data(apopGraph)
+leaves(apopGraph, "in")
+leaves(apopGraph, "out")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

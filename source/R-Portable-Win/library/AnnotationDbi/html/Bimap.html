@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bimap objects and the Bimap interface</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Bimap {AnnotationDbi}"><tr><td>Bimap {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bimap objects and the Bimap interface</h2>
+
+<h3>Description</h3>
+
+<p>What we usually call &quot;annotation maps&quot; are in fact Bimap objects.
+In the following sections we present the bimap concept and the
+Bimap interface as it is defined in AnnotationDbi.
+</p>
+
+
+<h3>Display methods</h3>
+
+<p>In the code snippets below,
+<code>x</code> is a Bimap object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>show(x)</code>:
+Display minimal information about Bimap object <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>summary(x)</code>:
+Display a little bit more information about Bimap object <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>The bimap concept</h3>
+
+<p>A bimap is made of:
+</p>
+<pre>
+  - 2 sets of objects: the left objects and the right objects.
+    All the objects have a name and this name is unique in
+    each set (i.e. in the left set and in the right set).
+    The names of the left (resp. right) objects are called the
+    left (resp. right) keys or the Lkeys (resp. the Rkeys).
+  </pre>
+<pre>   
+  - Any number of links (edges) between the left and right
+    objects. Note that the links can be tagged. In our model,
+    for a given bimap, either none or all the links are tagged.
+  </pre>
+<p>In other words, a bimap is a bipartite graph.
+</p>
+<p>Here are some examples:
+</p>
+<pre>
+  1. bimap B1:
+
+     4 left objects (Lkeys): "a", "b", "c", "d"
+     3 objects on the right (Rkeys): "A", "B", "C"
+
+     Links (edges):
+      "a" &lt;--&gt; "A"
+      "a" &lt;--&gt; "B"
+      "b" &lt;--&gt; "A"
+      "d" &lt;--&gt; "C"
+
+     Note that:
+       - There can be any number of links starting from or ending
+         at a given object.
+       - The links in this example are untagged.
+  </pre>
+<pre>
+  2. bimap B2:
+
+     4 left objects (Lkeys): "a", "b", "c", "d"
+     3 objects on the right (Rkeys): "A", "B", "C"
+
+     Tagged links (edges):
+       "a" &lt;-"x"-&gt; "A"
+       "a" &lt;-"y"-&gt; "B"
+       "b" &lt;-"x"-&gt; "A"
+       "d" &lt;-"x"-&gt; "C"
+       "d" &lt;-"y"-&gt; "C"
+
+     Note that there are 2 links between objects "d" and "C":
+     1 with tag "x" and 1 with tag "y".
+  </pre>
+
+
+<h3>Flat representation of a bimap</h3>
+
+<p>The flat representation of a bimap is a data frame. For
+example, for B1, it is:
+</p>
+<pre>
+    left  right
+       a      A 
+       a      B
+       b      A
+       d      C
+  </pre>
+<p>If in addition the right objects have 1 multivalued attribute,
+for example, a numeric vector:
+</p>
+<pre>
+    A &lt;-- c(1.2, 0.9)
+    B &lt;-- character(0)
+    C &lt;-- -1:1
+  </pre>
+<p>then the flat representation of B1 becomes:
+</p>
+<pre>
+    left  right  Rattrib1
+       a      A       1.2
+       a      A       0.9
+       a      B        NA
+       b      A       1.2
+       b      A       0.9
+       d      C        -1
+       d      C         0
+       d      C         1
+  </pre>
+<p>Note that now the number of rows is greater than the number
+of links!
+</p>
+
+
+<h3>AnnDbBimap and FlatBimap objects</h3>
+
+<p>An AnnDbBimap object is a bimap whose data are stored in a data base.
+A FlatBimap object is a bimap whose data (left keys, right keys and
+links) are stored in memory (in a data frame for the links).
+Conceptually, AnnDbBimap and FlatBimap objects are the same (only
+their internal representation differ) so it's natural to try to define
+a set of methods that make sense for both (so they can be manipulated
+in a similar way). This common interface is the Bimap interface.
+</p>
+<p>Note that both AnnDbBimap and FlatBimap objects have a read-only
+semantic: the user can subset them but cannot change their data.
+</p>
+
+
+<h3>The &quot;flatten&quot; generic</h3>
+
+<pre>
+    flatten(x) converts AnnDbBimap object x into FlatBimap
+    object y with no loss of information
+  </pre>
+<p>Note that a FlatBimap object can't be converted into an AnnDbBimap
+object (well, in theory maybe it could be, but for now the data bases
+we use to store the data of the AnnDbBimap objects are treated as
+read-only). This conversion from AnnDbBimap to FlatBimap is performed
+by the &quot;flatten&quot; generic function (with methods for AnnDbBimap objects
+only). 
+</p>
+
+
+<h3>Property0</h3>
+
+<p>The &quot;flatten&quot; generic plays a very useful role when we need to
+understand or explain exactly what a given Bimap method f will do when
+applied to an AnnDbBimap object. It's generally easier to explain what
+it does on a FlatBimap object and then to just say &quot;and it does the
+same thing on an AnnDbBimap object&quot;. This is exactly what Property0
+says:
+</p>
+<pre>
+    for any AnnDbBimap object x, f(x) is expected to be
+    indentical to f(flatten(x))
+  </pre>
+<p>Of course, this implies that the f method for AnnDbBimap objects
+return the same type of object than the f method for FlatBimap objects.
+In this sense, the &quot;revmap&quot; and &quot;subset&quot; Bimap methods are particular
+because they are expected to return an object of the same class as
+their argument x, so f(x) can't be identical to f(flatten(x)). For
+these methods, Property0 says:
+</p>
+<pre>
+    for any AnnDbBimap object x, flatten(f(x)) is expected to
+    be identical to f(flatten(x))
+  </pre>
+<p>Note to the AnnotationDbi maintainers/developpers: the <code>checkProperty0</code>
+function (AnnDbPkg-checker.R file) checks that Property0 is satisfied on all
+the AnnDbBimap objects defined in a given package (FIXME: checkProperty0 is
+currently broken).
+</p>
+
+
+<h3>The Bimap interface in AnnotationDbi</h3>
+
+<p>The full documentation for the methods of the Bimap interface is splitted
+into 4 man pages: <a href="Bimap-direction.html">Bimap-direction</a>, <a href="Bimap-keys.html">Bimap-keys</a>
+and <a href="Bimap-toTable.html">Bimap-toTable</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Bimap-direction.html">Bimap-direction</a>,
+<a href="Bimap-keys.html">Bimap-keys</a>,
+<a href="Bimap-toTable.html">Bimap-toTable</a>,
+<a href="BimapFormatting.html">BimapFormatting</a>,
+<a href="Bimap-envirAPI.html">Bimap-envirAPI</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(hgu95av2.db)
+  ls(2)
+  hgu95av2GO # calls the "show" method
+  summary(hgu95av2GO)
+  hgu95av2GO2PROBE # calls the "show" method
+  summary(hgu95av2GO2PROBE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

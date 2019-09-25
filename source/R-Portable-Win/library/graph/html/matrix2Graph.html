@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coercions between matrix and graph representations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Coercions between matrix and graph representations {graph}"><tr><td>Coercions between matrix and graph representations {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coercions between matrix and graph representations</h2>
+
+<h3>Description</h3>
+
+<p>A collection of functions and methods to convert various forms of
+matrices into graph objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+aM2bpG(aM)
+ftM2adjM(ft, W=NULL, V=NULL, edgemode="directed")
+ftM2graphNEL(ft, W=NULL, V=NULL, edgemode="directed")
+## S4 method for signature 'graphNEL,matrix'
+coerce(from,to="matrix",strict=TRUE)
+## S4 method for signature 'matrix,graphNEL'
+coerce(from,to="graphNEL",strict=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ft</code></td>
+<td>
+<p>An nx2 matrix containing the <code>from/to</code>
+representation of graph edges.</p>
+</td></tr>
+<tr valign="top"><td><code>W</code></td>
+<td>
+<p>An optional vector of edge weights.</p>
+</td></tr>
+<tr valign="top"><td><code>V</code></td>
+<td>
+<p>An optional vector of node names.</p>
+</td></tr>
+<tr valign="top"><td><code>aM</code></td>
+<td>
+<p>An affiliation matrix for a bipartite graph.</p>
+</td></tr>
+<tr valign="top"><td><code>edgemode</code></td>
+<td>
+<p>Character. Specifies if the resulting graph is
+to be directed or undirected.</p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>Object to coerce from, either of type <code>matrix</code> or <code>grpahNEL</code></p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>Character giving class to coerce to. Either &quot;matrix&quot; or
+&quot;graphNEL&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>strict</code></td>
+<td>
+<p>Strict object checking.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In the functions <code>ftM2adjM</code> and <code>ftM2graphNEL</code>, a
+<code>from/to</code> matrix <code>ft</code> is converted into an <code>adjacency</code>
+matrix or a <code>graphNEL</code> object respectively.  In <code>ft</code>,
+the first column represents the <code>from</code> nodes and the
+second column the <code>to</code> nodes.
+</p>
+<p>To have unconnected nodes, use the <code>V</code> argument (see below).  The
+<code>edgemode</code> parameter can be used to specify if the desired output
+is a directed or undirected graph.
+</p>
+<p>The same edge must not occur twice in the <code>from/to</code> matrix.
+If <code>edgemode</code> is <code>undirected</code>, the edge <code>(u,v)</code> and
+<code>(v,u)</code> must only be specified once.
+</p>
+<p><code>W</code> is an optional vector of edge weights.  The order of the edge
+weights in the vector should correspond to the order of the edges
+recorded in <code>ft</code>.  If it is not specified, edge weights of 1 are
+assigned by default.
+</p>
+<p><code>V</code> is an optional vector of node names.  All elements of <code>ft</code>
+must be contained in <code>V</code>, but not all names in <code>V</code> need to be
+contained in <code>ft</code>.  If <code>V</code> is not specified, it is set to all
+nodes represented in <code>ft</code>.  Specifying <code>V</code> is most useful for
+creating a graph that includes nodes with degree 0.
+</p>
+<p><code>aM</code> is an affiliation matrix as frequently used in social networks
+analysis.  The rows of <code>aM</code> represent actors, and the columns
+represent events.  An entry of &quot;1&quot; in the ith row and jth column
+represents affiliation of the ith actor with the jth event.  Weighted
+entries may also be used.  <code>aM2bpG</code> returns a <code>graphNEL</code> object with
+nodes consisting of the set of actors and events, and directed (possibly
+weighted) edges from the actors to their corresponding events.  If
+plotted using <code>Rgraphviz</code> and the <code>dot</code> layout, the bipartite structure of
+the graph returned by <code>aM2bpG</code> should be evident. 
+</p>
+<p>An <code>adjacency</code> matrix can be coerced into a <code>graphNEL</code> using
+the <code>as</code> method.  If the matrix is a symmetric matrix, then the
+resulting graph will be <code>undirected</code>, otherwise it will be
+<code>directed</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>ftM2graphNEL</code> and <code>aM2bpG</code>, an object of class
+<code>graphNEL</code>.
+For <code>ftM2adjM</code>, a matrix (the adjacency matrix representation).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Denise Scholtens, Wolfgang Huber</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## From-To matrix
+
+From &lt;- c("A","A","C","C")
+To   &lt;- c("B","C","B","D")
+L &lt;- cbind(From,To)
+
+W  &lt;- 1:4
+M1 &lt;- ftM2adjM(L, W, edgemode="directed")
+M2 &lt;- ftM2adjM(L, W, edgemode="undirected")
+stopifnot(all(M1+t(M1)==M2))
+
+G1 &lt;- ftM2graphNEL(L, W, edgemode="directed")
+G2 &lt;- ftM2graphNEL(L, W, edgemode="undirected")
+
+## Adjacency matrix
+
+From &lt;- matrix(runif(100), nrow=10, ncol=10)
+From &lt;- (From+t(From)) &gt; pi/4
+rownames(From) &lt;- colnames(From) &lt;- LETTERS[1:10]
+
+To &lt;- as(From,"graphNEL")
+Back &lt;- as(To,"matrix")
+
+stopifnot(all(From == Back))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

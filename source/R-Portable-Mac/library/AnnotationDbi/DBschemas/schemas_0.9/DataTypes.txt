@@ -1,0 +1,244 @@
+Entrez Gene ID
+--------------
+  SQL type: VARCHAR(10)
+  Examples: '10251', '283297', '100113407'
+  Note: highest value observed so far is 100113407
+
+manufacturer ID
+---------------
+  SQL type: VARCHAR(80)
+  Examples: '1000_at', '1002_f_at', 'AFFX-HUMISGF3A/M97935_MA_at'
+
+GenBank accession number
+------------------------
+  SQL type: VARCHAR(20)
+  Examples: 'X60188', 'NR_003589', 'HG3432-HT3618'
+  Note: the maximum length observed so far is 13 but using VARCHAR(20)
+        is a safety precaution for longer accession numbers that could
+        appear in the future
+
+gene symbol or alias
+--------------------
+  SQL type: VARCHAR(80)
+  Examples: 'NPEPPS', 'myr4', 'DKFZp434G0625PRO34003'
+  Note: the maximum length observed so far is 21 but using VARCHAR(80)
+        is a safety precaution for longer aliases that could appear in
+        the future
+
+sequence name
+-------------
+  SQL type: VARCHAR(20)
+  Examples: '1', '22', 'X', 'Y', '6_cox_hap1', '22_random'
+
+chromosome name
+---------------
+  SQL type: VARCHAR(2)
+  Examples: '1', '22', 'X', 'Y', 'M', 'MT', 'Un'
+  Note: a chromosome name is a particular sequence name
+
+cytoband location
+-----------------
+  SQL type: VARCHAR(20)
+  Examples: '1p34.2', 'Yp11.32', '19q13.11-q13.12'
+  Note: the maximum length observed so far is 15 but using VARCHAR(20)
+        is a safety precaution for longer cytoband locations that could
+        appear in the future
+
+EC number (no "EC:" prefix)
+---------------------------
+  SQL type: VARCHAR(13)
+  Examples: '1.1.4.1', '3.2.1.14', '1.14.99.36'
+  Note: the maximum length observed so far is 10 but using VARCHAR(13)
+        is a safety precaution for longer EC numbers that could
+        appear in the future
+
+EC number (with "EC:" prefix)
+-----------------------------
+  SQL type: VARCHAR(16)
+  Examples: 'EC:1.1.4.1', 'EC:3.2.1.14', 'EC:1.14.99.36'
+
+EC name
+-------
+  SQL type: VARCHAR(255)
+  Examples: 'lipase', 'photosystem I', '6-phosphofructokinase'
+  Note: the maximum length observed so far is 99
+
+gene name
+---------
+  SQL type: VARCHAR(255)
+  Examples: 'deoxyribonuclease I-like 1', 'vitrin'
+  Note: the maximum length observed so far is 251
+
+OMIM ID
+-------
+  SQL type: CHAR(6)
+  Examples: '231550', '601421', '611258'
+  Note: highest value observed so far is 611258
+
+IPI accession number
+--------------------
+  SQL type: CHAR(11)
+  Examples: 'IPI00328276', 'IPI00789644'
+
+Pfam ID
+-------
+  SQL type: CHAR(7)
+  Examples: 'PF00069', 'PF08266'
+
+PROSITE ID
+----------
+  SQL type: CHAR(7)
+  Examples: 'PS00107', 'PS00657'
+
+PubMed ID
+---------
+  SQL type: VARCHAR(10)
+  Examples: '2437', '2583089', '17652175'
+  Note: highest value observed so far is 17652175
+
+RefSeq accession number
+-----------------------
+  SQL type: VARCHAR(20)
+  Examples: 'NM_018009', 'NP_001035700'
+  Note: RefSeq accession numbers seem to be valid GenBank accession numbers
+
+UniGene ID
+----------
+  SQL type: VARCHAR(10)
+  Examples: 'Hs.2', 'Hs.511848', 'Hs.695912'
+  Note: highest value observed so far for Human is Hs.695912
+
+FlyBase ID
+----------
+  SQL type: CHAR(11)
+  Examples: 'FBgn0001942', 'FBgn0030936', 'FBgn0051992'
+
+Yeast ORF ID
+------------
+  SQL type: VARCHAR(14)
+  Examples: 'YPL141C', 'YGRWsigma7', 'YPRWdelta14'
+  Note: the maximum length observed so far is 11 but using VARCHAR(14)
+        is a safety precaution for longer Yeast ORF IDs
+        that could appear in the future
+
+Yeast gene name
+---------------
+  SQL type: VARCHAR(14)
+  Examples: 'ADK2', 'TMA23', '21S_RRNA_4', 'MF(ALPHA)1'
+  Note: the maximum length observed so far is 10 but using VARCHAR(14)
+        is a safety precaution for longer Yeast gene names
+        that could appear in the future
+
+SGD ID
+------
+  SQL type: CHAR(10)
+  Examples: 'S000004794', 'S000037040', 'S000123281'
+  Note: highest value observed so far is S000123281
+
+Yeast feature description
+-------------------------
+  SQL type: TEXT
+  Note: this can be a text of any length
+
+Yeast gene alias
+----------------
+  SQL type: VARCHAR(13)
+  Examples: 'CDH1', 'DNA33', 'EF-1 alpha', 'ATPEPSILON'
+  Note: the maximum length observed so far is 10 but using VARCHAR(13)
+        is a safety precaution for longer Yeast gene aliases that could
+        appear in the future
+
+InterPro ID
+-----------
+  SQL type: CHAR(9)
+  Examples: 'IPR001440', 'IPR008688', 'IPR015809'
+  Note: highest value observed so far is IPR015809
+
+SMART ID
+--------
+  SQL type: CHAR(7)
+  Examples: 'SM00055', 'SM00220', 'SM00717'
+
+AGI locus ID
+------------
+  SQL type: CHAR(9)
+  Examples: 'AT1G01010', 'ATCG00830', 'ATMG01410'
+
+AraCyc pathway name
+-------------------
+  SQL type: VARCHAR(255)
+  Examples: 'SAM cycle', 'trans,trans-farnesyl diphosphate biosynthesis'
+  Note: the maximum length observed so far is 77 but using VARCHAR(255)
+        is a safety precaution for longer AraCyc pathways that could appear
+        in the future
+
+Arabidopsis chromosome
+----------------------
+  SQL type: CHAR(1)
+  7 possible values: '1', '2', '3', '4', '5', 'C', 'M'
+
+GO ontology (short label)
+-------------------------
+  SQL type: VARCHAR(9)
+  4 possible values: 'universal', 'BP', 'CC', 'MF'
+
+GO ontology (full label)
+------------------------
+  SQL type: VARCHAR(18)
+  4 possible values: 'universal', 'biological_process', 'cellular_component',
+                     'molecular_function'
+
+GO ID
+-----
+  SQL type: CHAR(10)
+  Examples: 'all', 'GO:0000001', 'GO:0016491'
+  Note: except for 'all' they are all of the form 'GO:1234567'
+
+textual label for the GO term
+-----------------------------
+  SQL type: VARCHAR(255)
+  Examples: 'larval fat body development',
+            'age-dependent response to reactive oxygen species during chronological cell aging'
+  Note: the maximum length observed so far is 193
+
+textual definition for the GO term
+----------------------------------
+  SQL type: TEXT
+  Note: this can be a text of any length
+
+type of GO child-parent relationship
+------------------------------------
+  SQL type: VARCHAR(7)
+  2 possible values: 'isa', 'part_of'
+
+GO evidence code
+----------------
+  SQL type: CHAR(3)
+  14 possible values: 'IC', 'IDA', 'IEA', 'IEP', 'IGC', 'IGI', 'IMP', 'IPI',
+                      'ISS', 'NAS', 'ND', 'RCA', 'TAS', 'NR'
+  Note: see http://www.geneontology.org/GO.evidence.shtml
+        for the meaning of the GO evidence codes
+
+KEGG pathway short ID
+---------------------
+  SQL type: CHAR(5)
+  Examples: '00100', '05223', '07218'
+  Note: highest value observed so far is 07218
+
+KEGG pathway long ID
+--------------------
+  SQL type: CHAR(8)
+  Examples: 'hsa00680', 'rno05220', 'ath00120', 'dme00910'
+
+KEGG pathway name
+-----------------
+  SQL type: VARCHAR(80)
+  Examples: 'Butanoate metabolism', '3-Chloroacrylic acid degradation'
+  Note: the maximum length observed so far is 63
+
+Entrez Gene or ORF ID
+---------------------
+  SQL type: VARCHAR(20)
+  Examples: 'YDR156W', 'AT4G15280', 'Dmel_CG10045' or an Entrez Gene ID
+  Note: the maximum length observed so far is 12
+

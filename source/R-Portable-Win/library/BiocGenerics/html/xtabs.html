@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cross tabulation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for xtabs {BiocGenerics}"><tr><td>xtabs {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cross tabulation</h2>
+
+<h3>Description</h3>
+
+<p><code>xtabs</code> creates a contingency table (optionally a sparse matrix) from
+cross-classifying factors, usually contained in a data-frame-like object,
+using a formula interface.
+</p>
+<p>NOTE: This man page is for the <code>xtabs</code> <em>S4 generic function</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?stats::<a href="../../stats/html/xtabs.html">xtabs</a></code> for the default method
+(defined in the <span class="pkg">stats</span> package).
+Bioconductor packages can define specific methods for objects
+not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+xtabs(formula=~., data=parent.frame(), subset, sparse=FALSE, 
+      na.action, addNA=FALSE, exclude=if(!addNA)c(NA, NaN),
+      drop.unused.levels=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula, subset, sparse, na.action, addNA, exclude, drop.unused.levels</code></td>
+<td>
+
+<p>See <code>?stats::<a href="../../stats/html/xtabs.html">xtabs</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>A data-frame-like object.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?stats::<a href="../../stats/html/xtabs.html">xtabs</a></code> for the value returned by the
+default method.
+</p>
+<p>Specific methods defined in Bioconductor packages should also
+return the type of object returned by the default method.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>stats::<a href="../../stats/html/xtabs.html">xtabs</a></code> for the default <code>xtabs</code>
+method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/xtabs,DataTable-method.html">xtabs,DataTable-method</a> in the <span class="pkg">S4Vectors</span>
+package for an example of a specific <code>xtabs</code> method (defined
+for <a href="../../S4Vectors/html/DataTable.html">DataTable</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+xtabs  # note the dispatch on the 'data' arg only
+showMethods("xtabs")
+selectMethod("xtabs", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

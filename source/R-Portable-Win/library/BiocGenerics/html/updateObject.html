@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update an object to its current class definition</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for updateObject {BiocGenerics}"><tr><td>updateObject {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update an object to its current class definition</h2>
+
+<h3>Description</h3>
+
+<p><code>updateObject</code> is a generic function that returns an instance
+of <code>object</code> updated to its current class definition.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+updateObject(object, ..., verbose=FALSE)
+
+## Related utilities:
+updateObjectFromSlots(object, objclass=class(object), ..., verbose=FALSE)
+getObjectSlots(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>Object to be updated for <code>updateObject</code> and
+<code>updateObjectFromSlots</code>.
+</p>
+<p>Object for slot information to be extracted from for
+<code>getObjectSlots</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific <code>updateObject</code>
+methods.
+</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>, indicating whether information about
+the update should be reported. Use <code><a href="../../base/html/message.html">message</a></code> to
+report this information.
+</p>
+</td></tr>
+<tr valign="top"><td><code>objclass</code></td>
+<td>
+
+<p>Optional character string naming the class of the object
+to be created.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Updating objects is primarily useful when an object has been
+serialized (e.g., stored to disk) for some time (e.g., months), and the
+class definition has in the mean time changed. Because of the changed
+class definition, the serialized instance is no longer valid.
+</p>
+<p><code>updateObject</code> requires that the class of the returned object be
+the same as the class of the argument <code>object</code>, and that the
+object is valid (see <code><a href="../../methods/html/validObject.html">validObject</a></code>). By default,
+<code>updateObject</code> has the following behaviors:
+</p>
+
+<dl>
+<dt><code>updateObject(ANY, ..., verbose=FALSE)</code></dt><dd>
+<p>By default, <code>updateObject</code> uses heuristic methods to determine
+whether the object should be the &lsquo;new&rsquo; S4 type (introduced in R 2.4.0),
+but is not. If the heuristics indicate an update is required,
+the <code>updateObjectFromSlots</code> function tries to update the
+object. The default method returns the original S4 object or the
+successfully updated object, or issues an error if an update is
+required but not possible.
+The optional named argument <code>verbose</code> causes a message to be
+printed describing the action.
+Arguments <code>...</code> are passed to <code>updateObjectFromSlots</code>.
+</p>
+</dd>
+<dt><code>updateObject(list, ..., verbose=FALSE)</code></dt><dd>
+<p>Visit each element in <code>list</code>, applying
+<code>updateObject(list[[elt]], ..., verbose=verbose)</code>.
+</p>
+</dd>
+<dt><code>updateObject(environment, ..., verbose=FALSE)</code></dt><dd>
+<p>Visit each element in <code>environment</code>, applying
+<code>updateObject(environment[[elt]], ..., verbose=verbose)</code>
+</p>
+</dd>
+<dt><code>updateObject(formula, ..., verbose=FALSE)</code></dt><dd>
+<p>Do nothing; the environment of the formula may be too general
+(e.g., <code>R_GlobalEnv</code>) to attempt an update.
+</p>
+</dd>
+<dt><code>updateObject(envRefClass, ..., verbose=FALSE)</code></dt><dd>
+<p>Attempt to update objects from fields using a strategy like
+<code>updateObjectFromSlots</code> Method 1.
+</p>
+</dd>
+</dl>
+
+<p><code>updateObjectFromSlots(object, objclass=class(object), ...,
+  verbose=FALSE)</code> is a utility function that identifies the intersection
+of slots defined in the <code>object</code> instance and <code>objclass</code>
+definition. Under Method 1, the corresponding elements in
+<code>object</code> are then updated (with <code>updateObject(elt, ...,
+  verbose=verbose)</code>) and used as arguments to a call to <code>new(class,
+  ...)</code>, with <code>...</code> replaced by slots from the original
+object. If this fails, then Method 2 tries <code>new(class)</code> and
+assigns slots of <code>object</code> to the newly created instance.
+</p>
+<p><code>getObjectSlots(object)</code> extracts the slot names and contents from
+<code>object</code>. This is useful when <code>object</code> was created by a class
+definition that is no longer current, and hence the contents of
+<code>object</code> cannot be determined by accessing known slots.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>updateObject</code> returns a valid instance of <code>object</code>.
+</p>
+<p><code>updateObjectFromSlots</code> returns an instance of class
+<code>objclass</code>.
+</p>
+<p><code>getObjectSlots</code> returns a list of named elements, with each
+element corresponding to a slot in <code>object</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../Biobase/html/updateObjectTo.html">updateObjectTo</a></code> in the <span class="pkg">Biobase</span> package
+for updating an object to the class definition of a template (might
+be useful for updating a virtual superclass).
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/validObject.html">validObject</a></code> for testing the validity of an
+object.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+updateObject
+showMethods("updateObject")
+selectMethod("updateObject", "ANY")  # the default method
+
+library(Biobase)
+## update object, same class
+data(sample.ExpressionSet)
+obj &lt;- updateObject(sample.ExpressionSet)
+
+setClass("UpdtA", representation(x="numeric"), contains="data.frame")
+setMethod("updateObject", "UpdtA",
+    function(object, ..., verbose=FALSE)
+    {
+        if (verbose)
+            message("updateObject object = 'A'")
+        object &lt;- callNextMethod()
+        object@x &lt;- -object@x
+        object
+    }
+)
+
+a &lt;- new("UpdtA", x=1:10)
+## See steps involved
+updateObject(a)
+
+removeMethod("updateObject", "UpdtA")
+removeClass("UpdtA")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

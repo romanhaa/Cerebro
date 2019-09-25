@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: KEGGFrame objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for KEGGFrame {AnnotationDbi}"><tr><td>KEGGFrame {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>KEGGFrame objects</h2>
+
+<h3>Description</h3>
+
+<p>These objects each contain a data frame which is required to be
+composed of 2 columns. The 1st column are KEGG IDs.  The second are
+the gene IDs that match to the KEGG IDs.  There is also a slot for the
+organism that these anotations pertain to.  <code>getKEGGFrameData</code> is
+just an accessor method and returns the data.frame contained in the
+KEGGFrame object and is mostly used by other code internally.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The purpose of these objects is to create a safe way for annotation
+data about KEGG from non-traditional sources to be used for analysis
+packages like GSEABase and eventually Category.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Make up an example
+  genes = c(2,9,9,10)
+  KEGGIds = c("04610","00232","00983","00232")
+  frameData = data.frame(cbind(KEGGIds,genes))
+
+  library(AnnotationDbi)
+  frame=KEGGFrame(frameData,organism="Homo sapiens")
+
+  getKEGGFrameData(frame)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

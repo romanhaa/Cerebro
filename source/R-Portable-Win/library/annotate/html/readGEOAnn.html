@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to extract data from the GEO web site</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for readGEOAnn {annotate}"><tr><td>readGEOAnn {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to extract data from the GEO web site</h2>
+
+<h3>Description</h3>
+
+<p>Data files that are available at GEO web site are identified by GEO
+accession numbers. Given the url for the CGI script at GEO and
+a GEO accession number, the functions extract data from the web site
+and returns a matrix containing the data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+readGEOAnn(GEOAccNum, url = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
+readIDNAcc(GEOAccNum, url = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?")
+getGPLNames(url ="https://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?") 
+getSAGEFileInfo(url =
+                       "https://www.ncbi.nlm.nih.gov/geo/query/browse.cgi?view=platforms&amp;prtype=SAGE&amp;dtype=SAGE")
+getSAGEGPL(organism = "Homo sapiens", enzyme = c("NlaIII", "Sau3A"))
+readUrl(url)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p><code>url</code> the url for the CGI script at GEO</p>
+</td></tr>
+<tr valign="top"><td><code>GEOAccNum</code></td>
+<td>
+<p><code>GEOAccNum</code> a character string for the GEO
+accession number of a desired file (e. g. GPL97)</p>
+</td></tr>
+<tr valign="top"><td><code>organism</code></td>
+<td>
+<p><code>organism</code> a character string for the name of the
+organism of interests</p>
+</td></tr>
+<tr valign="top"><td><code>enzyme</code></td>
+<td>
+<p><code>enzyme</code> a character string that can be eighter
+NlaII or Sau3A for the enzyme used to create SAGE tags</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>url</code> is the CGI script that processes user's
+request. <code><a href="readGEOAnn.html">readGEOAnn</a></code> invokes the CGI by passing a GEO 
+accession number and then processes the data file obtained.
+</p>
+<p><code><a href="readGEOAnn.html">readIDNAcc</a></code> calls <code><a href="readGEOAnn.html">readGEOAnn</a></code> to read the
+data and the extracts the columns for probe ids and accession numbers.
+The <code>GEOAccNum</code> has to be the id for an Affymetrix chip.
+</p>
+<p><code><a href="readGEOAnn.html">getGPLNames</a></code> parses the html file that lists GEO
+accession numbers and descriptions of the array represented by the
+corresponding GEO accession numbers.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>Both <code><a href="readGEOAnn.html">readGEOAnn</a></code> and <code><a href="readGEOAnn.html">readIDNAcc</a></code> return a
+matrix.
+</p>
+<p><code><a href="readGEOAnn.html">getGPLNames</a></code> returns a named vector of the names of
+commercial arrays. The names of the vector are the corresponding GEO
+accession number.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p><a href="www.ncbi.nlm.nih.gov/geo">www.ncbi.nlm.nih.gov/geo</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Get array names and GEO accession numbers
+#geoAccNums &lt;- getGPLNames()
+# Read the annotation data file for HG-U133A which is GPL96 based on
+# examining geoAccNums 
+#temp &lt;- readGEOAnn(GEOAccNum = "GPL96")
+#temp2 &lt;- readIDNAcc(GEOAccNum = "GPL96")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

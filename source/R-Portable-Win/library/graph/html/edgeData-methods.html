@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get and set attributes for the edges of a graph object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for edgeData-methods {graph}"><tr><td>edgeData-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get and set attributes for the edges of a graph object</h2>
+
+<h3>Description</h3>
+
+<p>Attributes of the edges of a graph can be accessed using
+<code>edgeData</code>.  The attributes must be defined using
+<code><a href="edgeDataDefaults-methods.html">edgeDataDefaults</a></code>.  You can ommit the <code>from</code> or
+<code>to</code> argument to retrieve attribute values for all edges to
+(respectively, from) a given node.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+edgeData(self, from, to, attr)
+edgeData(self, from, to, attr) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>self</code></td>
+<td>
+<p>A <code>graph-class</code> instance</p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>A <code>character</code> vector of node names</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>A <code>character</code> vector of node names</p>
+</td></tr>
+<tr valign="top"><td><code>attr</code></td>
+<td>
+<p>A <code>character</code> vector of length one specifying the
+name of a node attribute</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>An R object to store as the attribute value</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

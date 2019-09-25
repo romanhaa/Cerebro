@@ -1,0 +1,67 @@
+CHANGES IN VERSION 1.28
+-----------------------
+
+USER VISIBLE CHANGES
+
+   o Arguments 'rnaseq', 'kernel', 'no.bootstraps' and 'bootstrap.percent' have become defunct.
+
+   o A Bioconductor sticker has been created and it is available at https://github.com/Bioconductor/BiocStickers/tree/master/GSVA
+
+CHANGES IN VERSION 1.26
+-----------------------
+
+USER VISIBLE CHANGES
+
+    o Updated implementation of the option 'abs.ranking=TRUE' to use the original Kuiper statistic.
+
+    o Arguments 'rnaseq' and 'kernel' have been deprecated and replaced by a new argument 'kcdf'.
+
+    o Arguments 'no.bootstraps' and 'bootstrap.percent' have been deprecated.
+
+    o The return value with the default argument 'method="gsva"' has been simplified and it is not a list object anymore. Now the 'gsva()' function return always a matrix or an 'ExpressionSet' object, when the input expression data is also an 'ExpressionSet' object.
+
+    o The 'gsva()' function can now be used through a shiny app that runs through the function 'igsva()'.
+
+CHANGES IN VERSION 1.24
+-----------------------
+
+BUG FIXES
+
+    o Bugfixes on the parallel execution of gsva() with bootstrap calculations.
+
+CHANGES IN VERSION 1.14
+-----------------------
+
+USER VISIBLE CHANGES
+
+    o added an argument 'ssgsea.norm' to the 'gsva()' function to enable disabling the default score normalization of the original SSGSEA method by Barbie et al. (2009).
+
+BUG FIXES
+
+    o Better error handling of the situation when no gene identifiers match between gene sets and expression data.
+
+CHANGES IN VERSION 1.4
+----------------------
+
+USER VISIBLE CHANGES
+
+    o removed the system-requirement dependency from the GNU Scientific Library
+
+    o added two additional gene-set expression summarization methods: single-sample GSEA from Barbie et al. (Nature, 2009) and a combined Z-score method similar to the one used by Lee et al. (PLos Comp Biol, 2008) via a new 'method' argument in the 'gsva()' function
+
+    o added handling of RNA-seq expression data matrices by the GSVA method with a new 'rnaseq' argument in the 'gsva()' function
+
+    o added a method with signature(expr="matrix", gset.idx.list="GeneSetCollection", annotation="character") which did not exist before. Now gsva() accepts the following pairs of data structures storing expression data and gene sets: ExpressionSet-GeneSetCollection, ExpressionSet-list, matrix-GeneSetCollection and matrix-list
+
+BUG FIXES
+
+    o matching of gene IDs from ExpressionSet objects to GeneSetCollection objects now also works with Entrez-based gene IDs in ExpressionSet objects (e.g., when annotation(eset) == "org.Hs.eg.db") by using GSEABase >= 1.17.4
+
+CHANGES IN VERSION 0.9
+----------------------
+
+USER VISIBLE CHANGES
+
+    o first version of the package
+
+(start date: 18 Feburary, 2011)

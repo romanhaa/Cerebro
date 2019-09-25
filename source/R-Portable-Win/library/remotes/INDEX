@@ -1,7 +1,7 @@
 download_version        Download a specified version of a CRAN package
 github_pull             GitHub references
-install_bioc            Install a package from a Bioconductor
-                        repository
+install_bioc            Install a development package from the
+                        Bioconductor git repository
 install_bitbucket       Install a package directly from bitbucket
 install_cran            Attempts to install a package from CRAN.
 install_deps            Install package dependencies if needed.

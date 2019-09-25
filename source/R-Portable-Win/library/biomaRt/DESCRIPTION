@@ -1,0 +1,46 @@
+Package: biomaRt
+Version: 2.38.0
+Title: Interface to BioMart databases (i.e. Ensembl)
+Authors@R: c(person("Steffen", "Durinck", role = c("aut"), 
+            email = "biomartdev@gmail.com"), 
+        person("Wolfgang", "Huber", role="aut"),
+        person("Sean", "Davis", role="ctb", email = "sdavis2@mail.nih.gov"),
+        person("Francois", "Pepin", role="ctb"),
+        person(given = "Vince S", family = "Buffalo", role="ctb"),
+        person("Mike", "Smith", role=c("ctb", "cre"), 
+            email = "grimbough@gmail.com"))
+Depends: methods
+Imports: utils, XML, RCurl, AnnotationDbi, progress, stringr, httr
+Suggests: annotate, BiocStyle, knitr, rmarkdown, testthat
+VignetteBuilder: knitr
+biocViews: Annotation
+Description: In recent years a wealth of biological data has become available
+        in public data repositories. Easy access to these valuable data 
+        resources and firm integration with data analysis is needed for
+        comprehensive bioinformatics data analysis.  biomaRt provides an
+        interface to a growing collection of databases implementing the
+        BioMart software suite (http://www.biomart.org). The package enables
+        retrieval of large amounts of data in a uniform way without the need to
+        know the underlying database schemas or write complex SQL queries. 
+        The most prominent examples of BioMart databases are Ensembl, which
+        provides biomaRt users direct access to a diverse set of data and enables
+        a wide range of powerful online queries from gene annotation to 
+        database mining.
+License: Artistic-2.0
+LazyLoad: yes
+NeedsCompilation: no
+Encoding: UTF-8
+git_url: https://git.bioconductor.org/packages/biomaRt
+git_branch: RELEASE_3_8
+git_last_commit: 16b997a
+git_last_commit_date: 2018-10-30
+Date/Publication: 2018-10-30
+Packaged: 2018-10-31 01:07:26 UTC; biocbuild
+Author: Steffen Durinck [aut],
+  Wolfgang Huber [aut],
+  Sean Davis [ctb],
+  Francois Pepin [ctb],
+  Vince S Buffalo [ctb],
+  Mike Smith [ctb, cre]
+Maintainer: Mike Smith <grimbough@gmail.com>
+Built: R 3.5.1; ; 2018-10-31 10:46:08 UTC; windows

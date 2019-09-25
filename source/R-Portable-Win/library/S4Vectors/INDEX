@@ -1,0 +1,35 @@
+Annotated-class         Annotated class
+DataFrame-class         DataFrame objects
+DataTable-class         DataTable objects
+FilterMatrix-class      Matrix for Filter Results
+FilterRules-class       Collection of Filter Rules
+Hits-class              Hits objects
+Hits-comparison         Comparing and ordering hits
+Hits-setops             Set operations on Hits objects
+HitsList-class          List of Hits objects
+LLint-class             LLint vectors
+List-class              List objects
+List-utils              Common operations on List objects
+Pairs-class             Pairs objects
+Rle-class               Rle objects
+Rle-runstat             Fixed-width running window summaries
+Rle-utils               Common operations on Rle objects
+SimpleList-class        SimpleList objects
+Vector-class            Vector objects
+Vector-comparison       Compare, order, tabulate vector-like objects
+Vector-merge            Merge vector-like objects
+Vector-setops           Set operations on vector-like objects
+aggregate-methods       Compute summary statistics of subsets of
+                        vector-like objects
+expand                  Unlist the list-like columns of a DataFrame
+                        object
+isSequence              Some utility functions to operate on integer
+                        vectors
+isSorted                Test if a vector-like object is sorted
+shiftApply-methods      Apply a function over subsequences of 2
+                        vector-like objects
+show-utils              Display utilities
+split-methods           Divide a vector-like object into groups
+subsetting-utils        Subsetting utilities
+unstrsplit              Some utility functions to operate on strings
+zipup                   Convert between parallel vectors and lists

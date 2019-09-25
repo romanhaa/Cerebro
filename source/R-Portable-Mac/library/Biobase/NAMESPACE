@@ -1,0 +1,68 @@
+useDynLib(Biobase, copyEnv_sym=copyEnv, sublist_extract)
+
+import(methods)
+
+importFrom(BiocGenerics,
+    dims,
+    combine,
+    updateObject, updateObjectFromSlots, getObjectSlots,
+    annotation, "annotation<-"
+)
+
+importFrom(utils, head, tail, menu, packageDescription, read.table,
+           write.table, .DollarNames)
+
+exportClasses(aggregator, container, eSet,
+              MIAxE, MIAME, characterORMIAME,
+              annotatedDataset, AssayData, data.frameOrNULL,
+              AnnotatedDataFrame,
+              Versions, VersionsNull, Versioned, VersionedBiobase,
+              ExpressionSet, MultiSet, SnpSet, NChannelSet,
+              ScalarObject, ScalarInteger, ScalarLogical, ScalarNumeric,
+              ScalarCharacter)
+
+exportMethods("[", "[[", "$", abstract, aggenv, aggfun,
+              annotatedDataFrameFrom, annotation,
+              channel, channelNames, coerce,
+              combine, content, contents, description, dimnames, "dimnames<-",
+              dims, experimentData, expinfo, exprs,
+              featureNames, featureData, fData, fvarLabels, fvarMetadata,
+              hybridizations, initfun,
+              length, locked, makeDataPackage, normControls, notes, otherInfo,
+              pData,
+              phenoData, preproc, protocolData, sampleNames, samples, se.exprs,
+              selectChannels, snpCall, snpCallProbability, storageMode,
+              varLabels, varMetadata,
+              "annotation<-", "channelNames<-", "description<-", "dimLabels<-",
+              "experimentData<-", "exprs<-",
+              "featureNames<-", "featureData<-", "fData<-", "fvarLabels<-",
+              "fvarMetadata<-",
+              "notes<-", "preproc<-", "pData<-",
+              "phenoData<-", "protocolData<-", "sampleNames<-",
+              "snpCall<-", "snpCallProbability<-", "varLabels<-",
+              "varMetadata<-", "assayData<-", "se.exprs<-",  "storageMode<-",
+              "write.exprs", dim, dimLabels, assayData,
+              pubMedIds, "pubMedIds<-",
+              isVersioned, isCurrent, classVersion, "classVersion<-",
+              updateObject, updateObjectTo,
+              initialize, show, Compare,
+
+              AnnotatedDataFrame,
+              ExpressionSet)
+
+export(Aggregate, addVigs2WinMenu, anyMissing,
+       as.data.frame.ExpressionSet, assayDataNew,
+       assayDataValidMembers, assayDataElementNames, assayDataElement,
+       assayDataElementReplace, "assayDataElement<-", cache, copyEnv,
+       copySubstitute, createPackage, dumpPackTxt, esApply,
+       getPkgVigs, isUnique, listLen, matchpt, mkScalar, multiassign,
+       NChannelSet, note, openPDF,openVignette, package.version,
+       reverseSplit, rowMax, rowMedians, rowMin, rowQ,
+       readExpressionSet, read.AnnotatedDataFrame, read.MIAME, MIAME,
+       selectSome, strbreak, subListExtract, testBioCConnection,
+       lcSuffix, lcPrefix, lcPrefixC, updateOldESet, userQuery,
+       validMsg, write.AnnotatedDataFrame)
+S3method(.DollarNames, "eSet")
+S3method(.DollarNames, "ExpressionSet")
+S3method(head, "AnnotatedDataFrame")
+S3method(tail, "AnnotatedDataFrame")

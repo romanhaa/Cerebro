@@ -1,0 +1,12 @@
+qvalue 2.1.1:
+- handles NA values
+- upgraded plotting functions
+
+qvalue 2.0.0: 
+This update of the qvalue package includes:
+- removal of tcltk usage
+- the use of ggplot2 in the plotting functions
+- an updated vignette
+- vectorizing sections of the code 
+- function name changes
+- inclusion of local FDR estimation

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read and write 'AnnotatedDataFrame'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.AnnotatedDataFrame {Biobase}"><tr><td>read.AnnotatedDataFrame {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read and write 'AnnotatedDataFrame'</h2>
+
+<h3>Description</h3>
+
+<p>Create an instance of class AnnotatedDataFrame by reading a file, or
+save an AnnotatedDataFrame to a file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.AnnotatedDataFrame(filename, path,
+     sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE, 
+     row.names = 1L,
+     varMetadata.char="#",
+     widget = getOption("BioC")$Base$use.widgets,
+     sampleNames = character(0), ...) 
+write.AnnotatedDataFrame(x, file="", varMetadata.char="#", ...,
+     append=FALSE, fileEncoding="")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename, file</code></td>
+<td>
+<p>file or connection from which to read / write.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An instance of class <code>AnnotatedDataFrame</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>(optional) directory in which to find <code>filename</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>row.names</code></td>
+<td>
+<p>this argument gets passed on to
+<code><a href="../../utils/html/read.table.html">read.table</a></code> and will be used for the row names of the
+phenoData slot.</p>
+</td></tr>
+<tr valign="top"><td><code>varMetadata.char</code></td>
+<td>
+<p>lines beginning with this character are used
+for the <code>varMetadata</code> slot. See examples.</p>
+</td></tr>
+<tr valign="top"><td><code>sep, header, quote, stringsAsFactors, ...</code></td>
+<td>
+<p>further arguments
+that get passed on to <code><a href="../../utils/html/read.table.html">read.table</a></code> or <code>write.table</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>widget</code></td>
+<td>
+<p>logical. Currently this is <em>not</em> implemented, and
+setting this option to <code>TRUE</code> will result in an error. In a
+precursor of this function, <code>read.phenoData</code>, this option could
+be used to open an interactive GUI widget for entering the data.</p>
+</td></tr>
+<tr valign="top"><td><code>sampleNames</code></td>
+<td>
+<p>optional argument that could be used in conjunction
+with <code>widget</code>; do not use.</p>
+</td></tr>
+<tr valign="top"><td><code>append, fileEncoding</code></td>
+<td>
+<p>Arguments as described in
+<code><a href="../../utils/html/write.table.html">write.table</a></code></p>
+</td></tr></table>
+<p>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The function <code><a href="../../utils/html/read.table.html">read.table</a></code> is used to read
+<code>pData</code>. The argument <code>varMetadata.char</code> is passed on to
+that function as its argument <code>comment.char</code>.
+Lines beginning with  <code>varMetadata.char</code> are expected to contain
+further information on the column headers of <code>pData</code>.
+The format is of the form: <code># variable: textual explanation of the
+    variable, units, measurement method, etc.</code> (assuming that <code>#</code>
+is the value of <code>varMetadata.char</code>). See also examples.
+</p>
+<p><code>write.AnnotatedDataFrame</code> outputs <code>varLabels</code> and
+<code>varMetadata(x)$labelDescription</code> as commented header lines, and
+<code>pData(x)</code> as a with <code>write.table</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>read.AnnotatedDataFrame</code>: An instance of class
+<code>AnnotatedDataFrame</code>
+</p>
+<p><code>write.AnnotatedDataFrame</code>: <code>NULL</code>, invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmorgan@fhcrc.org&gt; and Wolfgang Huber,
+based on <code>read.phenoData</code> by Rafael A. Irizarry.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame</a></code> for additional methods,
+<code><a href="../../utils/html/read.table.html">read.table</a></code> for details of reading in phenotypic data</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+exampleFile = system.file("extdata", "pData.txt", package="Biobase")
+
+adf &lt;- read.AnnotatedDataFrame(exampleFile)
+adf
+head(pData(adf))
+head(noquote(readLines(exampleFile)), 11)
+
+write.AnnotatedDataFrame(adf)           # write to console by default
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

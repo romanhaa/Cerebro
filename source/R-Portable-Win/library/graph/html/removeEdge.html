@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: removeEdge</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for removeEdge {graph}"><tr><td>removeEdge {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> removeEdge </h2>
+
+<h3>Description</h3>
+
+<p>A function to remove the specified edges from a graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+removeEdge(from, to, graph)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>from edge labels </p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p> to edge labels</p>
+</td></tr>
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>a <code>graph</code> object </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A new graph instance is returned with the edges specified by
+corresponding elements of the <code>from</code> and <code>to</code> vectors
+removed.  If <code>from</code> and <code>to</code> are not the same length, one of
+them should have length one.  All edges to be removed must exist in
+<code>graph</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A new instance of a graph with the same class as <code>graph</code> is
+returned with the specified edges removed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="addNode.html">addNode</a></code>,<code><a href="addEdge.html">addEdge</a></code>,<code><a href="removeNode.html">removeNode</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  V &lt;- LETTERS[1:4]
+  edL1 &lt;- vector("list", length=4)
+  names(edL1) &lt;- V
+  for(i in 1:4)
+    edL1[[i]] &lt;- list(edges=c(2,1,4,3)[i], weights=sqrt(i))
+  gR &lt;- graphNEL(nodes=V, edgeL=edL1)
+
+  gX &lt;- removeEdge("A", "B", gR)
+
+  set.seed(123)
+  g &lt;- randomEGraph(V=letters[1:5],edges=5)
+  g2 &lt;- removeEdge(from=c("a","b"), to=c("d","c"), g)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

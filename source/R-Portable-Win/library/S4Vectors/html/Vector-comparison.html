@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare, order, tabulate vector-like objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Vector-comparison {S4Vectors}"><tr><td>Vector-comparison {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare, order, tabulate vector-like objects</h2>
+
+<h3>Description</h3>
+
+<p>Generic functions and methods for comparing, ordering, and tabulating
+vector-like objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Element-wise (aka "parallel") comparison of 2 Vector objects
+## ------------------------------------------------------------
+
+pcompare(x, y)
+
+## S4 method for signature 'Vector,Vector'
+e1 == e2
+## S4 method for signature 'Vector,ANY'
+e1 == e2
+## S4 method for signature 'ANY,Vector'
+e1 == e2
+
+## S4 method for signature 'Vector,Vector'
+e1 &lt;= e2
+## S4 method for signature 'Vector,ANY'
+e1 &lt;= e2
+## S4 method for signature 'ANY,Vector'
+e1 &lt;= e2
+
+## S4 method for signature 'Vector,Vector'
+e1 != e2
+## S4 method for signature 'Vector,ANY'
+e1 != e2
+## S4 method for signature 'ANY,Vector'
+e1 != e2
+
+## S4 method for signature 'Vector,Vector'
+e1 &gt;= e2
+## S4 method for signature 'Vector,ANY'
+e1 &gt;= e2
+## S4 method for signature 'ANY,Vector'
+e1 &gt;= e2
+
+## S4 method for signature 'Vector,Vector'
+e1 &lt; e2
+## S4 method for signature 'Vector,ANY'
+e1 &lt; e2
+## S4 method for signature 'ANY,Vector'
+e1 &lt; e2
+
+## S4 method for signature 'Vector,Vector'
+e1 &gt; e2
+## S4 method for signature 'Vector,ANY'
+e1 &gt; e2
+## S4 method for signature 'ANY,Vector'
+e1 &gt; e2
+
+## selfmatch()
+## -----------
+
+selfmatch(x, ...)
+
+## duplicated() &amp; unique()
+## -----------------------
+
+## S4 method for signature 'Vector'
+duplicated(x, incomparables=FALSE, ...)
+
+## S4 method for signature 'Vector'
+unique(x, incomparables=FALSE, ...)
+
+## %in%
+## ----
+
+## S4 method for signature 'Vector,Vector'
+x %in% table
+## S4 method for signature 'Vector,ANY'
+x %in% table
+## S4 method for signature 'ANY,Vector'
+x %in% table
+
+## findMatches() &amp; countMatches()
+## ------------------------------
+
+findMatches(x, table, select=c("all", "first", "last"), ...)
+countMatches(x, table, ...)
+
+## rank()
+## ------
+
+## S4 method for signature 'Vector'
+rank(x, na.last = TRUE, ties.method = c("average", 
+        "first", "last", "random", "max", "min"), by)
+
+## sort()
+## ------
+
+## S4 method for signature 'Vector'
+sort(x, decreasing=FALSE, na.last=NA, by)
+
+## table()
+## -------
+
+## S4 method for signature 'Vector'
+table(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y, e1, e2, table</code></td>
+<td>
+
+<p>Vector-like objects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>incomparables</code></td>
+<td>
+
+<p>The <code>duplicated</code> method for <a href="Vector-class.html">Vector</a> objects does NOT
+support this argument.
+</p>
+<p>The <code>unique</code> method for <a href="Vector-class.html">Vector</a> objects, which is
+implemented on top of <code>duplicated</code>, propagates this argument
+to its call to <code>duplicated</code>.
+</p>
+<p>See <code>?base::<a href="../../base/html/duplicated.html">duplicated</a></code> and
+<code>?base::<a href="../../base/html/unique.html">unique</a></code> for more information about this
+argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+
+<p>Only <code>select="all"</code> is supported at the moment.
+Note that you can use <code>match</code> if you want to do <code>select="first"</code>.
+Otherwise you're welcome to request this on the Bioconductor mailing list.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ties.method</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/rank.html">rank</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>decreasing, na.last</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/sort.html">sort</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>A formula referencing the metadata columns by which to sort,
+e.g., <code>~ x + y</code> sorts by column &ldquo;x&rdquo;, breaking ties with
+column &ldquo;y&rdquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>A <a href="Vector-class.html">Vector</a> object for <code>table</code> (the <code>table</code> method for
+<a href="Vector-class.html">Vector</a> objects can only take one input object).
+</p>
+<p>Otherwise, extra arguments supported by specific methods.
+In particular:
+</p>
+
+<ul>
+<li><p> The default <code>selfmatch</code> method, which is implemented on top
+of <code>match</code>, propagates the extra arguments to its call to
+<code>match</code>.
+</p>
+</li>
+<li><p> The <code>duplicated</code> method for <a href="Vector-class.html">Vector</a> objects, which
+is implemented on top of <code>selfmatch</code>, accepts extra
+argument <code>fromLast</code> and propagates the other extra
+arguments to its call to <code>selfmatch</code>.
+See <code>?base::<a href="../../base/html/duplicated.html">duplicated</a></code> for more information
+about this argument.
+</p>
+</li>
+<li><p> The <code>unique</code> method for <a href="Vector-class.html">Vector</a> objects, which is
+implemented on top of <code>duplicated</code>, propagates the extra
+arguments to its call to <code>duplicated</code>.
+</p>
+</li>
+<li><p> The default <code>findMatches</code> and <code>countMatches</code> methods,
+which are implemented on top of <code>match</code> and <code>selfmatch</code>,
+propagate the extra arguments to their calls to <code>match</code> and
+<code>selfmatch</code>.
+</p>
+</li>
+<li><p> The <code>sort</code> method for <a href="Vector-class.html">Vector</a> objects, which is
+implemented on top of <code>order</code>, only accepts extra argument
+<code>na.last</code> and propagates it to its call to <code>order</code>.
+</p>
+</li></ul>
+
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Doing <code>pcompare(x, y)</code> on 2 vector-like objects <code>x</code> and <code>y</code>
+of length 1 must return an integer less than, equal to, or greater than zero
+if the single element in <code>x</code> is considered to be respectively less than,
+equal to, or greater than the single element in <code>y</code>.
+If <code>x</code> or <code>y</code> have a length != 1, then they are typically expected
+to have the same length so <code>pcompare(x, y)</code> can operate element-wise,
+that is, in that case it returns an integer vector of the same length
+as <code>x</code> and <code>y</code> where the i-th element is the result of compairing
+<code>x[i]</code> and <code>y[i]</code>. If <code>x</code> and <code>y</code> don't have the same
+length and are not zero-length vectors, then the shortest is first
+recycled to the length of the longest. If one of them is a zero-length
+vector then <code>pcompare(x, y)</code> returns a zero-length integer vector.
+</p>
+<p><code>selfmatch(x, ...)</code> is equivalent to <code>match(x, x, ...)</code>. This
+is actually how the default method is implemented. However note that
+<code>selfmatch(x, ...)</code> will typically be more efficient than
+<code>match(x, x, ...)</code> on vector-like objects for which a specific
+<code>selfmatch</code> method is implemented.
+</p>
+<p><code>findMatches</code> is an enhanced version of <code>match</code> which, by default
+(i.e. if <code>select="all"</code>), returns all the matches in a <a href="Hits-class.html">Hits</a>
+object.
+</p>
+<p><code>countMatches</code> returns an integer vector of the length of <code>x</code>
+containing the number of matches in <code>table</code> for each element
+in <code>x</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>pcompare</code>: see Details section above.
+</p>
+<p>For <code>selfmatch</code>: an integer vector of the same length as <code>x</code>.
+</p>
+<p>For <code>duplicated</code>, <code>unique</code>, and <code>%in%</code>: see
+<code>?BiocGenerics::<a href="../../BiocGenerics/html/duplicated.html">duplicated</a></code>,
+<code>?BiocGenerics::<a href="../../BiocGenerics/html/unique.html">unique</a></code>,
+and <code>?`<a href="../../base/html/match.html">%in%</a>`</code>.
+</p>
+<p>For <code>findMatches</code>: a <a href="Hits-class.html">Hits</a> object by default (i.e. if
+<code>select="all"</code>).
+</p>
+<p>For <code>countMatches</code>: an integer vector of the length of <code>x</code>
+containing the number of matches in <code>table</code> for each element
+in <code>x</code>.
+</p>
+<p>For <code>sort</code>: see <code>?BiocGenerics::<a href="../../BiocGenerics/html/sort.html">sort</a></code>.
+</p>
+<p>For <code>table</code>: a 1D array of integer values promoted to the
+<code>"table"</code> class. See <code>?BiocGeneric::<a href="../../BiocGenerics/html/table.html">table</a></code>
+for more information.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The following notes are for developers who want to implement comparing,
+ordering, and tabulating methods for their own <a href="Vector-class.html">Vector</a> subclass:
+</p>
+
+<ol>
+<li><p> The 6 traditional binary comparison operators are: <code>==</code>,
+<code>!=</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;</code>, and <code>&gt;</code>.
+The <span class="pkg">S4Vectors</span> package provides the following methods for
+these operators:
+</p>
+<pre>
+setMethod("==", c("Vector", "Vector"),
+    function(e1, e2) { pcompare(e1, e2) == 0L }
+)
+setMethod("&lt;=", c("Vector", "Vector"),
+    function(e1, e2) { pcompare(e1, e2) &lt;= 0L }
+)
+setMethod("!=", c("Vector", "Vector"),
+    function(e1, e2) { !(e1 == e2) }
+)
+setMethod("&gt;=", c("Vector", "Vector"),
+    function(e1, e2) { e2 &lt;= e1 }
+)
+setMethod("&lt;", c("Vector", "Vector"),
+    function(e1, e2) { !(e2 &lt;= e1) }
+)
+setMethod("&gt;", c("Vector", "Vector"),
+    function(e1, e2) { !(e1 &lt;= e2) }
+)
+          </pre>
+<p>With these definitions, the 6 binary operators work out-of-the-box
+on <a href="Vector-class.html">Vector</a> objects for which <code>pcompare</code> works the
+expected way. If <code>pcompare</code> is not implemented, then it's
+enough to implement <code>==</code> and <code>&lt;=</code> methods to have the
+4 remaining operators (<code>!=</code>, <code>&gt;=</code>, <code>&lt;</code>, and
+<code>&gt;</code>) work out-of-the-box.
+</p>
+</li>
+<li><p> The <span class="pkg">S4Vectors</span> package provides no <code>pcompare</code> method for
+<a href="Vector-class.html">Vector</a> objects. Specific <code>pcompare</code> methods need to be
+implemented for specific <a href="Vector-class.html">Vector</a> subclasses (e.g. for
+<a href="Hits-class.html">Hits</a> and <a href="../../IRanges/html/IntegerRanges.html">IntegerRanges</a> objects). These
+specific methods must obey the rules described in the Details
+section above.
+</p>
+</li>
+<li><p> The <code>duplicated</code>, <code>unique</code>, and <code>%in%</code> methods for
+<a href="Vector-class.html">Vector</a> objects are implemented on top of <code>selfmatch</code>,
+<code>duplicated</code>, and <code>match</code>, respectively, so they work
+out-of-the-box on <a href="Vector-class.html">Vector</a> objects for which <code>selfmatch</code>,
+<code>duplicated</code>, and <code>match</code> work the expected way.
+</p>
+</li>
+<li><p> Also the default <code>findMatches</code> and <code>countMatches</code> methods
+are implemented on top of <code>match</code> and <code>selfmatch</code> so they
+work out-of-the-box on <a href="Vector-class.html">Vector</a> objects for which those things
+work the expected way.
+</p>
+</li>
+<li><p> However, since <code>selfmatch</code> itself is also implemented on top of
+<code>match</code>, then having <code>match</code> work the expected way is
+actually enough to get <code>selfmatch</code>, <code>duplicated</code>,
+<code>unique</code>, <code>%in%</code>, <code>findMatches</code>, and
+<code>countMatches</code> work out-of-the-box on <a href="Vector-class.html">Vector</a> objects.
+</p>
+</li>
+<li><p> The <code>sort</code> method for <a href="Vector-class.html">Vector</a> objects is implemented on
+top of <code>order</code>, so it works out-of-the-box on <a href="Vector-class.html">Vector</a>
+objects for which <code>order</code> works the expected way.
+</p>
+</li>
+<li><p> The <code>table</code> method for <a href="Vector-class.html">Vector</a> objects is implemented on
+top of <code>selfmatch</code>, <code>order</code>, and <code>as.character</code>, so
+it works out-of-the-box on a <a href="Vector-class.html">Vector</a> object for which those
+things work the expected way.
+</p>
+</li>
+<li><p> The <span class="pkg">S4Vectors</span> package provides no <code>match</code> or <code>order</code>
+methods for <a href="Vector-class.html">Vector</a> objects. Specific methods need to be
+implemented for specific <a href="Vector-class.html">Vector</a> subclasses (e.g. for
+<a href="Hits-class.html">Hits</a> and <a href="../../IRanges/html/IntegerRanges.html">IntegerRanges</a> objects).
+</p>
+</li></ol>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="Vector-class.html">Vector</a> class.
+</p>
+</li>
+<li> <p><a href="Hits-comparison.html">Hits-comparison</a> for comparing and ordering hits.
+</p>
+</li>
+<li> <p><a href="Vector-setops.html">Vector-setops</a> for set operations on vector-like objects.
+</p>
+</li>
+<li> <p><a href="Vector-merge.html">Vector-merge</a> for merging vector-like objects.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/IntegerRanges-comparison.html">IntegerRanges-comparison</a> in the <span class="pkg">IRanges</span>
+package for comparing and ordering ranges.
+</p>
+</li>
+<li> <p><code><a href="../../base/html/Comparison.html">==</a></code> and <code><a href="../../base/html/match.html">%in%</a></code> in the <span class="pkg">base</span> package,
+and <code>BiocGenerics::<a href="../../BiocGenerics/html/match.html">match</a></code>,
+<code>BiocGenerics::<a href="../../BiocGenerics/html/duplicated.html">duplicated</a></code>,
+<code>BiocGenerics::<a href="../../BiocGenerics/html/unique.html">unique</a></code>,
+<code>BiocGenerics::<a href="../../BiocGenerics/html/order.html">order</a></code>,
+<code>BiocGenerics::<a href="../../BiocGenerics/html/sort.html">sort</a></code>,
+<code>BiocGenerics::<a href="../../BiocGenerics/html/rank.html">rank</a></code> in the
+<span class="pkg">BiocGenerics</span> package for general information about
+the comparison/ordering operators and functions.
+</p>
+</li>
+<li><p> The <a href="Hits-class.html">Hits</a> class.
+</p>
+</li>
+<li> <p><code>BiocGeneric::<a href="../../BiocGenerics/html/table.html">table</a></code> in the
+<span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## A. SIMPLE EXAMPLES
+## ---------------------------------------------------------------------
+
+y &lt;- c(16L, -3L, -2L, 15L, 15L, 0L, 8L, 15L, -2L)
+selfmatch(y)
+
+x &lt;- c(unique(y), 999L)
+findMatches(x, y)
+countMatches(x, y)
+
+## See ?`IntegerRanges-comparison` for more examples (on IntegerRanges
+## objects). You might need to load the IRanges package first.
+
+## ---------------------------------------------------------------------
+## B. FOR DEVELOPERS: HOW TO IMPLEMENT THE BINARY COMPARISON OPERATORS
+##    FOR YOUR Vector SUBCLASS
+## ---------------------------------------------------------------------
+
+## The answer is: don't implement them. Just implement pcompare() and the
+## binary comparison operators will work out-of-the-box. Here is an
+## example:
+
+## (1) Implement a simple Vector subclass.
+
+setClass("Raw", contains="Vector", representation(data="raw"))
+
+setMethod("length", "Raw", function(x) length(x@data))
+
+setMethod("[", "Raw",
+    function(x, i, j, ..., drop) { x@data &lt;- x@data[i]; x }
+)
+
+x &lt;- new("Raw", data=charToRaw("AB.x0a-BAA+C"))
+stopifnot(identical(length(x), 12L))
+stopifnot(identical(x[7:3], new("Raw", data=charToRaw("-a0x."))))
+
+## (2) Implement a "pcompare" method for Raw objects.
+
+setMethod("pcompare", c("Raw", "Raw"),
+    function(x, y) {as.integer(x@data) - as.integer(y@data)}
+)
+
+stopifnot(identical(which(x == x[1]), c(1L, 9L, 10L)))
+stopifnot(identical(x[x &lt; x[5]], new("Raw", data=charToRaw(".-+"))))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

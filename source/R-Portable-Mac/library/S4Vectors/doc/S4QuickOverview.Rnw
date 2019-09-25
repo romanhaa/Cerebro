@@ -1,0 +1,612 @@
+%\VignetteIndexEntry{A quick overview of the S4 class system}
+%\VignetteDepends{methods,Matrix,IRanges,ShortRead,graph}
+
+\SweaveOpts{keep.source=TRUE, eps=FALSE, width=9, height=3}
+
+\documentclass[9pt]{beamer}
+
+\usepackage{slides}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\title{A quick overview of the S4 class system}
+
+\author{Herv\'e Pag\`es\\
+        \href{mailto:hpages@fredhutch.org}{hpages@fredhutch.org}}
+
+%\institute[FHCRC]{Fred Hutchinson Cancer Research Center\\
+%                  Seattle, WA}
+
+\date{June 2016}
+
+\begin{document}
+
+<<setup,echo=FALSE>>=
+options(width=60)
+library(Matrix)
+library(IRanges)
+library(ShortRead)
+library(graph)
+@
+
+\maketitle
+
+\frame{\tableofcontents}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{What is S4?}
+
+\begin{frame}[fragile]
+  \frametitle{The S4 class system}
+  \begin{block}{}
+    \begin{itemize}
+      \item The \textit{S4 class system} is a set of facilities
+            provided in R for OO programming.
+
+      \item Implemented in the \Rpackage{methods} package.
+      \item On a fresh \R{} session:
+\begin{Schunk}
+\begin{Sinput}
+> sessionInfo()
+\end{Sinput}
+\begin{Soutput}
+...
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets 
+[6] methods   base
+\end{Soutput}
+\end{Schunk}
+      \item R also supports an older class system: the \textit{S3 class
+            system}.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{A different world}
+  \begin{block}{The syntax}
+\begin{Schunk}
+\begin{Sinput}
+> foo(x, ...)
+\end{Sinput}
+\end{Schunk}
+    not:
+\begin{Schunk}
+\begin{Sinput}
+> x.foo(...)
+\end{Sinput}
+\end{Schunk}
+    like in other OO programming languages.
+  \end{block}
+
+  \begin{block}{The central concepts}
+    \begin{itemize}
+      \item The core components: \emph{classes}\footnote{also called
+            \emph{formal classes}, to distinguish them from the S3
+            classes aka \emph{old style classes}}, \emph{generic functions}
+            and \emph{methods}
+
+      \item The glue: \emph{method dispatch} (supports \emph{simple} and
+            \emph{multiple} dispatch)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{block}{The result}
+\begin{Schunk}
+\begin{Sinput}
+> ls('package:methods')
+\end{Sinput}
+\begin{Soutput}
+  [1] "addNextMethod"                   "allGenerics"                    
+  [3] "allNames"                        "Arith"                          
+  [5] "as"                              "as<-"                           
+  [7] "asMethodDefinition"              "assignClassDef"              
+...
+[211] "testVirtual"                     "traceOff"                       
+[213] "traceOn"                         "tryNew"                         
+[215] "unRematchDefinition"             "validObject"                    
+[217] "validSlotNames"                 
+\end{Soutput}
+\end{Schunk}
+    \begin{itemize}
+      \item Rich, complex, can be intimidating
+
+      \item The classes and methods we implement in our packages can be
+            hard to document, especially when the class hierarchy is
+            complicated and multiple dispatch is used
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{S4 in Bioconductor}
+  \begin{block}{}
+    \begin{itemize}
+      \item Heavily used. In BioC 3.3: 3158 classes and 22511 methods defined
+            in 609 packages! (out of 1211 software packages)
+
+      \item Top 10: 128 classes in \Rpackage{ChemmineOB},
+            98 in \Rpackage{flowCore}, 79 in \Rpackage{IRanges},
+            68 in \Rpackage{rsbml}, 61 in \Rpackage{ShortRead},
+            58 in \Rpackage{Biostrings}, 51 in \Rpackage{rtracklayer},
+            50 in \Rpackage{oligoClasses}, 45 in \Rpackage{flowUtils},
+            and 40 in \Rpackage{BaseSpaceR}.
+
+      \item For the end-user: it's mostly transparent. But when something
+            goes wrong, error messages issued by the S4 class system can
+            be hard to understand. Also it can be hard to find the
+            documentation for a specific method.
+
+      \item Most Bioconductor packages use only a small subset of the S4
+            capabilities (covers 99.99\% of our needs)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{S4 from an end-user point of view}
+
+\begin{frame}[fragile]
+  \frametitle{Where do S4 objects come from?}
+  \begin{block}{From a dataset}
+<<S4_object_in_dataset>>=
+library(graph)
+data(apopGraph)
+apopGraph
+@
+  \end{block}
+
+  \begin{block}{From using an object constructor function}
+<<S4_object_from_constructor>>=
+library(IRanges)
+IRanges(start=c(101, 25), end=c(110, 80))
+@
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{block}{From a coercion}
+<<S4_object_from_ceorcion>>=
+library(Matrix)
+m <- matrix(3:-4, nrow=2)
+as(m, "Matrix")
+@
+  \end{block}
+
+  \begin{block}{From using a specialized high-level constructor}
+\begin{Schunk}
+\begin{Sinput}
+> library(GenomicFeatures)
+> makeTxDbFromUCSC("sacCer2", tablename="ensGene")
+\end{Sinput}
+\begin{Soutput}
+TxDb object:
+# Db type: TxDb
+# Supporting package: GenomicFeatures
+# Data source: UCSC
+# Genome: sacCer2
+# Organism: Saccharomyces cerevisiae
+# Taxonomy ID: 4932
+# UCSC Table: ensGene
+# UCSC Track: Ensembl Genes
+...
+\end{Soutput}
+\end{Schunk}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{block}{From using a high-level I/O function}
+<<S4_object_from_high_level_IO_function>>=
+library(ShortRead)
+path_to_my_data <- system.file(
+    package="ShortRead",
+    "extdata", "Data", "C1-36Firecrest", "Bustard", "GERALD")
+lane1 <- readFastq(path_to_my_data, pattern="s_1_sequence.txt")
+lane1
+@
+  \end{block}
+
+  \begin{block}{Inside another object}
+<<S4_object_inside_another_object>>=
+sread(lane1)
+@
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{How to manipulate S4 objects?}
+  \begin{block}{Low-level: getters and setters}
+<<getters_and_setters>>=
+ir <- IRanges(start=c(101, 25), end=c(110, 80))
+width(ir)
+width(ir) <- width(ir) - 5
+ir
+@
+  \end{block}
+
+  \begin{block}{High-level: plenty of specialized methods}
+<<specialized_methods>>=
+qa1 <- qa(lane1, lane="lane1")
+class(qa1)
+@
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{How to find the right man page?}
+    \begin{itemize}
+      \item \Rcode{class?graphNEL} or equivalently \Rcode{?\`{}graphNEL-class\`}
+            for accessing the man page of a class
+      \item \Rcode{?qa} for accessing the man page of a generic
+            function
+      \item The man page for a generic might also document some or all of
+            the methods for this generic. The \textit{See Also:} section
+            might give a clue. Also using \Rcode{showMethods()} can be
+            useful:
+<<showMethods>>=
+showMethods("qa")
+@
+      \item \Rcode{?\`{}qa,ShortReadQ-method\`} to access the man page for a
+            particular method (might be the same man page as for the generic)
+      \item In doubt: \Rcode{??qa} will search the man pages of all the
+            installed packages and return the list of man pages that contain
+            the string \Rcode{qa}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Inspecting objects and discovering methods}
+  \begin{itemize}
+    \item \Rcode{class()} and \Rcode{showClass()}
+{\footnotesize
+<<showClass>>=
+class(lane1)
+showClass("ShortReadQ")
+@
+}
+    \item \Rcode{str()} for compact display of the content of an object
+    \item \Rcode{showMethods()} to discover methods
+    \item \Rcode{selectMethod()} to see the code
+  \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementing an S4 class (in 4 slides)}
+
+\begin{frame}[fragile]
+  \frametitle{Class definition and constructor}
+  \begin{block}{Class definition}
+{\footnotesize
+<<setClass>>=
+setClass("SNPLocations",
+    slots=c(
+      genome="character",  # a single string
+      snpid="character",   # a character vector of length N
+      chrom="character",   # a character vector of length N
+      pos="integer"        # an integer vector of length N
+    )
+)
+@
+}
+  \end{block}
+
+  \begin{block}{Constructor}
+{\footnotesize
+<<SNPLocations>>=
+SNPLocations <- function(genome, snpid, chrom, pos)
+    new("SNPLocations", genome=genome, snpid=snpid, chrom=chrom, pos=pos)
+@
+<<test_SNPLocations>>=
+snplocs <- SNPLocations("hg19",
+             c("rs0001", "rs0002"),
+             c("chr1", "chrX"),
+             c(224033L, 1266886L))
+@
+}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Getters}
+\begin{block}{Defining the \Rfunction{length} method}
+{\footnotesize
+<<length,results=hide>>=
+setMethod("length", "SNPLocations", function(x) length(x@snpid))
+@
+<<test_length>>=
+length(snplocs)  # just testing
+@
+}
+\end{block}
+
+\begin{block}{Defining the slot getters}
+{\footnotesize
+<<genome,results=hide>>=
+setGeneric("genome", function(x) standardGeneric("genome"))
+setMethod("genome", "SNPLocations", function(x) x@genome)
+@
+<<snpid,results=hide>>=
+setGeneric("snpid", function(x) standardGeneric("snpid"))
+setMethod("snpid", "SNPLocations", function(x) x@snpid)
+@
+<<chrom,results=hide>>=
+setGeneric("chrom", function(x) standardGeneric("chrom"))
+setMethod("chrom", "SNPLocations", function(x) x@chrom)
+@
+<<pos,results=hide>>=
+setGeneric("pos", function(x) standardGeneric("pos"))
+setMethod("pos", "SNPLocations", function(x) x@pos)
+@
+<<test_slot_getters>>=
+genome(snplocs)  # just testing
+snpid(snplocs)   # just testing
+@
+}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{block}{Defining the \Rfunction{show} method}
+{\footnotesize
+<<show,results=hide>>=
+setMethod("show", "SNPLocations",
+    function(object)
+        cat(class(object), "instance with", length(object),
+            "SNPs on genome", genome(object), "\n")
+)
+@
+<<>>=
+snplocs  # just testing
+@
+}
+  \end{block}
+
+  \begin{block}{Defining the \textit{validity method}}
+{\footnotesize
+<<validity,results=hide>>=
+setValidity("SNPLocations",
+    function(object) {
+        if (!is.character(genome(object)) ||
+            length(genome(object)) != 1 || is.na(genome(object)))
+            return("'genome' slot must be a single string")
+        slot_lengths <- c(length(snpid(object)),
+                          length(chrom(object)),
+                          length(pos(object)))
+        if (length(unique(slot_lengths)) != 1)
+            return("lengths of slots 'snpid', 'chrom' and 'pos' differ")
+        TRUE
+    }
+)
+@
+\begin{Schunk}
+\begin{Sinput}
+> snplocs@chrom <- LETTERS[1:3]  # a very bad idea!
+> validObject(snplocs)
+\end{Sinput}
+\begin{Soutput}
+Error in validObject(snplocs) : 
+  invalid class "SNPLocations" object: lengths of slots 'snpid', 'chrom'
+  and 'pos' differ
+\end{Soutput}
+\end{Schunk}
+}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{block}{Defining slot setters}
+{\footnotesize
+<<set_chrom,results=hide>>=
+setGeneric("chrom<-", function(x, value) standardGeneric("chrom<-"))
+setReplaceMethod("chrom", "SNPLocations",
+    function(x, value) {x@chrom <- value; validObject(x); x})
+@
+<<test_slot_setters>>=
+chrom(snplocs) <- LETTERS[1:2]  # repair currently broken object
+@
+\begin{Schunk}
+\begin{Sinput}
+> chrom(snplocs) <- LETTERS[1:3]  # try to break it again
+\end{Sinput}
+\begin{Soutput}
+Error in validObject(x) : 
+  invalid class "SNPLocations" object: lengths of slots 'snpid', 'chrom'
+  and 'pos' differ
+\end{Soutput}
+\end{Schunk}
+}
+  \end{block}
+
+  \begin{block}{Defining a coercion method}
+{\footnotesize
+<<setAs,results=hide>>=
+setAs("SNPLocations", "data.frame",
+    function(from)
+        data.frame(snpid=snpid(from), chrom=chrom(from), pos=pos(from))
+)
+@
+<<test_coercion>>=
+as(snplocs, "data.frame")  # testing
+@
+}
+  \end{block}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Extending an existing class}
+
+\begin{frame}[fragile]
+  \frametitle{Slot inheritance}
+  \begin{itemize}
+    \item Most of the time (but not always), the child class will have
+          additional slots:
+{\footnotesize
+<<AnnotatedSNPs>>=
+setClass("AnnotatedSNPs",
+    contains="SNPLocations",
+    slots=c(
+        geneid="character"  # a character vector of length N
+    )
+)
+@
+}
+    \item The slots from the parent class are inherited:
+{\footnotesize
+<<slot_inheritance>>=
+showClass("AnnotatedSNPs")
+@
+}
+    \item Constructor:
+{\footnotesize
+<<AnnotatedSNPs>>=
+AnnotatedSNPs <- function(genome, snpid, chrom, pos, geneid)
+{
+    new("AnnotatedSNPs",
+        SNPLocations(genome, snpid, chrom, pos),
+        geneid=geneid)
+}
+@
+}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Method inheritance}
+  \begin{itemize}
+    \item Let's create an AnnotatedSNPs object:
+{\footnotesize
+<<method_inheritance>>=
+snps <- AnnotatedSNPs("hg19",
+             c("rs0001", "rs0002"),
+             c("chr1", "chrX"),
+             c(224033L, 1266886L),
+             c("AAU1", "SXW-23"))
+@
+}
+    \item All the methods defined for SNPLocations objects
+          work out-of-the-box:
+{\footnotesize
+<<method_inheritance>>=
+snps
+@
+}
+    \item But sometimes they don't do the right thing:
+{\footnotesize
+<<as_data_frame_is_not_right>>=
+as(snps, "data.frame")  # the 'geneid' slot is ignored
+@
+}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{itemize}
+    \item Being a SNPLocations \emph{object} vs being a SNPLocations
+          \emph{instance}:
+{\footnotesize
+<<>>=
+is(snps, "AnnotatedSNPs")     # 'snps' is an AnnotatedSNPs object
+is(snps, "SNPLocations")      # and is also a SNPLocations object
+class(snps)                   # but is *not* a SNPLocations *instance*
+@
+}
+    \item Method overriding: for example we could define a \Rfunction{show}
+          method for AnnotatedSNPs objects. \Rfunction{callNextMethod}
+          can be used in that context to call the method defined for the
+          parent class from within the method for the child class.
+
+    \item Automatic coercion method:
+{\footnotesize
+<<automatic_coercion_method>>=
+as(snps, "SNPLocations")
+@
+}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Incremental validity method}
+  \begin{itemize}
+    \item The \textit{validity method} for AnnotatedSNPs objects only needs
+          to validate what's not already validated by the \textit{validity
+          method} for SNPLocations objects:
+{\footnotesize
+<<incremental_validity_method,results=hide>>=
+setValidity("AnnotatedSNPs",
+    function(object) {
+        if (length(object@geneid) != length(object))
+            return("'geneid' slot must have the length of the object")
+        TRUE
+    }
+)
+@
+}
+    \item In other words: before an AnnotatedSNPs object can be considered
+          valid, it must first be a valid SNPLocations object.
+  \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{What else?}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \begin{block}{Other important S4 features}
+    \begin{itemize}
+      \item \textit{Virtual} classes: equivalent to \textit{abstract}
+            classes in Java
+
+      \item Class unions (see \Rcode{?setClassUnion})
+
+      \item Multiple inheritance: a powerful feature that should be used with
+            caution. If used inappropriately, can lead to a class hierarchy
+            that is very hard to maintain
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Resources}
+    \begin{itemize}
+      \item Man pages in the \Rpackage{methods} package: \Rcode{?setClass},
+            \Rcode{?showMethods}, \Rcode{?selectMethod}, \Rcode{?getMethod},
+            \Rcode{?is}, \Rcode{?setValidity}, \Rcode{?as}
+
+      \item The \textit{Extending RangedSummarizedExperiment} section of
+            the \textit{SummarizedExperiment} vignette in the
+            \Rpackage{SummarizedExperiment} package.
+
+      \item Note: S4 is \emph{not} covered in the \textit{An Introduction
+            to R} or \textit{The R language definition}
+            manuals\footnote{http://cran.fhcrc.org/manuals.html}
+
+      \item The \emph{Writing R Extensions} manual for details about
+            integrating S4 classes to a package
+
+      \item The \textit{R Programming for Bioinformatics} book by Robert
+            Gentleman\footnote{http://bioconductor.org/help/publications/books/r-programming-for-bioinformatics/}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\end{document}
+

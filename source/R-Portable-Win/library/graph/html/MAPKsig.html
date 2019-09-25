@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A graph encoding parts of the MAPK signaling pathway</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MAPKsig {graph}"><tr><td>MAPKsig {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> A graph encoding parts of the MAPK signaling pathway </h2>
+
+<h3>Description</h3>
+
+<p> A graph encoding parts of the MAPK signaling pathway </p>
+
+
+<h3>Usage</h3>
+
+<pre>data(MAPKsig)</pre>
+
+
+<h3>Format</h3>
+
+<p>The format is:
+Formal class 'graphNEL' [package &quot;graph&quot;] with edgemode &quot;directed&quot;.
+</p>
+
+
+<h3>Source</h3>
+
+<p>The KEGG pancreatic cancer pathway was visually inspected on 17 Sept 2007, and the
+subgraph associated with MAPK signaling was isolated.  The HUGO names for
+each symbol in the KEGG visualization were obtained and checked for
+existance on hgu95av2.  Some abbreviated terms for processes are also included
+as nodes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(MAPKsig)
+if (require(Rgraphviz)) {
+   nat = rep(FALSE, length(nodes(MAPKsig)))
+   names(nat) = nodes(MAPKsig)
+   plot(MAPKsig, nodeAttrs=list(fixedsize=nat))
+   }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

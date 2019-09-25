@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;GeneColorSet&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneColorSet-class {GSEABase}"><tr><td>GeneColorSet-class {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;GeneColorSet&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A <code>GeneColorSet</code> extends <code><a href="GeneSet-class.html">GeneSet</a></code> to allow
+genes to be 'colored'. Coloring means that for a particular phenotype,
+each gene has a color (e.g., expression levels &quot;up&quot;, &quot;down&quot;, or &quot;unchanged&quot;)
+and a phenotypic consequence (e.g., the phenotype is &quot;enhanced&quot; or
+&quot;reduced&quot;).
+</p>
+<p>All operations on a <code>GeneSet</code> can be applied to a
+<code>GeneColorSet</code>; coloring can also be accessed.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Construct a <code>GeneColorSet</code> with a <code><a href="GeneColorSet-methods.html">GeneColorSet</a></code>
+method. These methods are identical to those for <code>GeneSet</code>,
+except they require an additional <code>phenotype</code> argument to
+specify the phenotype to which the genetic and phenotypic coloring
+apply. A <code>GeneColorSet</code> can be constructed from a <code>GeneSet</code>
+with <code>GeneColorSet(&lt;GeneSet&gt;, phenotype="&lt;phenotype&gt;").</code>
+</p>
+
+
+<h3>Slots</h3>
+
+<p>A <code>GeneColorSet</code> inherits all slots from
+<code><a href="GeneSet-class.html">GeneSet</a></code>, and gains the following slots:
+</p>
+
+<dl>
+<dt><code>phenotype</code>:</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+describing the phenotype for which this gene set is colored.</p>
+</dd>
+<dt><code>geneColor</code>:</dt><dd><p>Object of class <code>"factor"</code> describing
+the coloring of each gene in the set. The lengths of
+<code>geneColor</code> and <code>gene</code> must be equal.</p>
+</dd>
+<dt><code>phenotypeColor</code>:</dt><dd><p>Object of class <code>"factor"</code>
+describing the phenotypic coloring of each gene in the set. The
+lengths of <code>phenotypeColor</code> and <code>gene</code> must be equal.</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"<a href="GeneSet-class.html">GeneSet</a>"</code>, directly.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>Methods unique to <code>GeneColorSet</code> include:
+</p>
+
+<dl>
+<dt>coloring</dt><dd><p><code>signature(object = "GeneColorSet")</code>: retrieve
+coloring as a <code>data.frame</code>. The row names of the data frame
+are the gene names; the columns are <code>geneColor</code> and
+<code>phenotypeColor</code>.</p>
+</dd>
+<dt>coloring&lt;-</dt><dd><p><code>signature(object = "GeneColorSet", value =
+        "data.frame")</code>: use a <code>data frame</code> to assign coloring
+information. The <code>data.frame</code> must have the same number of
+rows as the <code>GeneColorSet</code> has genes (though see the examples
+below for flexible ways to alter coloring of a subset of
+genes). Row names of the <code>data.frame</code> correspond to gene
+names. The data frame has two columns, named <code>geneColor</code> and
+<code>phenotypeColor</code>. These must be of class <code>factor</code>.
+</p>
+<p>A typical use of <code>coloring&lt;-</code> is to simultaneous extract,
+subset, and reassign the current coloring, e.g.,
+<code>coloring(&lt;GeneColorSet&gt;)[1:5,"geneColor"] &lt;- "up"</code>; see the
+examples below.</p>
+</dd>
+<dt>geneColor&lt;-</dt><dd><p><code>signature(object = "GeneColorSet", value =
+        "factor")</code>: assign gene colors. </p>
+</dd>
+<dt>geneColor</dt><dd><p><code>signature(object = "GeneColorSet")</code>: retrieve
+gene colors as a <code>factor</code>.</p>
+</dd>
+<dt>phenotypeColor&lt;-</dt><dd><p><code>signature(object = "GeneColorSet",
+        value = "factor")</code>: assign phenotype colors.</p>
+</dd>
+<dt>phenotypeColor</dt><dd><p><code>signature(object = "GeneColorSet")</code>:
+retrieve phenotype colors as a <code>factor</code>.</p>
+</dd>
+<dt>phenotype&lt;-</dt><dd><p><code>signature(object = "GeneColorSet", value =
+        "character")</code>: assign the phenotype from a single-element
+character vector.</p>
+</dd>
+<dt>phenotype</dt><dd><p><code>signature(object = "GeneColorSet")</code>: retrieve
+the phenotype as a single-element <code>character</code>.</p>
+</dd>
+</dl>
+
+<p><code>GeneColorSet</code> inherits all methods from class
+<code>GeneSet</code>. Methods with different behavior include
+</p>
+
+<dl>
+<dt>[</dt><dd>
+<p><code>signature(x = "GeneSet", i="character")</code>
+<code>signature(x = "GeneSet", i="numeric")</code>: subset the gene set by
+index (<code>i="numeric"</code>) or gene value (<code>i="character"</code>). Genes
+are re-ordered as required. <code>geneColor</code> and <code>phenotypeColor</code> are
+subset as appropriate.</p>
+</dd>
+<dt>[[</dt><dd><p><code>signature(x = "GeneSet")</code>: select a single gene from
+the gene set, returning a named character vector of <code>gene,
+        geneColor, phenotypeColor</code>. Exact matches only.</p>
+</dd>
+<dt>\$</dt><dd><p><code>signature(x = "GeneSet")</code>: select a single gene from
+the gene set, returning a named character vector of <code>gene,
+        geneColor, phenotypeColor</code>. Provides partial matching into the
+list of genes.</p>
+</dd>
+<dt>mapIdentifiers</dt><dd><p><code>signature(x="GeneColorSet", to="*", from="*")</code>: checks
+that gene- and phenotype colors are consistent for mapped
+identifiers, e.g., that two <code>AnnotationIdentifiers</code> mapping
+to the same <code>SymbolIdentifier</code> are colored the same.</p>
+</dd>
+</dl>
+
+<p>Logical (set) operations <code>&amp;, |, setdiff</code> warn if
+the <code>phenotype</code> <code>geneColor</code>, or <code>phenotypeColor</code>
+differs between sets; this implies coercion of factor levels, and the
+consequences should be carefully considered.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneSet-class.html">GeneSet</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Create a GeneColorSet from an ExpressionSet
+data(sample.ExpressionSet)
+gcs1 &lt;- GeneColorSet(sample.ExpressionSet[100:109],
+                     phenotype="imaginary")
+gcs1
+## or with color...
+gcs2 &lt;- GeneColorSet(sample.ExpressionSet[100:109],
+                     phenotype="imaginary",
+                     geneColor=factor(
+                       rep(c("up", "down", "unchanged"),
+                           length.out=10)),
+                     phenotypeColor=factor(
+                       rep(c("enhanced", "reduced"),
+                           length.out=10)))
+coloring(gcs2)
+
+## recode geneColor of genes 1 and 4
+coloring(gcs2)[c(1,4),"geneColor"] &lt;- "down"
+coloring(gcs2)
+## reset, this time by gene name
+coloring(gcs2)[c("31339_at", "31342_at"),"geneColor"] &lt;- c("up", "up")
+## usual 'factor' errors and warning apply:
+coloring(gcs2)[c("31339_at", "31342_at"),"geneColor"] &lt;- c("UP", "up")
+
+gcs2[["31342_at"]]
+try(gcs2[["31342_"]]) # no partial matching
+gcs2$"31342" # 1 partial match ok
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

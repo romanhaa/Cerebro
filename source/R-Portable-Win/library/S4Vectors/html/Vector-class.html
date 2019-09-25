@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Vector objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Vector-class {S4Vectors}"><tr><td>Vector-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Vector objects</h2>
+
+<h3>Description</h3>
+
+<p>The Vector virtual class serves as the heart of the S4Vectors package
+and has over 90 subclasses. It serves a similar role as <a href="../../base/html/vector.html">vector</a>
+in base R.
+</p>
+<p>The Vector class supports the storage of <em>global</em> and
+<em>element-wise</em> metadata:
+</p>
+
+<ol>
+<li><p> The <em>global</em> metadata annotates the object as a whole:
+this metadata is accessed via the <code>metadata</code> accessor and
+is represented as an ordinary list;
+</p>
+</li>
+<li><p> The <em>element-wise</em> metadata annotates individual elements
+of the object: this metadata is accessed via the <code>mcols</code>
+accessor (<code>mcols</code> stands for <em>metadata columns</em>) and
+is represented as a <a href="DataTable-class.html">DataTable</a> object (i.e. as an instance
+of a concrete subclass of <a href="DataTable-class.html">DataTable</a>, e.g. a
+<a href="DataFrame-class.html">DataFrame</a> object), with a row for each element
+and a column for each metadata variable. Note that the element-wise
+metadata can also be <code>NULL</code>.
+</p>
+</li></ol>
+
+<p>To be functional, a class that inherits from Vector must define at
+least a <code>length</code> and a <code>"["</code> method.
+</p>
+
+
+<h3>Accessors</h3>
+
+<p>In the following code snippets, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>length(x)</code>:
+Get the number of elements in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>lengths(x, use.names=TRUE)</code>:
+Get the length of each of the elements.
+</p>
+<p>Note: The <code>lengths</code> method for Vector objects is currently
+defined as an alias for <code><a href="List-class.html">elementNROWS</a></code> (with addition
+of the <code>use.names</code> argument), so is equivalent to
+<code>sapply(x, NROW)</code>, not to <code>sapply(x, length)</code>.
+See <code>?BiocGenerics::<a href="../../BiocGenerics/html/lengths.html">lengths</a></code> in the
+<span class="pkg">BiocGenerics</span> package for more information about this.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>NROW(x)</code>:
+Defined as <code>length(x)</code> for any Vector object that is
+<em>not</em> a <a href="DataTable-class.html">DataTable</a> object.
+If <code>x</code> is a <a href="DataTable-class.html">DataTable</a> object, then it's
+defined as <code>nrow(x)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>names(x)</code>, <code>names(x) &lt;- value</code>:
+Get or set the names of the elements in the Vector.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rename(x, value, ...)</code>:
+Replace the names of <code>x</code> according to a mapping defined by a named
+character vector, formed by concatenating <code>value</code> with any
+arguments in <code>...</code>. The names of the character vector
+indicate the source names, and the corresponding values the
+destination names. This also works on a plain old <code>vector</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>nlevels(x)</code>:
+Returns the number of factor levels.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>mcols(x, use.names=TRUE)</code>, <code>mcols(x) &lt;- value</code>:
+Get or set the metadata columns.
+If <code>use.names=TRUE</code> and the metadata columns are not <code>NULL</code>,
+then the names of <code>x</code> are propagated as the row names of the
+returned <a href="DataTable-class.html">DataTable</a> object.
+When setting the metadata columns, the supplied value must be <code>NULL</code>
+or a <a href="DataTable-class.html">DataTable</a> object holding element-wise metadata.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>elementMetadata(x, use.names=FALSE)</code>,
+<code>elementMetadata(x) &lt;- value</code>,
+<code>values(x, use.names=FALSE)</code>,
+<code>values(x) &lt;- value</code>:
+Alternatives to <code>mcols</code> functions. Their use is discouraged.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>as(from, "data.frame")</code>, <code>as.data.frame(from)</code>:
+Coerces <code>from</code>, a <code>Vector</code>, to a <code>data.frame</code> by
+first coercing the <code>Vector</code> to a <code>vector</code> via
+<code>as.vector</code>. Note that many <code>Vector</code> derivatives do not
+support <code>as.vector</code>, so this coercion is possible only for
+certain types.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.env(x)</code>:
+Constructs an environment object containing the elements of
+<code>mcols(x)</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the code snippets below, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>:
+When supported, return a new Vector object of the same class as <code>x</code>
+made of the elements selected by <code>i</code>. <code>i</code> can be missing;
+an NA-free logical, numeric, or character vector or factor (as ordinary
+vector or <a href="Rle-class.html">Rle</a> object); or a <a href="../../IRanges/html/IntegerRanges.html">IntegerRanges</a> object.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i, j]</code>:
+Like the above, but allow the user to conveniently subset the metadata
+columns thru <code>j</code>.
+</p>
+<p>NOTE TO DEVELOPERS: A Vector subclass with a true 2-D semantic (e.g.
+<a href="../../SummarizedExperiment/html/SummarizedExperiment.html">SummarizedExperiment</a>) needs to overwrite
+the <code>"["</code> method for Vector objects. This means that code intended
+to operate on an arbitrary Vector derivative <code>x</code> should not use
+this feature as there is no guarantee that <code>x</code> supports it. For
+this reason this feature should preferrably be used <em>interactively</em>
+only.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i] &lt;- value</code>:
+Replacement version of <code>x[i]</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Convenience wrappers for common subsetting operations</h3>
+
+<p>In the code snippets below, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>subset(x, subset, select, drop=FALSE, ...)</code>:
+Return a new Vector object made of the subset using logical vector
+<code>subset</code>, where missing values are taken as FALSE.
+TODO: Document <code>select</code>, <code>drop</code>, and <code>...</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>window(x, start=NA, end=NA, width=NA)</code>:
+Extract the subsequence from <code>x</code> that corresponds to the window
+defined by <code>start</code>, <code>end</code>, and <code>width</code>.
+At most 2 of <code>start</code>, <code>end</code>, and <code>width</code> can be set
+to a non-<code>NA</code> value, which must be a non-negative integer.
+More precisely:
+</p>
+
+<ul>
+<li><p> If <code>width</code> is set to <code>NA</code>, then <code>start</code> or
+<code>end</code> or both can be set to <code>NA</code>. In this case
+<code>start=NA</code> is equivalent to <code>start=1</code> and
+<code>end=NA</code> is equivalent to <code>end=length(x)</code>.
+</p>
+</li>
+<li><p> If <code>width</code> is set to a non-negative integer value, then
+one of <code>start</code> or <code>end</code> must be set to a non-negative
+integer value and the other one to <code>NA</code>.
+</p>
+</li></ul>
+
+</dd>
+<dt></dt><dd>
+<p><code>head(x, n=6L)</code>:
+If <code>n</code> is non-negative, returns the first n elements of the Vector
+object.
+If <code>n</code> is negative, returns all but the last <code>abs(n)</code> elements
+of the Vector object.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>tail(x, n=6L)</code>:
+If <code>n</code> is non-negative, returns the last n elements of the Vector
+object.
+If <code>n</code> is negative, returns all but the first <code>abs(n)</code> elements
+of the Vector object.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rev(x)</code>:
+Return a new Vector object made of the original elements in the reverse
+order.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rep(x, times, length.out, each)</code> and <code>rep.int(x, times)</code>:
+Repeats the values in <code>x</code> through one of the following conventions:
+</p>
+
+<ul>
+<li> <p><code>times</code>: Vector giving the number of times to repeat each
+element if of length <code>length(x)</code>, or to repeat the whole
+vector if of length 1.
+</p>
+</li>
+<li> <p><code>length.out</code>: Non-negative integer. The desired length of
+the output vector.
+</p>
+</li>
+<li> <p><code>each</code>: Non-negative integer.  Each element of <code>x</code> is
+repeated <code>each</code> times.
+</p>
+</li></ul>
+
+</dd>
+</dl>
+
+
+
+<h3>Concatenation</h3>
+
+<p>In the code snippets below, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>c(x, ..., ignore.mcols=FALSE)</code>:
+Concatenate <code>x</code> and the Vector objects in <code>...</code> together.
+Any object in <code>...</code> should belong to the same class as <code>x</code>
+or to one of its subclasses. If not, then an attempt will be made to
+coerce it with <code>as(object, class(x), strict=FALSE)</code>.
+<code>NULL</code>s are accepted and ignored.
+The result of the concatenation is an object of the same class
+as <code>x</code>.
+</p>
+<p>Handling of the metadata columns:
+</p>
+
+<ul>
+<li><p> If only one of the Vector objects has metadata columns,
+then the corresponding metadata columns are attached to
+the other Vector objects and set to <code>NA</code>.
+</p>
+</li>
+<li><p> When multiple Vector objects have their own metadata columns,
+the user must ensure that each such <a href="DataFrame-class.html">DataFrame</a> have
+identical layouts to each other (same columns defined),
+in order for the concatenation to be successful, otherwise
+an error will be thrown.
+</p>
+</li>
+<li><p> The user can call <code>c(x, ..., ignore.mcols=FALSE)</code> in
+order to concatenate Vector objects with differing sets of
+metadata columns, which will result in the concatenated
+object having NO metadata columns.
+</p>
+</li></ul>
+
+<p>IMPORTANT NOTE: Be aware that calling <code>c</code> with named arguments
+(e.g. <code>c(a=x, b=y)</code>) tends to break method dispatch so please
+make sure that <code>args</code> is an <em>unnamed</em> list when using
+<code>do.call(c, args)</code> to concatenate a list of objects together.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>append(x, values, after=length(x))</code>:
+Insert the <code>Vector</code> <code>values</code> onto <code>x</code> at the position
+given by <code>after</code>. <code>values</code> must have an <code>elementType</code>
+that extends that of <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>expand.grid(...)</code>: Find cartesian product of every
+vector in <code>...</code> and return a data.frame, each column of
+which corresponds to an argument.
+See <code><a href="../../base/html/expand.grid.html">expand.grid</a></code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Displaying</h3>
+
+<p>[FOR ADVANCED USERS OR DEVELOPERS]
+</p>
+<p>Displaying of a Vector object is controlled by 2 internal helpers,
+<code>classNameForDisplay</code> and <code>showAsCell</code>.
+</p>
+<p>For most objects <code>classNameForDisplay(x)</code> just returns <code>class(x)</code>.
+However, for some objects it can return the name of a parent class that is
+more suitable for display because it's simpler and as informative as the
+real class name. See <a href="SimpleList-class.html">SimpleList</a> objects (defined in this package)
+and <a href="../../IRanges/html/CompressedList.html">CompressedList</a> objects (defined in the <span class="pkg">IRanges</span>
+package) for examples of objects for which <code>classNameForDisplay</code>
+returns the name of a parent class.
+</p>
+<p><code>showAsCell(x)</code> produces a character vector <em>parallel</em> to
+<code>x</code> (i.e. with one string per vector element in <code>x</code>) that
+contains compact string representations of each elements in <code>x</code>.
+</p>
+<p>Note that <code>classNameForDisplay</code> and <code>showAsCell</code> are generic
+functions so developers can implement methods to control how their own
+Vector extension gets displayed.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="Rle-class.html">Rle</a>, <a href="Hits-class.html">Hits</a>, <a href="../../IRanges/html/IRanges.html">IRanges</a> and
+<a href="../../XVector/html/XRaw.html">XRaw</a> for example implementations.
+</p>
+</li>
+<li> <p><a href="Vector-comparison.html">Vector-comparison</a> for comparing, ordering, and tabulating
+vector-like objects.
+</p>
+</li>
+<li> <p><a href="Vector-setops.html">Vector-setops</a> for set operations on vector-like objects.
+</p>
+</li>
+<li> <p><a href="Vector-merge.html">Vector-merge</a> for merging vector-like objects.
+</p>
+</li>
+<li> <p><a href="List-class.html">List</a> for a direct Vector extension that serves a similar
+role as <a href="../../base/html/list.html">list</a> in base R.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/extractList.html">extractList</a> for grouping elements of a vector-like
+object into a list-like object.
+</p>
+</li>
+<li> <p><a href="DataTable-class.html">DataTable</a> which is the type of objects returned by the
+<code>mcols</code> accessor.
+</p>
+</li>
+<li><p> The <a href="Annotated-class.html">Annotated</a> class, which Vector extends.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+showClass("Vector")  # shows (some of) the known subclasses
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

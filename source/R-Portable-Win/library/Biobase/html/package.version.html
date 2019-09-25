@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Report Version of a Package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for package.version {Biobase}"><tr><td>package.version {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Report Version of a Package</h2>
+
+<h3>Description</h3>
+
+<p>Will report the version number of a requested installed package
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+package.version(pkg, lib.loc = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>The name of the package</p>
+</td></tr>
+<tr valign="top"><td><code>lib.loc</code></td>
+<td>
+<p>a character vector describing the location of R library trees
+to search through, or &lsquo;NULL&rsquo;.  The default value of &lsquo;NULL&rsquo;
+corresponds to all libraries currently known.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is a convenience wrapper around
+<code>package.description</code>, and will report simply the version number
+of the requested package.  If the package does not exist or if the
+DESCRIPTION file can not be read, then an error will be thrown.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character string reporting the version number.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/base-defunct.html">package.description</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  package.version("Biobase")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

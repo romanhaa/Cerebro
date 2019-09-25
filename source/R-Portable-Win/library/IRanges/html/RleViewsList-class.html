@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of RleViews</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RleViewsList-class {IRanges}"><tr><td>RleViewsList-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of RleViews</h2>
+
+<h3>Description</h3>
+
+<p>An extension of <a href="ViewsList-class.html">ViewsList</a> that holds only
+<a href="RleViews-class.html">RleViews</a> objects. Useful for storing coverage vectors
+over a set of spaces (e.g. chromosomes), each of which requires a separate
+<a href="RleViews-class.html">RleViews</a> object.
+</p>
+
+
+<h3>Details</h3>
+
+<p>For more information on methods available for RleViewsList objects consult
+the man pages for <a href="ViewsList-class.html">ViewsList-class</a> and
+<a href="view-summarization-methods.html">view-summarization-methods</a>.
+</p>
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>RleViewsList(..., rleList, rangesList)</code>:
+Either <code>...</code> or the <code>rleList</code>/<code>rangesList</code> couplet
+provide the RleViews for the list. If <code>...</code> is provided, each
+of these arguments must be RleViews objects. Alternatively,
+<code>rleList</code> and <code>rangesList</code> accept Rle and IntegerRanges
+objects respectively that are meshed together for form the RleViewsList.
+</p>
+</dd>
+<dt></dt><dd><p><code>Views(subject, start=NULL, end=NULL, width=NULL, names=NULL)</code>:
+Same as <code>RleViewsList(rleList = subject, rangesList = start)</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippet below, <code>from</code> is an RleViewsList object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as(from, "IRangesList")</code>: Creates an <code>IRangesList</code>
+object containing the view locations in <code>from</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="ViewsList-class.html">ViewsList-class</a>,
+<a href="view-summarization-methods.html">view-summarization-methods</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Rle objects
+subject1 &lt;- Rle(c(3L,2L,18L,0L), c(3,2,1,5))
+set.seed(0)
+subject2 &lt;- Rle(c(0L,5L,2L,0L,3L), c(8,5,2,7,4))
+
+## Views
+rleViews1 &lt;- Views(subject1, 3:0, 5:8)
+rleViews2 &lt;- Views(subject2, subject2 &gt; 0) 
+
+## RleList and IntegerRangesList objects
+rleList &lt;- RleList(subject1, subject2)
+rangesList &lt;- IRangesList(IRanges(3:0, 5:8), IRanges(subject2 &gt; 0))
+
+## methods for construction
+method1 &lt;- RleViewsList(rleViews1, rleViews2)
+method2 &lt;- RleViewsList(rleList = rleList, rangesList = rangesList)
+identical(method1, method2)
+
+## calculation over the views
+viewSums(method1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

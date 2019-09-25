@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to map to organism IDs used by NCBI homology.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mapOrgs {annotate}"><tr><td>mapOrgs {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to map to organism IDs used by NCBI homology.</h2>
+
+<h3>Description</h3>
+
+<p>These functions help map to organism identifiers used at the NCBI.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mapOrgs(toMap, what = c("code","name"))
+getOrgNameNCode()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>toMap</code></td>
+<td>
+<p><code>vect</code> a vector of character strings</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p><code>what</code> a character string that can either be &quot;code&quot;
+or &quot;name&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>mapOrgs converts organism codes to scientific names.
+</p>
+
+
+<h3>Value</h3>
+
+<p>mapOrgs returns a vector of character strings.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p><a href="ftp://ftp.ncbi.nih.gov/pub/HomoloGene/README">ftp://ftp.ncbi.nih.gov/pub/HomoloGene/README</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

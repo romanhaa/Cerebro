@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to deal with Data Packages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSYMBOL {annotate}"><tr><td>getSYMBOL {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to deal with Data Packages</h2>
+
+<h3>Description</h3>
+
+<p>The functions documented here are intended to make it easier to map
+from a set of manufacturers identifiers (such as you will get from the
+chips etc) to other identifiers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getSYMBOL(x, data)
+getLL(x, data)
+getEG(x, data)
+getGO(x, data)
+getPMID(x, data)
+getGOdesc(x, which)
+lookUp(x, data, what, load = FALSE)
+getUniqAnnItem()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The identifiers to be mapped (usually manufacturer)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The basename of the meta-data package to be used.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p><code>what</code> a character string for the name of an
+annotation element of an annotation data package</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p><code>which</code> a character string in the form of MF, BP,
+CC, or ANY to indicated the GO categories of interest</p>
+</td></tr>
+<tr valign="top"><td><code>load</code></td>
+<td>
+<p>A logical value indicating whether to attempt to load the
+required annotation data package if it isn't already loaded.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Users must supply the basename of the meta-data package that they
+want to use to provide the mappings. The name of the meta-data
+package is the same as the basename.
+</p>
+<p>Appropriate translations are done. In some cases such as <code>getEG</code>
+and <code>getSYMBOL</code> there will only be one match and a vector is
+returned. In other cases such as <code>getPMID</code> and <code>getGO</code> there
+may be multiple matches and a list is returned.
+</p>
+<p>For <code>getGOdesc</code> <code>x</code> contains GO identifiers (not
+manufacturer identifiers) and the output is a list of GOTerms objects,
+if <code>which</code> specifies some subset of the ontologies (MF, BP or CC) 
+then only terms for that ontology are retained.
+</p>
+<p><code>lookUp</code> is a general function that can be used to look
+up matches. All other translation functions use <code>lookUp</code>
+</p>
+<p>A BioC annotation data package contains annotation data environments
+whose names are package name (e. g. hgu95av2) + element name
+(e. g. PMID). <code>what</code> must be one of the element names for the
+given data package. 
+</p>
+<p><code>getUniqAnnItem</code> keeps track of the annotation elements that have
+one to one mappings.   
+</p>
+
+
+<h3>Value</h3>
+
+<p>Either a vector or a list depending on whether multiple values per
+input are possible.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/get.html">mget</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  library("GO.db")
+
+  data(sample.ExpressionSet)
+  gN &lt;- featureNames(sample.ExpressionSet)[100:105]
+  lookUp(gN, "hgu95av2", "SYMBOL")
+
+  # Same as lookUp for SYMBOL except the return is a vector
+  getSYMBOL(gN,"hgu95av2" )
+  gg &lt;- getGO(gN, "hgu95av2")
+  lookUp(gg[[2]][[1]][["GOID"]], "GO", "TERM")
+
+  # Same as lookUp for TERM
+  getGOdesc(gg[[2]][[1]][["GOID"]], "ANY")
+
+  # For BP only
+  getGOdesc(gg[[2]][[1]][["GOID"]], "BP")
+  getEG(gN, "hgu95av2")
+  getPMID(gN, "hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

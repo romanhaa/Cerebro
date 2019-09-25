@@ -1,0 +1,373 @@
+CHANGES IN VERSION 1.36.0
+-------------------------
+
+BUG FIXES
+
+    o fix bug in dbschema method for DBIConnection objects
+
+    o keys() no longer fails when global variable 'y' exists
+
+
+CHANGES IN VERSION 1.34.0
+-------------------------
+
+NEW FEATURES
+
+    o export ALIAS2EG symbol in NAMESPACE for frog, mosquito, chimp and 
+      rhesus OrgDbs
+
+    o add how to use EnsDb section to vignette
+
+MODIFICATIONS
+
+    o work on code base and exported functions
+      - break up code in geneCentricDbs file
+      - re-name and export functions used by select()
+        in AnnotationForge and GenomicFeatures
+      - re-name and export functions used by annotation package
+        builders in AnnotationForge
+
+    o remove library(RSQLite) from dbFileConnect()
+
+    o modify unit tests for new PFAM identifiers in Bioconductor 3.3
+
+    o use elementNROWS() instead of elementLengths()
+
+    o modify mapIds() to preserve data type returned from select()
+
+    o reduce time of AnnDbPkg-checker.Rd example
+
+BUG FIXES
+
+    o bugfix for select() and mapIds() when there are many:many mappings
+
+    o bugfix in test_generateExtraRows unit test.
+
+
+CHANGES IN VERSION 1.32.0
+-------------------------
+
+BUG FIXES
+
+    o maps between chip and org packages work with loaded but not
+    attached packages.
+
+
+CHANGES IN VERSION 1.31.0
+-------------------------
+
+NEW FEATURES and API changes
+
+    o columns() and keytypes() sort their return values.
+
+    o ls() on a Bimap option returns keys in sort()ed order, by default
+
+
+CHANGES IN VERSION 1.30.0
+-------------------------
+
+NEW FEATURES and API changes
+
+    o Adds mapIds() which allows users who miss mget() to extract data 
+      from AnnnotationDb objects: but without the dangers of using mget() 
+      (which fails if you pass in a bad key)
+
+    o Adds dbconn() and dbfile() methods to the list of things that 
+      AnnotationDb derived objects shoould always be expected to support
+
+BUG FIXES AND CODE MAINTENANCE
+
+    o loadDb() now is smarter about whether or not it attaches a supporting 
+      package 
+
+
+CHANGES IN VERSION 1.24.0
+-------------------------
+
+NEW FEATURES and API changes
+
+    o keys method now has new arguments to allow for more
+    sophisticated filtering.
+
+    o cols method is now the columns method to make for a more
+    constistent interface.
+
+    o cols argument is now the columns argument (for select) to also
+    make the interface consistent across all use cases
+
+BUG FIXES AND CODE MAINTENANCE
+
+    o better argument checking for select and related methods
+
+    o keys that end with ' will no longer cause grief except to
+    hapless life scientists who will still have to wonder who in their
+    right mind thinks it's a good idea for a gene symbol to be the
+    same except end with a 'prime'.
+
+
+CHANGES IN VERSION 1.22.0
+-------------------------
+
+NEW FEATURES
+
+    o There is now a convenience function for extracting data from
+    the GO.db package as a graph object. The function is called: 
+    makeGOGraph.
+
+    o Adds supportedSeqnameMappings() and findSequenceRenamingMaps()
+    utilities.
+
+    o Improved vignette for new users
+
+
+BUG FIXES AND CODE MAINTENANCE
+
+    o Fixes a bug in select for users accessing reactome.db
+
+    o Fixes a bug in select for users requesting via a PROBEID
+
+    o Fixes a bug in select for users using rat chip packages
+
+    o Fixes a bug in mget, for Bimap objects (when ifnotfound=NA)
+
+
+
+ 	**************************************************
+	*						 *
+	*	        1.20.x SERIES NEWS		 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN AnnotationDbi VERSION 1.20.x
+
+NEW FEATURES
+
+    o There is a new introductory vignette for AnnotationDbi.  It
+    explains how to use the new simplified select method interface and
+    also describes how developers can implement their own select
+    interfaces for exposing new annotation resources.
+
+    o select support has been added for both the inparanoid and
+    reactome.db packages.  These are in addition to existing support
+    for all ChipDb, OrgDb, and TranscriptDb packages.  GO.db also has
+    a select interface.
+
+    o Code has been added to enhance backwards compatibility between
+    select and bimaps.  The aim here is that old code that uses bimaps
+    should still work with packages that have the same kind of data
+    exposed using only a select() interface.
+
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o AnnotationDbi has been split up and simplified.  All code needed
+    for building and supporting new packages has been moved to a new
+    package called AnnotationForge.  The remaining code is what is
+    needed to support day-to-day interaction with the Annotation
+    interface.
+
+
+BUG FIXES AND CODE MAINTENANCE
+
+    o The code for generating bimaps has been simplified and overhauled.
+
+    o The code for making manual pages in annotation packages has been
+    simplified so that there will be far less redundancy
+
+    o The select(), cols, keys, and keytypes methods saw several bug
+    fixes and a code overhaul to enhance both speed and reliablity.
+
+
+
+
+ 	**************************************************
+	*						 *
+	*	        1.16.x SERIES NEWS		 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN AnnotationDbi VERSION 1.16
+
+NEW FEATURES
+
+    o New Object types: Org.Db, ChipDb, GODb.  These are loaded when
+    an Annotation package is loaded.
+
+    o select method for these new objects to extract data.frames of
+    available annotations.  Users can specify keys, along with the
+    keytype, and the columns of data that they want extracted from the
+    annotation package.
+
+    o keys now will operate on new objects to expose most ID types as keys
+
+    o keytypes will show which kinds of IDs can be used as a key by select
+
+    o cols will display the kinds of data that can be extracted by select
+
+    o Users who need organism packages for organisms that are
+    annotated at NCBI can now use makeOrgPackageFromNCBI() to generate
+    a basic organism package on the fly
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o New objects are always named after the package that loaded them.
+    So if you just loaded the hgu95av2.db package, your ChipDb object
+    will be called hgu95av2.db
+
+    o new fields are now required in the metadata table of annotation
+    packages to allow the on-the-fly creation of these new objects.
+    If you are constructing a custom package and want to extend this
+    infrastructure, you may need to add some fields to the metadata
+    table.
+
+BUG FIXES
+
+    o makeProbePackage, and other generated Annotation packages have
+    had templates modified so that packages can load and also to
+    enable loading of new objects to allow new features in this
+    release.
+
+    o updated GOFrame constructor to allow use of new types of
+    evidence codes.
+
+    o generated packages will create databases with the appropiate
+    metadata entries for the new objects.
+
+
+
+
+ 	**************************************************
+	*						 *
+	*	        1.9.x SERIES NEWS		 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN AnnotationDbi VERSION 1.9.5
+
+
+NEW FEATURES
+
+    o An organism package has been added for Streptomyces coelicolor
+
+    o extensive overhaul of inparanoid packages means that inparanoid
+    packages now match to 100 different organisms
+
+    o Extended support for ensembl mappings to yeast and flies.
+
+NOTEWORTHY CHANGES BETWEEN THIS version and 1.3.11
+
+    o All chip packages now depend on org packages.  This simplifies
+    the schema and also allows for more convenient updating of these
+    packages and smaller downloads for users.
+
+    o chip package mappings that contain probes which map to multiple
+    targets are now hidden by default, with the ability to be exposed
+    when required.  See the use of the new toggleProbes() method.
+
+
+
+
+ 	**************************************************
+	*						 *
+	*	        1.3.11 SERIES NEWS		 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN AnnotationDbi VERSION 1.3.11
+
+
+NEW FEATURES
+
+    o Support has been added for 3 more organisms, this means that the
+    current list of supported organisms as of 1.3.11 is the following:
+    	    Arabidopsis thaliana
+    	    Bos taurus
+	    Caenorhabditis elegans
+	    Canis familiaris
+	    Drosophila melanogaster
+	    Danio rerio
+	    Escherichia coli K12 Strain
+	    Escherichia coli Sakai Strain
+	    Gallus gallus
+	    Homo sapiens
+	    Mus musculus
+	    Plasmodium falciparum
+	    Rattus norvegicus
+	    Saccharomyces cerevisiae
+	    Sus scrofa
+
+    o Added support for GO to canine and pig packages by using
+    BLAST2GO (this data was not available from NCBI for these
+    organisms).
+
+    o ZFIN IDs are supported for Zebrafish packages.
+
+    o Wormbase IDs are supported for C. elegans packages.
+
+    o Uniprot IDs have been added to almost all package types.
+
+    o CHRLOCEND mapping has been added which give gene end positions
+    for almost all packages and compliments the CHRLOC mapping which
+    already provides the start positions.
+
+
+
+
+ 	**************************************************
+	*						 *
+	*	        1.3.9 SERIES NEWS		 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN AnnotationDbi VERSION 1.3.9
+
+
+NEW FEATURES
+
+    o	Support added for Malaria, Zebrafish, two strains of E coli,
+      	bovine and canine.
+
+
+
+
+ 	**************************************************
+	*						 *
+	*	        1.1.7 SERIES NEWS		 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN AnnotationDbi VERSION 1.1.7
+
+
+NEW FEATURES
+
+    o	Annotation packages now have a function to display basic 
+    	quality control information.
+
+    o	5 Inparanoid packages have been added for use in studies 
+    	involving homology.
+
+    o	Ensembl gene ID maps have been added to all mammalian 
+    	packages.
+
+    o	MGI IDs maps have been added for all Mouse packages.
+
+    o	Protein to gene mappings have been added to appropriate 
+    	organism based packages so that it will be possible to get 
+	from the IDs in the inparanoid packages to a gene based ID 
+	for the 5 main organism types (ie. Human, Mouse, Rat, Fly, 
+	Yeast).
+
+    o	Support has been added for PFAM so that there can now be a 
+    	PFAM.db package.
+
+    o	AnnotationDbi is now compliant with the 1.0 schema definition.
+
+
+

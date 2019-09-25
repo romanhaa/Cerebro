@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Run a blast query to NCBI for either a string or an entrez...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for blastSequences {annotate}"><tr><td>blastSequences {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Run a blast query to NCBI for either a string or an entrez gene ID and
+then return a series of MultipleAlignment objects.
+</h2>
+
+<h3>Description</h3>
+
+<p>This function sends a query to NCBI as a string of sequence or an
+entrez gene ID and then returns a series of MultipleAlignment objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  blastSequences(x, database, hitListSize, filter, expect, program,
+      timeout=40, as=c("DNAMultipleAlignment", "data.frame", "XML"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A sequence as a character vector or an integer corresponding to an
+entrez gene ID. Submit multiple sequences as a length-1 character
+vector, <code>x = "&gt;ID-1\nACATGCTA\n&gt;ID-2\nAAACCACTT"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>database</code></td>
+<td>
+
+<p>Which NCBI database to use. If not &ldquo;blastn&rdquo;, then set
+<code>as="XML"</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>hitListSize</code></td>
+<td>
+
+<p>Number of hits to keep.
+</p>
+</td></tr>
+<tr valign="top"><td><code>filter</code></td>
+<td>
+
+<p>Sequence filter; &ldquo;L&rdquo; for Low Complexity, &ldquo;R&rdquo; for Human Repeats,
+&ldquo;m&rdquo; for Mask lookup
+</p>
+</td></tr>
+<tr valign="top"><td><code>expect</code></td>
+<td>
+
+<p>The BLAST &lsquo;expect&rsquo; value above which matches will be
+returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>program</code></td>
+<td>
+
+<p>Which program do you want to use for blast.
+</p>
+</td></tr>
+<tr valign="top"><td><code>timeout</code></td>
+<td>
+
+<p>Approximate maximum length of time, in seconds, to wait for a result.
+</p>
+</td></tr>
+<tr valign="top"><td><code>as</code></td>
+<td>
+
+<p>character(1) indicating whether the result from the NCBI server
+should be parsed to a list of <code>DNAMultipleAlignment</code> instances,
+represented as a <code>data.frame</code>, or returned as XML.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Right now the function only works for &quot;blastn&quot;.
+</p>
+<p>The NCBI URL api used by this function is documented at
+<a href="https://www.ncbi.nlm.nih.gov/blast/Doc/urlapi.html">https://www.ncbi.nlm.nih.gov/blast/Doc/urlapi.html</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>By default, a series of <code>DNAMultipleAlignment</code> (see
+<code><a href="../../Biostrings/html/MultipleAlignment-class.html">MultipleAlignment-class</a></code>
+objects. Alternatively, a <code>data.frame</code> or XML document returned
+from the NCBI server. The <code>data.frame</code> is a &lsquo;long form&rsquo;
+representation of the &lsquo;Iteration&rsquo;, &lsquo;Hit&rsquo; and
+&lsquo;Hsp&rsquo; results returned from the server. The XML document is the
+result of the <code>xmlParse</code> function of the XML library, and follows
+the format described by
+<a href="https://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">https://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd</a> and
+<a href="https://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd">https://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd</a>. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>M. Carlson
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## x can be an entrez gene ID
+blastSequences(17702, timeout=40, as="data.frame")
+
+if (interactive()) {
+
+    ## or x can be a sequence
+    blastSequences(x = "GGCCTTCATTTACCCAAAATG")
+
+    ## hitListSize does not promise that you will get the number of
+    ## matches you want..  It will just try to get that many.
+    blastSequences(x = "GGCCTTCATTTACCCAAAATG", hitListSize="20")
+
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

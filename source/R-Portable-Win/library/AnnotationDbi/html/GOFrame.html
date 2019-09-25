@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GOFrame and GOAllFrame objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GOFrame {AnnotationDbi}"><tr><td>GOFrame {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GOFrame and GOAllFrame objects</h2>
+
+<h3>Description</h3>
+
+<p>These objects each contain a data frame which is required to be
+composed of 3 columns. The 1st column are GO IDs.  The second are
+evidence codes and the 3rd are the gene IDs that match to the GO IDs
+using those evidence codes.  There is also a slot for the organism
+that these anotations pertain to.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The GOAllFrame object can only be generated from a GOFrame object and
+its contructor method does this automatically from a GOFrame
+argument.  The purpose of these objects is to create a safe way for
+annotation data about GO from non-traditional sources to be used for
+analysis packages like GSEABase and eventually GOstats.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Make up an example
+  genes = c(1,10,100)
+  evi = c("ND","IEA","IDA")
+  GOIds = c("GO:0008150","GO:0008152","GO:0001666")
+  frameData = data.frame(cbind(GOIds,evi,genes))
+
+  library(AnnotationDbi)
+  frame=GOFrame(frameData,organism="Homo sapiens")
+  allFrame=GOAllFrame(frame)
+
+  getGOFrameData(allFrame)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a vector to a quoted string for use as a SQL value...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for toSQLStringSet {AnnotationDbi}"><tr><td>toSQLStringSet {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a vector to a quoted string for use as a SQL value list</h2>
+
+<h3>Description</h3>
+
+<p>Given a vector, this function returns a string with each element of
+the input coerced to character, quoted, and separated by &quot;,&quot;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+toSQLStringSet(names)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>A vector of values to quote</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>names</code> is a character vector with elements containing single
+quotes, these quotes will be doubled so as to escape the quote in SQL.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector of length one that represents the input vector as a
+SQL value list.  Each element is single quoted and elements are
+comma separated.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Do not use <code>sQuote</code> for generating SQL as that function is
+intended for display purposes only.  In some locales, <code>sQuote</code>
+will generate fancy quotes which will break your SQL.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Herve Pages</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+toSQLStringSet(letters[1:4])
+toSQLStringSet(c("'foo'", "ab'cd", "bar"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Descriptions of available values for 'columns' and 'keytypes'...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GOID {AnnotationDbi}"><tr><td>GOID {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Descriptions of available values for <code>columns</code> and
+<code>keytypes</code> for GO.db.</h2>
+
+<h3>Description</h3>
+
+<p>This manual page enumerates the kinds of data represented by the
+values returned when the user calls <code>columns</code> or <code>keytypes</code>
+</p>
+
+
+<h3>Details</h3>
+
+  
+<p>All the possible values for <code>columns</code> and <code>keytypes</code> are listed
+below.  
+</p>
+
+<dl>
+<dt>GOID:</dt><dd><p>GO Identifiers</p>
+</dd>
+<dt>DEFINITION:</dt><dd><p>The definition of a GO Term</p>
+</dd>
+<dt>ONTOLOGY:</dt><dd><p>Which of the three Gene Ontologies (BP, CC, or MF)</p>
+</dd>
+<dt>TERM:</dt><dd><p>The actual GO term</p>
+</dd>    
+</dl>
+
+<p>To get the latest  information about the date stamps and source URLS
+for the data used to make an annotation package, please use the
+metadata method as shown in the example below.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(GO.db)
+  ## List the possible values for columns
+  columns(GO.db)
+  ## List the possible values for keytypes
+  keytypes(GO.db)
+  ## get some values back
+  keys &lt;- head(keys(GO.db))
+  keys
+  select(GO.db, keys=keys, columns=c("TERM","ONTOLOGY"),
+  keytype="GOID")
+
+  ## More infomation about the dates and original sources for these data:
+  metadata(GO.db)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,206 @@
+%
+% NOTE -- ONLY EDIT howtogenefilter.Rnw!!!
+% Biobase.tex file will get overwritten.
+%
+%\VignetteIndexEntry{Attributes for Graph Objects}
+%\VignetteDepends{graph}
+%\VignetteKeywords{Graph}
+%\VignettePackage{graph}
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\textwidth=6.2in
+\textheight=8.5in
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\classdef}[1]{%
+  {\em #1}
+}
+\newcommand{\myincfig}[3]{\begin{figure}[htbp]
+  \begin{center}
+      \includegraphics[width=#2]{#1}
+      \caption{\label{#1}#3}
+  \end{center} \end{figure}}
+
+
+\begin{document}
+\title{Attributes for Graph Objects}
+\author{Seth Falcon}
+\maketitle
+
+\section{Introduction}
+
+The \Rpackage{graph} package provides representations of graphs (nodes
+and edges) as S4 classes.  This vignette demonstrates how to add
+arbitrary node and edge attributes to graph objects.
+
+First, we create a graph to use as an example.  We will work with a
+\Rclass{graphAM-class} instance, however, any subclass of
+\Rclass{graph-class} would work. See Figure~\ref{foo}.
+
+<<exampleGraph1, results=hide>>=
+library("graph")
+mat <- matrix(c(0, 0, 1, 1, 
+                0, 0, 1, 1, 
+                1, 1, 0, 1, 
+                1, 1, 1, 0),
+              byrow=TRUE, ncol=4)
+rownames(mat) <- letters[1:4]
+colnames(mat) <- letters[1:4]
+@ 
+<<exampleGraph2, print=TRUE>>=
+g1 <- graphAM(adjMat=mat)
+@ 
+
+<<foo, fig=TRUE, prefix=FALSE, echo=FALSE, results=hide, include=FALSE, width=6, height=6>>=
+if (require("Rgraphviz")) {
+    gn = as(g1, "graphNEL")
+    plot(gn, nodeAttrs=makeNodeAttrs(gn, shape="circle", fillcolor="orange"))
+} else {
+  plot(1, 1, main="Rgraphviz required for this plot")
+}
+@ 
+\myincfig{foo}{0.33\textwidth}{The graph \Robject{g1}.}
+\section{Edge Attributes}
+
+\subsection{Default edge attributes}
+
+All edges in a graph support the same set of attributes.  The set of
+supported attributes can be defined and accessed using the
+\Rmethod{edgeDataDefaults} method.  
+A new graph instance will not have any edge attributes defined.
+%
+<<edgeDataDefaults1>>=
+edgeDataDefaults(g1)
+@ 
+
+When a new edge attribute is defined, a default value must be
+specified.  Here we will define two edge attributes: \Rcode{weight}
+and \Rcode{code} and specify a default value for each one.
+
+<<edgeDataDefaults2>>=
+edgeDataDefaults(g1, "weight") <- 1
+edgeDataDefaults(g1, "code") <- "plain"
+edgeDataDefaults(g1)
+@ 
+
+The default value for a particular attribute can be obtained by
+specifying the attribute name in the call to \Rmethod{edgeDataDefaults}.
+
+<<edgeDataDefaults3>>=
+edgeDataDefaults(g1, "weight")
+@ 
+
+\subsection{Getting edge attributes}
+
+Edge attributes are set and accessed using the \Rmethod{edgeData}
+method.  Only attributes defined using \Rmethod{edgeDataDefaults} can
+be accessed using \Rmethod{edgeData}.  If an attribute has not be set
+using \Rmethod{edgeData} for a given edge, then the default value is used.
+
+<<edgeData1>>=
+edgeData(g1, from="a", to="d", attr="weight")
+edgeData(g1, from="a", attr="weight")
+edgeData(g1, to="a", attr="weight")
+allAttrsAllEdges <- edgeData(g1)
+weightAttrAllEdges <- edgeData(g1, attr="weight")
+@ 
+
+\subsection{Setting edge attributes}
+
+Attributes are set using the replacement form of \Rmethod{edgeData}.
+This method allows the user to update the attribute for single edge,
+set the attributes for a collection of edges to a single value, and to
+set the attributes for a collection of edges to different values
+specified by a vector of values.
+
+<<edgeData2>>=
+edgeData(g1, from="a", to="d", attr="weight") <- 2
+edgeData(g1, from="a", attr="code") <- "fancy"
+edgeData(g1, from="a", attr="weight")
+edgeData(g1, from="a", attr="code")
+@ 
+
+We can set the attributes for multiple edges to a single value.
+
+<<edgeData3>>=
+f <- c("a", "b")
+t <- c("c", "c")
+edgeData(g1, from=f, to=t, attr="weight") <- 10
+edgeData(g1, from=f, to=t, attr="weight")
+@ 
+
+It is also possible to set multiple attributes to different values in
+a single call to \Rmethod{edgeData}.
+
+<<edgeData4>>=
+edgeData(g1, from=f, to=t, attr="weight") <- c(11, 22)
+edgeData(g1, from=f, to=t, attr="weight")
+@ 
+
+Finally, we can set the an attribute to a vector of values by packing 
+it into a list:
+%
+<<edgeData5>>=
+edgeData(g1, from="a", to="d", attr="code") <- list(1:10)
+edgeData(g1, from=f, to=t, attr="weight") <- mapply(c, f, t, "e", SIMPLIFY=FALSE) 
+edgeData(g1, from="a", to="d", attr="code")
+edgeData(g1, from=f, to=t, attr="weight")
+@ 
+
+\section{Node Attributes}
+
+\subsection{Default node attributes}
+
+Like edge attributes, all nodes in a graph support the same set of
+attributes.  The supported set of attributes and their default values
+is accessed using the \Rmethod{nodeDataDefaults} method.  The interface
+is similar to \Rmethod{edgeDataDefaults}.
+
+<<defaultNodeData1>>=
+nodeDataDefaults(g1)
+nodeDataDefaults(g1, attr="weight") <- 1
+nodeDataDefaults(g1, attr="type") <- "vital"
+nodeDataDefaults(g1)
+nodeDataDefaults(g1, "weight")
+@ 
+
+As with edge attributes, default values are required for each node
+attribute.  The default value is used as the node attribute for all
+nodes in the graph that have not had their attribute value explicitly
+set.  Attribute values can be any R object.
+
+\subsection{Getting and setting node attributes}
+
+Once a node attribute has been defined and given a default value using
+\Rmethod{nodeDataDefaults}, individual node attributes can be accessed
+using \Rmethod{nodeData}.
+
+<<nodeData1>>=
+nodeData(g1, n="a")
+nodeData(g1, n="a", attr="weight") <- 100
+nodeData(g1, n=c("a", "b"), attr="weight")
+nodeData(g1, n=c("a", "b"), attr="weight") <- 500
+nodeData(g1, n=c("a", "b"), attr="weight")
+nodeData(g1, n=c("a", "b"), attr="weight") <- c(11, 22)
+nodeData(g1, n=c("a", "b"), attr="weight")
+@ 
+
+<<other, hide=TRUE, echo=FALSE>>=
+## We need to reconcile this
+#g2 <- as(g1, "graphNEL")
+#edgeWeights(g2)
+
+@ 
+
+\end{document}
+

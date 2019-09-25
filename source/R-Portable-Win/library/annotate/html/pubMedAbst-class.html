@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class pubMedAbst, a class to handle PubMed abstracts, and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pubMedAbst-class {annotate}"><tr><td>pubMedAbst-class {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class pubMedAbst, a class to handle PubMed abstracts, and methods
+for processing them.</h2>
+
+<h3>Description</h3>
+
+<p>  This is a class representation for PubMed abstracts. </p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code> new('pubMedAbst',</code><br />
+<code>  authors      = ...., # Object of class vector</code><br />
+<code>  pmid         = ...., # Object of class character</code><br />
+<code>  abstText     = ...., # Object of class character</code><br />
+<code>  articleTitle = ...., # object of class character</code><br />
+<code>  journal      = ...., # Object of class character</code><br />
+<code>  pubDate      = ...., # Object of class character</code><br />
+<code>  )</code></p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>pmid</code>:</dt><dd><p>Object of class <code>"character"</code> The PubMed ID
+for this paper. </p>
+</dd>
+<dt><code>authors</code>:</dt><dd><p>Object of class <code>"vector"</code> The authors
+of the paper. </p>
+</dd>
+<dt><code>abstText</code>:</dt><dd><p>Object of class <code>"character"</code> The
+contained text of the abstract.  </p>
+</dd>
+<dt><code>articleTitle</code>:</dt><dd><p>Object of class <code>"character"</code> The
+title of the article the abstract pertains to. </p>
+</dd>
+<dt><code>journal</code>:</dt><dd><p>Object of class <code>"character"</code> The journal
+the article was published in. </p>
+</dd>
+<dt><code>pubDate</code>:</dt><dd><p>Object of class <code>"character"</code> The date the
+journal was published. </p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>pmid</dt><dd><p><code>signature(object = "pmid")</code>: An accessor function
+for <code>pmid</code></p>
+</dd>
+<dt>abstText</dt><dd><p><code>signature(object = "pubMedAbst")</code>: An accessor
+function for <code>abstText</code></p>
+</dd>
+<dt>articleTitle</dt><dd><p><code>signature(object = "pubMedAbst")</code>: An accessor
+function for <code>articleTitle</code> </p>
+</dd>
+<dt>authors</dt><dd><p><code>signature(object = "pubMedAbst")</code>: An accessor
+function for <code>authors</code> </p>
+</dd>
+<dt>journal</dt><dd><p><code>signature(object = "pubMedAbst")</code>: An accessor
+function for <code>journal</code> </p>
+</dd>
+<dt>pubDate</dt><dd><p><code>signature(object = "pubMedAbst")</code>: An accessor
+function for <code>pubDate</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Jeff Gentry </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pubmed.html">pubmed</a></code>, <code><a href="genbank.html">genbank</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   x &lt;- pubmed("9695952","8325638","8422497")
+   a &lt;- xmlRoot(x)
+   numAbst &lt;- length(xmlChildren(a))
+   absts &lt;- list()
+   for (i in 1:numAbst) {
+      absts[[i]] &lt;- buildPubMedAbst(a[[i]])
+   }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

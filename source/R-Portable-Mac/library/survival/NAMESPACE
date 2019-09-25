@@ -6,6 +6,7 @@ importFrom(stats, anova, approx, as.formula, coef, coefficients,
            model.frame, model.matrix, model.offset, model.response,
            model.weights, na.fail, na.pass, napredict, naprint, naresid,
            pchisq, pnorm, printCoefmat, predict, qnorm, quantile, qgamma,
+           reformulate, setNames, terms.formula,
            resid, residuals, rnorm, runif, stat.anova, terms, var, vcov,
            .checkMFClasses, .getXlevels)
 importFrom(graphics, arrows, axis, barplot, box, matlines, matplot,
@@ -16,7 +17,7 @@ importFrom(methods, as)
 importFrom(utils, getS3method, type.convert, methods, head, tail)
 export(Surv, aeqSurv, aareg, agreg.fit,
        agexact.fit, attrassign, 
-       basehaz, cch, clogit, cipoisson, cluster, concordance, 
+       basehaz, cch, clogit, cipoisson, cluster, concordance, concordancefit, 
        coxph, cox.zph, coxph.control, coxph.detail, coxph.fit,
        coxph.wtest, finegray, format.Surv, 
        frailty,  frailty.gamma, 
@@ -24,17 +25,17 @@ export(Surv, aeqSurv, aareg, agreg.fit,
        is.na.Surv, is.ratetable, 
        labels.survreg, match.ratetable, neardate,
        psurvreg, qsurvreg, dsurvreg,
-       pspline, pyears, ratetableDate, 
-       ridge, rsurvreg, statefig, strata, survConcordance,
+       pspline, pyears, ratetableDate, ratetable,
+       ridge, rsurvreg, statefig, strata, 
        survSplit, survdiff, survexp,  survfit,
        survfit.formula,
        survfitcoxph.fit, survfitKM, survfitCI,
        survobrien,  
-       survpenal.fit, survConcordance.fit,
+       survpenal.fit, 
        survreg, survreg.control, survreg.fit,
        survreg.distributions, survregDtest, tcut,
-       tmerge, untangle.specials, yates, yates_setup)
-export(Surv, ratetable)
+       tmerge, untangle.specials, yates, yates_setup,
+       survConcordance, survConcordance.fit)
 S3method('[', aareg)
 S3method('[', Surv)
 S3method('[', cox.zph)
@@ -54,14 +55,12 @@ S3method(anova, coxphlist)
 S3method(anova, survreg)
 S3method(anova, survreglist)
 S3method(as.character, Surv)
-S3method(as.character, Surv)
 S3method(as.data.frame, Surv)
 S3method(as.integer, Surv)
 S3method(as.logical, Surv)
 S3method(as.matrix, ratetable)
 S3method(as.matrix, Surv)
 S3method(as.numeric, Surv)
-S3method(c, Surv)
 S3method(attrassign, default)
 S3method(attrassign, lm)
 S3method(barplot, Surv)

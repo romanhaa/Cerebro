@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves information from the BioMart database</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getBMlist {biomaRt}"><tr><td>getBMlist {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves information from the BioMart database</h2>
+
+<h3>Description</h3>
+
+<p>This function is the main biomaRt query function.  Given a set of filters and corresponding values, it retrieves the user specified attributes from the BioMart database one is connected to</p>
+
+
+<h3>Usage</h3>
+
+<pre>getBMlist(attributes, filters = "", values = "", mart, 
+list.names = NULL, na.value = NA, verbose = FALSE, giveWarning = TRUE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>attributes</code></td>
+<td>
+<p>Attributes you want to retrieve.  A possible list of attributes can be retrieved using the function listAttributes.</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>Filters (one or more) that should be used in the query.  A possible list of filters can be retrieved using the function listFilters.</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>Values of the filter, e.g. vector of affy IDs.  If multiple filters are specified then the argument should be a list of vectors of which the position of each vector corresponds to the position of the filters in the filters argument.</p>
+</td></tr>
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mart, created with the useMart function.</p>
+</td></tr>
+<tr valign="top"><td><code>list.names</code></td>
+<td>
+<p>names for objects in list</p>
+</td></tr>
+<tr valign="top"><td><code>na.value</code></td>
+<td>
+<p>value to give when result is empty</p>
+</td></tr>	 
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>When using biomaRt in webservice mode and setting verbose to TRUE, the XML query to the webservice will be printed.</p>
+</td></tr>
+<tr valign="top"><td><code>giveWarning</code></td>
+<td>
+<p>Gives a warning about best practices of biomaRt and recommends using getBM instead of getBMlist</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(interactive()){
+mart &lt;- useMart("ensembl")
+datasets &lt;- listDatasets(mart)
+
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

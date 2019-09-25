@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Subgraph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for subGraph {graph}"><tr><td>subGraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a Subgraph  </h2>
+
+<h3>Description</h3>
+
+<p>Given a set of nodes and a graph this function creates
+and returns subgraph with only the supplied nodes and any edges
+between them.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+subGraph(snodes, graph)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>snodes</code></td>
+<td>
+<p>A <code>character</code> vector of node labels. </p>
+</td></tr>
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>A graph object, it must inherit from the <code>graph</code> class. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The returned subgraph is a copy of the graph. Implementations for
+Implementations for <code>graphNEL</code>, <code>distGraph</code> and
+<code>clusterGraph</code>. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A graph of the same class as the <code>graph</code> argument but with only
+the supplied nodes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="graphNEL-class.html">nodes</a></code>,<code><a href="graphNEL-class.html">edges</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        set.seed(123)
+        x &lt;- rnorm(26)
+        names(x) &lt;- letters
+        library(stats)
+        d1 &lt;- dist(x)
+        g1 &lt;- new("distGraph", Dist=d1)
+        subGraph(letters[1:5], g1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

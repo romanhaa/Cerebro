@@ -1,0 +1,52 @@
+CHANGES IN VERSION 2.36.0
+-------------------------
+
+BUG FIXES
+
+    o Patched problem returning the list of available datasets, if the 
+    description of one or more datasets included an apostrophe (introduced
+    with new primate species in Ensembl).
+    o Caught scenario where ensemblRedirect=FALSE was still being ignored.
+    o Changed query submission when redirection is detected to cope with 
+    apparently new behaviour of the Ensembl mirrors.
+    
+MINOR CHANGES
+
+    o Increase query timeout limit to 5 minutes.
+    
+    
+CHANGES IN VERSION 2.34.0
+-------------------------
+
+NEW FEATURES
+
+    o Added the listEnsemblArchives() function.  This returns a table of the
+    available Ensembl archives, and replaces the archive = TRUE argument to
+    several functions, which was no longer working.
+
+BUG FIXES
+
+    o The Ensembl BioMart server doesn't always respond well if queries with
+    more than 500 filter values are submitted.  If a query that exceed this is
+    detect biomaRt will now submit the query in batches and concatonate the 
+    result when completed.
+    
+MINOR CHANGES
+
+    o You can now provide a host with 'http://' at the start, or a trailing
+    '/' (typically copy/pasted from a browser) and useMarts() etc will cope.
+
+CHANGES IN VERSION 2.32.0
+-------------------------
+
+BUG FIXES
+
+    o Fixed bug when columns were not returned in the order requested,
+    which resulted in the wrong column names being added to the result.
+
+CHANGES IN VERSION 2.30.0
+-------------------------
+
+SIGNIFICANT USER-LEVEL CHANGES
+
+    o Updated vignette to use BiocStyle and execute most code chunks.

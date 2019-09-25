@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Function annotatedDataFrameFrom in Package...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for annotatedDataFrameFrom-methods {Biobase}"><tr><td>annotatedDataFrameFrom-methods {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for Function annotatedDataFrameFrom in Package &lsquo;Biobase&rsquo;</h2>
+
+<h3>Description</h3>
+
+<p><code>annotatedDataFrameFrom</code> is a convenience for creating
+<code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame</a></code> objects.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>Use the method with <code>annotatedDataFrameFrom(object, byrow=FALSE,
+    ...)</code>; the argument <code>byrow</code> <em>must</em> be specified.
+</p>
+
+<dl>
+<dt><code>signature(object="assayData")</code></dt><dd><p>This method creates an
+<code>AnnotatedDataFrame</code> using sample (when <code>byrow=FALSE</code>) or
+feature (<code>byrow=TRUE</code>) names and dimensions of an
+<code><a href="class.AssayData.html">AssayData</a></code> object as a template.</p>
+</dd>
+<dt><code>signature(object="matrix")</code></dt><dd><p>This method creates an
+<code>AnnotatedDataFrame</code> using column (when <code>byrow=FALSE</code>) or
+row (<code>byrow=TRUE</code>) names and dimensions of a
+<code><a href="../../base/html/matrix.html">matrix</a></code> object as a template.</p>
+</dd>
+<dt><code>signature(object="NULL")</code></dt><dd><p>This method (called with 'NULL'
+as the object) creates an empty <code>AnnotatedDataFrame</code>; provides
+<code>dimLabels</code> based on value of <code>byrow</code>.</p>
+</dd>
+</dl>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

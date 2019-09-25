@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve and set eSet notes.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for notes {Biobase}"><tr><td>notes {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve and set eSet notes.</h2>
+
+<h3>Description</h3>
+
+<p>These generic functions access notes (unstructured descriptive data)
+associated <code><a href="class.eSet.html">eSet-class</a></code>.
+</p>
+<p><code>notes(&lt;ExpressionSet&gt;) &lt;- &lt;character&gt;</code> is unusual, in that the
+character vector is appended to the list of notes; use
+<code>notes(&lt;ExpressionSet&gt;) &lt;- &lt;list&gt;</code> to entirely replace the list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+notes(object)
+notes(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object, possibly derived from class <code>eSet-class</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Character vector containing unstructured information describing the experinement.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>notes</code> returns a list.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, <code><a href="class.SnpSet.html">SnpSet-class</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

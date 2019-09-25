@@ -1,0 +1,33 @@
+Package: BiocGenerics
+Title: S4 generic functions for Bioconductor
+Description: S4 generic functions needed by many Bioconductor packages.
+Version: 0.28.0
+Author: The Bioconductor Dev Team
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+biocViews: Infrastructure
+Depends: methods, utils, graphics, stats, parallel
+Imports: methods, utils, graphics, stats, parallel
+Suggests: Biobase, S4Vectors, IRanges, GenomicRanges, Rsamtools,
+        AnnotationDbi, oligoClasses, oligo, affyPLM, flowClust, affy,
+        DESeq2, MSnbase, annotate, RUnit
+License: Artistic-2.0
+Collate: S3-classes-as-S4-classes.R utils.R normarg-utils.R
+        hotfix73465.R replaceSlots.R append.R as.data.frame.R as.list.R
+        as.vector.R cbind.R do.call.R duplicated.R eval.R Extremes.R
+        funprog.R get.R grep.R is.unsorted.R lapply.R lengths.R
+        mapply.R match.R matrix-summary.R mean.R nrow.R order.R paste.R
+        rank.R rep.R row_colnames.R sets.R sort.R start.R subset.R t.R
+        table.R tapply.R unique.R unlist.R unsplit.R relist.R var.R
+        which.R boxplot.R image.R density.R IQR.R mad.R residuals.R
+        weights.R xtabs.R clusterApply.R annotation.R combine.R
+        dbconn.R dge.R dims.R fileName.R normalize.R Ontology.R
+        organism_species.R path.R plotMA.R plotPCA.R score.R strand.R
+        updateObject.R testPackage.R zzz.R
+git_url: https://git.bioconductor.org/packages/BiocGenerics
+git_branch: RELEASE_3_8
+git_last_commit: 041fc49
+git_last_commit_date: 2018-10-30
+Date/Publication: 2018-10-30
+NeedsCompilation: no
+Packaged: 2018-10-30 23:58:38 UTC; biocbuild
+Built: R 3.5.1; ; 2018-10-31 08:32:28 UTC; unix

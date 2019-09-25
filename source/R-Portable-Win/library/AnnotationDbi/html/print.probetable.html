@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print method for probetable objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.probetable {AnnotationDbi}"><tr><td>print.probetable {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print method for probetable objects</h2>
+
+<h3>Description</h3>
+
+<p>Prints class(x), nrow(x) and ncol(x), but not the elements of x.
+The motivation for having this method is that methods from the package
+<code>base</code> such as
+<code><a href="../../base/html/print.dataframe.html">print.data.frame</a></code>
+will try to print the values of all elements of <code>x</code>, which can
+take inconveniently much time and screen space if <code>x</code> is large.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'probetable'
+print(x, maxrows, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of S3-class <code>probetable</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>maxrows</code></td>
+<td>
+<p>maximum number of rows to print.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that get ignored.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/print.dataframe.html">print.data.frame</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  a = as.data.frame(matrix(runif(1e6), ncol=1e3))
+  class(a) = c("probetable", class(a))
+  print(a)
+  print(as.matrix(a[2:3, 4:6]))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

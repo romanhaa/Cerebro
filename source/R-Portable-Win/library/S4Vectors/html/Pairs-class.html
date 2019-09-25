@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pairs objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Pairs-class {S4Vectors}"><tr><td>Pairs-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pairs objects</h2>
+
+<h3>Description</h3>
+
+<p><code>Pairs</code> is a <code>Vector</code> that stores two parallel vectors (any
+object that can be a column in a <code><a href="DataFrame-class.html">DataFrame</a></code>). It
+provides conveniences for performing binary operations on the vectors,
+as well as for converting between an equivalent list
+representation. Virtually all of the typical R vector operations
+should behave as expected.
+</p>
+<p>A typical use case is representing the pairing from a
+<code><a href="../../IRanges/html/findOverlaps.html">findOverlaps</a></code> call, for which
+<code><a href="../../IRanges/html/findOverlapPairs.html">findOverlapPairs</a></code> is a shortcut.
+</p>
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>Pairs(first, second, ..., names = NULL, hits = NULL)</code>:
+Constructs a Pairs object by aligning the vectors <code>first</code> and
+<code>second</code>. The vectors must have the same length, unless
+<code>hits</code> is specified. Arguments in <code>...</code> are combined
+as columns in the <code>mcols</code> of the result. The <code>names</code>
+argument specifies the names on the result. If <code>hits</code> is not
+<code>NULL</code>, it should be a <code><a href="Hits-class.html">Hits</a></code> object that
+collates the elements in <code>first</code> and <code>second</code> to produce
+the corresponding pairs.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Accessors</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>Pairs</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>names(x)</code>, <code>names(x) &lt;- value</code>:
+get or set the names</p>
+</dd>
+<dt></dt><dd><p><code>first(x)</code>, <code>first(x) &lt;- value</code>:
+get or set the first member of each pair</p>
+</dd>
+<dt></dt><dd><p><code>second(x)</code>, <code>second(x) &lt;- value</code>:
+get or set the second member of each pair</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>zipup(x)</code>: Interleaves the <code>Pairs</code> object
+<code>x</code> into a list, where each element is composed of a
+pair. The type of list depends on the type of the elements.
+</p>
+</dd>
+<dt></dt><dd><p><code>zipdown(x)</code>: The inverse of <code>zipup()</code>. Converts
+<code>x</code>, a list where every element is of length 2, to a
+<code>Pairs</code> object, by assuming that each element of the list
+represents a pair.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>Pairs</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>x[i]</code>: Subset the Pairs object.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="Hits-class.html">Hits-class</a>, a typical way to define a pairing.
+</p>
+</li>
+<li> <p><code><a href="../../IRanges/html/findOverlapPairs.html">findOverlapPairs</a></code> in the <span class="pkg">IRanges</span>
+package, which generates an instance of this class based on
+overlaps.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/setops-methods.html">setops-methods</a> in the <span class="pkg">IRanges</span> package,
+for set operations on Pairs objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+p &lt;- Pairs(1:10, Rle(1L, 10), score=rnorm(10), names=letters[1:10])
+identical(first(p), 1:10)
+mcols(p)$score
+p 
+as.data.frame(p)
+z &lt;- zipup(p)
+first(p) &lt;- Rle(1:10)
+identical(zipdown(z), p)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

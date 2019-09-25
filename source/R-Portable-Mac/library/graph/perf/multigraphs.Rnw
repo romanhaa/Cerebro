@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\textwidth=6.2in
+\textheight=8.5in
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\classdef}[1]{%
+  {\em #1}
+}
+\newcommand{\myincfig}[3]{\begin{figure}[htbp]
+  \begin{center}
+      \includegraphics[width=#2]{#1}
+      \caption{\label{#1}#3}
+  \end{center} \end{figure}}
+
+
+\begin{document}
+\title{Experimental Support for Multigraphs}
+\author{Seth Falcon}
+\maketitle
+
+\SweaveOpts{keep.source=TRUE}
+
+<<funcs, echo=FALSE, results=hide>>=
+st <- system.time
+
+@
+
+\section{Introduction}
+
+  The MultiGraph class represents a single node set and a set of edge
+  sets.  Each edge set is either directed or undirected.  We can think
+  of an edge in a MultiGraph as a 4-tuple (from-node, to-node,
+  edge-type, weight), where the edge-type field in the tuple identifies
+  the edge set, the weight is a numeric value, and the order of the
+  nodes only matters in the case of a directed edge set.  Unlike some of
+  the graph representations, self-loops are allowed (from-node ==
+  to-node).
+
+  There is support for arbitrary edge attributes which is primarily
+  useful for rendering plots of MultiGraphs.  These attributes are
+  stored separately from the edge weights to facilitate efficient edge
+  weight computation.
+
+<<setup>>=
+library("graph")
+set.seed(0xab34eL)
+ft1 <- graph:::randFromTo(10000L, 1e6L)
+ft2 <- graph:::randFromTo(10000L, 1e6L)
+ft3 <- graph:::randFromTo(30000L, 1e6L)
+
+names(ft1)
+head(ft1$nodes)
+head(ft1$ft)
+
+esets <- list(e1=ft1$ft, e2=ft2$ft, e3=ft3$ft)
+## order(to_i, from_i) is a big factor here
+st(g <- MultiGraph(esets))
+
+object.size(esets) / 1024^2
+object.size(g) / 1024^2
+g
+numNodes(g)
+## we should be able to make numEdges faster by
+## memoizing and/or just taking length of weight
+## vector.
+st(numEdges(g))
+st(lapply(eweights(g), head))
+## this is slow because of string creation, I suspect
+st(lapply(eweights(g, "=>"), head))
+
+## a good portion is in new and initialize
+st(gi <- edgeSetIntersect0(g))
+gi
+
+st(degree(g))
+st(extractFromTo(g))
+
+nds <- nodes(g)
+subNds <- sample(nds,0.5*length(nds))
+st(subGraph(subNds,g))
+
+@
+
+\end{document}
+

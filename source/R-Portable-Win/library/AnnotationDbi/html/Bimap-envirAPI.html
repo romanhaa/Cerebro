@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Environment-like API for Bimap objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Bimap-envirAPI {AnnotationDbi}"><tr><td>Bimap-envirAPI {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Environment-like API for Bimap objects</h2>
+
+<h3>Description</h3>
+
+<p>These methods allow the user to manipulate any <a href="Bimap.html">Bimap</a> object as
+if it was an environment. This environment-like API is provided for
+backward compatibility with the traditional environment-based maps.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ls(name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
+     pattern, sorted = TRUE)
+  exists(x, where, envir, frame, mode, inherits)
+  get(x, pos, envir, mode, inherits)
+  #x[[i]]
+  #x$name
+
+  ## Converting to a list
+  mget(x, envir, mode, ifnotfound, inherits)
+  eapply(env, FUN, ..., all.names, USE.NAMES)
+  #contents(object, all.names)
+
+  ## Additional convenience method
+  sample(x, size, replace=FALSE, prob=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+
+<p>A <a href="Bimap.html">Bimap</a> object for <code>ls</code>.
+A key as a literal character string or a name (possibly backtick quoted)
+for <code>x$name</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pos, all.names, USE.NAMES, where, frame, mode, inherits</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+
+<p>Ignored for <code>ls</code>. A <a href="Bimap.html">Bimap</a> object for <code>mget</code>,
+<code>get</code> and <code>exists</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+
+<p>An optional regular expression. Only keys matching 'pattern' are returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The key(s) to search for for <code>exists</code>, <code>get</code> and <code>mget</code>.
+A <a href="Bimap.html">Bimap</a> object for <code>[[</code> and <code>x$name</code>.
+A <a href="Bimap.html">Bimap</a> object or an environment for <code>sample</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+
+<p>Single key specifying the map element to extract.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ifnotfound</code></td>
+<td>
+
+<p>A value to be used if the key is not found. Only <code>NA</code> is currently
+supported.
+</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+
+<p>A <a href="Bimap.html">Bimap</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+
+<p>The function to be applied (see original <code><a href="../../base/html/eapply.html">eapply</a></code>
+for environments for the details).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Optional arguments to <code>FUN</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+
+<p>Non-negative integer giving the number of map elements to choose.
+</p>
+</td></tr>
+<tr valign="top"><td><code>replace</code></td>
+<td>
+
+<p>Should sampling be with replacement?
+</p>
+</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+
+<p>A vector of probability weights for obtaining the elements of the map
+being sampled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sorted</code></td>
+<td>
+
+<p><code>logical(1)</code>. When TRUE (default), return primary keys in
+sorted order.
+</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/ls.html">ls</a></code>,
+<code><a href="../../base/html/exists.html">exists</a></code>,
+<code><a href="../../base/html/get.html">get</a></code>,
+<code><a href="../../base/html/get.html">mget</a></code>,
+<code><a href="../../base/html/eapply.html">eapply</a></code>,
+<code><a href="../../Biobase/html/contents.html">contents</a></code>,
+<code><a href="../../base/html/sample.html">sample</a></code>,
+<a href="BimapFormatting.html">BimapFormatting</a>,
+<a href="Bimap.html">Bimap</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(hgu95av2.db)
+  x &lt;- hgu95av2CHRLOC
+
+  ls(x)[1:3]
+  exists(ls(x)[1], x)
+  exists("titi", x)
+  get(ls(x)[1], x)
+  x[[ls(x)[1]]]
+  x$titi # NULL
+
+  mget(ls(x)[1:3], x)
+  eapply(x, length)
+  contents(x)
+
+  sample(x, 3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

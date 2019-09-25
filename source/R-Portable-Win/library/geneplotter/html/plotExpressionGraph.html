@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to plot a graph colored by expression data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plotExpressionGraph {geneplotter}"><tr><td>plotExpressionGraph {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to plot a graph colored by expression data</h2>
+
+<h3>Description</h3>
+
+<p>Given a graph and expression data for one entity, will plot the graph
+with the nodes colored according to the expression levels provided.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotExpressionGraph(graph, nodeEGmap, exprs, ENTREZIDenvir, mapFun, log = FALSE, nodeAttrs = list(), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>The graph to plot</p>
+</td></tr>
+<tr valign="top"><td><code>nodeEGmap</code></td>
+<td>
+<p>A <code>list</code> with element names being node names and the
+elements being EntrezLink IDs corresponding to those node names.</p>
+</td></tr>
+<tr valign="top"><td><code>exprs</code></td>
+<td>
+<p>A <code>vector</code> of expression data, with names being Affymetrix
+IDs and values being the expression level.</p>
+</td></tr>
+<tr valign="top"><td><code>ENTREZIDenvir</code></td>
+<td>
+<p>An <code>environment</code> mapping Affymetrix IDs to EntrezLink
+IDs, such as the ones provided in the xxx2ENTREZID environments from
+the Bioconductor data packages (where xxx) is a data package).</p>
+</td></tr>
+<tr valign="top"><td><code>mapFun</code></td>
+<td>
+<p>A function to map expression levels to colors.</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Whether or not the expression data.</p>
+</td></tr>
+<tr valign="top"><td><code>nodeAttrs</code></td>
+<td>
+<p>A <code>list</code> of node attributes, as per <code>plot.graph</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any extra arguments to be passed to <code>plot.graph</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used to plot a graph and have the nodes colored
+according to expression levels provided by the user.  The
+<code>graph</code> parameter is a <code>graph</code> object from the <code>graph</code>
+package.
+</p>
+<p>The <code>nodeEGmap</code> parameter is a list that maps the nodes of the
+graphs to EntrezLink IDs.  An example of this is the
+<code>IMCAEntrezLink</code> object in the
+<code>integrinMediatedCellAdhesion</code> data set in the
+<code>graph</code> package.
+</p>
+<p>The <code>exprs</code> argument is a vector mapping expression levels to
+Affymetrix IDs.  One way to generate an appropriate vector is to
+extract a single column from an <code>ExpressionSet</code>.
+</p>
+<p>The <code>ENTREZIDenvir</code> environment maps Affymetrix IDs to EntrezLink
+IDs.  The simplest way to provide this argument is to load the
+preferred Bioconductor data package (e.g. <code>hgu95av2.db</code>) and pass in
+that package's <code>xxx2ENTREZID</code>, where <code>xxx</code> is the name of the
+package.
+</p>
+<p>The <code>mapFun</code> function defaults to the function <code>defMapFun</code>,
+which maps nodes to be either blue, green or red depending for
+expression ranges of 0-100, 101-500, and 501+.  In the case where
+<code>log</code> is <code>TRUE</code> these ranges are modified with
+<code><a href="../../base/html/Log.html">log2</a></code>.  Custom versions of this function can be supplied
+by the user - it must take two parameters, first the expression vector
+and a boolean value (<code>log</code>) specifying if the data has had a
+<code>log2</code> applied to it.  The function must return a vector with the
+same names as the expression vector, but the values of the vector will
+be color strings.
+</p>
+<p>The <code>nodeAttrs</code> list can be specified if any other node
+attributes are desired to be set by the user.  Please see the
+<code><a href="../../Rgraphviz/html/plot-methods.html">plot.graph</a></code> man page for more
+information on this.  The 
+other attribute list (<code>attrs</code> and <code>edgeAttrs</code>) can be passed
+in via the <code>...</code> parameter.
+</p>
+<p>The IMCAEntrezLink data structure was created for the purpose of
+illustrating this program.  On Sept 24 2007, the current version
+of <code>hgu95av2.db</code> was used to map from the nodes of IMCAGraph
+(in graph package) to Entrez identifiers.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../Rgraphviz/html/plot-methods.html">plot.graph</a></code>,
+<code>integrinMediatedCellAdhesion</code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   if (require("Rgraphviz") &amp;&amp; require("hgu95av2.db") &amp;&amp;
+       require("fibroEset")) {
+       data(integrinMediatedCellAdhesion)
+	   data(IMCAEntrezLink)
+       data(fibroEset)
+       attrs &lt;- getDefaultAttrs()
+       attrs$graph$rankdir &lt;- "LR"
+       plotExpressionGraph(IMCAGraph, IMCAEntrezLink,
+                           exprs(fibroEset)[,1],
+                           hgu95av2ENTREZID, attrs = attrs)
+   }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

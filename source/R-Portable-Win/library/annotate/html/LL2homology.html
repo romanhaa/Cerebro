@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: DEPRECATED Functions that find the homology data for a given...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for LL2homology {annotate}"><tr><td>LL2homology {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>DEPRECATED Functions that find the homology data for a given set of
+LocusLink ids or HomoloGeneIDs</h2>
+
+<h3>Description</h3>
+
+<p>These functions are DEPRECATED. All this functionality has been
+replaced by inPARANOID packages.
+Given a set of LocusLink ids or NCBI HomoloGeneIDs, the functions obtain the
+homology data and represent them as a list of sub-lists using the
+homology data package for the organism of interest. A sub-list can be of
+length 1 or greater depending on whether a LocusLink id can be mapped
+to one or more HomoloGeneIDs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+LL2homology(homoPkg, llids)
+HGID2homology(hgid, homoPkg)
+ACC2homology(accs, homoPkg)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>llids</code></td>
+<td>
+<p><code>llids</code> a vector of character strings or numberic
+numbers for a set of LocusLink ids whose homologous genes in other
+organisms are to be found</p>
+</td></tr>
+<tr valign="top"><td><code>hgid</code></td>
+<td>
+<p><code>hgid</code> a named vector of character strings or numberic
+numbers for a set of HomoloGeneIDs whose homologous genes in other
+organisms are to be found. Names of the vector give the code used by
+NCBI for organisms</p>
+</td></tr>
+<tr valign="top"><td><code>accs</code></td>
+<td>
+<p><code>accs</code> a vector of character strings for a set of
+GenBank Accession numbers</p>
+</td></tr>
+<tr valign="top"><td><code>homoPkg</code></td>
+<td>
+<p><code>homoPkg</code> a character string for the name of the
+homology data package for a given organism, which is a short version
+of the scientific name of the organism plus homology (e. g. hsahomology)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The homology data package has to be installed before executing any of
+the two functions.
+</p>
+<p>Each sub-list  has the following elements:
+</p>
+<p>homoOrg - a named vector of a single character string whose value
+is the scientific name of the organism and name the numeric code
+used by NCBI for the organism.
+</p>
+<p>homoLL - an integer for LocusLink id.
+</p>
+<p>homoHGID - an integer for internal HomoloGeneID.
+</p>
+<p>homoACC - a character string for GenBank accession number of the
+best matching sequence of the organism.
+</p>
+<p>homoType - a single letter for the type of similarity measurement
+between the homologous genes. homoType can be either B (reciprocal
+best best between three or more organisms), b (reciprocal best
+match between two organisms), or c (curated homology relationship
+between two organisms).
+</p>
+<p>homoPS - a percentage value measured as the percent of identity of
+base pair alignment between the homologous sequences. 
+</p>
+<p>homoURL - a url to the source if the homology relationship is a
+curated orthology.
+</p>
+<p>Sub-lists with homoType = B or b will not have any value
+for homoURL and objects with homoType = c will not have any value
+for homoPS.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Both functions returns a list of sub-lists containing data for
+homologous genes in other organisms.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?=homologene">https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?=homologene</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+    ## hsahomology is a deprecated package! 
+    if(require("hsahomology")){
+        llids &lt;- ls(env = hsahomologyLL2HGID)[2:5]
+        LL2homology("hsahomology", llids)
+    }
+    
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

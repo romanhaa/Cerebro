@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Matrix for Filter Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for FilterMatrix-class {S4Vectors}"><tr><td>FilterMatrix-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Matrix for Filter Results</h2>
+
+<h3>Description</h3>
+
+<p>A <code>FilterMatrix</code> object is a matrix meant for storing
+the logical output of a set of <code><a href="FilterRules-class.html">FilterRules</a></code>, where
+each rule corresponds to a column. The <code>FilterRules</code> are stored
+within the <code>FilterMatrix</code> object, for the sake of
+provenance. In general, a <code>FilterMatrix</code> behaves like an
+ordinary <code><a href="../../base/html/matrix.html">matrix</a></code>.
+</p>
+
+
+<h3>Accessor methods</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>FilterMatrix</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>filterRules(x)</code>: Get the <code>FilterRules</code>
+corresponding to the columns of the matrix.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>FilterMatrix(matrix, filterRules)</code>: Constructs a
+<code>FilterMatrix</code>, from a given <code>matrix</code> and
+<code>filterRules</code>. Not usually called by the user, see
+<code><a href="FilterRules-class.html">evalSeparately</a></code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Utilities</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>summary(object, discarded = FALSE, percent = FALSE)</code>:
+Returns a numeric vector containing the total number of records
+(<code>nrow</code>), the number passed by each filter, and the number of
+records that passed every filter. If <code>discarded</code> is
+<code>TRUE</code>, then the numbers are inverted (i.e., the values are
+subtracted from the number of rows). If <code>percent</code> is
+<code>TRUE</code>, then the numbers are percent of total.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="FilterRules-class.html">evalSeparately</a></code> is the typical way to generate this
+object.
+</p>
+</li>
+<li> <p><a href="FilterRules-class.html">FilterRules</a> objects.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

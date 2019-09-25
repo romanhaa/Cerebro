@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creates a simple Bimap from a SQLite database in an situation...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createSimpleBimap {AnnotationDbi}"><tr><td>createSimpleBimap {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Creates a simple Bimap from a SQLite database in an situation that
+is external to AnnotationDbi</h2>
+
+<h3>Description</h3>
+
+<p>This function allows users to easily make a simple Bimap object for
+extra tables etc that they may wish to add to their annotation
+packages.  For most Bimaps, their definition is stored
+inside of AnnotationDbi.  The addition of this function is to help
+ensure that this does not become a limitation, by allowing simple
+extra Bimaps to easily be defined external to AnnotationDbi.  Usually,
+this will be done in the zzz.R source file of a package so that these
+extra mappings can be seemlessly integrated with the rest of the
+package.  For now, this function assumes that users will want to use
+data from just one table.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  createSimpleBimap(tablename, Lcolname, Rcolname, datacache, objName,
+  objTarget)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tablename</code></td>
+<td>
+
+<p>The name of the database table to grab the mapping information from. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>Lcolname</code></td>
+<td>
+
+<p>The field name from the database table.  These will become the Lkeys
+in the final mapping.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Rcolname</code></td>
+<td>
+
+<p>The field name from the database table.  These will become the Rkeys
+in the final mapping.
+</p>
+</td></tr>
+<tr valign="top"><td><code>datacache</code></td>
+<td>
+
+<p>The datacache object should already exist for every standard
+Annotation package.  It is not exported though, so you will have to
+access it with ::: . It is needed to provide the connection
+information to the function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>objName</code></td>
+<td>
+
+<p>This is the name of the mapping.
+</p>
+</td></tr>
+<tr valign="top"><td><code>objTarget</code></td>
+<td>
+
+<p>This is the name of the thing the mapping goes with. For most uses,
+this will mean the package name that the mapping belongs with.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+##You simply have to call this function to create a new mapping.  For
+##example, you could have created a mapping between the gene_name and
+##the symbols fields from the gene_info table contained in the hgu95av2
+##package by doing this:
+library(hgu95av2.db)
+hgu95av2NAMESYMBOL &lt;- createSimpleBimap("gene_info",
+                                        "gene_name",
+                                        "symbol",
+                                        hgu95av2.db:::datacache,
+                                        "NAMESYMBOL",
+                                        "hgu95av2.db")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: An interface to grep for PubMed abstracts.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pm.abstGrep {annotate}"><tr><td>pm.abstGrep {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>An interface to grep for PubMed abstracts.</h2>
+
+<h3>Description</h3>
+
+<p>A user friendly interface to the functionality provided by
+<code>pubmed</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pm.abstGrep(pattern, absts, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>A pattern for the call to <code>grep</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>absts</code></td>
+<td>
+<p>A list containing abstracts downloaded using <code>pubmed</code> or
+equivalent.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Extra arguments passed to <code>grep</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>absts</code> are a list of PubMed XML objects that have been downloaded 
+and parsed. This function lets the user quickly search the abstracts
+for any regular expression. The returned value is a logical vector
+indicating which of the abstracts contain the regular expression.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The returned value is a logical vector
+indicating which of the abstracts contain the regular expression.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pm.getabst.html">pm.getabst</a></code>, <code><a href="pm.titles.html">pm.titles</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  hoxa9 &lt;- "37806_at"
+  absts &lt;- pm.getabst(hoxa9, "hgu95av2")
+  pm.abstGrep("SH3", absts[[1]])
+  pm.abstGrep("autism", absts[[1]])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

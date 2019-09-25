@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class chromLocation, a class for describing genes and their...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for chromLocation-class {annotate}"><tr><td>chromLocation-class {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class chromLocation, a class for describing genes and their
+chromosome mappings.</h2>
+
+<h3>Description</h3>
+
+<p>This class provides chromosomal information provided by a
+Bioconductor metadata package.  By creating the object once for a
+particular package, it can be used in a variety of locations without
+the need to recomputed values repeatedly. 
+</p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>  new('chromLocation',</code>
+<code>    organism     = ...., # Object of class character</code><br />
+<code>    dataSource    = ...., # Object of class character</code><br />
+<code>    chromLocs    = ...., # Object of class list</code><br />
+<code>    probesToChrom  = ...., # Object of class ANY</code><br />
+<code>    chromInfo    = ...., # Object of class numeric</code><br />
+<code>    geneSymbols  = ...., # Object of class ANY</code><br />
+<code>  )</code></p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>organism</code>:</dt><dd><p>Object of class &quot;character&quot;.  The organism
+that these genes correspond to.</p>
+</dd>
+<dt><code>dataSource</code>:</dt><dd><p>Object of class &quot;character&quot;.  The source of
+the gene data.</p>
+</dd>
+<dt><code>chromLocs</code>:</dt><dd><p>Object of class &quot;list&quot;.  A list which
+provides specific location information for every gene.</p>
+</dd>
+<dt><code>probesToChrom</code>:</dt><dd><p>An object with an environment-like API
+which will translate a probe identifier to chromosome it belongs
+to.</p>
+</dd>
+<dt><code>chromInfo</code>:</dt><dd><p>A numerical vector representing each
+chromosome, where the names are the names of the chromosomes and
+the values are their lengths</p>
+</dd>
+<dt><code>geneSymbols</code>:</dt><dd><p>An environment or an object with
+environment-like API that maps a probe ID to
+the appropriate gene symbol</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>chromLengths</dt><dd><p>(chromLocation): Gets the lengths of the
+chromosome for this organism</p>
+</dd>
+<dt>chromLocs</dt><dd><p>(chromLocation): Gets the 'chromLocs' attribute.</p>
+</dd>
+<dt>chromNames</dt><dd><p>(chromLocation): Gets the name of the chromosomes
+for this organism</p>
+</dd>
+<dt>dataSource</dt><dd><p>(chromLocation): Gets the 'dataSource' attribute.</p>
+</dd>
+<dt>probesToChrom</dt><dd><p>(chromLocation): Gets the 'probesToChrom' attribute.</p>
+</dd>
+<dt>nChrom</dt><dd><p>(chromLocation): gets the number of chromosomes this
+organism has</p>
+</dd>
+<dt>organism</dt><dd><p>(chromLocation): gets the 'organism' attribute.</p>
+</dd>
+<dt>chromInfo</dt><dd><p>Gets the 'chromInfo' attribute.</p>
+</dd>
+<dt>geneSymbols</dt><dd><p>Gets the 'geneSymbols' attribute.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="buildChromLocation.html">buildChromLocation</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+
+  z &lt;- buildChromLocation("hgu95av2")
+  
+  ## find the number of chromosomes
+  nChrom(z)
+
+  ## Find the names of the chromosomes
+  chromNames(z)
+
+  ## get the organism this object refers to
+  organism(z)
+
+  ## get the lengths of the chromosomes in this object
+  chromLengths(z)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

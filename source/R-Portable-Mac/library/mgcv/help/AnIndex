@@ -1,4 +1,5 @@
 mgcv-package	mgcv-package
+%.%	tensor.prod.model.matrix
 adaptive.smooth	smooth.construct.ad.smooth.spec
 AIC.gam	logLik.gam
 anova.gam	anova.gam
@@ -7,6 +8,7 @@ bam	bam
 bam.update	bam.update
 bandchol	bandchol
 betar	Beta
+blas.thread.test	blas.thread.test
 bug.reports.mgcv	bug.reports.mgcv
 choldrop	chol.down
 cholup	chol.down
@@ -24,6 +26,7 @@ cubic.regression.spline	smooth.construct.cr.smooth.spec
 cyclic.cubic.spline	smooth.construct.cr.smooth.spec
 cyclic.p.spline	smooth.construct.ps.smooth.spec
 dDeta	dDeta
+diagXVXd	XWXd
 Dim.pdIdnot	pdIdnot
 Duchon.spline	smooth.construct.ds.smooth.spec
 exclude.too.far	exclude.too.far
@@ -64,6 +67,7 @@ gam2objective	gam2objective
 gamlss.etamu	gamlss.etamu
 gamlss.gH	gamlss.gH
 gamm	gamm
+gammals	gammals
 gamObject	gamObject
 gamSim	gamSim
 gaulss	gaulss
@@ -165,6 +169,7 @@ sdiag<-	sdiag
 signal.regression	linear.functional.terms
 sim2jam	jagam
 single.index	single.index
+Sl.inirep	Sl.initial.repara
 Sl.initial.repara	Sl.initial.repara
 Sl.repara	Sl.repara
 Sl.setup	Sl.setup
@@ -222,5 +227,8 @@ uniquecombs	uniquecombs
 user.defined.smooth	smooth.construct
 vcov.gam	vcov.gam
 vis.gam	vis.gam
+Xbd	XWXd
+XWXd	XWXd
+XWyd	XWXd
 ziP	ziP
 ziplss	ziplss

@@ -14,6 +14,22 @@
 %% \item \code{as(<large-matrix>, "sparseMatrix")} no longer fails
 %%  when \code{prod(dim(.))} is larger than \eqn{2^{31} - 1}.
 %
+\section{Changes in version 1.2-17 (2019-03-.., svn r....)}{
+  \subsection{New Features}{
+    \itemize{
+      \item (none)
+    }
+  }
+  \subsection{Bug Fixes}{
+    \itemize{
+      \item Fix new \code{PROTECT()} warnings (bugs?) found by \command{rchk}.
+
+      \item Provide \code{isFALSE()} for \R < 3.5.0 as now need it for
+      sparseMatrix printing.
+    }
+  }
+}
+
 \section{Changes in version 1.2-16 (2019-03-04, svn r3291)}{
   \subsection{New Features}{
     \itemize{

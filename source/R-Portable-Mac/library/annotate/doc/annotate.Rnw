@@ -1,0 +1,222 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{Annotation Overview}
+%\VignetteDepends{Biobase, genefilter, annotate, hgu95av2.db}
+%\VignetteKeywords{Expression Analysis, Annotation}
+%\VignettePackage{annotate}
+
+\documentclass{article}
+
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+
+\bibliographystyle{plainnat}
+
+\begin{document}
+\title{Bioconductor: Annotation Package Overview}
+\maketitle{}
+
+\section{Overview}
+
+In its current state the basic purpose of \Rpackage{annotate} is to
+supply interface routines that support user actions that rely on the
+different meta-data packages provided through the Bioconductor
+Project. There are currently four basic categories of functions that
+are contained in \Rpackage{annotate}.
+\begin{itemize}
+\item Interface functions for getting data out of specific meta-data
+      libraries.
+\item Functions that support querying the different web services
+      provided by the National Library of Medicine (NLM), and the
+      National Center for Biotechnology Information (NCBI).
+\item Functions that support organizing and structuring chromosomal
+      location data to support some of the gene plotting and gene
+      finding routines in \Rpackage{geneplotter}.
+\item Functions that produce HTML output, hyperlinked to different web
+      resources, from gene lists.
+\end{itemize}
+
+We will briefly describe the second and third of these different
+aspects and then for the remainder of this vignette concentrate on the
+first category. The other three have their own vignettes.
+
+
+There are two different, but complementary strategies for accessing
+meta-data. One is to use highly curated data that have been assembled
+from many different sources and a second is to rely on on-line
+sources. The former tends to be less current but more comprehensive
+while the latter tends to be current but can be less comprehensive and
+difficult to reproduce as the sources themselves are constantly
+evolving. To address the second of these we develop and distribute
+software that can take advantage of the web services that are
+provided. Perhaps the richest source of these is provided by the
+National Library of Medicine. Further details on accessing these
+resources are provided in \cite{PubMedRnews} and \cite{PubMedVignette}.
+
+While the chromosomal location is not always of interest, in certain
+situations, especially the study of genetic diseases it is important
+that we be able to associate particular genes with locations on
+chromosomes. We provide a complete set of functions that map from
+LocusLink identifiers to chromosomal location. Examples and further
+discussion are provided in \cite{ChromLocVignette}.
+
+Producing output that helps users navigate and understand the results
+of an analysis is a very important aspect of any data analysis. Since
+one of the primary tasks that is carried out when analysing gene
+expression data is to create lists of interesting genes we have
+provided some simple infrastructure that will help produce a
+hyperlinked output page for any given set of genes. A more substantial
+and comprehensive approach has be taken by C. Smith in the
+\Rpackage{annaffy} package. A vignetted for using the functions
+provided in the \Rfunction{annotate} package is provided in
+\cite{HTMLVignette}.
+
+We now turn our attention to interfaces to the meta-data packages and
+how and when they will be useful.  The annotation library provides
+interface support for the different meta-data packages
+(\url{http://www.bioconductor.org/help/bioc-views/release/data/annotation/} that are available
+through the Bioconductor Project. We have tried to make these
+different meta-data packages modular, in the sense that all of them
+should have similar sets of mappings from manufacturer IDs to specific
+biological data such as chromosomal location, GO, and LocusLink
+identifiers.
+
+Annotation in the Bioconductor Project is handled by two systems. One,
+\Rpackage{AnnBuilder} is a system for assembling and relating the data from
+various sources. It is much more {\em industrial} and takes advantage
+of many different non-R tools such as Perl and XML. The second package
+is {\em annotate}. This package is designed to provide experiment
+level annotation resources and to help users associate the outputs of
+\Rpackage{AnnBuilder} with their particular data.
+
+There will be some need for the structure of the meta-data packages to
+evolve over time and by making use of the functions provided in
+\Rpackage{annotate} users and developers should shield themselves from
+many of the changes. We will endeavor to keep the \Rpackage{annotate}
+interfaces constant.
+
+Any given experiment typically involves a set of known identifiers
+(probes in the case of a microarray experiment). These identifiers are
+typically unique (for any manufacturer). This holds true for any of
+the standard databases such as LocusLink.
+However, when the identifiers from one source are linked to the
+identifiers from another there does not need to be a one--to--one
+relationship. For example, several different Affymetrix accession
+numbers correspond to a single LocusLink identifier. Thus, when going
+one direction (Affymetrix to LocusLink) we have no problem, but when
+going the other we need some mechanism for dealing with the
+multiplicity of matches.
+
+\subsection*{A Short Example}
+
+We will consider the Affymetrix human gene chip, \texttt{hgu95av2},
+for our example. We first load this chip's package and \Rpackage{annotate}.
+
+<<loadlibs>>=
+library("annotate")
+library("hgu95av2.db")
+ls("package:hgu95av2.db")
+@
+We see the listing of twenty or thirty different R objects in this
+package. Most of them represent mappings from the identifiers on the
+Affymetrix chip to the different biological resources and you can find
+out more about them by using the R help system, since each has a
+manual page that describes the data together with other information
+such as where, when and what files were used to construct the
+mappings. Also, each meta-data package has one object that has the
+same name as the package basename, in this case it is \Robject{hgu95av2}. This
+is function and it can be invoked to find out some of the different
+statistics regarding the mappings that were done. Its manual page
+lists all data resources that were used to create the meta-data package.
+
+<<qc>>=
+hgu95av2()
+@
+
+Now let's consider a specific object, say the
+\Robject{hgu95av2ENTREZID} object.
+<<locusid>>=
+hgu95av2ENTREZID
+@
+If we type its name we see that it is an R \texttt{environment}; all
+this means is that it is a special data type that is efficient at
+storing and retrieving mappings between symbols (the Affymetrix
+identifiers) and associated values (the LocusLink IDs).
+
+We can retrieve values from this environment in many different ways
+(and the reader is referred to the R help pages for more details on
+using some of the functions described briefly here).
+Suppose that we are interested in finding the LocusLink ID for the
+Affymetrix probe, \texttt{1000\_at}. Then we can do it in any one of
+the following ways:
+<<getting>>=
+
+get("1000_at", env=hgu95av2ENTREZID)
+hgu95av2ENTREZID[["1000_at"]]
+hgu95av2ENTREZID$"1000_at"
+
+@
+And in all cases we see that the LocusLink identifier is
+\Sexpr{hgu95av2ENTREZID[["1000_at"]]}.
+
+If you want to get more than one
+object from an environment you also have a number of choices. You can
+extract them one at a time using either a \texttt{for} loop or
+\Rfunction{apply} or \Rfunction{eapply}. It will be more efficient to
+use \Rfunction{mget} since it does the retrieval using internal code
+and is optimized. You may also want to turn the environment into a
+named list, so that you can perform different list operations on it,
+this can be done using the function \Rfunction{contents} or
+\Rfunction{as.list}.
+
+<<tolist>>=
+LLs = as.list(hgu95av2ENTREZID)
+length(LLs)
+names(LLs)[1:10]
+
+@
+
+\section{Developers Tips}
+
+Software developers that are building other tools that might make use
+of the infrastructure produced here should make use of the
+\Rfunction{get*} family of functions. Examples include
+\Rfunction{getEG}, \Rfunction{getGO} and so on. There are two reasons
+for using these functions.
+
+First, they allow you to implement functionality that is independent
+of the meta-data packages. Since each of these functions takes two
+arguments, one a list of the manufacturers ids and the second the
+\textit{basename} of the annotation package these functions will
+provide the correct results for all annotation packages.
+
+A second reason to make use of these interface functions is that they
+are guaranteed not to change. The underlying structure of the
+meta-data packages may change and developers that access this directly
+will find that their code needs to be updated regularly. But
+developers that make use of these interface functions will find that
+their code needs much less maintenance.
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE>>=
+sessionInfo()
+@
+
+\bibliography{annotate}
+
+\end{document}

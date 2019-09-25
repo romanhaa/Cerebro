@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A Function To Serialize Environment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for serializeEnv {annotate}"><tr><td>serializeEnv {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A Function To Serialize Environment</h2>
+
+<h3>Description</h3>
+
+<p>This function will serialize an environment in R to an XML format
+stored in a compressed file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+serializeEnv(env, fname)
+serializeDataPkgEnvs(pkgDir)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p>The name of the environment to serialize.</p>
+</td></tr>
+<tr valign="top"><td><code>fname</code></td>
+<td>
+<p>The name of the output file.</p>
+</td></tr>
+<tr valign="top"><td><code>pkgDir</code></td>
+<td>
+<p>The directory where a data package is</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The environment is converted into an XML format and then outputted to
+a gzipped file (using <code><a href="../../base/html/connections.html">gzfile</a></code>).  The values in the
+environment are serialized (using <code><a href="../../base/html/serialize.html">serialize</a></code>) in ASCII
+format although the keys are stored in plain text.
+</p>
+<p>The format of the XML is very simple, with the primary block being
+<code>values</code>, which contain blocks of <code>entries</code>, and each entry
+having a <code>key</code> and a <code>value</code>.  For instance, if we had an
+environment with one value in it, the character <code>c</code> with a key
+of <code>a</code> (e.g. <code>assign("a", "c", env=foo)</code>), this is what the
+output would look like.
+</p>
+<pre>
+     &lt;?xml version="1.0"?&gt;
+     &lt;values xmlns:bt="http://www.bioconductor.org/RGDBM"&gt;
+        &lt;entry&gt;
+           &lt;key&gt;
+             a
+           &lt;/key&gt;
+           &lt;value&gt;
+              A\n2\n131072\n66560\n1040\n1\n1033\n1\nc\n
+           &lt;/value&gt;
+	&lt;/entry&gt;    
+     &lt;/values&gt;
+   </pre>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/connections.html">gzfile</a></code>,
+<code><a href="../../base/html/serialize.html">serialize</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   z &lt;- new.env()
+   assign("a", 1, env=z)
+   assign("b", 2, env=z)
+   assign("c", 3, env=z)
+   serializeEnv(z, tempfile())
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

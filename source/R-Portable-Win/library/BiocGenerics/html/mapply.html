@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply a function to multiple list-like or vector-like...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mapply {BiocGenerics}"><tr><td>mapply {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply a function to multiple list-like or vector-like arguments</h2>
+
+<h3>Description</h3>
+
+<p><code>mapply</code> is a multivariate version of
+<code><a href="sapply.html">sapply</a></code>. <code>mapply</code> applies
+<code>FUN</code> to the first elements of each <code>...</code> argument,
+the second elements, the third elements, and so on. Arguments
+are recycled if necessary.
+</p>
+<p>NOTE: This man page is for the <code>mapply</code> <em>S4 generic function</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/mapply.html">mapply</a></code> for the default method
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+(typically list-like or vector-like) not supported by the
+default methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mapply(FUN, ..., MoreArgs=NULL, SIMPLIFY=TRUE, USE.NAMES=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>FUN, MoreArgs, SIMPLIFY, USE.NAMES</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/mapply.html">mapply</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>One or more list-like or vector-like objects of strictly
+positive length, or all of zero length.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/mapply.html">mapply</a></code> for the value returned by the
+default method.
+</p>
+<p>Specific methods defined in Bioconductor packages should 
+behave as consistently as possible with the default method.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/mapply.html">mapply</a></code> for the default <code>mapply</code>
+method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+mapply  # note the dispatch on the '...' arg only
+showMethods("mapply")
+selectMethod("mapply", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

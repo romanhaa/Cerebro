@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a new ExpressionSet instance by selecting a specific...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for channel {Biobase}"><tr><td>channel {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a new ExpressionSet instance by selecting a specific channel</h2>
+
+<h3>Description</h3>
+
+<p>This generic function extracts a specific element from an 
+object, returning a instance of the ExpressionSet class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+channel(object, name, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An S4 object, typically derived from class
+<code><a href="class.eSet.html">eSet</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the channel, a (length one) character vector.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An instance of class <code><a href="class.ExpressionSet.html">ExpressionSet</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+obj &lt;- NChannelSet(
+           R=matrix(runif(100), 20, 5),
+           G=matrix(runif(100), 20, 5))
+## G channel as ExpressionSet
+channel(obj, "G")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

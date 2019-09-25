@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nearest neighbor search.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for matchpt {Biobase}"><tr><td>matchpt {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Nearest neighbor search.</h2>
+
+<h3>Description</h3>
+
+<p>Find the nearest neighbors of a set of query points in the same
+or another set of points in an
+n-dimensional real vector space, using the Euclidean distance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+    matchpt(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix (or vector) of coordinates.
+Each row represents a point in an <code>ncol(x)</code>-dimensional real
+vector space.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Optional, matrix (or vector) with the same number of columns
+as <code>x</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>y</code> is provided, the function searches
+for each point in <code>x</code> its nearest neighbor in <code>y</code>.
+If <code>y</code> is missing, it searches
+for each point in <code>x</code> its nearest neighbor in <code>x</code>,
+excluding that point itself.
+In the case of ties, only the neighbor with the smaller index is given.
+</p>
+<p>The implementation is simple and of complexity <code>nrow(x)</code> times
+<code>nrow(y)</code>. For larger problems, please consider one of the many
+more efficient nearest neighbor search algorithms.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.frame</code> with two columns and <code>nrow(x)</code> rows.
+The first column is the index of the nearest neighbor,
+the second column the distance to the nearest neighbor.
+If <code>y</code> was given, the index is a row number in <code>y</code>,
+otherwise, in <code>x</code>. The row names of the result are those of <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oleg Sklyar <a href="mailto:osklyar@ebi.ac.uk">osklyar@ebi.ac.uk</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    a &lt;- matrix(c(2,2,3,5,1,8,-1,4,5,6), ncol=2L, nrow=5L)
+    rownames(a) = LETTERS[seq_len(nrow(a))]
+    matchpt(a)
+    b &lt;- c(1,2,4,5,6)
+    d &lt;- c(5.3, 3.2, 8.9, 1.3, 5.6, -6, 4.45, 3.32)
+    matchpt(b, d)
+    matchpt(d, b)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

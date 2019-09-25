@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Random Edge Graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for randomEGraph {graph}"><tr><td>randomEGraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Random Edge Graph  </h2>
+
+<h3>Description</h3>
+
+<p>A function to create random graphs according to a random edge model.
+The user supplies the set of nodes for the graph as <code>V</code> and
+either a probability, <code>p</code>, that is used for each edge or the
+number of edges, <code>edges</code> they want to have in the resulting graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+randomEGraph(V, p, edges)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>V</code></td>
+<td>
+<p>The nodes for the graph. </p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p> The probability of an edge being selected. </p>
+</td></tr>
+<tr valign="top"><td><code>edges</code></td>
+<td>
+<p> The number of edges wanted. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The user must specify the set of nodes and either a probability for
+edge selection or the number of edges wanted, but not both.
+Let <code>nV</code> denote the
+number of nodes. There are <code>choose(nV, 2)</code> edges in the complete
+graph. If <code>p</code> is specified then a biased coin (probability of
+heads being <code>p</code>) is tossed for each edge and if it is heads that
+edge is selected. If <code>edges</code> is specified then that many edges
+are sampled without replacement from the set of possible edges.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="graphNEL-class.html">graphNEL-class</a></code> that contains the nodes and
+edges. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="randomGraph.html">randomGraph</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(123)
+  V &lt;- letters[14:22]
+  g1 &lt;- randomEGraph(V, .2)
+
+  g2 &lt;- randomEGraph(V, edges=30)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

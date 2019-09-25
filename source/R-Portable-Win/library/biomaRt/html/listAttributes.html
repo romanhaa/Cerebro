@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: lists the attributes available in the selected dataset</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for listAttributes {biomaRt}"><tr><td>listAttributes {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>lists the attributes available in the selected dataset</h2>
+
+<h3>Description</h3>
+
+<p>Attributes are the outputs of a biomaRt query, they are the information we want to retrieve.  For example if we want to retrieve all entrez gene identifiers of genes located on chromosome X, entrezgene will be the attribute we use in the query.  The listAttributes function lists the available attributes in the selected dataset</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+    listAttributes(mart, page,what = c("name","description","page"))
+    searchAttributes(mart, pattern)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mart created using the useMart function</p>
+</td></tr>
+<tr valign="top"><td><code>page</code></td>
+<td>
+<p>Show only the attributes that belong to the specified attribute page.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>vector of types of information about the attributes that need to be displayed.  
+Can have values like name, description, fullDescription, page</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>Character vector defining the regular expression (<code><a href="../../base/html/regex.html">regex</a>)</code>
+to be used for the search.  If left blank the default is to use &quot;.*&quot; which will match 
+everything.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck, Mike Smith</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if(interactive()){
+
+    ## list the available Ensembl marts and use Ensembl Genes
+    listEnsembl()
+    ensembl &lt;- useEnsembl(biomart = "ensembl", dataset = 'hsapiens_gene_ensembl')
+
+    ## list the available datasets in this Mart
+    listAttributes(mart = ensembl)
+
+    ## the list of attributes is very long and gets truncated by R
+    ## we can search for a term of interest to filter this e.g. 'start'
+    searchAttributes(mart = ensembl, pattern = "start")
+    
+    ## filter the attributes to give only entries containing 'entrez' or 'hgnc'
+    searchAttributes(mart = ensembl, 'entrez|hgnc') 
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

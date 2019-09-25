@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get annotation package name from chip name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for annPkgName {annotate}"><tr><td>annPkgName {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get annotation package name from chip name</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the name of the Bioconductor annotation data
+package that corresponds to the specified chip or genome.  The
+<code>type</code> argument is used to request an annotation package with a
+particular backing store.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+annPkgName(name, type = c("db", "env"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>string specifying the name of the chip or genome.  For
+example, <code>"hgu133plus2"</code></p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Either <code>"db"</code> or <code>"env"</code>.  This will determine
+whether the package name returned corresponds to the SQLite-based
+annotation package or environment-based package, respectively.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a string giving the name of the annotation data package
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getAnnMap.html">getAnnMap</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+annPkgName("hgu133plus2", type="db")
+annPkgName("hgu133plus2", type="env")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

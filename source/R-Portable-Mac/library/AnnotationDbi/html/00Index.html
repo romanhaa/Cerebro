@@ -1,0 +1,907 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Annotation Database Interface</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> Annotation Database Interface
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;AnnotationDbi&rsquo; version 1.44.0</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="#A">A</a>
+<a href="#B">B</a>
+<a href="#C">C</a>
+<a href="#D">D</a>
+<a href="#E">E</a>
+<a href="#F">F</a>
+<a href="#G">G</a>
+<a href="#H">H</a>
+<a href="#I">I</a>
+<a href="#K">K</a>
+<a href="#L">L</a>
+<a href="#M">M</a>
+<a href="#N">N</a>
+<a href="#O">O</a>
+<a href="#P">P</a>
+<a href="#R">R</a>
+<a href="#S">S</a>
+<a href="#T">T</a>
+<a href="#U">U</a>
+<a href="#X">X</a>
+<a href="#Y">Y</a>
+<a href="#misc">misc</a>
+</p>
+
+
+<h2><a name="A">-- A --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ACCNUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ACYRTHOSIPHON_PISUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">AEDES_AEGYPTI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">AgiAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">AgiAnnDbMap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ALIAS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">AnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">AnnDbBimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">AnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">AnnDbMap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">AnnDbObj</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">AnnDbObj-class</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">AnnDbObj-objects</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbPkg-checker.html">AnnDbPkg-checker</a></td>
+<td>Check the SQL data contained in an SQLite-based annotation package</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">AnnotationDb</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">AnnotationDb-class</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ANOPHELES_GAMBIAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">APIS_MELLIFERA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ARABIDOPSIS_THALIANA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ARACYC</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ARACYCENZYME</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFormatting.html">as.character-method</a></td>
+<td>Formatting a Bimap as a list or character vector</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">as.data.frame-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">as.data.frame.Bimap</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFormatting.html">as.list</a></td>
+<td>Formatting a Bimap as a list or character vector</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFormatting.html">as.list-method</a></td>
+<td>Formatting a Bimap as a list or character vector</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFormatting.html">as.list.Bimap</a></td>
+<td>Formatting a Bimap as a list or character vector</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ASPERGILLUS_FUMIGATUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="B">-- B --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">BATRACHOCHYTRIUM_DENDROBATIDIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">Bimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">Bimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Bimap-direction</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">Bimap-envirAPI</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">Bimap-keys</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Bimap-toTable</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFormatting.html">BimapFormatting</a></td>
+<td>Formatting a Bimap as a list or character vector</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">BOMBYX_MORI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">BOS_TAURUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">BRANCHIOSTOMA_FLORIDAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">BRUGIA_MALAYI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="C">-- C --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAENORHABDITIS_BRENNERI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAENORHABDITIS_BRIGGSAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAENORHABDITIS_ELEGANS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAENORHABDITIS_JAPONICA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAENORHABDITIS_REMANEI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CANDIDA_ALBICANS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CANDIDA_GLABRATA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CANIS_FAMILIARIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAPITELLA_SPI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CAVIA_PORCELLUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbPkg-checker.html">checkMAPCOUNTS</a></td>
+<td>Check the SQL data contained in an SQLite-based annotation package</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">ChipDb-class</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CHLAMYDOMONAS_REINHARDTII</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">CHR</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">CHRLOC</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">CHRLOCEND</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CIONA_INTESTINALIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CIONA_SAVIGNYI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:AgiAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:AnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:AnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">class:AnnDbObj</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">class:AnnotationDb</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:Bimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:Go3AnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">class:GOAllFrame</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:GoAnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">class:GOFrame</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">class:GOTerms</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:GOTermsAnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:IpiAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="KEGGFrame.html">class:KEGGFrame</a></td>
+<td>KEGGFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:ProbeAnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:ProbeAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:ProbeGo3AnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">class:ProbeIpiAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">COCCIDIOIDES_IMMITIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">colmetanames</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">colmetanames-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">colnames</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">colnames-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">cols</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">columns</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">columns-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">COMMON</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">contents-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">COPRINOPSIS_CINEREUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">count.links</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">count.links-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">count.mappedkeys</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">count.mappedkeys-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">count.mappedLkeys</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">count.mappedLkeys-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">count.mappedRkeys</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">count.mappedRkeys-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="createSimpleBimap.html">createSimpleBimap</a></td>
+<td>Creates a simple Bimap from a SQLite database in an situation that is external to AnnotationDbi</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CRYPTOCOCCUS_NEOFORMANS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CRYPTOSPORIDIUM_HOMINIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CRYPTOSPORIDIUM_PARVUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CULEX_PIPIENS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">CYANIDIOSCHYZON_MEROLAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="D">-- D --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DANIO_RERIO</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DAPHNIA_PULEX</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbconn</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbconn-method</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">dbconn-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbfile</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbfile-method</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">dbfile-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbInfo</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbInfo-method</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbmeta</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbmeta-method</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbschema</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnDbObj-class.html">dbschema-method</a></td>
+<td>AnnDbObj objects</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DEBARYOMYCES_HANSENII</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="GOColsAndKeytypes.html">DEFINITION</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for GO.db.</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Definition</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Definition-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">DESCRIPTION</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DICTYOSTELIUM_DISCOIDEUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">dim-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">direction</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">direction-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">direction&lt;-</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">direction&lt;--method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_ANANASSAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_GRIMSHAWI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_MELANOGASTER</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_MOJAVENSIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_PSEUDOOBSCURA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_VIRILIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">DROSOPHILA_WILLISTONI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="E">-- E --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">eapply</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">eapply-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ENSEMBL</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ENSEMBLPROT</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ENSEMBLTRANS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ENTAMOEBA_HISTOLYTICA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ENTREZID</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ENZYME</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">EQUUS_CABALLUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ESCHERICHIA_COLIK12</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">EVIDENCE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">EVIDENCEALL</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">exists</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">exists-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+</table>
+
+<h2><a name="F">-- F --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">FUSARIUM_GRAMINEARUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="G">-- G --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">GALLUS_GALLUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">GASTEROSTEUS_ACULEATUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">GENENAME</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">get</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">get-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">getBimapFilters</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">getBimapFilters-method</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">getGOFrameData</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">getGOFrameData-method</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="KEGGFrame.html">getKEGGFrameData</a></td>
+<td>KEGGFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="KEGGFrame.html">getKEGGFrameData-method</a></td>
+<td>KEGGFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">GIARDIA_LAMBLIA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">GO</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">Go3AnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">Go3AnnDbBimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">GOALL</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">GOAllFrame</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">GOAllFrame-class</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">GOAllFrame-method</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">GoAnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">GoAnnDbBimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">GODb-class</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">GOFrame</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">GOFrame-class</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOFrame.html">GOFrame-method</a></td>
+<td>GOFrame and GOAllFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="GOColsAndKeytypes.html">GOID</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for GO.db.</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">GOID-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">GOTerms</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">GOTerms-class</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">GOTermsAnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">GOTermsAnnDbBimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+</table>
+
+<h2><a name="H">-- H --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">hasMultiProbes</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">hasMultiProbes-method</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">hasSingleProbes</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">hasSingleProbes-method</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">head-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">HELOBDELLA_ROBUSTA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="I">-- I --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="inpIDMapper.html">idConverter</a></td>
+<td>Convenience functions for mapping IDs through an appropriate set of annotation packages</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">initialize-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">InparanoidDb-class</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="inpIDMapper.html">inpIDMapper</a></td>
+<td>Convenience functions for mapping IDs through an appropriate set of annotation packages</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">INTERPRO</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="inpIDMapper.html">intraIDMapper</a></td>
+<td>Convenience functions for mapping IDs through an appropriate set of annotation packages</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">IPI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">IpiAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">IpiAnnDbMap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">isNA</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">isNA-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">IXODES_SCAPULARIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="K">-- K --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="KEGGFrame.html">KEGGFrame</a></td>
+<td>KEGGFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="KEGGFrame.html">KEGGFrame-class</a></td>
+<td>KEGGFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="KEGGFrame.html">KEGGFrame-method</a></td>
+<td>KEGGFrame objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">keyname</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">keyname-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">keys</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">keys-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">keys-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">keys&lt;-</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">keys&lt;--method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">keytypes</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">keytypes-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">KLUYVEROMYCES_LACTIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="L">-- L --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">LEISHMANIA_MAJOR</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">length-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">links</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">links-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Lkeyname</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Lkeyname-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Lkeys</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Lkeys-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Lkeys&lt;-</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Lkeys&lt;--method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Llength</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Llength-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">loadDb</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">LOTTIA_GIGANTEA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">ls</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">ls-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+</table>
+
+<h2><a name="M">-- M --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">MACACA_MULATTA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">MAGNAPORTHE_GRISEA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="makeGOGraph.html">makeGOGraph</a></td>
+<td>A convenience function to generate graphs based on the GO.db package</td></tr>
+<tr><td style="width: 25%;"><a href="make_eg_to_go_map.html">make_eg_to_go_map</a></td>
+<td>Create GO to Entrez Gene maps for chip-based packages</td></tr>
+<tr><td style="width: 25%;"><a href="make_eg_to_go_map.html">make_go_to_eg_map</a></td>
+<td>Create GO to Entrez Gene maps for chip-based packages</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">MAP</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">mapIds</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">mapIds-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">mappedkeys</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">mappedkeys-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">mappedLkeys</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">mappedLkeys-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">mappedRkeys</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">mappedRkeys-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">metadata-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">mget</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">mget-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">MONODELPHIS_DOMESTICA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">MONOSIGA_BREVICOLLIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">MUS_MUSCULUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="N">-- N --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">names-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">NASONIA_VITRIPENNIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">ncol</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">ncol-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">NEMATOSTELLA_VECTENSIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">NEUROSPORA_CRASSA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">nhit</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">nhit-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">nrow</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">nrow-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+</table>
+
+<h2><a name="O">-- O --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">OMIM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="GOColsAndKeytypes.html">ONTOLOGY</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for GO.db.</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Ontology</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Ontology-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ONTOLOGYALL</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">ORF</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">OrgDb-class</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="orgPackageName.html">orgPackageName</a></td>
+<td>Org package contained in annotation object</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ORNITHORHYNCHUS_ANATINUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ORYZA_SATIVA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">ORYZIAS_LATIPES</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">OSTREOCOCCUS_TAURI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="P">-- P --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PAN_TROGLODYTES</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">PATH</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PEDICULUS_HUMANUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">PFAM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PHYSCOMITRELLA_PATENS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PHYTOPHTHORA_RAMORUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PHYTOPHTHORA_SOJAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PLASMODIUM_FALCIPARUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PLASMODIUM_VIVAX</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">PMID</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PONGO_PYGMAEUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">POPULUS_TRICHOCARPA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="print.probetable.html">print.probetable</a></td>
+<td>Print method for probetable objects</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PRISTIONCHUS_PACIFICUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeAnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeAnnDbBimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeAnnDbMap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeGo3AnnDbBimap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeGo3AnnDbBimap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">PROBEID</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeIpiAnnDbMap</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">ProbeIpiAnnDbMap-class</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">PROSITE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">PUCCINIA_GRAMINIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="R">-- R --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Rattribnames</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Rattribnames-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Rattribnames&lt;-</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Rattribnames&lt;--method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">RATTUS_NORVEGICUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">ReactomeDb-class</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">REFSEQ</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">revmap</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">revmap-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">RHIZOPUS_ORYZAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Rkeyname</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">Rkeyname-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Rkeys</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Rkeys-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Rkeys&lt;-</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Rkeys&lt;--method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Rlength</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">Rlength-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+</table>
+
+<h2><a name="S">-- S --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">SACCHAROMYCES_CEREVISIAE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">sample</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">sample-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">saveDb</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">saveDb-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">SCHISTOSOMA_MANSONI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">SCHIZOSACCHAROMYCES_POMBE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">SCLEROTINIA_SCLEROTIORUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Secondary</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Secondary-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">select</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">select-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">setInpBimapFilter</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">setInpBimapFilter-method</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">SGD</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">show-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">show-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">show-method</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">show-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">SMART</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">SORGHUM_BICOLOR</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">species</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">species-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">STAGONOSPORA_NODORUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">STRONGYLOCENTROTUS_PURPURATUS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-direction.html">subset-method</a></td>
+<td>Methods for getting/setting the direction of a Bimap object, and undirected methods for getting/counting/setting its keys</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap.html">summary-method</a></td>
+<td>Bimap objects and the Bimap interface</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">SYMBOL</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Synonym</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Synonym-method</a></td>
+<td>Class "GOTerms"</td></tr>
+</table>
+
+<h2><a name="T">-- T --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">tagname</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">tagname-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">tail-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">TAIR</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TAKIFUGU_RUBRIPES</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">taxonomyId</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="AnnotationDb-class.html">taxonomyId-method</a></td>
+<td>AnnotationDb objects and their progeny, methods etc.</td></tr>
+<tr><td style="width: 25%;"><a href="GOColsAndKeytypes.html">TERM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for GO.db.</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Term</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="GOTerms-class.html">Term-method</a></td>
+<td>Class "GOTerms"</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TETRAHYMENA_THERMOPHILA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TETRAODON_NIGROVIRIDIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">THALASSIOSIRA_PSEUDONANA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">THEILERIA_ANNULATA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">THEILERIA_PARVA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">toggleProbes</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="BimapFiltering.html">toggleProbes-method</a></td>
+<td>Methods for getting/setting the filters on a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="toSQLStringSet.html">toSQLStringSet</a></td>
+<td>Convert a vector to a quoted string for use as a SQL value list</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">toTable</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-toTable.html">toTable-method</a></td>
+<td>Methods for manipulating a Bimap object in a data-frame style</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TRIBOLIUM_CASTANEUM</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TRICHOMONAS_VAGINALIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TRICHOPLAX_ADHAERENS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">TRYPANOSOMA_CRUZI</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="U">-- U --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">UNIGENE</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="colsAndKeytypes.html">UNIPROT</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes'.</td></tr>
+<tr><td style="width: 25%;"><a href="unlist2.html">unlist2</a></td>
+<td>A replacement for unlist() that does not mangle the names</td></tr>
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">USTILAGO_MAYDIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="X">-- X --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">XENOPUS_TROPICALIS</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="Y">-- Y --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="InparanoidColsAndKeytypes.html">YARROWIA_LIPOLYTICA</a></td>
+<td>Descriptions of available values for 'columns' and 'keytypes' for inparanpoid packages.</td></tr>
+</table>
+
+<h2><a name="misc">-- misc --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">$-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-keys.html">[-method</a></td>
+<td>Methods for manipulating the keys of a Bimap object</td></tr>
+<tr><td style="width: 25%;"><a href="Bimap-envirAPI.html">[[-method</a></td>
+<td>Environment-like API for Bimap objects</td></tr>
+</table>
+</body></html>

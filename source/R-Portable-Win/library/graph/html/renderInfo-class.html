@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;renderInfo&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for renderInfo-class {graph}"><tr><td>renderInfo-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;renderInfo&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A container class to manage graph rendering attributes.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("renderInfo")</code>
+or by using the initializer <code>.renderInfoPrototype</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>pars</code>:</dt><dd><p>List of default rendering attributes with two
+items <code>nodes</code> and <code>edges</code>. When not set further down the
+parameter hierarchy, these defaults will be used for all
+nodes/edges in the graph. </p>
+</dd>
+<dt><code>nodes</code>:</dt><dd><p>Named list of attributes specific to nodes. </p>
+</dd>
+<dt><code>edges</code>:</dt><dd><p>Named list of attributes specific to edges. </p>
+</dd>
+<dt><code>graph</code>:</dt><dd><p>Named list of graph-wide attributes. </p>
+</dd>
+</dl>
+
+<p>Each item of <code>nodes</code> and <code>edges</code> can take arbitrary
+vectors, the only restriction is that they have to be of either
+length 1 or length equal to the number of nodes or edges,
+respectively.
+</p>
+<p><code>pars</code> and <code>graph</code> can take arbitrary skalars, the latter
+for both edges and nodes. </p>
+
+
+<h3>Methods</h3>
+
+<p>The following are functions rather than methods and build the API to
+control the graphical output of a graph when it is plotted using
+<code><a href="../../Rgraphviz/html/renderGraph.html">renderGraph</a></code>.
+</p>
+
+<dl>
+<dt>parRenderInfo, parRenderInfo&lt;-</dt><dd><p>getter and setter for
+items of slot <code>pars</code></p>
+</dd>
+<dt>nodeRenderInfo, nodeRenderInfo&lt;-</dt><dd><p>getter and setter for
+items of slot <code>nodes</code></p>
+</dd>
+<dt>edgeRenderInfo, edgeRenderInfo&lt;-</dt><dd><p>getter and setter for
+items of slot <code>edges</code></p>
+</dd>
+<dt>graphRenderInfo, graphRenderInfo&lt;-</dt><dd><p>getter and setter for
+items of slot <code>graph</code></p>
+</dd>
+</dl>
+
+<p>The getters all take two arguments: <code>g</code> is a graph object and
+<code>name</code> is a character giving the name of one of the item in the
+respective slot. When <code>name</code> is missing this will give you the
+whole list.
+</p>
+<p>The setters are a bit more complex: <code>nodeRenderInfo&lt;-</code> and
+<code>edgeRenderInfo&lt;-</code> can take
+</p>
+
+<dl>
+<dt>named list of named vectors</dt><dd><p>where the names have to match the node
+or edge names. Items in the vector that don't match a valid edge or
+node name will be silently ignored. For undirected edges the order
+of head nodes and tail nodes in edge names is ignored,
+i.e. <code>a~b</code> is equivalent to codeb~a</p>
+</dd>
+<dt>named list of skalars</dt><dd><p>which will set all the attribute for all
+edges or nodes in the graph</p>
+</dd>
+</dl>
+<p><code>parRenderInfo&lt;-</code>will only take a list with items
+<code>nodes</code>, <code>edges</code> and <code>graph</code>. The content of these
+list items can be arbitrary named vectors.
+<code>parRenderInfo&lt;-</code>takes an arbitrary list
+
+</p>
+<p>Available rendering parameters for nodes are:
+</p>
+
+<dl>
+<dt>col:</dt><dd><p> the color of the line drawn as node border. Defaults to
+<code>black</code>.</p>
+</dd>
+<dt>lty:</dt><dd><p> the type of the line drawn as node border. Defaults to
+<code>solid</code>. Valid values are the same as for the R's base
+graphic parameter <code>lty</code>.</p>
+</dd>
+<dt>lwd:</dt><dd><p> the width of the line drawn as node border. Defaults to
+<code>1</code>. Note that the underlying low level plotting functions do
+not support vectorized <code>lwd</code> values. Instead, only the first
+item of the vector will be used. </p>
+</dd>
+<dt>fill:</dt><dd><p> the color used to fill a node. Defaults to
+<code>transparent</code>.</p>
+</dd>
+<dt>textCol:</dt><dd><p> the font color used for the node labels. Defaults
+to <code>black</code>.</p>
+</dd>
+<dt>fontsize: </dt><dd><p>the font size for the node labels in
+points. Defaults to <code>14</code>. Note that the fontsize will be
+automatically adjusted to make sure that all labels fit their
+respective nodes. You may want to increase the node size by
+supplying the appropriate layout parameters to <code>Graphviz</code>
+in order to allow for larger fontsizes.</p>
+</dd>
+<dt>cex:</dt><dd><p> Expansion factor to further control the fontsize. As
+default, this parameter is not set, in which case the fontsize
+will be clipped to the node size. This mainly exists to for
+consistency with the base graphic parameters and to override the
+clipping of fontsize to nodesize.</p>
+</dd>
+</dl>
+
+<p>Available rendering parameters for edges are:
+</p>
+
+<dl>
+<dt>col:</dt><dd><p> the color of the edge line. Defaults to <code>black</code>.</p>
+</dd>
+<dt>lty:</dt><dd><p> the type of the edge line. Defaults to
+<code>solid</code>. Valid values are the same as for the R's base
+graphic parameter <code>lty</code>.</p>
+</dd>
+<dt>lwd:</dt><dd><p> the width of the edge line. Defaults to <code>1</code>.</p>
+</dd>
+<dt>textCol:</dt><dd><p> the font color used for the edge labels. Defaults
+to <code>black</code>.</p>
+</dd>
+<dt>fontsize:</dt><dd><p> the font size for the edge labels in
+points. Defaults to <code>14</code>.</p>
+</dd>
+<dt>cex:</dt><dd><p> Expansion factor to further control the fontsize. This
+mainly exists to be consistent with the base graphic parameters.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Deepayan Sarkar, Florian Hahne</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+g &lt;- randomGraph(letters[1:4], 1:3, p=0.8)
+nodeRenderInfo(g) &lt;- list(fill=c("a"="red", "b"="green"))
+edgeRenderInfo(g) &lt;- list(lwd=3)
+edgeRenderInfo(g) &lt;- list(lty=3, col="red")
+parRenderInfo(g) &lt;- list(edges=list(lwd=2, lty="dashed"),
+nodes=list(col="gray", fill="gray"))
+nodeRenderInfo(g)
+edgeRenderInfo(g, "lwd")
+edgeRenderInfo(g, c("lwd", "col"))
+parRenderInfo(g)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize views on a vector-like object with numeric values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for view-summarization-methods {IRanges}"><tr><td>view-summarization-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize views on a vector-like object with numeric values</h2>
+
+<h3>Description</h3>
+
+<p><code>viewApply</code> applies a function on each view of a <a href="Views-class.html">Views</a> or
+<a href="ViewsList-class.html">ViewsList</a> object.
+</p>
+<p><code>viewMins</code>, <code>viewMaxs</code>, <code>viewSums</code>, <code>viewMeans</code>
+calculate respectively the minima, maxima, sums, and means of the views
+in a <a href="Views-class.html">Views</a> or <a href="ViewsList-class.html">ViewsList</a> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+viewApply(X, FUN, ..., simplify = TRUE)
+
+viewMins(x, na.rm=FALSE)
+## S4 method for signature 'Views'
+min(x, ..., na.rm = FALSE)
+
+viewMaxs(x, na.rm=FALSE)
+## S4 method for signature 'Views'
+max(x, ..., na.rm = FALSE)
+
+viewSums(x, na.rm=FALSE)
+## S4 method for signature 'Views'
+sum(x, ..., na.rm = FALSE)
+
+viewMeans(x, na.rm=FALSE)
+## S4 method for signature 'Views'
+mean(x, ...)
+
+viewWhichMins(x, na.rm=FALSE)
+## S4 method for signature 'Views'
+which.min(x)
+
+viewWhichMaxs(x, na.rm=FALSE)
+## S4 method for signature 'Views'
+which.max(x)
+
+viewRangeMins(x, na.rm=FALSE)
+
+viewRangeMaxs(x, na.rm=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+
+<p>A Views object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+
+<p>The function to be applied to each view in <code>X</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments to be passed on.
+</p>
+</td></tr>
+<tr valign="top"><td><code>simplify</code></td>
+<td>
+
+<p>A logical value specifying whether or not the result should be simplified
+to a vector or matrix if possible.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An <a href="RleViews-class.html">RleViews</a> or <a href="RleViewsList-class.html">RleViewsList</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>Logical indicating whether or not to include missing values in the results.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>viewMins</code>, <code>viewMaxs</code>, <code>viewSums</code>, and <code>viewMeans</code>
+functions provide efficient methods for calculating the specified numeric
+summary by performing the looping in compiled code.
+</p>
+<p>The <code>viewWhichMins</code>, <code>viewWhichMaxs</code>, <code>viewRangeMins</code>, and
+<code>viewRangeMaxs</code> functions provide efficient methods for finding the
+locations of the minima and maxima.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For all the functions in this man page (except <code>viewRangeMins</code> and
+<code>viewRangeMaxs</code>): A numeric vector of the length of <code>x</code>
+if <code>x</code> is an <a href="RleViews-class.html">RleViews</a> object, or a <a href="../../S4Vectors/html/List-class.html">List</a> object of
+the length of <code>x</code> if it's an <a href="RleViewsList-class.html">RleViewsList</a> object.
+</p>
+<p>For <code>viewRangeMins</code> and <code>viewRangeMaxs</code>: An <a href="IRanges-constructor.html">IRanges</a>
+object if <code>x</code> is an <a href="RleViews-class.html">RleViews</a> object, or an <a href="IRangesList-class.html">IRangesList</a>
+object if it's an <a href="RleViewsList-class.html">RleViewsList</a> object.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For convenience, methods for <code>min</code>, <code>max</code>, <code>sum</code>,
+<code>mean</code>, <code>which.min</code> and <code>which.max</code> are provided as
+wrappers around the corresponding <code>view*</code> functions (which might
+be deprecated at some point).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="slice-methods.html">slice</a></code> function for slicing an <a href="../../S4Vectors/html/Rle-class.html">Rle</a> or
+<a href="AtomicList-class.html">RleList</a> object.
+</p>
+</li>
+<li> <p><a href="../../XVector/html/view-summarization-methods.html">view-summarization-methods</a> in the <span class="pkg">XVector</span>
+package for more view summarization methods.
+</p>
+</li>
+<li><p> The <a href="RleViews-class.html">RleViews</a> and <a href="RleViewsList-class.html">RleViewsList</a> classes.
+</p>
+</li>
+<li><p> The <code><a href="../../base/html/which.min.html">which.min</a></code> and <code><a href="../../Matrix/html/colSums.html">colSums</a></code> functions.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Views derived from coverage
+x &lt;- IRanges(start=c(1L, 9L, 4L, 1L, 5L, 10L),
+             width=c(5L, 6L, 3L, 4L, 3L,  3L))
+cvg &lt;- coverage(x)
+cvg_views &lt;- slice(cvg, lower=2)
+
+viewApply(cvg_views, diff)
+
+viewMins(cvg_views)
+viewMaxs(cvg_views)
+
+viewSums(cvg_views)
+viewMeans(cvg_views)
+
+viewWhichMins(cvg_views)
+viewWhichMaxs(cvg_views)
+
+viewRangeMins(cvg_views)
+viewRangeMaxs(cvg_views)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

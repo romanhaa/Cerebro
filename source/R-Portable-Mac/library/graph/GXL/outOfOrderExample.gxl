@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<gxl>
+  <graph id="simpleExample" edgemode="directed">
+    <edge id="r1" from="p" to="v">
+      <attr name="line">
+        <int>127</int>
+      </attr>
+    </edge>
+    <edge id="r2" from="q" to="w">
+      <attr name="line">
+        <int>27</int>
+      </attr>
+    </edge>
+    <node id="q">
+      <attr name="file">
+        <string>test.c</string>
+      </attr>
+    </node>
+    <node id="p">
+      <attr name="file">
+        <string>main.c</string>
+      </attr>
+    </node>
+    <node id="v">
+      <attr name="line">
+        <int>225</int>
+      </attr>
+    </node>
+    <node id="w">
+      <attr name="line">
+        <int>316</int>
+      </attr>
+    </node>
+    <edge id="c" from="p" to="q">
+      <attr name="line">
+        <int>42</int>
+      </attr>
+    </edge>
+  </graph>
+</gxl>

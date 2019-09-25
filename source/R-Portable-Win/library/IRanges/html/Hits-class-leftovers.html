@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Examples of basic manipulation of Hits objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Hits-class-leftovers {IRanges}"><tr><td>Hits-class-leftovers {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Examples of basic manipulation of Hits objects</h2>
+
+<h3>Description</h3>
+
+<p>IMPORTANT NOTE - 4/29/2014: This man page is being refactored. Most of
+the things that used to be documented here have been moved to the man
+page for <a href="../../S4Vectors/html/Hits.html">Hits</a> objects located in the <span class="pkg">S4Vectors</span>
+package.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The <code>as.data.frame</code> method coerces a <code>Hits</code> object to a two column
+<code>data.frame</code> with one row for each hit, where the value in the first
+column is the index of an element in the query and the value in the second
+column is the index of an element in the subject.
+</p>
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>Hits</code>
+object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as(x, "DataFrame")</code>: Creates a <code>DataFrame</code> by
+combining the result of <code>as.matrix(x)</code>
+with <code>mcols(from)</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.data.frame(x)</code>: Attempts to coerce the result of
+<code>as(from, "DataFrame")</code> to a <code>data.frame</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.list(x)</code>: Coerces <code>x</code> to a list of integers,
+grouping the the right node hits for each left node.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(x, "List")</code>: Analogous to <code>as.list(x)</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(x, "Grouping")</code>: Returns roughly the same object as
+<code>as(x, "List")</code>, except it is a ManyToManyGrouping, i.e., it
+knows the number of right nodes.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>The <a href="../../S4Vectors/html/Hits.html">Hits</a> class defined and documented in the
+<span class="pkg">S4Vectors</span> package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+query &lt;- IRanges(c(1, 4, 9), c(5, 7, 10))
+subject &lt;- IRanges(c(2, 2, 10), c(2, 3, 12))
+hits &lt;- findOverlaps(query, subject)
+
+as.matrix(hits)
+as.data.frame(hits)
+
+as.table(hits) # hits per query
+as.table(t(hits)) # hits per subject
+
+## Turn a Hits object into an IntegerList object with one list element
+## per element in the original query.
+as(hits, "IntegerList")
+as(hits, "List")  # same as as(hits, "IntegerList")
+
+## Turn a Hits object into a PartitioningByEnd object that describes
+## the grouping of hits by query.
+as(hits, "PartitioningByEnd")
+as(hits, "Partitioning")  # same as as(hits, "PartitioningByEnd")
+
+## ---------------------------------------------------------------------
+## remapHits()
+## ---------------------------------------------------------------------
+
+hits2 &lt;- remapHits(hits,
+                   Rnodes.remapping=factor(c("e", "e", "d"), letters[1:5]))
+hits2
+
+hits3 &lt;- remapHits(hits,
+                   Rnodes.remapping=c(5, 5, 4), new.nRnode=5)
+hits3
+stopifnot(identical(hits2, hits3))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

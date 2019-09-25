@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Common operations on AtomicList objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AtomicList-utils {IRanges}"><tr><td>AtomicList-utils {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Common operations on AtomicList objects</h2>
+
+<h3>Description</h3>
+
+<p>Common operations on <a href="AtomicList-class.html">AtomicList</a> objects.
+</p>
+
+
+<h3>Group Generics</h3>
+
+<p>AtomicList objects have support for S4 group generic functionality to operate
+within elements across objects:
+</p>
+
+<dl>
+<dt><code>Arith</code></dt><dd><p><code>"+"</code>, <code>"-"</code>, <code>"*"</code>, <code>"^"</code>,
+<code>"%%"</code>, <code>"%/%"</code>, <code>"/"</code></p>
+</dd>
+<dt><code>Compare</code></dt><dd><p><code>"=="</code>, <code>"&gt;"</code>, <code>"&lt;"</code>, <code>"!="</code>, 
+<code>"&lt;="</code>, <code>"&gt;="</code></p>
+</dd>
+<dt><code>Logic</code></dt><dd><p><code>"&amp;"</code>, <code>"|"</code></p>
+</dd>
+<dt><code>Ops</code></dt><dd><p><code>"Arith"</code>, <code>"Compare"</code>, <code>"Logic"</code></p>
+</dd>
+<dt><code>Math</code></dt><dd><p><code>"abs"</code>, <code>"sign"</code>, <code>"sqrt"</code>,
+<code>"ceiling"</code>, <code>"floor"</code>, <code>"trunc"</code>, <code>"cummax"</code>,
+<code>"cummin"</code>, <code>"cumprod"</code>, <code>"cumsum"</code>, <code>"log"</code>,
+<code>"log10"</code>, <code>"log2"</code>, <code>"log1p"</code>, <code>"acos"</code>,
+<code>"acosh"</code>, <code>"asin"</code>, <code>"asinh"</code>, <code>"atan"</code>,
+<code>"atanh"</code>, <code>"exp"</code>, <code>"expm1"</code>, <code>"cos"</code>,
+<code>"cosh"</code>, <code>"sin"</code>, <code>"sinh"</code>, <code>"tan"</code>, <code>"tanh"</code>,
+<code>"gamma"</code>, <code>"lgamma"</code>, <code>"digamma"</code>, <code>"trigamma"</code></p>
+</dd>
+<dt><code>Math2</code></dt><dd><p><code>"round"</code>, <code>"signif"</code></p>
+</dd>
+<dt><code>Summary</code></dt><dd><p><code>"max"</code>, <code>"min"</code>, <code>"range"</code>,
+<code>"prod"</code>, <code>"sum"</code>, <code>"any"</code>, <code>"all"</code></p>
+</dd>
+<dt><code>Complex</code></dt><dd><p><code>"Arg"</code>, <code>"Conj"</code>, <code>"Im"</code>,
+<code>"Mod"</code>, <code>"Re"</code></p>
+</dd>
+</dl>
+
+<p>See <a href="../../methods/html/S4groupGeneric.html">S4groupGeneric</a> for more details.
+</p>
+
+
+<h3>Other Methods</h3>
+
+<p>The AtomicList objects also support a large number of basic methods.
+Like the group generics above, these methods perform the corresponding
+operation on each element of the list separately. The methods are: 
+</p>
+
+<dl>
+<dt>Logical</dt><dd><p><code>!</code>, <code>which</code>, <code>which.max</code>, <code>which.min</code></p>
+</dd>
+<dt>Numeric</dt><dd><p><code>diff</code>,
+<code>pmax</code>, <code>pmax.int</code>, <code>pmin</code>, <code>pmin.int</code>,
+<code>mean</code>, <code>var</code>, <code>cov</code>, <code>cor</code>, <code>sd</code>,
+<code>median</code>, <code>quantile</code>, <code>mad</code>, <code>IQR</code></p>
+</dd>
+<dt>Running Window</dt><dd><p><code>smoothEnds</code>, <code>runmed</code>. <code>runmean</code>,
+<code>runsum</code>, <code>runwtsum</code>, <code>runq</code></p>
+</dd>
+<dt>Character</dt><dd><p><code>nchar</code>, <code>chartr</code>, <code>tolower</code>,
+<code>toupper</code>, <code>sub</code>, <code>gsub</code></p>
+</dd>
+</dl>
+
+<p>The <code>which.min</code> and <code>which.max</code> functions have an extra
+argument, <code>global=FALSE</code>, which controls whether the returned
+subscripts are global (compatible with the unlisted form of the input)
+or local (compatible with the corresponding list element).
+</p>
+<p>The <code>rank</code> method only supports tie methods &ldquo;average&rdquo;,
+&ldquo;first&rdquo;, &ldquo;min&rdquo; and &ldquo;max&rdquo;.
+</p>
+<p>Since <code><a href="../../base/html/ifelse.html">ifelse</a></code> relies on non-standard evaluation for
+arguments that need to be in the generic signature, we provide
+<code>ifelse2</code>, which has eager but otherwise equivalent semantics.
+</p>
+
+
+<h3>Specialized Methods</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>unstrsplit(x, sep="")</code></p>
+</dd></dl>
+<p>: A fast
+<code>sapply(x, paste0, collapse=sep)</code>. See <code>?<a href="../../S4Vectors/html/character-utils.html">unstrsplit</a></code>
+for the details.
+
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="AtomicList-class.html">AtomicList</a> objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## group generics
+int1 &lt;- c(1L,2L,3L,5L,2L,8L)
+int2 &lt;- c(15L,45L,20L,1L,15L,100L,80L,5L)
+col1 &lt;- IntegerList(one = int1, int2)
+2 * col1
+col1 + col1
+col1 &gt; 2
+sum(col1)  # equivalent to (but faster than) 'sapply(col1, sum)'
+mean(col1)  # equivalent to 'sapply(col1, mean)'
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,63 @@
+useDynLib(BioC_graph, graph_attrData_lookup,
+          graph_bitarray_Intersect_Attrs, graph_bitarray_Union_Attrs,
+          graph_bitarray_edgeSetToMatrix, graph_bitarray_getBitCell,
+          graph_bitarray_getEdgeAttrOrder, graph_bitarray_removeEdges,
+          graph_bitarray_rowColPos, graph_bitarray_set,
+          graph_bitarray_subGraph, graph_bitarray_sum,
+          graph_bitarray_transpose, graph_bitarray_undirect,
+          graph_intersection, graph_is_adjacent, graph_listLen,
+          graph_sublist_assign)
+
+importClassesFrom(methods, ANY, character, list, logical, matrix,
+                  missing, "NULL", numeric, oldClass, vector)
+importMethodsFrom(methods, coerce, initialize, show)
+importClassesFrom(BiocGenerics, connection, dist)
+importFrom(BiocGenerics, union)
+importFrom(methods, as, callGeneric, is, isVirtualClass, new,
+           slot, "slot<-", slotNames, validObject, getMethod)
+importFrom(stats, as.dist, dhyper, phyper, runif)
+importFrom(stats4, plot)
+importFrom(utils, CRAN.packages, modifyList, head)
+
+exportClasses(distGraph,
+      clusterGraph, graph, graphNEL,
+      graphAM, attrData, simpleEdge, edgeSet, edgeSetNEL,
+      edgeSetAM, multiGraph, renderInfo, MultiGraph, graphBAM, graphBase)
+
+exportMethods(DFS, Dist, acc, addEdge, addNode, adj, adjacencyMatrix, clearNode,
+      clusteringCoefficient, combineNodes, complement, connComp,
+      degree, dumpGXL, edgeL, edgeMatrix, edgeNames, edgeWeights,
+      edgemode, "edgemode<-", edges, "nodes<-", fromGXL, inEdges,
+      initialize, intersection, intersection2, isAdjacent,
+      isConnected, isDirected, join, nodes, numNodes, numEdges, plot,
+      removeEdge, removeNode, show, subGraph, threshold, toGXL, union,
+      validateGXL, coerce, toDotR, attrDefaults, "attrDefaults<-",
+      edgeDataDefaults, "edgeDataDefaults<-", mgEdgeDataDefaults,
+      "mgEdgeDataDefaults<-", nodeDataDefaults, "nodeDataDefaults<-",
+      edgeData, "edgeData<-", nodeData, "nodeData<-", attrDataItem,
+      "attrDataItem<-", "removeAttrDataItem<-", ugraph, leaves,
+      updateGraph, extractFromTo, graphIntersect, graphUnion,
+      removeEdgesByWeight, edgeSets)
+
+
+export(graphNEL, graphAM, boundary, buildRepDepGraph, calcProb,
+       calcSumProb, duplicatedEdges, graph2SparseM, listEdges,
+       randomEGraph, randomGraph, randomNodeGraph, validGraph, eWV,
+       pathWeights, .dropEdges, aveNumEdges, sparseM2Graph,
+       gxlTreeNEL, ftM2adjM, ftM2graphNEL, .ftM2other, int2ftM,
+       ftM2int, aM2bpG, mostEdges, numNoEdges, reverseEdgeDirections,
+       ugraphOld)
+
+export(graph.par, graph.par.get, graphRenderInfo,
+       nodeRenderInfo, edgeRenderInfo, parRenderInfo,
+       "nodeRenderInfo<-", "edgeRenderInfo<-", "parRenderInfo<-",
+       "graphRenderInfo<-", toDotWithRI)
+
+
+export(graphBAM)
+
+
+export(MultiGraph, eweights, edgeSetIntersect0, edgeSetUnion0, extractFromTo, subsetEdgeSets,
+       extractGraphAM, extractGraphBAM, mgEdgeData, "mgEdgeData<-")
+
+S3method(write,tlp)

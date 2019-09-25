@@ -1,0 +1,256 @@
+% \VignetteIndexEntry{Using the homology package}
+% \VignetteDepends{hom.Hs.inp.db}
+% \VignetteKeywords{Annotation}
+%\VignettePackage{annotate}
+
+\documentclass{article}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+
+\begin{document}
+\title{How to use the inparanoid packages}
+
+\author{Marc Carlson}
+\date{}
+\maketitle
+
+\section*{Introduction}
+
+The inparanoid packages are based upon the gene to gene orthology
+groupings as determined by the inparanoid algorithm.  More details on
+this algorithm can be found at the inparanoid website:
+(\url{http://inparanoid.sbc.su.se/cgi-bin/index.cgi}).  A nice brief
+description of the inparanoid method is given by the FAQ at their
+website: "The InParanoid program uses the pairwise similarity scores,
+calculated using NCBI-Blast, between two complete proteomes for
+constructing orthology groups. An orthology group is initially
+composed of two so-called seed orthologs that are found by two-way
+best hits between two proteomes. More sequences are added to the group
+if there are sequences in the two proteomes that are closer to the
+correpsonding seed ortholog than to any sequence in the other
+proteome. These members of an orthology group are called inparalogs. A
+confidence value is provided for each inparalog that shows how closely
+related it is to its seed ortholog."
+
+The Inparanoid algorithm has been run on 35 species so far.  We
+provide packages for five of these species, and within the packages
+for these five supported species, we provide the mappings between that
+species and all 35 of the Inparanoid species.  The packages are named
+as follows:
+
+hom.Hs.inp.db for human mappings to the other 35 species
+
+hom.Mm.inp.db for mouse mappings to the other 35 species
+
+hom.Rn.inp.db for rat mappings to the other 35 species
+
+hom.Dm.inp.db for fly mappings to the other 35 species
+
+hom.Sc.inp.db for yeast mappings to the other 35 species
+
+This vignette will discuss the different information contained within
+these packages and how to use these packages to get information about
+the genes that are most likely the orthologous match for a
+particular gene.
+
+
+\section*{Contents of the packages}
+
+Within each inparanoid package there is a small database that contains
+tables that map relationships between genes of one species and genes
+of another.  For the database that is inside of the human package
+(hom.Hs.inp.db) the tables will be named according to the "other"
+species that they will map to.  As an example within the context of
+the human package, the mus\_musculus table will map relationships
+between humans and mouse.  This particular table will be the exact
+same table that will be inside of the mouse package (hom.Mm.inp.db),
+but in that context the table will have the name homo\_sapiens to
+denote that in this other context is provides a mapping relationship
+between mouse and humans.
+
+In addition to this database, there are also a series of prefabricated
+mappings that can be used to get the information we anticipate most
+users will want.  Specifically, the reciprocal best matches or the
+inparanoid "seed pairs".  These are the matches that make up most of
+the inparanoid tables, and which are intended to indicate the best
+matches between one gene and another in a species match-up.  So if you
+have a human gene and you want to know what the likely equivalent of
+that gene in mouse is, you can use the appropriate mapping to quickly
+get that information.  A quick look at the mappings that are available
+when you load the human package will show you these:
+
+<<loadAndListPackages>>=
+library(DBI)
+library("hom.Hs.inp.db")
+ls("package:hom.Hs.inp.db")
+@
+
+What you will notice when you look at these is that these mappings all
+have the format of "hom.Hs.inpXXXXX".  This indicates that they are
+mappings from the human package to their respective organisms give by
+a 5 character code.  Because a simple 2 letter species abbreviation is
+too short to avoid redundancy when 35 species mappings are available,
+we have adopted the inparanoid style of species abbreviations for
+these mappings.  This means that the 1st three letters designate the
+genus, and the 2nd two designate the species.  And so for example,
+"MUSMU" is short for mus musculus, "DROME" is short for drosophila
+melanogaster etc.  One thign to note about these mappings is that
+because they are maps, the data will have been formatted into a map
+form.  In most cases this detail will be completely irrelevant since
+most seed pairs map 1:1.  But some seed pairs map one to many or many
+to many.  In these cases, it is important to remember that the map
+format will display the data as a 1:1 or 1:many relationship only.  No
+data has been lost in this transformation, but it is a good idea to
+keep in mind that a tiny proportion of your keys may in fact map to
+the same lists of values when using maps like this.
+
+You can of course look at the contents of a mapping in the usual way:
+
+<<listMapping>>=
+as.list(hom.Hs.inpMUSMU[1:4])
+@
+
+When you do this you will probably notice that most of the seed
+mappings are 1:1.  But you might also notice that the IDs might not be
+the kinds of IDs that you normally use.  
+
+The IDs in these mapping are the ones that were used by inparanoid in
+their initial comparisons, but it is probably not a serious problem if
+the inparanoid IDs are not the ones that you might have initially
+wanted.  For the mainstream organisms such as mouse, human, rat,
+yeast, and fly, we also provide the needed data in the organism level
+packages so that you can map back from inparanoid to a more familiar
+set of IDs.  Here is an example of how you can chain annotation
+packages together to start with a common gene symbol for human (MSX2),
+and then work over to the equivalent information in mouse (Msx2).  
+
+
+<<mapGeneExample>>=
+# load the organism annotation data for human
+library(org.Hs.eg.db)
+
+# get the entrex gene ID and ensembl protein id for gene symbol "MSX2"
+select(org.Hs.eg.db, 
+       keys="MSX2", 
+       columns=c("ENTREZID","ENSEMBLPROT"), 
+       keytype="SYMBOL")
+
+# use the inparanoid package to get the mouse gene that is considered 
+# equivalent to ensembl protein ID "ENSP00000239243"
+select(hom.Hs.inp.db, 
+       keys="ENSP00000239243", 
+       columns="MUS_MUSCULUS", 
+       keytype="HOMO_SAPIENS")
+
+# load the organism annotation data for mouse
+library(org.Mm.eg.db)
+
+# get the entrez gene ID and gene Symbol for "ENSMUSP00000021922"
+select(org.Mm.eg.db, 
+       keys="ENSMUSP00000021922", 
+       columns=c("ENTREZID","SYMBOL"), 
+       keytype="ENSEMBLPROT")
+@
+
+
+The previous example demonstrates how the inparanoid mappings can give
+you a shortcut to genes that are likely to be homologs.  In addition,
+this example shows how you can tap into a lot of desirable information
+about whatever gene mappings you find by using the inparanoid package
+in conjunction with the organism annotation packages and passing
+through an entrez gene ID.
+
+
+
+\subsection{Use \Rpackage{hom.Xx.Inp.db} to explore other paralogous
+  relationships among organisms}
+
+As mentioned earlier, each database has a table that contains all the
+information needed to make each of the standard mappings provided.
+But there is other information contained in these tables as well such
+as the inparalogs and their scores.  This information can be accessed
+by doing some simple queries using the DBI interface.
+
+As an example consider the following seed pair mapping:
+
+<<seedPairExample>>=
+mget("ENSP00000301011", hom.Hs.inpMUSMU)
+@
+
+What if we wanted to know about other possible mappings that were not
+seed mappings?  To do this we could use the DBI interface.  But in
+order to do that we 1st have to look at what the underlying table
+looks like.  In order to that we will use the following 3 helper
+functions to extablish a connection to the database, list the tables
+contained by the database and list the fields within a table of
+interest:
+
+<<seedPairExample2>>=
+# make a connection to the human database
+mycon <- hom.Hs.inp_dbconn()
+# make a list of all the tables that are available in the DB
+head(dbListTables(mycon))
+# make a list of the columns in the table of interest
+dbListFields(mycon, "mus_musculus")
+@
+
+At this point we know the name of the table for the mouse data must be
+mus\_musculus, and we also know the names of the colums that this
+table contains thanks to \Rfunction{dbListFields}.  So now we have all
+the information we need to start querying the database directly.  Lets
+begin by probing the database with a simple query for all of the
+infomation about the ensembl protein ID "ENSP00000301011":
+
+<<seedPairExample3>>=
+#make a query that will let us see which clust_id we need
+sql <- "SELECT * FROM mus_musculus WHERE inp_id = 'ENSP00000301011';"
+#retrieve the data
+dataOut <- dbGetQuery(mycon, sql)
+dataOut
+@
+
+From the results of this query, we can see that this ID belongs to
+cluster ID \# 1731.  Inparanoid groups genes that are considered to be
+related into groupings that all share a common cluster ID.  So now we
+can adjust our query very slightly so that we pull out ALL of the
+information about that entire group from the mus\_musculus table:
+
+<<seedPairExample4>>=
+#make a query that will let us see all the data that is affiliated with a clust id
+sql <- "SELECT * FROM mus_musculus WHERE clust_id = '1731';"
+#retrieve the data
+dataOut <- dbGetQuery(mycon, sql)
+dataOut
+@
+
+And there you have it, the complete inparanoid data about cluster\_id
+1731, including the member of that grouping that we used to find the
+group "ENSP00000301011".  Because the database in this example is the
+human inparanoid database, the mus\_musculus table shows us
+information about both mouse and human genes, and which groups they
+share.  If for example you wanted to see a table about mouse and
+zebrafish homologs, you would have to go look at the zebrafish table
+contained in the mouse package.
+
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE, results=tex>>=
+toLatex(sessionInfo())
+@
+
+\end{document}
+
+

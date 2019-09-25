@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get and set attributes values for items in an attrData object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for attrDataItem-methods {graph}"><tr><td>attrDataItem-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get and set attributes values for items in an attrData object</h2>
+
+<h3>Description</h3>
+
+<p>The <code>attrDataItem</code> method provides get/set access to items stored
+in a <code><a href="attrData-class.html">attrData-class</a></code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+attrDataItem(self, x, attr)
+attrDataItem(self, x, attr) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>self</code></td>
+<td>
+<p>A <code><a href="attrData-class.html">attrData-class</a></code> instance</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>character</code> vector of item names</p>
+</td></tr>
+<tr valign="top"><td><code>attr</code></td>
+<td>
+<p>A <code>character</code> vector of length 1 giving the attribute
+name to get/set.  Note that the attribute name must have already been
+defined for the <code>attrData</code> object via
+<code><a href="attrDefaults-methods.html">attrDefaults</a></code>.  If missing, return a list of all
+attributes for the specified nodes.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>An R object to set as the attribute value for the
+specified items.  If the object has length one or does not have a
+length method defined, it will be assigned to all items in <code>x</code>.
+If the length of <code>value</code> is the same as <code>x</code>, the
+corresponding elements will be assigned.  We will add an argument to
+indicate that the <code>value</code> is to be taken as-is for those cases
+where the lengths are the same coincidentally.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

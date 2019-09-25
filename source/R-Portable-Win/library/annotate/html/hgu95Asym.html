@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Annotation data for the Affymetrix HGU95A GeneChip</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hgu95Asym {annotate}"><tr><td>hgu95Asym {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Annotation data for the Affymetrix HGU95A GeneChip</h2>
+
+<h3>Description</h3>
+
+<p>Data, in the form of environments for the Affymetrix U95A
+chip.</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(hgu95Asym)</pre>
+
+
+<h3>Format</h3>
+
+<p>This data set provides an environment with mappings from the Affymetrix
+identifiers to gene symbol.
+The environment functions like a hashtables and can be accessed using
+<code>mget</code>.
+If the returned value is <code>NA</code> then the current 
+mapping was unable to identify this. Mappings and data sources are
+constantly evolving so updating often is recommended.
+</p>
+
+
+<h3>Source</h3>
+
+<p>The <code>AnnBuilder</code> package.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ data(hgu95Asym)
+ data(sample.ExpressionSet)
+ mget(featureNames(sample.ExpressionSet)[330:340], env=hgu95Asym, ifnotfound=NA)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

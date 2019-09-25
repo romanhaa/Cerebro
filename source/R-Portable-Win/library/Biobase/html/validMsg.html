@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Conditionally append result to validity message</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for validMsg {Biobase}"><tr><td>validMsg {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Conditionally append result to validity message</h2>
+
+<h3>Description</h3>
+
+<p>This function facilitates constructing messages during S4 class
+validation, and is meant for developer rather than end-user use.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+validMsg(msg, result)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>msg</code></td>
+<td>
+<p>A character vector or NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>result</code></td>
+<td>
+<p>Any vector.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function appends <code>result</code> to <code>msg</code>, but only if
+<code>result</code> is a character vector.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmorgan@fhcrc.org&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+msg &lt;- NULL
+validMsg(msg, FALSE) # still NULL
+msg &lt;- validMsg(msg, "one")
+validMsg(msg, "two")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

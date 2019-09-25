@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for getting/setting the direction of a Bimap object,...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Bimap-direction {AnnotationDbi}"><tr><td>Bimap-direction {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for getting/setting the direction of a Bimap object,
+and undirected methods for getting/counting/setting its keys</h2>
+
+<h3>Description</h3>
+
+<p>These methods are part of the <a href="Bimap.html">Bimap</a> interface
+(see <code>?<a href="Bimap.html">Bimap</a></code> for a quick overview of the <a href="Bimap.html">Bimap</a>
+objects and their interface).
+</p>
+<p>They are divided in 2 groups: (1) methods for getting or setting the
+direction of a <a href="Bimap.html">Bimap</a> object and (2) methods for getting, counting
+or setting the left or right keys (or mapped keys only) of a <a href="Bimap.html">Bimap</a>
+object. Note that all the methods in group (2) are undirected methods
+i.e. what they return does NOT depend on the direction of the map (more
+on this below).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Getting or setting the direction of a Bimap object
+direction(x)
+direction(x) &lt;- value
+revmap(x, ...)
+
+## Getting, counting or setting the left or right keys (or mapped
+## keys only) of a Bimap object
+Lkeys(x)
+Rkeys(x)
+Llength(x)
+Rlength(x)
+mappedLkeys(x)
+mappedRkeys(x)
+count.mappedLkeys(x)
+count.mappedRkeys(x)
+Lkeys(x) &lt;- value
+Rkeys(x) &lt;- value
+## S4 method for signature 'Bimap'
+subset(x, Lkeys = NULL, Rkeys = NULL, drop.invalid.keys = FALSE)
+## S4 method for signature 'AnnDbBimap'
+subset(x, Lkeys = NULL, Rkeys = NULL, drop.invalid.keys = FALSE, 
+    objName = NULL)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="Bimap.html">Bimap</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>A single integer or character string indicating the new direction
+in <code>direction(x) &lt;- value</code>.
+A character vector containing the new keys (must be a subset of the
+current keys) in <code>Lkeys(x) &lt;- value</code> and <code>Rkeys(x) &lt;- value</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Lkeys, Rkeys, drop.invalid.keys, objName, ...</code></td>
+<td>
+<p>Extra arguments
+for <code>revmap</code> and <code>subset</code>.
+</p>
+<p>Extra argument for <code>revmap</code> can be:
+</p>
+
+<dl>
+<dt><code>objName</code></dt><dd>
+<p>The name to give to the reversed map (only supported if <code>x</code> is an
+<a href="Bimap.html">AnnDbBimap</a> object).
+</p>
+</dd>
+</dl>
+
+<p>Extra arguments for <code>subset</code> can be:
+</p>
+
+<dl>
+<dt><code>Lkeys</code></dt><dd>
+<p>The new Lkeys.
+</p>
+</dd>
+<dt><code>Rkeys</code></dt><dd>
+<p>The new Rkeys.
+</p>
+</dd>
+<dt><code>drop.invalid.keys</code></dt><dd>
+<p>If <code>drop.invalid.keys=FALSE</code> (the default), an error will be raised
+if the new Lkeys or Rkeys contain invalid keys i.e. keys that don't belong
+to the current Lkeys or Rkeys.
+If <code>drop.invalid.keys=TRUE</code>, invalid keys are silently dropped.
+</p>
+</dd>
+<dt><code>objName</code></dt><dd>
+<p>The name to give to the submap (only supported if <code>x</code> is an
+<a href="Bimap.html">AnnDbBimap</a> object).
+</p>
+</dd>
+</dl>
+
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All <a href="Bimap.html">Bimap</a> objects have a direction which can be left-to-right
+(i.e. the mapping goes from the left keys to the right keys)
+or right-to-left (i.e. the mapping goes from the right keys to the
+left keys).
+A <a href="Bimap.html">Bimap</a> object <code>x</code> that maps from left to right is
+considered to be a direct map. Otherwise it is considered to be an
+indirect map (when it maps from right to left).
+</p>
+<p><code>direction</code> returns <code>1</code> on a direct map and <code>-1</code>
+otherwise.
+</p>
+<p>The direction of <code>x</code> can be changed with <code>direction(x) &lt;- value</code>
+where value must be <code>1</code> or <code>-1</code>.
+An easy way to reverse a map (i.e. to change its direction) is to
+do <code>direction(x) &lt;- - direction(x)</code>, or, even better, to use
+<code>revmap(x)</code> which is actually the recommended way for doing it.
+</p>
+<p>The <code>Lkeys</code> and <code>Rkeys</code> methods return respectively
+the left and right keys of a <a href="Bimap.html">Bimap</a> object.
+Unlike the <code><a href="AnnotationDb-class.html">keys</a></code> method (see <code>?<a href="AnnotationDb-class.html">keys</a></code> for
+more information), these methods are direction-independent i.e. what
+they return does NOT depend on the direction of the map.
+Such methods are also said to be &quot;undirected methods&quot; 
+and methods like the <code><a href="AnnotationDb-class.html">keys</a></code> method are said
+to be &quot;directed methods&quot;.
+</p>
+<p>All the methods described below are also &quot;undirected methods&quot;.
+</p>
+<p><code>Llength(x)</code> and <code>Rlength(x)</code> are equivalent to
+(but more efficient than) <code>length(Lkeys(x))</code> and
+<code>length(Rkeys(x))</code>, respectively.
+</p>
+<p>The <code>mappedLkeys</code> (or <code>mappedRkeys</code>) method returns
+the left keys (or right keys) that are mapped to at least one right
+key (or one left key).
+</p>
+<p><code>count.mappedLkeys(x)</code> and <code>count.mappedRkeys(x)</code> are
+equivalent to (but more efficient than) <code>length(mappedLkeys(x))</code>
+and <code>length(mappedRkeys(x))</code>, respectively.  These functions give
+overall summaries, if you want to know how many Rkeys correspond to a
+given Lkey you can use the <code>nhit</code> function.
+</p>
+<p><code>Lkeys(x) &lt;- value</code> and <code>Rkeys(x) &lt;- value</code> are the
+undirected versions of <code>keys(x) &lt;- value</code> (see <code>?<a href="AnnotationDb-class.html">keys</a></code>
+for more information) and <code>subset(x, Lkeys=new_Lkeys, Rkeys=new_Rkeys)</code>
+is provided as a convenient way to reduce the sets of left
+and right keys in one single function call.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>1L</code> or <code>-1L</code> for <code>direction</code>.
+</p>
+<p>A <a href="Bimap.html">Bimap</a> object of the same subtype as <code>x</code> for <code>revmap</code>
+and <code>subset</code>.
+</p>
+<p>A character vector for <code>Lkeys</code>, <code>Rkeys</code>, <code>mappedLkeys</code>
+and <code>mappedRkeys</code>.
+</p>
+<p>A single non-negative integer for <code>Llength</code>, <code>Rlength</code>,
+<code>count.mappedLkeys</code> and <code>count.mappedRkeys</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pages</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Bimap.html">Bimap</a>,
+<a href="Bimap-keys.html">Bimap-keys</a>,
+<a href="BimapFormatting.html">BimapFormatting</a>,
+<a href="Bimap-envirAPI.html">Bimap-envirAPI</a>,
+<code><a href="Bimap-toTable.html">nhit</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(hgu95av2.db)
+  ls(2)
+  x &lt;- hgu95av2GO
+  x
+  summary(x)
+  direction(x)
+
+  length(x)
+  Llength(x)
+  Rlength(x)
+
+  keys(x)[1:4]
+  Lkeys(x)[1:4]
+  Rkeys(x)[1:4]
+
+  count.mappedkeys(x)
+  count.mappedLkeys(x)
+  count.mappedRkeys(x)
+
+  mappedkeys(x)[1:4]
+  mappedLkeys(x)[1:4]
+  mappedRkeys(x)[1:4]
+
+  y &lt;- revmap(x)
+  y
+  summary(y)
+  direction(y)
+
+  length(y)
+  Llength(y)
+  Rlength(y)
+
+  keys(y)[1:4]
+  Lkeys(y)[1:4]
+  Rkeys(y)[1:4]
+
+  ## etc...
+
+  ## Get rid of all unmapped keys (left and right)
+  z &lt;- subset(y, Lkeys=mappedLkeys(y), Rkeys=mappedRkeys(y))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pattern Matching and Replacement</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for grep {BiocGenerics}"><tr><td>grep {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pattern Matching and Replacement</h2>
+
+<h3>Description</h3>
+
+<p>Search for matches to argument 'pattern' within each element of a character
+vector.
+</p>
+<p>NOTE: This man page is for the <code>grep</code> and <code>grepl</code>
+<em>S4 generic functions</em> defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/grep.html">grep</a></code> for the default methods
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+grep(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE,
+          fixed = FALSE, useBytes = FALSE, invert = FALSE)
+grepl(pattern, x, ignore.case = FALSE, perl = FALSE,
+          fixed = FALSE, useBytes = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+
+<p>The pattern for searching in <code>x</code>, such as a regular expression.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>The character vector (in the general sense) to search.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ignore.case, perl, value, fixed, useBytes, invert</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/grep.html">grep</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/grep.html">grep</a></code> for the value returned
+by the default method.
+</p>
+<p>Specific methods defined in Bioconductor packages should
+behave as consistently as possible with the default method.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/grep.html">grep</a></code> for the default
+<code>grep</code> and <code>grepl</code> methods.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+grep  # note the dispatch on 'pattern' and 'x' args only
+showMethods("grep")
+selectMethod("grep", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

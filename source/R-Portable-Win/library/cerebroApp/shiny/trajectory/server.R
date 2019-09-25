@@ -14,7 +14,7 @@
 
 # UI element: display results or alternative text
 output[["trajectory_UI"]] <- renderUI({
-  if ( length(sample_data()$trajectory) > 0 ) {
+  if ( length(sample_data()$trajectory$monocle2) > 0 ) {
     tagList(
       fluidRow(
         column(width = 3, offset = 0, style = "padding: 0px;",
@@ -51,39 +51,6 @@ output[["trajectory_UI"]] <- renderUI({
               height = "85vh"
             )
           )
-        # cerebroBox(
-        #   title = tagList(
-        #     boxTitle("Trajectory"),
-        #     actionButton(
-        #       inputId = "trajectory_projection_info",
-        #       label = "info",
-        #       icon = NULL,
-        #       class = "btn-xs",
-        #       title = "Show additional information for this panel.",
-        #       style = "margin-right: 5px"
-        #     ),
-        #     actionButton(
-        #       inputId = "trajectory_projection_export",
-        #       label = "export to PDF",
-        #       icon = NULL,
-        #       class = "btn-xs",
-        #       title = "Export trajectory to PDF file."
-        #     )
-        #   ),
-        #   tagList(
-        #     column(width = 3, offset = 0, style = "padding: 0px;",
-        #       tagList(
-        #         uiOutput("trajectory_input")
-        #       )
-        #     ),
-        #     column(width = 9, offset = 0, style = "padding: 0px;",
-        #       plotly::plotlyOutput(
-        #         "trajectory_projection",
-        #         width = "auto",
-        #         height = "85vh"
-        #       )
-        #     )
-        #   )
         )
       ),
       fluidRow(
@@ -217,7 +184,7 @@ output[["trajectory_input"]] <- renderUI({
     selectInput(
       "trajectory_to_display",
       label = "Trajectory",
-      choices = names(sample_data()$trajectory)
+      choices = names(sample_data()$trajectory$monocle2)
     ),
     shinyWidgets::pickerInput(
       "trajectory_samples_to_display",
@@ -306,7 +273,7 @@ output[["trajectory_projection"]] <- plotly::renderPlotly({
 
   # extract cells to plot
   to_plot <- cbind(
-      sample_data()$trajectory[[ trajectory_to_display ]][["meta"]][ cells_to_display , ],
+      sample_data()$trajectory$monocle2[[ trajectory_to_display ]][["meta"]][ cells_to_display , ],
       sample_data()$cells[ cells_to_display , ]
     ) %>%
     dplyr::filter(!is.na(pseudotime))
@@ -315,7 +282,7 @@ output[["trajectory_projection"]] <- plotly::renderPlotly({
   color_variable <- input[["trajectory_dot_color"]]
 
   # convert edges of trajectory into list format to plot with plotly
-  trajectory_edges <- sample_data()$trajectory[[trajectory_to_display]][["edges"]]
+  trajectory_edges <- sample_data()$trajectory$monocle2[[trajectory_to_display]][["edges"]]
   trajectory_lines <- list()
   for (i in 1:nrow(trajectory_edges) ) {
     line = list(
@@ -333,16 +300,24 @@ output[["trajectory_projection"]] <- plotly::renderPlotly({
 
   if ( is.factor(to_plot[[ color_variable ]]) || is.character(to_plot[[ color_variable ]]) ) {
     cols <- if ( color_variable == "sample" ) {
-      sample_data()$samples$colors
-    } else if ( color_variable == "cluster" ) {
-      sample_data()$clusters$colors
-    } else if ( color_variable %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
-      cell_cycle_colorset
-    } else if ( is.factor(to_plot[[ color_variable ]]) ) {
-      setNames(colors[1:length(levels(to_plot[[ color_variable ]]))], levels(to_plot[[ color_variable ]]))
-    } else {
-      colors
-    }
+        if ( !is.null(sample_data()$samples$colors) ) {
+          sample_data()$samples$colors
+        } else {
+          colors
+        }
+      } else if ( color_variable == "cluster" ) {
+        if ( !is.null(sample_data()$clusters$colors) ) {
+          sample_data()$clusters$colors
+        } else {
+          colors
+        }
+      } else if ( color_variable %in% c("cell_cycle_seurat","cell_cycle_cyclone") ) {
+        cell_cycle_colorset
+      } else if ( is.factor(to_plot[[ color_variable ]]) ) {
+        setNames(colors[1:length(levels(to_plot[[ color_variable ]]))], levels(to_plot[[ color_variable ]]))
+      } else {
+        colors
+      }
     plot <- plotly::plot_ly(
       to_plot,
       x = ~DR_1,
@@ -492,7 +467,7 @@ observeEvent(input[["trajectory_projection_export"]], {
       )
     )
     to_plot <- cbind(
-        sample_data()$trajectory[[ trajectory_to_display ]][[ "meta" ]][ cells_to_display , ],
+        sample_data()$trajectory$monocle2[[ trajectory_to_display ]][[ "meta" ]][ cells_to_display , ],
         sample_data()$cells[ cells_to_display , ]
       ) %>%
       dplyr::filter(!is.na(pseudotime))
@@ -523,7 +498,7 @@ observeEvent(input[["trajectory_projection_export"]], {
           alpha = input[["trajectory_dot_opacity"]]
         ) +
         geom_segment(
-          data = sample_data()$trajectory[[ trajectory_to_display ]]$edges,
+          data = sample_data()$trajectory$monocle2[[ trajectory_to_display ]]$edges,
           aes(source_dim_1, source_dim_2, xend = target_dim_1, yend = target_dim_2),
           size = 0.75, linetype = "solid", na.rm = TRUE
         ) +
@@ -541,7 +516,7 @@ observeEvent(input[["trajectory_projection_export"]], {
           alpha = input[["trajectory_dot_opacity"]]
         ) +
         geom_segment(
-          data = sample_data()$trajectory[[ trajectory_to_display ]]$edges,
+          data = sample_data()$trajectory$monocle2[[ trajectory_to_display ]]$edges,
           aes(source_dim_1, source_dim_2, xend = target_dim_1, yend = target_dim_2),
           size = 0.75, linetype = "solid", na.rm = TRUE
         ) +
@@ -624,7 +599,7 @@ output[["trajectory_density_plot"]] <- plotly::renderPlotly({
 
   # extract cells to plot
   to_plot <- cbind(
-      sample_data()$trajectory[[ trajectory_to_display ]][["meta"]][ cells_to_display , ],
+      sample_data()$trajectory$monocle2[[ trajectory_to_display ]][["meta"]][ cells_to_display , ],
       sample_data()$cells[ cells_to_display , ]
     ) %>%
     dplyr::filter(!is.na(pseudotime))
@@ -656,8 +631,8 @@ output[["trajectory_density_plot"]] <- plotly::renderPlotly({
     )
   } else {
     colorset <- setNames(
-      colors[1:length(levels(sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]]$state))],
-      levels(sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]]$state)
+      colors[1:length(levels(sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]]$state))],
+      levels(sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]]$state)
     )
     plot <- plotly::plot_ly(
       data = to_plot,
@@ -732,13 +707,13 @@ output[["trajectory_number_of_cells_by_state_table"]] <- DT::renderDataTable(ser
     input[["trajectory_dot_color"]]
   )
   if ( is.numeric(sample_data()$cells[[ input[["trajectory_dot_color"]] ]]) || input[["trajectory_dot_color"]] == "state" || input[["trajectory_dot_color"]] == "pseudotime" ) {
-    table <- sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]] %>%
+    table <- sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]] %>%
       dplyr::filter(!is.na(pseudotime)) %>%
       dplyr::group_by(state) %>%
       dplyr::summarize(total_cell_count = n())
   } else {
     table <- cbind(
-        sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+        sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
         sample_data()$cells[[ input[["trajectory_dot_color"]] ]]
       ) %>%
       dplyr::filter(!is.na(pseudotime)) %>%
@@ -806,7 +781,7 @@ output[["states_by_sample_plot"]] <- plotly::renderPlotly({
   req(input[["trajectory_to_display"]])
   # merge meta data with trajectory info
   cell_count_by_state_total <- cbind(
-      sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+      sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
       sample_data()$cells
     ) %>%
     dplyr::filter(!is.na(pseudotime)) %>%
@@ -815,7 +790,7 @@ output[["states_by_sample_plot"]] <- plotly::renderPlotly({
     dplyr::ungroup()
   # make plot
   cbind(
-    sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+    sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
     sample_data()$cells
   ) %>%
   dplyr::filter(!is.na(pseudotime)) %>%
@@ -876,7 +851,7 @@ output[["states_by_cluster_plot"]] <- plotly::renderPlotly({
   req(input[["trajectory_to_display"]])
   # merge meta data with trajectory info
   cell_count_by_state_total <- cbind(
-      sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+      sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
       sample_data()$cells
     ) %>%
     dplyr::filter(!is.na(pseudotime)) %>%
@@ -885,7 +860,7 @@ output[["states_by_cluster_plot"]] <- plotly::renderPlotly({
     dplyr::ungroup()
   # make plot
   cbind(
-    sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+    sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
     sample_data()$cells
   ) %>%
   dplyr::filter(!is.na(pseudotime)) %>%
@@ -954,7 +929,7 @@ output[["states_by_cell_cycle_seurat_plot"]] <- plotly::renderPlotly({
   req(input[["trajectory_to_display"]])
   # merge meta data with trajectory info
   cell_count_by_state_total <- cbind(
-      sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+      sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
       sample_data()$cells
     ) %>%
     dplyr::filter(!is.na(pseudotime)) %>%
@@ -963,7 +938,7 @@ output[["states_by_cell_cycle_seurat_plot"]] <- plotly::renderPlotly({
     dplyr::ungroup()
   # make plot
   cbind(
-    sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+    sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
     sample_data()$cells
   ) %>%
   dplyr::filter(!is.na(pseudotime)) %>%
@@ -1031,11 +1006,11 @@ observeEvent(input[["states_by_cell_cycle_seurat_info"]], {
 output[["states_nUMI_plot"]] <- plotly::renderPlotly({
   req(input[["trajectory_to_display"]])
   colorset <- setNames(
-    colors[1:length(levels(sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]]$state))],
-    levels(sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]]$state)
+    colors[1:length(levels(sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]]$state))],
+    levels(sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]]$state)
   )
   cbind(
-    sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+    sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
     sample_data()$cells
   ) %>%
   dplyr::filter(!is.na(pseudotime)) %>%
@@ -1096,11 +1071,11 @@ observeEvent(input[["states_nUMI_info"]], {
 output[["states_nGene_plot"]] <- plotly::renderPlotly({
   req(input[["trajectory_to_display"]])
   colorset <- setNames(
-    colors[1:length(levels(sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]]$state))],
-    levels(sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]]$state)
+    colors[1:length(levels(sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]]$state))],
+    levels(sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]]$state)
   )
   cbind(
-    sample_data()$trajectory[[ input[["trajectory_to_display"]] ]][["meta"]],
+    sample_data()$trajectory$monocle2[[ input[["trajectory_to_display"]] ]][["meta"]],
     sample_data()$cells
   ) %>%
   dplyr::filter(!is.na(pseudotime)) %>%

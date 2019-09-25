@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ordering permutation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for order {BiocGenerics}"><tr><td>order {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Ordering permutation</h2>
+
+<h3>Description</h3>
+
+<p><code>order</code> returns a permutation which rearranges its first argument
+into ascending or descending order, breaking ties by further
+arguments.
+</p>
+<p>NOTE: This man page is for the <code>order</code> <em>S4 generic function</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/order.html">order</a></code> for the default method
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+(typically vector-like) not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+order(..., na.last=TRUE, decreasing=FALSE, method=c("auto", "shell", "radix"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>One or more vector-like objects, all of the same length.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.last, decreasing, method</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/order.html">order</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The default method (see <code>?base::<a href="../../base/html/order.html">order</a></code>) returns
+an integer vector of length N where N is the common length of the
+input objects. This integer vector represents a permutation of N
+elements and can be used to rearrange the first argument in
+<code>...</code> into ascending or descending order (by subsetting it).
+</p>
+<p>Specific methods defined in Bioconductor packages should also
+return an integer vector representing a permutation of N elements.
+</p>
+
+
+<h3>Note</h3>
+
+<p>TO DEVELOPERS:
+</p>
+<p>Specific <code>order</code> methods should preferably be made &quot;stable&quot; for
+consistent behavior across platforms and consistency with
+<code>base::order()</code>. Note that C qsort() is <em>not</em> &quot;stable&quot; so
+<code>order</code> methods that use qsort() at the C-level need to ultimately
+break ties by position, which can easily be done by adding a little
+extra code at the end of the comparison function passed to qsort().
+</p>
+<p><code>order(x, decreasing=TRUE)</code> is <em>not</em> always equivalent to
+<code>rev(order(x))</code>.
+</p>
+<p><code><a href="order.html">order</a></code>, <code><a href="sort.html">sort</a></code>,
+and <code><a href="rank.html">rank</a></code> methods for specific vector-like
+objects should adhere to the same underlying order that should be
+conceptually defined as a binary relation on the set of all possible
+vector values. For completeness, this binary relation should also be
+incarnated by a <a href="../../base/html/Comparison.html">&lt;=</a> method.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/order.html">order</a></code> for the default <code>order</code> method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/order,IntegerRanges-method.html">order,IntegerRanges-method</a> in the <span class="pkg">IRanges</span>
+package for an example of a specific <code>order</code> method (defined
+for <a href="../../IRanges/html/IntegerRanges.html">IntegerRanges</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+order
+showMethods("order")
+selectMethod("order", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

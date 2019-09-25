@@ -1,0 +1,38 @@
+Package: S4Vectors
+Title: S4 implementation of vector-like and list-like objects
+Description: The S4Vectors package defines the Vector and List virtual classes
+	and a set of generic functions that extend the semantic of ordinary
+	vectors and lists in R. Package developers can easily implement
+	vector-like or list-like objects as concrete subclasses of Vector or
+	List. In addition, a few low-level concrete subclasses of general
+	interest (e.g. DataFrame, Rle, and Hits) are implemented in the
+	S4Vectors package itself (many more are implemented in the IRanges
+	package and in other Bioconductor infrastructure packages).
+Version: 0.20.1
+Encoding: UTF-8
+Author: H. Pagès, M. Lawrence and P. Aboyoun
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+biocViews: Infrastructure, DataRepresentation
+Depends: R (>= 3.3.0), methods, utils, stats, stats4, BiocGenerics (>=
+        0.23.3)
+Suggests: IRanges, GenomicRanges, SummarizedExperiment, Matrix,
+        DelayedArray, ShortRead, graph, data.table, RUnit, BiocStyle
+License: Artistic-2.0
+Collate: S4-utils.R show-utils.R utils.R normarg-utils.R LLint-class.R
+        isSorted.R subsetting-utils.R vector-utils.R integer-utils.R
+        character-utils.R eval-utils.R map_ranges_to_runs.R
+        DataTable-class.R Annotated-class.R Vector-class.R
+        Vector-comparison.R Vector-setops.R Vector-merge.R Hits-class.R
+        Hits-comparison.R Hits-setops.R Rle-class.R Rle-utils.R
+        List-class.R List-comparison.R List-utils.R SimpleList-class.R
+        HitsList-class.R DataFrame-class.R Pairs-class.R
+        expand-methods.R FilterRules-class.R aggregate-methods.R
+        shiftApply-methods.R split-methods.R zzz.R
+git_url: https://git.bioconductor.org/packages/S4Vectors
+git_branch: RELEASE_3_8
+git_last_commit: 1878b29
+git_last_commit_date: 2018-11-08
+Date/Publication: 2018-11-09
+NeedsCompilation: yes
+Packaged: 2018-11-10 01:01:16 UTC; biocbuild
+Built: R 3.5.1; x86_64-apple-darwin15.6.0; 2018-11-10 09:47:35 UTC; unix

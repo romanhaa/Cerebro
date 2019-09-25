@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an (unevaluated) expression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for evalq {BiocGenerics}"><tr><td>evalq {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an (unevaluated) expression</h2>
+
+<h3>Description</h3>
+
+<p><code>evalq</code> evaluates an R expression (the quoted form of its first
+argument) in a specified environment.
+</p>
+<p>NOTE: This man page is for the <code>evalq</code> wrapper defined in the
+<span class="pkg">BiocGenerics</span> package.  See <code>?base::<a href="../../base/html/evalq.html">evalq</a></code> for the
+function defined in the <span class="pkg">base</span> package. This wrapper correctly delegates
+to the <code>eval</code> generic, rather than
+<code>base::<a href="../../base/html/eval.html">eval</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+evalq(expr, envir=parent.frame(),
+           enclos=if (is.list(envir) || is.pairlist(envir))
+                  parent.frame() else baseenv())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+
+<p>Quoted to form the expression that is evaluated.
+</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+
+<p>The <em>environment</em> in which <code>expr</code> is to be evaluated.
+May be any object supported by methods on the <code><a href="eval.html">eval</a></code>
+generic.
+</p>
+</td></tr>
+<tr valign="top"><td><code>enclos</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/evalq.html">evalq</a></code> for a description of
+this argument.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/evalq.html">evalq</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/evalq.html">evalq</a></code> for the base <code>evalq</code> function.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+evalq  # note just a copy of the original evalq
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

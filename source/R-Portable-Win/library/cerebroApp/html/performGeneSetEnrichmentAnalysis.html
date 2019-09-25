@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Perform gene set enrichment analysis with GSVA.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for performGeneSetEnrichmentAnalysis {cerebroApp}"><tr><td>performGeneSetEnrichmentAnalysis {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Perform gene set enrichment analysis with GSVA.</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates enrichment scores, p- and q-value
+statistics for provided gene sets for samples and clusters of cells in given
+Seurat object using gene set variation analysis (GSVA). Calculation of p- and
+q-values for gene sets is performed as done in &quot;Evaluation of methods to
+assign cell type labels to cell clusters from single-cell RNA-sequencing
+data&quot;, Diaz-Mejia et al., F1000Research (2019).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+performGeneSetEnrichmentAnalysis(object, GMT_file,
+  column_sample = "sample", column_cluster = "cluster",
+  thresh_p_val = 0.05, thresh_q_val = 0.1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Seurat object. log-counts for analysis must be stored in
+'object@data' (Seurat object older than v3) or 'object@assays$RNA@data'
+(Seurat object v3 or newer).</p>
+</td></tr>
+<tr valign="top"><td><code>column_sample</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about sample; defaults to 'sample'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cluster</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about cluster; defaults to 'cluster'.</p>
+</td></tr>
+<tr valign="top"><td><code>thresh_p_val</code></td>
+<td>
+<p>Threshold for p-value, defaults to 0.05.</p>
+</td></tr>
+<tr valign="top"><td><code>thresh_q_val</code></td>
+<td>
+<p>Threshold for q-value, defaults to 0.1.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further parameters can be passed to control GSVA::gsva().</p>
+</td></tr>
+<tr valign="top"><td><code>gene_sets</code></td>
+<td>
+<p>Path to GMT file containing the gene sets to be tested.
+The Broad Institute provides many gene sets which can be downloaded:
+http://software.broadinstitute.org/gsea/msigdb/index.jsp</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Perform gene set enrichment analysis with GSVA.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Seurat object with GSVA results for samples and clusters stored in
+object@misc$enriched_pathways$GSVA.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seurat &lt;- performGeneSetEnrichmentAnalysis(
+  object = seurat,
+  gene_sets = 'path/to/gene_sets.gmt',
+  column_sample = 'sample',
+  column_cluster = 'cluster',
+  thresh_p_val = 0.05,
+  thresh_q_val = 0.1
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

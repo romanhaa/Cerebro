@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract trajectory from Monocle and add to Seurat object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for extractMonocleTrajectory {cerebroApp}"><tr><td>extractMonocleTrajectory {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract trajectory from Monocle and add to Seurat object.</h2>
+
+<h3>Description</h3>
+
+<p>This function takes a Monocle object, extracts a trajectory that
+was calculated, and stores it in the specified Seurat object. Trajectory info
+(state, pseudotime, projection and tree) will be stored in
+seurat@misc$trajectory under the specified name.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+extractMonocleTrajectory(monocle, seurat, trajectory_name,
+  column_state = "State", column_pseudotime = "Pseudotime")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>monocle</code></td>
+<td>
+<p>Monocle object to extract trajectory from.</p>
+</td></tr>
+<tr valign="top"><td><code>seurat</code></td>
+<td>
+<p>Seurat object to transfer trajectory to.</p>
+</td></tr>
+<tr valign="top"><td><code>trajectory_name</code></td>
+<td>
+<p>Name of trajectory.</p>
+</td></tr>
+<tr valign="top"><td><code>column_state</code></td>
+<td>
+<p>Name of meta data column that holds info about the state
+of a cell; defaults to 'State'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_pseudotime</code></td>
+<td>
+<p>Name of meta data column that holds info about the
+pseudotime of a cell; defaults to 'Pseudotime'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Extract trajectory from Monocle and add to Seurat object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns Seurat object with added trajectory. Trajectory info (state,
+pseudotime, projection and tree) will be stored in
+object@misc$trajectory$monocle2 under the specified name.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seurat &lt;- extractMonocleTrajectory(
+  monocle = monocle,
+  seurat = seurat,
+  name = 'trajectory_1'
+  column_state = 'State',
+  column_pseudotime = 'Pseudotime'
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

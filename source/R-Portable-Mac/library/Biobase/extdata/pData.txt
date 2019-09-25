@@ -1,0 +1,31 @@
+# id: case identifier
+# gender: sex of the patient at time of study begin
+# type: is the patient a case or a control in this study?
+# score: Huffmann-Berelizka score of psychocognitive transcendance.
+id	gender	type	score
+A	Female	Control	0.75
+B	Male	Case	0.4
+C	Male	Control	0.73
+D	Male	Case	0.42
+E	Female	Case	0.93
+F	Male	Control	0.22
+G	Male	Case	0.96
+H	Male	Case	0.79
+I	Female	Case	0.37
+J	Male	Control	0.63
+K	Male	Case	0.26
+L	Female	Control	0.36
+M	Male	Case	0.41
+N	Male	Case	0.8
+O	Female	Case	0.1
+P	Female	Control	0.41
+Q	Female	Case	0.16
+R	Male	Control	0.72
+S	Male	Case	0.17
+T	Female	Case	0.74
+U	Male	Control	0.35
+V	Female	Control	0.77
+W	Male	Control	0.27
+X	Male	Control	0.98
+Y	Female	Case	0.94
+Z	Female	Case	0.32

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;clusterGraph&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clusterGraph-class {graph}"><tr><td>clusterGraph-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;clusterGraph&quot; </h2>
+
+<h3>Description</h3>
+
+<p>  A cluster graph is a special sort of graph for clustered
+data. Each cluster forms a completely connected subgraph. Three are no
+edges between clusters.</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("clusterGraph", ...)</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>clusters</code>:</dt><dd><p>Object of class <code>"list"</code> a list of the
+labels of the elements, one element of the list for each cluster. </p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"graph"</code>, directly.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>connComp</dt><dd><p><code>signature(object = "clusterGraph")</code>: find the
+connected components; simply the clusters in this case. </p>
+</dd>
+<dt>acc</dt><dd><p><code>signature(object = "clusterGraph")</code>: find the
+accessible nodes from the supplied node. </p>
+</dd>
+<dt>adj</dt><dd><p><code>signature(object = "clusterGraph")</code>: find the
+adjacent nodes to the supplied node. </p>
+</dd>
+<dt>nodes</dt><dd><p><code>signature(object = "clusterGraph")</code>: return the
+nodes. </p>
+</dd>
+<dt>nodes&lt;-</dt><dd><p><code>signature(object="clusterGraph", value="character")</code>: 
+replace the node names with the new labels given in <code>value</code>.</p>
+</dd>
+<dt>numNodes</dt><dd><p><code>signature(object = "clusterGraph")</code>: return
+the number of nodes. </p>
+</dd>
+<dt>edgeWeights</dt><dd><p>Return a list of edge weights in a list format
+similar to the <code>edges</code> method.</p>
+</dd>
+<dt>edgeL</dt><dd><p><code>signature(graph = "clusterGraph")</code>: A method for
+obtaining the edge list.</p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "clusterGraph", to =
+    "matrix")</code>: Convert the <code>clusterGraph</code> to an adjacency
+matrix.  Currently, weights are ignored.  The conversion assumes
+no self-loops.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="graph-class.html">graph-class</a></code>, <code><a href="distGraph-class.html">distGraph-class</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  cG1 &lt;- new("clusterGraph", clusters=list(a=c(1,2,3), b=c(4,5,6)))
+  cG1
+  acc(cG1, c("1", "2"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

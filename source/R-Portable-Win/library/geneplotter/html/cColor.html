@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function for marking specific probes on a cPlot.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cColor {geneplotter}"><tr><td>cColor {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function for marking specific probes on a cPlot.</h2>
+
+<h3>Description</h3>
+
+<p>Given a set of probes, will highlight them in the color desired on
+a plot which has already been created via the function cPlot().
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cColor(probes, color, plotChroms, scale=c("relative","max"), glen=0.4,
+       ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>probes</code></td>
+<td>
+<p>The probes that are being highlighted.</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p>A vector of colors, recycled as necessary, to highlight
+the probes.</p>
+</td></tr>
+<tr valign="top"><td><code>plotChroms</code></td>
+<td>
+<p>An object of type <code>chromLocation</code> which contains all
+the gene information to be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Whether to plot the graph scaled absolutely or relative
+by chromosome.  Default is absolute.</p>
+</td></tr>
+<tr valign="top"><td><code>glen</code></td>
+<td>
+<p>The length of the gene line plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional graphics arguments, passed to <code>segments</code>,
+which is used to draw the vertical ticks.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It is important to call the function <code>cPlot()</code> first.  This function
+will then search for the specific locations of the probes desired,
+which are contained within the <code>plotChroms</code> instance of a
+<code>chromLocation</code> class.  It will then pass these on to the
+plotting routine to highlight the desired locations.  NOTE:  It
+is important that <code>plotChroms</code>, <code>scale</code> and <code>glen</code>
+parameters are the same as used for <code>cPlot()</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="cPlot.html">cPlot</a></code>, <code><a href="../../annotate/html/chromLocation-class.html">chromLocation-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  if (require("hgu95av2.db")) {
+    z &lt;- buildChromLocation("hgu95av2")
+    cPlot(z)
+    probes &lt;- c("266_s_at", "31411_at", "610_at", "failExample")
+    cColor(probes, "red", z)
+    probes2 &lt;- c("960_g_at", "41807_at", "931_at", "39032_at")
+    cColor(probes2, "blue", z)
+  } else
+    print("Need hgu95av2.db data package for the example")
+  </pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

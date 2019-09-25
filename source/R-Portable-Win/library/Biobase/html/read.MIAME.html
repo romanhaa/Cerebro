@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read MIAME Information into an Instance of Class 'MIAME'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.MIAME {Biobase}"><tr><td>read.MIAME {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Read MIAME Information into an Instance of Class 'MIAME'
+</h2>
+
+<h3>Description</h3>
+
+<p>Reads MIAME information from a file or using a widget.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.MIAME(filename = NULL, widget = getOption("BioC")$Base$use.widgets, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Filename from which to read MIAME information.</p>
+</td></tr>
+<tr valign="top"><td><code>widget</code></td>
+<td>
+<p>Logical. If <code>TRUE</code> and a filename is not given, a widget is used to enter information.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments to <code>scan</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Notice that the <code><a href="class.MIAME.html">MIAME</a></code>
+class tries to cover the MIAME entries that are not covered by other
+classes in Bioconductor. Namely, experimental design, samples,
+hybridizations, normalization controls, and pre-processing
+information.
+</p>
+<p>The function <code><a href="../../base/html/scan.html">scan</a></code> is used to read.
+The file must be a flat file with the
+different entries for the instance
+of MIAME class separated by carriage returns. The order should be: name, lab,
+contact, title, abstract, and url.
+</p>
+<p>Alternatively a widget can be used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="class.MIAME.html">MIAME</a></code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Rafael Irizarry &lt;rafa@jhu.edu&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.MIAME.html">MIAME</a></code>,<code><a href="../../tkWidgets/html/tkMIAME.html">tkMIAME</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+miame &lt;- read.MIAME(widget=FALSE) ##creates an empty instance
+show(miame)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

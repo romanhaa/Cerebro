@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test whether graph object is valid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for validGraph {graph}"><tr><td>validGraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Test whether graph object is valid </h2>
+
+<h3>Description</h3>
+
+<p>validGraph is a validating function for a graph object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+validGraph(object, quietly=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> a graph object to be tested </p>
+</td></tr>
+<tr valign="top"><td><code>quietly</code></td>
+<td>
+ <p><code>TRUE</code> or <code>FALSE</code> indicating whether 
+output should be printed.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If the graph object is valid, <code>TRUE</code> is returned otherwise
+<code>FALSE</code> is returned. If <code>object</code> is not a valid graph and
+<code>quietly</code> is set to <code>FALSE</code> then descriptions of the problems
+are printed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Elizabeth Whalen </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graph-class.html">graph-class</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  
+  testGraph&lt;-graphNEL()
+  testGraph@nodes&lt;-c("node1","node2","node3")
+  validGraph(testGraph)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

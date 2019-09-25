@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Open and close an HTML file for writing.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for openHtmlPage {geneplotter}"><tr><td>openHtmlPage {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Open and close an HTML file for writing.</h2>
+
+<h3>Description</h3>
+
+<p>Open and close an HTML file for writing..</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  openHtmlPage(name, title="")
+  closeHtmlPage(con)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Character. File name (<em>without</em> the extension '.html').</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Character. Value of the <code>title</code> tag in the HTML header.</p>
+</td></tr>
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>Connection.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See example.</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>openHtmlPage</code>, a <code><a href="../../base/html/connections.html">connections</a></code>. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.dkfz.de/abt0840/whuber">http://www.dkfz.de/abt0840/whuber</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  fn &lt;- tempfile()
+  con &lt;- openHtmlPage(fn, "My page")
+  writeLines("Hello world", con)
+  closeHtmlPage(con)
+  readLines(paste(fn, ".html", sep=""))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

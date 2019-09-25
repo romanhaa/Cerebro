@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Re-listing an unlist()ed object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for relist {BiocGenerics}"><tr><td>relist {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Re-listing an unlist()ed object</h2>
+
+<h3>Description</h3>
+
+<p><code>relist</code> is a generic function with a few methods in order to allow
+easy inversion of <code>unlist(x)</code>.
+</p>
+<p>NOTE: This man page is for the <code>relist</code> <em>S4 generic function</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?utils::<a href="../../utils/html/relist.html">relist</a></code> for the default method
+(defined in the <span class="pkg">utils</span> package).
+Bioconductor packages can define specific methods for objects
+not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+relist(flesh, skeleton)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flesh</code></td>
+<td>
+
+<p>A vector-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>skeleton</code></td>
+<td>
+
+<p>A list-like object. Only the &quot;shape&quot; (i.e. the lengths of the individual
+list elements) of <code>skeleton</code> matters. Its exact content is ignored.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list-like object with the same &quot;shape&quot; as <code>skeleton</code> and that would
+give <code>flesh</code> back if unlist()ed.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>utils::<a href="../../utils/html/relist.html">relist</a></code> for the default <code>relist</code>
+method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/relist,ANY,List-method.html">relist,ANY,List-method</a> in the <span class="pkg">IRanges</span>
+package for an example of a specific <code>relist</code> method (defined
+for when <code>skeleton</code> is a <a href="../../S4Vectors/html/List.html">List</a> object).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+relist
+showMethods("relist")
+selectMethod("relist", c("ANY", "ANY"))  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

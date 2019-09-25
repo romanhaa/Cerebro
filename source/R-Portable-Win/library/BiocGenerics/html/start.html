@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The start(), end(), width(), and pos() generic getters and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for start {BiocGenerics}"><tr><td>start {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The start(), end(), width(), and pos() generic getters and setters</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the start, end, width, or single positions stored in an object.
+</p>
+<p>NOTE: This man page is for the <code>start</code>, <code>`start&lt;-`</code>,
+<code>end</code>, <code>`end&lt;-`</code>, <code>width</code>, <code>`width&lt;-`</code>, and
+<code>pos</code> <em>S4 generic functions</em> defined in the <span class="pkg">BiocGenerics</span>
+package.
+See <code>?stats::<a href="../../stats/html/start.html">start</a></code> for the <code>start</code> and <code>end</code>
+S3 generics defined in the <span class="pkg">stats</span> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+start(x, ...)
+start(x, ...) &lt;- value
+
+end(x, ...)
+end(x, ...) &lt;- value
+
+width(x)
+width(x, ...) &lt;- value
+
+pos(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>For the <code>start()</code>, <code>end()</code>, and <code>width()</code> getters/setters:
+an object containing start, end, and width values.
+</p>
+<p>For the <code>pos{}</code> getter: an object containing single positions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific methods.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>The start, end, or width values to set on <code>x</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See specific methods defined in Bioconductor packages.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>stats::<a href="../../stats/html/start.html">start</a></code> in the <span class="pkg">stats</span> package
+for the <code>start</code> and <code>end</code> S3 generics.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/start,IRanges-method.html">start,IRanges-method</a> in the <span class="pkg">IRanges</span>
+package for examples of specific <code>start</code>, <code>end</code>, and
+<code>width</code> methods (defined for <a href="../../IRanges/html/IRanges.html">IRanges</a> objects).
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/pos,IPos-method.html">pos,IPos-method</a> in the <span class="pkg">IRanges</span>
+package for an example of a specific <code>pos</code> method
+(defined for <a href="../../IRanges/html/IPos.html">IPos</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## start() getter:
+start
+showMethods("start")
+
+library(IRanges)
+showMethods("start")
+selectMethod("start", "IRanges")  # start() getter for IRanges objects
+
+## start() setter:
+`start&lt;-`
+showMethods("start&lt;-")
+selectMethod("start&lt;-", "IRanges")  # start() setter for IRanges objects
+
+## end() getter:
+end
+showMethods("end")
+selectMethod("end", "IRanges")  # end() getter for IRanges objects
+
+## end() setter:
+`end&lt;-`
+showMethods("end&lt;-")
+selectMethod("end&lt;-", "IRanges")  # end() setter for IRanges objects
+
+## width() getter:
+width
+showMethods("width")
+selectMethod("width", "IRanges")  # width() getter for IRanges objects
+
+## width() setter:
+`width&lt;-`
+showMethods("width&lt;-")
+selectMethod("width&lt;-", "IRanges")  # width() setter for IRanges objects
+
+## pos() getter:
+pos
+showMethods("pos")
+selectMethod("pos", "IPos")  # pos() getter for IPos objects
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

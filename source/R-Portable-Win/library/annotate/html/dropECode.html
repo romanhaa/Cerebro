@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Drop GO labels for specified Evidence Codes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dropECode {annotate}"><tr><td>dropECode {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Drop GO labels for specified Evidence Codes</h2>
+
+<h3>Description</h3>
+
+<p>Genes are mapped to GO terms on the basis of evidence codes. In some
+analyses it will be appropriate to drop certain sets of annotations
+based on specific evidence codes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dropECode(inlist, code="IEA")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inlist</code></td>
+<td>
+<p>A list of GO data </p>
+</td></tr>
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>The set of codes that should be dropped. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A simple use of <code><a href="../../base/html/lapply.html">lapply</a></code> and <code><a href="../../base/html/lapply.html">sapply</a></code> to find
+and eliminate those terms that have the specified evidence codes.
+</p>
+<p>This might be used when one is using to GO to validate a sequence
+matching experiment (for example), then all terms whose mapping was
+based on sequence similarity (say ISS and IEA) should be removed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the same length as the input list retaining only those
+annotations whose evidence codes were not the ones in the exclusion
+set <code>code</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getEvidence.html">getEvidence</a></code>, <code><a href="getOntology.html">getOntology</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ library("hgu95av2.db")
+ bb &lt;- hgu95av2GO[["39613_at"]]
+ getEvidence(bb[1:3])
+ cc &lt;- dropECode(bb[1:3])
+ if (length(cc))
+   getEvidence(cc)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

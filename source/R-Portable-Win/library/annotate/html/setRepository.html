@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to add arbitrary repositories</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setRepository {annotate}"><tr><td>setRepository {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to add arbitrary repositories</h2>
+
+<h3>Description</h3>
+
+<p>These functions allow end users to add arbitrary
+repositories for use with the <code>htmlpage</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setRepository(repository, FUN, ..., verbose=TRUE)
+getRepositories()
+clearRepository(repository, verbose=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>repository</code></td>
+<td>
+<p>A character name for the repository.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>A function to build hyperlinks for the repository. See
+details for more information.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Allows one to pass arbitrary code to underlying functions.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Output warning messages?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions allow end users to add, view, and remove repositories
+for use with the <code>htmlpage</code> function. <code>getRepositories</code> will
+output a vector of names for available
+repositories. <code>clearRepository</code> can be used to remove a
+repository if so desired. <code>setRepository</code> can be used to add a
+repository. See the examples section for the format of the FUN
+argument.
+</p>
+<p>Once a new repository has been set, the <code>htmlpage</code> function can
+be called using the name of the new repository as a value in the
+repository argument (e.g., htmlpage(&lt;other args&gt;, repository =
+list(&quot;newrepositoryname&quot;))
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmorgan@fhcrc.org&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## A simple fake URI
+repofun &lt;- function(ids, ...)
+paste("http://www.afakeuri.com/", ids, sep = "")
+
+setRepository("simple", repofun)
+
+## More complicated, we want to make sure that
+## NAs get converted to empty cells
+
+repofun &lt;- function(ids, ...){
+bIDs &lt;- which(is.na(ids))
+out &lt;- paste("http://www.afakeuri.com/", ids, sep = "")
+out[bIDs] &lt;- "&amp;nbsp;"
+out
+}
+
+setRepository("complex", repofun)
+
+## More complicated URI where we need to pass more information
+## An example is Ensembl, which requires a species as part of the URI
+## Since htmlpage() has an '...' argument, we can pass arbitrary
+## arguments to this function that will be passed down to our
+## repfun. Here we assume the argument species="Homo_sapiens" has been
+## included in the call to htmlpage().
+
+
+repofun &lt;- function(ids, ...){
+if(!is.null(list(...)$species))
+      species &lt;- list(...)$species
+  else
+      stop("To make links for Ensembl, you need to pass a 'species' argument.",
+           call. = FALSE)
+out &lt;- paste("http://www.ensembl.org/", species, "/Search/Summary?species=",
+              species, ";idx=;q=", ids, sep = "")
+out
+}
+
+setRepository("species_arg", repofun)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

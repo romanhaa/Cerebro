@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply a function over a list-like or vector-like object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lapply {BiocGenerics}"><tr><td>lapply {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply a function over a list-like or vector-like object</h2>
+
+<h3>Description</h3>
+
+<p><code>lapply</code> returns a list of the same length as <code>X</code>, each
+element of which is the result of applying <code>FUN</code> to the
+corresponding element of <code>X</code>.
+</p>
+<p><code>sapply</code> is a user-friendly version and wrapper of <code>lapply</code>
+by default returning a vector, matrix or, if <code>simplify="array"</code>,
+an array if appropriate, by applying <code>simplify2array()</code>.
+<code>sapply(x, f, simplify=FALSE, USE.NAMES=FALSE)</code> is the same
+as <code>lapply(x, f)</code>.
+</p>
+<p>NOTE: This man page is for the <code>lapply</code> and <code>sapply</code>
+<em>S4 generic functions</em> defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/lapply.html">lapply</a></code> for the default methods
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+(typically list-like or vector-like) not supported by the
+default methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lapply(X, FUN, ...)
+sapply(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+
+<p>A list-like or vector-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN, ..., simplify, USE.NAMES</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/lapply.html">lapply</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/lapply.html">lapply</a></code> for the value returned by the
+default methods.
+</p>
+<p>Specific methods defined in Bioconductor packages should 
+behave as consistently as possible with the default methods.
+In particular, <code>lapply</code> and <code>sapply(simplify=FALSE)</code>
+should always return a list.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/lapply.html">lapply</a></code> for the default <code>lapply</code> and
+<code>sapply</code> methods.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/lapply,List-method.html">lapply,List-method</a> in the <span class="pkg">S4Vectors</span> package
+for an example of a specific <code>lapply</code> method (defined for
+<a href="../../S4Vectors/html/List.html">List</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+lapply  # note the dispatch on the 'X' arg only
+showMethods("lapply")
+selectMethod("lapply", "ANY")  # the default method
+
+sapply  # note the dispatch on the 'X' arg only
+showMethods("sapply")
+selectMethod("sapply", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

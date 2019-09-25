@@ -1,0 +1,192 @@
+import(methods)
+import(utils)
+importFrom(stats4, summary)
+import(DBI)
+import(RSQLite)
+import(BiocGenerics)
+import(Biobase)
+import(S4Vectors)
+import(IRanges)
+
+exportClasses(
+    ## from R/AllClasses.R
+    "Bimap",
+    "FlatBimap",
+    "AnnObj",
+    "AnnDbObj",
+    #"AnnDbTable",
+    "L2Rlink",
+    "AnnDbBimap",
+    "GoAnnDbBimap",
+    "Go3AnnDbBimap",
+    "GOTermsAnnDbBimap",
+    "AnnDbMap",
+    "IpiAnnDbMap",
+    "AgiAnnDbMap",
+    "ProbeAnnDbBimap",
+    "ProbeAnnDbMap",
+    "ProbeIpiAnnDbMap",
+    "ProbeGo3AnnDbBimap",
+
+    ## Virtual mother-class for all Annoations
+    "AnnotationDb",
+    "OrgDb",
+    "ChipDb",
+    "InparanoidDb",
+    "GODb",
+    "ReactomeDb",
+
+##     ## Class for faux-bimaps (select based bimaps)
+##     "AnnotationDbMap",
+              
+    ## from R/GOTerms.R
+    "GOTerms",
+
+    ## Special Frame objects
+    "GOFrame",
+    "GOAllFrame",
+    "KEGGFrame"
+
+)
+
+exportMethods(
+    ## from R/AnnDbObj-lowAPI.R
+    "dbconn",
+    "dbfile",
+    "taxonomyId",
+    "dbmeta",
+    "dbschema",
+    "dbInfo",
+    #"Ltablename", "Rtablename",
+    #"Lfilter", "Rfilter",
+    #"flatten",
+
+    ## from R/Bimap.R (the Bimap interface)
+    "direction", "direction<-",
+    "revmap",
+    "colnames", "colmetanames",
+    "Lkeyname", "Rkeyname", "keyname",
+    "tagname",
+    "Rattribnames", "Rattribnames<-",
+    "Lkeys", "Rkeys", "keys",
+    "Lkeys<-", "Rkeys<-", "keys<-",
+    "subset",
+    "[",
+    "Llength", "Rlength", "length",
+    "isNA",
+    "mappedLkeys", "mappedRkeys", "mappedkeys",
+    "count.mappedLkeys", "count.mappedRkeys", "count.mappedkeys",
+    "show",
+    "summary",
+    "toTable","as.data.frame",
+    "head", "tail",
+    "nrow",
+    "links",
+    "count.links",
+    "nhit",
+    "ncol", "dim",
+    "toggleProbes",
+    "hasMultiProbes","hasSingleProbes",
+    "getBimapFilters","setInpBimapFilter",
+
+    ## from R/GOTerms.R
+    "GOID",
+    "Term",
+    "Ontology",
+    "Synonym",
+    "Secondary",
+    "Definition",
+
+    ## Special Frame Methods
+    "GOFrame",
+    "GOAllFrame",
+    "getGOFrameData",
+    "KEGGFrame",
+    "getKEGGFrameData",
+
+    ## from R/BimapFormatting.R
+    "as.list",
+    #"toLList", "toRList", "toList",
+    "as.character",
+
+    ## from R/Bimap-envirAPI.R
+    "ls",
+    "mget",
+    "eapply",
+    "get",
+    "exists",
+    "[[",
+    "$",
+    "contents",
+    "sample",
+
+    ## more...
+    "initialize",
+
+    ##Methods for AnnotationDb
+    "saveDb",
+    "species",
+    "columns",
+    "keytypes",
+    "select",
+    "mapIds",
+    "orgPackageName"
+)
+
+export(
+    unlist2,
+
+    ## from R/AnnDbObj-lowAPI.R
+    showQCData,
+
+    ## from R/SQL.R
+    debugSQL, dbGetTable,
+
+    ## from R/GOTerms.R
+    GOTerms,
+    makeGOGraph,
+
+    ## from R/AnnDbPkg-templates-common.R
+    dbFileConnect,
+    dbFileDisconnect,
+    #addToNamespaceAndExport,
+    mergeToNamespaceAndExport,
+
+    ## from methods-geneCentricDbs
+    getOrgPkgForSchema, chooseCentralOrgPkgSymbol, 
+    mapIds_base, resort_base,
+    testForValidKeytype, testSelectArgs,
+
+    ## from R/loadDb.R
+    loadDb,
+
+    ## from the R/createAnnObjs.*_DB.R files
+    createAnnObjs.SchemaChoice, NCBICHIP_DB_SeedGenerator, filterSeeds,
+
+    ## from R/AnnDbPkg-checker.R
+    #checkProperty0,
+    checkMAPCOUNTS,
+
+    ## helpers for map creation, temporary
+    ## until pluggable maps come online
+    make_eg_to_go_map,
+    make_go_to_eg_map,
+    toSQLStringSet,
+
+    #Convenience function to allow automatic mapping of IDs:
+    inpIDMapper,
+    intraIDMapper,
+    idConverter,
+ 
+    ## AnnotationDb
+    metadata,
+
+    createSimpleBimap,
+
+    ## S3 methods
+    as.list.Bimap,
+    as.data.frame.Bimap
+)
+
+S3method(as.list, Bimap)
+S3method(as.data.frame, Bimap)

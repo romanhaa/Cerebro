@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List or search the filters available in the selected dataset</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for listFilters {biomaRt}"><tr><td>listFilters {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List or search the filters available in the selected dataset</h2>
+
+<h3>Description</h3>
+
+<p>Filters are what we use as inputs for a biomaRt query.
+For example, if we want to retrieve all entrezgene identifiers on
+chromosome X, <code>chromosome</code> will be the filter,
+with corresponding value X.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+    listFilters(mart, what = c("name", "description"))
+    searchFilters(mart, pattern)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class <code>Mart</code> created using the <code><a href="useMart.html">useMart</a></code> function</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>character vector indicating what information to display about the
+available filters.  Valid values are
+<code>name</code>,
+<code>description</code>,
+<code>options</code>,
+<code>fullDescription</code>,
+<code>filters</code>,
+<code>type</code>,
+<code>operation</code>,
+<code>filters8</code>,
+<code>filters9</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>Character vector defining the regular expression (<code><a href="../../base/html/regex.html">regex</a>)</code>
+to be used for the search.  If left blank the default is to use &quot;.*&quot; which will match everything.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck, Mike Smith</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if(interactive()){
+
+    ## list the available Ensembl marts and use Ensembl Genes
+    listEnsembl()
+    ensembl &lt;- useEnsembl(biomart = "ensembl", dataset = 'hsapiens_gene_ensembl')
+
+    ## list the available datasets in this Mart
+    listFilters(mart = ensembl)
+
+    ## the list of filters is long and not easy to read
+    ## we can search for a term of interest to reduce this e.g. 'gene'
+    searchFilters(mart = ensembl, pattern = "gene")
+    
+    ## search the available filters to find entries containing 'entrez' or 'hgnc'
+    searchFilters(mart = ensembl, 'entrez|hgnc') 
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

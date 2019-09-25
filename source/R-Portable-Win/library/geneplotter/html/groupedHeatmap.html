@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Heatmap of a matrix with grouped rows and columns</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for groupedHeatmap {geneplotter}"><tr><td>groupedHeatmap {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Heatmap of a matrix with grouped rows and columns</h2>
+
+<h3>Description</h3>
+
+<p>The function uses <code><a href="../../grid/html/grid.rect.html">grid.rect</a></code>
+and <code><a href="../../grid/html/grid.rect.html">grid.rect</a></code> to draw a heatmap with grouped rows and columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+groupedHeatmap(z, frow, fcol,
+  fillcolours = c("#2166ac","#4393c3","#92c5de","#d1e5f0","#fefefe","#fddbc7","#f4a582","#d6604d","#b2182b"),
+  bordercolour = "#e0e0e0",
+  zlim = range(z, na.rm=TRUE))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>A matrix with row and column names.</p>
+</td></tr>
+<tr valign="top"><td><code>frow</code></td>
+<td>
+<p>A <code>factor</code> of length <code>nrow(z)</code> indicating the
+row grouping.</p>
+</td></tr>
+<tr valign="top"><td><code>fcol</code></td>
+<td>
+<p>A <code>factor</code> of length <code>ncol(z)</code> indicating the
+column grouping.</p>
+</td></tr>
+<tr valign="top"><td><code>fillcolours</code></td>
+<td>
+<p>A <code>character</code> vector of colours from which the
+colour map is obtained through interpolation.</p>
+</td></tr> 
+<tr valign="top"><td><code>bordercolour</code></td>
+<td>
+<p>Either a <code>character</code> vector of length 1,
+specifying the border colour of the heatmap tiles, or <code>NULL</code> or
+<code>NA</code>, which indicates that the border colour should match the
+fill colour.</p>
+</td></tr> 
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>Lower and upper limit of <code>z</code> values represented in the colour
+map.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function can be called within other drawing operations
+from the grid package, e.g. within a viewport.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function is called for its side effect, drawing text and
+rectangles on the current viewport.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.ebi.ac.uk/huber">http://www.ebi.ac.uk/huber</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../grid/html/grid.text.html">grid.text</a></code>, <code><a href="../../grid/html/grid.rect.html">grid.rect</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data("mtcars")
+
+groupedHeatmap(
+  scale(mtcars),
+  frow = factor(sapply(strsplit(rownames(mtcars), " "), "[", 1)),
+  fcol = factor(round(seq_len(ncol(mtcars))/3)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

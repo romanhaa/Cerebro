@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: IRanges and NormalIRanges objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IRanges-class {IRanges}"><tr><td>IRanges-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>IRanges and NormalIRanges objects</h2>
+
+<h3>Description</h3>
+
+<p>The IRanges class is a simple implementation of the <a href="IntegerRanges-class.html">IntegerRanges</a>
+container where 2 integer vectors of the same length are used to
+store the start and width values.
+See the <a href="IntegerRanges-class.html">IntegerRanges</a> virtual class for a formal definition of
+<a href="IntegerRanges-class.html">IntegerRanges</a> objects and for their methods (all of them should
+work for IRanges objects).
+</p>
+<p>Some subclasses of the IRanges class are: NormalIRanges,
+<a href="Views-class.html">Views</a>, etc...
+</p>
+<p>A NormalIRanges object is just an IRanges object that is guaranteed
+to be &quot;normal&quot;. See the Normality section in the man page for
+<a href="IntegerRanges-class.html">IntegerRanges</a> objects for the definition and properties
+of &quot;normal&quot; <a href="IntegerRanges-class.html">IntegerRanges</a> objects.
+</p>
+
+
+<h3>Constructor</h3>
+
+<p>See <code>?`<a href="IRanges-constructor.html">IRanges-constructor</a>`</code>.
+</p>
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>ranges(x, use.names=FALSE, use.mcols=FALSE)</code>: Squeeze the ranges
+out of <a href="IntegerRanges-class.html">IntegerRanges</a> object <code>x</code> and return them in an IRanges
+object <em>parallel</em> to <code>x</code> (i.e. same length as <code>x</code>).
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "IRanges")</code>: Creates an IRanges instance from an
+<a href="IntegerRanges-class.html">IntegerRanges</a> derivative, or from a logical or integer vector.
+When <code>from</code> is a logical vector, the resulting IRanges object
+contains the indices for the runs of <code>TRUE</code> values.
+When <code>from</code> is an integer vector, the elements are either
+singletons or &quot;increase by 1&quot; sequences.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "NormalIRanges")</code>: Creates a NormalIRanges instance
+from a logical or integer vector. When <code>from</code> is an integer vector,
+the elements must be strictly increasing.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Concatenation</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>c(x, ..., ignore.mcols=FALSE)</code>:
+Concatenate IRanges object <code>x</code> and the IRanges objects in
+<code>...</code> together.
+See <code>?<a href="../../S4Vectors/html/c.html">c</a></code> in the <span class="pkg">S4Vectors</span> package for
+more information about concatenating Vector derivatives.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods for NormalIRanges objects</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>max(x)</code>:
+The maximum value in the finite set of integers represented by <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>min(x)</code>:
+The minimum value in the finite set of integers represented by <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="IntegerRanges-class.html">IntegerRanges-class</a>,
+</p>
+<p><a href="IRanges-constructor.html">IRanges-constructor</a>,
+<a href="IRanges-utils.html">IRanges-utils</a>,
+</p>
+<p><a href="intra-range-methods.html">intra-range-methods</a> for intra range transformations,
+</p>
+<p><a href="inter-range-methods.html">inter-range-methods</a> for inter range transformations,
+</p>
+<p><a href="setops-methods.html">setops-methods</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+showClass("IRanges")  # shows (some of) the known subclasses
+
+## ---------------------------------------------------------------------
+## A. MANIPULATING IRanges OBJECTS
+## ---------------------------------------------------------------------
+## All the methods defined for IntegerRanges objects work on IRanges
+## objects.
+## See ?IntegerRanges for some examples.
+## Also see ?`IRanges-utils` and ?`setops-methods` for additional
+## operations on IRanges objects.
+  
+## Concatenating IRanges objects
+ir1 &lt;- IRanges(c(1, 10, 20), width=5)
+mcols(ir1) &lt;- DataFrame(score=runif(3))
+ir2 &lt;- IRanges(c(101, 110, 120), width=10)
+mcols(ir2) &lt;- DataFrame(score=runif(3))
+ir3 &lt;- IRanges(c(1001, 1010, 1020), width=20)
+mcols(ir3) &lt;- DataFrame(value=runif(3))
+some.iranges &lt;- c(ir1, ir2)
+## all.iranges &lt;- c(ir1, ir2, ir3) ## This will raise an error
+all.iranges &lt;- c(ir1, ir2, ir3, ignore.mcols=TRUE)
+stopifnot(is.null(mcols(all.iranges)))
+
+## ---------------------------------------------------------------------
+## B. A NOTE ABOUT PERFORMANCE
+## ---------------------------------------------------------------------
+## Using an IRanges object for storing a big set of ranges is more
+## efficient than using a standard R data frame:
+N &lt;- 2000000L  # nb of ranges
+W &lt;- 180L      # width of each range
+start &lt;- 1L
+end &lt;- 50000000L
+set.seed(777)
+range_starts &lt;- sort(sample(end-W+1L, N))
+range_widths &lt;- rep.int(W, N)
+## Instantiation is faster
+system.time(x &lt;- IRanges(start=range_starts, width=range_widths))
+system.time(y &lt;- data.frame(start=range_starts, width=range_widths))
+## Subsetting is faster
+system.time(x16 &lt;- x[c(TRUE, rep.int(FALSE, 15))])
+system.time(y16 &lt;- y[c(TRUE, rep.int(FALSE, 15)), ])
+## Internal representation is more compact
+object.size(x16)
+object.size(y16)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

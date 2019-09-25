@@ -1,0 +1,32 @@
+Mart-class              Class Mart
+NP2009code              Display the analysis code from the 2009 Nature
+                        protocols paper
+attributePages          Gives a summary of the attribute pages
+exportFASTA             Exports getSequence results to FASTA format
+filterOptions           Displays the filter options
+filterType              Displays the filter type
+getBM                   Retrieves information from the BioMart database
+getBMlist               Retrieves information from the BioMart database
+getGene                 Retrieves gene annotation information given a
+                        vector of identifiers
+getLDS                  Retrieves information from two linked datasets
+getSequence             Retrieves sequences
+getXML                  Retrieves information from the BioMart database
+                        using an XML query
+listAttributes          lists the attributes available in the selected
+                        dataset
+listDatasets            List or search the datasets available in the
+                        selected BioMart database
+listEnsembl             lists the available BioMart databases hosted by
+                        Ensembl
+listEnsemblArchives     Lists the available archived versions of
+                        Ensembl
+listFilters             List or search the filters available in the
+                        selected dataset
+listMarts               lists the available BioMart databases
+select-methods          Retrieve information from the BioMart databases
+useDataset              Select a dataset to use and updates Mart object
+useEnsembl              Connects to the selected BioMart database and
+                        dataset hosted by Ensembl
+useMart                 Connects to the selected BioMart database and
+                        dataset

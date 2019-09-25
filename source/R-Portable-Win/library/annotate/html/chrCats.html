@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Returns a list of chromosome locations from a MAP environment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for chrCats {annotate}"><tr><td>chrCats {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Returns a list of chromosome locations from a MAP environment</h2>
+
+<h3>Description</h3>
+
+<p>The chrCats function takes a data package that contains a MAP environment
+and returns a list that contains the locations for each gene (from the
+chromosome number to more specific locations if they're available).  For
+example, the hgu95av2MAP environment gives the location, 14q22-q23, for
+Affymetrix identifier: 1114\_at.  This function will return a list with one
+named element for 1114\_at and the values it will contain are 14, 14q, 14q2,
+14q22, and 14q23 since the Affy id is located at each of those chromosome
+locations. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+chrCats(data)
+createMAPIncMat(data)
+createLLChrCats(data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>the data package (a character string)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function does a lot of string manipulation and there are a few known
+errors so I want to discuss them here in case someone else would like to
+improve on this function.
+</p>
+<p>The first thing, chrCats, does is only allow one location for each
+Affymetrix identifier.  If the MAP environment has more than one
+location for an Affy id, then the first location is taken.  Currently, the
+hgu95av2MAP environment has only 9 Affy ids (out of 12625) that have more
+than one location and the hgu133aMAP environment has only 16 Affy ids (out
+of 22283) that have more than one location so this does not affect many
+identifiers. 
+</p>
+<p>Next any spaces are removed from each location as several locations have
+leading spaces.
+</p>
+<p>Then a for loop (which is not efficient!) is used to look at each location
+individually and make a list that will be returned.  A few particular
+strings are looked for in each location and these include &lsquo;|&rsquo; and &lsquo;-&rsquo;.
+</p>
+<p>Locations that include &lsquo;|&rsquo; in the string are split based on the &lsquo;|&rsquo; as
+though it represents OR.  For example, for Affy id, 32273\_at, in hgu95av2MAP
+the location is given as 5q33|5q31.1 and this function assumes this means
+5q33 or 5q31.1 so it will return the values 5, 5q, 5q3, 5q33, 5q31, and
+5q31.1 for this Affy id.
+</p>
+<p>The &lsquo;-&rsquo; character is assumed to mean BETWEEN.  For example, for Affy id,
+1138\_at, in hgu95av2MAP the location is given as 2q11-q14 and this function
+assumes this means the location is somewhere between 2q11 and 2q14 so it
+will return the values 2, 2q, 2q1, 2q11, 2q12, 2q13, and 2q14 for this Affy
+id.
+</p>
+<p>Now here is the first problem with this function.  I do not know how to
+handle the &lsquo;-&rsquo; when the two strings are not of equal length.  For example,
+for Affy id, 36779\_at, in hgu95av2MAP the location is given as 5q33.3-q34,
+but I do not know how to treat this BETWEEN because I do not know how many
+sub-bands there are between 5q33.3 and 5q34.  Is there a 5q33.4 or 5q33.5,
+etc.?  I'm not sure.  So I treat this &lsquo;-&rsquo; as an &lsquo;|&rsquo;.  This function will
+return the values 5, 5q, 5q3, 5q33, 5q33.3, and 5q34 for this Affy id and
+most likely, that is incorrect.  
+</p>
+<p>Another problem I have with the &lsquo;-&rsquo; occurs when all of the characters up
+until the last character do not match.  For example, for Affy id,
+38927\_i\_at, in hgu95av2MAP the location is given as 11q14-q21, but again
+I'm not sure how to treat this BETWEEN because I don't know the number of
+sub-bands between 11q14 and 11q21.  Does 11q15 exist, etc.?  So I again
+treat this &lsquo;-&rsquo; as an &lsquo;|&rsquo;.  This function will return the values 11, 11q,
+11q1, 11q14, 11q2, and 11q21 for this Affy id and this is probably
+incorrect. 
+</p>
+<p>The problem with &lsquo;-&rsquo; also occurs when the location is something like
+19cen-q13.1 for Affy id, 34670\_at, in hgu95av2MAP.  Again I don't know the
+number of sub-bands between 19cen and 19q13.1 so I treat this BETWEEN as an
+OR.
+</p>
+<p>Another problem I have with &lsquo;cen&rsquo; in the location is that sometimes the
+location looks like: 19p13.2-cen and very rarely it looks like:
+5p13.1-5cen.  In the second case, the chromosome number is included after
+the &lsquo;-&rsquo; and before the &lsquo;cen&rsquo;.  This only occurs with the location
+5p13.1-5cen in both hgu95av2MAP and hgu133aMAP and all other locations do
+not include the chromosome number after the &lsquo;-&rsquo;.  Currently this function
+returns the wrong information for that one location.  It will return the
+values 5, 5p, 5p1, 5p13, 5p13.1, 5p5,and 5p5cen, but it should return 5, 5p,
+5p1, 5p13, 5p13.1, and 5cen so this one location is an error.  All other
+locations that include &lsquo;cen&rsquo; are correct.  For example, this function
+returns the values 19, 19p, 19p1, 19p13, 19p13.2, and 19cen for the location
+19p13.2-cen. 
+</p>
+<p>This function is very slow because it contains for loops and thus, it would
+be useful to make it more efficient.  Also, it would be nice at some point
+for someone with more knowledge on chromosome location figure out how to
+improve some of my string manipulation errors.
+</p>
+<p><code>createLLChrCats</code> is a wrapper that converts probe IDs to Entrez
+Gene IDs.
+</p>
+<p><code>createMAPIncMat</code> is a wrapper that calls <code>createLLChrCats</code>
+and then returns an incidence matrix with rows being the categories
+and cols the Entrez Gene IDs.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list with an element for each Affy id.  The name will be the Affy id
+and the values will be the locations for that Affy id.  If the Affy id had a
+location of NA in the MAP environment, then a list element is not returned
+for that Affy id. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Elizabeth Whalen</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  mapValues &lt;- chrCats("hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

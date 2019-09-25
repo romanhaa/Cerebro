@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves information from the BioMart database using an XML...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getXML {biomaRt}"><tr><td>getXML {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves information from the BioMart database using an XML query</h2>
+
+<h3>Description</h3>
+
+<p>DEPRECATED! - This function is a low level query function bypassing lots of biomaRts internal controls.  It allows for a direct XML query to a known BioMart webservice host.</p>
+
+
+<h3>Usage</h3>
+
+<pre>getXML(host="http://www.ensembl.org/biomart/martservice?", xmlquery)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>host</code></td>
+<td>
+<p>URL to BioMart webservice, is set to http://www.ensembl.org/biomart/martservice? by default</p>
+</td></tr>
+<tr valign="top"><td><code>xmlquery</code></td>
+<td>
+<p>XML query that needs to be send to the webservice</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function has now been deprecated.  Similar functionality can be 
+achieved using the unexported function '<code>biomaRt:::.submitQueryXML</code>.  If 
+you are still using this function and this affects your work, please contact 
+the package maintainer at https://github.com/grimbough/biomaRt/issues</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck, Mike Smith</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(interactive()){
+xmlquery="&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+            &lt;!DOCTYPE Query&gt;
+            &lt;Query virtualSchemaName = 'default' uniqueRows = '1' 
+                   count = '0' datasetConfigVersion = '0.6'&gt;
+                &lt;Dataset name = 'hsapiens_gene_ensembl'&gt;
+                    &lt;Attribute name = 'ensembl_gene_id'/&gt;
+                    &lt;Filter name = 'chromosome_name' value = 'Y' /&gt;
+                &lt;/Dataset&gt;
+            &lt;/Query&gt;"
+getXML(host = "www.ensembl.org/biomart/martservice?", xmlquery = xmlquery)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

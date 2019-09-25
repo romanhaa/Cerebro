@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;graphNEL&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for graphNEL-class {graph}"><tr><td>graphNEL-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;graphNEL&quot;</h2>
+
+<h3>Description</h3>
+
+<p>This is a class of graphs that are represented in terms of nodes and
+an edge list. This is a suitable representation for a graph with a
+large number of nodes and relatively few edges.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The <code>graphNEL</code> class provides a very general structure for
+representing graphs. It will be reasonably efficient for lists with
+relatively more nodes than edges.  Although this representation can
+support multi-edges, such support is not implemented and instances
+of <code>graphNEL</code> are assumed to be simple graphs with at most one
+edge between any pair of nodes.
+</p>
+<p>The <code>edgeL</code> is a named <code>list</code> of the same length as the
+node vector. The names are the names of the nodes. Each element of
+<code>edgeL</code> is itself a list. Each element of this (sub)list is a
+vector (all must be the same length) and each element represents an
+edge to another node. The sublist named <code>edges</code> holds index
+values into the node vector. And each such entry represents an edge
+from the node which has the same name as the component of
+<code>edgeL</code> to the node with index provided. Another component that
+is often used is named <code>weights</code>. It represents edge weights.
+The user can specify any other edge attributes (such as types
+etc). They are responsible for any special handling that
+these might require.
+</p>
+<p>For an <code>undirected</code> instance all edges are reciprocated (there
+is an edge from A to B and from B to A).
+</p>
+<p>Note that the reason for using indices to represent the <code>to</code> end
+of a node is so that we can easily support permutation of the node
+labels as a way to generate randomizations of the graph.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>nodes</code>:</dt><dd><p>Object of class <code>"vector"</code>.</p>
+</dd>
+<dt><code>edgeL</code>:</dt><dd><p>Object of class <code>"list"</code>. The <code>edgeL</code>
+must be the same length as <code>nodes</code>. The elements of this
+vector correspond to the same element in <code>nodes</code>. The
+elements are themselves lists. If the node has any edges then this
+list will have an element named <code>edges</code>.  This will
+eventually change.  Since edge weights are now stored in the
+edge attributes construct, we do not need the extra level of
+list.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"graph"</code>, directly.
+</p>
+
+
+<h3>Constructor</h3>
+
+<p><code>graphNEL(nodes=character(), edgeL=list(), edgemode='undirected')</code>
+creates a graphNEL instance.
+</p>
+
+<dl>
+<dt>nodes</dt><dd><p>A character vector of node labels.</p>
+</dd>
+<dt>edgeL</dt><dd><p>A named list either in the format returned by the
+<code>edges</code> method or a list of lists where each inner list has
+an element named <code>edges</code> and optionally an element named
+<code>weights</code>.  If <code>weights</code> is present, it must be the same
+length as the <code>edges</code> element.</p>
+</dd>
+<dt>edgemode</dt><dd><p>Either &quot;directed&quot; or &quot;undirected&quot;.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>adj</dt><dd><p><code>signature(object = "graphNEL")</code>: A method for
+finding nodes adjacent to the suplied node.</p>
+</dd>
+<dt>edgeL</dt><dd><p><code>signature(graph = "graphNEL")</code>: A method for
+obtaining the edge list.</p>
+</dd>
+<dt>edgeWeights</dt><dd><p><code>signature(object = "graphNEL")</code>: A method
+for obtaining the edge weights. </p>
+</dd>
+<dt>edges</dt><dd><p><code>signature(object = "graphNEL")</code>: A method for
+obtaining the edges.</p>
+</dd>
+<dt>inEdges</dt><dd><p><code>signature(node = "character", object =
+        "graphNEL")</code>: Return the incoming edges for the specified
+nodes.  See <code><a href="inEdges.html">inEdges</a></code>.</p>
+</dd>
+<dt>nodes</dt><dd><p><code>signature(object = "graphNEL")</code>: A method for
+obtaining the nodes. </p>
+</dd>
+<dt>numNodes</dt><dd><p><code>signature(object = "graphNEL")</code>:A method for
+determining how many nodes are in the graph. </p>
+</dd>
+<dt>subGraph</dt><dd><p><code>signature(snodes="character", graph =
+	"graphNEL")</code>:A method for
+obtaining the induced subgraph based on the set of supplied nodes
+and the supplied graph.</p>
+</dd>
+<dt>plot</dt><dd><p>Please see the help page for <code>plot.graphNEL</code> in the
+<code>Rgraphviz</code> package</p>
+</dd>
+<dt>graph2graphviz</dt><dd><p><code>signature(object = "graphNEL")</code>: A method
+that will convert a <code>graphNEL</code> object into a matrix suitable
+for interaction with <code>Rgraphviz</code>.  Not intended to be called
+directly.  This function will insure that no NA's (or other
+undesired values) are in the graph, or created by coersion.</p>
+</dd>
+<dt>nodes&lt;-</dt><dd><p><code>signature(object="graphNEL",
+	value="character")</code>: A method for replacing the nodes in a graph
+object. It checks to be sure the values are the right length and
+unique. </p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "graphNEL", to = "graphAM")</code>:
+Called via <code>as</code>, the method converts to an adjacency matrix
+representation.  See <code><a href="graphAM-class.html">graphAM-class</a></code>. </p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "graphNEL", to = "graphBAM")</code>:
+Called via <code>as</code>, the method converts to an bit array
+representation.  See <code><a href="graphBAM-class.html">graphBAM-class</a></code>. </p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graphAM-class.html">graphAM-class</a></code>, <code><a href="distGraph-class.html">distGraph-class</a></code>,
+<code><a href="clusterGraph-class.html">clusterGraph-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   set.seed(123)
+   V &lt;- LETTERS[1:4]
+   edL &lt;- vector("list", length=4)
+   names(edL) &lt;- V
+   for(i in 1:4)
+      edL[[i]] &lt;- list(edges=5-i, weights=runif(1))
+   gR &lt;- graphNEL(nodes=V, edgeL=edL)
+   edges(gR)
+   edgeWeights(gR)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

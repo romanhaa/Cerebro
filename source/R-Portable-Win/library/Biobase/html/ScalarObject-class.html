@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Utility classes for length one (scalar) objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ScalarObject-class {Biobase}"><tr><td>ScalarObject-class {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Utility classes for length one (scalar) objects</h2>
+
+<h3>Description</h3>
+
+<p>These classes represent scalar quantities, such as a string or a
+number and are useful because they provide their own validity
+checking.  The classes <code>ScalarCharacter</code>, <code>ScalarLogical</code>, 
+<code>ScalarInteger</code>, and <code>ScalarNumeric</code> all extend their
+respective base vector types and can be used interchangeably (except
+they should always have length one).
+</p>
+<p>The <code>mkScalar</code> factory function provides a convenient way of
+creating <code>Scalar&lt;type&gt;</code> objects (see the examples section below).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mkScalar(obj)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>An object of type <code>character</code>, <code>logical</code>,
+<code>integer</code>, or <code>double</code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+v &lt;- list(mkScalar("a single string"),
+          mkScalar(1),
+          mkScalar(1L),
+          mkScalar(TRUE))
+sapply(v, class)
+sapply(v, length)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

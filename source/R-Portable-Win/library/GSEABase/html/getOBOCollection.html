@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read OBO-specified Gene Ontology Collections</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getOBOCollection {GSEABase}"><tr><td>getOBOCollection {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read OBO-specified Gene Ontology Collections</h2>
+
+<h3>Description</h3>
+
+<p><code>getOBOCollection</code> parses a uri (file or internet location)
+encoded following the OBO specification defined by the Gene Onotology
+consortium.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getOBOCollection(uri, evidenceCode="ANY", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>uri</code></td>
+<td>
+<p>A file name or URL containing gene sets encoded following
+the OBO specification.</p>
+</td></tr>
+<tr valign="top"><td><code>evidenceCode</code></td>
+<td>
+<p>A character vector of evidence codes.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to the
+<code><a href="CollectionType-constructors.html">OBOCollection</a></code> constructor.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>getOBOCollection</code> returns an <code>OBOCollection</code> of gene
+sets. The gene set is constructed by parsing the file for <code>id</code>
+tags in <code>TERM</code> stanzas. The parser does not currently support all
+features of OBO, e.g., the ability to import additional files.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmrogan@fhcrc.org&gt;</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.geneontology.org">http://www.geneontology.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="OBOCollection-class.html">OBOCollection</a></code>, <code><a href="CollectionType-constructors.html">OBOCollection</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## 'fl' could also be a URI
+fl &lt;- system.file("extdata", "goslim_plant.obo", package="GSEABase")
+getOBOCollection(fl) # GeneSetCollection of 2 sets
+
+## Not run: 
+## Download from the internet
+fl &lt;- "http://www.geneontology.org/GO_slims/goslim_plant.obo"
+getOBOCollection(fl, evidenceCode="TAS")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

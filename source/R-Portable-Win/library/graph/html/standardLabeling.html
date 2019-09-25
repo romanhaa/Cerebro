@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Standard labeling of edges with integers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Standard labeling of edges with integers {graph}"><tr><td>Standard labeling of edges with integers {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Standard labeling of edges with integers</h2>
+
+<h3>Description</h3>
+
+<p>Functions to convert between from-to representation and standard
+labeling of the edges for undirected graphs with no self-loops.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ftM2int(ft)
+int2ftM(i)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p>Numeric vector.</p>
+</td></tr>
+<tr valign="top"><td><code>ft</code></td>
+<td>
+<p>Numeric nx2 or 2xn matrix.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A standard 1-based node labeling of a graph G=(V,E)
+is a one-to-one mapping between the integers from 1 to |V|
+and the nodes in V. A standard 1-based edge
+labeling of an undirected graph G=(V,E) with no self-loops
+is <em>the</em> one-to-one mapping between the integers from 1
+to |V| choose 2 = |V|*(|V|-1)/2 such that the edge labeled 1 is
+between nodes 2 and 1, the edge labeled 2 is between
+nodes 3 and 1, the edge labeled 3 is between nodes 3 and 2,
+and so on. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>ftM2int</code>, a numeric vector of length n. 
+For <code>int2ftM</code>, a <code>length(i) x 2</code> matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ nNodes &lt;- 200
+ nEdges &lt;- choose(nNodes, 2)
+ i &lt;- 1:nEdges
+ ft &lt;- int2ftM(i)
+ ft[1:6,]
+ stopifnot(all(ft[,1]&gt;ft[,2])) ## always from higher to lower
+ stopifnot(!any(duplicated(paste(ft[,1], ft[,2]))))
+ stopifnot(ft[nEdges, 1]==nNodes, ft[nEdges, 2]==nNodes-1) 
+
+ j &lt;- ftM2int(ft)
+ stopifnot(all(i==j))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

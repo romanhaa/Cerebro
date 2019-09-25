@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to retrieve contents of environments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for contents {Biobase}"><tr><td>contents {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to retrieve contents of environments</h2>
+
+<h3>Description</h3>
+
+<p>The contents method is used to retrieve the values stored in an
+environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+contents(object, all.names)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>The environment (data table) that you want to get all contents from</p>
+</td></tr>
+<tr valign="top"><td><code>all.names</code></td>
+<td>
+<p>a logical indicating whether to copy all values in <code>as.list.environment</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list is returned, where the elements are the objects stored in
+the environment.  The names of the elements are the names of the
+objects.
+</p>
+<p>The <code>all.names</code> argument is identical to the one used in
+<code>as.list.environment</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/list.html">as.list.environment</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  z &lt;- new.env()
+  multiassign(letters, 1:26, envir=z)
+  contents(z)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

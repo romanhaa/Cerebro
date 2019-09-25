@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves information from the BioMart database</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getBM {biomaRt}"><tr><td>getBM {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves information from the BioMart database</h2>
+
+<h3>Description</h3>
+
+<p>This function is the main biomaRt query function.  Given a set of filters and corresponding values, it retrieves the user specified attributes from the BioMart database one is connected to.</p>
+
+
+<h3>Usage</h3>
+
+<pre>getBM(attributes, filters = "", values = "", mart, curl = NULL, 
+checkFilters = TRUE, verbose = FALSE, uniqueRows = TRUE, bmHeader = FALSE,
+quote = "\"")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>attributes</code></td>
+<td>
+<p>Attributes you want to retrieve.  A possible list of attributes can be retrieved using the function listAttributes.</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>Filters (one or more) that should be used in the query.  A possible list of filters can be retrieved using the function listFilters.</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>Values of the filter, e.g. vector of affy IDs.  If multiple filters are specified then the argument should be a list of vectors of which the position of each vector corresponds to the position of the filters in the filters argument.</p>
+</td></tr>
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mart, created with the useMart function.</p>
+</td></tr>
+<tr valign="top"><td><code>curl</code></td>
+<td>
+<p>An optional 'CURLHandle' object, that can be used to speed up getBM when used in a loop.</p>
+</td></tr>
+<tr valign="top"><td><code>checkFilters</code></td>
+<td>
+<p>Sometimes attributes where a value needs to be specified, for example upstream\_flank with value 20 for obtaining upstream sequence flank regions of length 20bp, are treated as filters in BioMarts.  To enable such a query to work, one must specify the attribute as a filter and set checkFilters = FALSE for the query to work.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>When using biomaRt in webservice mode and setting verbose to TRUE, the XML query to the webservice will be printed.</p>
+</td></tr>
+<tr valign="top"><td><code>uniqueRows</code></td>
+<td>
+<p>If the result of a query contains multiple identical rows, setting this argument to TRUE (default) will result in deleting the duplicated rows in the query result at the server side.</p>
+</td></tr>
+<tr valign="top"><td><code>bmHeader</code></td>
+<td>
+<p>Boolean to indicate if the result retrieved from the
+BioMart server should include the data headers or not, defaults to FALSE.  This should
+only be switched on if the default behavior results in errors,
+setting to on might still be able to retrieve your data in that case</p>
+</td></tr>
+<tr valign="top"><td><code>quote</code></td>
+<td>
+<p>Sometimes parsing of the results fails due to errors in the Ensembl data fields such as containing a quote, in such cases you can try to change the value of quote to try to still parse the results.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code>data.frame</code>. There is no implicit mapping between its rows and the function arguments (e.g. <code>filters</code>, <code>values</code>), therefore make sure to have the relevant identifier(s) returned by specifying them in <code>attributes</code>. See Examples.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+mart &lt;- useMart(biomart = "ensembl", dataset = "hsapiens_gene_ensembl")
+getBM(attributes = c("affy_hg_u95av2", "hgnc_symbol", "chromosome_name", "band"),
+      filters    = "affy_hg_u95av2",
+      values     = c("1939_at","1503_at","1454_at"), 
+      mart       = mart)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

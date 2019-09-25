@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class Containing Measured Variables and Their Meta-Data...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AnnotatedDataFrame {Biobase}"><tr><td>AnnotatedDataFrame {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Class Containing Measured Variables and Their Meta-Data Description.
+</h2>
+
+<h3>Description</h3>
+
+<p>An <code>AnnotatedDataFrame</code> consists of two parts. There is a collection
+of samples and the values of variables measured on those
+samples. There is also a description of each variable measured. The
+components of an <code>AnnotatedDataFrame</code> can be accessed with
+<code><a href="phenoData.html">pData</a></code> and <code><a href="phenoData.html">varMetadata</a></code>.
+</p>
+
+
+<h3>Extends</h3>
+
+<p>Versioned
+</p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>AnnotatedDataFrame(data, varMetadata, dimLabels=c("rowNames", "columnNames"), ...)</code>
+</p>
+<p><code>AnnotatedDataFrame</code> instances are created using
+<code>AnnotatedDataFrame</code>. The function can take three arguments, <code>data</code> is a
+<code>data.frame</code> of the samples (rows) and measured variables
+(columns).  <code>varMetadata</code> is a <code>data.frame</code> with the number
+of rows equal to the number of columns of the <code>data</code> argument.
+<code>varMetadata</code> describes aspects of each measured
+variable. <code>dimLabels</code> provides aesthetic control for labeling rows
+and columns in the <code>show</code> method. <code>varMetadata</code> and
+<code>dimLabels</code> can be missing.
+</p>
+<p><code>as(data.frame, "AnnotatedDataFrame")</code> coerces a <code>data.frame</code> to an
+<code>AnnotatedDataFrame</code>.
+</p>
+<p><code><a href="annotatedDataFrameFrom-methods.html">annotatedDataFrameFrom</a></code> may be a convenient way to create
+an <code>AnnotatedDataFrame</code> from <code><a href="class.AssayData.html">AssayData-class</a></code>.
+</p>
+
+
+<h3>Slots</h3>
+
+<p>Class-specific slots:
+</p>
+
+<dl>
+<dt><code>data</code>:</dt><dd><p>A <code>data.frame</code> containing samples (rows)
+and measured variables (columns).</p>
+</dd>
+<dt><code>dimLabels</code>:</dt><dd><p>A <code>character</code> vector of length 2 that
+provides labels for the rows and columns in the <code>show</code> method.</p>
+</dd>
+<dt><code>varMetadata</code>:</dt><dd><p>A <code>data.frame</code> with number of rows
+equal number of columns in <code>data</code>, and at least one column,
+named <code>labelDescription</code>, containing a textual description
+of each variable.</p>
+</dd>
+<dt><code>.__classVersion__</code>:</dt><dd><p>A <code>Versions</code> object describing
+the R and Biobase version numbers used to created the instance.
+Intended for developer use.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Class-specific methods.
+</p>
+
+<dl>
+<dt><code>as(annotatedDataFrame, "data.frame")</code></dt><dd><p>Coerce objects of
+<code>AnnotatedDataFrame</code> to <code>data.frame</code>.</p>
+</dd>
+<dt><code>combine(&lt;AnnotatedDataFrame&gt;,
+	&lt;AnnotatedDataFrame&gt;</code>:</dt><dd><p>Bind data from one
+<code>AnnotatedDataFrame</code> to a second
+<code>AnnotatedDataFrame</code>, returning the result as an
+<code>AnnotatedDataFrame</code>. Row (sample) names in each argument
+must be unique. Variable names present in both arguments occupy a
+single column in the resulting <code>AnnotatedDataFrame</code>. Variable
+names unique to either argument create columns with values
+assigned for those samples where the variable is
+present. <code>varMetadata</code> in the returned
+<code>AnnotatedDataFrame</code> is updated to reflect the combination.</p>
+</dd>
+<dt><code>pData(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>pData(&lt;AnnotatedDataFrame&gt;)&lt;-&lt;data.frame&gt;</code>:</dt><dd><p>Set and
+retrieve the data (samples and variables) in the
+<code>AnnotatedDataFrame</code></p>
+</dd>
+<dt><code>varMetadata(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>varMetadata(&lt;AnnotatedDataFrame&gt;)&lt;-&lt;data.frame&gt;</code>:</dt><dd><p>Set and
+retrieve the meta-data (variables and their descriptions) in the
+<code>AnnotatedDataFrame</code></p>
+</dd>
+<dt><code>featureNames(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>featureNames(&lt;AnnotatedDataFrame&gt;)&lt;-&lt;ANY&gt;</code>:</dt><dd><p>Set and
+retrieve the feature names in <code>AnnotatedDataFrame</code>; a
+synonym for <code>sampleNames</code>.</p>
+</dd>
+<dt><code>sampleNames(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>sampleNames(&lt;AnnotatedDataFrame&gt;)&lt;-&lt;ANY&gt;</code>:</dt><dd><p>Set and
+retrieve the sample names in <code>AnnotatedDataFrame</code></p>
+</dd>
+<dt><code>varLabels(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>varLabels(&lt;AnnotatedDataFrame&gt;)&lt;-&lt;data.frame&gt;</code>:</dt><dd><p>Set and
+retrieve the variable labels in the <code>AnnotatedDataFrame</code></p>
+</dd>
+<dt>
+<code>dimLabels(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>dimLabels(&lt;AnnotatedDataFrame&gt;) &lt;- &lt;character&gt;</code></dt><dd><p>Retrieve
+labels used for display of <code>AnnotatedDataFrame</code>, e.g.,
+&lsquo;rowNames&rsquo;, &lsquo;columnNames&rsquo;.</p>
+</dd>
+</dl>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>initialize(&lt;AnnotatedDataFrame&gt;)</code>:</dt><dd><p>Object instantiation, used
+by <code>new</code>; not to be called directly by the user.</p>
+</dd>
+<dt><code>as(&lt;data.frame&gt;, "AnnotatedDataFrame")</code>:</dt><dd><p>Convert a
+<code>data.frame</code> to an AnnotatedDataFrame.</p>
+</dd>
+<dt><code>as(&lt;phenoData&gt;,&lt;AnnotatedDataFrame&gt;)</code>:</dt><dd><p>Convert
+old-style <code>phenoData-class</code> objects to
+<code>AnnotatedDataFrame</code>, issuing warnings as appropriate.</p>
+</dd>
+<dt><code>validObject(&lt;AnnotatedDataFrame&gt;)</code>:</dt><dd><p>Validity-checking
+method, ensuring coordination between <code>data</code> and
+<code>varMetadata</code> elements</p>
+</dd>
+<dt><code>updateObject(object, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version, if necessary. See <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code></p>
+</dd>
+<dt><code>isCurrent(object)</code></dt><dd><p>Determine whether version of object is current. See <code><a href="isCurrent.html">isCurrent</a></code></p>
+</dd>
+<dt><code>isVersioned(object)</code></dt><dd><p>Determine whether object contains a 'version' string describing its structure . See <code><a href="isVersioned.html">isVersioned</a></code></p>
+</dd>
+<dt><code>show(&lt;AnnotatedDataFrame&gt;)</code></dt><dd><p>Abbreviated display of object</p>
+</dd>
+<dt><code>[&lt;sample&gt;,&lt;variable&gt;</code>:</dt><dd><p>Subset operation, taking two arguments and
+indexing the sample and variable. Returns an
+<code>AnnotatedDataFrame</code>, i.e., including relevant
+metadata. Unlike a <code>data.frame</code>, setting <code>drop=TRUE</code>
+generates an error. </p>
+</dd>
+<dt><code>[[&lt;variable&gt;</code>, <code>$&lt;variable&gt;</code>:</dt><dd><p>Selector returning a
+variable (column of <code>pData</code>).</p>
+</dd>
+<dt><code>[[&lt;variable&gt;, ...]]&lt;-&lt;new_value&gt;</code>,
+<code>$&lt;variable&gt; &lt;- &lt;new_value&gt;</code>:</dt><dd><p>Replace or add a variable to
+<code>pData</code>. ... can include named arguments (especially
+<code>labelDescription</code>) to be added to <code>varMetadata</code>.</p>
+</dd>
+<dt><code>head(&lt;AnnotatedDataFrame&gt;, n = 6L, ...)</code>,
+<code>tail(&lt;AnnotatedDataFrame&gt;, n=6L, ...)</code></dt><dd><p>Select the first
+(last for tail) <code>n</code> rows; negative <code>n</code> returns the first
+(last) <code>nrow() - n</code> rows.</p>
+</dd>
+<dt><code>dim(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>ncol(&lt;AnnotatedDataFrame&gt;)</code>:</dt><dd><p>Number of samples and
+variables (<code>dim</code>) and variables (<code>ncol</code>) in the
+argument.</p>
+</dd>
+<dt><code>dimnames(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>rownames(&lt;AnnotatedDataFrame&gt;)</code>,
+<code>colnames(&lt;AnnotatedDataFrame&gt;)</code>:</dt><dd><p>row and column names.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>V.J. Carey, after initial design by R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet</a></code>,
+<code><a href="read.AnnotatedDataFrame.html">read.AnnotatedDataFrame</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+df &lt;- data.frame(x=1:6,
+                 y=rep(c("Low", "High"),3),
+                 z=I(LETTERS[1:6]),
+                 row.names=paste("Sample", 1:6, sep="_"))
+metaData &lt;-
+  data.frame(labelDescription=c(
+               "Numbers",
+               "Factor levels",
+               "Characters"))
+
+AnnotatedDataFrame()
+AnnotatedDataFrame(data=df)
+AnnotatedDataFrame(data=df, varMetadata=metaData)
+as(df, "AnnotatedDataFrame")
+
+obj &lt;- AnnotatedDataFrame()
+pData(obj) &lt;- df
+varMetadata(obj) &lt;- metaData
+validObject(obj)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

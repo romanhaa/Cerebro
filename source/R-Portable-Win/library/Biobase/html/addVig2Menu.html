@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add Menu Items to an Existing/New Menu of Window</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for addVigs2WinMenu {Biobase}"><tr><td>addVigs2WinMenu {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add Menu Items to an Existing/New Menu of Window</h2>
+
+<h3>Description</h3>
+
+<p>This function adds a menu item for a package's vignettes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addVigs2WinMenu(pkgName)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkgName</code></td>
+<td>
+<p><code>pkgName</code> - a character string for the name of an
+R package</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The original functions <code>addVig2Menu</code>, <code>addVig4Win</code>, <code>addVig4Unix</code>, <code>addNonExisting</code>, <code>addPDF2Vig</code> have been replaced by <code>addVigs2WinMenu</code>, please use those instead.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The functions do not return any value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang and Jeff Gentry</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    # Only works for windows now
+    if(interactive() &amp;&amp; .Platform$OS.type == "windows" &amp;&amp;
+             .Platform$GUI == "Rgui"){
+        addVigs2WinMenu("Biobase")
+    }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

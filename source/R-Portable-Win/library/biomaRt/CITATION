@@ -1,0 +1,34 @@
+citHeader("To cite the biomaRt package in publications use:")
+
+citEntry(entry="article",  
+  title  = "Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt",
+  author = personList(person(given="Steffen",  family="Durinck"),
+                      person(given="Paul T.",  family="Spellman"),
+                      person(given="Ewan",     family="Birney"),
+                      person(given="Wolfgang", family="Huber")),
+  journal = "Nature Protocols",
+  year = "2009",
+  volume = "4",
+  pages = "1184--1191",
+  textVersion = paste("Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt.",
+                      "Steffen Durinck, Paul T. Spellman, Ewan Birney and Wolfgang Huber,",
+                      "Nature Protocols 4, 1184-1191 (2009)."))
+
+citEntry(entry="article",  
+  title  = "BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis",
+  author = personList(person(given="Steffen",  family="Durinck"),
+                      person(given="Yves",     family="Moreau"),
+                      person(given="Arek",     family="Kasprzyk"),
+                      person(given="Sean",     family="Davis"),
+                      person(given="Bart",     family="De Moor"),
+                      person(given="Alvis",    family="Brazma"),
+                      person(given="Wolfgang", family="Huber")),
+  journal = "Bioinformatics",,
+  year = "2005",
+  volume = "21",
+  pages = "3439--3440",
+  textVersion = paste("BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis.",
+    "Steffen Durinck, Yves Moreau, Arek Kasprzyk, Sean Davis, Bart De Moor, Alvis Brazma and Wolfgang Huber,",
+    "Bioinformatics 21, 3439-3440 (2005)."))
+
+

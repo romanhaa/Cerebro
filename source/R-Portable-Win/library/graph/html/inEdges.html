@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generic Method inEdges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for inEdges {graph}"><tr><td>inEdges {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generic Method inEdges</h2>
+
+<h3>Description</h3>
+
+<p>Returns a list of all incoming edges for the specified nodes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+inEdges(node, object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>node</code></td>
+<td>
+<p>character vector of node names</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a <code>graph</code> object</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If no <code>node</code> argument is specified, <code>inEdges</code> returns the
+incoming edges for all nodes in the graph.
+</p>
+<p>For an undirected graph, <code>inEdges</code> returns all edges for the
+specified nodes.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with length matching the length of <code>node</code>.  If <code>node</code>
+was missing, a list containing an element for each node in the graph.
+</p>
+<p>Each list element contains a character vector of node names giving the
+nodes that have outgoing edges to the node given by the name of the
+list element.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="removeNode.html">removeNode</a></code>, <code><a href="clearNode.html">clearNode</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+  V &lt;- LETTERS[1:4]
+  edL3 &lt;- vector("list", length=4)
+  for(i in 1:4)
+    edL3[[i]] &lt;- list(edges=(i%%4)+1, weights=i)
+  names(edL3) &lt;- V
+  gR3 &lt;- graphNEL(nodes=V, edgeL=edL3, "directed")
+  inEdges(c("A", "B"), gR3)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

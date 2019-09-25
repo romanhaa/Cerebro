@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: S4 generic functions for Bioconductor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for BiocGenerics-package {BiocGenerics}"><tr><td>BiocGenerics-package {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>S4 generic functions for Bioconductor</h2>
+
+<h3>Description</h3>
+
+<p>S4 generic functions needed by many Bioconductor packages.
+</p>
+
+
+<h3>Details</h3>
+
+<p>We divide the generic functions defined in the <span class="pkg">BiocGenerics</span> package
+in 2 categories: (1) functions already defined in base R and explicitly
+promoted to generics in BiocGenerics, and (2) Bioconductor specific
+generics.
+</p>
+
+
+<h4>(1) Functions defined in base R and explicitly promoted to
+generics in the <span class="pkg">BiocGenerics</span> package</h4>
+
+<p>Generics for functions defined in package <span class="pkg">base</span>:
+</p>
+
+<ul>
+<li> <p><code>BiocGenerics::<a href="append.html">append</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="as.data.frame.html">as.data.frame</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="as.vector.html">as.vector</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="cbind.html">cbind</a></code>,
+<code>BiocGenerics::<a href="rbind.html">rbind</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="do.call.html">do.call</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="duplicated.html">duplicated</a></code>,
+<code>BiocGenerics::<a href="anyDuplicated.html">anyDuplicated</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="eval.html">eval</a></code>
+</p>
+</li>
+<li><p> Extremes:
+<code>BiocGenerics::<a href="pmax.html">pmax</a></code>,
+<code>BiocGenerics::<a href="pmin.html">pmin</a></code>,
+<code>BiocGenerics::<a href="pmax.int.html">pmax.int</a></code>,
+<code>BiocGenerics::<a href="pmin.int.html">pmin.int</a></code>
+</p>
+</li>
+<li><p> funprog:
+<code>BiocGenerics::<a href="Reduce.html">Reduce</a></code>,
+<code>BiocGenerics::<a href="Filter.html">Filter</a></code>,
+<code>BiocGenerics::<a href="Find.html">Find</a></code>,
+<code>BiocGenerics::<a href="Map.html">Map</a></code>,
+<code>BiocGenerics::<a href="Position.html">Position</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="get.html">get</a></code>,
+<code>BiocGenerics::<a href="mget.html">mget</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="grep.html">grep</a></code>,
+<code>BiocGenerics::<a href="grepl.html">grepl</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="is.unsorted.html">is.unsorted</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="lapply.html">lapply</a></code>,
+<code>BiocGenerics::<a href="sapply.html">sapply</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="lengths.html">lengths</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="mapply.html">mapply</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="match.html">match</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="nrow.html">nrow</a></code>,
+<code>BiocGenerics::<a href="ncol.html">ncol</a></code>,
+<code>BiocGenerics::<a href="NROW.html">NROW</a></code>,
+<code>BiocGenerics::<a href="NCOL.html">NCOL</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="order.html">order</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="paste.html">paste</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="rank.html">rank</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="rep.int.html">rep.int</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="rownames.html">rownames</a></code>,
+<code>BiocGenerics::<a href="rownames%3C-.html">rownames&lt;-</a></code>,
+<code>BiocGenerics::<a href="colnames.html">colnames</a></code>,
+<code>BiocGenerics::<a href="colnames%3C-.html">colnames&lt;-</a></code>
+</p>
+</li>
+<li><p> sets:
+<code>BiocGenerics::<a href="union.html">union</a></code>,
+<code>BiocGenerics::<a href="intersect.html">intersect</a></code>,
+<code>BiocGenerics::<a href="setdiff.html">setdiff</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="sort.html">sort</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="start.html">start</a></code>,
+<code>BiocGenerics::<a href="start%3C-.html">start&lt;-</a></code>,
+<code>BiocGenerics::<a href="end.html">end</a></code>,
+<code>BiocGenerics::<a href="end%3C-.html">end&lt;-</a></code>,
+<code>BiocGenerics::<a href="width.html">width</a></code>,
+<code>BiocGenerics::<a href="width%3C-.html">width&lt;-</a></code>,
+<code>BiocGenerics::<a href="pos.html">pos</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="subset.html">subset</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="table.html">table</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="tapply.html">tapply</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="unique.html">unique</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="unlist.html">unlist</a></code>
+</p>
+</li></ul>
+
+<p>Generics for functions defined in package <span class="pkg">utils</span>:
+</p>
+
+<ul>
+<li> <p><code>BiocGenerics::<a href="relist.html">relist</a></code>
+</p>
+</li></ul>
+
+<p>Generics for functions defined in package <span class="pkg">graphics</span>:
+</p>
+
+<ul>
+<li> <p><code>BiocGenerics::<a href="boxplot.html">boxplot</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="image.html">image</a></code>
+</p>
+</li></ul>
+
+<p>Generics for functions defined in package <span class="pkg">stats</span>:
+</p>
+
+<ul>
+<li> <p><code>BiocGenerics::<a href="density.html">density</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="residuals.html">residuals</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="weights.html">weights</a></code>
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="xtabs.html">xtabs</a></code>
+</p>
+</li></ul>
+
+<p>Generics for functions defined in package <span class="pkg">parallel</span>:
+</p>
+
+<ul>
+<li> <p><code>BiocGenerics::<a href="clusterCall.html">clusterCall</a></code>,
+<code>BiocGenerics::<a href="clusterApply.html">clusterApply</a></code>,
+<code>BiocGenerics::<a href="clusterApplyLB.html">clusterApplyLB</a></code>,
+<code>BiocGenerics::<a href="clusterEvalQ.html">clusterEvalQ</a></code>,
+<code>BiocGenerics::<a href="clusterExport.html">clusterExport</a></code>,
+<code>BiocGenerics::<a href="clusterMap.html">clusterMap</a></code>,
+<code>BiocGenerics::<a href="clusterSplit.html">clusterSplit</a></code>,
+<code>BiocGenerics::<a href="parLapply.html">parLapply</a></code>,
+<code>BiocGenerics::<a href="parSapply.html">parSapply</a></code>,
+<code>BiocGenerics::<a href="parApply.html">parApply</a></code>,
+<code>BiocGenerics::<a href="parRapply.html">parRapply</a></code>,
+<code>BiocGenerics::<a href="parCapply.html">parCapply</a></code>,
+<code>BiocGenerics::<a href="parLapplyLB.html">parLapplyLB</a></code>,
+<code>BiocGenerics::<a href="parSapplyLB.html">parSapplyLB</a></code>
+</p>
+</li></ul>
+
+
+
+
+<h4>(2) Bioconductor specific generics</h4>
+
+
+<ul>
+<li> <p><code><a href="annotation.html">annotation</a></code>,
+<code><a href="annotation%3C-.html">annotation&lt;-</a></code>
+</p>
+</li>
+<li> <p><code><a href="combine.html">combine</a></code>
+</p>
+</li>
+<li> <p><code><a href="dbconn.html">dbconn</a></code>,
+<code><a href="dbfile.html">dbfile</a></code>
+</p>
+</li>
+<li> <p><code><a href="dims.html">dims</a></code>
+</p>
+</li>
+<li> <p><code><a href="fileName.html">fileName</a></code>
+</p>
+</li>
+<li> <p><code><a href="normalize.html">normalize</a></code>
+</p>
+</li>
+<li> <p><code><a href="Ontology.html">Ontology</a></code>
+</p>
+</li>
+<li> <p><code><a href="organism.html">organism</a></code>,
+<code><a href="organism%3C-.html">organism&lt;-</a></code>,
+<code><a href="species.html">species</a></code>,
+<code><a href="species%3C-.html">species&lt;-</a></code>
+</p>
+</li>
+<li> <p><code><a href="path.html">path</a></code>,
+<code><a href="path%3C-.html">path&lt;-</a></code>,
+<code><a href="basename.html">basename</a></code>,
+<code><a href="basename%3C-.html">basename&lt;-</a></code>,
+<code><a href="dirname.html">dirname</a></code>,
+<code><a href="dirname%3C-.html">dirname&lt;-</a></code>
+</p>
+</li>
+<li> <p><code><a href="plotMA.html">plotMA</a></code>
+</p>
+</li>
+<li> <p><code><a href="plotPCA.html">plotPCA</a></code>
+</p>
+</li>
+<li> <p><code><a href="score.html">score</a></code>,
+<code><a href="score%3C-.html">score&lt;-</a></code>
+</p>
+</li>
+<li> <p><code><a href="strand.html">strand</a></code>,
+<code><a href="strand%3C-.html">strand&lt;-</a></code>,
+<code><a href="invertStrand.html">invertStrand</a></code>
+</p>
+</li>
+<li> <p><code><a href="updateObject.html">updateObject</a></code>
+</p>
+</li></ul>
+
+
+
+
+<h3>Note</h3>
+
+<p>More generics can be added on request by sending an email to the
+Bioc-devel mailing list:
+</p>
+<p><a href="http://bioconductor.org/help/mailing-list/">http://bioconductor.org/help/mailing-list/</a>
+</p>
+<p>Things that should NOT be added to the <span class="pkg">BiocGenerics</span> package:
+</p>
+
+<ul>
+<li><p> Internal generic primitive functions like <code><a href="../../base/html/length.html">length</a></code>,
+<code><a href="../../base/html/dim.html">dim</a></code>, <code>`<a href="../../base/html/dim.html">dim&lt;-</a>`</code>, etc...
+See <code>?<a href="../../base/html/InternalMethods.html">InternalMethods</a></code> for the complete list.
+There are a few exceptions though, that is, the <span class="pkg">BiocGenerics</span>
+package may actually redefine a few of those internal generic
+primitive functions as S4 generics when for example the signature
+of the internal generic primitive is not appropriate (this is the
+case for <code>BiocGenerics::<a href="cbind.html">cbind</a></code>).
+</p>
+</li>
+<li><p> S3 and S4 group generic functions like <code><a href="../../methods/html/S4groupGeneric.html">Math</a></code>,
+<code><a href="../../methods/html/S4groupGeneric.html">Ops</a></code>, etc... See <code>?<a href="../../base/html/groupGeneric.html">groupGeneric</a></code> and
+<code>?<a href="../../methods/html/S4groupGeneric.html">S4groupGeneric</a></code> for the complete list.
+</p>
+</li>
+<li><p> Generics already defined in the <span class="pkg">stats4</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>The Bioconductor Dev Team</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/setGeneric.html">setGeneric</a></code> and
+<code><a href="../../methods/html/setMethod.html">setMethod</a></code> for defining generics and methods.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## List all the symbols defined in this package:
+ls('package:BiocGenerics')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

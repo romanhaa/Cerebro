@@ -1,0 +1,191 @@
+CHANGES IN VERSION 2.37
+-----------------------
+
+BUG FIXES
+
+    o '$' completion on eSet and ExpressionSet works in RStudio.
+
+CHANGES IN VERSION 2.33
+-----------------------
+
+BUG FIXES
+
+    o exprs<- enforces value with correct dim, dimnames.
+
+CHANGES IN VERSION 2.31
+-----------------------
+
+NEW FEATURES
+
+    o tab completion implemented for eSet classes
+    o head and tail.AnnotatedDataFrame methods introduced
+
+CHANGES IN VERSION 2.27
+-----------------------
+
+NEW FEATURES
+
+    o Add write.AnnotatedDataFrame function; request of
+    samuel.granjeaud
+
+CHANGES IN VERSION 2.21
+-----------------------
+
+USER VISIBLE CHANGES
+
+    o channelNames<-,NChannelSet,*-methods allow re-naming channels
+
+    o NChannelSet validity requires all assayDataElementNames() to be
+      levels in varMetadata()$channel.
+
+BUG FIXES
+
+    o Updating an AnnotatedDataFrame no longer duplicates metadata
+      from partially matching column names.
+
+CHANGES IN VERSION 2.19
+-----------------------
+
+USER VISIBLE CHANGES
+
+    o dimnames(), rownames(), colnames() and setters work on
+    eSet-derived objects
+
+CHANGES IN VERSION 2.17
+-----------------------
+
+USER VISIBLE CHANGES
+
+    o l2e(), previously deprecated, has been made defunct.
+
+    o All objects made defunct in previous release cycles have been removed.
+      This includes geneNames, getExpData, eList, reporterNames, getBiocRepos,
+      read.exprSet, updateOldMiame, df2pD, read.pD, read.phenoData, exprData,
+      exprList, and phenoData.
+
+CHANGES IN VERSION 2.11
+----------------------
+
+USER VISIBLE CHANGES
+
+    o 'l2e' deprecated, use 'list2env' in base instead 
+
+    o  MIAME class moved to subclass of MIAxE virtual class 
+
+NEW FEATURES
+
+    o Added MIAxE virtual class to hold experiment meta-data classes
+
+CHANGES IN VERSION 2.7
+----------------------
+
+USER VISIBLE CHANGES
+
+    o 'show,eSet-method' summarizes protocolData, if available.
+
+    o 'snpCall' 'snpCallProbability' accessors added for SnpSet.
+
+
+BUG FIXES
+
+    o 'selectSome' returns short factors as character()
+
+
+CHANGES IN VERSION 2.5
+----------------------
+
+USER VISIBLE CHANGES
+
+    o 'protocolData' slot added to eSet class to store protocol
+    metadata stored in microarray data files; can be accessed by
+    protocolData and set by protocolData<-.
+
+    o 'sampleNames,NChannelSet-method' returns a vector when the
+    sample names of each channel are the same.
+
+
+CHANGES IN VERSION 2.1
+----------------------
+
+NEW FEATURES
+
+    o 'makeDataPacakge' method for ExpressionSet now accepts a
+    'description' argument for the generated manual page.
+
+BUG FIXES
+
+    o combine,matrix,matrix-method would record 'NA' for entries in
+    the second matrix with niether rows nor columns present in the
+    first.
+
+    o openPDF now checks for NULL or zero-length pdfviewer option
+
+
+CHANGES IN VERSION 2.0
+----------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o 'combine' on data.frame columns with mismatched levels causes a
+    warning, rather than error.
+
+    o updateObject does not warn about duplicating locked environment,
+    unlesss verbose=TRUE
+
+NEW FEATURES
+
+    o 'combine' now works to combine rows of ExpressionSet
+
+BUG FIXES
+
+    o AnnotatedDataFrame 'show' listed additional varMetadata column
+      names incorrectly when labelDescription was not the first.
+
+NEWLY DEFUNCT CLASSES, METHODS, FUNCTIONS, DATA SETS
+
+    o Defunct S4 Classes
+
+       1) annotatedDataset - class definition still exits to support
+       phenoData conversion
+       2) exprMatrix - removed class definition
+       3) exprSet - class definition still exists to allow conversion
+       to ExpressionSet
+       4) phenoData - class definition still exists to allow
+       conversion to AnnotatedDataFrame
+
+    o Defunct Generics/Methods
+       1) addVarMetadataEntry - S4 generic definition removed
+       2) as.data.frame.exprSet - S3 method removed
+       3) convertVarLabels - S4 generic definition removed
+       4) eList - S4 methods remain with .Defunct messages
+       5) "eList<-" - S4 methods remain with .Defunct messages
+       6) exprs2excel - S4 generic definition removed
+       7) getExpData - S4 methods remain with .Defunct messages
+       8) geneNames - S4 methods remain with .Defunct messages
+       9) "geneNames<-" - S4 methods remain with .Defunct messages
+      10) getUnits - S4 generic definition removed
+      11) getVarMetadata - S4 generic definition removed
+      12) iter - S4 generic definition removed
+      13) reporterInfo - S4 generic definition removed
+      14) "reporterInfo<-" - S4 generic definition removed
+      15) reporterNames - S4 methods remain with .Defunct messages
+      16) "reporterNames<-" - S4 methods remain with .Defunct messages
+      17) split (for use with exprSet objects) - S4 generic definition removed
+      18) update2MIAME - S4 generic definition removed
+
+    o Defunct functions
+       1) df2pD - function stub with .Defunct message
+       2) read.exprSet - function stub with .Defunct message
+       3) read.pD - function stub with .Defunct message
+       4) read.phenoData - function stub with .Defunct message
+       5) updateOldMiame - function stub with .Defunct message
+
+    o Defunct data sets
+       1) bbsym
+       2) eset - use sample.ExpressionSet instead
+       3) golubMergeSub
+       4) sample.eSet - use sample.MultiSet instead
+       4) sample.exprSet.1 - use sample.ExpressionSet instead
+       5) sample.exprSet - use sample.ExpressionSet instead
+       6) SWPD
+       7) swrep

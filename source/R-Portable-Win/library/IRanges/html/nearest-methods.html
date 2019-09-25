@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Finding the nearest range neighbor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nearest-methods {IRanges}"><tr><td>nearest-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Finding the nearest range neighbor</h2>
+
+<h3>Description</h3>
+
+<p>The <code>nearest</code>, <code>precede</code>, <code>follow</code>, <code>distance</code>
+and <code>distanceToNearest</code> methods for <code><a href="IntegerRanges-class.html">IntegerRanges</a></code> 
+objects and subclasses.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'IntegerRanges,IntegerRanges_OR_missing'
+nearest(x, subject, select = c("arbitrary", "all"))
+
+## S4 method for signature 'IntegerRanges,IntegerRanges_OR_missing'
+precede(x, subject, select = c("first", "all"))
+
+## S4 method for signature 'IntegerRanges,IntegerRanges_OR_missing'
+follow(x, subject, select = c("last", "all"))
+
+## S4 method for signature 'IntegerRanges,IntegerRanges_OR_missing'
+distanceToNearest(x, subject, select = c("arbitrary", "all"))
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+distance(x, y)
+## S4 method for signature 'Pairs,missing'
+distance(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The query <code><a href="IntegerRanges-class.html">IntegerRanges</a></code> object, or (for
+<code>distance()</code>) a <code><a href="../../S4Vectors/html/Pairs-class.html">Pairs</a></code> containing both the
+query (first) and subject (second).
+</p>
+</td></tr>
+<tr valign="top"><td><code>subject</code></td>
+<td>
+<p>The subject <code>IntegerRanges</code> object, within which the
+nearest neighbors are found. Can be missing, in which case
+<code>x</code> is also the subject.
+</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Logic for handling ties. By default, all the methods
+select a single interval (arbitrary for <code>nearest</code>,the first 
+by order in <code>subject</code> for <code>precede</code>, and the last for 
+<code>follow</code>). To get all matchings, as a <code>Hits</code> object, 
+use &ldquo;all&rdquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>For the <code>distance</code> method, a <code>IntegerRanges</code> object.
+Cannot be missing. If <code>x</code> and <code>y</code> are not the same
+length, the shortest will be recycled to match the length of the 
+longest.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hits</code></td>
+<td>
+<p>The hits between <code>x</code> and <code>subject</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments for methods</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p>nearest: 
+The conventional nearest neighbor finder. Returns an integer vector 
+containing the index of the nearest neighbor range in <code>subject</code> 
+for each range in <code>x</code>. If there is no nearest neighbor 
+(if <code>subject</code> is empty), NA's are returned.
+</p>
+<p>Here is roughly how it proceeds, for a range <code>xi</code> in <code>x</code>:
+</p>
+
+<ol>
+<li><p> Find the ranges in <code>subject</code> that overlap <code>xi</code>. If a
+single range <code>si</code> in <code>subject</code> overlaps <code>xi</code>, 
+<code>si</code> is returned as the nearest neighbor of <code>xi</code>. If there 
+are multiple overlaps, one of the overlapping ranges is chosen
+arbitrarily.
+</p>
+</li>
+<li><p> If no ranges in <code>subject</code> overlap with <code>xi</code>, then
+the range in <code>subject</code> with the shortest distance from its end 
+to the start <code>xi</code> or its start to the end of <code>xi</code> is
+returned.
+</p>
+</li></ol>
+
+
+</li>
+<li><p>precede: 
+For each range in <code>x</code>, <code>precede</code> returns the index of the
+interval in <code>subject</code> that is directly preceded by the query
+range. Overlapping ranges are excluded. <code>NA</code> is returned when 
+there are no qualifying ranges in <code>subject</code>.
+
+</p>
+</li>
+<li><p>follow: 
+The opposite of <code>precede</code>, this function returns the index
+of the range in <code>subject</code> that a query range in <code>x</code> 
+directly follows. Overlapping ranges are excluded. <code>NA</code> is
+returned when there are no qualifying ranges in <code>subject</code>.
+
+</p>
+</li>
+<li><p>distanceToNearest: 
+Returns the distance for each range in <code>x</code> to its nearest 
+neighbor in <code>subject</code>.
+
+</p>
+</li>
+<li><p>distance: 
+Returns the distance for each range in <code>x</code> to the range in 
+<code>y</code>. 
+</p>
+<p>The <code>distance</code> method differs from others documented on this 
+page in that it is symmetric; <code>y</code> cannot be missing. If <code>x</code> 
+and <code>y</code> are not the same length, the shortest will be recycled to
+match the length of the longest. The <code>select</code> argument is not
+available for <code>distance</code> because comparisons are made in a
+pair-wise fashion. The return value is the length of the longest
+of <code>x</code> and <code>y</code>.
+</p>
+<p>The <code>distance</code> calculation changed in BioC 2.12 to accommodate
+zero-width ranges in a consistent and intuitive manner. The new distance
+can be explained by a <em>block</em> model where a range is represented by
+a series of blocks of size 1. Blocks are adjacent to each other and there
+is no gap between them. A visual representation of <code>IRanges(4,7)</code>
+would be
+</p>
+<pre>
+        +-----+-----+-----+-----+
+           4     5     6     7
+      </pre>
+<p>The distance between two consecutive blocks is 0L (prior to 
+Bioconductor 2.12 it was 1L). The new distance calculation now returns 
+the size of the gap between two ranges.
+</p>
+<p>This change to distance affects the notion of overlaps in that
+we no longer say: 
+</p>
+<p>x and y overlap   &lt;=&gt;   distance(x, y) == 0
+</p>
+<p>Instead we say
+</p>
+<p>x and y overlap    =&gt;   distance(x, y) == 0
+</p>
+<p>or
+</p>
+<p>x and y overlap or are adjacent   &lt;=&gt;   distance(x, y) == 0
+
+</p>
+</li>
+<li><p>selectNearest: 
+Selects the hits that have the minimum distance within those for
+each query range. Ties are possible and can be broken with
+<code><a href="../../S4Vectors/html/breakTies.html">breakTies</a></code>.
+
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>For <code>nearest</code>, <code>precede</code> and <code>follow</code>, an integer
+vector of indices in <code>subject</code>, or a <code><a href="../../S4Vectors/html/Hits-class.html">Hits</a></code> 
+if <code>select="all"</code>.
+</p>
+<p>For <code>distanceToNearest</code>, a <code>Hits</code> object with an elementMetadata
+column of the <code>distance</code> between the pair. Access <code>distance</code>
+with <code>mcols</code> accessor.
+</p>
+<p>For <code>distance</code>, an integer vector of distances between the ranges
+in <code>x</code> and <code>y</code>.
+</p>
+<p>For <code>selectNearest</code>, a <code><a href="../../S4Vectors/html/Hits-class.html">Hits</a></code> object, sorted
+by query.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>M. Lawrence</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="IntegerRanges-class.html">IntegerRanges</a> and <a href="../../S4Vectors/html/Hits-class.html">Hits</a> classes.
+</p>
+</li>
+<li><p> The <a href="../../GenomicRanges/html/GenomicRanges.html">GenomicRanges</a> and 
+<a href="../../GenomicRanges/html/GRanges.html">GRanges</a> classes in the GenomicRanges package.
+</p>
+</li>
+<li> <p><code><a href="findOverlaps-methods.html">findOverlaps</a></code> for finding just the overlapping ranges.
+</p>
+</li>
+<li>
+<p>GenomicRanges methods for 
+</p>
+
+<ul>
+<li> <p><code>precede</code>
+</p>
+</li>
+<li> <p><code>follow</code>
+</p>
+</li>
+<li> <p><code>nearest</code>
+</p>
+</li>
+<li> <p><code>distance</code>
+</p>
+</li>
+<li> <p><code>distanceToNearest</code>
+</p>
+</li></ul>
+
+<p>are documented at
+?<code><a href="../../GenomicRanges/html/nearest-methods.html">nearest-methods</a></code> or
+?<code><a href="../../GenomicRanges/html/precede,GenomicRanges,GenomicRanges-method.html">precede,GenomicRanges,GenomicRanges-method</a></code>
+
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## ------------------------------------------
+  ## precede() and follow()
+  ## ------------------------------------------
+  query &lt;- IRanges(c(1, 3, 9), c(3, 7, 10))
+  subject &lt;- IRanges(c(3, 2, 10), c(3, 13, 12))
+ 
+  precede(query, subject)     # c(3L, 3L, NA)
+  precede(IRanges(), subject) # integer()
+  precede(query, IRanges())   # rep(NA_integer_, 3)
+  precede(query)              # c(3L, 3L, NA)
+ 
+  follow(query, subject)      # c(NA, NA, 1L)
+  follow(IRanges(), subject)  # integer()
+  follow(query, IRanges())    # rep(NA_integer_, 3)
+  follow(query)               # c(NA, NA, 2L)
+
+  ## ------------------------------------------
+  ## nearest()
+  ## ------------------------------------------
+  query &lt;- IRanges(c(1, 3, 9), c(2, 7, 10))
+  subject &lt;- IRanges(c(3, 5, 12), c(3, 6, 12))
+
+  nearest(query, subject) # c(1L, 1L, 3L)
+  nearest(query)          # c(2L, 1L, 2L)
+
+  ## ------------------------------------------
+  ## distance()
+  ## ------------------------------------------
+  ## adjacent
+  distance(IRanges(1,5), IRanges(6,10)) # 0L
+  ## overlap
+  distance(IRanges(1,5), IRanges(3,7))  # 0L
+  ## zero-width
+  sapply(-3:3, function(i) distance(shift(IRanges(4,3), i), IRanges(4,3))) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

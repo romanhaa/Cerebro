@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: HTML Generation for PubMed Abstracts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pmAbst2HTML {annotate}"><tr><td>pmAbst2HTML {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>HTML Generation for PubMed Abstracts</h2>
+
+<h3>Description</h3>
+
+<p>This function will take a <code>pubMedAbst</code> object, or a list of these
+objects and generate a web page that will list the titles of
+the abstracts and link to their full page on PubMed
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pmAbst2HTML(absts, filename, title, frames = FALSE, table.center = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>absts</code></td>
+<td>
+<p>A list of <code>pubMedAbst</code> (or a single object)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>The output filename.  If <code>frames</code> is
+<code>FALSE</code>, this is the name of the single output file and
+defaults to <code>absts.html</code>.  Otherwise, this is taken to be the
+base of a set of filenames, and the default base is the empty
+string.  See <code>value</code> for more information on output files.</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p> Extra title information for your listing</p>
+</td></tr>
+<tr valign="top"><td><code>frames</code></td>
+<td>
+<p>If <code>frames</code> is <code>TRUE</code>, the resulting page will
+use HTML frames, resulting in a more complex set of output pages.</p>
+</td></tr>
+<tr valign="top"><td><code>table.center</code></td>
+<td>
+<p>If TRUE, will center the listing of abstracts</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function uses the <code>Entrez</code> functionality provided by NCBI to
+retrieve the abstract URL at the PubMed site.  It will then create a
+tabular webpage which will list the titles of the abstracts provided
+and have them link to the appropriate PubMed page.  If <code>frames</code>
+is <code>TRUE</code>, the table of links will be on the left hand side of
+the page and the right hand will link directly to the appropriate
+PubMed page.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>frames</code> is <code>FALSE</code>, a simple HTML file is created with
+the name specified by <code>filename</code>.
+</p>
+<p>If <code>frames</code> is <code>TRUE</code>, then there are four HTML files
+created, of the form <code>XXXtop.html</code>, <code>XXXside.html</code>,
+<code>XXXmain.html</code> and <code>XXXindex.html</code>, where <code>XXX</code> is the
+string provided by <code>filename</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code>pubMedAbst</code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        x &lt;- pubmed("9695952","8325638","8422497")
+        a &lt;- xmlRoot(x)
+        numAbst &lt;- length(xmlChildren(a))
+        absts &lt;- list()
+        for (i in 1:numAbst) {
+           absts[[i]] &lt;- buildPubMedAbst(a[[i]])
+        }
+        ## First try it w/o frames - using a temporary
+        ## file for the output
+        fname &lt;- tempfile()
+        pmAbst2HTML(absts,filename=fname)
+
+        if (interactive())
+          browseURL(paste("file://",fname,sep=""))
+
+        ## Now try it w/ frames, using temporary files again.
+        fnameBase &lt;- tempfile()
+        pmAbst2HTML(absts,filename=fnameBase, frames=TRUE)
+
+        if (interactive())
+          browseURL(paste("file://",fnameBase,"index.html",sep=""))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

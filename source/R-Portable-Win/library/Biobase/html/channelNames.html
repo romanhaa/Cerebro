@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve and set channel names from object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for channelNames {Biobase}"><tr><td>channelNames {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve and set channel names from object</h2>
+
+<h3>Description</h3>
+
+<p>This generic function reports or updates the channels in an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+channelNames(object, ...)
+channelNames(object, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An S4 object, typically derived from class
+<code><a href="class.eSet.html">eSet</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Replacement value, either a character vector (to
+re-order existing channel names or a named character vector or list
+(to change channel names from the vector elements to the
+corresponding names).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional argument, not currently used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>channelNames</code> returns the names of the channels in a defined
+order. Change the order using the replacement method with a permuation
+of the channel names as <code>value</code>. Rename channels using the
+replacement method with a named list, where the vector elements are a
+permutation of the current channels, with corresponding names the new
+identifier for the channel.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>character</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## channelNames default to alphabetical order of channels
+obj &lt;- NChannelSet(
+           R=matrix(runif(100), 20, 5),
+           G=matrix(-runif(100), 20, 5))
+channelNames(obj)
+channelNames(obj) &lt;- c(Gn="G", Rd="R")   ## rename
+channelNames(obj)
+channelNames(obj) &lt;- c("Rd", "Gn")       ## reorder
+channelNames(obj)
+all(assayData(obj)[["Gn"]] &lt;= 0)
+all(assayData(obj)[["Rd"]] &gt;= 0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

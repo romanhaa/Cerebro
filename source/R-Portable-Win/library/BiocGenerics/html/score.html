@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Score accessor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for score {BiocGenerics}"><tr><td>score {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Score accessor</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the score value contained in an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+score(x, ...)
+score(x, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object to get or set the score value of.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific methods.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>The score value to set on <code>x</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../GenomicRanges/html/score,GenomicRanges-method.html">score,GenomicRanges-method</a> in the
+<span class="pkg">GenomicRanges</span> package for an example of a specific
+<code>score</code> method (defined for <a href="../../GenomicRanges/html/GenomicRanges.html">GenomicRanges</a>
+objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+score
+showMethods("score")
+
+`score&lt;-`
+showMethods("score&lt;-")
+
+library(GenomicRanges)
+
+showMethods("score")
+selectMethod("score", "GenomicRanges")
+
+showMethods("score&lt;-")
+selectMethod("score&lt;-", "GenomicRanges")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

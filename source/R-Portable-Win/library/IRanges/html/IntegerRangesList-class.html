@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: IntegerRangesList objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IntegerRangesList-class {IRanges}"><tr><td>IntegerRangesList-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>IntegerRangesList objects</h2>
+
+<h3>Description</h3>
+
+<p>The IntegerRangesList <em>virtual</em> class is a general container for
+storing a list of <a href="IntegerRanges-class.html">IntegerRanges</a> objects.
+</p>
+
+
+<h3>Accessors</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>IntegerRangesList</code>
+object. 
+</p>
+<p>All of these accessors collapse over the spaces:
+</p>
+
+<dl>
+<dt></dt><dd><p><code>start(x), start(x) &lt;- value</code>: Get or set the starts of the
+ranges. When setting the starts, <code>value</code> can be an integer vector
+of length <code>sum(elementNROWS(x))</code> or an IntegerList object of
+length <code>length(x)</code> and names <code>names(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>end(x), end(x) &lt;- value</code>: Get or set the ends of the
+ranges. When setting the ends, <code>value</code> can be an integer vector
+of length <code>sum(elementNROWS(x))</code> or an IntegerList object of
+length <code>length(x)</code> and names <code>names(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>width(x), width(x) &lt;- value</code>: Get or set the widths of the
+ranges. When setting the widths, <code>value</code> can be an integer vector
+of length <code>sum(elementNROWS(x))</code> or an IntegerList object of
+length <code>length(x)</code> and names <code>names(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>space(x)</code>: Gets the spaces of the ranges as a
+character vector. This is equivalent to <code>names(x)</code>, except each
+name is repeated according to the length of its element.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippet below, <code>x</code> is an <code>IntegerRangesList</code> object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as.data.frame(x, row.names = NULL, optional = FALSE,
+         ..., value.name = "value", use.outer.mcols = FALSE, 
+         group_name.as.factor = FALSE)</code>: 
+Coerces <code>x</code> to a <code>data.frame</code>. See as.data.frame on the 
+<code>List</code> man page for details (?<code>List</code>). 
+</p>
+</dd>
+</dl>
+
+<p>In the following code snippet, <code>from</code> is something other than a
+<code>IntegerRangesList</code>:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as(from, "IntegerRangesList")</code>: When <code>from</code> is a
+<code>IntegerRanges</code>, analogous to <code>as.list</code> on a vector.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Arithmetic Operations</h3>
+
+<p>Any arithmetic operation, such as <code>x + y</code>, <code>x * y</code>, etc,
+where <code>x</code> is a <code>IntegerRangesList</code>, is performed identically on
+each element. Currently, <code>IntegerRanges</code> supports only the <code>*</code>
+operator, which zooms the ranges by a numeric factor.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../S4Vectors/html/List-class.html">List</a></code>, the parent of this class, for more
+functionality.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## Basic manipulation
+## ---------------------------------------------------------------------
+
+range1 &lt;- IRanges(start=c(1, 2, 3), end=c(5, 2, 8))
+range2 &lt;- IRanges(start=c(15, 45, 20, 1), end=c(15, 100, 80, 5))
+named &lt;- IRangesList(one = range1, two = range2)
+length(named) # 2
+start(named) # same as start(c(range1, range2))
+names(named) # "one" and "two"
+named[[1]] # range1
+unnamed &lt;- IRangesList(range1, range2)
+names(unnamed) # NULL
+
+# edit the width of the ranges in the list
+edited &lt;- named
+width(edited) &lt;- rep(c(3,2), elementNROWS(named))
+edited
+
+# same as list(range1, range2)
+as.list(IRangesList(range1, range2))
+
+# coerce to data.frame
+as.data.frame(named)
+
+IRangesList(range1, range2)
+
+## zoom in 2X
+collection &lt;- IRangesList(one = range1, range2)
+collection * 2
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

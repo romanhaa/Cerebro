@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Collection of Filter Rules</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for FilterRules-class {S4Vectors}"><tr><td>FilterRules-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Collection of Filter Rules</h2>
+
+<h3>Description</h3>
+
+<p>A <code>FilterRules</code> object is a collection of filter
+rules, which can be either <code>expression</code> or <code>function</code>
+objects. Rules can be disabled/enabled individually, facilitating
+experimenting with different combinations of filters.</p>
+
+
+<h3>Details</h3>
+
+<p>It is common to split a dataset into subsets during data
+analysis. When data is large, however, representing subsets (e.g. by
+logical vectors) and storing them as copies might become too costly in
+terms of space. The <code>FilterRules</code> class represents
+subsets as lightweight <code>expression</code> and/or <code>function</code>
+objects. Subsets can then be calculated when needed (on the fly). This
+avoids copying and storing a large number of subsets. Although it
+might take longer to frequently recalculate a subset, it often is a
+relatively fast operation and the space savings tend to be more than
+worth it when data is large.
+</p>
+<p>Rules may be either expressions or functions. Evaluating an expression
+or invoking a function should result in a logical vector. Expressions
+are often more convenient, but functions (i.e. closures) are generally
+safer and more powerful, because the user can specify the enclosing
+environment. If a rule is an expression, it is evaluated inside the
+<code>envir</code> argument to the <code>eval</code> method (see below). If a
+function, it is invoked with <code>envir</code> as its only
+argument. See examples.
+</p>
+
+
+<h3>Accessor methods</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>FilterRules</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>active(x)</code>: Get the logical vector of length
+<code>length(x)</code>, where <code>TRUE</code> for an element indicates that
+the corresponding rule in <code>x</code> is active (and inactive
+otherwise). Note that <code>names(active(x))</code> is equal to
+<code>names(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>active(x) &lt;- value</code>: Replace the active state of the
+filter rules. If <code>value</code> is a logical vector, it should be of
+length <code>length(x)</code> and indicate which rules are
+active. Otherwise, it can be either numeric or character vector, in which
+case it sets the indicated rules (after dropping NA's) to active and
+all others to inactive. See examples.</p>
+</dd>
+</dl>
+
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>FilterRules(exprs = list(), ..., active = TRUE)</code>:
+Constructs a <code>FilterRules</code> with the rules given in the list
+<code>exprs</code> or in <code>...</code>. The initial active state of the rules
+is given by <code>active</code>, which is recycled as
+necessary. Elements in <code>exprs</code> may be either character (parsed
+into an expression), a language object (coerced to an expression), an
+expression, or a function that takes at least one
+argument. <strong>IMPORTANTLY</strong>, all arguments in <code>...</code> are
+<strong><code>quote()</code></strong>'d and then coerced to an expression. So,
+for example, character data is only parsed if it is a literal.
+The names of the filters are taken from the names of
+<code>exprs</code> and <code>...</code>, if given. Otherwise,
+the character vectors take themselves as their name and the
+others are deparsed (before any coercion). Thus, it is recommended
+to always specify meaningful names. In any case, the names
+are made valid and unique.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting and Replacement</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>FilterRules</code> object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>: Subsets the filter rules using the
+same interface as for <code><a href="Vector-class.html">Vector</a></code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]]</code>: Extracts an expression or function via the same
+interface as for <code><a href="List-class.html">List</a></code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]] &lt;- value</code>: The same interface as for
+<code><a href="List-class.html">List</a></code>. The default active state for new
+rules is <code>TRUE</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Concatenation</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>FilterRules</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>c(x, ..., recursive = FALSE)</code>: Concatenates the
+<code>FilterRule</code> instances in <code>...</code> onto the end of <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>append(x, values, after = length(x))</code>: Appends the
+<code>values</code> <code>FilterRules</code> instance onto <code>x</code> at the
+index given by <code>after</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Evaluating</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>eval(expr, envir = parent.frame(),
+        enclos = if (is.list(envir) || is.pairlist(envir))
+        parent.frame() else baseenv())</code>: 
+Evaluates a <code>FilterRules</code> instance (passed as the
+<code>expr</code> argument). Expression rules are
+evaluated in <code>envir</code>, while function rules are invoked with
+<code>envir</code> as their only argument. The evaluation of a rule
+should yield a logical vector. The results from the rule
+evaluations are combined via the AND operation (i.e. <code>&amp;</code>) so
+that a single logical vector is returned from <code>eval</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>evalSeparately(expr, envir = parent.frame(), enclos = if
+        (is.list(envir) || is.pairlist(envir)) parent.frame() else
+        baseenv())</code>: Evaluates separately each rule in a
+<code>FilterRules</code> instance (passed as the <code>expr</code>
+argument). Expression rules are evaluated in <code>envir</code>, while
+function rules are invoked with <code>envir</code> as their only
+argument. The evaluation of a rule should yield a logical
+vector. The results from the rule evaluations are combined into
+a logical matrix, with a column for each rule. This is
+essentially the parallel evaluator, while <code>eval</code> is the
+serial evaluator.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>subsetByFilter(x, filter)</code>: Evaluates <code>filter</code> on
+<code>x</code> and uses the result to subset <code>x</code>. The result
+contains only the elements in <code>x</code> for which <code>filter</code>
+evaluates to <code>TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>summary(object, subject)</code>:
+Returns an integer vector with the number of elements
+in <code>subject</code> that pass each rule in <code>object</code>, along with
+a count of the elements that pass all filters.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Filter Closures</h3>
+
+<p>When a closure (function) is included as a filter in a
+<code>FilterRules</code> object, it is converted to a <code>FilterClosure</code>,
+which is currently nothing more than a marker class that extends
+<code>function</code>. When a <code>FilterClosure</code> filter is extracted,
+there are some accessors and utilities for manipulating it:
+</p>
+
+<dl>
+<dt></dt><dd><p><code>params</code>: Gets a named list of the objects that are
+present in the enclosing environment (without inheritance). This
+assumes that a filter is constructed via a constructor function,
+and the objects in the frame of the constructor (typically, the
+formal arguments) are the parameters of the filter.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+<p><a href="FilterMatrix-class.html">FilterMatrix</a> objects for storing the logical output of a set
+of FilterRules objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## constructing a FilterRules instance
+
+## an empty set of filters
+filters &lt;- FilterRules()
+  
+## as a simple character vector
+filts &lt;- c("peaks", "promoters")
+filters &lt;- FilterRules(filts)
+active(filters) # all TRUE
+
+## with functions and expressions
+filts &lt;- list(peaks = expression(peaks), promoters = expression(promoters),
+              find_eboxes = function(rd) rep(FALSE, nrow(rd)))
+filters &lt;- FilterRules(filts, active = FALSE)
+active(filters) # all FALSE
+
+## direct, quoted args (character literal parsed)
+filters &lt;- FilterRules(under_peaks = peaks, in_promoters = "promoters")
+filts &lt;- list(under_peaks = expression(peaks),
+              in_promoters = expression(promoters))
+
+## specify both exprs and additional args
+filters &lt;- FilterRules(filts, diffexp = de)
+
+filts &lt;- c("promoters", "peaks", "introns")
+filters &lt;- FilterRules(filts)
+
+## evaluation
+df &lt;- DataFrame(peaks = c(TRUE, TRUE, FALSE, FALSE),
+                promoters = c(TRUE, FALSE, FALSE, TRUE),
+                introns = c(TRUE, FALSE, FALSE, FALSE))
+eval(filters, df)
+fm &lt;- evalSeparately(filters, df)
+identical(filterRules(fm), filters)
+summary(fm)
+summary(fm, percent = TRUE)
+fm &lt;- evalSeparately(filters, df, serial = TRUE)
+
+## set the active state directly
+  
+active(filters) &lt;- FALSE # all FALSE
+active(filters) &lt;- TRUE # all TRUE
+active(filters) &lt;- c(FALSE, FALSE, TRUE)
+active(filters)["promoters"] &lt;- TRUE # use a filter name
+  
+## toggle the active state by name or index
+  
+active(filters) &lt;- c(NA, 2) # NA's are dropped
+active(filters) &lt;- c("peaks", NA) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

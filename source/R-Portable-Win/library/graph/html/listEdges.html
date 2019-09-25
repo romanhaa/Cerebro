@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List the Edges of a Graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for listEdges {graph}"><tr><td>listEdges {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List the Edges of a Graph  </h2>
+
+<h3>Description</h3>
+
+<p>A list where each element contains all edges between two nodes,
+regardless of orientation. The list has names which are node pairs,
+in lexicographic order, and elements all edges between those nodes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+listEdges(object, dropNULL=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An instance of the <code><a href="graphNEL-class.html">graphNEL-class</a></code> class. </p>
+</td></tr>
+<tr valign="top"><td><code>dropNULL</code></td>
+<td>
+<p>Should those node pairs with no edges be dropped from
+the returned list. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function is currently only implemented for graphs of the
+<code><a href="graphNEL-class.html">graphNEL-class</a></code>. The edges in the returned list are
+instances of the <code><a href="simpleEdge-class.html">simpleEdge-class</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list of <code><a href="simpleEdge-class.html">simpleEdge-class</a></code> objects. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="simpleEdge-class.html">simpleEdge-class</a></code>, <code><a href="graphNEL-class.html">edges</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+        set.seed(123)
+        V &lt;- LETTERS[1:4]
+        edL &lt;- vector("list", length=4)
+        names(edL) &lt;- V
+        toE &lt;- LETTERS[4:1]
+        for(i in 1:4) 
+           edL[[i]] &lt;- list(edges=5-i, weights=runif(1))
+        gR &lt;- graphNEL(nodes=V, edgeL=edL)
+        listEdges(gR)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

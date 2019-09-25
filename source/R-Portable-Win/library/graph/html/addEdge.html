@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: addEdge</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for addEdge {graph}"><tr><td>addEdge {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> addEdge </h2>
+
+<h3>Description</h3>
+
+<p>A function to add an edge to a graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addEdge(from, to, graph, weights)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>The node the edge starts at </p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>The node the edge goes to. </p>
+</td></tr>
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>The graph that the edge is being added to. </p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>A vector of weights, one for each edge. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Both <code>from</code> and <code>to</code> can be vectors. They need not be the
+same length (if not the standard rules for replicating the shorter one
+are used). Edges are added to the graph between the supplied nodes.
+</p>
+<p>The <code>weights</code> are given for each edge.
+</p>
+<p>The implementation is a bit too oriented towards the <code>graphNEL</code>
+class and will likely change in the next release to accomodate more
+general graph classes.
+</p>
+<p>If the graph is undirected then the edge is bidirectional (and only
+needs to be added once). For directed graphs the edge is directional.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A new instance of a graph object with the same class as <code>graph</code>
+but with the indicated edges added.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="addNode.html">addNode</a></code>,<code><a href="removeEdge.html">removeEdge</a></code>,
+<code><a href="removeNode.html">removeNode</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+V &lt;- LETTERS[1:4]
+edL2 &lt;- vector("list", length=4)
+names(edL2) &lt;- V
+for(i in 1:4)
+  edL2[[i]] &lt;- list(edges=c(2,1,2,1)[i], weights=sqrt(i))
+gR2 &lt;- graphNEL(nodes=V, edgeL=edL2, edgemode="directed")
+
+gX &lt;- addEdge("A", "C", gR2, 1)
+
+gR3 &lt;- randomEGraph(letters[10:14], .4)
+gY &lt;- addEdge("n", "l", gR3, 1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

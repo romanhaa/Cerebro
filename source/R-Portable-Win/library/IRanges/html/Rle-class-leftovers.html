@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Rle objects (old man page)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Rle-class-leftovers {IRanges}"><tr><td>Rle-class-leftovers {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rle objects (old man page)</h2>
+
+<h3>Description</h3>
+
+<p>IMPORTANT NOTE - 7/3/2014: This man page is being refactored. Most of
+the things that used to be documented here have been moved to the man
+page for <a href="../../S4Vectors/html/Rle.html">Rle</a> objects located in the <span class="pkg">S4Vectors</span>
+package.
+</p>
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippets below, <code>from</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as(from, "IRanges")</code>: Creates an <a href="IRanges-constructor.html">IRanges</a> instance
+from a logical Rle. Note that this instance is guaranteed to be normal.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "NormalIRanges")</code>: Creates a <a href="IRanges-class.html">NormalIRanges</a> instance
+from a logical Rle.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>General Methods</h3>
+
+<p>In the code snippets below, <code>x</code> is an Rle object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>split(x, f, drop=FALSE)</code>:
+Splits <code>x</code> according to <code>f</code> to create a
+<a href="AtomicList-class.html">CompressedRleList</a> object.
+If <code>f</code> is a list-like object then <code>drop</code> is ignored
+and <code>f</code> is treated as if it was
+<code>rep(seq_len(length(f)), sapply(f, length))</code>,
+so the returned object has the same shape as <code>f</code> (it also
+receives the names of <code>f</code>).
+Otherwise, if <code>f</code> is not a list-like object, empty list
+elements are removed from the returned object if <code>drop</code> is
+<code>TRUE</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>findRange(x, vec)</code>:
+Returns an <a href="IRanges-constructor.html">IRanges</a> object representing the ranges in Rle <code>vec</code>
+that are referenced by the indices in the integer vector <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>splitRanges(x)</code>:
+Returns a <a href="IRangesList-class.html">CompressedIRangesList</a> object that contains the
+ranges for each of the unique run values.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>The <a href="../../S4Vectors/html/Rle.html">Rle</a> class defined and documented in the
+<span class="pkg">S4Vectors</span> package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- Rle(10:1, 1:10)
+x
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

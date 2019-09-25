@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accessing SQLite DB information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dbconn {BiocGenerics}"><tr><td>dbconn {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accessing SQLite DB information</h2>
+
+<h3>Description</h3>
+
+<p>Get a connection object or file path for a SQLite DB
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dbconn(x)
+dbfile(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object with a SQLite connection.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>dbconn</code> returns a connection object to the SQLite DB containing
+<code>x</code>'s data.
+</p>
+<p><code>dbfile</code> returns a path (character string) to the SQLite DB (file)
+containing <code>x</code>'s data.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../AnnotationDbi/html/dbconn,AnnotationDb-method.html">dbconn,AnnotationDb-method</a> in the
+<span class="pkg">AnnotationDbi</span> package for an example of a specific
+<code>dbconn</code> method (defined for <a href="../../AnnotationDbi/html/dbconn.html">dbconn</a>
+objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+dbconn
+showMethods("dbconn")
+dbfile
+showMethods("dbfile")
+
+library(AnnotationDbi)
+showMethods("dbconn")
+selectMethod("dbconn", "AnnotationDb")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: reverse</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for reverse {IRanges}"><tr><td>reverse {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>reverse</h2>
+
+<h3>Description</h3>
+
+<p>A generic function for reversing vector-like or list-like objects.
+This man page describes methods for reversing a character vector,
+a <a href="Views-class.html">Views</a> object, or a <a href="MaskCollection-class.html">MaskCollection</a> object.
+Note that <code>reverse</code> is similar to but not the same as
+<code><a href="../../base/html/rev.html">rev</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+reverse(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A vector-like or list-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments to be passed to or from methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>On a character vector or a <a href="Views-class.html">Views</a> object, <code>reverse</code> reverses
+each element individually, without modifying the top-level order of the
+elements. More precisely, each individual string of a character vector
+is reversed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of the same class and length as the original object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../XVector/html/reverse-methods.html">reverse-methods</a>,
+<a href="Views-class.html">Views-class</a>,
+<a href="MaskCollection-class.html">MaskCollection-class</a>,
+<code><a href="../../S4Vectors/html/List-utils.html">endoapply</a></code>,
+<code><a href="../../base/html/rev.html">rev</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## On a character vector:
+reverse(c("Hi!", "How are you?"))
+rev(c("Hi!", "How are you?"))
+
+## On a Views object:
+v &lt;- successiveViews(Rle(c(-0.5, 12.3, 4.88), 4:2), 1:4)
+v
+reverse(v)
+rev(v)
+
+## On a MaskCollection object:
+mask1 &lt;- Mask(mask.width=29, start=c(11, 25, 28), width=c(5, 2, 2))
+mask2 &lt;- Mask(mask.width=29, start=c(3, 10, 27), width=c(5, 8, 1))
+mask3 &lt;- Mask(mask.width=29, start=c(7, 12), width=c(2, 4))
+mymasks &lt;- append(append(mask1, mask2), mask3)
+reverse(mymasks)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for GXL manipulations in package graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fromGXL-methods {graph}"><tr><td>fromGXL-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>  Methods for GXL manipulations in package graph </h2>
+
+<h3>Description</h3>
+
+<p>GXL <a href="http://www.gupro.de/GXL">http://www.gupro.de/GXL</a> is &quot;an XML sublanguage designed
+to be a standard exchange format for graphs&quot;.  This document describes
+tools in the graph package for importing GXL data to R and for
+writing graph data out as GXL.</p>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>fromGXL</code></td>
+<td>
+<p>currently returns a graphNEL when possible.  This
+function is based on <code><a href="../../XML/html/xmlEventParse.html">xmlEventParse</a></code> with handlers defined
+in the function NELhandler.  The dump()
+element of this handler should emit information on
+all children of nodes and edges; the asGraphNEL()
+element will return a <code><a href="graphNEL-class.html">graphNEL</a></code> object with weights
+if child <code>&lt;attr&gt;</code> with name attribute &quot;weights&quot; is
+present for each edge element.</p>
+</td></tr>
+<tr valign="top"><td><code>toGXL</code></td>
+<td>
+<p>for an
+input of class &quot;graphNEL&quot;, returns an object of class c(&quot;XMLInternalDOM&quot;, &quot;XMLOutputStream&quot;);
+see the example for how to convert this to a text stream encoding XML</p>
+</td></tr>
+<tr valign="top"><td><code>dumpGXL</code></td>
+<td>
+<p>returns an R list with all the node, edge, and named attribute
+information specified in the GXL stream</p>
+</td></tr>  
+<tr valign="top"><td><code>validateGXL</code></td>
+<td>
+<p>returns
+silently (invisibly returns the parsed tree) for a DTD-compliant stream, or is otherwise very noisy</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>fromGXL</dt><dd><p> con = connection: returns a graphNEL based on a parsing of
+the GXL stream on the connection </p>
+</dd>
+<dt>dumpGXL</dt><dd><p> con = connection: returns an R list based on a parsing of
+the GXL stream on the connection </p>
+</dd>
+<dt>validateGXL</dt><dd><p> con = connection: checks the GXL stream against its DTD</p>
+</dd>
+<dt>toGXL</dt><dd><p> object = graphNEL: creates an XMLInternalDOM representing the graph in GXL</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>At present, toGXL does not return a validating GXL stream
+because XML package does not properly handle the dtd and namespaces
+arguments to xmlTree.  This is being repaired.  To fix
+the stream, add
+<code>
+&lt;!DOCTYPE gxl SYSTEM "http://www.gupro.de/GXL/gxl-1.0.1.dtd"&gt;
+</code>
+as second record in the output.
+</p>
+<p>Some structures in a graphNEL and some tags in GXL may not be handled
+at this time.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vince Carey &lt;stvjc@channing.harvard.edu&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sf &lt;- file(system.file("GXL/simpleExample.gxl", package="graph"))
+show(fromGXL(sf))
+print(dumpGXL(sf))
+close(sf)
+#validateGXL(sf)
+# bad &lt;- file(system.file("GXL/c2.gxl", package="graph"))
+# here's how you can check if the GXL is well-formed, if
+# you have a libxml2-based version of R XML package
+#
+# try( validateGXL(bad) )
+#
+gR &lt;- graphNEL(nodes=letters[1:4], edgeL=list(
+ a=list(edges=4), b=list(edges=3), c=list(edges=c(2,1)), d=list(edges=1)),
+ edgemode="directed")
+#
+# following requires that you are using XML bound with recent libxml2
+#
+#an &lt;- as.numeric
+#if (an(libxmlVersion()$major)&gt;=2 &amp;&amp; an(libxmlVersion()$minor)&gt;=4)
+## since toGXL returns an XML object, we need to attach the XML
+## package.
+library("XML")
+cat(saveXML(toGXL(gR)$value()))
+wtd &lt;- file(system.file("GXL/kmstEx.gxl", package="graph"))
+wtdg &lt;- fromGXL(wtd)
+close(wtd)
+print(edgeWeights(wtdg))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

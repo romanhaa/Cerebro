@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class to Contain and Describe High-Throughput Expression...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MultiSet {Biobase}"><tr><td>MultiSet {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Class to Contain and Describe High-Throughput Expression Level Assays.
+</h2>
+
+<h3>Description</h3>
+
+<p>Container for high-throughput assays and experimental
+metadata. <code>MutliSet</code> is derived from
+<code><a href="class.eSet.html">eSet-class</a></code>. <code>MultiSet</code> differs from
+<code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code> because <code>MultiSet</code> can contain
+any element(s) in <code>assayData</code> (<code>ExpressionSet</code> must have an
+element named <code>exprs</code>).
+</p>
+
+
+<h3>Extends</h3>
+
+<p>Directly extends class <code><a href="class.eSet.html">eSet</a></code>.
+</p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>new('MultiSet',
+    phenoData = [AnnotatedDataFrame],
+    experimentData = [MIAME],
+    annotation = [character],
+    protocolData = [AnnotatedDataFrame],
+    ...)
+  </code>
+</p>
+<p><code>updateOldESet(oldESet,"MultiSet")</code>
+</p>
+<p><code>MultiSet</code> instances are usually created through
+<code>new("MultiSet", ...)</code>. The <code>...</code> arguments to <code>new</code>
+are matrices of expression data (with features
+corresponding to rows and samples to columns), <code>phenoData</code>,
+<code>experimentData</code>, <code>annotation</code>, and <code>protocolData</code>. 
+<code>phenoData</code>, <code>experimentData</code>, <code>annotation</code>, and
+<code>protocolData</code> can be missing, in which case they are assigned
+default values.
+</p>
+<p><code><a href="updateOldESet.html">updateOldESet</a></code> will take a serialized instance (e.g., saved to a disk
+file with <code>save</code> object created with earlier definitions of
+the <code>eSet-class</code>, and update the object to
+<code>MultiSet</code>. Warnings are issued when direct translation is not
+possible; incorrectly created <code>oldESet</code> instances may not be updated.
+</p>
+
+
+<h3>Slots</h3>
+
+<p>Inherited from <code>eSet</code>:
+</p>
+
+<dl>
+<dt><code>assayData</code>:</dt><dd><p>Contains zero or more matrices with equal
+dimensions, and with column number equal to
+<code>nrow(phenoData)</code>. Each matrix in <code>assayData</code> has rows
+representing features (e.g., reporters) and columns representing
+samples. Class:<code><a href="class.AssayData.html">AssayData-class</a></code></p>
+</dd>
+<dt><code>phenoData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>experimentData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>annotation</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>protocolData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Class-specific methods: none
+</p>
+<p>Derived from <code><a href="class.eSet.html">eSet-class</a></code>:
+</p>
+
+<dl>
+<dt><code>updateObject(object, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version, if necessary. See <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code> and <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>isCurrent(object)</code></dt><dd><p>Determine whether version of object is current. See <code><a href="isCurrent.html">isCurrent</a></code></p>
+</dd>
+<dt><code>isVersioned(object)</code></dt><dd><p>Determine whether object contains a 'version' string describing its structure . See <code><a href="isVersioned.html">isVersioned</a></code></p>
+</dd>
+<dt><code>sampleNames(MultiSet)</code> and <code>sampleNames(MultiSet)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>featureNames(MultiSet)</code>, <code>featureNames(MultiSet, value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>dims(MultiSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>phenoData(MultiSet)</code>, <code>phenoData(MultiSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>varLabels(MultiSet)</code>, <code>varLabels(MultiSet, value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>varMetadata(MultiSet)</code>, <code>varMetadata(MultiSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>pData(MultiSet)</code>, <code>pData(MultiSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>varMetadata(MultiSet)</code>, <code>varMetadata(MultiSet,value)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>experimentData(MultiSet)</code>,<code>experimentData(MultiSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>pubMedIds(MultiSet)</code>, <code>pubMedIds(MultiSet,value)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>abstract(MultiSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>annotation(MultiSet)</code>, <code>annotation(MultiSet,value)&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>protocolData(MultiSet)</code>, <code>protocolData(MultiSet,value)&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>combine(MultiSet,MultiSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>storageMode(eSet)</code>, <code>storageMode(eSet,character)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+</dl>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>initialize(MultiSet)</code>:</dt><dd><p>Object instantiation, used by <code>new</code>; not to be called directly by the user.</p>
+</dd>
+<dt><code>validObject(MultiSet)</code>:</dt><dd><p>Validity-checking method, ensuring that all elements of <code>assayData</code> are matricies with equal dimensions.</p>
+</dd>
+<dt><code>as(eSet,MultiSet)</code>:</dt><dd><p>Coerce the <code>eSet</code> portion of an object to <code>MultiSet</code>.</p>
+</dd>
+<dt><code>show(MultiSet)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>dim(MultiSet)</code>, <code>ncol</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>MultiSet[(index)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+<dt><code>MultiSet$</code>, <code>MultiSet$&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet-class</a></code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet-class</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# create an instance of ExpressionSet
+new("MultiSet")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

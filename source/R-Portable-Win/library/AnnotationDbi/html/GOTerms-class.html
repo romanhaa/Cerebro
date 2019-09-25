@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;GOTerms&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GOTerms-class {AnnotationDbi}"><tr><td>GOTerms-class {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;GOTerms&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A class to represent Gene Ontology nodes</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form
+<code>GOTerms(GOId, term, ontology, definition, synonym, secondary)</code>.
+GOId, term, and ontology are required.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>GOID</code>:</dt><dd><p>Object of class <code>"character"</code> A character
+string for the GO id of a primary node.</p>
+</dd>
+<dt><code>Term</code>:</dt><dd><p>Object of class <code>"character"</code> A
+character string that defines the role of gene product
+corresponding to the primary GO id.</p>
+</dd>
+<dt><code>Ontology</code>:</dt><dd><p>Object of class <code>"character"</code> Gene
+Ontology category. Can be MF - molecular function, CC - cellular
+component, or BP - biological process.</p>
+</dd>
+<dt><code>Definition</code>:</dt><dd><p>Object of class <code>"character"</code> Further
+definition of the ontology of the primary GO id.</p>
+</dd>
+<dt><code>Synonym</code>:</dt><dd><p>Object of class <code>"character"</code> other
+ontology terms that are considered to be synonymous to the primary
+term attached to the GO id (e.g. &quot;type I programmed cell death&quot; is a
+synonym of &quot;apoptosis&quot;). Synonymous here can mean that the
+synonym is an exact synonym of the primary term, is related to the
+primary term, is broader than the primary term, is more precise
+than the primary term, or name is related to the term, but is not
+exact, broader or narrower.</p>
+</dd>
+<dt><code>Secondary</code>:</dt><dd><p>Object of class <code>"character"</code> GO ids
+that are secondary to the primary GO id as results of merging GO
+terms so that One GO id becomes the primary GO id and the rest
+become the secondary.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>GOID</dt><dd><p><code>signature(object = "GOTerms")</code>:
+The get method for slot GOID.</p>
+</dd>
+<dt>Term</dt><dd><p><code>signature(object = "GOTerms")</code>:
+The get method for slot Term.</p>
+</dd>
+<dt>Ontology</dt><dd><p><code>signature(object = "GOTerms")</code>:
+The get method for slot Ontology.</p>
+</dd>
+<dt>Definition</dt><dd><p><code>signature(object = "GOTerms")</code>:
+The get method for slot Definition.</p>
+</dd>
+<dt>Synonym</dt><dd><p><code>signature(object = "GOTerms")</code>:
+The get method for slot Synonym.</p>
+</dd>
+<dt>Secondary</dt><dd><p><code>signature(object = "GOTerms")</code>:
+The get method for slot Secondary.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(x = "GOTerms")</code>:
+The method for pretty print.</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>GOTerms objects are used to represent primary GO nodes in the
+SQLite-based annotation data package GO.db</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.geneontology.org/">http://www.geneontology.org/</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="makeGOGraph.html">makeGOGraph</a></code> shows how to make GO mappings into graphNEL objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  gonode &lt;- new("GOTerms", GOID="GO:1234567", Term="Test", Ontology="MF",
+                          Definition="just for testing")
+  GOID(gonode)
+  Term(gonode)
+  Ontology(gonode)
+
+  ##Or you can just use these methods on a GOTermsAnnDbBimap
+## Not run: ##I want to show an ex., but don't want to require GO.db
+  require(GO.db)
+  FirstTenGOBimap &lt;- GOTERM[1:10] ##grab the 1st ten
+  Term(FirstTenGOBimap)
+
+  ##Or you can just use GO IDs directly
+  ids = keys(FirstTenGOBimap)
+  Term(ids)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

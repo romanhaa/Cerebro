@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coverage of a set of ranges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for coverage-methods {IRanges}"><tr><td>coverage-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coverage of a set of ranges</h2>
+
+<h3>Description</h3>
+
+<p>For each position in the space underlying a set of ranges, counts the
+number of ranges that cover it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coverage(x, shift=0L, width=NULL, weight=1L, ...)
+
+## S4 method for signature 'IntegerRanges'
+coverage(x, shift=0L, width=NULL, weight=1L,
+            method=c("auto", "sort", "hash"))
+
+## S4 method for signature 'IntegerRangesList'
+coverage(x, shift=0L, width=NULL, weight=1L,
+            method=c("auto", "sort", "hash"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="IntegerRanges-class.html">IntegerRanges</a>, <a href="Views-class.html">Views</a>, or <a href="IntegerRangesList-class.html">IntegerRangesList</a> object.
+See <code>?`<a href="../../GenomicRanges/html/coverage-methods.html">coverage-methods</a>`</code> in the
+<span class="pkg">GenomicRanges</span> package for <code>coverage</code> methods for
+other objects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>shift, weight</code></td>
+<td>
+
+<p><code>shift</code> specifies how much each range in <code>x</code> should be shifted
+before the coverage is computed. A positive shift value will shift the
+corresponding range in <code>x</code> to the right, and a negative value to
+the left. NAs are not allowed.
+</p>
+<p><code>weight</code> assigns a weight to each range in <code>x</code>.
+</p>
+
+<ul>
+<li><p> If <code>x</code> is an <a href="IntegerRanges-class.html">IntegerRanges</a> or <a href="Views-class.html">Views</a> object:
+each of these arguments must be an integer or numeric vector
+parallel to <code>x</code> (will get recycled if necessary).
+Alternatively, each of these arguments can also be specified
+as a single string naming a metadata column in <code>x</code> (i.e.
+a column in <code>mcols(x)</code>) to be used as the <code>shift</code>
+(or <code>weight</code>) vector.
+Note that when <code>x</code> is an <a href="IPos-class.html">IPos</a> object, each of these
+arguments can only be a single number.
+</p>
+</li>
+<li><p> If <code>x</code> is an <a href="IntegerRangesList-class.html">IntegerRangesList</a> object:
+each of these arguments must be a numeric vector or list-like
+object of the same length as <code>x</code> (will get recycled if
+necessary).
+If it's a numeric vector, it's first turned into a list with
+<code>as.list</code>.
+After recycling, each list element <code>shift[[i]]</code> (or
+<code>weight[[i]]</code>) must be an integer or numeric vector
+parallel to <code>x[[i]]</code> (will get recycled if necessary).
+</p>
+</li></ul>
+
+<p>If <code>weight</code> is an integer vector or list-like object of integer
+vectors, the coverage vector(s) will be returned as integer-<a href="../../S4Vectors/html/Rle-class.html">Rle</a>
+object(s). If it's a numeric vector or list-like object of numeric
+vectors, the coverage vector(s) will be returned as numeric-<a href="../../S4Vectors/html/Rle-class.html">Rle</a>
+object(s).
+</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+
+<p>Specifies the length of the returned coverage vector(s).
+</p>
+
+<ul>
+<li><p> If <code>x</code> is an <a href="IntegerRanges-class.html">IntegerRanges</a> object:
+<code>width</code> must be <code>NULL</code> (the default), an NA, or a
+single non-negative integer.
+After being shifted, the ranges in <code>x</code> are always clipped
+on the left to keep only their positive portion i.e. their
+intersection with the [1, +inf) interval. If <code>width</code> is
+a single non-negative integer, then they're also clipped on the
+right to keep only their intersection with the [1, width] interval.
+In that case <code>coverage</code> returns a vector of length
+<code>width</code>.
+Otherwise, it returns a vector that extends to the last position
+in the underlying space covered by the shifted ranges.
+</p>
+</li>
+<li><p> If <code>x</code> is a <a href="Views-class.html">Views</a> object:
+Same as for a <a href="IntegerRanges-class.html">IntegerRanges</a> object, except that, if
+<code>width</code> is <code>NULL</code> then it's treated as if it
+was <code>length(subject(x))</code>.
+</p>
+</li>
+<li><p> If <code>x</code> is a <a href="IntegerRangesList-class.html">IntegerRangesList</a> object:
+<code>width</code> must be <code>NULL</code> or an integer vector parallel
+to <code>x</code> (i.e. with one element per list element in <code>x</code>).
+If not <code>NULL</code>, the vector must contain NAs or non-negative
+integers and it will get recycled to the length of <code>x</code> if
+necessary.
+If <code>NULL</code>, it is replaced with <code>NA</code> and recycled to the
+length of <code>x</code>.
+Finally <code>width[i]</code> is used to compute the coverage vector
+for <code>x[[i]]</code> and is therefore treated like explained above
+(when <code>x</code> is a <a href="IntegerRanges-class.html">IntegerRanges</a> object).
+</p>
+</li></ul>
+
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>If <code>method</code> is set to <code>"sort"</code>, then <code>x</code> is sorted
+previous to the calculation of the coverage. If <code>method</code> is set
+to <code>hash</code>, then <code>x</code> is hashed directly to a vector of length
+<code>width</code> without previous sorting.
+</p>
+<p>The <code>"hash"</code> method is faster than the <code>"sort"</code> method when
+<code>x</code> is large (i.e. contains a lot of ranges). When <code>x</code> is small
+and <code>width</code> is big (e.g. <code>x</code> represents a small set of reads
+aligned to a big chromosome), then <code>method="sort"</code> is faster and
+uses less memory than <code>method="hash"</code>.
+</p>
+<p>Using <code>method="auto"</code> selects the best method based on
+<code>length(x)</code> and <code>width</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments to be passed to or from other methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If <code>x</code> is a <a href="IntegerRanges-class.html">IntegerRanges</a> or <a href="Views-class.html">Views</a> object:
+An integer- or numeric-<a href="../../S4Vectors/html/Rle-class.html">Rle</a> object depending on whether <code>weight</code>
+is an integer or numeric vector.
+</p>
+<p>If <code>x</code> is a <a href="IntegerRangesList-class.html">IntegerRangesList</a> object:
+An <a href="AtomicList-class.html">RleList</a> object with one coverage vector per list element
+in <code>x</code>, and with <code>x</code> names propagated to it. The i-th coverage
+vector can be either an integer- or numeric-<a href="../../S4Vectors/html/Rle-class.html">Rle</a> object, depending
+on the type of <code>weight[[i]]</code> (after <code>weight</code> has gone thru
+<code>as.list</code> and recycling, like described previously).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pagès and P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="../../GenomicRanges/html/coverage-methods.html">coverage-methods</a> in the <span class="pkg">GenomicRanges</span>
+package for more <code>coverage</code> methods.
+</p>
+</li>
+<li><p> The <code><a href="slice-methods.html">slice</a></code> function for slicing the <a href="../../S4Vectors/html/Rle-class.html">Rle</a> or
+<a href="AtomicList-class.html">RleList</a> object returned by <code>coverage</code>.
+</p>
+</li>
+<li> <p><a href="IntegerRanges-class.html">IntegerRanges</a>, <a href="IPos-class.html">IPos</a>, <a href="IntegerRangesList-class.html">IntegerRangesList</a>,
+<a href="../../S4Vectors/html/Rle-class.html">Rle</a>, and <a href="AtomicList-class.html">RleList</a> objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## A. COVERAGE OF AN IRanges OBJECT
+## ---------------------------------------------------------------------
+x &lt;- IRanges(start=c(-2L, 6L, 9L, -4L, 1L, 0L, -6L, 10L),
+             width=c( 5L, 0L, 6L,  1L, 4L, 3L,  2L,  3L))
+coverage(x)
+coverage(x, shift=7)
+coverage(x, shift=7, width=27)
+coverage(x, shift=c(-4, 2))  # 'shift' gets recycled
+coverage(x, shift=c(-4, 2), width=12)
+coverage(x, shift=-max(end(x)))
+
+coverage(restrict(x, 1, 10))
+coverage(reduce(x), shift=7)
+coverage(gaps(shift(x, 7), start=1, end=27))
+
+## With weights:
+coverage(x, weight=as.integer(10^(0:7)))  # integer-Rle
+coverage(x, weight=c(2.8, -10))  # numeric-Rle, 'shift' gets recycled
+
+## ---------------------------------------------------------------------
+## B. COVERAGE OF AN IPos OBJECT
+## ---------------------------------------------------------------------
+pos_runs &lt;- IRanges(c(1, 5, 9), c(10, 8, 15))
+ipos &lt;- IPos(pos_runs)
+coverage(ipos)
+
+## ---------------------------------------------------------------------
+## C. COVERAGE OF AN IRangesList OBJECT
+## ---------------------------------------------------------------------
+x &lt;- IRangesList(A=IRanges(3*(4:-1), width=1:3), B=IRanges(2:10, width=5))
+cvg &lt;- coverage(x)
+cvg
+
+stopifnot(identical(cvg[[1]], coverage(x[[1]])))
+stopifnot(identical(cvg[[2]], coverage(x[[2]])))
+
+coverage(x, width=c(50, 9))
+coverage(x, width=c(NA, 9))
+coverage(x, width=9)  # 'width' gets recycled
+
+## Each list element in 'shift' and 'weight' gets recycled to the length
+## of the corresponding element in 'x'.
+weight &lt;- list(as.integer(10^(0:5)), -0.77)
+cvg2 &lt;- coverage(x, weight=weight)
+cvg2  # 1st coverage vector is an integer-Rle, 2nd is a numeric-Rle
+
+identical(mapply(coverage, x=x, weight=weight), as.list(cvg2))
+
+## ---------------------------------------------------------------------
+## D. SOME MATHEMATICAL PROPERTIES OF THE coverage() FUNCTION
+## ---------------------------------------------------------------------
+
+## PROPERTY 1: The coverage vector is not affected by reordering the
+## input ranges:
+set.seed(24)
+x &lt;- IRanges(sample(1000, 40, replace=TRUE), width=17:10)
+cvg0 &lt;- coverage(x)
+stopifnot(identical(coverage(sample(x)), cvg0))
+
+## Of course, if the ranges are shifted and/or assigned weights, then
+## this doesn't hold anymore, unless the 'shift' and/or 'weight'
+## arguments are reordered accordingly.
+
+## PROPERTY 2: The coverage of the concatenation of 2 IntegerRanges
+## objects 'x' and 'y' is the sum of the 2 individual coverage vectors:
+y &lt;- IRanges(sample(-20:280, 36, replace=TRUE), width=28)
+stopifnot(identical(coverage(c(x, y), width=100),
+                    coverage(x, width=100) + coverage(y, width=100)))
+
+## Note that, because adding 2 vectors in R recycles the shortest to
+## the length of the longest, the following is generally FALSE:
+identical(coverage(c(x, y)), coverage(x) + coverage(y))  # FALSE
+
+## It would only be TRUE if the 2 coverage vectors that we add had the
+## same length, which would only happen by chance. By using the same
+## 'width' value when we computed the 2 coverages previously, we made
+## sure they had the same length.
+
+## Because of properties 1 &amp; 2, we have:
+x1 &lt;- x[c(TRUE, FALSE)]  # pick up 1st, 3rd, 5th, etc... ranges
+x2 &lt;- x[c(FALSE, TRUE)]  # pick up 2nd, 4th, 6th, etc... ranges
+cvg1 &lt;- coverage(x1, width=100)
+cvg2 &lt;- coverage(x2, width=100)
+stopifnot(identical(coverage(x, width=100), cvg1 + cvg2))
+
+## PROPERTY 3: Multiplying the weights by a scalar has the effect of
+## multiplying the coverage vector by the same scalar:
+weight &lt;- runif(40)
+cvg3 &lt;- coverage(x, weight=weight)
+stopifnot(all.equal(coverage(x, weight=-2.68 * weight), -2.68 * cvg3))
+
+## Because of properties 1 &amp; 2 &amp; 3, we have:
+stopifnot(identical(coverage(x, width=100, weight=c(5L, -11L)),
+                    5L * cvg1 - 11L * cvg2))
+
+## PROPERTY 4: Using the sum of 2 weight vectors produces the same
+## result as using the 2 weight vectors separately and summing the
+## 2 results:
+weight2 &lt;- 10 * runif(40) + 3.7
+stopifnot(all.equal(coverage(x, weight=weight + weight2),
+                    cvg3 + coverage(x, weight=weight2)))
+
+## PROPERTY 5: Repeating any input range N number of times is
+## equivalent to multiplying its assigned weight by N:
+times &lt;- sample(0:10L, length(x), replace=TRUE)
+stopifnot(all.equal(coverage(rep(x, times), weight=rep(weight, times)),
+                    coverage(x, weight=weight * times)))
+
+## In particular, if 'weight' is not supplied:
+stopifnot(identical(coverage(rep(x, times)), coverage(x, weight=times)))
+
+## PROPERTY 6: If none of the input range actually gets clipped during
+## the "shift and clip" process, then:
+##
+##     sum(cvg) = sum(width(x) * weight)
+##
+stopifnot(sum(cvg3) == sum(width(x) * weight))
+
+## In particular, if 'weight' is not supplied:
+stopifnot(sum(cvg0) == sum(width(x)))
+
+## Note that this property is sometimes used in the context of a
+## ChIP-Seq analysis to estimate "the number of reads in a peak", that
+## is, the number of short reads that belong to a peak in the coverage
+## vector computed from the genomic locations (a.k.a. genomic ranges)
+## of the aligned reads. Because of property 6, the number of reads in
+## a peak is approximately the area under the peak divided by the short
+## read length.
+
+## PROPERTY 7: If 'weight' is not supplied, then disjoining or reducing
+## the ranges before calling coverage() has the effect of "shaving" the
+## coverage vector at elevation 1:
+table(cvg0)
+shaved_cvg0 &lt;- cvg0
+runValue(shaved_cvg0) &lt;- pmin(runValue(cvg0), 1L)
+table(shaved_cvg0)
+
+stopifnot(identical(coverage(disjoin(x)), shaved_cvg0))
+stopifnot(identical(coverage(reduce(x)), shaved_cvg0))
+
+## ---------------------------------------------------------------------
+## E. SOME SANITY CHECKS
+## ---------------------------------------------------------------------
+dummy_coverage &lt;- function(x, shift=0L, width=NULL)
+{
+    y &lt;- IRanges:::unlist_as_integer(shift(x, shift))
+    if (is.null(width))
+        width &lt;- max(c(0L, y))
+    Rle(tabulate(y,  nbins=width))
+}
+
+check_real_vs_dummy &lt;- function(x, shift=0L, width=NULL)
+{
+    res1 &lt;- coverage(x, shift=shift, width=width)
+    res2 &lt;- dummy_coverage(x, shift=shift, width=width)
+    stopifnot(identical(res1, res2))
+}
+check_real_vs_dummy(x)
+check_real_vs_dummy(x, shift=7)
+check_real_vs_dummy(x, shift=7, width=27)
+check_real_vs_dummy(x, shift=c(-4, 2))
+check_real_vs_dummy(x, shift=c(-4, 2), width=12)
+check_real_vs_dummy(x, shift=-max(end(x)))
+
+## With a set of distinct single positions:
+x3 &lt;- IRanges(sample(50000, 20000), width=1)
+stopifnot(identical(sort(start(x3)), which(coverage(x3) != 0L)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

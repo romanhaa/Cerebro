@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply operations using clusters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clusterApply {BiocGenerics}"><tr><td>clusterApply {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply operations using clusters</h2>
+
+<h3>Description</h3>
+
+<p>These functions provide several ways to parallelize computations
+using a cluster.
+</p>
+<p>NOTE: This man page is for the <code>clusterCall</code>, <code>clusterApply</code>,
+<code>clusterApplyLB</code>, <code>clusterEvalQ</code>, <code>clusterExport</code>,
+<code>clusterMap</code>, <code>clusterSplit</code>, <code>parLapply</code>, <code>parSapply</code>,
+<code>parApply</code>, <code>parRapply</code>, <code>parCapply</code>, <code>parLapplyLB</code>,
+and <code>parSapplyLB</code> <em>S4 generic functions</em> defined in the
+<span class="pkg">BiocGenerics</span> package.
+See <code>?parallel::<a href="../../parallel/html/clusterApply.html">clusterApply</a></code> for the default
+methods (defined in the <span class="pkg">parallel</span> package).
+Bioconductor packages can define specific methods for cluster-like
+objects not supported by the default methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+clusterCall(cl=NULL, fun, ...)
+clusterApply(cl=NULL, x, fun, ...)
+clusterApplyLB(cl=NULL, x, fun, ...)
+clusterEvalQ(cl=NULL, expr)
+clusterExport(cl=NULL, varlist, envir=.GlobalEnv)
+clusterMap(cl=NULL, fun, ..., MoreArgs=NULL, RECYCLE=TRUE,
+           SIMPLIFY=FALSE, USE.NAMES=TRUE,
+           .scheduling=c("static", "dynamic"))
+clusterSplit(cl=NULL, seq)
+
+parLapply(cl=NULL, X, fun, ...)
+parSapply(cl=NULL, X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE) 
+parApply(cl=NULL, X, MARGIN, FUN, ...)
+parRapply(cl=NULL, x, FUN, ...)
+parCapply(cl=NULL, x, FUN, ...)
+     
+parLapplyLB(cl=NULL, X, fun, ...)
+parSapplyLB(cl=NULL, X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cl</code></td>
+<td>
+
+<p>A cluster-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A vector-like object for <code>clusterApply</code> and <code>clusterApplyLB</code>.
+A matrix-like object for <code>parRapply</code> and <code>parCapply</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>seq</code></td>
+<td>
+
+<p>Vector-like object to split.
+</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+
+<p>A vector-like object for <code>parLapply</code>, <code>parSapply</code>,
+<code>parLapplyLB</code>, and <code>parSapplyLB</code>.
+An array-like object for <code>parApply</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun, ..., expr, varlist, envir, MoreArgs, RECYCLE,
+SIMPLIFY, USE.NAMES, .scheduling, FUN, simplify, MARGIN</code></td>
+<td>
+
+<p>See <code>?parallel::<a href="../../parallel/html/clusterApply.html">clusterApply</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?parallel::<a href="../../parallel/html/clusterApply.html">clusterApply</a></code> for the value returned
+by the default methods.
+</p>
+<p>Specific methods defined in Bioconductor packages should behave like the
+default methods.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>parallel::<a href="../../parallel/html/clusterApply.html">clusterApply</a></code> for the default
+methods.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+clusterCall  # note the dispatch on the 'cl' arg only
+showMethods("clusterCall")
+selectMethod("clusterCall", "ANY")  # the default method
+
+clusterApply  # note the dispatch on the 'cl' and 'x' args only
+showMethods("clusterApply")
+selectMethod("clusterApply", c("ANY", "ANY"))  # the default method
+
+clusterApplyLB  # note the dispatch on the 'cl' and 'x' args only
+showMethods("clusterApplyLB")
+selectMethod("clusterApplyLB", c("ANY", "ANY"))  # the default method
+
+clusterEvalQ  # note the dispatch on the 'cl' arg only
+showMethods("clusterEvalQ")
+selectMethod("clusterEvalQ", "ANY")  # the default method
+
+clusterExport  # note the dispatch on the 'cl' arg only
+showMethods("clusterExport")
+selectMethod("clusterExport", "ANY")  # the default method
+
+clusterMap  # note the dispatch on the 'cl' arg only
+showMethods("clusterMap")
+selectMethod("clusterMap", "ANY")  # the default method
+
+clusterSplit
+showMethods("clusterSplit")
+selectMethod("clusterSplit", c("ANY", "ANY"))  # the default method
+
+parLapply  # note the dispatch on the 'cl' and 'X' args only
+showMethods("parLapply")
+selectMethod("parLapply", c("ANY", "ANY"))  # the default method
+
+parSapply  # note the dispatch on the 'cl' and 'X' args only
+showMethods("parSapply")
+selectMethod("parSapply", c("ANY", "ANY"))  # the default method
+
+parApply  # note the dispatch on the 'cl' and 'X' args only
+showMethods("parApply")
+selectMethod("parApply", c("ANY", "ANY"))  # the default method
+
+parRapply  # note the dispatch on the 'cl' and 'x' args only
+showMethods("parRapply")
+selectMethod("parRapply", c("ANY", "ANY"))  # the default method
+
+parCapply  # note the dispatch on the 'cl' and 'x' args only
+showMethods("parCapply")
+selectMethod("parCapply", c("ANY", "ANY"))  # the default method
+
+parLapplyLB  # note the dispatch on the 'cl' and 'X' args only
+showMethods("parLapplyLB")
+selectMethod("parLapplyLB", c("ANY", "ANY"))  # the default method
+
+parSapplyLB  # note the dispatch on the 'cl' and 'X' args only
+showMethods("parSapplyLB")
+selectMethod("parSapplyLB", c("ANY", "ANY"))  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

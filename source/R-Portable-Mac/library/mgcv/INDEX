@@ -5,13 +5,15 @@ Predict.matrix.cr.smooth
 Predict.matrix.soap.film
                         Prediction matrix for soap film smooth
 Rrank                   Find rank of upper triangular matrix
-Sl.initial.repara       Re-parametrizing model matrix X
+Sl.inirep               Re-parametrizing model matrix X
 Sl.repara               Applying re-parameterization from
                         log-determinant of penalty matrix to model
                         matrix.
 Sl.setup                Setting up a list representing a block diagonal
                         penalty matrix
 Tweedie                 GAM Tweedie families
+XWXd                    Internal functions for discretized model matrix
+                        handling
 anova.gam               Approximate hypothesis tests related to GAM
                         fits
 bam                     Generalized additive models for very large
@@ -21,6 +23,7 @@ bam.update              Update a strictly additive bam model for new
 bandchol                Choleski decomposition of a band diagonal
                         matrix
 betar                   GAM beta regression family
+blas.thread.test        BLAS thread safety
 bug.reports.mgcv        Reporting mgcv bugs.
 cSplineDes              Evaluate cyclic B spline basis
 choldrop                Deletion and rank one Cholesky factor update
@@ -73,6 +76,7 @@ gamlss.etamu            Transform derivatives wrt mu to derivatives wrt
 gamlss.gH               Calculating derivatives of log-likelihood wrt
                         regression coefficients
 gamm                    Generalized Additive Mixed Models
+gammals                 Gamma location-scale model family
 gaulss                  Gaussian location-scale model family
 get.var                 Get named variable or evaluate expression from
                         list or data.frame
@@ -195,8 +199,8 @@ t2                      Define alternative tensor product smooths in
 te                      Define tensor product smooths or tensor product
                         interactions in GAM formulae
 tensor.prod.model.matrix
-                        Utility functions for constructing tensor
-                        product smooths
+                        Row Kronecker product/ tensor product smooth
+                        construction
 totalPenaltySpace       Obtaining (orthogonal) basis for null space and
                         range of the penalty matrix
 trichol                 Choleski decomposition of a tri-diagonal matrix

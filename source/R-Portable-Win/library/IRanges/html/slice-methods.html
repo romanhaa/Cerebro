@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Slice a vector-like or list-like object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for slice-methods {IRanges}"><tr><td>slice-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Slice a vector-like or list-like object</h2>
+
+<h3>Description</h3>
+
+<p><code>slice</code> is a generic function that creates views on a vector-like
+or list-like object that contain the elements that are within the
+specified bounds.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+slice(x, lower=-Inf, upper=Inf, ...)
+
+## S4 method for signature 'Rle'
+slice(x, lower=-Inf, upper=Inf,
+      includeLower=TRUE, includeUpper=TRUE, rangesOnly=FALSE)
+
+## S4 method for signature 'RleList'
+slice(x, lower=-Inf, upper=Inf,
+      includeLower=TRUE, includeUpper=TRUE, rangesOnly=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An <a href="../../S4Vectors/html/Rle-class.html">Rle</a> or <a href="AtomicList-class.html">RleList</a> object, or any object coercible to
+an Rle object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lower, upper</code></td>
+<td>
+
+<p>The lower and upper bounds for the slice.
+</p>
+</td></tr>
+<tr valign="top"><td><code>includeLower, includeUpper</code></td>
+<td>
+
+<p>Logical indicating whether or not the specified boundary is open or closed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rangesOnly</code></td>
+<td>
+
+<p>A logical indicating whether or not to drop the original data from the
+output.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments to be passed to specific methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>slice</code> is useful for finding areas of absolute maxima (peaks),
+absolute minima (troughs), or fluctuations within specified limits.
+One or more view summarization methods can be used on the result of
+<code>slice</code>. See <code>?`link{view-summarization-methods}`</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>The method for <a href="../../S4Vectors/html/Rle-class.html">Rle</a> objects returns an <a href="RleViews-class.html">RleViews</a> object
+if <code>rangesOnly=FALSE</code> or an <a href="IRanges-constructor.html">IRanges</a> object if
+<code>rangesOnly=TRUE</code>.
+</p>
+<p>The method for <a href="AtomicList-class.html">RleList</a> objects returns an <a href="RleViewsList-class.html">RleViewsList</a> object
+if <code>rangesOnly=FALSE</code> or an <a href="IRangesList-class.html">IRangesList</a> object if
+<code>rangesOnly=TRUE</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="view-summarization-methods.html">view-summarization-methods</a> for summarizing the views
+returned by <code>slice</code>.
+</p>
+</li>
+<li> <p><a href="../../XVector/html/slice-methods.html">slice-methods</a> in the <span class="pkg">XVector</span> package
+for more <code>slice</code> methods.
+</p>
+</li>
+<li> <p><code><a href="coverage-methods.html">coverage</a></code> for computing the coverage across a set
+of ranges.
+</p>
+</li>
+<li><p> The <a href="../../S4Vectors/html/Rle-class.html">Rle</a>, <a href="AtomicList-class.html">RleList</a>, <a href="RleViews-class.html">RleViews</a>, and
+<a href="RleViewsList-class.html">RleViewsList</a> classes.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Views derived from coverage
+x &lt;- IRanges(start=c(1L, 9L, 4L, 1L, 5L, 10L),
+             width=c(5L, 6L, 3L, 4L, 3L,  3L))
+cvg &lt;- coverage(x)
+slice(cvg, lower=2)
+slice(cvg, lower=2, rangesOnly=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

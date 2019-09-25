@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve information on features recorded in eSet-derived...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for featureData {Biobase}"><tr><td>featureData {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve information on features recorded in eSet-derived
+classes.</h2>
+
+<h3>Description</h3>
+
+<p>These generic functions access feature data (experiment specific
+information about features) and feature meta-data (e.g., descriptions
+of feature covariates).  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+featureData(object)
+featureData(object) &lt;- value
+fData(object)
+fData(object) &lt;- value
+fvarLabels(object)
+fvarLabels(object) &lt;- value
+fvarMetadata(object)
+fvarMetadata(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object, possibly derived from <code><a href="class.eSet.html">eSet-class</a></code>
+or <code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame-class</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Value to be assigned to corresponding object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>featureData</code> returns an object containing information on both
+variable values and variable meta-data.  <code>fvarLabels</code> returns a
+character vector of measured variable names. <code>fData</code> returns a data
+frame with features as rows, variables as columns. <code>fvarMetadata</code>
+returns a data frame with variable names as rows, description tags
+(e.g., unit of measurement) as columns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet</a></code>,
+<code><a href="class.ExpressionSet.html">ExpressionSet</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

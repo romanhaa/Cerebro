@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: lists the available BioMart databases</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for listMarts {biomaRt}"><tr><td>listMarts {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>lists the available BioMart databases</h2>
+
+<h3>Description</h3>
+
+<p>This function returns a list of BioMart databases to which biomaRt can connect to.  By default all public BioMart databases are displayed.  To establish a connection use the useMart function.</p>
+
+
+<h3>Usage</h3>
+
+<pre>listMarts(mart = NULL, host="www.ensembl.org", path="/biomart/martservice",
+port=80, includeHosts = FALSE, archive = FALSE, ssl.verifypeer = TRUE, 
+ensemblRedirect = NULL, verbose = FALSE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>mart object created with the <code><a href="useMart.html">useMart</a></code> function.  
+This is optional, as you usually use <code><a href="listMarts.html">listMarts</a></code> to see which 
+marts there are to connect to.</p>
+</td></tr>
+<tr valign="top"><td><code>host</code></td>
+<td>
+<p>Host to connect to. Defaults to <code>www.ensembl.org</code></p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>path to martservice that should be pasted behind the host to get to web service URL</p>
+</td></tr>
+<tr valign="top"><td><code>port</code></td>
+<td>
+<p>port to use in HTTP communication</p>
+</td></tr> 
+<tr valign="top"><td><code>includeHosts</code></td>
+<td>
+<p>boolean to indicate if function should return host of the BioMart databases</p>
+</td></tr>
+<tr valign="top"><td><code>archive</code></td>
+<td>
+<p>Boolean to indicate if you want to access archived versions of 
+BioMart database. Note that this argument is now defunct and setting this value
+to <code>TRUE</code> will produce an error.
+A better alternative is to specify the url of the archived 
+BioMart you want to access.  For Ensembl you can view the list of archives 
+using <code><a href="listEnsemblArchives.html">listEnsemblArchives</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>ssl.verifypeer</code></td>
+<td>
+<p>Set SSL peer verification on or off.  By default ssl.verifypeer is set to TRUE</p>
+</td></tr>
+<tr valign="top"><td><code>ensemblRedirect</code></td>
+<td>
+<p>This argument has now been deprecated.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Give detailed output of what the method is doing, for debugging purposes</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If you receive an error message saying 'Unexpected format to the list of 
+available marts', this is often because there is a problem with the BioMart
+server you are trying to connect to, and something other than the list of 
+available marts is being returned - often some like a 'down for maintainance'
+page.  If you browse to the provided URL and find a page that starts with
+'<code>&lt;MartRegistry&gt;</code>' this is the correct listing and you should report
+the issue on the Bioconductor support site: https://support.bioconductor.org
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck, Mike Smith</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(interactive()){
+listMarts()
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

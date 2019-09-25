@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods to construct GeneSetCollection instances</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneSetCollection-methods {GSEABase}"><tr><td>GeneSetCollection-methods {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods to construct GeneSetCollection instances</h2>
+
+<h3>Description</h3>
+
+<p>Use <code>GeneSetCollection</code> to construct a collection of gene sets
+from <code><a href="GeneSet-class.html">GeneSet</a></code> arguments, or a list of
+<code>GeneSet</code>s.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+GeneSetCollection(object, ..., idType, setType)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An argument determining how the gene set collection will
+be created, as described in the methods section.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arugments for gene set collection construction,
+as described below.</p>
+</td></tr>
+<tr valign="top"><td><code>idType</code></td>
+<td>
+<p>An argument of class
+<code><a href="GeneIdentifierType-class.html">GeneIdentifierType</a></code>, used to
+indicate how the <code>geneIds</code> will be represented.</p>
+</td></tr>
+<tr valign="top"><td><code>setType</code></td>
+<td>
+<p>An argument of class
+<code><a href="CollectionType-class.html">CollectionType</a></code>, used to indicate how the
+collection is created.</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>
+<code>signature(object = "GeneSet",idType="missing", setType="missing")</code>
+</dt><dd>
+<p>Construct a gene set collection from one or more <code>GeneSet</code>
+arugments.
+</p>
+</dd>
+<dt>
+<code>signature(object = "list", idType="missing", setType="missing")</code>
+</dt><dd>
+<p>Construct a gene set collection from a list of <code>GeneSet</code>s.
+</p>
+</dd>
+<dt>
+<code>signature(object="missing", idType="AnnotationIdentifier",
+	setType="CollectionType")</code></dt><dd></dd>
+<dt>
+<code>signature(object="missing", idType="AnnotationIdentifier",
+	setType="CollectionIdType")</code>
+</dt><dd>
+<p>Construct a gene set collection of <code>CollectionType</code> entities
+(e.g., pathways for <code>KEGGCollection</code>, protein families for
+<code>PfamCollection</code>) implied by the map found in
+<code>annotation(idType)</code>. If <code>setType</code> is a
+<code>CollectionIdType</code> and <code>length(ids(setType))&gt;0</code>, the
+gene set collection is filtered to contain only those sets implied
+by the ids.
+</p>
+</dd>
+<dt>
+<code>signature(object="character", idType="AnnotationIdentifier",
+	setType="CollectionType")</code></dt><dd></dd>
+<dt>
+<code>signature(object="character", idType="AnnotationIdentifier",
+	setType="CollectionIdType")</code></dt><dd></dd>
+<dt>
+<code>signature(object="character", idType="AnnotationIdentifier",
+	setType="GOCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection of <code>CollectionType</code> entities
+(e.g., pathways for <code>KEGGCollection</code>, protein families for
+<code>PfamCollection</code>) implied by the map found in
+<code>annotation(idType)</code>. Use only those identifiers in
+<code>object</code>. If <code>setType</code> is a <code>CollectionIdType</code> and
+<code>length(ids(setType))&gt;0</code>, the gene set collection is filtered
+to contain only those sets implied by the ids.
+</p>
+</dd>
+<dt>
+<code>signature(object="character", idType="AnnotationIdentifier",
+	setType="PfamCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection by mapping all values in
+<code>object</code> to <code>PfamIds</code> found in the <code>PFAM</code> map
+implied by <code>idType</code>.
+</p>
+</dd>
+<dt>
+<code>signature(object="character", idType="AnnotationIdentifier",
+	setType="PrositeCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection by mapping all values in
+<code>object</code> to <code>ipi_ids</code> found in the <code>PFAM</code> map
+implied by <code>idType</code>.
+</p>
+</dd>
+<dt>
+<code>signature(object="character", idType="AnnotationIdentifier",
+	setType="ChrlocCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection by mapping all values in
+<code>object</code> to chromosome, strand, and position information
+found in the map implied by <code>idType</code>.
+</p>
+</dd>
+<dt>
+<code>signature(object="ExpressionSet", idType="missing",
+	setType="CollectionType")</code></dt><dd></dd>
+<dt>
+<code>signature(object="ExpressionSet", idType="missing",
+	setType="CollectionIdType")</code>
+</dt><dd>
+<p>Construct a gene set collection using the <code>annotation</code> and
+<code>featureNames</code> of <code>object</code> to identify elements for
+<code>CollectionType</code> gene sets (e.g., pathways for
+<code>KEGGCollection</code>, protein families for <code>PfamCollection</code>)
+implied by <code>object</code>. The gene set collection contains only
+those <code>AnnotationIdentifiers</code> found in
+<code>featureNames(object)</code>; if <code>setType</code> is a
+<code>CollectionIdType</code> and <code>length(ids(setType))&gt;0</code>, the
+gene set collection is further filtered to contain only those sets
+implied by the ids.
+</p>
+</dd>
+<dt>
+<code>signature(object="ExpressionSet", idType="missing",
+	setType="GOCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection using the <code>annotation</code> and
+<code>featureNames</code> of <code>object</code> to identify 
+<code>GO</code> pathways implied by <code>object</code>. The map between
+<code>featureNames</code> and <code>GO</code> pathway identifiers is derived
+from the <code>GO2PROBE</code> table of the annotation
+package of <code>object</code>. The gene set collection contains only
+those <code>AnnotationIdentifiers</code> found in
+<code>featureNames(object)</code>. The <code>evidenceCode</code> of
+<code>GOCollection</code> can be used to restrict the pathways seleted to
+those with matching evidence codes.
+</p>
+</dd>
+<dt>
+<code>signature(object="ExpressionSet", idType="missing",
+	setType="PfamCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection by mapping all values in
+<code>featureNames(object)</code> to <code>PfamIds</code> found in the
+<code>PFAM</code> map implied by <code>idType=AnnotationIdentifer(annotation(object))</code>.
+</p>
+</dd>
+<dt>
+<code>signature(object="ExpressionSet", idType="missing", setType="PrositeCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection by mapping all values in
+<code>featureNames(object)</code> to <code>ipi_id</code> found in the
+<code>PFAM</code> map implied by <code>idType=AnnotationIdentifer(annotation(object))</code>.
+</p>
+</dd>
+<dt>
+<code>signature(object="ExpressionSet", idType="missing", setType="ChrlocCollection")</code>
+</dt><dd>
+<p>Construct a gene set collection by mapping all values in
+<code>featureNames(object)</code> to chromosome, strand, and position
+information found in the <code>CHRLOC</code> map implied by
+<code>idType=AnnotationIdentifer(annotation(object))</code>.
+</p>
+</dd>
+<dt>
+<code>signature(object="missing", idType="AnnotationIdentifier", setType="GOCollection")</code>
+</dt><dd>
+</dd>
+<dt>
+<code>signature(object="GOAllFrame", idType="missing", setType="GOCollection")</code>
+</dt><dd>      
+<p>Construct a gene set collection containing all GO pathways
+referenced in the <code>GOALLFrame</code> provided. Each gene set only
+those <code>Identifiers</code> found in <code>GOALLFrame</code>. The
+<code>ontology</code> of each <code>GOALLFrame</code> GO ID will be included
+in the gene Set of that GO ID .      
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneSetCollection-class.html">GeneSetCollection</a></code>-class
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+gs1 &lt;- GeneSet(setName="set1", setIdentifier="101")
+gs2 &lt;- GeneSet(setName="set2", setIdentifier="102")
+
+## construct from indivdiual elements...
+gsc &lt;- GeneSetCollection(gs1, gs2)
+## or from a list
+gsc &lt;- GeneSetCollection(list(gs1, gs2))
+
+## set names must be unique
+try(GeneSetCollection(gs1, gs1))
+
+data(sample.ExpressionSet)
+gsc &lt;- GeneSetCollection(sample.ExpressionSet[200:250],
+                         setType = GOCollection())
+
+## Not run: 
+## from KEGG identifiers, for example
+library(KEGG.db)
+lst &lt;- head(as.list(KEGGEXTID2PATHID))
+gsc &lt;- GeneSetCollection(mapply(function(geneIds, keggId) {
+    GeneSet(geneIds, geneIdType=EntrezIdentifier(),
+            collectionType=KEGGCollection(keggId),
+            setName=keggId)
+}, lst, names(lst)))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

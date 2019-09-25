@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Grouping objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Grouping-class {IRanges}"><tr><td>Grouping-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Grouping objects</h2>
+
+<h3>Description</h3>
+
+<p>We call <em>grouping</em> an arbitrary mapping from a collection of NO objects
+to a collection of NG groups, or, more formally, a bipartite graph
+between integer sets [1, NO] and [1, NG]. Objects mapped to a given group
+are said to belong to, or to be assigned to, or to be in that group.
+Additionally, the objects in each group are ordered. So for example the
+2 following groupings are considered different:
+</p>
+<pre>
+  Grouping 1: NG = 3, NO = 5
+              group   objects
+                  1 : 4, 2
+                  2 :
+                  3 : 4
+
+  Grouping 2: NG = 3, NO = 5
+              group   objects
+                  1 : 2, 4
+                  2 :
+                  3 : 4
+</pre>
+<p>There are no restriction on the mapping e.g. any object can be mapped
+to 0, 1, or more groups, and can be mapped twice to the same group. Also
+some or all the groups can be empty.
+</p>
+<p>The Grouping class is a virtual class that formalizes the most general
+kind of grouping. More specific groupings (e.g. <em>many-to-one groupings</em>
+or <em>block-groupings</em>) are formalized via specific Grouping subclasses.
+</p>
+<p>This man page documents the core Grouping API, and 3 important Grouping
+subclasses: ManyToOneGrouping, GroupingRanges, and Partitioning (the last
+one deriving from the 2 first).
+</p>
+
+
+<h3>The core Grouping API</h3>
+
+<p>Let's give a formal description of the core Grouping API:
+</p>
+<p>Groups G_i are indexed from 1 to NG (1 &lt;= i &lt;= NG).
+</p>
+<p>Objects O_j are indexed from 1 to NO (1 &lt;= j &lt;= NO).
+</p>
+<p>Given that empty groups are allowed, NG can be greater than NO.
+</p>
+<p>If <code>x</code> is a Grouping object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>length(x)</code>:
+Returns the number of groups (NG).
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>names(x)</code>:
+Returns the names of the groups.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>nobj(x)</code>:
+Returns the number of objects (NO).
+</p>
+</dd>
+</dl>
+
+<p>Going from groups to objects:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[[i]]</code>:
+Returns the indices of the objects (the j's) that belong to G_i.
+This provides the mapping from groups to objects.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>grouplengths(x, i=NULL)</code>:
+Returns the number of objects in G_i.
+Works in a vectorized fashion (unlike <code>x[[i]]</code>).
+<code>grouplengths(x)</code> is equivalent to
+<code>grouplengths(x, seq_len(length(x)))</code>.
+If <code>i</code> is not NULL, <code>grouplengths(x, i)</code> is equivalent to
+<code>sapply(i, function(ii) length(x[[ii]]))</code>.
+</p>
+</dd>
+</dl>
+
+<p>Note to developers: Given that <code>length</code>, <code>names</code> and <code>[[</code>
+are expected to work on any Grouping object, those objects can be seen as
+<a href="../../S4Vectors/html/List-class.html">List</a> objects. More precisely, the Grouping class actually extends
+the <a href="AtomicList-class.html">IntegerList</a> class. In particular, many other &quot;list&quot; operations
+like <code>as.list</code>, <code>elementNROWS</code>, and <code>unlist</code>, etc...
+should work out-of-the-box on any Grouping object.
+</p>
+
+
+<h3>ManyToOneGrouping objects</h3>
+
+<p>The ManyToOneGrouping class is a virtual subclass of Grouping for
+representing <em>many-to-one groupings</em>, that is, groupings where each
+object in the original collection of objects belongs to exactly one group.
+</p>
+<p>The grouping of an empty collection of objects in an arbitrary number of
+(necessarily empty) groups is a valid ManyToOneGrouping object.
+</p>
+<p>Note that, for a ManyToOneGrouping object, if NG is 0 then NO must also
+be 0.
+</p>
+<p>The ManyToOneGrouping API extends the core Grouping API by adding a couple
+more operations for going from groups to objects:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>members(x, i)</code>:
+Equivalent to <code>x[[i]]</code> if <code>i</code> is a single integer.
+Otherwise, if <code>i</code> is an integer vector of arbitrary length, it's
+equivalent to <code>sort(unlist(sapply(i, function(ii) x[[ii]])))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>vmembers(x, L)</code>:
+A version of <code>members</code> that works in a vectorized fashion with
+respect to the <code>L</code> argument (<code>L</code> must be a list of integer
+vectors). Returns <code>lapply(L, function(i) members(x, i))</code>.
+</p>
+</dd>
+</dl>
+
+<p>And also by adding operations for going from objects to groups:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>togroup(x, j=NULL)</code>:
+Returns the index i of the group that O_j belongs to.
+This provides the mapping from objects to groups (many-to-one mapping).
+Works in a vectorized fashion. <code>togroup(x)</code> is equivalent to
+<code>togroup(x, seq_len(nobj(x)))</code>: both return the entire mapping in
+an integer vector of length NO.
+If <code>j</code> is not NULL, <code>togroup(x, j)</code> is equivalent to
+<code>y &lt;- togroup(x); y[j]</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>togrouplength(x, j=NULL)</code>:
+Returns the number of objects that belong to the same group as O_j
+(including O_j itself).
+Equivalent to <code>grouplengths(x, togroup(x, j))</code>.
+</p>
+</dd>
+</dl>
+
+<p>One important property of any ManyToOneGrouping object <code>x</code> is
+that <code>unlist(as.list(x))</code> is always a permutation of 
+<code>seq_len(nobj(x))</code>. This is a direct consequence of the fact
+that every object in the grouping belongs to one group and only
+one.
+</p>
+
+
+<h3>2 ManyToOneGrouping concrete subclasses: H2LGrouping, Dups and
+SimpleManyToOneGrouping</h3>
+
+<p>[DOCUMENT ME]
+</p>
+<p>Constructors:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>H2LGrouping(high2low=integer())</code>:
+[DOCUMENT ME]
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>Dups(high2low=integer())</code>:
+[DOCUMENT ME]
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>ManyToOneGrouping(..., compress=TRUE)</code>: Collect <code>...</code>
+into a <code>ManyToOneGrouping</code>. The arguments will be coerced to
+integer vectors and combined into a list, unless there is a single
+list argument, which is taken to be an integer list. The resulting
+integer list should have a structure analogous to that of
+<code>Grouping</code> itself: each element represents a group in terms
+of the subscripts of the members. If <code>compress</code> is
+<code>TRUE</code>, the representation uses a <code>CompressedList</code>,
+otherwise a <code>SimpleList</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>ManyToManyGrouping objects</h3>
+
+<p>The ManyToManyGrouping class is a virtual subclass of Grouping for
+representing <em>many-to-many groupings</em>, that is, groupings where
+each object in the original collection of objects belongs to any
+number of groups.
+</p>
+<p>Constructors:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>ManyToManyGrouping(x, compress=TRUE)</code>: Collect <code>...</code>
+into a <code>ManyToManyGrouping</code>. The arguments will be coerced to
+integer vectors and combined into a list, unless there is a single
+list argument, which is taken to be an integer list. The resulting
+integer list should have a structure analogous to that of
+<code>Grouping</code> itself: each element represents a group in terms
+of the subscripts of the members. If <code>compress</code> is
+<code>TRUE</code>, the representation uses a <code>CompressedList</code>,
+otherwise a <code>SimpleList</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>GroupingRanges objects</h3>
+
+<p>The GroupingRanges class is a virtual subclass of Grouping for representing
+<em>block-groupings</em>, that is, groupings where each group is a block of
+adjacent elements in the original collection of objects. GroupingRanges
+objects support the IntegerRanges API (e.g. <code><a href="../../stats/html/start.html">start</a></code>,
+<code><a href="../../stats/html/start.html">end</a></code>, <code><a href="IPosRanges-class.html">width</a></code>, etc...) in addition to the Grouping
+API. See <code>?<a href="IntegerRanges-class.html">IntegerRanges</a></code> for a description of the
+<a href="IntegerRanges-class.html">IntegerRanges</a> API.
+</p>
+
+
+<h3>Partitioning objects</h3>
+
+<p>The Partitioning class is a virtual subclass of GroupingRanges for
+representing <em>block-groupings</em> where the blocks fully cover the
+original collection of objects and don't overlap. Since this makes them
+<em>many-to-one groupings</em>, the Partitioning class is also a subclass
+of ManyToOneGrouping. An additional constraint of Partitioning objects
+is that the blocks must be ordered by ascending position with respect to
+the original collection of objects.
+</p>
+<p>The Partitioning virtual class itself has 3 concrete subclasses:
+PartitioningByEnd (only stores the end of the groups, allowing fast
+mapping from groups to objects), and PartitioningByWidth (only stores
+the width of the groups), and PartitioningMap which contains
+PartitioningByEnd and two additional slots to re-order and re-list
+the object to a related mapping.
+</p>
+<p>Constructors:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>PartitioningByEnd(x=integer(), NG=NULL, names=NULL)</code>:
+<code>x</code> must be either a list-like object or a sorted integer vector.
+<code>NG</code> must be either <code>NULL</code> or a single integer.
+<code>names</code> must be either <code>NULL</code> or a character vector of
+length <code>NG</code> (if supplied) or <code>length(x)</code> (if <code>NG</code>
+is not supplied).
+</p>
+<p>Returns the following PartitioningByEnd object <code>y</code>:
+</p>
+
+<ul>
+<li><p> If <code>x</code> is a list-like object, then the returned object
+<code>y</code> has the same length as <code>x</code> and is such that
+<code>width(y)</code> is identical to <code>elementNROWS(x)</code>.
+</p>
+</li>
+<li><p> If <code>x</code> is an integer vector and <code>NG</code> is not supplied,
+then <code>x</code> must be sorted (checked) and contain non-NA
+non-negative values (NOT checked).
+The returned object <code>y</code> has the same length as <code>x</code>
+and is such that <code>end(y)</code> is identical to <code>x</code>.
+</p>
+</li>
+<li><p> If <code>x</code> is an integer vector and <code>NG</code> is supplied,
+then <code>x</code> must be sorted (checked) and contain values
+&gt;= 1 and &lt;= <code>NG</code> (checked).
+The returned object <code>y</code> is of length <code>NG</code> and is
+such that <code>togroup(y)</code> is identical to <code>x</code>.
+</p>
+</li></ul>
+
+<p>If the <code>names</code> argument is supplied, it is used to name the
+partitions.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>PartitioningByWidth(x=integer(), NG=NULL, names=NULL)</code>:
+<code>x</code> must be either a list-like object or an integer vector.
+<code>NG</code> must be either <code>NULL</code> or a single integer.
+<code>names</code> must be either <code>NULL</code> or a character vector of
+length <code>NG</code> (if supplied) or <code>length(x)</code> (if <code>NG</code>
+is not supplied).
+</p>
+<p>Returns the following PartitioningByWidth object <code>y</code>:
+</p>
+
+<ul>
+<li><p> If <code>x</code> is a list-like object, then the returned object
+<code>y</code> has the same length as <code>x</code> and is such that
+<code>width(y)</code> is identical to <code>elementNROWS(x)</code>.
+</p>
+</li>
+<li><p> If <code>x</code> is an integer vector and <code>NG</code> is not supplied,
+then <code>x</code> must contain non-NA non-negative values (NOT
+checked).
+The returned object <code>y</code> has the same length as <code>x</code>
+and is such that <code>width(y)</code> is identical to <code>x</code>.
+</p>
+</li>
+<li><p> If <code>x</code> is an integer vector and <code>NG</code> is supplied,
+then <code>x</code> must be sorted (checked) and contain values
+&gt;= 1 and &lt;= <code>NG</code> (checked).
+The returned object <code>y</code> is of length <code>NG</code> and is
+such that <code>togroup(y)</code> is identical to <code>x</code>.
+</p>
+</li></ul>
+
+<p>If the <code>names</code> argument is supplied, it is used to name the
+partitions.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>PartitioningMap(x=integer(), mapOrder=integer())</code>:
+<code>x</code> is a list-like object or a sorted integer vector used to
+construct a PartitioningByEnd object.
+<code>mapOrder</code> numeric vector of the mapped order.
+</p>
+<p>Returns a PartitioningMap object.
+</p>
+</dd>
+</dl>
+
+<p>Note that these constructors don't recycle their <code>names</code> argument
+(to remain consistent with what <code>`names&lt;-`</code> does on standard
+vectors).
+</p>
+
+
+<h3>Coercions to Grouping objects</h3>
+
+<p>These types can be coerced to different derivatives of Grouping objects:
+</p>
+
+<dl>
+<dt>factor</dt><dd>
+<p>Analogous to calling <code>split</code> with the factor. Returns a
+ManyToOneGrouping if there are no NAs, otherwise a
+ManyToManyGrouping. If a factor is explicitly converted to
+a ManytoOneGrouping, then any NAs are placed in the last group.
+</p>
+</dd>
+<dt>vector</dt><dd>
+<p>A vector is effectively treated as a factor, but more
+efficiently. The order of the groups is not defined.
+</p>
+</dd>
+<dt>FactorList</dt><dd>
+<p>Same as the factor coercion, except using the interaction of every
+factor in the list. The interaction has an NA wherever any of the
+elements has one. Every element must have the same length.
+</p>
+</dd>
+<dt>DataFrame</dt><dd>
+<p>Effectively converted via a FactorList by coercing each column to a
+factor.
+</p>
+</dd>
+<dt>grouping</dt><dd>
+<p>Equivalent Grouping representation of the base R
+<code><a href="../../base/html/grouping.html">grouping</a></code> object.
+</p>
+</dd>
+<dt>Hits</dt><dd>
+<p>Returns roughly the same object as <code>as(x, "List")</code>, except it
+is a ManyToManyGrouping, i.e., it knows the number of right nodes.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès, Michael Lawrence</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="AtomicList-class.html">IntegerList-class</a>,
+<a href="IntegerRanges-class.html">IntegerRanges-class</a>,
+<a href="IRanges-class.html">IRanges-class</a>,
+<a href="IRanges-utils.html">successiveIRanges</a>,
+<a href="../../base/html/cumsum.html">cumsum</a>,
+<a href="../../base/html/diff.html">diff</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+showClass("Grouping")  # shows (some of) the known subclasses
+
+## ---------------------------------------------------------------------
+## A. H2LGrouping OBJECTS
+## ---------------------------------------------------------------------
+high2low &lt;- c(NA, NA, 2, 2, NA, NA, NA, 6, NA, 1, 2, NA, 6, NA, NA, 2)
+h2l &lt;- H2LGrouping(high2low)
+h2l
+
+## The core Grouping API:
+length(h2l)
+nobj(h2l)  # same as 'length(h2l)' for H2LGrouping objects
+h2l[[1]]
+h2l[[2]]
+h2l[[3]]
+h2l[[4]]
+h2l[[5]]
+grouplengths(h2l)  # same as 'unname(sapply(h2l, length))'
+grouplengths(h2l, 5:2)
+members(h2l, 5:2)  # all the members are put together and sorted
+togroup(h2l)
+togroup(h2l, 5:2)
+togrouplength(h2l)  # same as 'grouplengths(h2l, togroup(h2l))'
+togrouplength(h2l, 5:2)
+
+## The List API:
+as.list(h2l)
+sapply(h2l, length)
+
+## ---------------------------------------------------------------------
+## B. Dups OBJECTS
+## ---------------------------------------------------------------------
+dups1 &lt;- as(h2l, "Dups")
+dups1
+duplicated(dups1)  # same as 'duplicated(togroup(dups1))'
+
+### The purpose of a Dups object is to describe the groups of duplicated
+### elements in a vector-like object:
+x &lt;- c(2, 77, 4, 4, 7, 2, 8, 8, 4, 99)
+x_high2low &lt;- high2low(x)
+x_high2low  # same length as 'x'
+dups2 &lt;- Dups(x_high2low)
+dups2
+togroup(dups2)
+duplicated(dups2)
+togrouplength(dups2)  # frequency for each element
+table(x)
+
+## ---------------------------------------------------------------------
+## C. Partitioning OBJECTS
+## ---------------------------------------------------------------------
+pbe1 &lt;- PartitioningByEnd(c(4, 7, 7, 8, 15), names=LETTERS[1:5])
+pbe1  # the 3rd partition is empty
+
+## The core Grouping API:
+length(pbe1)
+nobj(pbe1)
+pbe1[[1]]
+pbe1[[2]]
+pbe1[[3]]
+grouplengths(pbe1)  # same as 'unname(sapply(pbe1, length))'
+                    # and 'width(pbe1)'
+togroup(pbe1)
+togrouplength(pbe1)  # same as 'grouplengths(pbe1, togroup(pbe1))'
+names(pbe1)
+
+## The IntegerRanges core API:
+start(pbe1)
+end(pbe1)
+width(pbe1)
+
+## The List API:
+as.list(pbe1)
+sapply(pbe1, length)
+
+## Replacing the names:
+names(pbe1)[3] &lt;- "empty partition"
+pbe1
+
+## Coercion to an IRanges object:
+as(pbe1, "IRanges")
+
+## Other examples:
+PartitioningByEnd(c(0, 0, 19), names=LETTERS[1:3])
+PartitioningByEnd()  # no partition
+PartitioningByEnd(integer(9))  # all partitions are empty
+x &lt;- c(1L, 5L, 5L, 6L, 8L)
+pbe2 &lt;- PartitioningByEnd(x, NG=10L)
+stopifnot(identical(togroup(pbe2), x))
+pbw2 &lt;- PartitioningByWidth(x, NG=10L)
+stopifnot(identical(togroup(pbw2), x))
+
+## ---------------------------------------------------------------------
+## D. RELATIONSHIP BETWEEN Partitioning OBJECTS AND successiveIRanges()
+## ---------------------------------------------------------------------
+mywidths &lt;- c(4, 3, 0, 1, 7)
+
+## The 3 following calls produce the same ranges:
+ir &lt;- successiveIRanges(mywidths)  # IRanges instance.
+pbe &lt;- PartitioningByEnd(cumsum(mywidths))  # PartitioningByEnd instance.
+pbw &lt;- PartitioningByWidth(mywidths)  # PartitioningByWidth instance.
+stopifnot(identical(as(ir, "PartitioningByEnd"), pbe))
+stopifnot(identical(as(ir, "PartitioningByWidth"), pbw))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

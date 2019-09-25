@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;homoData&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for homoData-class {annotate}"><tr><td>homoData-class {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;homoData&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A class to present data for HomologGene data of a matching
+sequence</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("homoData", ...)</code>. 
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>homoOrg</code>:</dt><dd><p>Object of class <code>"character"</code> the
+scientific name of the organism of interest</p>
+</dd>
+<dt><code>homoLL</code>:</dt><dd><p>Object of class <code>"numeric"</code> the LocusLink
+id of the gene of interest</p>
+</dd>
+<dt><code>homoType</code>:</dt><dd><p>Object of class <code>"character"</code> the type of
+similarity. Valid values include B - a recipiprocal best best
+between 3 or more organisms, b - a reciprocal best match, and c -
+a curated homology relationship</p>
+</dd> 
+<dt><code>homoPS</code>:</dt><dd><p>Object of class <code>"numeric"</code> percent
+similarity value</p>
+</dd>
+<dt><code>homoURL</code>:</dt><dd><p>Object of class <code>"character"</code> the URL for
+curated homology relationship</p>
+</dd>
+<dt><code>homoACC</code>:</dt><dd><p>Object of class <code>"character"</code> the
+accession number</p>
+</dd>
+<dt><code>homoHGID</code>:</dt><dd><p>Object of class <code>"numeric"</code> the
+internal HomologGeneID</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>homoPS</dt><dd><p><code>signature(object = "homoData")</code>: the get function for
+slot <code>homoPS</code></p>
+</dd>
+<dt>homoLL</dt><dd><p><code>signature(object = "homoData")</code>: the get function
+for slot <code>homoLL</code></p>
+</dd>
+<dt>homoOrg</dt><dd><p><code>signature(object = "homoData")</code>: the get function
+for slot <code>homoOrg</code></p>
+</dd>
+<dt>homoType</dt><dd><p><code>signature(object = "homoData")</code>: the get function
+for slot <code>homoType</code></p>
+</dd>
+<dt>homoURL</dt><dd><p><code>signature(object = "homoData")</code>: the get function
+for slot <code>homoURL</code></p>
+</dd>
+<dt>homoACC</dt><dd><p><code>signature(object = "homoData")</code>: the get function
+for slot <code>homoACC</code></p>
+</dd>
+<dt>homoHGID</dt><dd><p><code>signature(object = "homoHGID")</code>: the get
+function for slot <code>homoHGID</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p><a href="ftp://ftp.ncbi.nih.gov/pub/HomoloGene/README">ftp://ftp.ncbi.nih.gov/pub/HomoloGene/README</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    new("homoData", homoPS = 82.3, homoLL = 2324853, homoOrg = "Homo sapins",
+homoType = "B", homoURL = "", homoHGID = 12345)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

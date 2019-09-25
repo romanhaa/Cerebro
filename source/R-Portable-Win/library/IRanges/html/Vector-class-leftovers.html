@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Vector objects (old man page)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Vector-class-leftovers {IRanges}"><tr><td>Vector-class-leftovers {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Vector objects (old man page)</h2>
+
+<h3>Description</h3>
+
+<p>IMPORTANT NOTE - 4/29/2014: This man page is being refactored. Most of
+the things that used to be documented here have been moved to the man
+page for <a href="../../S4Vectors/html/Vector.html">Vector</a> objects located in the <span class="pkg">S4Vectors</span>
+package.
+</p>
+
+
+<h3>Evaluation</h3>
+
+<p>In the following code snippets, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>with(x, expr)</code>: Evaluates <code>expr</code> within
+<code>as.env(x)</code> via <code>eval(x)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>eval(expr, envir, enclos=parent.frame())</code>: Evaluates
+<code>expr</code> within <code>envir</code>, where <code>envir</code> is coerced to
+an environment with <code>as.env(envir, enclos)</code>. The <code>expr</code>
+is first processed with <code><a href="../../base/html/bquote.html">bquote</a></code>, such that any
+escaped symbols are directly resolved in the calling frame.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Convenience wrappers for common subsetting operations</h3>
+
+<p>In the code snippets below, <code>x</code> is a Vector object or regular R vector
+object. The R vector object methods for <code>window</code> are defined in this
+package and the remaining methods are defined in base R.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>window(x, start=NA, end=NA, width=NA) &lt;- value</code>:
+Replace the subsequence window specified on the left (i.e. the
+subsequence in <code>x</code> specified by <code>start</code>, <code>end</code> and
+<code>width</code>) by <code>value</code>.
+<code>value</code> must either be of class <code>class(x)</code>, belong to a
+subclass of <code>class(x)</code>, or be coercible to <code>class(x)</code> or a
+subclass of <code>class(x)</code>.
+The elements of <code>value</code> are repeated to create a Vector with the
+same number of elements as the width of the subsequence window it is
+replacing.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Combining</h3>
+
+<p>In the code snippets below, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>mstack(..., .index.var = "name")</code>: A variant of
+<code><a href="../../utils/html/stack.html">stack</a></code>, where the list is taken as the list of
+arguments in <code>...</code>, each of which should be a <code>Vector</code>
+or <code>vector</code> (mixing the two will not work).
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Looping</h3>
+
+<p>In the code snippets below, <code>x</code> is a Vector object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>tapply(X, INDEX, FUN = NULL, ..., simplify = TRUE)</code>:
+Like the standard <code><a href="../../base/html/tapply.html">tapply</a></code> function defined in the
+base package, the <code>tapply</code> method for Vector objects applies a
+function to each cell of a ragged array, that is to each (non-empty)
+group of values given by a unique combination of the levels of certain
+factors.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>as.list(x)</code>: coerce a Vector to a list, where the <code>i</code>th
+element of the result corresponds to <code>x[i]</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>The <a href="../../S4Vectors/html/Vector.html">Vector</a> class defined and documented in the
+<span class="pkg">S4Vectors</span> package.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

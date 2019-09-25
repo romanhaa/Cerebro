@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;graph&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for graph-class {graph}"><tr><td>graph-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;graph&quot; </h2>
+
+<h3>Description</h3>
+
+<p>A virtual class that all graph classes should extend. </p>
+
+
+<h3>Details</h3>
+
+<p><code>degree</code> returns either a named vector (names correspond to the
+nodes in the graph) containing the degree for undirected graphs or a
+list with two components, <code>inDegree</code> and <code>outDegree</code> for
+directed graphs.
+</p>
+<p><code>connComp</code> returns a list of the connected components. Each
+element of this list contains the labels of all nodes in that
+component.
+</p>
+<p>For a <em>directed graph</em> or <em>digraph</em> the <dfn>underlying
+graph</dfn> is the graph that results from removing all direction from
+the edges. This can be achieved using the function <code><a href="ugraph.html">ugraph</a></code>.
+</p>
+<p>A <dfn>weakly connected</dfn> component of a <em>digraph</em> is one that is
+a connected component of the underlying graph. This is the default for
+<code>connComp</code>. A <em>digraph</em> is  <dfn>strongly connected</dfn> if
+every two vertices are mutually reachable. A <dfn>strongly connected</dfn>
+component of a <em>digraph</em>, <strong>D</strong>, is a maximal <em>strongly
+connected</em> subdigraph of <strong>D</strong>. See the <span class="pkg">RBGL</span> package for an
+implementation of Trajan's algorithm to find <em>strongly
+connected</em> components (<code><a href="../../RBGL/html/strongComp.html">strongComp</a></code>).
+</p>
+<p>In the <span class="pkg">graph</span> implementation of <code>connComp</code> <em>weak
+connectivity</em> is used. If the argument to <code>connComp</code> is a
+directed graph then <code><a href="ugraph.html">ugraph</a></code> is called to create the
+underlying undirected graph and that is used to compute connected
+components. Users who want different behavior are encouraged to use
+<span class="pkg">RBGL</span>.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>A virtual Class: No objects may be created from it.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>edgeData</code>:</dt><dd><p>An <code>attrData</code> instance for edge attributes.</p>
+</dd>
+<dt><code>nodeData</code>:</dt><dd><p>An <code>attrData</code> instance for node attributes.</p>
+</dd>
+<dt><code>graphData</code>:</dt><dd><p>A <code>list</code> for graph-level
+attributes. Only mandatory list item is <code>edgemode</code> which
+indicates whether edges are <code>"directed"</code> or
+<code>"undirected"</code></p>
+</dd>
+<dt><code>renderInfo</code>:</dt><dd><p>A <code>list</code> of graph rendering information.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>nodes</dt><dd><p>return a character vector containing the names of the
+nodes of the graph</p>
+</dd>
+<dt>nodes&lt;-</dt><dd><p>rename the nodes of the graph</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "graph")</code>:A print method for
+the graph.</p>
+</dd>
+<dt>acc</dt><dd><p><code>signature(object = "graph")</code>: find all nodes
+accessible from the specified node. </p>
+</dd>
+<dt>complement</dt><dd><p><code>signature(x = "graph")</code>: compute the
+complement of the supplied graph. The complement is defined with
+respect to the complete graph on the nodes in <code>x</code>.
+Currently this returns an object of class <code>graphNEL</code>.</p>
+</dd>
+<dt>connComp</dt><dd><p><code>signature(object = "graph")</code>: find the
+connected components of a graph.</p>
+</dd>
+<dt>degree</dt><dd><p><code>signature(object = "graph", Nodes = "missing")</code>:
+find the <code>degree</code> of a node (number of coincident edges).</p>
+</dd>
+<dt>degree</dt><dd><p><code>signature(object = "graph", Nodes = "ANY")</code>: as
+above.  </p>
+</dd>
+<dt>degree</dt><dd><p><code>signature(object = "MultiGraph", Nodes = "missing")</code>:
+find the <code>degree</code> of a node (number of coincident edges).</p>
+</dd>
+<dt>dfs</dt><dd><p><code>signature(object = "graph")</code>: execute a depth first
+search on a graph starting with the specified node.</p>
+</dd>
+<dt>edges</dt><dd><p><code>signature(object="graph", which="character")</code>:
+return the edges indicated by <code>which</code>. <code>which</code> can be
+missing in which case all edges are returned or it can be a
+character vector with the node labels indicating the nodes whose
+edge lists are wanted.</p>
+</dd>
+<dt>edgeDataDefaults</dt><dd><p>Get and set default attributes for the edges
+in the graph.</p>
+</dd>
+<dt>edgeData</dt><dd><p>Get and set attributes for edges in the graph</p>
+</dd>
+<dt>edgemode</dt><dd><p><code>signature(object="graph")</code>: return the
+<code>edgemode</code> for the graph. Currently this can be either
+<code>directed</code> or <code>undirected</code>.</p>
+</dd>
+<dt>edgemode&lt;-</dt><dd><p><code>signature(object="graph",
+	value="character")</code>: set the <code>edgemode</code>
+for the graph. Currently this can be either
+<code>directed</code> or <code>undirected</code>.</p>
+</dd>
+<dt>edgeWeights</dt><dd><p>Return a list of edge weights in a list format
+similar to the <code>edges</code> method.</p>
+</dd>
+<dt>intersection</dt><dd><p><code>signature(x = "graph", y = "graph")</code>: compute the
+intersection of the two supplied graphs. They must have identical
+nodes. Currently this returns an object of class
+<code>graphNEL</code>. With edge weights of 1 for any matching edge.</p>
+</dd>
+<dt>isAdjacent</dt><dd><p><code>signature(from="character",
+    to="character")</code>: Determine if edges exists between nodes.</p>
+</dd>
+<dt>isConnected</dt><dd><p><code>signature(object = "graph")</code>: A boolean
+that details if a graph is fully connected or not.</p>
+</dd>
+<dt>isDirected</dt><dd><p>Return <code>TRUE</code> if the graph object has
+directed edges and <code>FALSE</code> otherwise.</p>
+</dd>
+<dt>join</dt><dd><p><code>signature(x = "graph", y = "graph")</code>: returns the
+joining of two graphs.  Nodes which are shared by both graphs will
+have their edges merged.  Note that edgeWeights for the resulting
+graph are all set to 1.  Users wishing to preserve weights in
+a join operation must
+perform addEdge operations on the resulting graph to restore weights.</p>
+</dd>
+<dt>nodes&lt;-</dt><dd><p>A generic function that allows different
+implementations of the <code>graph</code> class to reset the node
+labels</p>
+</dd>
+<dt>nodeDataDefaults</dt><dd><p>Get/set default attributes for nodes in the
+graph.</p>
+</dd>
+<dt>nodeData</dt><dd><p>Get/set attributes for nodes in the graph.</p>
+</dd>
+<dt>numEdges</dt><dd><p><code>signature(object = "graph")</code>: compute the
+number of edges in a graph.</p>
+</dd>
+<dt>numNodes</dt><dd><p><code>signature(object = "graph")</code>: compute the
+number of nodes in a graph. </p>
+</dd>
+<dt>plot</dt><dd><p>Please see the help page for the
+<code>plot,graph-method</code> method in the <code>Rgraphviz</code> package</p>
+</dd>
+<dt>union</dt><dd><p><code>signature(x = "graph", y = "graph")</code>: compute the
+union of the two supplied graphs. They must have identical
+nodes. Currently this returns an object of class <code>graphNEL</code>.</p>
+</dd>
+<dt>edgeNames</dt><dd><p><code>signature(object = "graph")</code>: Returns a
+vector of the edge names for this graph, using the format
+<code>tail\~head</code>, where <code>head</code> is the name of the tail node
+and <code>head</code> is the name of the head node.</p>
+</dd>
+<dt>updateGraph</dt><dd><p><code>signature(object = "graph")</code>: Updates old
+instances of graph objects.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman and E. Whalen. </p>
+
+
+<h3>References</h3>
+
+<p> Graph Theory and its Applications, J. Gross and J. Yellen. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graphNEL-class.html">graphNEL-class</a></code>, <code><a href="graphAM-class.html">graphAM-class</a></code>,
+<code><a href="distGraph-class.html">distGraph-class</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(123)
+  g1 &lt;- randomGraph(letters[1:10], 1:4, p= 0.3)
+  numEdges(g1)
+  edgeNames(g1)
+  edges(g1)
+  edges(g1, c("a","d")) # those incident to 'a' or 'd'
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

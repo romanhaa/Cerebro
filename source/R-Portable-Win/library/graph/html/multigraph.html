@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;multiGraph&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multiGraph-class {graph}"><tr><td>multiGraph-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;multiGraph&quot; </h2>
+
+<h3>Description</h3>
+
+<p>A collection of classes to model multigraphs. These
+include the multiGraph class as well as classes to contain edge sets. </p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created from the <code>multiGraph</code> class, the
+<code>edgeSet</code> class is virtual, and particular variants should be used.
+</p>
+
+
+<h3>Slots</h3>
+
+<p>These slots are for the multiGraph class.
+</p>
+
+<dl>
+<dt>nodes</dt><dd><p>The names of the nodes.</p>
+</dd>
+<dt>edgeL</dt><dd><p>A list of edge lists.</p>
+</dd>
+<dt>nodeData</dt><dd><p>An instance of the <code>attrData</code> class.</p>
+</dd>
+<dt>graphData</dt><dd><p>A list.</p>
+</dd>
+</dl>
+
+<p>These slots are for the <code>edgeSet</code> class, or one of its
+sublcasses.
+</p>
+
+<dl>
+<dt>edgeData</dt><dd><p>An instance of the <code>attrData</code> class.</p>
+</dd>
+<dt>edgemode</dt><dd><p>A character vector, one of directed, or undirected.</p>
+</dd>
+<dt>edgeL</dt><dd><p>A list of the edges (graphNEL)</p>
+</dd>
+<dt>adjMat</dt><dd><p>An adjacency matrix (graphAM)</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>show</dt><dd><p>Print a multigraph.</p>
+</dd>
+<dt>isDirected</dt><dd><p>A vector indicating which of the edgeSets is
+directed.</p>
+</dd>
+<dt>nodes</dt><dd><p>Retrieve the node names</p>
+</dd>
+<dt>numNodes</dt><dd><p>Return the number of nodes</p>
+</dd>
+<dt>edges</dt><dd><p>Return either all edges, or a subset of them, depending
+on the arguments supplied.</p>
+</dd>
+<dt>numEdges</dt><dd><p>Return a vector with the number of edges, for each
+edge set.</p>
+</dd>
+</dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

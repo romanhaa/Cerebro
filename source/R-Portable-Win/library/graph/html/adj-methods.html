@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for finding the adjacency list for selected nodes.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for adj-methods {graph}"><tr><td>adj-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Methods for finding the adjacency list for selected nodes. </h2>
+
+<h3>Description</h3>
+
+<p>This generic function takes an object that inherits from the <code>graph</code>
+class and a node in that graph and returns a vector containing information
+about all other nodes that are adjacent to the given node.
+This means that they are joined to the given node by an edge.
+The accessibility list, <code><a href="acc-methods.html">acc</a></code> is the list of all nodes that can
+be reached from a specified node.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The methods return vector of nodes that are adjacent to the 
+specified node.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>object = graph</dt><dd><p>An object that inherits from glass <code>graph</code></p>
+</dd>
+<dt>index</dt><dd><p>An index (could be multiple) which can be either the
+integer offset for the node(s) or their labels.</p>
+</dd>
+</dl>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="acc-methods.html">acc-methods</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ set.seed(123)
+ gR3 &lt;- randomGraph(LETTERS[1:4], M&lt;-1:2, p=.5)
+ adj(gR3, "A")
+ adj(gR3, c(2,3))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

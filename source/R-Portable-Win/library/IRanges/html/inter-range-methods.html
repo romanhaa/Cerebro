@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Inter range transformations of an IntegerRanges, Views,...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for inter-range-methods {IRanges}"><tr><td>inter-range-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Inter range transformations of an IntegerRanges, Views,
+IntegerRangesList, or MaskCollection object</h2>
+
+<h3>Description</h3>
+
+<p>Range-based transformations are grouped in 2 categories:
+</p>
+
+<ol>
+<li> <p><em>Intra range transformations</em> (e.g. <code><a href="intra-range-methods.html">shift</a>()</code>)
+transform each range individually (and independently of the other
+ranges). They return an object <em>parallel</em> to the input object,
+that is, where the i-th range corresponds to the i-th range in the
+input.
+Those transformations are described in the <a href="intra-range-methods.html">intra-range-methods</a>
+man page (see <code>?`<a href="intra-range-methods.html">intra-range-methods</a>`</code>).
+</p>
+</li>
+<li> <p><em>Inter range transformations</em> (e.g. <code>reduce()</code>)
+transform all the ranges together as a set to produce a new set
+of ranges. They return an object that is generally <em>NOT</em>
+parallel to the input object.
+Those transformations are described below.
+</p>
+</li></ol>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+## range()
+## -------
+## S4 method for signature 'IntegerRanges'
+range(x, ..., with.revmap=FALSE, na.rm=FALSE)
+
+## S4 method for signature 'IntegerRangesList'
+range(x, ..., with.revmap=FALSE, na.rm=FALSE)
+
+## reduce()
+## --------
+reduce(x, drop.empty.ranges=FALSE, ...)
+
+## S4 method for signature 'IntegerRanges'
+reduce(x, drop.empty.ranges=FALSE, min.gapwidth=1L,
+       with.revmap=FALSE, with.inframe.attrib=FALSE)
+
+## S4 method for signature 'Views'
+reduce(x, drop.empty.ranges=FALSE, min.gapwidth=1L,
+       with.revmap=FALSE, with.inframe.attrib=FALSE)
+
+## S4 method for signature 'IntegerRangesList'
+reduce(x, drop.empty.ranges=FALSE, min.gapwidth=1L,
+       with.revmap=FALSE, with.inframe.attrib=FALSE)
+
+## gaps()
+## ------
+gaps(x, start=NA, end=NA)
+
+## disjoin(), isDisjoint(), and disjointBins()
+## -------------------------------------------
+disjoin(x, ...)
+
+## S4 method for signature 'IntegerRanges'
+disjoin(x, with.revmap=FALSE)
+## S4 method for signature 'IntegerRangesList'
+disjoin(x, with.revmap=FALSE)
+
+isDisjoint(x, ...)
+disjointBins(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="IntegerRanges-class.html">IntegerRanges</a> or <a href="IntegerRangesList-class.html">IntegerRangesList</a> object for <code>range</code>,
+<code>disjoin</code>, <code>isDisjoint</code>, and <code>disjointBins</code>.
+</p>
+<p>A <a href="IntegerRanges-class.html">IntegerRanges</a>, <a href="Views-class.html">Views</a>, or <a href="IntegerRangesList-class.html">IntegerRangesList</a> object
+for <code>reduce</code> and <code>gaps</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>For <code>range</code>, additional <a href="IntegerRanges-class.html">IntegerRanges</a> or
+<a href="IntegerRangesList-class.html">IntegerRangesList</a> object to consider.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop.empty.ranges</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>. Should empty ranges be dropped?
+</p>
+</td></tr>
+<tr valign="top"><td><code>min.gapwidth</code></td>
+<td>
+
+<p>Ranges separated by a gap of at least <code>min.gapwidth</code> positions
+are not merged.
+</p>
+</td></tr>
+<tr valign="top"><td><code>with.revmap</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>. Should the mapping from output to input
+ranges be stored in the returned object? If yes, then it is stored as
+metadata column <code>revmap</code> of type <a href="AtomicList-class.html">IntegerList</a>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>with.inframe.attrib</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>. For internal use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start, end</code></td>
+<td>
+
+
+<ul>
+<li><p> If <code>x</code> is a <a href="IntegerRanges-class.html">IntegerRanges</a> or <a href="Views-class.html">Views</a> object:
+A single integer or <code>NA</code>. Use these arguments to specify
+the interval of reference i.e. which interval the returned gaps
+should be relative to.
+</p>
+</li>
+<li><p> If <code>x</code> is a <a href="IntegerRangesList-class.html">IntegerRangesList</a> object:
+Integer vectors containing the coordinate bounds for each
+<a href="IntegerRangesList-class.html">IntegerRangesList</a> top-level element.
+</p>
+</li></ul>
+
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Unless specified otherwise, when <code>x</code> is a <a href="IntegerRangesList-class.html">IntegerRangesList</a>
+object, any transformation described here is equivalent to applying the
+transformation to each <a href="IntegerRangesList-class.html">IntegerRangesList</a> top-level element separately.
+</p>
+
+
+<h4>reduce</h4>
+
+<p><code>reduce</code> first orders the ranges in <code>x</code> from left to right,
+then merges the overlapping or adjacent ones.
+</p>
+
+
+<h4>range</h4>
+
+<p><code>range</code> first concatenates <code>x</code> and the objects in <code>...</code>
+together. If the <a href="IRanges-constructor.html">IRanges</a> object resulting from this concatenation
+contains at least 1 range, then <code>range</code> returns an <a href="IRanges-constructor.html">IRanges</a>
+instance with a single range, from the minimum start to the maximum end
+of the concatenated object.
+Otherwise (i.e. if the concatenated object contains no range),
+<code>IRanges()</code> is returned (i.e. an <a href="IRanges-constructor.html">IRanges</a> instance of
+length 0).
+</p>
+<p>When passing more than 1 <a href="IntegerRangesList-class.html">IntegerRangesList</a> object to <code>range()</code>,
+they are first merged into a single <a href="IntegerRangesList-class.html">IntegerRangesList</a> object: by
+name if all objects have names, otherwise, if they are all of the same
+length, by position. Else, an exception is thrown.
+</p>
+
+
+<h4>gaps</h4>
+
+<p><code>gaps</code> returns the &quot;normal&quot; <a href="IRanges-constructor.html">IRanges</a> object representing
+the set of integers that remain after the set of integers represented
+by <code>x</code> has been removed from the interval specified by the
+<code>start</code> and <code>end</code> arguments.
+</p>
+<p>If <code>x</code> is a <a href="Views-class.html">Views</a> object, then <code>start=NA</code> and
+<code>end=NA</code> are interpreted as <code>start=1</code> and
+<code>end=length(subject(x))</code>, respectively, so, if <code>start</code>
+and <code>end</code> are not specified, then gaps are extracted with respect
+to the entire subject.
+</p>
+
+
+<h4>isDisjoint</h4>
+
+<p>An <a href="IntegerRanges-class.html">IntegerRanges</a> object <code>x</code> is considered to be &quot;disjoint&quot;
+if its ranges are non-overlapping. <code>isDisjoint</code> tests whether the
+object is &quot;disjoint&quot; or not.
+</p>
+<p>Note that a &quot;normal&quot; <a href="IntegerRanges-class.html">IntegerRanges</a> object is always &quot;disjoint&quot; but
+the opposite is not true. See <code>?isNormal</code> for more information about
+normal <a href="IntegerRanges-class.html">IntegerRanges</a> objects.
+</p>
+<p>About empty ranges. <code>isDisjoint</code> handles empty ranges (a.k.a.
+zero-width ranges) as follow: single empty range A is considered to
+overlap with single range B iff it's contained in B without being on
+the edge of B (in which case it would be ambiguous whether A is
+contained in or adjacent to B). More precisely, single empty range A
+is considered to overlap with single range B iff
+</p>
+<pre>    start(B) &lt; start(A) and end(A) &lt; end(B)</pre>
+<p>Because A is an empty range it verifies <code>end(A) = start(A) - 1</code>
+so the above is equivalent to:
+</p>
+<pre>    start(B) &lt; start(A) &lt;= end(B)</pre>
+<p>and also equivalent to:
+</p>
+<pre>    start(B) &lt;= end(A) &lt; end(B)</pre>
+<p>Finally, it is also equivalent to:
+</p>
+<pre>    pcompare(A, B) == 2</pre>
+<p>See <code>?`<a href="IPosRanges-comparison.html">IPosRanges-comparison</a>`</code> for the meaning of the codes
+returned by the <code><a href="IPosRanges-comparison.html">pcompare</a></code> function.
+</p>
+
+
+<h4>disjoin</h4>
+
+<p><code>disjoin</code> returns a disjoint object, by finding the union of the
+end points in <code>x</code>. In other words, the result consists of a range
+for every interval, of maximal length, over which the set of overlapping
+ranges in <code>x</code> is the same and at least of size 1.
+</p>
+
+
+<h4>disjointBins</h4>
+
+<p><code>disjointBins</code> segregates <code>x</code> into a set of bins so that the
+ranges in each bin are disjoint. Lower-indexed bins are filled first.
+The method returns an integer vector indicating the bin index for each
+range.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>If <code>x</code> is an <a href="IntegerRanges-class.html">IntegerRanges</a> object:
+</p>
+
+<ul>
+<li> <p><code>range</code>, <code>reduce</code>, <code>gaps</code>, and <code>disjoin</code>
+return an <a href="IRanges-constructor.html">IRanges</a> instance.
+</p>
+</li>
+<li> <p><code>isDisjoint</code> returns <code>TRUE</code> or <code>FALSE</code>.
+</p>
+</li>
+<li> <p><code>disjointBins</code> returns an integer vector <em>parallel</em> to
+<code>x</code>, that is, where the i-th element corresponds to the i-th
+element in <code>x</code>.
+</p>
+</li></ul>
+
+<p>If <code>x</code> is a <a href="Views-class.html">Views</a> object: <code>reduce</code> and <code>gaps</code>
+return a <a href="Views-class.html">Views</a> object on the same subject as <code>x</code> but with
+modified views.
+</p>
+<p>If <code>x</code> is a <a href="IntegerRangesList-class.html">IntegerRangesList</a> object:
+</p>
+
+<ul>
+<li> <p><code>range</code>, <code>reduce</code>, <code>gaps</code>, and <code>disjoin</code>
+return a <a href="IntegerRangesList-class.html">IntegerRangesList</a> object <em>parallel</em> to <code>x</code>.
+</p>
+</li>
+<li> <p><code>isDisjoint</code> returns a logical vector <em>parallel</em> to
+<code>x</code>.
+</p>
+</li>
+<li> <p><code>disjointBins</code> returns an <a href="AtomicList-class.html">IntegerList</a> object
+<em>parallel</em> to <code>x</code>.
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pagès, M. Lawrence, and P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="intra-range-methods.html">intra-range-methods</a> for intra range transformations.
+</p>
+</li>
+<li><p> The <a href="IntegerRanges-class.html">IntegerRanges</a>, <a href="Views-class.html">Views</a>, <a href="IntegerRangesList-class.html">IntegerRangesList</a>,
+and <a href="MaskCollection-class.html">MaskCollection</a> classes.
+</p>
+</li>
+<li><p> The <a href="../../GenomicRanges/html/inter-range-methods.html">inter-range-methods</a> man page in the
+<span class="pkg">GenomicRanges</span> package for <em>inter range transformations</em>
+of genomic ranges.
+</p>
+</li>
+<li> <p><a href="setops-methods.html">setops-methods</a> for set operations on <a href="IRanges-constructor.html">IRanges</a>
+objects.
+</p>
+</li>
+<li> <p><code><a href="../../S4Vectors/html/endoapply.html">endoapply</a></code> in the <span class="pkg">S4Vectors</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## range()
+## ---------------------------------------------------------------------
+
+## On an IntegerRanges object:
+x &lt;- IRanges(start=c(-2, 6, 9, -4, 1, 0, -6, 3, 10),
+             width=c( 5, 0, 6,  1, 4, 3,  2, 0,  3))
+range(x)
+
+## On an IntegerRangesList object (XVector package required):
+range1 &lt;- IRanges(start=c(1, 2, 3), end=c(5, 2, 8))
+range2 &lt;- IRanges(start=c(15, 45, 20, 1), end=c(15, 100, 80, 5))
+range3 &lt;- IRanges(start=c(-2, 6, 7), width=c(8, 0, 0))  # with empty ranges
+collection &lt;- IRangesList(one=range1, range2, range3)
+if (require(XVector)) {
+    range(collection)
+}
+
+irl1 &lt;- IRangesList(a=IRanges(c(1, 2),c(4, 3)), b=IRanges(c(4, 6),c(10, 7)))
+irl2 &lt;- IRangesList(c=IRanges(c(0, 2),c(4, 5)), a=IRanges(c(4, 5),c(6, 7)))
+range(irl1, irl2)  # matched by names
+names(irl2) &lt;- NULL
+range(irl1, irl2)  # now by position
+
+## ---------------------------------------------------------------------
+## reduce()
+## ---------------------------------------------------------------------
+
+## On an IntegerRanges object:
+reduce(x)
+y &lt;- reduce(x, with.revmap=TRUE)
+mcols(y)$revmap  # an IntegerList
+
+reduce(x, drop.empty.ranges=TRUE)
+y &lt;- reduce(x, drop.empty.ranges=TRUE, with.revmap=TRUE)
+mcols(y)$revmap
+
+## Use the mapping from reduced to original ranges to split the DataFrame
+## of original metadata columns by reduced range:
+ir0 &lt;- IRanges(c(11:13, 2, 7:6), width=3)
+mcols(ir0) &lt;- DataFrame(id=letters[1:6], score=1:6)
+ir &lt;- reduce(ir0, with.revmap=TRUE)
+ir
+revmap &lt;- mcols(ir)$revmap
+revmap
+relist(mcols(ir0)[unlist(revmap), ], revmap)  # a SplitDataFrameList
+
+## On an IntegerRangesList object. These 4 are the same:
+res1 &lt;- reduce(collection)
+res2 &lt;- IRangesList(one=reduce(range1), reduce(range2), reduce(range3))
+res3 &lt;- do.call(IRangesList, lapply(collection, reduce))
+res4 &lt;- endoapply(collection, reduce)
+
+stopifnot(identical(res2, res1))
+stopifnot(identical(res3, res1))
+stopifnot(identical(res4, res1))
+
+reduce(collection, drop.empty.ranges=TRUE)
+
+## ---------------------------------------------------------------------
+## gaps()
+## ---------------------------------------------------------------------
+
+## On an IntegerRanges object:
+x0 &lt;- IRanges(start=c(-2, 6, 9, -4, 1, 0, -6, 10),
+              width=c( 5, 0, 6,  1, 4, 3,  2,  3))
+gaps(x0)
+gaps(x0, start=-6, end=20)
+
+## On a Views object:
+subject &lt;- Rle(1:-3, 6:2)
+v &lt;- Views(subject, start=c(8, 3), end=c(14, 4))
+gaps(v)
+
+## On an IntegerRangesList object. These 4 are the same:
+res1 &lt;- gaps(collection)
+res2 &lt;- IRangesList(one=gaps(range1), gaps(range2), gaps(range3))
+res3 &lt;- do.call(IRangesList, lapply(collection, gaps))
+res4 &lt;- endoapply(collection, gaps)
+
+stopifnot(identical(res2, res1))
+stopifnot(identical(res3, res1))
+stopifnot(identical(res4, res1))
+
+## On a MaskCollection object:
+mask1 &lt;- Mask(mask.width=29, start=c(11, 25, 28), width=c(5, 2, 2))
+mask2 &lt;- Mask(mask.width=29, start=c(3, 10, 27), width=c(5, 8, 1))
+mask3 &lt;- Mask(mask.width=29, start=c(7, 12), width=c(2, 4))
+mymasks &lt;- append(append(mask1, mask2), mask3)
+mymasks
+gaps(mymasks)
+
+## ---------------------------------------------------------------------
+## disjoin()
+## ---------------------------------------------------------------------
+
+## On an IntegerRanges object:
+ir &lt;- IRanges(c(1, 1, 4, 10), c(6, 3, 8, 10))
+disjoin(ir)  # IRanges(c(1, 4, 7, 10), c(3, 6, 8, 10))
+disjoin(ir, with.revmap=TRUE)
+
+## On an IntegerRangesList object:
+disjoin(collection)
+disjoin(collection, with.revmap=TRUE)
+
+## ---------------------------------------------------------------------
+## isDisjoint()
+## ---------------------------------------------------------------------
+
+## On an IntegerRanges object:
+isDisjoint(IRanges(c(2,5,1), c(3,7,3)))  # FALSE
+isDisjoint(IRanges(c(2,9,5), c(3,9,6)))  # TRUE
+isDisjoint(IRanges(1, 5))  # TRUE
+
+## Handling of empty ranges:
+x &lt;- IRanges(c(11, 16, 11, -2, 11), c(15, 29, 10, 10, 10))
+stopifnot(isDisjoint(x))
+
+## Sliding an empty range along a non-empty range:
+sapply(11:17,
+       function(i) pcompare(IRanges(i, width=0), IRanges(12, 15)))
+
+sapply(11:17,
+       function(i) isDisjoint(c(IRanges(i, width=0), IRanges(12, 15))))
+
+## On an IntegerRangesList object:
+isDisjoint(collection)
+
+## ---------------------------------------------------------------------
+## disjointBins()
+## ---------------------------------------------------------------------
+
+## On an IntegerRanges object:
+disjointBins(IRanges(1, 5))  # 1L
+disjointBins(IRanges(c(3, 1, 10), c(5, 12, 13)))  # c(2L, 1L, 2L)
+
+## On an IntegerRangesList object:
+disjointBins(collection)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,53 @@
+SchemaGuidelines
+================
+
+We want our schemas to be as portable as possible. In particular they should
+be compatible with SQLite, MySQL, PostgreSQL and Oracle.
+All the current schemas (i.e. the *_DB.sql files in schemas_0.9/ and
+schemas_1.0/) have been successfully tested (i.e. imported) with SQLite
+(3.4.1), MySQL+InnoDB (5.0.26) and PostgreSQL (8.1.9) on a 64-bit openSUSE
+10.2 system. They have not been tested on Oracle yet.
+
+o All of the *_DB.sql files must define a "metadata" table (with cols "name"
+  and "value") and all the *.sqlite files using one of these schemas must
+  have a 'DBSCHEMA' and a 'DBSCHEMAVERSION' entry in their "metadata" table.
+
+o Make explicit use of the NULL or NOT NULL constraint on every column (except
+  on PRIMARY KEY cols that are implicitly NOT NULL).
+
+o Centralize all the data type definitions in the DataTypes.txt file and use
+  them consistently across all the *_DB.sql files.
+
+o Use preferably CHAR(n) or VARCHAR(n) types instead of non-standard TEXT type
+  for character columns. Note that n must be <= 255 for compatibility with
+  MySQL. Don't define an INDEX (or try to put a UNIQUE constraint, which
+  implicitly creates an INDEX) on a TEXT column since this is not portable.
+  Also don't define an INDEX on a CHAR(n) or VARCHAR(n) column where n is
+  large (i.e. > 80) since this is not portable either. Doing so when n <= 80
+  should be safe though.
+
+o Always use a character type for "external" (aka "real world") ids even for
+  ids like Entrez Gene IDs, PubMed IDs or OMIM IDs that are in fact integers.
+
+o Put PRIMARY KEY and UNIQUE definitions "in line" at the end of the column
+  definition (after the SQL type and the NULL/NOT NULL constraint for UNIQUE).
+
+o Make the PRIMARY KEY column the first column in the CREATE TABLE statement.
+
+o Put "regular" (i.e. non PRIMARY KEY, non UNIQUE) INDEX definitions all
+  together at the end of the *_DB.sql file.
+
+o Make sure that referenced tables are created before referencing tables.
+
+o Make the FOREIGN KEYs portable. This means that:
+    - Use portable syntax. Putting 
+        FOREIGN KEY (col) REFERENCES table (col)
+      inside the CREATE TABLE statement but at the end of it (after all the
+      column definitions) is compatible with SQLite (which will just ignore
+      it), MySQL+InnoDB and PostgreSQL.
+    - There must be NOT NULL and UNIQUE constraints on the referenced column
+      (typically a PRIMARY KEY).
+    - The referencing and referenced columns must have the same type.
+
+o Prefix with an underscore the column names that store "internal" ids.
+

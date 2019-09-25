@@ -1,0 +1,130 @@
+%
+% NOTE -- ONLY EDIT clusterGraph.Rnw!!!
+% clusterGraph.tex file will get overwritten.
+%
+%\VignetteIndexEntry{clusterGraph and distGraph}
+%\VignetteDepends{graph, stats}
+%\VignetteKeywords{Graph, clustering, machine learning}
+%\VignettePackage{graph}
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+
+\begin{document}
+\title{How To use the clusterGraph and distGraph classes}
+
+\maketitle
+
+\section*{Introduction}
+
+Graphs can be used to help explore different clustering
+algorithms. While they have not been extensively used in this regard
+that is probably due to the lack of software rather than for any other
+reasons. As we demonstrate below, one can easily and naturally compare
+different aspects of clustering algorithms using these tools.
+
+
+\section*{clusterGraph}
+
+A \textit{clusterGraph} is a graph defined on a set of nodes that have
+been clustered or grouped in some fashion.
+The grouping must form a partition of the nodes.
+In this graph all nodes within the same cluster are adjacent while
+there are no edges between clusters.
+
+Thus, each cluster is a complete graph but there are no between
+cluster edges.
+
+<<clustering>>=
+library("graph")
+library("cluster")
+data(ruspini)
+
+pm <- pam(ruspini, 4)
+
+cG <- new("clusterGraph",
+     clusters = split(names(pm$clustering), pm$clustering))
+
+
+nodes(cG)
+@
+
+We now have a graph that we could perform various operations on.
+For example, we could try a second clustering algorithm on the same
+data and see if the two largely agree.
+
+<<kmeans>>=
+library(stats)
+
+km = kmeans(ruspini, 4)
+cG.km = new("clusterGraph",
+      clusters=split(as.character(1:75), km$cluster))
+
+inBoth = intersection(cG.km, cG)
+@
+
+The graph \Robject{inBoth} is of length \Sexpr{length(inBoth)}
+indicating that there are that many distinct groups.
+One could, compute various measures of correspondence between the two
+clustering algorithms using the graph representation.
+
+
+\section*{distGraph}
+
+We use this same data to consider some potential uses for the
+\Rclass{distGraph} class. Others have considered a similar structure
+for exploring clustering algorithms.
+
+%%FIXME: track down the Butte et al and the Shamir references
+
+<<>>=
+
+d1 = dist(ruspini)
+dG = new("distGraph", Dist=d1)
+
+rl = NULL
+j=1
+for(i in c(40, 30, 10, 5) ){
+  nG = threshold(dG, i)
+  rl[[j]] = connComp(nG)
+  j=j+1
+}
+@
+
+We can then examine the components of \Robject{rl} to see how the
+graph is being reduced.
+<<howmany>>=
+
+sapply(rl, length)
+
+@
+
+<<somecomps, echo=FALSE, results = hide>>=
+
+ dr = range(d1)
+ rl.lens = sapply(rl[[4]], length)
+
+@
+We see that when we remove all distances that are bigger than 5 units
+(the range of distances was from \Sexpr{round(dr[1], 3)}
+to \Sexpr{round(dr[2],3)}) there are still only \Sexpr{length(rl[[4]])}
+connected components - one of which is of size
+\Sexpr{max(rl.lens)}.
+
+\end{document}
+

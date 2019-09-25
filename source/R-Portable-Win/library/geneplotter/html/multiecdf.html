@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiple empirical cumulative distribution functions (ecdf)...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multiecdf {geneplotter}"><tr><td>multiecdf {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multiple empirical cumulative distribution functions (ecdf) and densities</h2>
+
+<h3>Description</h3>
+
+<p>Plot multiple empirical cumulative distribution functions (ecdf)
+and densities with a user interface similar to that of <code><a href="../../graphics/html/boxplot.html">boxplot</a></code>.
+The usefulness of <code>multidensity</code> is variable, depending on the
+data and the smoothing kernel.
+<code>multiecdf</code> will in many cases be preferable. Please see Details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multiecdf(x, ...)
+## S3 method for class 'formula'
+multiecdf(formula, data = NULL, xlab, na.action = NULL, ...)
+## S3 method for class 'matrix'
+multiecdf(x, xlab, ...) 
+## S3 method for class 'list'
+multiecdf(x,
+          xlim,
+          col = brewer.pal(9, "Set1"),
+          main = "ecdf",
+          xlab,
+          do.points = FALSE,
+          subsample = 1000L,
+          legend = list(
+            x = "right",
+            legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
+            fill = col),
+          ...)
+
+multidensity(x, ...)
+## S3 method for class 'formula'
+multidensity(formula, data = NULL, xlab, na.action = NULL, ...)
+## S3 method for class 'matrix'
+multidensity(x, xlab, ...) 
+## S3 method for class 'list'
+multidensity(x,
+             bw = "nrd0",
+             xlim,
+             ylim,
+             col  = brewer.pal(9, "Set1"),
+             main = if(length(x)==1) "density" else "densities",
+             xlab,
+             lty  = 1L,
+             legend = list(
+               x = "topright",
+               legend = if(is.null(names(x))) paste(seq(along=x)) else names(x),
+               fill = col),
+             density = NULL,
+             ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula, such as <code>y ~ grp</code>, where <code>y</code> is a
+numeric vector of data values to be split into groups according to
+the grouping variable <code>grp</code> (usually a factor).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data.frame (or list) from which the variables in
+<code>formula</code> should be taken.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>a function which indicates what should happen
+when the data contain <code>NA</code>s.  The default is to ignore missing
+values in either the response or the group.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>methods exist for: <code>formula</code>, <code>matrix</code>, <code>data.frame</code>, <code>list</code> of numeric vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>bw</code></td>
+<td>
+<p>the smoothing bandwidth, see the manual page for
+<code><a href="../../stats/html/density.html">density</a></code>. The length of <code>bw</code> needs to be either 1
+(in which case the same is used for all groups)
+or the same as the number of groups in <code>x</code> (in which case the
+corresponding value of <code>bw</code> is used for each group).</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>Range of the x axis. If missing, the data range is used.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Range of the y axis. If missing, the range of the density
+estimates is used.</p>
+</td></tr>
+<tr valign="top"><td><code>col, lty</code></td>
+<td>
+<p>Line colors and line type.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Plot title.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>x-axis label.</p>
+</td></tr>
+<tr valign="top"><td><code>do.points</code></td>
+<td>
+<p>logical; if <code>TRUE</code>, also draw points at the knot
+locations.</p>
+</td></tr>
+<tr valign="top"><td><code>subsample</code></td>
+<td>
+<p>numeric or logical of length 1. If numeric, and
+larger than 0, subsamples of that size are used to compute and plot
+the ecdf for those elements of <code>x</code> with more than that number of
+observations. If logical and <code>TRUE</code>, a value of 1000 is used for
+the subsample size.</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>a list of arguments that is passed to the function
+<code><a href="../../graphics/html/legend.html">legend</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>density</code></td>
+<td>
+<p>a list of arguments that is passed to the function
+<code><a href="../../stats/html/density.html">density</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments that get passed to the <code>plot</code> functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><em>Density estimates</em>: <code>multidensity</code> uses the function
+<code><a href="../../stats/html/density.html">density</a></code>. If the density of the data-generating
+process is smooth on the real axis, then the output from this function tends to produce
+results that are good approximations of the true density. If,
+however, the true density has steps (this is in particular the case
+for quantities such as p-values and correlation coefficients, or for
+some distributions that have weight only on the posititve numbers, or
+only on integer numbers), then
+the output of this function tends to be misleading. In that case, please
+either use <code>multiecdf</code> or histograms, or try to improve the
+density estimate by setting the <code>density</code>
+argument (<code>from</code>, <code>to</code>, <code>kernel</code>).
+</p>
+<p><em>Bandwidths</em>: the choice of the smoothing bandwidths in <code>multidensity</code>
+can be problematic, in particular, if the different groups vary with
+respect to range and/or number of data points. If curves look
+excessively wiggly or overly smooth, try varying the arguments
+<code>xlim</code> and <code>bw</code>; note that the argument <code>bw</code> can be a
+vector, in which case it is expect to align with the groups.</p>
+
+
+<h3>Value</h3>
+
+<p>For the <code>multidensity</code> functions, a list of
+<code><a href="../../stats/html/density.html">density</a></code> objects.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/boxplot.html">boxplot</a></code>,
+<code><a href="../../stats/html/ecdf.html">ecdf</a></code>,
+<code><a href="../../stats/html/density.html">density</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  words = strsplit(packageDescription("geneplotter")$Description, " ")[[1]]
+  factr = factor(sample(words, 2000, replace = TRUE))
+  x = rnorm(length(factr), mean=as.integer(factr))
+  
+  multiecdf(x ~ factr)
+  multidensity(x ~ factr)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

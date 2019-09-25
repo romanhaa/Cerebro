@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Descriptions of available values for 'columns' and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ACCNUM {AnnotationDbi}"><tr><td>ACCNUM {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Descriptions of available values for <code>columns</code> and <code>keytypes</code>.</h2>
+
+<h3>Description</h3>
+
+<p>This manual page enumerates the kinds of data represented by the
+values returned when the user calls <code>columns</code> or <code>keytypes</code>
+</p>
+
+
+<h3>Details</h3>
+
+  
+<p>All the possible values for <code>columns</code> and <code>keytypes</code> are listed
+below.  Users will have to actually use these methods to learn which
+of the following possible values actually apply in their case.
+</p>
+
+<dl>
+<dt>ACCNUM:</dt><dd><p>GenBank accession numbers</p>
+</dd>
+<dt>ALIAS:</dt><dd><p>Commonly used gene symbols</p>
+</dd>
+<dt>ARACYC:</dt><dd><p>KEGG Identifiers for arabidopsis as indicated by aracyc</p>
+</dd>
+<dt>ARACYCENZYME:</dt><dd><p>Aracyc enzyme names as indicated by aracyc</p>
+</dd>
+<dt>CHR:</dt><dd><p>Chromosome (deprecated for Bioc &gt; 3.1) For this
+information you should look at a TxDb or OrganismDb object and
+search for an appropriate field like TXCHROM, EXONCHROM or
+CDSCHROM.  This information can also be retrieved from these objects
+using an appropriate range based accesor like transcripts,
+transcriptsBy etc.</p>
+</dd>
+<dt>CHRLOC:</dt><dd><p>Chromosome and starting base of associated gene
+(deprecated for Bioc &gt; 3.1) For this information you should look at
+a TxDb or OrganismDb object and search for an appropriate field like
+TXSTART etc. or even better use the associated range based accessors
+like transcripts or transcriptsBy to get back GRanges objects.</p>
+</dd>
+<dt>CHRLOCEND:</dt><dd><p>Chromosome and ending base of associated gene
+(deprecated for Bioc &gt; 3.1) For this information you should look at
+a TxDb or OrganismDb object and search for an appropriate field like
+TXEND etc. or even better use the associated range based accessors
+like transcripts or transcriptsBy to get back GRanges objects.</p>
+</dd>
+<dt>COMMON:</dt><dd><p>Common name</p>
+</dd>
+<dt>DESCRIPTION:</dt><dd><p>The description of the associated gene</p>
+</dd>
+<dt>ENSEMBL:</dt><dd><p>The ensembl ID as indicated by ensembl</p>
+</dd>
+<dt>ENSEMBLPROT:</dt><dd><p>The ensembl protein ID as indicated by ensembl</p>
+</dd>
+<dt>ENSEMBLTRANS:</dt><dd><p>The ensembl transcript ID as indicated by ensembl</p>
+</dd>
+<dt>ENTREZID:</dt><dd><p>Entrez gene Identifiers</p>
+</dd>
+<dt>ENZYME:</dt><dd><p>Enzyme Commission numbers</p>
+</dd>
+<dt>EVIDENCE:</dt><dd><p>Evidence codes for GO associations with a gene of interest</p>
+</dd>
+<dt>EVIDENCEALL:</dt><dd><p>Evidence codes for GO (includes less specific terms)</p>
+</dd>
+<dt>GENENAME:</dt><dd><p>The full gene name</p>
+</dd>
+<dt>GO:</dt><dd><p>GO Identifiers associated with a gene of interest</p>
+</dd>
+<dt>GOALL:</dt><dd><p>GO Identifiers (includes less specific terms)</p>
+</dd>
+<dt>INTERPRO:</dt><dd><p>InterPro identifiers</p>
+</dd>
+<dt>IPI:</dt><dd><p>IPI accession numbers</p>
+</dd>
+<dt>MAP:</dt><dd><p>cytoband locations</p>
+</dd>
+<dt>OMIM:</dt><dd><p>Online Mendelian Inheritance in Man identifiers</p>
+</dd>
+<dt>ONTOLOGY:</dt><dd><p>For GO Identifiers, which Gene Ontology (BP, CC, or MF)</p>
+</dd>
+<dt>ONTOLOGYALL:</dt><dd><p>Which Gene Ontology (BP, CC, or MF), (includes less specific terms)</p>
+</dd>
+<dt>ORF:</dt><dd><p>Yeast ORF Identifiers</p>
+</dd>
+<dt>PATH:</dt><dd><p>KEGG Pathway Identifiers</p>
+</dd>
+<dt>PFAM:</dt><dd><p>PFAM Identifiers</p>
+</dd>
+<dt>PMID:</dt><dd><p>Pubmed Identifiers</p>
+</dd>
+<dt>PROBEID:</dt><dd><p>Probe or manufacturer Identifiers for a chip package</p>
+</dd>
+<dt>PROSITE:</dt><dd><p>Prosite Identifiers</p>
+</dd>
+<dt>REFSEQ:</dt><dd><p>Refseq Identifiers</p>
+</dd>
+<dt>SGD:</dt><dd><p>Saccharomyces Genome Database Identifiers</p>
+</dd>
+<dt>SMART:</dt><dd><p>Smart Identifiers</p>
+</dd>
+<dt>SYMBOL:</dt><dd><p>The official gene symbol</p>
+</dd>
+<dt>TAIR:</dt><dd><p>TAIR Identifiers</p>
+</dd>
+<dt>UNIGENE:</dt><dd><p>Unigene Identifiers</p>
+</dd>
+<dt>UNIPROT:</dt><dd><p>Uniprot Identifiers</p>
+</dd>
+</dl>
+
+<p>To get the latest  information about the date stamps and source URLS
+for the data used to make an annotation package, please use the
+metadata method as shown in the example below.
+</p>
+<p>Unless otherwise indicated above, the majority of the data for any one
+package is taken from the source indicated by either it's name (if
+it's an org package) OR from the name of it's associated org package.
+So for example, org.Hs.eg.db is using &quot;eg&quot; in the name to indicate
+that most of the data in that package comes from NCBI entrez gene
+based data.  And org.At.tair.db uses data that primarily comes from
+tair.  For chip packages, the relevant information is the organism
+package that they depend on.  So for example, hgu95av2.db depends on
+org.Hs.eg.db, and is thus primarily based on NCBI entrez gene ID
+information.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(hgu95av2.db)
+  ## List the possible values for columns
+  columns(hgu95av2.db)
+  ## List the possible values for keytypes
+  keytypes(hgu95av2.db)
+  ## get some values back
+  keys &lt;- head(keys(hgu95av2.db))
+  keys
+  select(hgu95av2.db, keys=keys, columns=c("SYMBOL","PFAM"),
+  keytype="PROBEID")
+
+  ## More infomation about the dates and original sources for these data:
+  metadata(hgu95av2.db)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

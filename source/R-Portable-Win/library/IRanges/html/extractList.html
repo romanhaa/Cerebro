@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Group elements of a vector-like object into a list-like...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for extractList {IRanges}"><tr><td>extractList {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Group elements of a vector-like object into a list-like object</h2>
+
+<h3>Description</h3>
+
+<p><code>relist</code> and <code>split</code> are 2 common ways of grouping the elements
+of a vector-like object into a list-like object. The <span class="pkg">IRanges</span> and
+<span class="pkg">S4Vectors</span> packages define <code>relist</code> and <code>split</code> methods
+that operate on a <a href="../../S4Vectors/html/Vector-class.html">Vector</a> object and return a <a href="../../S4Vectors/html/List-class.html">List</a> object.
+Note that the <code><a href="../../S4Vectors/html/split.html">split</a></code> methods defined in
+<span class="pkg">S4Vectors</span> delegate to the <code>splitAsList</code> function defined in
+<span class="pkg">IRanges</span> and documented below.
+</p>
+<p>Because <code>relist</code> and <code>split</code> both impose restrictions on
+the kind of grouping that they support (e.g. every element in the input
+object needs to go in a group and can only go in one group), the
+<span class="pkg">IRanges</span> package introduces the <code>extractList</code> generic function
+for performing <em>arbitrary</em> groupings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## relist()
+## --------
+
+## S4 method for signature 'ANY,List'
+relist(flesh, skeleton)
+
+## S4 method for signature 'Vector,list'
+relist(flesh, skeleton)
+
+## splitAsList()
+## -------------
+
+splitAsList(x, f, drop=FALSE, ...)
+
+## extractList()
+## -------------
+
+extractList(x, i)
+
+## regroup()
+## ---------
+
+regroup(x, g)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flesh, x</code></td>
+<td>
+
+<p>A vector-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>skeleton</code></td>
+<td>
+
+<p>A list-like object. Only the &quot;shape&quot; (i.e. element lengths) of
+<code>skeleton</code> matters. Its exact content is ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>f</code></td>
+<td>
+
+<p>An atomic vector or a factor (possibly in <a href="../../S4Vectors/html/Rle-class.html">Rle</a> form).
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>Logical indicating if levels that do not occur should be dropped (if
+<code>f</code> is a factor).
+</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+
+<p>A list-like object. Unlike for <code>skeleton</code>, the content here matters
+(see Details section below).
+Note that <code>i</code> can be a <a href="IntegerRanges-class.html">IntegerRanges</a> object (a particular
+type of list-like object), and, in that case, <code>extractList</code> is
+particularly fast (this is a common use case).
+</p>
+</td></tr>
+<tr valign="top"><td><code>g</code></td>
+<td>
+
+<p>A <a href="Grouping-class.html">Grouping</a> or an object coercible to one. For
+<code>regroup</code>, <code>g</code> groups the elements of <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Arguments to pass to methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>relist</code>, <code>split</code>, and <code>extractList</code> have in common that
+they return a list-like object where each list element has the same class
+as the original vector-like object. Thus they need to be able to select
+the appropriate <a href="../../S4Vectors/html/List-class.html">List</a> concrete subclass to use for this returned
+value. This selection is performed by <code><a href="../../S4Vectors/html/relistToClass.html">relistToClass</a></code>
+and is based only on the class of the original object.
+</p>
+<p>By default, <code>extractList(x, i)</code> is equivalent to:
+</p>
+<pre>    relist(x[unlist(i)], i)
+</pre>
+<p>An exception is made when <code>x</code> is a data-frame-like object. In that
+case <code>x</code> is subsetted along the rows, that is, <code>extractList(x, i)</code>
+is equivalent to:
+</p>
+<pre>    relist(x[unlist(i), ], i)
+</pre>
+<p>This is more or less how the default method is implemented, except for
+some optimizations when <code>i</code> is a <a href="IntegerRanges-class.html">IntegerRanges</a> object.
+</p>
+<p><code>relist</code> and <code>split</code> (or <code>splitAsList</code>) can be seen as
+special cases of <code>extractList</code>:
+</p>
+<pre>    relist(flesh, skeleton) is equivalent to
+    extractList(flesh, PartitioningByEnd(skeleton))
+
+    split(x, f) is equivalent to
+    extractList(x, split(seq_along(f), f))
+</pre>
+<p>It is good practise to use <code>extractList</code> only for cases not covered
+by <code>relist</code> or <code>split</code>. Whenever possible, using <code>relist</code>
+or <code>split</code> is preferred as they will always perform more efficiently.
+In addition their names carry meaning and are familiar to most R
+users/developers so they'll make your code easier to read/understand.
+</p>
+<p>Note that the transformation performed by <code>relist</code> or <code>split</code>
+is always reversible (via <code>unlist</code> and <code>unsplit</code>, respectively),
+but not the transformation performed by <code>extractList</code> (in general).
+</p>
+<p>The <code>regroup</code> function splits the elements of <code>unlist(x)</code>
+into a list according to the grouping <code>g</code>. Each element of
+<code>unlist(x)</code> inherits its group from its parent element of
+<code>x</code>. <code>regroup</code> is different from <code>relist</code> and
+<code>split</code>, because <code>x</code> is already grouped, and the goal is to
+combine groups.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>relist</code> methods behave like <code>utils::relist</code> except that they
+return a <a href="../../S4Vectors/html/List-class.html">List</a> object. If <code>skeleton</code> has names, then they are
+propagated to the returned value.
+</p>
+<p><code>splitAsList</code> behaves like <code>base::split</code> except that the
+former returns a <a href="../../S4Vectors/html/List-class.html">List</a> object instead of an ordinary list.
+</p>
+<p><code>extractList</code> returns a list-like object parallel to <code>i</code> and with
+the same &quot;shape&quot; as <code>i</code> (i.e. same element lengths).
+If <code>i</code> has names, then they are propagated to the returned value.
+</p>
+<p>All these functions return a list-like object where the list elements have
+the same class as <code>x</code>. <code><a href="../../S4Vectors/html/relistToClass.html">relistToClass</a></code> gives
+the exact class of the returned object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="../../base/html/unlist.html">unlist</a></code> and <code><a href="../../utils/html/relist.html">relist</a></code>
+functions in the <span class="pkg">base</span> and <span class="pkg">utils</span> packages, respectively.
+</p>
+</li>
+<li><p> The <code><a href="../../base/html/split.html">split</a></code> and <code><a href="../../base/html/unsplit.html">unsplit</a></code>
+functions in the <span class="pkg">base</span> package.
+</p>
+</li>
+<li><p> The <code><a href="../../S4Vectors/html/split.html">split</a></code> methods defined in the
+<span class="pkg">S4Vectors</span> package.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/Vector.html">Vector</a>, <a href="../../S4Vectors/html/List.html">List</a>,
+<a href="../../S4Vectors/html/Rle.html">Rle</a>, and <a href="../../S4Vectors/html/DataFrame.html">DataFrame</a> objects
+in the <span class="pkg">S4Vectors</span> package.
+<code><a href="../../S4Vectors/html/relistToClass.html">relistToClass</a></code> is documented in the man
+page for <a href="../../S4Vectors/html/List.html">List</a> objects.
+</p>
+</li>
+<li> <p><a href="IntegerRanges-class.html">IntegerRanges</a> objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## On an Rle object:
+x &lt;- Rle(101:105, 6:2)
+i &lt;- IRanges(6:10, 16:12, names=letters[1:5])
+extractList(x, i)
+
+## On a DataFrame object:
+df &lt;- DataFrame(X=x, Y=LETTERS[1:20])
+extractList(df, i)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

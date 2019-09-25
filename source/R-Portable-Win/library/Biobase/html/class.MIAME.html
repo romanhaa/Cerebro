@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class for Storing Microarray Experiment Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MIAME {Biobase}"><tr><td>MIAME {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Class for Storing Microarray Experiment Information
+</h2>
+
+<h3>Description</h3>
+
+<p>Class <code>MIAME</code> covers MIAME entries that are not covered by other classes
+in Bioconductor. Namely, experimental design, samples, hybridizations,
+normalization controls, and pre-processing information. The <code>MIAME</code> class 
+is derived from <code><a href="class.MIAxE.html">MIAxE</a></code>.</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>name</code>:</dt><dd><p>Object of class <code>character</code> containing the experimenter name</p>
+</dd>
+<dt><code>lab</code>:</dt><dd><p>Object of class <code>character</code> containing the laboratory where the experiment was conducted</p>
+</dd>
+<dt><code>contact</code>:</dt><dd><p>Object of class <code>character</code> containing contact information for lab and/or experimenter</p>
+</dd>
+<dt><code>title</code>:</dt><dd><p>Object of class <code>character</code> containing a single-sentence experiment title </p>
+</dd>
+<dt><code>abstract</code>:</dt><dd><p>Object of class <code>character</code> containing an abstract describing the experiment</p>
+</dd>
+<dt><code>url</code>:</dt><dd><p>Object of class <code>character</code> containing a URL for the experiment</p>
+</dd>
+<dt><code>samples</code>:</dt><dd><p>Object of class <code>list</code> containing information about the samples</p>
+</dd>
+<dt><code>hybridizations</code>:</dt><dd><p>Object of class <code>list</code> containing information about the hybridizations</p>
+</dd>
+<dt><code>normControls</code>:</dt><dd><p>Object of class <code>list</code> containing information about the controls such as house keeping genes</p>
+</dd>
+<dt><code>preprocessing</code>:</dt><dd><p>Object of class <code>list</code> containing information about the pre-processing steps used on the raw data from this experiment</p>
+</dd>
+<dt><code>pubMedIds</code>:</dt><dd><p>Object of class <code>character</code> listing strings of PubMed identifiers of papers relevant to the dataset</p>
+</dd>
+<dt><code>other</code>:</dt><dd><p>Object of class <code>list</code> containing other information for which none of the above slots does not applies</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Constructor methods:
+</p>
+
+<dl>
+<dt><code>MIAME()</code>:</dt><dd>
+<p><code>MIAME(name = "", lab = "", contact = "",
+                  title = "", abstract = "", url = "",
+                  pubMedIds = "" , samples = "",
+                  hybridizations = list(), normControls = list(),
+                  preprocessing = list(), other = list())</code>:
+Creates a new <code>MIAME</code> object with slots as defined above.</p>
+</dd>
+</dl>
+
+<p>Class-specific methods:
+</p>
+
+<dl>
+<dt><code>abstract(MIAME)</code>:</dt><dd><p>An accessor function for <code>abstract</code>.</p>
+</dd>
+<dt><code>combine(MIAME,MIAME)</code>:</dt><dd><p>Combine two objects of <code>MIAME-class</code>, issuing warnings when ambiguities encountered.</p>
+</dd>
+<dt><code>expinfo(MIAME)</code>:</dt><dd><p>An accessor function for <code>name</code>, <code>lab</code>, <code>contact</code>, <code>title</code>, and <code>url</code>.</p>
+</dd>
+<dt><code>hybridizations(MIAME)</code>:</dt><dd><p>An accessor function for <code>hybridizations</code>.</p>
+</dd>
+<dt><code>normControls(MIAME)</code>:</dt><dd><p>An accessor function for <code>normControls</code>.</p>
+</dd>
+<dt><code>notes(MIAME), notes(MIAME) &lt;- value</code>:</dt><dd><p>Accessor functions for <code>other</code>. <code>notes(MIAME) &lt;- character</code>
+<em>appends</em> character to notes; use <code>notes(MIAME) &lt;- list</code> to replace the notes entirely.</p>
+</dd>
+<dt><code>otherInfo(MIAME)</code>:</dt><dd><p>An accessor function for <code>other</code>.</p>
+</dd>
+<dt><code>preproc(MIAME)</code>:</dt><dd><p>An accessor function for <code>preprocessing</code>.</p>
+</dd>
+<dt><code>pubMedIds(MIAME), pubMedIds(MIAME) &lt;- value</code>:</dt><dd><p>Accessor function for <code>pubMedIds</code>.</p>
+</dd>
+<dt><code>samples(MIAME)</code>:</dt><dd><p>An accessor function for <code>samples</code>.</p>
+</dd>
+</dl>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>updateObject(object, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version, if necessary. See <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code></p>
+</dd>
+<dt><code>isCurrent(object)</code></dt><dd><p>Determine whether version of object is current. See <code><a href="isCurrent.html">isCurrent</a></code></p>
+</dd>
+<dt><code>isVersioned(object)</code></dt><dd><p>Determine whether object contains a 'version' string describing its structure . See <code><a href="isVersioned.html">isVersioned</a></code></p>
+</dd>
+<dt><code>show(MIAME)</code>:</dt><dd><p>Renders information about the MIAME information </p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Rafael A. Irizarry
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.mged.org/Workgroups/MIAME/miame_1.1.html">http://www.mged.org/Workgroups/MIAME/miame_1.1.html</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.characterORmiame.html">class:characterORMIAME</a></code>, <code><a href="read.MIAME.html">read.MIAME</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

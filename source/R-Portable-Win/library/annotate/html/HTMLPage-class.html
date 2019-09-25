@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Classes to represent HTML pages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for HTMLPage-class {annotate}"><tr><td>HTMLPage-class {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Classes to represent HTML pages</h2>
+
+<h3>Description</h3>
+
+<p>Class <code>HTMLPage</code> and <code>FramedHTMLPage</code> are a pair
+of experimental classes used to explore concepts of representing HTML
+pages using S4 objects.</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>fileName</code>:</dt><dd><p>Object of class <code>"character"</code> The
+filename of the HTML page</p>
+</dd>
+<dt><code>pageText</code>:</dt><dd><p>Object of class <code>"character"</code> The text
+of the HTML page</p>
+</dd>
+<dt><code>pageTitle</code>:</dt><dd><p>Object of class <code>"character"</code> The
+title of the HTML page</p>
+</dd>
+<dt><code>topPage</code>:</dt><dd><p>Object of class <code>"HTMLPage"</code> The header
+page for a FramedHTMLPage</p>
+</dd>
+<dt><code>sidePage</code>:</dt><dd><p>Object of class <code>"HTMLPage"</code> The side
+index page for a FramedHTMLPage</p>
+</dd>
+<dt><code>mainPage</code>:</dt><dd><p>Object of class <code>"HTMLPage"</code> The
+primary page for a FramedHTMLPage</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>show</dt><dd><p><code>signature(object = "HTMLPage")</code>: Describes
+information about the page</p>
+</dd>
+<dt>fileName</dt><dd><p><code>signature(object = "HTMLPage")</code>: Gets the
+fileName slot</p>
+</dd>
+<dt>pageText</dt><dd><p><code>signature(object = "HTMLPage")</code>: Gets the
+pageText slot</p>
+</dd>
+<dt>pageTitle</dt><dd><p><code>signature(object = "HTMLPage")</code>: Gets the
+pageTitle slot</p>
+</dd>
+<dt>toFile</dt><dd><p><code>signature(object = "HTMLPage")</code>: Writes the page
+out to the file designated by the fileName slot</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>These classes are currently experimental.
+</p>
+<p>FramedHTMLPage is modeled after the framing layout of the Bioconductor
+website (www.bioconductor.org).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

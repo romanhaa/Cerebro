@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Depth First Search</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for DFS {graph}"><tr><td>DFS {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Depth First Search  </h2>
+
+<h3>Description</h3>
+
+<p>This function implements algorithm 4.2.1 of Gross and Yellen. The
+input is a <code>graph</code> and a <code>node</code> to start from. It returns a
+standard vertex labeling of <code>graph</code>. This is a vector with
+elements corresponding to the nodes of <code>graph</code> and with values
+that correspond to point in the depth first search the node is
+visited.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+DFS(object, node, checkConn=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An instance of the <code>graph</code> class. </p>
+</td></tr>
+<tr valign="top"><td><code>node</code></td>
+<td>
+<p>A <code>character</code> indicating the starting node. </p>
+</td></tr>
+<tr valign="top"><td><code>checkConn</code></td>
+<td>
+<p>A <code>logical</code> indicating whether the connectivity
+of the graph should be checked. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function implements algorithm 4.2.1 of Gross and Yellen. Specific
+details are given there.
+</p>
+<p>It requires that the graph be connected. By default, this is checked,
+but since the checking can be expensive it is optional.
+</p>
+<p>A faster and mostly likely better implementation of depth first
+searching is given by <code><a href="../../RBGL/html/bfs.html">dfs</a></code> in the <span class="pkg">RBGL</span>
+package.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector with names given by the nodes of <code>graph</code> whose values
+are <code>0</code> to one less than the number of nodes. These indices
+indicate the point at which the node will be visited.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>References</h3>
+
+<p><em>Graph Theory and its Applications</em>, J. Gross and J. Yellen. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="boundary.html">boundary</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  RNGkind("Mersenne-Twister")
+  set.seed(123)
+  g1 &lt;- randomGraph(letters[1:10], 1:4, p=.3)
+  RNGkind()
+  DFS(g1, "a")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

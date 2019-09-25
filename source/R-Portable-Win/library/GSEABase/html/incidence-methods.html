@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Constructing Incidence Matricies Between GeneSets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for incidence-methods {GSEABase}"><tr><td>incidence-methods {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for Constructing Incidence Matricies Between GeneSets</h2>
+
+<h3>Description</h3>
+
+<p>An incidence matrix summarizes shared membership of gene identifiers
+across (pairs of) gene sets.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<p>The return value is a matrix with rows representing gene sets and
+columns genes.
+</p>
+<dl>
+<dt>
+<code>signature(x="GeneSet", ...)</code>
+<code>signature(x="GeneColorSet", ...)</code>
+</dt><dd>
+<p>All additional arguments <code>...</code> are of the same class as
+<code>x</code>. The incidence matrix contains elements 0 (genes not
+present) or 1 (genes present).
+</p>
+</dd>
+<dt>
+<code>signature(x = "GeneSetCollection", ...)</code>
+</dt><dd>
+<p>Additional arguments <code>...</code> can be of class
+<code>GeneSetCollection</code> or <code>GeneSet</code>. The incidence matrix
+contains elements 0 (genes not present) or 1 (genes present).
+</p>
+</dd>
+</dl>
+
+
+<h3>Examples</h3>
+
+<pre>
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+gss &lt;- getBroadSets(fl) # GeneSetCollection of 2 sets
+## From one or more GeneSetCollections...
+imat &lt;- incidence(gss)
+dim(imat)
+imat[,c(1:3,ncol(imat)-3+1:3)]
+
+## .. or GeneSets
+imat1 &lt;- incidence(gss[[1]], gss[[2]], gss[[1]])
+imat1[,1:5]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

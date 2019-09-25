@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of Hits objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for HitsList-class {S4Vectors}"><tr><td>HitsList-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of Hits objects</h2>
+
+<h3>Description</h3>
+
+<p>The HitsList class stores a set of <a href="Hits-class.html">Hits</a> objects. It's typically
+used to represent the result of <code><a href="../../IRanges/html/findOverlaps.html">findOverlaps</a></code> on
+two <a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a> objects.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Roughly the same set of utilities are provided for HitsList as for
+<a href="Hits-class.html">Hits</a>:
+</p>
+<p>The <code>as.matrix</code> method coerces a HitsList object in a
+similar way to <a href="Hits-class.html">Hits</a>, except a column is prepended that indicates
+which space (or element in the query <a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a>)
+to which the row corresponds.
+</p>
+<p>The <code>as.table</code> method flattens or unlists the list, counts the
+number of hits for each query range and outputs the counts as a
+<code>table</code>, which has the same shape as from a single <a href="Hits-class.html">Hits</a>
+object.
+</p>
+<p>To transpose a HitsList object <code>x</code>, so that the subject
+and query in each space are interchanged, call <code>t(x)</code>. This
+allows, for example, counting the number of hits for each subject
+element using <code>as.table</code>.
+</p>
+
+
+<h3>Accessors</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>queryHits(x)</code>: Equivalent to
+<code>unname(as.matrix(x)[,1])</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>subjectHits(x)</code>: Equivalent to
+<code>unname(as.matrix(x)[,2])</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>space(x)</code>: gets the character vector naming the space
+in the query <a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a> for each hit,
+or <code>NULL</code> if the query did not have any names.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippets below, <code>x</code> is a HitsList object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>as.matrix(x)</code>: calls <code>as.matrix</code> on each
+<a href="Hits-class.html">Hits</a>, combines them row-wise and offsets the
+indices so that they are aligned with the result of calling
+<code>unlist</code> on the query and subject.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.table(x)</code>: counts the number of hits for each
+query element in <code>x</code> and outputs the counts as a <code>table</code>,
+which is aligned with the result of calling <code>unlist</code>
+on the query.
+</p>
+</dd>
+<dt></dt><dd><p><code>t(x)</code>: Interchange the query and subject in each space
+of <code>x</code>, returns a transposed HitsList object.</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>This class is highly experimental. It has not been well tested and
+may disappear at any time.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../IRanges/html/findOverlaps.html">findOverlaps</a></code> in the <span class="pkg">IRanges</span> package,
+which returns a HitsList object when the query and subject are
+<a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a> objects.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

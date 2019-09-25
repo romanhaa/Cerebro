@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Organism and species accessors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for organism_species {BiocGenerics}"><tr><td>organism_species {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Organism and species accessors</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the organism and/or species of an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+organism(object)
+organism(object) &lt;- value
+
+species(object)
+species(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>An object to get or set the organism or species of.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>The organism or species to set on <code>object</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>organism</code> should return the <em>scientific name</em> (i.e. genus and
+species, or genus and species and subspecies) of the organism. Preferably
+in the format <code>"Genus species"</code> (e.g. <code>"Homo sapiens"</code>)
+or <code>"Genus species subspecies"</code> (e.g.
+<code>"Homo sapiens neanderthalensis"</code>).
+</p>
+<p><code>species</code> should of course return the species of the organism.
+Unfortunately there is a long history of misuse of this accessor in
+Bioconductor so its usage is now discouraged (starting with BioC 3.1).
+</p>
+
+
+<h3>Note</h3>
+
+<p>TO DEVELOPERS:
+</p>
+<p><code>species</code> has been historically misused in many places in Bioconductor
+and is redundant with <code>organism</code>. So implementing the <code>species</code>
+accessor is now discouraged (starting with BioC 3.1). The <code>organism</code>
+accessor (returning the <em>scientific name</em>) should be implemented
+instead.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="http://bioconductor.org/packages/release/BiocViews.html#___Organism">http://bioconductor.org/packages/release/BiocViews.html#___Organism</a>
+for browsing the annotation packages currently available in
+Bioconductor by organism.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../annotate/html/organism,character-method.html">organism,character-method</a> and
+<a href="../../annotate/html/organism,chromLocation-method.html">organism,chromLocation-method</a> in the
+<span class="pkg">annotate</span> package for examples of specific <code>organism</code>
+methods (defined for character and <a href="../../annotate/html/chromLocation.html">chromLocation</a>
+objects).
+</p>
+</li>
+<li> <p><a href="../../AnnotationDbi/html/species,AnnotationDb-method.html">species,AnnotationDb-method</a> in the
+<span class="pkg">AnnotationDbi</span> package for an example of a specific
+<code>species</code> method (defined for <a href="../../AnnotationDbi/html/AnnotationDb.html">AnnotationDb</a>
+objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## organism() getter:
+organism
+showMethods("organism")
+
+library(annotate)
+showMethods("organism")
+selectMethod("organism", "character")
+selectMethod("organism", "chromLocation")
+
+## organism() setter:
+`organism&lt;-`
+showMethods("organism&lt;-")
+
+## species() getter:
+species
+showMethods("species")
+
+library(AnnotationDbi)
+selectMethod("species", "AnnotationDb")
+
+## species() setter:
+`species&lt;-`
+showMethods("species&lt;-")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

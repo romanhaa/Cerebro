@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: MaskCollection objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MaskCollection-class {IRanges}"><tr><td>MaskCollection-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>MaskCollection objects</h2>
+
+<h3>Description</h3>
+
+<p>The MaskCollection class is a container for storing a collection of masks
+that can be used to mask regions in a sequence.
+</p>
+
+
+<h3>Details</h3>
+
+<p>In the context of the Biostrings package, a mask is a set of regions
+in a sequence that need to be excluded from some computation.
+For example, when calling <code><a href="../../Biostrings/html/letterFrequency.html">alphabetFrequency</a></code>
+or <code><a href="../../Biostrings/html/matchPattern.html">matchPattern</a></code> on a chromosome sequence,
+you might want to exclude some regions like the centromere or the repeat
+regions. This can be achieved by putting one or several masks on the sequence
+before calling <code><a href="../../Biostrings/html/letterFrequency.html">alphabetFrequency</a></code> on it.
+</p>
+<p>A MaskCollection object is a vector-like object that represents
+such set of masks.
+Like standard R vectors, it has a &quot;length&quot; which is the number of
+masks contained in it. But unlike standard R vectors, it also has
+a &quot;width&quot; which determines the length of the sequences it can be &quot;put on&quot;.
+For example, a MaskCollection object of width 20000 can only be put on
+an <a href="../../Biostrings/html/XString-class.html">XString</a> object of 20000 letters.
+</p>
+<p>Each mask in a MaskCollection object <code>x</code> is just a finite set of
+integers that are &gt;= 1 and &lt;= <code>width(x)</code>.
+When &quot;put on&quot; a sequence, these integers indicate the positions of the
+letters to mask.
+Internally, each mask is represented by a <a href="IRanges-class.html">NormalIRanges</a>
+object.
+</p>
+
+
+<h3>Basic accessor methods</h3>
+
+<p>In the code snippets below, <code>x</code> is a MaskCollection object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>length(x)</code>:
+The number of masks in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>width(x)</code>:
+The common with of all the masks in <code>x</code>.
+This determines the length of the sequences that <code>x</code> can be
+&quot;put on&quot;.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>active(x)</code>:
+A logical vector of the same length as <code>x</code> where each
+element indicates whether the corresponding mask is active or not.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>names(x)</code>:
+<code>NULL</code> or a character vector of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>desc(x)</code>:
+<code>NULL</code> or a character vector of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>nir_list(x)</code>:
+A list of the same length as <code>x</code>, where each element is
+a <a href="IRanges-class.html">NormalIRanges</a> object representing a mask in <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>Mask(mask.width, start=NULL, end=NULL, width=NULL)</code>:
+Return a single mask (i.e. a MaskCollection object of length 1)
+of width <code>mask.width</code> (a single integer &gt;= 1)
+and masking the ranges of positions specified by <code>start</code>,
+<code>end</code> and <code>width</code>.
+See the <code><a href="IRanges-constructor.html">IRanges</a></code> constructor (<code>?<a href="IRanges-constructor.html">IRanges</a></code>)
+for how <code>start</code>, <code>end</code> and <code>width</code> can be specified.
+Note that the returned mask is active and unnamed.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Other methods</h3>
+
+<p>In the code snippets below, <code>x</code> is a MaskCollection object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>isEmpty(x)</code>:
+Return a logical vector of the same length as <code>x</code>, indicating,
+for each mask in <code>x</code>, whether it's empty or not.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>max(x)</code>:
+The greatest (or last, or rightmost) masked position for each mask.
+This is a numeric vector of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>min(x)</code>:
+The smallest (or first, or leftmost) masked position for each mask.
+This is a numeric vector of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>maskedwidth(x)</code>:
+The number of masked position for each mask.
+This is an integer vector of the same length as <code>x</code> where
+all values are &gt;= 0 and &lt;= <code>width(x)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>maskedratio(x)</code>:
+<code>maskedwidth(x) / width(x)</code>
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting and appending</h3>
+
+<p>In the code snippets below,
+<code>x</code> and <code>values</code> are MaskCollection objects.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>:
+Return a new MaskCollection object made of the selected masks.
+Subscript <code>i</code> can be a numeric, logical or character vector.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i, exact=TRUE]]</code>:
+Extract the mask selected by <code>i</code> as a <a href="IRanges-class.html">NormalIRanges</a> object.
+Subscript <code>i</code> can be a single integer or a character string.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>append(x, values, after=length(x))</code>:
+Add masks in <code>values</code> to <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Other methods</h3>
+
+<p>In the code snippets below, <code>x</code> is a MaskCollection object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>collapse(x)</code>:
+Return a MaskCollection object of length 1 obtained by collapsing
+all the active masks in <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="IRanges-class.html">NormalIRanges-class</a>,
+<a href="read.Mask.html">read.Mask</a>,
+<a href="../../Biostrings/html/MaskedXString-class.html">MaskedXString-class</a>,
+<code><a href="reverse-methods.html">reverse</a></code>,
+<code><a href="../../Biostrings/html/alphabetFrequency.html">alphabetFrequency</a></code>,
+<code><a href="../../Biostrings/html/matchPattern.html">matchPattern</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Making a MaskCollection object:
+  mask1 &lt;- Mask(mask.width=29, start=c(11, 25, 28), width=c(5, 2, 2))
+  mask2 &lt;- Mask(mask.width=29, start=c(3, 10, 27), width=c(5, 8, 1))
+  mask3 &lt;- Mask(mask.width=29, start=c(7, 12), width=c(2, 4))
+  mymasks &lt;- append(append(mask1, mask2), mask3)
+  mymasks
+  length(mymasks)
+  width(mymasks)
+  collapse(mymasks)
+
+  ## Names and descriptions:
+  names(mymasks) &lt;- c("A", "B", "C")  # names should be short and unique...
+  mymasks
+  mymasks[c("C", "A")]  # ...to make subsetting by names easier
+  desc(mymasks) &lt;- c("you can be", "more verbose", "here")
+  mymasks[-2]
+
+  ## Activate/deactivate masks:
+  active(mymasks)["B"] &lt;- FALSE
+  mymasks
+  collapse(mymasks)
+  active(mymasks) &lt;- FALSE  # deactivate all masks
+  mymasks
+  active(mymasks)[-1] &lt;- TRUE  # reactivate all masks except mask 1
+  active(mymasks) &lt;- !active(mymasks)  # toggle all masks
+
+  ## Other advanced operations:
+  mymasks[[2]]
+  length(mymasks[[2]])
+  mymasks[[2]][-3]
+  append(mymasks[-2], gaps(mymasks[2]))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

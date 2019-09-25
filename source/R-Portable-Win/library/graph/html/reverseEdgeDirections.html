@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reverse the edges of a directed graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for reverseEdgeDirections {graph}"><tr><td>reverseEdgeDirections {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reverse the edges of a directed graph</h2>
+
+<h3>Description</h3>
+
+<p>Return a new directed graph instance with each edge oriented in the
+opposite direction relative to the corresponding edge in the input
+graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+reverseEdgeDirections(g)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>g</code></td>
+<td>
+<p>A <code>graph</code> subclass that can be coerced to <code>graphAM</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>WARNING: this doesn't handle edge attributes properly.  It is a
+preliminary implementation and subject to change.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>graphNEL</code> instance
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>S. Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+g &lt;- graphNEL(nodes=c("a", "b", "c"),
+         edgeL=list(a=c("b", "c"), b=character(0), c=character(0)),
+         edgemode="directed")
+
+stopifnot(isAdjacent(g, "a", "b"))
+stopifnot(!isAdjacent(g, "b", "a"))
+
+grev &lt;- reverseEdgeDirections(g)
+stopifnot(!isAdjacent(grev, "a", "b"))
+stopifnot(isAdjacent(grev, "b", "a"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Returns the Boundary between a Graph and a SubGraph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for boundary {graph}"><tr><td>boundary {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Returns the Boundary between a Graph and a SubGraph </h2>
+
+<h3>Description</h3>
+
+<p>The boundary of a subgraph is the set of nodes in the original graph
+that have edges to nodes in the subgraph. The function <code>boundary</code>
+computes the boundary and returns it as a list whose length is the same
+length as the number of nodes in the subgraph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+boundary(subgraph, graph)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p> the original graph from which the boundary will 
+be created </p>
+</td></tr>
+<tr valign="top"><td><code>subgraph</code></td>
+<td>
+<p> can either be the vector of the node labels or the
+subgraph itself.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <em>boundary</em> of a <em>subgraph</em> is the set of nodes in the
+graph which have an edge that connects them to the specified subgraph
+but which are themselves not elements of the subgraph.
+</p>
+<p>For convenience users can specify the subgraph as either a graph or a
+vector of node labels.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns a named list of length equal to the number of
+nodes in <code>subgraph</code>. The elements of the list
+correspond to the nodes in the <code>subgraph</code>. The elements are lists
+of the nodes in <code>graph</code> which share an edge with the
+respective node in <code>subgraph</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Elizabeth Whalen and R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="subGraph.html">subGraph</a></code>, <code><a href="graph-class.html">graph-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(123)
+  g1 &lt;- randomGraph(letters[1:10], 1:4, p=.3)
+  ##both should be "a"
+  boundary(c("g", "i"), g1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

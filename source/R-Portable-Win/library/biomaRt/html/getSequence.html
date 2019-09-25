@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves sequences</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSequence {biomaRt}"><tr><td>getSequence {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves sequences</h2>
+
+<h3>Description</h3>
+
+<p>This function retrieves sequences given the chomosome, start and end position or a list of identifiers. Using getSequence in web service mode (default) generates 5' to 3' sequences of the requested type on the correct strand.</p>
+
+
+<h3>Usage</h3>
+
+<pre>getSequence(chromosome, start, end, id, type, seqType, 
+                   upstream, downstream, mart, verbose = FALSE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>chromosome</code></td>
+<td>
+<p>Chromosome name</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>start position of sequence on chromosome</p>
+</td></tr>
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>end position of sequence on chromosome</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p> An identifier or vector of identifiers.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of identifier used.  Supported types are hugo, ensembl, embl, entrezgene, refseq, ensemblTrans and unigene. Alternatively one can also use a filter to specify the type. Possible filters are given by the listFilters function</p>
+</td></tr>
+<tr valign="top"><td><code>seqType</code></td>
+<td>
+<p>Type of sequence that you want to retrieve.  Allowed seqTypes are given in the details section.</p>
+</td></tr>
+<tr valign="top"><td><code>upstream</code></td>
+<td>
+<p>To add the upstream sequence of a specified number of basepairs to the output.</p>
+</td></tr>
+<tr valign="top"><td><code>downstream</code></td>
+<td>
+<p>To add the downstream sequence of a specified number of basepairs to the output.</p>
+</td></tr>
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mart created using the useMart function</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If verbose = TRUE then the XML query that was send to the webservice will be displayed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The type of sequence returned can be specified by the seqType argument which takes the following values: 
+</p>
+
+<ul>
+<li><p>'cdna': for nucleotide sequences
+</p>
+</li>
+<li><p>'peptide': for protein sequences
+</p>
+</li>
+<li><p>'3utr': for 3' UTR sequences
+</p>
+</li>
+<li><p>'5utr': for 5' UTR sequences
+</p>
+</li>
+<li><p>'gene_exon': for exon sequences only
+</p>
+</li>
+<li><p>'transcript_exon_intron': gives the full unspliced transcript, that is exons + introns
+</p>
+</li>
+<li><p>'gene_exon_intron' gives the exons + introns of a gene;'coding' gives the coding sequence only
+</p>
+</li>
+<li><p>'coding_transcript_flank': gives the flanking region of the transcript including the UTRs, this must be accompanied with a given value for the upstream or downstream attribute
+</p>
+</li>
+<li><p>'coding_gene_flank': gives the flanking region of the gene including the UTRs, this must be accompanied with a given value for the upstream or downstream attribute
+</p>
+</li>
+<li><p>'transcript_flank': gives the flanking region of the transcript exculding the UTRs, this must be accompanied with a given value for the upstream or downstream attribute
+</p>
+</li>
+<li><p>'gene_flank': gives the flanking region of the gene excluding the UTRs, this must be accompanied with a given value for the upstream or downstream attribute
+</p>
+</li></ul>
+
+<p>In MySQL mode the getSequence function is more limited and the sequence that
+is returned is the 5' to 3'+ strand of the genomic sequence, given a 
+chromosome, as start and an end position. So if the sequence of interest is
+the minus strand, one has to compute the reverse complement of the retrieved
+sequence, which can be done using functions provided in the matchprobes 
+package.  The biomaRt vignette contains more examples on how to use this 
+function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(interactive()){
+mart &lt;- useMart("ensembl", dataset="hsapiens_gene_ensembl")
+
+seq = getSequence(id = "BRCA1", 
+                  type = "hgnc_symbol", 
+                  seqType = "peptide", 
+                  mart = mart)
+show(seq)
+
+seq = getSequence(id="1939_at", 
+                  type="affy_hg_u95av2", 
+                  seqType="gene_flank",
+                  upstream = 20, 
+                  mart = mart)
+show(seq)
+
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

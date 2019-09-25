@@ -1,0 +1,240 @@
+% \VignetteIndexEntry{Using Data Packages}
+% \VignetteDepends{hgu95av2.db, GO.db}
+% \VignetteKeywords{Annotation}
+%\VignettePackage{annotate}
+
+\documentclass{article}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+
+\begin{document}
+\title{Using Bioconductor's Annotation Libraries}
+
+\author{Marc Carlson, Jianhua Zhang}
+\date{}
+\maketitle
+
+\section*{Overview}
+
+The Bioconductor project maintains a rich body of annotation data
+assembled into R libraries. The purpose of this vignette
+is to discuss the structure, contents, and usage of these
+annotation data libraries. Executable code is provided as examples.
+
+\section*{Contents}
+
+Bioconductor's annotation data libraries are constructed by assembling data
+collected from various public data repositories using Bioconductor's
+\Rpackage{AnnotationDbi} package and distributed as regular R libraries that
+can be installed and loaded in the same way an R library is
+installed/loaded. Each annotation library is an independent unit that can be
+used alone or in conjunction with other annotation libraries. Platform
+specific libraries are a group annotation libraries assembled specifically for
+given platforms (e. g. Affymetrix HG\_U95Av2). \texttt{org.XX.eg.db} are
+libraries containing data assembled at genome level for specific organisms
+such as human, mouse, fly, or rat. \Rpackage{KEGG.db} and \Rpackage{GO.db} are
+source specific libraries containing generic data for various genomes.
+
+% \begin{figure*}[htbp!]
+%    \begin{center}
+%      \includegraphics[width=\textwidth, angle=0]{DPChart}
+%    \end{center}
+%    \caption{{\small \label{fig:DPChart}A diagram showing the overall
+%        structure and inter-relationship of Bioconductor annotation
+%        data packages. Boxes show a single or group of data
+%        packages. Lines between two boxes indicate connections through
+%        the key denoted by the text beside each line.}}
+% \end{figure*}
+
+Each annotation library, when installed, contains a sqlite database contained
+within the \texttt{extdata} along with a \texttt{man} subdirectory filled with
+documentation about the data. The data can be accessed using the standard
+methods that would work for the classic environment objects (hash table with
+key-value pairs) and act as if they were simple associations of annotation
+values to a set of keys. For each of these emulated environment objects (which
+we will refer to as mappings), there is a corresponding help file in the
+\texttt{man} directory with detail descriptions of the data file and usage.
+In addition to the traditional access to these data, these databases can also
+be accessed directly by using DBI interfaces which allow for powerful new
+combinations of these data.
+
+Each platform specific library creates a series of these mapping objects
+named by following the convention of package name plus mapping
+name. The package name is in lower case letters and the mapping
+names are in capital letters. When a given mapping maps platform
+specific keys to annotation data, only the name of the annotation data
+is used for the name of the mapping. Otherwise, the mapping
+names have a pattern of key name and value name joined by a "2" in
+between. For example, \Robject{hgu95av2ENTREZID} maps probe ids on 
+an Affymetrix human genome U95Av2 chip to EntrezGene IDs while \Robject{hgu95av2GO2PROBE} 
+maps Gene Ontology IDs to probe IDs. Names of the mappings available in a
+platform specific data package are not listed here to save space but
+are easily accessible as shown later in the section for usage.
+
+
+Genome level annotation libraries are named in the form of org.Xx.yy.db where
+Xx represents an abbreviation of the genus and species. Each of the organism
+wide genome anotation packages is based upon some type of widely used gene
+based identifier (such as an Entrez Gene id) that is mapped onto all the other
+features in the package.  The yy part of the name corresponds to this
+designation, where eg means a package is an entrez gene package and sgd is a
+package based on the sgd database etc.  In many cases the org packages will
+contain more different kinds of information that the platform based ones,
+since not all types of information are as widely sought after.
+
+
+The \Rpackage{KEGG.db} library contains mappings between ids such as Entrez
+Gene IDs and \Rpackage{GO} to \Rpackage{KEGG} pathway ids and thus also to
+pathway names.  The \Rpackage{GO.db} library maintain the directed acyclic
+graph structure of the original data from Gene Ontology Consortium by
+providing mappings of GO ids to their direct parents or children for each of
+the three categories (molecular function, cellular component, and biological
+process). Mappings between Entrez Gene and \Rpackage{GO} ids are also
+available to complement the the GO.db package. These mappings are found within
+the organism wide packages mentioned above. These mappings are provided with
+evidence code that specifies the type of evidence that supports the annotation
+of a gene to a particular \Rpackage{GO} term.
+
+\section*{Usage}
+
+All the annotation libraries can be obtained from the Bioconductor web
+site (\url{http://www.bioconductor.org}). To illustrate their usages,
+we use the library for Affymetrix HG\_U95Av2 chip (\Rpackage{hgu95av2.db}) as
+an example for platform specific data packages and the \Rpackage{GO.db} library for
+non-platform specific data packages. We assume that R
+(\url{www.r-project.org}) and Bioconductor's Biobase and annotation
+libraries have already been installed.
+
+\subsection*{Package installation}
+
+Download libraries \Rpackage{hgu95av2.db} and \Rpackage{GO.db} with 
+BiocManager::install(). If the \Rpackage{reposTools} library has already been
+installed/loaded, typing \Rfunction{install.packages2(library name)} installs
+the library for both Unix and Windows.
+
+Typing library(library name) in an R session will load the library
+into R. For example,
+
+<<loadLibs>>=
+library("annotate")
+library("hgu95av2.db")
+library("GO.db")
+@
+
+\subsection*{Documentations}
+
+Each library contains documentation for the library in general and each of the
+individual mapping objects contained by the library. Two documents at the
+library level can be accessed by typing a library basename proceeded by a
+question mark (e. g. ?hgu95av2) and the library basename followed by a pair of
+brackets (e. g. hgu95av2()), respectively. The former explains what the
+package is and details how a user can get more information, while the latter
+lists all the mappings contained by a library and provides information on
+the total number of keys within each of the maps contained by the library and
+how many of these keys are annotated.  In addition, the latter will indicate
+the sources for the information provided by the package as well as the date
+that these sources claim to have last been updated.
+
+The documentation for a given mapping object can be accessed by
+typing the name of an mapping object proceeded by a question mark
+(e. g. \Robject{hgu95av2GO}). The resulting documentation provides detail
+explanations to the mapping object, data source used to build the
+object, and example code for accessing annotation data.
+
+\subsection*{Accessing annotation data within a library}
+
+Annotation data of a given library are stored as mapping objects
+in the form of key (items to be annotated) and value (annotation for
+an key item) pairs. Each mapping object provides annotation for keys
+for a particular subject reflected by the name of the object. For
+example, \Robject{hgu95av2GO} annotates probes on the HG\-U95Av2 chip
+with ids of the Gene Ontology terms the probes correspond to.
+
+The name of an mapping object consists of package basename (\Rpackage{hgu95av2.db}) and
+mapping name (\Rpackage{GO}) to avoid confusion when multiple libraries are loaded
+to the system at the same time. Data contained by an mapping can
+be accessed easily using Bioconductor's existing functions. For example, the following code
+stores all the keys contained by the \Robject{hgu95av2GO} mapping object to
+variable \textit{temp} and displays the first five keys on the screen:
+
+<<getGO>>=
+as.list(hgu95av2GO[5])
+@
+
+To obtain annotation for a given set of keys, one may use the
+\Rfunction{mget} function. Suppose we have run an experiment using the
+HG\_U95Av2 chip and found three genes represented by Affymetrix probe ids
+\textit{738\_at, 40840\_at}, and \textit{41668\_r\_at} interesting. To
+get the names of genes the three probe ids corresponding to, we do:
+
+<<showmget>>=
+mget(c("738_at", "40840_at", "41668_r_at"), hgu95av2GENENAME)
+@
+
+Similarly, identifiers of Gene Ontology terms corrsponding to the
+three probes can be obtained as shown below:
+
+<<moremget>>=
+temp <- mget(c("41561_s_at", "40840_at", "41668_r_at"), hgu95av2GO)
+@
+
+In this case, the function \Rfunction{mget} returns a list of
+pre-defined S4 objects containing data for the ids, ontology, and
+evidence code of Gene Ontology terms corresponding to the three
+keys. The following code shows how to access the GO id, evidence code
+and ontology of the Gene Ontology term corresponding to probe id
+\textit{40840\_at}:
+
+<<gettingGO>>=
+temp <- get("738_at", hgu95av2GO)
+names(temp)
+temp[["GO:0008253"]][["Evidence"]]
+temp[["GO:0008253"]][["Ontology"]]
+@
+
+As shown above, probe \textit{40840\_at} can be annotated by three Gene
+Ontology terms identified by \textit{GO:0005829}, \textit{GO:0008253}, and
+\textit{GO:0016787}. The evidence code for \textit{GO:0008253} is
+\textit{TAS} (traceable author statement) and it belongs to ontology
+\textit{MF} (molecular function).
+
+\subsection*{Accessing annotation data across libraries}
+
+Often, data available in a given data package alone may not
+be sufficient and need to be sought across packages. Bioconductor's
+annotation data packages are linked by common public data identifiers
+to allow traverse between packages (Fig. 1). Using the example above,
+we know that probe id \textit{738\_at} are annotated by three Gene Ontology
+ids \textit{GO:0005829}, \textit{GO:0008253}, and \textit{GO:0016787}. The Gene Ontology
+terms for various Gene Ontology ids, however, are stored in another
+package named \Rpackage{GO.db}. AS package \Rpackage{hgu95av2.db} and
+\Rpackage{GO.db} are linked by \Rpackage{GO} ids, one can annotate probe id
+\textit{738\_at} with Gene Ontology terms by linking data in the
+two packages using \Rpackage{GO} id as shown below:
+
+<<>>=
+mget(names(get("738_at", hgu95av2GO)), GOTERM)
+@
+
+It turns out that probe id \textit{738\_at} (corresponding to \textit{GO:0008253}, and \textit{GO:0016787}) has molecular function (MF)
+\textit{5'-nucleotidase activity} and \textit{hydrolase activity}.
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE>>=
+sessionInfo()
+@
+
+\end{document}

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Queries the NCBI database to obtain the sequence for a given...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSEQ {annotate}"><tr><td>getSEQ {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Queries the NCBI database to obtain the sequence for a given
+GenBank Accession number</h2>
+
+<h3>Description</h3>
+
+<p>Given a GenBank Accession number, getSEQ queries the NCBI database for
+the nucleotide sequence.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getGI(accNum)
+getSEQ(gi)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>accNum</code></td>
+<td>
+<p><code>accNum</code> a character string for a GenBank Accession
+number (i.e. M22490)</p>
+</td></tr>
+<tr valign="top"><td><code>gi</code></td>
+<td>
+<p><code>gi</code> a character string or numeric numbers for a
+GenBank accession number or gi number. A gi number is a series of
+digits that are assigned consecutively to each sequence record
+processed by NCBI</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The NCBI database is queried for the given GenBank Accession number to
+obtain the nucleotide sequence in FASTA format. The leading
+identification line of the sequence data is then dropped to return only
+the nucleotide sequence.  
+</p>
+<p>getGI returns the gi number corresponding to a given GenBank accession
+number.
+</p>
+
+
+<h3>Value</h3>
+
+<p>getSEQ returns a character string of nucleotide sequence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://www.ncbi.nlm.nih.gov/entrez/query.fcgi">https://www.ncbi.nlm.nih.gov/entrez/query.fcgi</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+getSEQ("M22490")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

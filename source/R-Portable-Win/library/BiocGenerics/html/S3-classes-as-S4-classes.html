@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: S3 classes as S4 classes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for S3-classes-as-S4-classes {BiocGenerics}"><tr><td>S3-classes-as-S4-classes {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>S3 classes as S4 classes</h2>
+
+<h3>Description</h3>
+
+<p>Some old-style (aka S3) classes are turned into formally defined (aka S4)
+classes by the <span class="pkg">BiocGenerics</span> package. This allows S4 methods defined in
+Bioconductor packages to use them in their signatures.
+</p>
+
+
+<h3>Details</h3>
+
+<p>S3 classes currently turned into S4 classes:
+</p>
+
+<ul>
+<li><p> connection class and subclasses:
+<a href="../../base/html/connections.html">connection</a>,
+file, url, gzfile, bzfile, unz, pipe,
+fifo, sockconn, terminal, textConnection,
+gzcon.
+Addtitionally the characterORconnection S4 class is defined as
+the union of classes character and connection.
+</p>
+</li>
+<li><p> others: <a href="../../base/html/AsIs.html">AsIs</a>, <a href="../../stats/html/dist.html">dist</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><a href="../../methods/html/setOldClass.html">setOldClass</a> and <a href="../../methods/html/setClassUnion.html">setClassUnion</a> in the <span class="pkg">methods</span> package.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

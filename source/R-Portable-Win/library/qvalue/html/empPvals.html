@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate p-values from a set of observed test statistics and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for empPvals {qvalue}"><tr><td>empPvals {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate p-values from a set of observed test statistics and
+simulated null test statistics</h2>
+
+<h3>Description</h3>
+
+<p>Calculates p-values from a set of observed test statistics and
+simulated null test statistics
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+empPvals(stat, stat0, pool = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>stat</code></td>
+<td>
+<p>A vector of calculated test statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>stat0</code></td>
+<td>
+<p>A vector or matrix of simulated or data-resampled null test
+statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>pool</code></td>
+<td>
+<p>If FALSE, stat0 must be a matrix with the number of rows equal to
+the length of <code>stat</code>. Default is TRUE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The argument <code>stat</code> must be such that the larger the value is
+the more deviated (i.e., &quot;more extreme&quot;) from the null hypothesis it is.
+Examples include an F-statistic or the absolute value of a t-statistic. The
+argument <code>stat0</code> should be calculated analogously on data that
+represents observations from the null hypothesis distribution. The p-values
+are calculated as the proportion of values from <code>stat0</code> that are
+greater than or equal to that from <code>stat</code>. If <code>pool=TRUE</code> is
+selected, then all of <code>stat0</code> is used in calculating the p-value for a
+given entry of <code>stat</code>. If <code>pool=FALSE</code>, then it is assumed that
+<code>stat0</code> is a matrix, where <code>stat0[i,]</code> is used to calculate the
+p-value for <code>stat[i]</code>. The function <code>empPvals</code> calculates
+&quot;pooled&quot; p-values faster than using a for-loop.
+</p>
+<p>See page 18 of the Supporting Information in Storey et al. (2005) PNAS
+(<a href="http://www.pnas.org/content/suppl/2005/08/26/0504609102.DC1/04609SuppAppendix.pdf">http://www.pnas.org/content/suppl/2005/08/26/0504609102.DC1/04609SuppAppendix.pdf</a>)
+for an explanation as to why calculating p-values from pooled empirical
+null statistics and then estimating FDR on these p-values is equivalent to
+directly thresholding the test statistics themselves and utilizing an
+analogous FDR estimator.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of p-values calculated as described above.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>John D. Storey
+</p>
+
+
+<h3>References</h3>
+
+<p>Storey JD and Tibshirani R. (2003) Statistical significance for
+genome-wide experiments. Proceedings of the National Academy of Sciences,
+100: 9440-9445.  <br /> <a href="http://www.pnas.org/content/100/16/9440.full">http://www.pnas.org/content/100/16/9440.full</a>
+</p>
+<p>Storey JD, Xiao W, Leek JT, Tompkins RG, Davis RW. (2005) Significance
+analysis of time course microarray experiments.  Proceedings of the
+National Academy of Sciences, 102 (36), 12837-12842. <br />
+<a href="http://www.pnas.org/content/102/36/12837.full.pdf?with-ds=yes">http://www.pnas.org/content/102/36/12837.full.pdf?with-ds=yes</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qvalue.html">qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+stat &lt;- hedenfalk$stat
+stat0 &lt;- hedenfalk$stat0 #vector from null distribution
+
+# calculate p-values
+p.pooled &lt;- empPvals(stat=stat, stat0=stat0)
+p.testspecific &lt;- empPvals(stat=stat, stat0=stat0, pool=FALSE)
+
+# compare pooled to test-specific p-values
+qqplot(p.pooled, p.testspecific); abline(0,1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

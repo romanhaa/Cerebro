@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to Access GO data.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGOTerm {annotate}"><tr><td>getGOTerm {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to Access GO data.</h2>
+
+<h3>Description</h3>
+
+<p>These functions provide access to data in the GO package. The data are
+assembled from publically available data from the Gene Ontology
+Consortium (GO), <a href="www.go.org">www.go.org</a>. Given a list of GO identifiers they
+access the children (more specific terms), the parents (less specific
+terms) and the terms themselves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getGOTerm(x)
+getGOParents(x)
+getGOChildren(x)
+getGOOntology(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A character vector of valid GO identifiers. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>GO consists of three (soon to be more) specific hierarchies: Molecular
+Function (MF), Biological Process (BP) and Cellular Component
+(CC). For more details consult the GO website. For each GO identifier
+each of these three hierarchies is searched and depending on the
+function called the appropriate values are obtained and returned.
+</p>
+<p>It is possible for a GO identifier to have no children or for it to
+have no parents. However, it must have a term associated with it.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the same length as <code>x</code>.
+The list contains one entry for each element of <code>x</code>. That entry
+is itself a list. With one component named <code>Ontology</code> which
+has as its value one of MF, BP or CC. The second component has the
+same name as the suffix of the call, i.e. Children, Parents, or Term.
+If there was no match in any of the ontologies then a length zero list
+is returned for that element of <code>x</code>.
+</p>
+<p>For <code>getGOOntology</code> a vector of categories (the names of which
+are the original GO term names). Elements of this list that are
+<code>NA</code> indicate term names for which there is no category (and
+hence they are not really term names).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>References</h3>
+
+<p>The Gene Ontology Consortium</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ library("GO.db")
+
+ sG &lt;- sample(keys(GO.db, "GOID"), 8)
+
+ gT &lt;- getGOTerm(sG)
+ gP &lt;- getGOParents(sG)
+ gC &lt;- getGOChildren(sG)
+ gcat &lt;- getGOOntology(sG)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

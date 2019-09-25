@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: DataFrame objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for DataFrame-class {S4Vectors}"><tr><td>DataFrame-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>DataFrame objects</h2>
+
+<h3>Description</h3>
+
+<p>The <code>DataFrame</code> class extends the <a href="DataTable-class.html">DataTable</a> virtual
+class and supports the storage of any type of object (with <code>length</code>
+and <code>[</code> methods) as columns.
+</p>
+
+
+<h3>Details</h3>
+
+<p>On the whole, the <code>DataFrame</code> behaves very similarly to
+<code>data.frame</code>, in terms of construction, subsetting, splitting,
+combining, etc. The most notable exception is that the row names are
+optional. This means calling <code>rownames(x)</code> will return
+<code>NULL</code> if there are no row names. Of course, it could return
+<code>seq_len(nrow(x))</code>, but returning <code>NULL</code> informs, for
+example, combination functions that no row names are desired (they are
+often a luxury when dealing with large data).
+</p>
+<p>As <code>DataFrame</code> derives from <code><a href="Vector-class.html">Vector</a></code>, it is
+possible to set an <code>annotation</code> string. Also, another
+<code>DataFrame</code> can hold metadata on the columns.
+</p>
+<p>For a class to be supported as a column, it must have <code>length</code>
+and <code>[</code> methods, where <code>[</code> supports subsetting only by
+<code>i</code> and respects <code>drop=FALSE</code>. Optionally, a method may be
+defined for the <code>showAsCell</code> generic, which should return a
+vector of the same length as the subset of the column passed to
+it. This vector is then placed into a <code>data.frame</code> and converted
+to text with <code>format</code>. Thus, each element of the vector should be
+some simple, usually character, representation of the corresponding
+element in the column.
+</p>
+
+
+<h3>Constructor</h3>
+
+<p><code>DataFrame(..., row.names = NULL, check.names = TRUE,
+      stringsAsFactors)</code>:
+Constructs a <code>DataFrame</code> in similar fashion to
+<code><a href="../../base/html/data.frame.html">data.frame</a></code>. Each argument in <code>...</code> is coerced to
+a <code>DataFrame</code> and combined column-wise. No special effort is
+expended to automatically determine the row names from the
+arguments. The row names should be given in
+<code>row.names</code>; otherwise, there are no row names. This is by
+design, as row names are normally undesirable when data is
+large. If <code>check.names</code> is <code>TRUE</code>, the column names will
+be checked for syntactic validity and made unique, if necessary.
+</p>
+<p>To store an object of a class that does not support coercion to
+<code>DataFrame</code>, wrap it in <code>I()</code>. The class must still have
+methods for <code>length</code> and <code>[</code>.
+</p>
+<p>The <code>stringsAsFactors</code> argument is ignored. The coercion of
+column arguments to DataFrame determines whether strings
+become factors.
+
+</p>
+
+
+<h3>Accessors</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataFrame</code>.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>dim(x)</code>:
+Get the length two integer vector indicating in the first and
+second element the number of rows and columns, respectively.
+</p>
+</dd>
+<dt></dt><dd><p><code>dimnames(x)</code>, <code>dimnames(x) &lt;- value</code>:
+Get and set the two element list containing the row names
+(character vector of length <code>nrow(x)</code> or <code>NULL</code>)
+and the column names (character vector of length <code>ncol(x)</code>).
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>as(from, "DataFrame")</code>:
+By default, constructs a new <code>DataFrame</code> with <code>from</code> as
+its only column. If <code>from</code> is a <code>matrix</code> or
+<code>data.frame</code>, all of its columns become columns in the new
+<code>DataFrame</code>. If <code>from</code> is a list, each element becomes a
+column, recycling as necessary. Note that for the <code>DataFrame</code>
+to behave correctly, each column object must support element-wise
+subsetting via the <code>[</code> method and return the number of elements with
+<code>length</code>. It is recommended to use the <code>DataFrame</code> 
+constructor, rather than this interface.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.list(x)</code>: Coerces <code>x</code>, a <code>DataFrame</code>,
+to a <code>list</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.data.frame(x, row.names=NULL, optional=FALSE)</code>:
+Coerces <code>x</code>, a <code>DataFrame</code>, to a <code>data.frame</code>.
+Each column is coerced to a <code>data.frame</code> and then column
+bound together. If <code>row.names</code> is <code>NULL</code>, they are
+retrieved from <code>x</code>, if it has any. Otherwise, they are
+inferred by the <code>data.frame</code> constructor.
+</p>
+<p>NOTE: conversion of <code>x</code> to a <code>data.frame</code> is not
+supported if <code>x</code> contains any <code>list</code>, <code>SimpleList</code>,
+or <code>CompressedList</code> columns.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "data.frame")</code>: Coerces a <code>DataFrame</code>
+to a <code>data.frame</code> by calling <code>as.data.frame(from)</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.matrix(x)</code>: Coerces the <code>DataFrame</code> to a
+<code>matrix</code>, if possible.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataFrame</code>.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>x[i,j,drop]</code>: Behaves very similarly to the
+<code><a href="../../base/html/Extract.data.frame.html">[.data.frame</a></code> method, except <code>i</code> can be a
+logical <code>Rle</code> object and subsetting by <code>matrix</code> indices
+is not supported. Indices containing <code>NA</code>'s are also not
+supported.
+</p>
+</dd>
+<dt></dt><dd><p><code>x[i,j] &lt;- value</code>: Behaves very similarly to the
+<code><a href="../../base/html/Extract.data.frame.html">[&lt;-.data.frame</a></code> method.
+</p>
+</dd>
+<dt></dt><dd><p><code>x[[i]]</code>: Behaves very similarly to the
+<code><a href="../../base/html/Extract.data.frame.html">[[.data.frame</a></code> method, except arguments <code>j</code>
+and <code>exact</code> are not supported. Column name matching is
+always exact. Subsetting by matrices is not supported.
+</p>
+</dd>
+<dt></dt><dd><p><code>x[[i]] &lt;- value</code>: Behaves very similarly to the
+<code><a href="../../base/html/Extract.data.frame.html">[[&lt;-.data.frame</a></code> method, except argument <code>j</code>
+is not supported.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Combining</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataFrame</code>.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>rbind(...)</code>: Creates a new <code>DataFrame</code> by
+combining the rows of the <code>DataFrame</code> objects in
+<code>...</code>. Very similar to <code><a href="../../base/html/cbind.html">rbind.data.frame</a></code>, except
+in the handling of row names. If all elements have row names, they
+are concatenated and made unique. Otherwise, the result does not
+have row names. The return value inherits its metadata from
+the first argument.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>cbind(...)</code>: Creates a new <code>DataFrame</code> by
+combining the columns of the <code>DataFrame</code> objects in
+<code>...</code>. Very similar to <code><a href="../../base/html/cbind.html">cbind.data.frame</a></code>. The
+return value inherits its metadata from the first argument.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="DataTable-class.html">DataTable</a> and <a href="SimpleList-class.html">SimpleList</a> which DataFrame extends
+directly.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+score &lt;- c(1L, 3L, NA)
+counts &lt;- c(10L, 2L, NA)
+row.names &lt;- c("one", "two", "three")
+  
+df &lt;- DataFrame(score) # single column
+df[["score"]]
+df &lt;- DataFrame(score, row.names = row.names) #with row names
+rownames(df)
+  
+df &lt;- DataFrame(vals = score) # explicit naming
+df[["vals"]]
+
+# arrays
+ary &lt;- array(1:4, c(2,1,2))
+sw &lt;- DataFrame(I(ary))  
+  
+# a data.frame
+sw &lt;- DataFrame(swiss)
+as.data.frame(sw) # swiss, without row names
+# now with row names
+sw &lt;- DataFrame(swiss, row.names = rownames(swiss))
+as.data.frame(sw) # swiss
+
+# subsetting
+    
+sw[] # identity subset
+sw[,] # same
+
+sw[NULL] # no columns
+sw[,NULL] # no columns
+sw[NULL,] # no rows
+
+## select columns
+sw[1:3]
+sw[,1:3] # same as above
+sw[,"Fertility"]
+sw[,c(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE)]
+
+## select rows and columns
+sw[4:5, 1:3]
+  
+sw[1] # one-column DataFrame
+## the same
+sw[, 1, drop = FALSE]
+sw[, 1] # a (unnamed) vector
+sw[[1]] # the same
+sw[["Fertility"]]
+
+sw[["Fert"]] # should return 'NULL'
+ 
+sw[1,] # a one-row DataFrame
+sw[1,, drop=TRUE] # a list
+
+## duplicate row, unique row names are created
+sw[c(1, 1:2),]
+
+## indexing by row names  
+sw["Courtelary",]
+subsw &lt;- sw[1:5,1:4]
+subsw["C",] # partially matches
+
+## row and column names
+cn &lt;- paste("X", seq_len(ncol(swiss)), sep = ".")
+colnames(sw) &lt;- cn
+colnames(sw)
+rn &lt;- seq(nrow(sw))
+rownames(sw) &lt;- rn
+rownames(sw)
+
+## column replacement
+
+df[["counts"]] &lt;- counts
+df[["counts"]]
+df[[3]] &lt;- score
+df[["X"]]
+df[[3]] &lt;- NULL # deletion
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

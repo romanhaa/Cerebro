@@ -1,0 +1,269 @@
+
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\textwidth=6.2in
+
+\bibliographystyle{plainnat} 
+ 
+\begin{document}
+%\setkeys{Gin}{width=0.55\textwidth}
+
+
+\title{Generating an organized set of links to pubmed items}
+\author{VJ Carey}
+\maketitle
+
+\section{Introduction}
+
+I want to have a relatively flat but hierarchical
+presentation of links to published literature.
+My criterion for linkable publication is existence
+of a pubmed id; this can be made more general in the future.
+
+An example of what I want is at
+\url{http://www.biostat.harvard.edu/~carey/provref08.html}.
+
+To create this, I work from a hierarchical list in R.
+The outermost named list enumerates topics.
+Each element of the topic list has a named list of subtopics.
+Each subtopic has a vector of character pubmed IDs.
+
+The remaining sections of this document show how to
+create relevant objects and methods for serialization
+to HTML.  It was convenient to use Pau's hwriter package to do this.
+
+\section{The URL for the pubmed abstract page corresponding
+to a PMID}
+
+
+The workhorse URL generator is:
+<<doit>>=
+options(width=55)
+mkURL = function(
+   id="12584122",
+   pre = "https://www.ncbi.nlm.nih.gov/pubmed/",
+   post="?ordinalpos=9&itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_RVDocSum") {
+ paste(pre, id, post, sep="")
+}
+@
+
+If we execute this, we get:
+<<doit2>>=
+ur = mkURL()
+ur
+@
+This string can be passed to \texttt{browseURL} for immediate
+inspection, but we want to create an organized web page
+that includes the generated links.
+
+\section{A reference object}
+
+We propose an object structure that encodes the organization.
+<<docl>>=
+setClass("litRef", representation(topic="character",
+   subtopic="character", pmid="character"))
+mkLitRef = function(topic, subtopic, pmid) {
+  new("litRef", topic=topic, subtopic=subtopic, pmid=pmid)
+}
+setMethod("show", "litRef", function(object) {
+ cat("pubmed ref: pmid ", object@pmid, "\n")
+ cat("topic: ", object@topic, "\n")
+})
+ex = mkLitRef("Multiple testing", "FDR/microarray", "12584122")
+ex
+@
+
+That's  perhaps a minimally sufficient schema.  Now we want to
+use the web to populate some additional fields to make
+the report useful.
+
+\section{Using the pubmed() XML response to get key fields}
+
+First we define a function that extracts key information from
+a pubmed xml query:
+<<getk>>=
+pmidKeyData = function (pmid="12584122", maxauth=3)
+{
+    require("XML") || stop("need the XML package for this function")
+    x = pubmed(pmid)
+    rr = xmlRoot(x)
+    top = xmlChildren(rr)
+    pmart = top[["PubmedArticle"]]
+    cit = xmlChildren(pmart)[["MedlineCitation"]]
+    art = cit[["Article"]]
+    cart = xmlChildren(art)
+    yr = xmlValue(xmlChildren(
+        xmlChildren(xmlChildren(cart[["Journal"]])$JournalIssue)$PubDate)$Year)
+    tmp = lapply(xmlChildren(cart$AuthorList), xmlChildren)
+    al = sapply(tmp, function(x) xmlValue(x$LastName))
+    if (length(al)>3) al = c(al[1:3], "et al.")
+    journalTitle = try(xmlValue(xmlChildren(cart$Journal)$ISOAbbreviation), silent=TRUE)
+    if (inherits(journalTitle, "try-error"))
+        journalTitle = try(xmlValue(xmlChildren(cart$Journal)$Title))
+    list(journalTitle = journalTitle,
+    articleTitle = xmlValue(cart$ArticleTitle),
+    authorList = paste(al, collapse=", "), year=yr)
+    #cart=cart)
+}
+@
+
+\section{A richer 'entry' object}
+
+Now we use this to populate the enriched entry:
+
+<<domore>>=
+setClass("litEntry", representation(auth="character",
+ title="character", journal="character", year="character"),
+ contains="litRef")
+setGeneric("makeEntry", function(lr) standardGeneric("makeEntry"))
+setMethod("makeEntry", "litRef", function(lr) {
+ require(annotate)
+ x = pmidKeyData(lr@pmid)
+ new("litEntry", auth=x$authorList, title=x$articleTitle,
+    journal=x$journalTitle, year=x$year, lr)
+})
+setMethod("show", "litEntry", function(object) {
+ cat("literature entry:\n")
+ callNextMethod()
+ cat("  title: ", object@title)
+ cat("\n")
+ cat("  journal: ", object@journal, "(", object@year, ")\n")
+})
+ddd = makeEntry(ex)
+ddd
+@
+
+\section{An example schema (list) for a page}
+
+To specify the page to be generated, we use a hierarchical
+list.
+
+<<myl>>=
+mylit = list()
+topics = c("Cautions", "Yeast", "Expression arrays", "Protein-DNA arrays",
+  "Expression plus genotyping", "Structural variation", "High-throughput sequencing",
+  "Statistics", "Computing")
+for (i in 1:length(topics)) mylit[[topics[i]]] = list()
+mylit[["Cautions"]][["Irreproducibility"]] = c("17987014", "15814023")
+mylit[["Cautions"]][["Batch effects"]] = c("17597765", "18309960")
+mylit[["Yeast"]][["Cell cycle"]] = c("9843569", "12399584")
+mylit[["Yeast"]][["Environmental stress response"]] = c("11102521")
+mylit[["Yeast"]][["Species divergence of TFBS"]] = c("17690298")
+mylit[["Yeast"]][["Transcriptional regulation"]] = c("17311525", "15113405")
+mylit[["Yeast"]][["Post-transcriptional regulation"]] = c("16317069")
+mylit[["Expression arrays"]][["Theory: absolute mRNA concentrations"]] = c("12655013")
+mylit[["Expression arrays"]][["Application: Breast cancer/stem compendium"]] = c("18443585")
+mylit[["Expression arrays"]][["Application: Pancreatic cancer/pathway addiction"]] = c("18413752")
+mylit[["Protein-DNA arrays"]][["TF binding specificities"]] = c("16998473", "16839757")
+mylit[["Protein-DNA arrays"]][["Harmen"]] = c("10812473")
+mylit[["Expression plus genotyping"]][["Early work"]] = c("16251966", "17158513")
+mylit[["Expression plus genotyping"]][["Multiple populations"]] = c("17206142", "17873874")
+mylit[["Expression plus genotyping"]][["Drosophila"]] = c("17873888", "17418441")
+mylit[["Structural variation"]][["Copy number: Breast cancer cell lines"]] = c("17157791")
+mylit[["Structural variation"]][["Copy number: Glioma"]] = c("18077431")
+mylit[["Structural variation"]][["Paired end mapping"]] = c("17901297")
+mylit[["High-throughput sequencing"]][["Overview"]] = c("16339375", "18175411")
+mylit[["High-throughput sequencing"]][["Impact"]] = c("18262675")
+mylit[["Statistics"]][["Linear models"]] = c("16646809")
+mylit[["Statistics"]][["Motif finding"]] = c("9719638", "11175784")
+mylit[["Statistics"]][["Multiple testing"]] = c("12584122")
+mylit[["Statistics"]][["GSEA"]] = c("16199517", "17903287", "17127676")
+mylit[["Statistics"]][["Regularized LDA"]] = c("16603682")
+mylit[["Computing"]][["Bioconductor"]] = c("15461798")
+mylit[["Computing"]][["Reproducible research"]] = c("16646837")
+@
+
+\section{Walking the schema to generate the page}
+
+We get a list of topics and subtopics as follows:
+<<getto>>=
+tops = lapply(mylit, names)
+topics = names(tops)
+@
+We need to walk through this and create a list of litRef instances:
+<<lkdd>>=
+reflist = list()
+for (i in 1:length(tops)) {
+ reflist[[topics[i]]] = list()
+ for (j in 1:length(tops[[i]])) # j is num subtopics
+  reflist[[topics[i]]][[ tops[[i]][j] ]] = lapply(mylit[[i]][[j]],
+      function(x) mkLitRef(topics[i], tops[[i]][j], x))
+ }
+entlist = lapply(reflist, lapply, lapply, makeEntry)
+@
+
+Now we need to be able to serialize entries to HTML.
+We use the hwriter package.
+<<newm>>=
+setGeneric("HW", function(x,con) standardGeneric("HW"))
+setMethod("HW", c("litEntry", "ANY"), function(x,con) {
+ hwrite(x@title, con, link=mkURL(id=x@pmid), style="padding-left:30pt; font-family:sans-serif", br=TRUE)
+ hwrite(x@auth, con, style="padding-left: 40pt; font-family:sans-serif")
+ hwrite(", ", con)
+ hwrite(x@journal, con, style="font-weight: bold; font-family:sans-serif")
+ hwrite("(", con)
+ hwrite(x@year, con, style="font-family:sans-serif")
+ hwrite(")", con, br=TRUE)
+})
+ 
+
+@
+The whole hierarchical structure is
+then serialized to HTML using hwriter.
+<<doh>>=
+library(hwriter)
+kk = openPage("demowrite.html", ".")
+hwrite("A provisional set of references for preparation for CDATA-08", kk,
+    style="font-weight: bold; font-size:130%; font-family:sans-serif", br=TRUE)
+hwrite(" ", kk, br=TRUE)
+tl = lapply(entlist, names)
+for (i in 1:length(tl)) {
+   hwrite(names(tl)[i], kk, style="font-weight: bold; font-size: 130%; font-family:sans-serif", br=TRUE)
+   for (j in 1:length(tl[[i]])) {
+     hwrite(tl[[i]][j], kk, style="padding-left:20pt; font-size: 115%; font-family:sans-serif", br=TRUE)
+     for (k in 1:length(entlist[[i]][[j]]))
+      HW(entlist[[i]][[j]][[k]], kk)
+   }
+ }
+closePage(kk)
+@
+
+\section{Things to do}
+\begin{itemize}
+\item generalize to other kinds of links, such as doi or
+direct URL specs ... the problem here is that we
+may not get publishing metadata so easily and we probably
+have to hand code author info, etc., ... but semantic web should eventually
+solve that
+\item meaningful links to software resources
+\item combine with task view system
+\end{itemize}
+
+\end{document}

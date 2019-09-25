@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate an MA plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plotMA-methods {geneplotter}"><tr><td>plotMA-methods {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate an MA plot</h2>
+
+<h3>Description</h3>
+
+<p>Generate a plot of log fold change versus mean expression (MA plot)</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'data.frame'
+plotMA( object, ylim = NULL,
+  colNonSig = "gray32", colSig = "red3", colLine = "#ff000080",
+  log = "x", cex=0.45, xlab="mean expression", ylab="log fold change", ... )
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>A <code>data.frame</code> with (at least) three columns, the first containing the 
+mean expression values (for the x-axis), the second the logarithmic fold change 
+(for the-y axis) and the third 
+a logical vector indicating significance (for the colouring of the dots).
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+
+<p>The limits for the y-axis. If missing, an attempt is made to choose a sensible value.
+Dots exceeding the limits will be displayed as triangles at the limits, pointing outwards.
+</p>
+</td></tr>
+<tr valign="top"><td><code>colNonSig</code></td>
+<td>
+
+<p>colour to use for non-significant data points.
+</p>
+</td></tr>
+<tr valign="top"><td><code>colSig</code></td>
+<td>
+
+<p>colour to use for significant data points. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>colLine</code></td>
+<td>
+
+<p>colour to use for the horizontal (y=0) line.
+</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+
+<p>which axis/axes should be logarithmic; will be passed to <code><a href="../../graphics/html/plot.html">plot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+
+<p>The <code>cex</code> parameter for <code><a href="../../graphics/html/plot.html">plot</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>The x-axis label.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+<p>The y-axis label.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further parameters to be passed through to <code><a href="../../graphics/html/plot.html">plot</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+  plotMA(
+    data.frame(
+      `M` = exp(rexp(1000)),
+      `A` = rnorm(1000) -&gt; tmp,
+      `isde` = abs(tmp)&gt;2) 
+  )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A plotting function for chromosomes.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cPlot {geneplotter}"><tr><td>cPlot {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A plotting function for chromosomes.</h2>
+
+<h3>Description</h3>
+
+<p>Given a chromLocation object, will plot all the gene locations from
+that object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cPlot(plotChroms, useChroms=chromNames(plotChroms),
+      scale=c("relative","max"), fg="white", bg="lightgrey", 
+      glen=0.4, xlab="", ylab="Chromosome",
+      main = organism(plotChroms), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plotChroms</code></td>
+<td>
+<p>An object of type chromLocation which contains all
+the gene information to be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>useChroms</code></td>
+<td>
+<p>A vector of chromosome names to be used in the plot.
+Default is to use all the chromosomes from the plotChroms object.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Passed on to cScale as it's scale argument.  Determines
+whether the graph is scaled on a relative or absolute basis.</p>
+</td></tr>
+<tr valign="top"><td><code>fg</code></td>
+<td>
+<p>The colour to be used for the genes.  Default is white.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>The colour to be used for the background of the plot.
+Defaults to lightgrey.</p>
+</td></tr>
+<tr valign="top"><td><code>glen</code></td>
+<td>
+<p>A scaling factor applied to the plotted length of each
+gene.  Defaults to 0.4 - it is recommended that this not be set
+larger then 0.5 as it will cause overlap between chromosomes.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>A label for the x axis.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>A label for the y axis.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>A main label for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional graphics arguments, passed to <code>segments</code>,
+which is used to draw the vertical ticks.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function will first use the lengths of the chromosomes, stored in
+the object to create scaling factors for the X axis.  Once the
+scaling factors are determined, the <code>chromLocation</code> object which is
+passed in is used to determine all the gene locations/strand
+information/etc, which is then plotted for the user.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="cScale.html">cScale</a></code>, <code><a href="cColor.html">cColor</a></code>,
+<code><a href="../../annotate/html/chromLocation-class.html">chromLocation-class</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   ## A bit of a hack to not have a package dependency on hgu95av2
+   ## but need to fiddle w/ the warn level to not fail the example anyways.
+
+   curWarn &lt;- options(warn=0)
+   on.exit(options(curWarn), add=TRUE)
+   if (require("hgu95av2.db")) {
+       z &lt;- buildChromLocation("hgu95av2")
+
+       if (interactive()) {
+           curPar &lt;- par(ask=TRUE)
+           on.exit(par(curPar), add=TRUE)
+       }
+
+       for (sc in c("max","relative"))
+           cPlot(z,c("1","5","10","X","Y"),sc)
+   } else print("This example can not be run without hgu95av2 data package")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,394 @@
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\textwidth=6.2in
+\textheight=8.5in
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\classdef}[1]{%
+  {\em #1}
+}
+\newcommand{\myincfig}[3]{\begin{figure}[htbp]
+  \begin{center}
+      \includegraphics[width=#2]{#1}
+      \caption{\label{#1}#3}
+  \end{center} \end{figure}}
+
+
+\begin{document}
+\title{Graph Package Performance Report}
+\author{Seth Falcon}
+\maketitle
+
+\SweaveOpts{keep.source=TRUE}
+
+<<funcs, echo=FALSE, results=hide>>=
+st <- system.time
+perfRow <- function(g, t, op="") {
+    data.frame(class = class(g),
+               op = op,
+               nodes = numNodes(g),
+               edges = numEdges(g),
+               directed = ifelse(isDirected(g), "T", "F"),
+               user = t[1],
+               sys = t[2],
+               clock = t[3],
+               stringsAsFactors = FALSE)
+}
+
+timeRow <- function(expr, op) {
+    t <- system.time(g <- expr)
+    list(result=g, row=perfRow(g, t, op))
+}
+
+randNonDiagIndex <- function(n, count)
+{
+    diagIdx <- 1L + 0L:(n - 1L) * (n + 1L)
+    idx <- seq_len(n^2)[-diagIdx]
+    sample(idx, count)
+}
+
+randAdjMat <- function(nodeCount, edgeCount)
+{
+    nodes <- paste("graph_node_", seq_len(nodeCount), sep="")
+    am <- matrix(0L, nrow = nodeCount, ncol = nodeCount,
+                 dimnames = list(nodes, nodes))
+    am[randNonDiagIndex(nodeCount, edgeCount)] <- 1L
+    am
+}
+
+randSymAdjMat <- function(nodeCount, edgeCount)
+{
+    nodes <- paste("graph_node_", seq_len(nodeCount), sep="")
+    am <- matrix(0L, nrow = nodeCount, ncol = nodeCount,
+                 dimnames = list(nodes, nodes))
+    upt <- as.vector(upper.tri(am))
+    idx1 <- sample(seq_len(nodeCount^2)[upt], edgeCount)
+    am[idx1] <- 1L
+    am <- am + t(am)
+    am
+}
+@
+
+\section{Introduction}
+
+
+<<setup, echo=FALSE, results=hide>>=
+library("graph")
+set.seed(0xab34eL)
+
+medEdgeCount <- 5000L
+bigEdgeCount <- 260000L
+nodeCount <- 2000L
+
+bigSymMat <- randSymAdjMat(nodeCount, bigEdgeCount)
+medSymMat <- randSymAdjMat(nodeCount, medEdgeCount)
+
+bigMat <- randAdjMat(nodeCount, bigEdgeCount)
+medMat <- randAdjMat(nodeCount, medEdgeCount)
+
+dim(bigSymMat)
+dim(medSymMat)
+@
+
+This document surveys the runtime performance of graph operations
+believed to be heavily used for common bioinformatic analyses.  We
+use two \Sexpr{nodeCount} node graphs, one with \Sexpr{medEdgeCount}
+edges and the other with \Sexpr{bigEdgeCount} edges.  Both graphs are
+generated randomly.
+
+<<matrixDetails, echo=FALSE, results=hide>>=
+matDim <- dim(bigSymMat)
+cntZero <- sum(bigSymMat == 0)
+cntNonZero <- sum(bigSymMat != 0)
+pctNonZero <- sum(bigSymMat != 0) / nrow(bigSymMat)^2
+@
+
+\section{Timing of Operations}
+
+Here we look at the time to construct \Rclass{graphAM} and
+\Rclass{graphNEL} instances using two adjacency matrices with the same
+node count, but different number of edges.
+
+
+\subsection{Creating new graph objects}
+
+First, we look at the \Rclass{graphAM} representation.  We construct
+directed and undirected graphs with different numbers of edges for the
+same node set.
+
+<<graphAMCreation, echo=FALSE>>=
+## undirected
+ans <- timeRow(graphAM(adjMat = bigSymMat, edgemode="undirected"), "new")
+df <- ans$row
+
+ans <- timeRow(graphAM(adjMat = medSymMat, edgemode="undirected"), "new")
+df <- rbind(df, ans$row)
+
+## directed
+ans <- timeRow(graphAM(adjMat = bigMat, edgemode="directed"), "new")
+df <- rbind(df, ans$row)
+g1 <- ans$result
+
+ans <- timeRow(graphAM(adjMat = medMat, edgemode="directed"), "new")
+df <- rbind(df, ans$row)
+g2 <- ans$result
+
+## using a from/to matrix
+ftmat1 <- t(edgeMatrix(g1))
+ans <- timeRow(graphAM(adjMat = ftM2adjM(ftmat1),
+                   edgemode = "directed"), "new f/t")
+df <- rbind(df, ans$row)
+
+ftmat2 <- t(edgeMatrix(g2))
+ans <- timeRow(graphAM(adjMat = ftM2adjM(ftmat2),
+                   edgemode = "directed"), "new f/t")
+df <- rbind(df, ans$row)
+
+rownames(df) <- NULL
+df.AM.new <- df
+df.AM.new
+
+@
+
+For \Rclass{graphNEL} we can use the \Rcode{as(matrix, "graphNEL")}
+coerce method for the undirected case.  For a directed graph, we
+convert the adjacency matrix into a from-to matrix using
+\Rcode{t(edgeMatrix(g1))} and then use \Rfunction{ftM2graphNEL}.
+
+<<graphNELCreation, echo=FALSE>>=
+ans <- timeRow(as(bigSymMat, "graphNEL"), "as(m, NEL)")
+df.NEL.new <- ans$row
+
+ans <- timeRow(as(medSymMat, "graphNEL"), "as(m, NEL)")
+df.NEL.new <- rbind(df.NEL.new, ans$row)
+
+ftMat1 <- t(edgeMatrix(g1))
+ftMat2 <- t(edgeMatrix(g2))
+
+## there's a bit of an inconsistency here
+## since we aren't using the node labels
+ans <- timeRow(ftM2graphNEL(ftMat1), "ft2NEL")
+df.NEL.new <- rbind(df.NEL.new, ans$row)
+
+ans <- timeRow(ftM2graphNEL(ftMat2), "ft2NEL")
+df.NEL.new <- rbind(df.NEL.new, ans$row)
+
+rownames(df.NEL.new) <- NULL
+df.NEL.new
+@
+
+Here are some notes on the \textit{experimental} \Rclass{graphAM2}
+class that uses a bit array (backed by a raw vector) to store an
+adjacency matrix.
+
+First, we make a more standard from/to matrix:
+<<fromToSetup>>=
+ft1 <- matrix("", nrow = nrow(ftmat1), ncol = ncol(ftmat2))
+ft1[, 1L] <- nodes(g1)[ftmat1[, 1L]]
+ft1[, 2L] <- nodes(g1)[ftmat1[, 2L]]
+
+ft2 <- matrix("", nrow = nrow(ftmat2), ncol = ncol(ftmat2))
+ft2[, 1L] <- nodes(g1)[ftmat2[, 1L]]
+ft2[, 2L] <- nodes(g1)[ftmat2[, 2L]]
+@
+
+
+<<graphAM2Creation, echo=FALSE>>=
+ans <- timeRow(GraphAM2(from = ft1[, 1L], to = ft1[, 2L],
+                        nodes = nodes(g1),
+                        edgemode = "directed"),
+               "GraphAM2")
+df.AM2.new <- ans$row
+gbit1 <- ans$result
+
+ans <- timeRow(GraphAM2(from = ft1[, 1L], to = ft1[, 2L],
+                        nodes = nodes(g1),
+                        edgemode = "undirected"),
+               "GraphAM2")
+df.AM2.new <- rbind(df.AM2.new, ans$row)
+
+ans <- timeRow(GraphAM2(from = ft2[, 1L], to = ft2[, 2L],
+                        nodes = nodes(g2),
+                        edgemode = "directed"),
+               "GraphAM2")
+df.AM2.new <- rbind(df.AM2.new, ans$row)
+gbit2 <- ans$result
+
+ans <- timeRow(GraphAM2(from = ft2[, 1L], to = ft2[, 2L],
+                        nodes = nodes(g2),
+                        edgemode = "undirected"),
+               "GraphAM2")
+df.AM2.new <- rbind(df.AM2.new, ans$row)
+
+rownames(df.AM2.new) <- NULL
+df.AM2.new
+@
+
+\subsection{\Rclass{graphAM} to \Rclass{graphNEL} conversion}
+
+Convert from \Rclass{graphAM} to \Rclass{graphAM}.
+<<coerceToNEL, echo=FALSE>>=
+ans <- timeRow(as(g1, "graphNEL"), "as(AM, NEL)")
+df.AM.to.NEL <- ans$row
+gnel1 <- ans$result
+
+ans <- timeRow(as(g2, "graphNEL"), "as(AM, NEL)")
+df.AM.to.NEL <- rbind(df.AM.to.NEL, ans$row)
+gnel2 <- ans$result
+rownames(df.AM.to.NEL) <- NULL
+df.AM.to.NEL
+@
+
+\subsection{Size comparison}
+
+<<sizeComp, echo=FALSE>>=
+objType <- sapply(list(g1, gnel1, gbit1), class)
+Size <- sapply(list(g1, gnel1, gbit1), object.size)
+data.frame(class=objType, size=Size)
+
+@
+
+\subsection{intersection and union}
+
+Currently, intersection and union are implemented for the
+\Rclass{graph} super class using the \Rmethod{nodes}, \Rmethod{edges}
+methods and constructing a new \Rclass{graphNEL} for the result.  This
+is suboptimal for \Rclass{graphAM} objects.
+
+%% TODO: evaluate intersection/union of two random graphs with same
+%% edge counts as well as the mixed size case
+
+<<intersectionAndUnion, echo=FALSE>>=
+## interesting to note that intersection and union
+## are returning graphNEL, even when input is AM
+ans <- timeRow(intersection(g1, g2), "intersection AM")
+df.setOps <- ans$row
+
+ans <- timeRow(intersection(gnel1, gnel2), "intersection NEL")
+df.setOps <- rbind(df.setOps, ans$row)
+
+## intersection2 is giving me
+## INTEGER() can only be applied to a 'integer', not a 'double'
+## ans <- timeRow(intersection2(g1, g2), "intersection2 AM")
+## df.setOps <- ans$row
+
+## ans <- timeRow(intersection2(gnel1, gnel2), "intersection2 NEL")
+## df.setOps <- rbind(df.setOps, ans$row)
+
+ans <- timeRow(union(g1, g2), "union AM")
+df.setOps <- rbind(df.setOps, ans$row)
+
+ans <- timeRow(union(gnel1, gnel2), "union NEL")
+df.setOps <- rbind(df.setOps, ans$row)
+
+ans <- timeRow(graph:::edge_set_intersect(gbit1, gbit2),
+               "AM2 I")
+df.setOps <- rbind(df.setOps, ans$row)
+
+ans <- timeRow(graph:::edge_set_union(gbit1, gbit2),
+               "AM2 U")
+df.setOps <- rbind(df.setOps, ans$row)
+
+rownames(df.setOps) <- NULL
+df.setOps
+@
+
+Next we explore some different approaches to thresholding a graph's
+edges based on edge weight.  Below we add random edge weights to a new
+graph object \Robject{gw} with the same structure as \Robject{g1}.
+
+<<edgeWeights>>=
+## creating with edge weights
+gw <- g1
+edgeDataDefaults(gw, "weight") <- 1L
+W <- abs(rnorm(numEdges(gw)))
+## there should be an easier way to do this.
+## sadly, it might be easier to extract the matrix
+## and set weights on the matrix and create a new graphAM
+st(emat <- edgeMatrix(gw))
+eFrom <- nodes(gw)[emat[1L, ]]
+eTo <- nodes(gw)[emat[2L, ]]
+
+## setting edge weights for all edges
+st(edgeData(gw, from = eFrom, to = eTo,
+            attr = "weight") <- W)
+
+## extracting all edge weights
+st(ew <- edgeData(gw, attr="weight"))
+@
+
+First approach is to pull out the raw adjacency matrix with values
+representing edge weights, perform the thresholding via matrix
+assignment and convert back to a \Rclass{graphAM}.
+
+<<edgeWeightThresholding1>>=
+## edge thresholding.
+st({
+    c1 <- function() {
+        M <- as(gw, "matrix")
+        idx = (M > 0) & (M < 0.3)
+        M[idx] <- 0
+        graphAM(adjMat = M, values = list(weight = 1L),
+            edgemode = "directed")
+    }
+    ewt1 <- c1()
+})
+ewt1
+@
+
+Another approach is to extract the edge attributes, identify the edges
+to be removed (unfortunately, this requires string parsing) and then
+calling \Rmethod{removeEdge}.
+
+<<edgeWeightThresholding2>>=
+st({
+    c1 <- function() {
+        ew <- unlist(edgeData(gw, attr = "weight"))
+        toRemove <- names(ew[ew < 0.3])
+        fromTo <- do.call(rbind, strsplit(toRemove, "|", fixed = TRUE))
+        removeEdge(fromTo[, 1], fromTo[, 2], gw)
+    }
+    ewt2 <- c1()
+})
+ewt2
+
+@
+
+\subsection{Node permutation}
+
+Here's one way to permute the node labels of a \Rclass{graphAM}
+object.
+
+<<nodePermFunc>>=
+permNodesAM <- function(g) {
+    m <- g@adjMat
+    colnames(m) <- sample(colnames(g@adjMat))
+    graphAM(adjMat = m, edgemode = edgemode(g))
+}
+
+@
+
+<<nodePermTiming, echo=FALSE>>=
+ans <- timeRow(permNodesAM(g1), "permNodesAM")
+df.node.perm <- ans$row
+
+ans <- timeRow(permNodesAM(g2), "permNodesAM")
+df.node.perm <- rbind(df.node.perm, ans$row)
+
+rownames(df.node.perm) <- NULL
+df.node.perm
+
+@
+
+\end{document}
+

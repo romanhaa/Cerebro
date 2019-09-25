@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A replacement for unlist() that does not mangle the names</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unlist2 {AnnotationDbi}"><tr><td>unlist2 {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A replacement for unlist() that does not mangle the names</h2>
+
+<h3>Description</h3>
+
+<p><code>unlist2</code> is a replacement for <code>base::unlist()</code> that
+does not mangle the names.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  unlist2(x, recursive=TRUE, use.names=TRUE, what.names="inherited")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, recursive, use.names</code></td>
+<td>
+<p>See <code>?unlist</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>what.names</code></td>
+<td>
+<p><code>"inherited"</code> or <code>"full"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Use this function if you don't like the mangled names returned
+by the standard <code>unlist</code> function from the base package.
+Using <code>unlist</code> with annotation data is dangerous and it is
+highly recommended to use <code>unlist2</code> instead.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Herve Pages</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/unlist.html">unlist</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  x &lt;- list(A=c(b=-4, 2, b=7), B=3:-1, c(a=1, a=-2), C=list(c(2:-1, d=55), e=99))
+  unlist(x)
+  unlist2(x)
+
+  library(hgu95av2.db)
+  egids &lt;- c("10", "100", "1000")
+  egids2pbids &lt;- mget(egids, revmap(hgu95av2ENTREZID))
+  egids2pbids
+
+  unlist(egids2pbids)   # 1001, 1002, 10001 and 10002 are not real
+                        # Entrez ids but are the result of unlist()
+                        # mangling the names!
+
+  unlist2(egids2pbids)  # much cleaner! yes the names are not unique
+                        # but at least they are correct...
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

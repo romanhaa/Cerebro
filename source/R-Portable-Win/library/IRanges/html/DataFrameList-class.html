@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of DataFrames</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for DataFrameList-class {IRanges}"><tr><td>DataFrameList-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of DataFrames</h2>
+
+<h3>Description</h3>
+
+<p>Represents a list of <code><a href="../../S4Vectors/html/DataFrame-class.html">DataFrame</a></code> objects.
+The <code>SplitDataFrameList</code> class contains the additional restriction
+that all the columns be of the same name and type. Internally it is stored
+as a list of <code>DataFrame</code> objects and extends
+<code><a href="../../S4Vectors/html/List-class.html">List</a></code>.</p>
+
+
+<h3>Accessors</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataFrameList</code>.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>dim(x)</code>: Get the two element integer vector indicating
+the number of rows and columns over the entire dataset.</p>
+</dd>
+<dt></dt><dd><p><code>dimnames(x)</code>: Get the list of two character vectors,
+the first holding the rownames (possibly <code>NULL</code>) and the second
+the column names.
+</p>
+</dd>
+<dt></dt><dd><p><code>columnMetadata(x)</code>: Get the <code>DataFrame</code> of
+metadata along the columns, i.e., where each column in <code>x</code> is
+represented by a row in the metadata. The metadata is common
+across all elements of <code>x</code>. Note that
+calling <code>mcols(x)</code> returns the metadata on
+the <code>DataFrame</code> elements of <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>columnMetadata(x) &lt;- value</code>: Set the <code>DataFrame</code>
+of metadata for the columns.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>SplitDataFrameList</code>. In
+general <code>x</code> follows the conventions of 
+<code>SimpleList</code>/<code>CompressedList</code> with the following addition:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i,j,drop]</code>: If matrix subsetting is used, <code>i</code> selects
+either the list elements or the rows within the list elements as
+determined by the <code>[</code> method for
+<code>SimpleList</code>/<code>CompressedList</code>, <code>j</code> selects the columns,
+and <code>drop</code> is used when one column is selected and output can
+be coerced into an <code>AtomicList</code> or <code>IntegerRangesList</code>
+subclass.
+</p>
+</dd>
+<dt></dt><dd><p><code>x[i,j] &lt;- value</code>: If matrix subsetting is used, <code>i</code>
+selects either the list elements or the rows within the list elements
+as determined by the <code>[&lt;-</code> method for
+<code>SimpleList</code>/<code>CompressedList</code>, <code>j</code> selects the columns
+and <code>value</code> is the replacement value for the selected region.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>DataFrameList(...)</code>: Concatenates the <code>DataFrame</code>
+objects in <code>...</code> into a new <code>DataFrameList</code>.</p>
+</dd>
+<dt></dt><dd><p><code>SplitDataFrameList(..., compress = TRUE, cbindArgs =
+      FALSE)</code>: If <code>cbindArgs</code> is <code>FALSE</code>, the <code>...</code>
+arguments are coerced to <code>DataFrame</code> objects and concatenated
+to form the result. The arguments must have the same number and
+names of columns. If <code>cbindArgs</code> is <code>TRUE</code>, the
+arguments are combined as columns. The arguments must then be the
+same length, with each element of an argument mapping to an
+element in the result. If <code>compress = TRUE</code>, returns a
+<code>CompressedSplitDataFrameList</code>; else returns a
+<code>SimpleSplitDataFrameList</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Combining</h3>
+
+<p>In the following code snippets, objects in <code>...</code> are of class
+<code>DataFrameList</code>.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>rbind(...)</code>: Creates a new <code>DataFrameList</code> containing
+the element-by-element row concatenation of the objects in <code>...</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>cbind(...)</code>: Creates a new <code>DataFrameList</code> containing
+the element-by-element column concatenation of the objects in <code>...</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Transformation</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>transform(`_data`, ...)</code>: Transforms a
+<code>SplitDataFrame</code> in a manner analogous to the
+base <code><a href="../../base/html/transform.html">transform</a></code>, where the columns are <code>List</code>
+objects adhering to the structure of <code>_data</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the following code snippets, <code>x</code> is a <code>DataFrameList</code>.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>as(from, "DataFrame")</code>: Coerces a
+<code>SplitDataFrameList</code> to a <code>DataFrame</code>, which has a column
+for every column in <code>from</code>, except each column is a
+<code>List</code> with the same structure as <code>from</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "SplitDataFrameList")</code>: By default, simply
+calls the <code>SplitDataFrameList</code> constructor
+on <code>from</code>. If <code>from</code> is a <code>List</code>, each element
+of <code>from</code> is passed as an argument
+to <code>SplitDataFrameList</code>, like calling <code>as.list</code> on a
+vector. If <code>from</code> is a <code>DataFrame</code>, each row becomes an
+element in the list.</p>
+</dd>
+<dt></dt><dd><p><code>stack(x, index.var = "name")</code>: Unlists <code>x</code> and
+adds a column named <code>index.var</code> to the result, indicating the
+element of <code>x</code> from which each row was obtained.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as.data.frame(x, row.names = NULL, optional = FALSE,
+         ..., value.name = "value", use.outer.mcols = FALSE, 
+         group_name.as.factor = FALSE)</code>: 
+Coerces <code>x</code> to a <code>data.frame</code>. See as.data.frame on the 
+<code>List</code> man page for details (?<code>List</code>). 
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../S4Vectors/html/DataFrame-class.html">DataFrame</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

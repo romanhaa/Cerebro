@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Function goSlim in Package 'GSEABase'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for goSlim-methods {GSEABase}"><tr><td>goSlim-methods {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for Function goSlim in Package &lsquo;GSEABase&rsquo;</h2>
+
+<h3>Description</h3>
+
+<p>These methods summarize the gene ontology terms implied by the
+<code>idSrc</code> argument into the GO terms implied by the
+<code>slimCollection</code> argument. The summary takes identifiers in
+<code>idSrc</code> and determines all GO terms that
+apply to the identifiers. This full list of GO terms are then
+classified for membership in each term in the
+<code>slimCollection</code>.
+</p>
+<p>The resulting object is a data frame containing the terms of
+<code>slimCollection</code> as row labels, counts and frequencies of
+identifiers classified to each term, and an abbreviated term
+description.
+</p>
+<p>An identifier in <code>idSrc</code> can expand to several GO terms, and the
+GO terms in <code>slimCollection</code> can imply an overlapping hierarchy
+of terms. Thus the resulting summary can easily contain more counts
+than there are identifiers in <code>idSrc</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+goSlim(idSrc, slimCollection, ontology, ..., verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>idSrc</code></td>
+<td>
+<p>An argument determining the source of GO terms to be
+mapped to slim terms. The source might be a <code>GOCollection</code> of
+terms, or another object (e.g., ExpressionSet) for which the method
+can extract GO terms.</p>
+</td></tr>
+<tr valign="top"><td><code>slimCollection</code></td>
+<td>
+<p>An argument containing the GO slim terms.</p>
+</td></tr>
+<tr valign="top"><td><code>ontology</code></td>
+<td>
+<p>A character string naming the ontology to be
+consulted when identifying slim term hierarchies. One of &lsquo;MF&rsquo;
+(molecular function), &lsquo;BP&rsquo; (biological process), &lsquo;CC&rsquo;
+(cellular compartment).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to specific methods.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Logical influencing whether messages (primarily missing
+GO terms arising during creation of the slim hierarchy) are reported.</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>idSrc=&quot;GOCollection&quot;, slimCollection=&quot;GOCollection&quot;,
+ontology=&quot;character&quot;, ..., verbose=FALSE</dt><dd><p>Classify <code>idSrc</code> GO
+terms into <code>slimCollection</code> categories. The hierarchy of
+terms included for each term is from the ontology (MF, BP, or CC)
+specified by <code>ontology</code>. <code>verbose</code> informs about, e.g., GO
+terms that are not found.</p>
+</dd>
+<dt>idSrc=&quot;ExpressionSet&quot;, slimCollection=&quot;GOCollection&quot;,
+ontology=&quot;character&quot;, ...,  verbose=FALSE</dt><dd><p>Determine the (unique) GO terms
+implied by feature names in <code>idSrc</code> (using the annotation map
+identified in <code>annotation(idSrc)</code>).</p>
+</dd>
+</dl>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+myIds &lt;- c("GO:0016564", "GO:0003677", "GO:0004345", "GO:0008265",
+           "GO:0003841", "GO:0030151", "GO:0006355", "GO:0009664",
+           "GO:0006412", "GO:0015979", "GO:0006457", "GO:0005618",
+           "GO:0005622", "GO:0005840", "GO:0015935", "GO:0000311")
+myCollection &lt;- GOCollection(myIds)
+fl &lt;- system.file("extdata", "goslim_plant.obo", package="GSEABase")
+slim &lt;- getOBOCollection(fl)
+goSlim(myCollection, slim, "MF")
+data(sample.ExpressionSet)
+goSlim(sample.ExpressionSet, slim, "MF", evidenceCode="TAS")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

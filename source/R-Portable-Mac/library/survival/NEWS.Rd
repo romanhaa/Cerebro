@@ -1,5 +1,56 @@
 \name{NEWS}
 \title{NEWS file for the survival package}
+\section{Changes in version 2.44-1}{
+  \itemize{
+    \item Fix error in survreg when the init argument was used.
+}}
+
+\section{Changes in version 2.44-0}{
+  \itemize{
+    \item Add several data sets from the reliability literature, which
+    had been used in the tests directory, to the package's
+    data and add a help page of 'reliability'.
+    \item Fix error in residuals.survreg, type="matrix", pointed out by
+    Achim Zelies.  Another check has been added to the tests.
+    \item The survfit routine now returns the cumulative hazard along
+    with its standard error, and allows for robust variance.
+    \item For (start, stop) data, the survfit result only includes
+    unique stop times.
+    \item Update plot.survfit to plot the cumulative hazard when
+    fun='cumhaz', rather than plotting log(surv).
+    \item The Nagelkirke R^2 has been removed from summary.coxph.
+    The shortcomings of this measure are well known, concordance is a
+    better measure.
+    \item A cluster() term is not allowed in the finegray function; now
+    give an explicit error message to that effect.
+
+    \item Track down a failure that occured with some infinite
+    coefficient data sets.  When iterations run out, the routine now
+    returns the last successful iterate rather than the last attempt, e.g.,
+    if the loglik maximizes at infinity the routine now returns the
+    last step at which the partial likelihood, first and second
+    derivatives were all finite.  This stops some downstream
+    "non-finite" messages.
+
+    \item Add concordancefit function to help pages and exports, so
+    other packages can more easily invoke it.  
+}}
+
+\section{Changes in version 2.43-4}{
+  \itemize{
+    \item Added a hex sticker.  It is found in man/figures.
+    \item Small grammar changes in a help page.
+    \item Fix bug pointed out by A Ruten-Budde.  The coxph routine was
+    not passing the timefix option forward to a subseqent concordance
+    call.
+    \item Fine tune the checks for an infinite coefficient.  A data set
+    from rehbergT managed to have overflows in the first and second
+    derivative at the same iteration, leading to an update of inf * 0.
+    \item Formally add some small reliability data sets to the package, with a
+    help page of 'reliability'.  They had been used in the tests.
+  }
+}
+
 \section{Changes in version 2.43-2}{
   \itemize{
     \item In concordance, allow y to be an orderable factor (either

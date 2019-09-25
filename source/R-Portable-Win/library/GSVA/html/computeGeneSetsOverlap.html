@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute gene-sets overlap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for computeGeneSetsOverlap {GSVA}"><tr><td>computeGeneSetsOverlap {GSVA}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute gene-sets overlap
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the overlap among every pair of gene-sets given as input.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'list,character'
+computeGeneSetsOverlap(gSets, uniqGenes, min.sz=1, max.sz=Inf)
+## S4 method for signature 'list,ExpressionSet'
+computeGeneSetsOverlap(gSets, uniqGenes, min.sz=1, max.sz=Inf)
+## S4 method for signature 'GeneSetCollection,character'
+computeGeneSetsOverlap(gSets, uniqGenes, min.sz=1, max.sz=Inf)
+## S4 method for signature 'GeneSetCollection,ExpressionSet'
+computeGeneSetsOverlap(gSets, uniqGenes, min.sz=1, max.sz=Inf)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>gSets</code></td>
+<td>
+<p>Gene sets given either as a <code>list</code> or a <code>GeneSetCollection</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>uniqGenes</code></td>
+<td>
+<p>Vector of unique genes to be considered when calculating the overlaps.</p>
+</td></tr>
+<tr valign="top"><td><code>min.sz</code></td>
+<td>
+<p>Minimum size.</p>
+</td></tr>
+<tr valign="top"><td><code>max.sz</code></td>
+<td>
+<p>Maximum size.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function calculates the overlap between every pair of gene sets
+of the input argument <code>gSets</code>. Before this calculation takes place,
+the gene sets in <code>gSets</code> are firstly filtered to discard genes that do not
+match to the identifiers in <code>uniqGenes</code>. Secondly, they are further
+filtered to meet the minimum and/or maximum size specified with the arguments
+<code>min.sz</code> and <code>max.sz</code>. The overlap between two gene sets is calculated
+as the number of common genes between the two gene sets divided by the smallest
+size of the two gene sets.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A gene-set by gene-set matrix of the overlap among every pair of gene sets.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>J. Guinney</p>
+
+
+<h3>References</h3>
+
+<p>Hänzelmann, S., Castelo, R. and Guinney, J.
+GSVA: Gene set variation analysis for microarray and RNA-Seq data.
+<em>BMC Bioinformatics</em>, 14:7, 2013.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="filterGeneSets.html">filterGeneSets</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+geneSets &lt;- list(set1=as.character(1:4), set2=as.character(4:10))
+
+computeGeneSetsOverlap(geneSets, unique(unlist(geneSets)))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSVA</em> version 1.30.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

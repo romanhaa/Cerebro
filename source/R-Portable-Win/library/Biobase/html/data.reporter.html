@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example data.frame representing reporter information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for reporter {Biobase}"><tr><td>reporter {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example data.frame representing reporter information</h2>
+
+<h3>Description</h3>
+
+<p>The <code>reporter</code> object is a 500 by 1 data frame. The rows represent
+the 500 probe IDs in the <code>geneData</code> data. The values in
+<code>reporter</code> are the predefined probe types for the probes.
+<code>reporter</code> is used in conjunction with the <code>geneData</code> object
+and its associates.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(reporter)</pre>
+
+
+<h3>Format</h3>
+
+<p>A 500 by 1 data frame
+</p>
+
+
+<h3>Details</h3>
+
+<p>There are 10 predefined probe types:
+</p>
+
+<ul>
+<li> <p><code>AFFX-</code> Quality Control (QC)
+</p>
+</li>
+<li> <p><code>_f_</code> SequenceFamily
+</p>
+</li>
+<li> <p><code>_g_</code> CommonGroups
+</p>
+</li>
+<li> <p><code>_s_</code> SimilarityConstraint
+</p>
+</li>
+<li> <p><code>_r_</code> RulesDropped
+</p>
+</li>
+<li> <p><code>_i_</code> Incomplete
+</p>
+</li>
+<li> <p><code>_b_</code> AmbiguousProbeSet
+</p>
+</li>
+<li> <p><code>_l_</code> LongProbeSet
+</p>
+</li>
+<li> <p><code>_at</code> AntiSenseTarget
+</p>
+</li>
+<li> <p><code>_st</code> SenseTarget
+</p>
+</li></ul>
+
+
+
+<h3>Source</h3>
+
+<p>Affymetrix GeneChip Expression Analysis Data Analysis Fundamentals (<a href="http://www.affymetrix.com/Auth/support/downloads/manuals/data_analysis_fundamentals_manual.pdf">http://www.affymetrix.com/Auth/support/downloads/manuals/data_analysis_fundamentals_manual.pdf</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(reporter)
+## maybe str(reporter) ; plot(reporter) ...
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

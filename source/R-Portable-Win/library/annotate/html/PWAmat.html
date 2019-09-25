@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to compute the probe to KEGG pathway incidence...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for PWAmat {annotate}"><tr><td>PWAmat {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to compute the probe to KEGG pathway incidence matrix.</h2>
+
+<h3>Description</h3>
+
+<p>For a given chip we compute the mapping from probes to KEGG pathways.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+PWAmat(data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The name of the chip for which the incidence matrix should
+be computed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Not much to say, just find which probes are in which pathways and
+return the incidence matrix, with pathways as rows and probes as
+columns. 
+</p>
+<p>It would be nice to be able to specify a set of probes to use, so that 
+one does not do perform the calculations using all probes if they are
+not of interest.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix containing zero or one, depending on whether the probe
+(row) is in a pathway (column).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GO2heatmap.html">KEGG2heatmap</a></code>, <code><a href="GOmnplot.html">GOmnplot</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  Am1 &lt;- PWAmat("hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

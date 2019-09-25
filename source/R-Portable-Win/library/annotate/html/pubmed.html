@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to open the browser to Pubmed with the selected...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pubmed {annotate}"><tr><td>pubmed {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to open the browser to Pubmed with the selected gene. </h2>
+
+<h3>Description</h3>
+
+<p>Given a vector of Pubmed identifiers or accession numbers, the user
+can either have a browser display a URL showing a Pubmed query for
+those identifiers, or a XMLdoc object with the same data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pubmed(...,disp=c("data","browser"), type=c("uid","accession"),
+       pmaddress=.efetch("PubMed", disp, type))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Vectorized set of Pubmed ID's</p>
+</td></tr>
+<tr valign="top"><td><code>disp</code></td>
+<td>
+<p>Either &quot;Data&quot; or &quot;Browser&quot; (default is data).  Data
+returns a XMLDoc, while Browser will display information in the
+user's browser.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Denotes whether the arguments are accession numbers or
+UIDS.  Defaults to uids.</p>
+</td></tr>
+<tr valign="top"><td><code>pmaddress</code></td>
+<td>
+<p>Specific path to the pubmed efetch engine from the
+NCBI website.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A simple function to retrieve Pubmed data given a specific ID, either
+through XML or through a web browser.  This function will accept
+either pubmed accession numbers or NCBI UIDs (defined as a Pubmed
+ID or a Medline ID) - although the types must not be mixed in a single
+call. 
+</p>
+<p>WARNING:  The powers that be at NCBI have been known to ban the IP
+addresses of users who abuse their servers (currently defined as
+less then 2 seconds between queries).  Do NOT put this function in
+a tight loop or you may find your access revoked.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If the option &quot;data&quot; is used, an object of type XMLDoc is returned,
+unless there was an error with the query in which case an object of
+type try-error is returned.
+</p>
+<p>If the option &quot;browser&quot; is used, nothing is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="genbank.html">genbank</a></code>, <code><a href="../../XML/html/xmlTreeParse.html">xmlTreeParse</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   if( interactive() )
+    opts &lt;- c("data","browser") else
+    opts &lt;- "data"
+   for (dp in opts)
+     pubmed("11780146","11886385","11884611",disp=dp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

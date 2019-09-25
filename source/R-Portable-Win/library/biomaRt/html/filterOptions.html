@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Displays the filter options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for filterOptions {biomaRt}"><tr><td>filterOptions {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Displays the filter options</h2>
+
+<h3>Description</h3>
+
+<p>Displays a set of predetermed values for the specified filter (if available).</p>
+
+
+<h3>Usage</h3>
+
+<pre>filterOptions(filter,mart)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filter</code></td>
+<td>
+<p>A valid filter name.</p>
+</td></tr>
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mar created using the useMart functiont</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if(interactive()){
+mart = useMart("ensembl", dataset="hsapiens_gene_ensembl")
+filterOptions("chromosome_name", mart)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Divide a vector-like object into groups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for split-methods {S4Vectors}"><tr><td>split-methods {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Divide a vector-like object into groups</h2>
+
+<h3>Description</h3>
+
+<p><code>split</code> divides the data in a vector-like object <code>x</code> into the
+groups defined by <code>f</code>.
+</p>
+<p>NOTE: This man page is for the <code>split</code> methods defined in the
+<span class="pkg">S4Vectors</span> package. See <code>?base::<a href="../../base/html/split.html">split</a></code> for the
+default method (defined in the <span class="pkg">base</span> package).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Vector,ANY'
+split(x, f, drop=FALSE)
+
+## S4 method for signature 'ANY,Vector'
+split(x, f, drop=FALSE)
+
+## S4 method for signature 'Vector,Vector'
+split(x, f, drop=FALSE)
+
+## S4 method for signature 'list,Vector'
+split(x, f, drop=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, f</code></td>
+<td>
+
+<p>2 vector-like objects of the same length. <code>f</code> will typically be a
+factor, but not necessarily.
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>Logical indicating if levels that do not occur should be dropped (if
+<code>f</code> is a factor).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Arguments passed to <code>base::<a href="split-methods.html">split</a></code> (see Details below).
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The first 3 methods just delegate to the
+<code>IRanges::<a href="../../IRanges/html/splitAsList.html">splitAsList</a></code> function defined in the
+<span class="pkg">IRanges</span> package.
+</p>
+<p>The method for <code>list</code> does:
+</p>
+<pre>    split(x, as.vector(f), drop=drop, ...)
+</pre>
+
+
+<h3>Value</h3>
+
+<p>All these methods behave like <code>base::<a href="split-methods.html">split</a></code> except that the
+first 3 methods return a <a href="List-class.html">List</a> object instead of an ordinary list.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="../../base/html/split.html">split</a></code> function in the <span class="pkg">base</span> package.
+</p>
+</li>
+<li><p> The <code><a href="../../IRanges/html/splitAsList.html">splitAsList</a></code> function in the <span class="pkg">IRanges</span>
+package.
+</p>
+</li>
+<li> <p><a href="Vector-class.html">Vector</a> and <a href="List-class.html">List</a> objects.
+</p>
+</li>
+<li> <p><a href="Rle-class.html">Rle</a> and <a href="DataFrame-class.html">DataFrame</a> objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## On an Rle object:
+x &lt;- Rle(101:105, 6:2)
+split(x, c("B", "B", "A", "B", "A"))
+
+## On a DataFrame object:
+groups &lt;- c("group1", "group2")
+DF &lt;- DataFrame(
+    a=letters[1:10],
+    i=101:110,
+    group=rep(factor(groups, levels=groups), c(3, 7))
+)
+split(DF, DF$group)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

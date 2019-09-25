@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List objects (old man page)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for List-class-leftovers {IRanges}"><tr><td>List-class-leftovers {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List objects (old man page)</h2>
+
+<h3>Description</h3>
+
+<p>IMPORTANT NOTE - 9/4/2014: This man page is being refactored. Most of
+the things that used to be documented here have been moved to the man
+page for <a href="../../S4Vectors/html/List.html">List</a> objects located in the <span class="pkg">S4Vectors</span>
+package.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The only thing left here is the documentation of the <code>stack</code>
+method for <a href="../../S4Vectors/html/List-class.html">List</a> objects. In the code snippets below, <code>x</code>
+is a List object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>stack(x, index.var = "name", value.var = "value")</code>:
+As with <code><a href="../../utils/html/stack.html">stack</a></code> on a <code>list</code>,
+constructs a <code>DataFrame</code> with two columns: one for the
+unlisted values, the other indicating the name of the element from
+which each value was obtained. <code>index.var</code> specifies the column
+name for the index (source name) column and <code>value.var</code>
+specifies the column name for the values.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="../../S4Vectors/html/List.html">List</a> class defined and documented in the
+<span class="pkg">S4Vectors</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+starts &lt;- IntegerList(c(1, 5), c(2, 8))
+ends &lt;- IntegerList(c(3, 8), c(5, 9))
+rgl &lt;- IRangesList(start=starts, end=ends)
+rangeDataFrame &lt;- stack(rgl, "space", "ranges")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Hits objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Hits-class {S4Vectors}"><tr><td>Hits-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Hits objects</h2>
+
+<h3>Description</h3>
+
+<p>The Hits class is a container for representing a set of hits between
+a set of <em>left nodes</em> and a set of <em>right nodes</em>.
+Note that only the hits are stored in the object. No information about
+the left or right nodes is stored, except their number.
+</p>
+<p>For example, the <code><a href="../../IRanges/html/findOverlaps.html">findOverlaps</a></code> function, defined
+and documented in the <span class="pkg">IRanges</span> package, returns the hits between
+the <code>query</code> and <code>subject</code> arguments in a <code>Hits</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Constructor functions
+
+Hits(from=integer(0), to=integer(0), nLnode=0L, nRnode=0L, ...,
+     sort.by.query=FALSE)
+
+SelfHits(from=integer(0), to=integer(0), nnode=0L, ...,
+     sort.by.query=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from, to</code></td>
+<td>
+
+<p>2 integer vectors of the same length.
+The values in <code>from</code> must be &gt;= 1 and &lt;= <code>nLnode</code>.
+The values in <code>to</code> must be &gt;= 1 and &lt;= <code>nRnode</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nLnode, nRnode</code></td>
+<td>
+
+<p>Number of left and right nodes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Metadata columns to set on the Hits object. All the metadata columns must
+be vector-like objects of the same length as <code>from</code> and <code>to</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sort.by.query</code></td>
+<td>
+
+<p>Should the hits in the returned object be sorted by query? If yes, then
+a SortedByQueryHits object is returned (SortedByQueryHits is a subclass
+of Hits).
+</p>
+</td></tr>
+<tr valign="top"><td><code>nnode</code></td>
+<td>
+
+<p>Number of nodes.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Accessors</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>Hits</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>length(x)</code>: get the number of hits</p>
+</dd>
+<dt></dt><dd><p><code>from(x)</code>: Equivalent to <code>as.data.frame(x)[[1]]</code>.</p>
+</dd>
+<dt></dt><dd><p><code>to(x)</code>: Equivalent to <code>as.data.frame(x)[[2]]</code>.</p>
+</dd>
+<dt></dt><dd><p><code>nLnode(x)</code>, <code>nrow(x)</code>: get the number of left nodes</p>
+</dd>
+<dt></dt><dd><p><code>nRnode(x)</code>, <code>ncol(x)</code>: get the number of right nodes</p>
+</dd>
+<dt></dt><dd><p><code>countLnodeHits(x)</code>: Counts the number of hits for
+each left node, returning an integer vector.
+</p>
+</dd>
+<dt></dt><dd><p><code>countRnodeHits(x)</code>: Counts the number of hits for
+each right node, returning an integer vector.
+</p>
+</dd>
+</dl>
+
+<p>The following accessors are just aliases for the above accessors:
+</p>
+
+<dl>
+<dt></dt><dd><p><code>queryHits(x)</code>: alias for <code>from(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>subjectHits(x)</code>: alias for <code>to(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>queryLength(x)</code>: alias for <code>nLnode(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>subjectLength(x)</code>: alias for <code>nRnode(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>countQueryHits(x)</code>: alias for <code>countLnodeHits(x)</code>.</p>
+</dd>
+<dt></dt><dd><p><code>countSubjectHits(x)</code>: alias for <code>countRnodeHits(x)</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>Hits</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>as.matrix(x)</code>: Coerces <code>x</code> to a two
+column integer matrix, with each row representing a hit
+between a left node (first column) and a right node (second
+column).
+</p>
+</dd>
+<dt></dt><dd><p><code>as.table(x)</code>: Counts the number of hits for
+each left node in <code>x</code> and outputs the counts as a <code>table</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the code snippets below, <code>x</code> is a Hits object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>:
+Return a new Hits object made of the elements selected by <code>i</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i, j]</code>:
+Like the above, but allow the user to conveniently subset the metadata
+columns thru <code>j</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i] &lt;- value</code>:
+Replacement version of <code>x[i]</code>.
+</p>
+</dd>
+</dl>
+
+<p>See <code>?`<a href="[.html">[</a>`</code> in this package (the <span class="pkg">S4Vectors</span>
+package) for more information about subsetting Vector derivatives and
+for an important note about the <code>x[i, j]</code> form.
+</p>
+
+
+<h3>Concatenation</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>c(x, ..., ignore.mcols=FALSE)</code>:
+Concatenate Hits object <code>x</code> and the Hits objects in
+<code>...</code> together.
+See <code>?<a href="c.html">c</a></code> in this package (the <span class="pkg">S4Vectors</span>
+package) for more information about concatenating Vector derivatives.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Other transformations</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>Hits</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>t(x)</code>:
+Transpose <code>x</code> by interchanging the left and right nodes. This
+allows, for example, counting the number of hits for each right node
+using <code>as.table</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>remapHits(x, Lnodes.remapping=NULL, new.nLnode=NA,
+                               Rnodes.remapping=NULL, new.nRnode=NA)</code>:
+Only supports SortedByQueryHits objects at the moment.
+</p>
+<p>Remaps the left and/or right nodes in <code>x</code>. The left nodes are
+remapped thru the map specified via the <code>Lnodes.remapping</code> and
+<code>new.nLnode</code> arguments. The right nodes are remapped thru the
+map specified via the <code>Rnodes.remapping</code> and <code>new.nRnode</code>
+arguments.
+</p>
+<p><code>Lnodes.remapping</code> must represent a function defined on the
+1..M interval that takes values in the 1..N interval, where N is
+<code>nLnode(x)</code> and M is the value specified by the user via the
+<code>new.nLnode</code> argument. Note that this mapping function doesn't
+need to be injective or surjective. Also it is not represented by an R
+function but by an integer vector of length M with no NAs. More precisely
+<code>Lnodes.remapping</code> can be NULL (identity map), or a vector of
+<code>nLnode(x)</code> non-NA integers that are &gt;= 1 and
+&lt;= <code>new.nLnode</code>, or a factor of length <code>nLnode(x)</code>
+with no NAs (a factor is treated as an integer vector, and, if missing,
+<code>new.nLnode</code> is taken to be its number of levels). Note that
+a factor will typically be used to represent a mapping function that is
+not injective.
+</p>
+<p>The same applies to the <code>Rnodes.remapping</code>.
+</p>
+<p><code>remapHits</code> returns a Hits object where <code>from(x)</code> and
+<code>to(x)</code> have been remapped thru the 2 specified maps. This
+remapping is actually only the 1st step of the transformation, and is
+followed by 2 additional steps: (2) the removal of duplicated hits,
+and (3) the reordering of the hits (first by query hits, then by subject
+hits). Note that if the 2 maps are injective then the remapping won't
+introduce duplicated hits, so, in that case, step (2) is a no-op (but
+is still performed). Also if the &quot;query map&quot; is strictly ascending and
+the &quot;subject map&quot; ascending then the remapping will preserve the order
+of the hits, so, in that case, step (3) is also a no-op (but is still
+performed).
+</p>
+</dd>
+<dt></dt><dd><p><code>breakTies(x, method=c("first", "last"), rank)</code>: Restrict the
+hits so that every left node maps to at most one right node. If
+<code>method</code> is &ldquo;first&rdquo;, for each left node, select the
+edge with the first (lowest rank) right node, if any. If
+<code>method</code> is &ldquo;last&rdquo;, select the edge with the last
+(highest rank) right node. If <code>rank</code> is not missing, it
+should be a formula specifying an alternative ranking according to
+its terms (see <code><a href="Vector-comparison.html">rank</a></code>).
+</p>
+</dd>
+</dl>
+
+
+
+<h3>SelfHits</h3>
+
+<p>A SelfHits object is a Hits object where the left and right nodes are
+identical. For a SelfHits object <code>x</code>, <code>nLnode(x)</code> is equal to
+<code>nRnode(x)</code>. The object can be seen as an oriented graph where
+<code>nLnode</code> is the nb of nodes and the hits are the (oriented) edges.
+SelfHits objects support the same set of accessors as Hits objects
+plus the <code>nnode()</code> accessor that is equivalent to <code>nLnode()</code>
+and <code>nRnode()</code>.
+</p>
+<p>We also provide two little utilities to operate on a SelfHits object
+<code>x</code>:
+</p>
+
+<dl>
+<dt></dt><dd><p><code>isSelfHit(x)</code>: A <em>self hit</em> is an edge from a node to
+itself. <code>isSelfHit(x)</code> returns a logical vector <em>parallel</em>
+to <code>x</code> indicating which elements in <code>x</code> are self hits.
+</p>
+</dd>
+<dt></dt><dd><p><code>isRedundantHit(x)</code>: When there is more than 1 edge between
+2 given nodes (regardless of orientation), the extra edges are considered
+to be <em>redundant hits</em>. <code>isRedundantHit(x)</code> returns a logical
+vector <em>parallel</em> to <code>x</code> indicating which elements in <code>x</code>
+are redundant hits.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence and Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="Hits-comparison.html">Hits-comparison</a> for comparing and ordering hits.
+</p>
+</li>
+<li><p> The <code><a href="../../IRanges/html/findOverlaps.html">findOverlaps</a></code> function in the
+<span class="pkg">IRanges</span> package which returns SortedByQueryHits object.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/Hits-examples.html">Hits-examples</a> in the <span class="pkg">IRanges</span> package, for
+some examples of Hits object basic manipulation.
+</p>
+</li>
+<li> <p><a href="../../IRanges/html/setops-methods.html">setops-methods</a> in the <span class="pkg">IRanges</span> package,
+for set operations on Hits objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+from &lt;- c(5, 2, 3, 3, 3, 2)
+to &lt;- c(11, 15, 5, 4, 5, 11)
+id &lt;- letters[1:6]
+
+Hits(from, to, 7, 15, id)
+Hits(from, to, 7, 15, id, sort.by.query=TRUE)
+
+## ---------------------------------------------------------------------
+## selectHits()
+## ---------------------------------------------------------------------
+
+x &lt;- c("a", "b", "a", "c", "d")
+table &lt;- c("a", "e", "d", "a", "a", "d")
+hits &lt;- findMatches(x, table)  # sorts the hits by query
+hits
+
+selectHits(hits, select="all")  # no-op
+
+selectHits(hits, select="first")
+selectHits(hits, select="first", nodup=TRUE)
+
+selectHits(hits, select="last")
+selectHits(hits, select="last", nodup=TRUE)
+
+selectHits(hits, select="arbitrary")
+selectHits(hits, select="count")
+
+## ---------------------------------------------------------------------
+## remapHits()
+## ---------------------------------------------------------------------
+
+Lnodes.remapping &lt;- factor(c(a="A", b="B", c="C", d="D")[x],
+                           levels=LETTERS[1:4])
+remapHits(hits, Lnodes.remapping=Lnodes.remapping)
+
+## See ?`Hits-examples` in the IRanges package for more examples of basic
+## manipulation of Hits objects.
+
+## ---------------------------------------------------------------------
+## SelfHits objects
+## ---------------------------------------------------------------------
+
+hits2 &lt;- SelfHits(c(2, 3, 3, 3, 3, 3, 4, 4, 4), c(4, 3, 2:4, 2, 2:3, 2), 4)
+## Hits 2 and 4 are self hits (from 3rd node to itself):
+which(isSelfHit(hits2))
+## Hits 4, 6, 7, 8, and 9, are redundant hits:
+which(isRedundantHit(hits2))
+
+hits3 &lt;- findMatches(x)
+hits3[!isSelfHit(hits3)]
+hits3[!(isSelfHit(hits3) | isRedundantHit(hits3))]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

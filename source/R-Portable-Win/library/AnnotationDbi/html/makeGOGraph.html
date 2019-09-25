@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A convenience function to generate graphs based on the GO.db...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for makeGOGraph {AnnotationDbi}"><tr><td>makeGOGraph {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A convenience function to generate graphs based on the GO.db package</h2>
+
+<h3>Description</h3>
+
+<p><code>makeGOGraph</code> is a function to quickly convert any of the three Gene
+Ontologies in GO.db into a graphNEL object where each edge is given a
+weight of 1.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  makeGOGraph(ont = c("bp","mf","cc"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ont</code></td>
+<td>
+<p>Specifies the ontology: &quot;cc&quot;, &quot;bp&quot; or &quot;mf&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GOTerms-class.html">GOTerms</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## makes a GO graph from the CC ontology 
+  f &lt;- makeGOGraph("cc")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

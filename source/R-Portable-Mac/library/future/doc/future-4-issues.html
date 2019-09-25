@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>A Future for R: Common Issues with Solutions</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+<meta name="keywords" content="R, package, vignette, future, promise">
+<meta name="author" content="Henrik Bengtsson">
+
+</head>
+
+<body>
+<h1>A Future for R: Common Issues with Solutions</h1>
+
+<p>In the ideal case, all it takes to start using futures in R is to replace select standard assignments (<code>&lt;-</code>) in your R code with future assignments (<code>%&lt;-%</code>) and make sure the right-hand side (RHS) expressions are within curly brackets (<code>{ ... }</code>).  Also, if you assign these to lists (e.g. in a for loop), you need to use a list environment (<code>listenv</code>) instead of a plain list.</p>
+
+<p>However, as show below, there are few cases where you might run into some hurdles, but, as also shown, they are often easy to overcome.  These are often related to global variables.  </p>
+
+<p><em>If you identify other cases, please consider <a href="https://github.com/HenrikBengtsson/future/issues/">reporting</a> them so they can be documented here and possibly even be fixed.</em></p>
+
+<h2>Issues with globals and packages</h2>
+
+<h3>Missing globals (false negatives)</h3>
+
+<p>If a global variable is used in a future expression that <em>conditionally</em> overrides this global variable with a local one, the future framework fails to identify the global variable and therefore fails to export it, resulting in a run-time error.  For example, although this works:</p>
+
+<pre><code class="r">plan(multisession)
+
+reset &lt;- TRUE
+x &lt;- 1
+y %&lt;-% { if (reset) x &lt;- 0; x + 1 }
+y
+## [1] 1
+</code></pre>
+
+<p>the following does <em>not</em> work:</p>
+
+<pre><code class="r">reset &lt;- FALSE
+x &lt;- 1
+y %&lt;-% { if (reset) x &lt;- 0; x + 1 }
+y
+## Error: object &#39;x&#39; not found
+</code></pre>
+
+<p><em>Comment:</em> The goal is to in a future version of the package detect globals also in expression where the local-global state of a variable is only known at run time.</p>
+
+<h4>do.call() - function not found</h4>
+
+<p>When calling a function using <code>do.call()</code> make sure to specify the function as the object itself and not by name.  This will help identify the function as a global object in the future expression.  For instance, use</p>
+
+<pre><code class="r">do.call(file_ext, list(&quot;foo.txt&quot;))
+</code></pre>
+
+<p>instead of</p>
+
+<pre><code class="r">do.call(&quot;file_ext&quot;, list(&quot;foo.txt&quot;))
+</code></pre>
+
+<p>so that <code>file_ext()</code> is properly located and exported.  Although you may not notice a difference when evaluating futures in the same R session, it may become a problem if you use a character string instead of a function object when futures are evaluated in external R sessions, such as on a cluster.
+It may also become a problem with futures evaluated with lazy evaluation if the intended function is redefined after the future is resolved.  For example,</p>
+
+<pre><code class="r">&gt; library(&quot;future&quot;)
+&gt; library(&quot;listenv&quot;)
+&gt; library(&quot;tools&quot;)
+&gt; plan(sequential)
+&gt; pathnames &lt;- c(&quot;foo.txt&quot;, &quot;bar.png&quot;, &quot;yoo.md&quot;)
+&gt; res &lt;- listenv()
+&gt; for (ii in seq_along(pathnames)) {
++   res[[ii]] %&lt;-% do.call(&quot;file_ext&quot;, list(pathnames[ii])) %lazy% TRUE
++ }
+&gt; file_ext &lt;- function(...) &quot;haha!&quot;
+&gt; unlist(res)
+[1] &quot;haha!&quot; &quot;haha!&quot; &quot;haha!&quot;
+</code></pre>
+
+<h4>get() - object not found</h4>
+
+<p>The base R function <code>get()</code> can be used to get the value of a object by its name.  For example, <code>get(&quot;pi&quot;, envir = baseenv())</code> will get the value of object <code>pi</code> in the &#39;base&#39; environment, i.e. it corresponds to <code>base::pi</code>.  If no other objects named <code>pi</code> exists on the search path, we could have used <code>get(&quot;pi&quot;)</code> and <code>pi</code>, respectively.  It is not unusal to see code snippets such as:</p>
+
+<pre><code class="r">&gt; a &lt;- 1:3
+&gt; b &lt;- 4:6
+&gt; c &lt;- 3:5
+&gt; my_sum &lt;- function(var) { sum(get(var)) }
+&gt; y &lt;- my_sum(&quot;a&quot;)
+&gt; y
+[1] 6
+</code></pre>
+
+<p>If we attempt to call <code>my_sum()</code> via a future, we will get an error (if the future is resolved in an external R process);</p>
+
+<pre><code class="r">&gt; library(&quot;future&quot;)
+&gt; plan(multisession)
+&gt; f &lt;- future(my_sum(&quot;a&quot;))
+&gt; y &lt;- value(f)
+Error in get(var) : object &#39;a&#39; not found
+</code></pre>
+
+<p>This is because the static code inspection done on the future expression <code>my_sum(&quot;a&quot;)</code> does not reveal object <code>a</code> as a global object.  In that expression alone, there are only three objects: the function <code>my_sum()</code>, the primitive function <code>(</code>, and the string <code>&quot;a&quot;</code>, and none of those are object <code>a</code>.  The future framework will also scan these three objects for globals, which in this example means that it scans also <code>my_sum()</code>.  This recursive search for globals will identify three additional globals, namely, the primitive function <code>{</code>, the function <code>sum()</code>, and the function <code>get()</code>, but, as before, none of these source will identify <code>a</code> as a global object.
+In order for <code>a</code> to be identified, the future framework would need to have a built-in understanding on how <code>get(var)</code> works, which would be a daunting task, especially if it need to know it acts for different data types of <code>var</code> and various choices on arguments <code>envir</code> and <code>enclos</code>.  In fact, this can often not be inferred until run time, that is, it is not possible to identify what objects are needed without actually running the code.  In short, it is not possible to automatically identify global variables specified via a character string.</p>
+
+<p>The workaround is to tell the future framework what <em>additional</em> globals are needed.  This can be done via argument <code>globals</code> using:</p>
+
+<pre><code class="r">&gt; f &lt;- future(my_sum(&quot;a&quot;), globals = structure(TRUE, add = &quot;a&quot;))
+&gt; y &lt;- value(f)
+&gt; y
+[1] 6
+</code></pre>
+
+<p>Note that, independently of the future framework, it is often a bad idea to use <code>get()</code>, and related functions <code>mget()</code> and <code>assign()</code>, in R code.  Searching the archives of R forums, such as the R-help and R-devel mailing lists, will reveal numerous suggestions against using them.  A good rule of thumb is:</p>
+
+<blockquote>
+<p>If you find yourself using <code>get()</code> in your code, take a step back, and reconsider your implementation.  There is most likely better solution available.</p>
+</blockquote>
+
+<p>For example, consider this, slightly more complex, example:</p>
+
+<pre><code class="r">&gt; a &lt;- 1:3
+&gt; b &lt;- 4:7
+&gt; c &lt;- 3:5
+&gt; my_sum &lt;- function(var) { sum(get(var)) }
+&gt; y &lt;- sapply(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), FUN = my_sum)
+&gt; y
+ a  b  c
+ 6 22 12
+</code></pre>
+
+<p>Instead of using &ldquo;free roaming&rdquo; objects <code>a</code>, <code>b</code>, and <code>c</code>, it&#39;s better to put those values in a list (or a data frame of of the same length);</p>
+
+<pre><code class="r">&gt; data &lt;- list(a = 1:3, b = 4:7, c = 3:5)
+</code></pre>
+
+<p>This will in turn allow us to perform the same calculations without having to use <code>get()</code>;</p>
+
+<pre><code class="r">&gt; my_sum &lt;- function(x) { sum(x) }
+&gt; y &lt;- sapply(data, FUN = my_sum)
+&gt; y
+ a  b  c
+ 6 22 12
+</code></pre>
+
+<h4>glue::glue() - object not found</h4>
+
+<p>The future framework will fail to identify globals that are declared via character strings.  The above section show an example of this where <code>get()</code> is used and explains why it is not feasible to automatically identify string-embedded globals from such code.  Another example, is when using <code>glue()</code> from the glue package to generate strings dynamically, e.g.</p>
+
+<pre><code class="r">&gt; library(&quot;glue&quot;)
+&gt; a &lt;- 42
+&gt; s &lt;- glue(&quot;The value of a is {a}.&quot;)
+&gt; s
+The value of a is 42.
+</code></pre>
+
+<p>Attempt to perform the same via a future that is resolved in another R session will produce an &ldquo;object not found&rdquo; error;</p>
+
+<pre><code class="r">&gt; library(&quot;glue&quot;)
+&gt; library(&quot;future&quot;)
+&gt; plan(multisession)
+&gt; a &lt;- 42
+&gt; s %&lt;-% glue(&quot;The value of a is {a}.&quot;)
+&gt; s
+Error in eval(parse(text = text, keep.source = FALSE), envir) : 
+  object &#39;a&#39; not found
+</code></pre>
+
+<p>As examplained in the previous section, the workaround is to specify what additional global variables there are, which can be done as:</p>
+
+<pre><code>&gt; s %&lt;-% glue(&quot;The value of a is {a}.&quot;) %globals% structure(TRUE, add = &quot;a&quot;)
+&gt; s
+The value of a is 42.
+</code></pre>
+
+<p>An alternative solution is to guide the future framework by adding the missing globals as &ldquo;dummy&rdquo; variables, e.g.</p>
+
+<pre><code>&gt; s %&lt;-% { a; glue(&quot;The value of a is {a}.&quot;) }
+&gt; s
+The value of a is 42.
+</code></pre>
+
+<h3>Missing packages (false negatives)</h3>
+
+<p>Occassionally, the static-code inspection of the future expression fails to identify packages needed to evaluated the expression.  This may occur when an expression uses S3 generic functions part of one package whereas the required S3 method is in another package.  For example, in the below future generic function <code>[</code> is used on data.table object <code>DT</code>, which requires S3 method <code>[.data.table</code> from the data.table package.  However, the future and global packages fail to identify data.table as a required package, which results in an evaluation error:</p>
+
+<pre><code class="r">&gt; library(&quot;future&quot;)
+&gt; plan(multisession)
+
+&gt; library(&quot;data.table&quot;)
+&gt; DT &lt;- data.table(a = LETTERS[1:3], b = 1:3)
+&gt; y %&lt;-% DT[, sum(b)]
+&gt; y
+Error: object &#39;b&#39; not found
+</code></pre>
+
+<p>The above error occurs because, contrary to the master R process, the R worker that evaluated the future expression does not have data.table loaded.  Instead the evaluation falls back to the <code>[.data.frame</code> method, which is not what we want.</p>
+
+<p>Until the future framework manages to identify data.table as a required package (which is the goal), we can guide future by specifying additional packages needed:</p>
+
+<pre><code class="r">&gt; y %&lt;-% DT[, sum(b)] %packages% &quot;data.table&quot;
+&gt; y
+[1] 6
+</code></pre>
+
+<p>or equivalently</p>
+
+<pre><code class="r">&gt; f &lt;- future(DT[, sum(b)], packages = &quot;data.table&quot;)
+&gt; value(f)
+[1] 6
+</code></pre>
+
+<h2>Non-exportable objects</h2>
+
+<p>Certain types of objects are tied to a given R session and cannot be passed along to another R process (a &ldquo;worker&rdquo;).  An example of a non-exportable object is is XML objects of the xml2 package.  If we attempt to use those in parallel processing, we may get a error when the future is evaluated (or just invalid results depending on how they are used), e.g.</p>
+
+<pre><code class="r">&gt; library(&quot;future&quot;)
+&gt; plan(multisession)
+&gt; library(&quot;xml2&quot;)
+&gt; xml &lt;- read_xml(&quot;&lt;body&gt;&lt;/body&gt;&quot;)
+&gt; f &lt;- future(xml_children(xml))
+&gt; value(f)
+Error: external pointer is not valid
+</code></pre>
+
+<p>The future framework can help detect this <em>before</em> sending off the future to the worker;</p>
+
+<pre><code class="r">&gt; options(future.globals.onReference = &quot;error&quot;)
+&gt; f &lt;- future(xml_children(xml))
+Error in FALSE : 
+  Detected a non-exportable reference (&#39;externalptr&#39;) in one of the globals
+(&#39;xml&#39; of class &#39;xml_document&#39;) used in the future expression
+</code></pre>
+
+<p>For additional details on non-exportable objects and examples of other R packages that use objects that may cause problems in parallel processing, see Vignette &#39;Non-Exportable Objects&#39;.</p>
+
+<h2>Trying to pass an unresolved future to another future</h2>
+
+<p>It is not possible for a future to resolve another one unless it was created by the future trying to resolve it.  For instance, the following gives an error:</p>
+
+<pre><code class="r">&gt; library(&quot;future&quot;)
+&gt; plan(multiprocess)
+&gt; f1 &lt;- future({ Sys.getpid() })
+&gt; f2 &lt;- future({ value(f1) })
+&gt; v1 &lt;- value(f1)
+[1] 7464
+&gt; v2 &lt;- value(f2)
+Error: Invalid usage of futures: A future whose value has not yet been collected
+ can only be queried by the R process (cdd013cb-e045-f4a5-3977-9f064c31f188; pid
+ 1276 on MyMachine) that created it, not by any other R processes (5579f789-e7b6
+ -bace-c50d-6c7a23ddb5a3; pid 2352 on MyMachine): {; Sys.getpid(); }
+</code></pre>
+
+<p>This is because the main R process creates two futures, but then the second future tries to retrieve the value of the first one.  This is an invalid request because the second future has no channel to communicate with the first future; it is only the process that created a future who can communicate with it(*).</p>
+
+<p>Note that it is only <em>unresolved</em> futures that cannot be queried this way.  Thus, the solution to the above problem is to make sure all futures are resolved before they are passed to other futures, e.g.</p>
+
+<pre><code class="r">&gt; f1 &lt;- future({ Sys.getpid() })
+&gt; v1 &lt;- value(f1)
+&gt; v1
+[1] 7464
+&gt; f2 &lt;- future({ value(f1) })
+&gt; v2 &lt;- value(f2)
+&gt; v2
+[1] 7464
+</code></pre>
+
+<p>This works because the value has already been collected and stored inside future <code>f1</code> before future <code>f2</code> is created.  Since the value is already stored internally, <code>value(f1)</code> is readily available everywhere.  Of course, instead of using <code>value(f1)</code> for the second future, it would be more readable and cleaner to simply use <code>v1</code>.</p>
+
+<p>The above is typically not a problem when future assignments are used.  For example:</p>
+
+<pre><code class="r">&gt; v1 %&lt;-% { Sys.getpid() })
+&gt; v2 %&lt;-% { v1 }
+&gt; v1
+[1] 2352
+&gt; v2
+[1] 2352
+</code></pre>
+
+<p>The reason that this approach works out of the box is because in the second future assignment <code>v1</code> is identified as a global variable, which is retrieved.  Up to this point, <code>v1</code> is a promise (&ldquo;delayed assignment&rdquo; in R), but when it is retrieved as a global variable its value is resolved and <code>v1</code> becomes a regular variable.</p>
+
+<p>However, there are cases where future assignments can be passed via global variables without being resolved.  This can happen if the future assignment is done to an element of an environment (including list environments).  For instance,</p>
+
+<pre><code class="r">&gt; library(&quot;listenv&quot;)
+&gt; x &lt;- listenv()
+&gt; x$a %&lt;-% { Sys.getpid() }
+&gt; x$b %&lt;-% { x$a }
+&gt; x$a
+[1] 2352
+&gt; x$b
+Error: Invalid usage of futures: A future whose value has not yet been collected
+ can only be queried by the R process (cdd013cb-e045-f4a5-3977-9f064c31f188; pid
+ 1276 on localhost) that created it, not by any other R processes (2ce86ccd-5854
+ -7a05-1373-e1b20022e4d8; pid 7464 on localhost): {; Sys.getpid(); }
+</code></pre>
+
+<p>As previously, this can be avoided by making sure <code>x$a</code> is resolved first, which can be one in various ways, e.g. <code>dummy &lt;- x$a</code>, <code>resolve(x$a)</code> and <code>force(x$a)</code>.</p>
+
+<p><em>Footnote</em>: (*) Although sequential futures could be passed on to other futures part of the same R process and be resolved there because they share the same evaluation process, by definition of the Future API it is invalid to do so regardless of future type.  This conservative approach is taken in order to make future expressions behave consistently regardless of the type of future used.</p>
+
+<h2>Miscellaneous</h2>
+
+<h3>Clashes with other packages</h3>
+
+<p>Sometimes other packages have functions or operators with the same name as the future package, and if those packages are attached <em>after</em> the future package, their objects will mask the ones of the future package.  For instance, the igraph package also defines a <code>%&lt;-%</code> operator which clashes with the one in future <em>if used at the prompt or in a script</em> (it is not a problem inside package because there we explicitly import objects in a known order).  Here is what we might get:</p>
+
+<pre><code class="r">&gt; library(&quot;future&quot;)
+&gt; library(&quot;igraph&quot;)
+
+Attaching package: &#39;igraph&#39;
+
+The following objects are masked from &#39;package:future&#39;:
+
+    %&lt;-%, %-&gt;%
+
+The following objects are masked from &#39;package:stats&#39;:
+
+    decompose, spectrum
+
+The following object is masked from &#39;package:base&#39;:
+
+    union
+
+&gt; y %&lt;-% { 42 }
+Error in get(&quot;.igraph.from&quot;, parent.frame()) : 
+  object &#39;.igraph.from&#39; not found
+</code></pre>
+
+<p>Here we get an error because <code>%&lt;-%</code> is from igraph and not the future assignment operator as we wanted.  This can be confirmed as:</p>
+
+<pre><code class="r">&gt; environment(`%&lt;-%`)
+&lt;environment: namespace:igraph&gt;
+</code></pre>
+
+<p>To avoid this problem, attach the two packages in opposite order such that future comes last and thereby overrides igraph, i.e.</p>
+
+<pre><code class="r">&gt; library(&quot;igraph&quot;)
+&gt; library(&quot;future&quot;)
+
+Attaching package: &#39;future&#39;
+
+The following objects are masked from &#39;package:igraph&#39;:
+
+%&lt;-%, %-&gt;%
+
+&gt; y %&lt;-% { 42 }
+&gt; y
+[1] 42
+</code></pre>
+
+<p>An alternative is to detach the future package and re-attach it, which will achieve the same thing:</p>
+
+<pre><code class="r">&gt; detach(&quot;package:future&quot;)
+&gt; library(&quot;future&quot;)
+</code></pre>
+
+<p>Yet another alternative is to explicitly override the object by importing it to the global environment, e.g.</p>
+
+<pre><code class="r">&gt; `%&lt;-%` &lt;- future::`%&lt;-%`
+&gt; y %&lt;-% { 42 }
+&gt; y
+[1] 42
+</code></pre>
+
+<p>In this case, it does not matter in what order the packages are attached because we will always use the copy of <code>future::`%&lt;-%`</code>.</p>
+
+<h3>Syntax error: &ldquo;non-numeric argument to binary operator&rdquo;</h3>
+
+<p>The future assignment operator <code>%&lt;-%</code> is a <em>binary infix operator</em>, which means it has higher precedence than most other binary operators but also higher than some of the unary operators in R.  For instance, this explains why we get the following error:</p>
+
+<pre><code class="r">&gt; x %&lt;-% 2 * runif(1)
+Error in x %&lt;-% 2 * runif(1) : non-numeric argument to binary operator
+</code></pre>
+
+<p>What effectively is happening here is that because of the higher priority of <code>%&lt;-%</code>, we first create a future <code>x %&lt;-% 2</code> and then we try to multiply the future (not its value) with the value of <code>runif(1)</code> - which makes no sense.  In order to properly assign the future variable, we need to put the future expression within curly brackets;</p>
+
+<pre><code class="r">&gt; x %&lt;-% { 2 * runif(1) }
+&gt; x
+[1] 1.030209
+</code></pre>
+
+<p>Parentheses will also do.  For details on precedence on operators in R, see Section &#39;Infix and prefix operators&#39; in the &#39;R Language Definition&#39; document.</p>
+
+<h3>R CMD check NOTEs</h3>
+
+<p>The code inspection run by <code>R CMD check</code> will not recognize the future assignment operator <code>%&lt;-%</code> as an assignment operator, which is not surprising because <code>%&lt;-%</code> is technically an infix operator.  This means that if you for instance use the following code in your package:</p>
+
+<pre><code class="r">foo &lt;- function() {
+  b &lt;- 3.14
+  a %&lt;-% { b + 1 }
+  a
+}
+</code></pre>
+
+<p>then <code>R CMD check</code> will produce a NOTE saying:</p>
+
+<pre><code class="sh">* checking R code for possible problems ... NOTE
+foo: no visible binding for global variable &#39;a&#39;
+Undefined global functions or variables:
+  a
+</code></pre>
+
+<p>In order to avoid this, we can add a dummy assignment of the missing global at the top of the function, i.e.</p>
+
+<pre><code class="r">foo &lt;- function() {
+  a &lt;- NULL ## To please R CMD check
+  b &lt;- 3.14
+  a %&lt;-% { b + 1 }
+  a
+}
+</code></pre>
+
+<hr/>
+
+<p>Copyright Henrik Bengtsson, 2015-2019</p>
+
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write results to file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for write.qvalue {qvalue}"><tr><td>write.qvalue {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write results to file</h2>
+
+<h3>Description</h3>
+
+<p>Write the results of the q-value object to a file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+write.qvalue(x, file = NULL, sep = " ", eol = "\n", na = "NA",
+  row.names = FALSE, col.names = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A q-value object.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Output filename (optional).</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>Separation between columns.</p>
+</td></tr>
+<tr valign="top"><td><code>eol</code></td>
+<td>
+<p>Character to print at the end of each line.</p>
+</td></tr>
+<tr valign="top"><td><code>na</code></td>
+<td>
+<p>String to use when there are missing values.</p>
+</td></tr>
+<tr valign="top"><td><code>row.names</code></td>
+<td>
+<p>logical. Specify whether row names are to be printed.</p>
+</td></tr>
+<tr valign="top"><td><code>col.names</code></td>
+<td>
+<p>logical. Specify whether column names are to be printed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The output file includes: (i) p-values, (ii)
+q-values (iii) local FDR values, and (iv) the estimate of <i>pi_0</i>,
+one per line. If an FDR significance
+level was specified in the call to <code><a href="qvalue.html">qvalue</a></code>, the significance
+level is printed and an indicator of significance is included.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nothing of interest.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>John D. Storey, Andrew J. Bass
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qvalue.html">qvalue</a></code>, <code><a href="plot.qvalue.html">plot.qvalue</a></code>,
+<code><a href="summary.qvalue.html">summary.qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+p &lt;- hedenfalk$p
+
+# write q-value object
+qobj &lt;- qvalue(p)
+write.qvalue(qobj, file="myresults.txt")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

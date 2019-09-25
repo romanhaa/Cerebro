@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class to Contain and Describe High-Throughput Expression...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ExpressionSet {Biobase}"><tr><td>ExpressionSet {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Class to Contain and Describe High-Throughput Expression Level Assays.
+</h2>
+
+<h3>Description</h3>
+
+<p>Container for high-throughput assays and experimental
+metadata. <code>ExpressionSet</code> class is derived from
+<code><a href="class.eSet.html">eSet</a></code>, and requires a matrix named <code>exprs</code> as
+assayData member.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Instance creation
+ExpressionSet(assayData,
+    phenoData=annotatedDataFrameFrom(assayData, byrow=FALSE),
+    featureData=annotatedDataFrameFrom(assayData, byrow=TRUE),
+    experimentData=MIAME(), annotation=character(),
+    protocolData=annotatedDataFrameFrom(assayData, byrow=FALSE),
+    ...)
+
+## Additional methods documented below
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>assayData</code></td>
+<td>
+<p>A <code>matrix</code> of expression values, or an
+<code>environment</code>.
+</p>
+<p>When <code>assayData</code> is a <code>matrix</code>, the rows represent probe
+sets (&lsquo;features&rsquo; in <code>ExpressionSet</code> parlance).  Columns
+represent samples. When present, row names identify features and
+column names identify samples. Row and column names must be unique,
+and consistent with row names of <code>featureData</code> and
+<code>phenoData</code>, respectively. The assay data can be retrieved with
+<code>exprs()</code>.
+</p>
+<p>When <code>assayData</code> is an environment, it contains identically
+dimensioned matrices like that described in the previous
+paragraph. One of the elements of the environment must be named
+&lsquo;exprs&rsquo;; this element is returned with <code>exprs()</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>phenoData</code></td>
+<td>
+<p>An optional <code>AnnotatedDataFrame</code> containing
+information about each sample. The number of rows in
+<code>phenoData</code> must match the number of columns in
+<code>assayData</code>. Row names of <code>phenoData</code> must match column
+names of the matrix / matricies in <code>assayData</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>featureData</code></td>
+<td>
+<p>An optional <code>AnnotatedDataFrame</code> containing
+information about each feature. The number of rows in
+<code>featureData</code> must match the number of rows in
+<code>assayData</code>. Row names of <code>featureData</code> must match row
+names of the matrix / matricies in <code>assayData</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>experimentData</code></td>
+<td>
+<p>An optional <code>MIAME</code> instance with meta-data
+(e.g., the lab and resulting publications from the analysis) about
+the experiment.</p>
+</td></tr>
+<tr valign="top"><td><code>annotation</code></td>
+<td>
+<p>A <code>character</code> describing the platform on which
+the samples were assayed. This is often the name of a Bioconductor
+chip annotation package, which facilitated down-stream analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>protocolData</code></td>
+<td>
+<p>An optional <code>AnnotatedDataFrame</code> containing
+equipment-generated information about protocols. The number of rows
+and row names of <code>protocolData</code> must agree with the dimension
+and column names of <code>assayData</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, passed to
+<code>new("ExpressionSet", ...)</code> and available for classes that extend
+<code>ExpressionSet</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Extends</h3>
+
+<p>Directly extends class <code><a href="class.eSet.html">eSet</a></code>.
+</p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>ExpressionSet</code> instances are usually created through
+<code>ExpressionSet()</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+<p>Inherited from <code>eSet</code>:
+</p>
+
+<dl>
+<dt><code>assayData</code>:</dt><dd><p>Contains matrices with equal
+dimensions, and with column number equal to
+<code>nrow(phenoData)</code>. <code>assayData</code> must contain a matrix
+<code>exprs</code> with rows representing features (e.g., probe sets)
+and columns representing samples. Additional matrices of
+identical size (e.g., representing measurement errors) may
+also be included in <code>assayData</code>. Class:<code><a href="class.AssayData.html">AssayData-class</a></code></p>
+</dd>
+<dt><code>phenoData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>featureData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>experimentData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>annotation</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>protocolData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Class-specific methods.
+</p>
+
+<dl>
+<dt><code>as(exprSet,"ExpressionSet")</code></dt><dd><p>Coerce objects of
+<code><a href="defunct.html">exprSet-class</a></code> to <code>ExpressionSet</code></p>
+</dd>
+<dt><code>as(object,"data.frame")</code></dt><dd><p>Coerce objects of
+<code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code> to <code>data.frame</code> by
+transposing the expression matrix and concatenating <code>phenoData</code></p>
+</dd>
+<dt><code>exprs(ExpressionSet)</code>, <code>exprs(ExpressionSet,matrix)&lt;-</code></dt><dd><p>Access and
+set elements named <code>exprs</code> in the <code>AssayData-class</code>
+slot.</p>
+</dd>
+<dt><code>esApply(ExpressionSet, MARGIN, FUN,
+         ...)</code></dt><dd><p>'apply'-like function to conveniently operate on
+<code>ExpressionSet</code> objects. See <code><a href="esApply.html">esApply</a></code>.</p>
+</dd>
+<dt><code>write.exprs(ExpressionSet)</code></dt><dd><p>Write expression values to
+a text file. It takes the same arguments as
+<code>write.table</code></p>
+</dd>
+</dl>
+
+<p>Derived from <code><a href="class.eSet.html">eSet</a></code>:
+</p>
+
+<dl>
+<dt><code>updateObject(object, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version, if necessary. See <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code> and <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>isCurrent(object)</code></dt><dd><p>Determine whether version of object is current. See <code><a href="isCurrent.html">isCurrent</a></code></p>
+</dd>
+<dt><code>isVersioned(object)</code></dt><dd><p>Determine whether object contains a 'version' string describing its structure . See <code><a href="isVersioned.html">isVersioned</a></code></p>
+</dd>
+<dt><code>assayData(ExpressionSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>sampleNames(ExpressionSet)</code> and <code>sampleNames(ExpressionSet)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>featureNames(ExpressionSet)</code>, <code>featureNames(ExpressionSet, value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>dims(ExpressionSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>phenoData(ExpressionSet)</code>, <code>phenoData(ExpressionSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>varLabels(ExpressionSet)</code>, <code>varLabels(ExpressionSet, value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>varMetadata(ExpressionSet)</code>, <code>varMetadata(ExpressionSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>pData(ExpressionSet)</code>, <code>pData(ExpressionSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>varMetadata(ExpressionSet)</code>, <code>varMetadata(ExpressionSet,value)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>experimentData(ExpressionSet)</code>,<code>experimentData(ExpressionSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>pubMedIds(ExpressionSet)</code>, <code>pubMedIds(ExpressionSet,value)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>abstract(ExpressionSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>annotation(ExpressionSet)</code>, <code>annotation(ExpressionSet,value)&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>protocolData(ExpressionSet)</code>, <code>protocolData(ExpressionSet,value)&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>combine(ExpressionSet,ExpressionSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>storageMode(ExpressionSet)</code>, <code>storageMode(ExpressionSet,character)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+</dl>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>initialize(ExpressionSet)</code>:</dt><dd><p>Object instantiation, used
+by <code>new</code>; not to be called directly by the user.</p>
+</dd>
+<dt><code>updateObject(ExpressionSet)</code>:</dt><dd><p>Update outdated versions
+of <code>ExpressionSet</code> to their current definition. See
+<code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code>, <code><a href="class.Versions.html">Versions-class</a></code>.</p>
+</dd>
+<dt><code>validObject(ExpressionSet)</code>:</dt><dd><p>Validity-checking method, ensuring
+that <code>exprs</code> is a member of
+<code>assayData</code>. <code>checkValidity(ExpressionSet)</code> imposes this
+validity check, and the validity checks of <code>eSet</code>.</p>
+</dd>
+<dt><code>makeDataPackage(object, author, email, packageName, packageVersion, license, biocViews, filePath, description=paste(abstract(object), collapse="\n\n"), ...)</code></dt><dd>
+<p>Create a data package based on an ExpressionSet object. See
+<code><a href="makeDataPackage.html">makeDataPackage</a></code>.</p>
+</dd>
+<dt><code>as(exprSet,ExpressionSet)</code>:</dt><dd><p>Coerce <code>exprSet</code> to <code>ExpressionSet</code>.</p>
+</dd>
+<dt><code>as(eSet,ExpressionSet)</code>:</dt><dd><p>Coerce the <code>eSet</code> portion of an object to <code>ExpressionSet</code>.</p>
+</dd>
+<dt><code>show(ExpressionSet)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>dim(ExpressionSet)</code>, <code>ncol</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>ExpressionSet[(index)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>ExpressionSet$</code>, <code>ExpressionSet$&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>ExpressionSet[[i]]</code>, <code>ExpressionSet[[i]]&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet-class</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# create an instance of ExpressionSet
+ExpressionSet()
+
+ExpressionSet(assayData=matrix(runif(1000), nrow=100, ncol=10))
+
+# update an existing ExpressionSet
+data(sample.ExpressionSet)
+updateObject(sample.ExpressionSet)
+
+# information about assay and sample data
+featureNames(sample.ExpressionSet)[1:10]
+sampleNames(sample.ExpressionSet)[1:5]
+experimentData(sample.ExpressionSet)
+
+# subset: first 10 genes, samples 2, 4, and 10
+expressionSet &lt;- sample.ExpressionSet[1:10,c(2,4,10)]
+
+# named features and their expression levels
+subset &lt;- expressionSet[c("AFFX-BioC-3_at","AFFX-BioDn-5_at"),]
+exprs(subset)
+
+# samples with above-average 'score' in phenoData
+highScores &lt;- expressionSet$score &gt; mean(expressionSet$score)
+expressionSet[,highScores]
+
+# (automatically) coerce to data.frame
+lm(score~AFFX.BioDn.5_at + AFFX.BioC.3_at, data=subset)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

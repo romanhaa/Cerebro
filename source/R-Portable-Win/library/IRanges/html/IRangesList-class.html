@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List of IRanges and NormalIRanges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IRangesList-class {IRanges}"><tr><td>IRangesList-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List of IRanges and NormalIRanges</h2>
+
+<h3>Description</h3>
+
+<p><code><a href="IRangesList-class.html">IRangesList</a></code> and
+<code><a href="IRangesList-class.html">NormalIRangesList</a></code> objects for storing
+<code><a href="IRanges-class.html">IRanges</a></code> and <code><a href="IRanges-class.html">NormalIRanges</a></code> objects
+respectively.</p>
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>IRangesList(..., compress=TRUE)</code>:
+The <code>...</code> argument accepts either a comma-separated list of
+<code>IRanges</code> objects, or a single <code>LogicalList</code> / logical
+<code>RleList</code> object, or 2 elements named <code>start</code> and <code>end</code>
+each of them being either a list of integer vectors or an IntegerList
+object.
+When <code>IRanges</code> objects are supplied, each of them becomes an
+element in the new <code>IRangesList</code>, in the same order, which is
+analogous to the <code><a href="../../base/html/list.html">list</a></code> constructor. If <code>compress</code>,
+the internal storage of the data is compressed.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippets below, <code>from</code> is a <em>list-like</em> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>as(from, "SimpleIRangesList")</code>: Coerces <code>from</code>,
+to a <code><a href="IRangesList-class.html">SimpleIRangesList</a></code>, requiring
+that all <code>IntegerRanges</code> elements are coerced to internal
+<code>IRanges</code> elements. This is a convenient way to ensure that all
+<code>IntegerRanges</code> have been imported into R (and that there is no
+unwanted overhead when accessing them).
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "CompressedIRangesList")</code>: Coerces <code>from</code>,
+to a <code><a href="IRangesList-class.html">CompressedIRangesList</a></code>, requiring
+that all <code>IntegerRanges</code> elements are coerced to internal
+<code>IRanges</code> elements. This is a convenient way to ensure that all
+<code>IntegerRanges</code> have been imported into R (and that there is no
+unwanted overhead when accessing them).
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "SimpleNormalIRangesList")</code>: Coerces <code>from</code>,
+to a <code><a href="IRangesList-class.html">SimpleNormalIRangesList</a></code>, requiring
+that all <code>IntegerRanges</code> elements are coerced to internal
+<code>NormalIRanges</code> elements.
+</p>
+</dd>
+<dt></dt><dd><p><code>as(from, "CompressedNormalIRangesList")</code>: Coerces
+<code>from</code>, to a <code><a href="IRangesList-class.html">CompressedNormalIRangesList</a></code>,
+requiring that all <code>IntegerRanges</code> elements are coerced to internal
+<code>NormalIRanges</code> elements.
+</p>
+</dd>
+</dl>
+
+<p>In the code snippet below, <code>x</code> is an <code>IRangesList</code> object.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>unlist(x)</code>: Unlists <code>x</code>, an <code>IRangesList</code>,
+by concatenating all of the ranges into a single <code>IRanges</code>
+instance. If the length of <code>x</code> is zero, an empty <code>IRanges</code>
+is returned.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods for NormalIRangesList objects</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>max(x)</code>:
+An integer vector containing the maximum values of each of the elements
+of <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>min(x)</code>:
+An integer vector containing the minimum values of each of the elements
+of <code>x</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code>, the parent of this class, for more
+functionality.
+</p>
+<p><a href="intra-range-methods.html">intra-range-methods</a> and <a href="inter-range-methods.html">inter-range-methods</a> for
+intra and inter range transformations of IRangesList objects.
+</p>
+<p><a href="setops-methods.html">setops-methods</a> for set operations on IRangesList objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+range1 &lt;- IRanges(start=c(1,2,3), end=c(5,2,8))
+range2 &lt;- IRanges(start=c(15,45,20,1), end=c(15,100,80,5))
+named &lt;- IRangesList(one = range1, two = range2)
+length(named) # 2
+names(named) # "one" and "two"
+named[[1]] # range1
+unnamed &lt;- IRangesList(range1, range2)
+names(unnamed) # NULL
+
+x &lt;- IRangesList(start=list(c(1,2,3), c(15,45,20,1)),
+                 end=list(c(5,2,8), c(15,100,80,5)))
+as.list(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

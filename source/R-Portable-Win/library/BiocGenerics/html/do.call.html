@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Execute a function call</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for do.call {BiocGenerics}"><tr><td>do.call {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Execute a function call</h2>
+
+<h3>Description</h3>
+
+<p><code>do.call</code> constructs and executes a function call from a name or a
+function and a list of arguments to be passed to it.
+</p>
+<p>NOTE: This man page is for the <code>do.call</code> <em>S4 generic function</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/do.call.html">do.call</a></code> for the default method
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+do.call(what, args, quote=FALSE, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>what</code></td>
+<td>
+
+<p>The default method expects either a function or a non-empty character
+string naming the function to be called.
+See <code>?base::<a href="../../base/html/do.call.html">do.call</a></code> for the details.
+</p>
+<p>Specific methods can support other objects.
+Please refer to the documentation of a particular method for the details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+
+<p>The default method expects a <em>list</em> of arguments to the function
+call (the <code>names</code> attribute of <code>args</code> gives the argument names).
+See <code>?base::<a href="../../base/html/do.call.html">do.call</a></code> for the details.
+</p>
+<p>Specific methods can support other objects.
+Please refer to the documentation of a particular method for the details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>quote, envir</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/do.call.html">do.call</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The result of the (evaluated) function call.
+</p>
+<p>Specific methods defined in Bioconductor packages should 
+behave as consistently as possible with the default method.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/do.call.html">do.call</a></code> for the default <code>do.call</code>
+method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+do.call  # note the dispatch on the 'what' and 'args' args only
+showMethods("do.call")
+selectMethod("do.call", c("ANY", "ANY"))  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

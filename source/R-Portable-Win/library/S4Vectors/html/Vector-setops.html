@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set operations on vector-like objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Vector-setops {S4Vectors}"><tr><td>Vector-setops {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set operations on vector-like objects</h2>
+
+<h3>Description</h3>
+
+<p>Perform set operations on <a href="Vector-class.html">Vector</a> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Vector,Vector'
+union(x, y)
+
+## S4 method for signature 'Vector,Vector'
+intersect(x, y)
+
+## S4 method for signature 'Vector,Vector'
+setdiff(x, y)
+
+## S4 method for signature 'Vector,Vector'
+setequal(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+
+<p>Vector-like objects.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>union</code>, <code>intersect</code>, and <code>setdiff</code> methods for
+<a href="Vector-class.html">Vector</a> objects return a <a href="Vector-class.html">Vector</a> object containing respectively
+the union, intersection, and (asymmetric!) difference of the 2 sets of
+vector elements in <code>x</code> and <code>y</code>.
+The <code>setequal</code> method for <a href="Vector-class.html">Vector</a> objects checks for <em>set
+equality</em> between <code>x</code> and <code>y</code>.
+</p>
+<p>They're defined as follow:
+</p>
+<pre>    setMethod("union", c("Vector", "Vector"),
+        function(x, y) unique(c(x, y))
+    )
+    setMethod("intersect", c("Vector", "Vector"),
+        function(x, y) unique(x[x %in% y])
+    )
+    setMethod("setdiff", c("Vector", "Vector"),
+        function(x, y) unique(x[!(x %in% y)])
+    )
+    setMethod("setequal", c("Vector", "Vector"),
+        function(x, y) all(x %in% y) &amp;&amp; all(y %in% x)
+    )
+  </pre>
+<p>so they work out-of-the-box on <a href="Vector-class.html">Vector</a> objects for which <code>c</code>,
+<code>unique</code>, and <code>%in%</code> are defined.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>union</code> returns a <a href="Vector-class.html">Vector</a> object obtained by appending to <code>x</code>
+the elements in <code>y</code> that are not already in <code>x</code>.
+</p>
+<p><code>intersect</code> returns a <a href="Vector-class.html">Vector</a> object obtained by keeping only
+the elements in <code>x</code> that are also in <code>y</code>.
+</p>
+<p><code>setdiff</code> returns a <a href="Vector-class.html">Vector</a> object obtained by dropping from
+<code>x</code> the elements that are in <code>y</code>.
+</p>
+<p><code>setequal</code> returns <code>TRUE</code> if <code>x</code> and <code>y</code> contain the
+same <em>sets</em> of vector elements and <code>FALSE</code> otherwise.
+</p>
+<p><code>union</code>, <code>intersect</code>, and <code>setdiff</code> propagate the names and
+metadata columns of their first argument (<code>x</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="Vector-comparison.html">Vector-comparison</a> for comparing and ordering vector-like
+objects.
+</p>
+</li>
+<li> <p><a href="Vector-merge.html">Vector-merge</a> for merging vector-like objects.
+</p>
+</li>
+<li> <p><a href="Vector-class.html">Vector</a> objects.
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="../../BiocGenerics/html/union.html">union</a></code>,
+<code>BiocGenerics::<a href="../../BiocGenerics/html/intersect.html">intersect</a></code>,
+and <code>BiocGenerics::<a href="../../BiocGenerics/html/setdiff.html">setdiff</a></code>
+in the <span class="pkg">BiocGenerics</span> package for general information about
+these generic functions.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## See ?`Hits-setops` for some examples.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

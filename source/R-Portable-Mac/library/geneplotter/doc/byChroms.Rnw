@@ -1,0 +1,110 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+% \VignetteIndexEntry{How to assemble a chromLocation object}
+% \VignetteAuthor{R. Gentleman}
+%\VignetteDepends{annotate, hu6800.db}
+%\VignetteKeywords{chromosomes}
+%\VignettePackage{geneplotter}
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+\bibliographystyle{plainnat}
+
+\begin{document}
+
+\section*{How to Assemble a chromLocation Object}
+
+
+In order to use the various \Rpackage{geneplotter} functions you will
+need to assemble an object of class \Robject{chromLocation}.
+This is relatively straightforward if you have access to a Bioconductor
+data package. In this example we will consider using the
+\Rpackage{hu6800.db} data package to construct our object. This vignette
+was built with version \Sexpr{packageDescription("hu6800.db")$Version} of
+the package.
+
+<<loaddata>>=
+
+ library("annotate")
+ library("hu6800.db")
+ lens <- unlist(eapply(hu6800CHR, length))
+
+ table(lens)
+ wh2 = mget(names(lens)[lens==2], env = hu6800CHR)
+
+ wh2[1]
+@
+
+So somehow \Sexpr{length(wh2)} of the genes are mapped to two
+ different chromosomes.  Based on OMIM the these genes are localized
+ to the so called \textit{pseudoautosomal region} where the X and Y
+ cromosomes are similar and there is actual recombination going on
+ between them. So, we will take the expedient measure of assigning
+ each of them to just one chromosome.
+
+<<fixdata>>=
+chrs2 <- unlist(eapply(hu6800CHR, function(x) x[1]))
+chrs2 <- factor(chrs2)
+length(chrs2)
+ table(unlist(chrs2))
+@
+
+Now we are ready to obtain the chromosome location data and
+orientation.  The chromosome location data tells us the (approximate)
+location of the gene on the chromosome.  The positions for both the
+sense and antisense strand are number of base pairs measured from the
+p (5' end of the sense strand) to q (3' end of the sense strand) arms.
+Chromosomes are double stranded and the gene is encoded on only one of
+those two strands. The strands are labeled plus and minus (sense and
+antisense).  We use both the location and the orientation when making
+plots.
+
+<<strandloc>>=
+
+ strand <- as.list(hu6800CHRLOC)
+
+ splits <- split(strand, chrs2)
+ length(splits)
+ names(splits)
+
+@
+
+Now we have processed the data and are ready to construct a new
+\Robject{chromLocation} object.
+
+<<chrloc>>=
+
+ newChrClass <- buildChromLocation("hu6800")
+
+@
+
+And finally we can test it by calling \Rfunction{cPlot}.
+
+<<cPlot, fig=TRUE>>=
+
+  library(geneplotter)
+
+  cPlot(newChrClass)
+
+@
+
+\end{document}

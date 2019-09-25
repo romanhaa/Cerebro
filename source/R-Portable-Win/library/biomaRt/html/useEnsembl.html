@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Connects to the selected BioMart database and dataset hosted...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for useEnsembl {biomaRt}"><tr><td>useEnsembl {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Connects to the selected BioMart database and dataset hosted by Ensembl</h2>
+
+<h3>Description</h3>
+
+<p>A first step in using the biomaRt package is to select a BioMart
+database and dataset to use.  The <code>useEnsembl</code> function enables one to 
+connect to a specified BioMart database and dataset hosted by Ensembl without 
+having to specify the Ensembl URL.  To know which BioMart databases are 
+available see the <code><a href="listEnsembl.html">listEnsembl</a></code> function.  To know which datasets 
+are available within a BioMart database, first select the BioMart database 
+using <code>useEnsembl</code> and then use the <code><a href="listDatasets.html">listDatasets</a></code> function 
+on the selected Mart object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+useEnsembl(biomart, dataset, host="www.ensembl.org", version = NULL, 
+            GRCh = NULL, mirror = NULL, verbose = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>biomart</code></td>
+<td>
+<p>BioMart database name you want to connect to. Possible database names can be retrieved with the function <code><a href="listEnsembl.html">listEnsembl</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>dataset</code></td>
+<td>
+<p>Dataset you want to use.  To see the different datasets available within a biomaRt you can e.g. do:  mart = useEnsembl('ENSEMBL_MART_ENSEMBL'), followed by listDatasets(mart).</p>
+</td></tr>
+<tr valign="top"><td><code>host</code></td>
+<td>
+<p>Host to connect to if different from www.ensembl.org</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>Ensembl version to connect to when wanting to connect to an archived Ensembl version</p>
+</td></tr>
+<tr valign="top"><td><code>GRCh</code></td>
+<td>
+<p>GRCh version to connect to if not the current GRCh38, currently this can only be 37</p>
+</td></tr>
+<tr valign="top"><td><code>mirror</code></td>
+<td>
+<p>Specify an Ensembl mirror to connect to.  The valid options here are 'www', 'uswest', 'useast', 'asia'.  If no mirror is specified the primary site at www.ensembl.org will be used.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Give detailed output of what the method is doing while in
+use, for debugging</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck &amp; Mike Smith</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(interactive()){
+
+mart &lt;- useEnsembl("ensembl")
+
+## using the US West mirror
+us_mart &lt;- useEnsembl(biomart = "ensembl", mirror = "uswest")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;CollectionType&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for CollectionType-class {GSEABase}"><tr><td>CollectionType-class {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;CollectionType&quot;</h2>
+
+<h3>Description</h3>
+
+<p>These classes provides a way to tag the origin of a
+<code>GeneSet</code>. Collection types can be used in manipulating
+(e.g., selecting) sets, and can contain information specific to
+particular sets (e.g., <code>category</code> and <code>subcategory</code>
+classifications of <code>BroadCollection</code>.)
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>The following classes can tag gene sets; <code>GO, KEGG, Chr, Chrloc,
+    OMIM, and PMID</code> collections can be derived from chip or organism
+&lsquo;annotation&rsquo; packages.
+</p>
+
+<dl>
+<dt>NullCollection</dt><dd><p>No formal collection information available.</p>
+</dd>
+<dt>BroadCollection</dt><dd><p>Derived from, or destined to be, Broad
+XML. Usually created and written <code><a href="getObjects.html">getBroadSets</a></code>,
+<code><a href="getObjects.html">toBroadXML</a></code>.</p>
+</dd>
+<dt>ComputedCollection</dt><dd><p>A computationally created collection, e.g.,
+by performing logic operations on gene sets.</p>
+</dd>
+<dt>ExpressionSetCollection</dt><dd><p>Derived from
+<code><a href="../../Biobase/html/class.ExpressionSet.html">ExpressionSet</a></code>. Usually
+created during a call to <code><a href="GeneSet-methods.html">GeneSet</a></code> or
+<code><a href="GeneColorSet-methods.html">GeneColorSet</a></code>.</p>
+</dd>
+<dt>GOCollection</dt><dd><p>Collection derived using Gene Ontology (GO)
+terms.</p>
+</dd>
+<dt>OBOCollection</dt><dd><p>Collection derived from <code>GOCollection</code>,
+specifically from files described by the OBO file format. See
+<code><a href="OBOCollection-class.html">OBOCollection</a></code></p>
+</dd>
+<dt>KEGGCollection</dt><dd><p>Collection derived using KEGG terms.</p>
+</dd>
+<dt>ChrCollection</dt><dd><p>Collection derived using chromsome locations</p>
+</dd>
+<dt>ChrlocCollection</dt><dd><p>Collection derived using chromosome starting
+posistions</p>
+</dd>
+<dt>MapCollection</dt><dd><p>Collection derived from cytogenic bands.</p>
+</dd>
+<dt>OMIMCollection</dt><dd><p>Collection derived from identifiers in the
+Online Inheritance in Man.</p>
+</dd>
+<dt>PMIDCollection</dt><dd><p>Collection derived from PMID identifiers.</p>
+</dd>
+<dt>PfamCollection</dt><dd><p>Collection derived from Pfam identifiers.</p>
+</dd>
+<dt>PrositeCollection</dt><dd><p>Collection derived from Prosite identifiers.</p>
+</dd>
+</dl>
+
+<p>Objects are instantiated with calls to <code><a href="CollectionType-constructors.html">CollectionType</a></code>
+constructors, with slot names as possible arguments.
+</p>
+
+
+<h3>Slots</h3>
+
+<p><code>CollectionType</code> classes (<code>Null, ComputedCollection,
+    ExpressionSet</code>) have the slot:
+</p>
+
+<dl>
+<dt><code>type</code>:</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+containing the character string representation of this
+<code>CollectionType</code>.</p>
+</dd>
+</dl>
+
+<p><code>CollectionIdType</code> classes (<code>KEGG, OMIM, PMID, Chr, Chrloc,
+    Map, GO</code>) extend the <code>CollectionType</code> and have the additional
+slot:
+</p>
+
+<dl>
+<dt><code>ids</code>:</dt><dd><p>Object of class <code>"character"</code> containing a
+vector of character string representations of corresponding
+identifiers, e.g., &lsquo;KEGG&rsquo; or &lsquo;GO&rsquo; terms.</p>
+</dd>
+</dl>
+
+<p><code>GOCollection</code> extends <code>CollectionIdType</code> and has the
+additional slot:
+</p>
+
+<dl>
+<dt><code>evidenceCode</code>:</dt><dd><p>Object of class <code>"character"</code>,
+containing GO evidence codes used to construct the gene set.</p>
+</dd>
+<dt>ontology</dt><dd><p>Object of class <code>"character"</code> vector of GO
+ontology terms used to filter GO terms in the GO Collection.</p>
+</dd>
+</dl>
+
+<p>The values of <code>evidenceCode</code> are
+</p>
+
+<dl>
+<dt>Experimental Evidence Codes</dt><dd>
+
+<dl>
+<dt>EXP</dt><dd><p>Inferred from Experiment</p>
+</dd>
+<dt>IDA</dt><dd><p>Inferred from Direct Assay</p>
+</dd>
+<dt>IPI</dt><dd><p>Inferred from Physical Interaction</p>
+</dd>
+<dt>IMP</dt><dd><p>Inferred from Mutant Phenotype</p>
+</dd>
+<dt>IGI</dt><dd><p>Inferred from Genetic Interaction</p>
+</dd>
+<dt>IEP</dt><dd><p>Inferred from Expression Pattern</p>
+</dd>
+</dl>
+
+</dd>
+<dt>Computational Analysis Evidence Codes</dt><dd>
+
+<dl>
+<dt>ISS</dt><dd><p>Inferred from Sequence or Structural Similarity</p>
+</dd>
+<dt>ISO</dt><dd><p>Inferred from Sequence Orthology</p>
+</dd>
+<dt>ISA</dt><dd><p>Inferred from Sequence Alignment</p>
+</dd>
+<dt>ISM</dt><dd><p>Inferred from Sequence Model</p>
+</dd>
+<dt>IGC</dt><dd><p>Inferred from Genomic Context</p>
+</dd>
+<dt>RCA</dt><dd><p>inferred from Reviewed Computational Analysis</p>
+</dd>
+</dl>
+
+</dd>
+<dt>Author Statement Evidence Codes</dt><dd>
+
+<dl>
+<dt>TAS</dt><dd><p>Traceable Author Statement</p>
+</dd>
+<dt>NAS</dt><dd><p>Non-traceable Author Statement</p>
+</dd>
+</dl>
+
+</dd>
+<dt>Curator Statement Evidence Codes</dt><dd>
+
+<dl>
+<dt>IC</dt><dd><p>Inferred by Curator</p>
+</dd>
+<dt>ND</dt><dd><p>No biological Data available</p>
+</dd>
+</dl>
+
+</dd>
+<dt>Automatically-assigned Evidence Codes</dt><dd>
+
+<dl>
+<dt>IEA</dt><dd><p>Inferred from Electronic Annotation</p>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<p><code>OBOCollection</code> extends <code>GOCollection</code>; see
+<code><a href="OBOCollection-class.html">OBOCollection</a></code>.
+</p>
+<p><code>BroadCollection</code> has slots:
+</p>
+
+<dl>
+<dt><code>category</code>:</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+containing terms from the Broad list of categories, or <code>NA</code></p>
+</dd>
+<dt><code>subCategory</code>:</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+containing Broad sub-categories, or <code>NA</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p><code>CollectionType</code> classes have methods:
+</p>
+
+<dl>
+<dt>collectionType&lt;-</dt><dd><p><code>signature(object = "GeneSet", value =
+        "CollectionType")</code>: Replace the <code>CollectionType</code> </p>
+</dd>
+<dt>collectionType</dt><dd><p><code>signature(object = "CollectionType")</code>:
+Retrieve the collection type.</p>
+</dd>
+<dt>|, &amp;, intersect, union, setdiff</dt><dd><p><code>signature(e1="CollectionType",
+        e2="CollectionType")</code>: return <code>e1</code> when <code>class(e1)</code> and
+<code>class(e2)</code> are the same, or <code>ComputedCollection</code> when different.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "CollectionType")</code>: display the
+collection type.</p>
+</dd>
+</dl>
+
+<p><code>CollectionIdType</code> classes inherit <code>CollectionType</code> methods,
+and have in addition:
+</p>
+
+<dl>
+<dt>ids</dt><dd><p><code>signature(object="CollectionIdType")</code>: Retrieve the
+identifiers of the collection type.</p>
+</dd>
+<dt>[</dt><dd><p><code>signature(object="CollectionIdType", i="missing",
+        j="missing", ..., ids=ids(object))</code>: return a subset of
+<code>object</code> containing only ids in <code>ids</code></p>
+</dd>
+<dt>|, &amp;, intersect, union, setdiff</dt><dd>
+<p><code>signature(e1="CollectionIdType", e2="CollectionIdType")</code>:
+always return <code>ComputedCollection</code>.</p>
+</dd>
+</dl>
+
+<p><code>GOCollection</code> inherits <code>CollectionIdType</code> methods, and has
+in addition:
+</p>
+
+<dl>
+<dt>evidenceCode</dt><dd><p>Retrieve the evidence codes of the GO
+collection.</p>
+</dd>
+<dt>ontology</dt><dd><p>Retrieve the ontology terms of the GO
+collection.</p>
+</dd>
+<dt>[</dt><dd><p><code>signature(object="CollectionIdType", i="missing",
+        j="missing", ..., evidenceCode=evidenceCode(object),
+        ontology=ontology(object))</code>: return a subset of
+<code>object</code> containing only evidence and ontology codes in
+<code>evidenceCode</code>, <code>ontology</code>. This method passes
+arguments ... to <code>[,CollectionIdType</code> methods.</p>
+</dd>
+</dl>
+
+<p><code>BroadCollection</code> has methods:
+</p>
+
+<dl>
+<dt>bcCategory</dt><dd><p>Retrieve the <code>category</code> of the Broad
+collection.</p>
+</dd>
+<dt>bcSubCategory</dt><dd><p>Retrieve the sub-category of the Broad
+collection.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="CollectionType-constructors.html">CollectionType</a></code> consturctors; <code><a href="getObjects.html">getBroadSets</a></code>
+for importing collections from the Broad (and sources).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+names(getClass("CollectionType")@subclasses)
+
+## Create a CollectionType and ask for its type
+collectionType(ExpressionSetCollection())
+
+## Read two GeneSets from a Broad XML file into a list, verify that
+## they are both BroadCollection's. Category / subcategory information
+## is unique to Broad collections.
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+sets &lt;- getBroadSets(fl)
+sapply(sets, collectionType)
+
+## ExpressionSets are tagged with ExpressionSetCollection; there is no
+## 'category' information.
+data(sample.ExpressionSet)
+gs &lt;- GeneSet(sample.ExpressionSet[100:109],
+              setName="sample.GeneSet", setIdentifier="123")
+collectionType(gs)
+
+## GOCollections are created by reference to GO terms and evidenceCodes
+GOCollection("GO:0005488")
+## requires library(GO); EntrezIdentifers automatically created
+## Not run: 
+GeneSet(GOCollection(c("GO:0005488", "GO:0019825"),
+                     evidenceCode="IDA"))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;distGraph&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for distGraph-class {graph}"><tr><td>distGraph-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;distGraph&quot;</h2>
+
+<h3>Description</h3>
+
+<p> A class definition for graphs that are based on distances.</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("distGraph", ...)</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>Dist</code>:</dt><dd><p>Object of class <code>"dist"</code> that forms the
+basis for the edge weights used in the <code>distGraph</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"graph"</code>, directly.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>show</dt><dd><p><code>signature(object = "distGraph")</code>: a print method</p>
+</dd>
+<dt>Dist</dt><dd><p><code>signature(object = "distGraph")</code>: return the dist
+object. </p>
+</dd>
+<dt>adj</dt><dd><p><code>signature(object = "distGraph")</code>: find the nodes
+adjacent to the supplied node. </p>
+</dd>
+<dt>nodes</dt><dd><p><code>signature(object = "distGraph")</code>: return the
+nodes in the graph. </p>
+</dd>
+<dt>numNodes</dt><dd><p><code>signature(object = "distGraph")</code>: return the
+number of nodes. </p>
+</dd>
+<dt>threshold</dt><dd><p><code>signature(object = "distGraph", k, value)</code>: set all
+distances that are larger than the supplied threshold, <code>k</code>, to the 
+supplied value. The default is value is zero (and so is appropriate for
+similarities, rather than distances). </p>
+</dd>
+<dt>initialize</dt><dd><p><code>signature(object = "distGraph")</code>:
+initialize a <code>distGraph</code> instance. </p>
+</dd>
+<dt>edgeWeights</dt><dd><p>Return a list of edge weights in a list format
+similar to the <code>edges</code> method.</p>
+</dd>
+<dt>edgeL</dt><dd><p><code>signature(graph = "distGraph")</code>: A method for
+obtaining the edge list.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>References</h3>
+
+<p>Shamir's paper and Butte et al</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graph-class.html">graph-class</a></code>, <code><a href="clusterGraph-class.html">clusterGraph-class</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   set.seed(123)
+   x &lt;- rnorm(26)
+   names(x) &lt;- letters
+   library(stats)
+   d1 &lt;- dist(x)
+   g1 &lt;- new("distGraph", Dist=d1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

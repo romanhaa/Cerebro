@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write an HTML IMG tag together with a MAP image map.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for imageMap-methods {geneplotter}"><tr><td>imageMap-methods {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write an HTML IMG tag together with a MAP image map.</h2>
+
+<h3>Description</h3>
+
+<p>Write an HTML IMG tag together with a MAP image map.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## S4 method for signature 'matrix,connection,list,character'
+imageMap(object, con, tags, imgname)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Matrix with 4 columns, specifying the coordinates
+of the mouse-sensitive region . Each row specifies the corners of a 
+rectangle within the image, in the following order: (left x,
+lower y, right x, upper y). Note that the point (x=0, y=0) is 
+at the left upper side of the image.</p>
+</td></tr>
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>Connection to which the image map is written.</p>
+</td></tr>
+<tr valign="top"><td><code>tags</code></td>
+<td>
+<p>Named list whose elements are named character vectors.
+Names must correspond to node names in <code>object</code>. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>imgname</code></td>
+<td>
+<p>Character. Name of the image file (for example PNG
+file) that contains the plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The most important tags are <code>TITLE</code>, <code>HREF</code>,
+and <code>TARGET</code>. If the list <code>tags</code> contains an element
+with name <code>TITLE</code>, then this must be a named character vector
+containing the tooltips that are to be displayed when the mouse moves
+over a node. The names of the nodes are specified in the <code>names</code>
+attribute  of the character vector and must match those of
+<code>object</code>.
+</p>
+<p>Similarly, <code>HREF</code> may be used to specify hyperlinks that the
+browser can follow when the mouse clicks on a node, and <code>TARGET</code>
+to specify the target browser window.
+</p>
+<p>Currently, only rectangular regions are implemented; the actual
+shape of the nodes as specified in <code>object</code> is ignored.
+Also, tags for edges of the graph are currently not supported.
+</p>
+<p>This function is typically used with the following sequence
+of steps:
+</p>
+
+<ol>
+<li><p> generate your graphic and save it as a bitmap file, e.g.
+using the <code>jpeg</code>, <code><a href="../../grDevices/html/png.html">png</a></code>, or
+<code>bitmap</code> device. At this stage, you also need to
+figure out the pixel coordinates of the interesting regions
+within your graphic. Since the mapping between device coordinates
+and pixel coordinates is not obvious, this may be a little tricky.
+See the examples below, and for a more complex example, see the
+source code of the function <code><a href="../../prada/html/plotPlate.html">plotPlate</a></code>.
+</p>
+</li>
+<li><p> open an HTML page for writing and write HTML header,
+e.g. using the <code><a href="openHtmlPage.html">openHtmlPage</a></code> function.
+</p>
+</li>
+<li><p> Call the <code><a href="imageMap.html">imageMap</a></code> function.
+</p>
+</li>
+<li><p> Optionally, write further text into the HTML connection.
+</p>
+</li>
+<li><p> Close HTML file, e.g. using the <code><a href="openHtmlPage.html">closeHtmlPage</a></code> function.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>The function is called for its side effect, which is writing text into
+the connection <code>con</code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.dkfz.de/abt0840/whuber">http://www.dkfz.de/abt0840/whuber</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../prada/html/plotPlate.html">plotPlate</a></code>, 
+<code><a href="../../base/html/writeLines.html">writeLines</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+f1  = paste(tempfile(), ".html", sep="")
+f2  = paste(tempfile(), ".html", sep="")
+fpng = tempfile()
+
+if(capabilities()["png"]) {
+  ## create the image
+  colors = c("#E41A1C","#377EB8","#4DAF4A","#984EA3","#FF7F00","#FFFF33","#A65628","#F781BF","#999999")
+  width  = 512
+  height = 256
+  png(fpng, width=width, height=height)
+  par(mai=rep(0,4))
+  plot(0,xlim=c(0,width-1),ylim=c(0,height-1),xaxs="i",yaxs="i",type="n",bty="n")
+  cx=floor(runif(100)*(width-11))
+  cy=floor(runif(100)*(height-11))
+  coord=cbind(cx, cy, cx+10, cy+10)
+  rect(coord[,1], height-coord[,2], coord[,3], height-coord[,4],
+       col=sample(colors, 100, replace=TRUE))
+  text(width/2, height-3, "Klick me!", adj=c(0.5, 1), font=2)
+  dev.off()
+
+  ## create the frame set
+  cat("&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello world&lt;/title&gt;&lt;/head&gt;\n",
+      "&lt;frameset rows=\"280,*\" border=\"0\"&gt;\n",
+      "&lt;frame name=\"banner\" src=\"file://", f2, "\"&gt;\n",
+      "&lt;frame name=\"main\" scrolling=\"auto\"&gt;",
+      "&lt;/frameset&gt;", sep="",file=f1)
+
+  ## create the image map
+  href  =sample(c("www.bioconductor.org", "www.r-project.org"),nrow(coord),replace=TRUE)
+  title =sample(as.character(packageDescription("geneplotter")),nrow(coord),replace=TRUE)
+  con = file(f2, open="w")
+  imageMap(coord, con,
+    list(HREF=paste("http://", href, sep=""),
+         TITLE=title, TARGET=rep("main", nrow(coord))), fpng)
+  close(con)
+
+  cat("Now have a look at file ", f1, " with your browser.\n", sep="")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Filter GO terms by a specified GO ontology</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for filterGOByOntology {annotate}"><tr><td>filterGOByOntology {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Filter GO terms by a specified GO ontology</h2>
+
+<h3>Description</h3>
+
+<p>Given a character vector containing GO identifiers, return a logical
+vector indicating which GO IDs are in the specified ontology (BP,
+CC, or MF).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+filterGOByOntology(goids, ontology = c("BP", "CC", "MF"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>goids</code></td>
+<td>
+<p>a character vector of GO IDs</p>
+</td></tr>
+<tr valign="top"><td><code>ontology</code></td>
+<td>
+<p>One of &quot;BP&quot;, &quot;CC&quot;, or &quot;MF&quot;</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A logical vector with length equal to <code>goids</code>.  A <code>TRUE</code>
+indicates that the corresponding GO ID in <code>goids</code> is a member
+of the ontology specified by <code>ontology</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+haveGO &lt;- suppressWarnings(require("GO.db"))
+if (haveGO) {
+    ids &lt;- c("GO:0001838", "GO:0001839")
+    stopifnot(all(filterGOByOntology(ids, "BP")))
+    stopifnot(!any(filterGOByOntology(ids, "MF")))
+} else cat("Sorry, this example requires the GO package\n")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

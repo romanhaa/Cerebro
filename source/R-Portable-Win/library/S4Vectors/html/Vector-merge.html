@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merge vector-like objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Vector-merge {S4Vectors}"><tr><td>Vector-merge {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Merge vector-like objects</h2>
+
+<h3>Description</h3>
+
+<p>A <code>merge</code> method for vector-like objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Vector,Vector'
+merge(x, y, ..., all=FALSE, all.x=NA, all.y=NA, sort=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y, ...</code></td>
+<td>
+
+<p>Vector-like objects, typically all of the same class and typically not
+list-like objects (even though some list-like objects like
+<a href="../../IRanges/html/IntegerRanges.html">IntegerRanges</a> and <a href="../../Biostrings/html/DNAStringSet.html">DNAStringSet</a> are
+supported).
+Duplicated elements in each object are removed with a warning.
+</p>
+</td></tr>
+<tr valign="top"><td><code>all</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>.
+Whether the vector elements in the result should be the union
+(when <code>all=TRUE</code>) or intersection (when <code>all=FALSE</code>)
+of the vector elements in <code>x</code>, <code>y</code>, <code>...</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>all.x, all.y</code></td>
+<td>
+
+<p>To be used only when merging 2 objects (binary merge).
+Both <code>all.x</code> and <code>all.y</code> must be single logicals.
+If any of them is <code>NA</code>, then it's set to the value of <code>all</code>.
+Setting both of them to <code>TRUE</code> or both of them to <code>FALSE</code>
+is equivalent to setting <code>all</code> to <code>TRUE</code> or to <code>FALSE</code>,
+respectively (see above).
+</p>
+<p>If <code>all.x</code> is <code>TRUE</code> and <code>all.y</code> is <code>FALSE</code> then the
+vector elements in the result will be the unique elements in <code>x</code>.
+If <code>all.x</code> is <code>FALSE</code> and <code>all.y</code> is <code>TRUE</code> then the
+vector elements in the result will be the unique elements in <code>y</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+
+<p>Whether to sort the merged result.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This <code>merge</code> method acts much like <code><a href="../../base/html/merge.html">merge.data.frame</a></code>,
+except for 3 important differences:
+</p>
+
+<ol>
+<li><p> The matching is based on the vector values, not arbitrary columns
+in a table.
+</p>
+</li>
+<li><p> Self merging is a no-op if <code>sort=FALSE</code> (or object already
+sorted) and if the object has no duplicates.
+</p>
+</li>
+<li><p> This <code>merge</code> method accepts an arbitrary number of vector-like
+objects (n-ary merge).
+</p>
+</li></ol>
+
+<p>If some of the objects to merge are list-like objects not supported by
+the method described here, then the merging is simply done by calling
+<code>base::merge()</code> on the objects. This might succeed or not...
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector-like object of the same class as the input objects (if they
+all have the same class) containing the merged vector values and metadata
+columns.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="Vector-class.html">Vector</a> class.
+</p>
+</li>
+<li> <p><a href="Vector-comparison.html">Vector-comparison</a> for comparing and ordering vector-like
+objects.
+</p>
+</li>
+<li> <p><a href="Vector-setops.html">Vector-setops</a> for set operations on vector-like objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+library(GenomicRanges)
+x &lt;- GRanges(c("chr1:1-1000", "chr2:2000-3000"),
+             score=c(0.45, 0.1), a1=c(5L, 7L), a2=c(6, 8))
+y &lt;- GRanges(c("chr2:150-151", "chr1:1-10", "chr2:2000-3000"),
+             score=c(0.7, 0.82, 0.1), b1=c(0L, 5L, 1L), b2=c(1, -2, 1))
+merge(x, y)
+merge(x, y, all=TRUE)
+merge(x, y, all.x=TRUE)
+merge(x, y, all.y=TRUE)
+
+## Shared metadata columns must agree:
+mcols(x)$score[2] &lt;- 0.11
+#merge(x, y)  # error!
+
+## NAs agree with anything:
+mcols(x)$score[2] &lt;- NA
+merge(x, y)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

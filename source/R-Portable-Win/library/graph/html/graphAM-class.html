@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;graphAM&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for graphAM-class {graph}"><tr><td>graphAM-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;graphAM&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A graph class where node and edge information is represented as an
+adjacency matrix.  The adjacency matrix is square and element
+<code>adjMat[i, j]</code> is one if there is an edge from node i to
+node j and zero otherwise.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The non-zero matrix values can be used to initialize an edge
+attribute.  If this is desired, use the <code>values</code> argument in the
+call to <code>new</code> and provide a list with a single named element.
+The name determines the attributes and the value provides the default
+value for that attribute.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>graphAM(adjMat,
+  edgemode, values)</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>adjMat</code>:</dt><dd><p>An adjacency <code>"matrix"</code> describing the
+graph structure.  The <code><a href="../../base/html/colnames.html">colnames</a></code> of the matrix will be used as
+node names for the graph if present.</p>
+</dd>
+<dt><code>edgeData</code>:</dt><dd><p>Storage for edge attributes.</p>
+</dd>
+<dt><code>nodeData</code>:</dt><dd><p>Storage for node attributes.</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"graph"</code>, directly.
+</p>
+
+
+<h3>Constructor</h3>
+
+<p><code>graphAM(adjMat=matrix(integer(), 0, 0), edgemode='undirected', values=NA)</code>
+creates a graphAM instance.
+</p>
+
+<dl>
+<dt>adjMat</dt><dd><p>An <code>integer</code> matrix specifying which nodes have
+edges between them.</p>
+</dd>
+<dt>edgemode</dt><dd><p>Either &quot;directed&quot; or &quot;undirected&quot;.</p>
+</dd>
+<dt>values</dt><dd><p>A named list of length 1, used (rather obscurely) to
+specify that non-zero adjMat values initialize an edge attribute.
+The name of the single element in that list becomes the name of that
+attribute, with the specified default value.
+This default value is, however, never used:  the specified edge
+attribute always has the value contained in the adjacency matrix,
+which is traditionally 1, but can be any positive number.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>addEdge</dt><dd><p><code>signature(from = "character", to = "character", graph = "graphAM", weights = "missing")</code>: ... </p>
+</dd>
+<dt>addNode</dt><dd><p><code>signature(object = "graphAM", nodes = "character")</code>: ... </p>
+</dd>
+<dt>clearNode</dt><dd><p><code>signature(node = "character", object = "graphAM")</code>: ... </p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "graphAM", to = "graphNEL")</code>: ... </p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "graphAM", to = "graphBAM")</code>: ... </p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "graphAM", to = "matrix")</code>: In
+converting to a <code>matrix</code>, if an edge attribute named
+<code>"weight"</code> is defined, the non-zero elements of the matrix
+will contain the corresponding attribute value.  For more flexible
+matrix conversion, see <code>toMatrix</code>.</p>
+</dd>
+<dt>coerce</dt><dd><p><code>signature(from = "matrix", to = "graphAM")</code>:
+This coerce method exists for symmetry.  In most cases, creating a
+new <code>graphAM</code> instance using <code>new</code> gives one more
+control over the resulting graph.</p>
+</dd>
+<dt>edges</dt><dd><p><code>signature(object = "graphAM", which = "missing")</code>: ... </p>
+</dd>
+<dt>edges</dt><dd><p><code>signature(object = "graphAM", which = "character")</code>: ... </p>
+</dd>
+<dt>initialize</dt><dd><p><code>signature(.Object = "graphAM")</code>: ... </p>
+</dd>
+<dt>inEdges</dt><dd><p><code>signature(node = "character", object =
+        "graphNEL")</code>: Return the incoming edges for the specified
+nodes.  See <code><a href="inEdges.html">inEdges</a></code>.</p>
+</dd>
+<dt>isAdjacent</dt><dd><p><code>signature(object = "graphAM", from = "character", to = "character")</code>: ... </p>
+</dd>
+<dt>nodes&lt;-</dt><dd><p><code>signature(object = "graphAM", value = "character")</code>: ... </p>
+</dd>
+<dt>nodes</dt><dd><p><code>signature(object = "graphAM")</code>: ... </p>
+</dd>
+<dt>numEdges</dt><dd><p><code>signature(graph = "graphAM")</code>: ... </p>
+</dd>
+<dt>numNodes</dt><dd><p><code>signature(object = "graphAM")</code>: ... </p>
+</dd>
+<dt>removeEdge</dt><dd><p><code>signature(from = "character", to = "character", graph = "graphAM")</code>: ... </p>
+</dd>
+<dt>removeNode</dt><dd><p><code>signature(node = "character", object = "graphAM")</code>: ... </p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graph-class.html">graph-class</a></code>, <code><a href="graphNEL-class.html">graphNEL-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+mat &lt;- rbind(c(0, 0, 1, 1),
+             c(0, 0, 1, 1),
+             c(1, 1, 0, 1),
+             c(1, 1, 1, 0))
+rownames(mat) &lt;- colnames(mat) &lt;- letters[1:4]
+g1 &lt;- graphAM(adjMat=mat)
+stopifnot(identical(mat, as(g1, "matrix")), validObject(g1))
+
+## now with weights:
+mat[1,3] &lt;- mat[3,1] &lt;- 10
+gw &lt;- graphAM(adjMat=mat, values=list(weight=1))
+
+## consistency check:
+stopifnot(identical(mat, as(gw, "matrix")),
+          validObject(gw),
+          identical(gw, as(as(gw, "graphNEL"), "graphAM")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

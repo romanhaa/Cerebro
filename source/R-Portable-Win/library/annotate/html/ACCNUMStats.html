@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Provides statistics on the types of ids used for the ACCNUM...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ACCNUMStats {annotate}"><tr><td>ACCNUMStats {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Provides statistics on the types of ids used for the ACCNUM
+environment of a given data package</h2>
+
+<h3>Description</h3>
+
+<p>Given a data package name, ACCNUMStats counts how many of the probe
+ids are mapped to GenBank Accession numbers, UniGene ids, RefSeq ids,
+or Image clone ids.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ACCNUMStats(pkgName)
+whatACC(accs)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkgName</code></td>
+<td>
+<p><code>pkgName</code> a character string for the name of a
+BioC data package</p>
+</td></tr>
+<tr valign="top"><td><code>accs</code></td>
+<td>
+<p><code>accs</code> a vector of character string for the ids
+whose type will be determined</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The ACCNUM environment of each BioC data package contains mappings
+between probe ids and a set of public ids based on which mappings of
+probe ids to other annotation data can be obtained using public data
+sources. The set of ids were provided by a manufacturer or user at the
+time when the data package was built. The manufacturer/user provided
+ids can be of different types of public ids, such as GenBank Accession
+number, UniGene ids, etc..
+</p>
+<p>ACCNUMStats counts the number of probes that are mapped to different
+types of public ids and have the results presented in a table.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p>The ACCNUM environment of a platform dependent BioC data package</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  ACCNUMStats("hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

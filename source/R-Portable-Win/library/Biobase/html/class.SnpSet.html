@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class to Contain Objects Describing High-Throughput SNP...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for SnpSet {Biobase}"><tr><td>SnpSet {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Class to Contain Objects Describing High-Throughput SNP Assays.
+</h2>
+
+<h3>Description</h3>
+
+<p>Container for high-throughput assays and experimental
+metadata. <code>SnpSet</code> class is derived from
+<code><a href="class.eSet.html">eSet</a></code>, and requires matrices <code>call</code>,
+<code>callProbability</code> as assay data members.</p>
+
+
+<h3>Extends</h3>
+
+<p>Directly extends class <code><a href="class.eSet.html">eSet</a></code>.
+</p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>new('SnpSet',
+    phenoData = [AnnotatedDataFrame],
+    experimentData = [MIAME],
+    annotation = [character],
+    protocolData = [AnnotatedDataFrame],
+    call = [matrix],
+    callProbability = [matrix],
+    ...)
+  </code>
+</p>
+<p><code>SnpSet</code> instances are usually created through
+<code>new("SnpSet", ...)</code>. Usually the arguments to <code>new</code>
+include <code>call</code> (a matrix of genotypic calls, with features (SNPs)
+corresponding to rows and samples to columns), <code>phenoData</code>,
+<code>experimentData</code>, <code>annotation</code>, and <code>protocolData</code>. 
+<code>phenoData</code>, <code>experimentData</code>, <code>annotation</code> and
+<code>protocolData</code> can be missing, in which case they are assigned
+default values.
+</p>
+
+
+<h3>Slots</h3>
+
+<p>Inherited from <code>eSet</code>:
+</p>
+
+<dl>
+<dt><code>assayData</code>:</dt><dd><p>Contains matrices with equal
+dimensions, and with column number equal to
+<code>nrow(phenoData)</code>. <code>assayData</code> must contain a matrix
+<code>call</code> with rows representing features (e.g., SNPs)
+and columns representing samples, and a matrix
+<code>callProbability</code> describing the certainty of the
+call. The content of <code>call</code> and <code>callProbability</code> are
+not enforced by the class. Additional matrices of
+identical size may also be included in
+<code>assayData</code>. Class:<code><a href="class.AssayData.html">AssayData-class</a></code></p>
+</dd> 
+<dt><code>phenoData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>experimentData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>annotation</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>protocolData</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Class-specific methods:
+</p>
+
+<dl>
+<dt><code>snpCall(SnpSet)</code>, <code>snpCall(SnpSet,matrix)&lt;-</code></dt><dd><p>Access and
+set elements named <code>call</code> in the <code>AssayData</code>
+slot.</p>
+</dd>
+<dt><code>exprs(SnpSet)</code>, <code>exprs(SnpSet,matrix)&lt;-</code></dt><dd><p>Synonym
+for <code>snpCall</code>.</p>
+</dd>
+<dt><code>snpCallProbability(SnpSet)</code>,
+<code>snpCallProbability&lt;-(SnpSet,matrix)&lt;-</code></dt><dd><p> Access and set
+elements named <code>callProbability</code> in the <code>AssayData</code>
+slot.</p>
+</dd>  </dl>
+
+<p>Derived from <code><a href="class.eSet.html">eSet</a></code>:
+</p>
+
+<dl>
+<dt><code>updateObject(object, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version, if necessary. See <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code> and <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>isCurrent(object)</code></dt><dd><p>Determine whether version of object is current. See <code><a href="isCurrent.html">isCurrent</a></code></p>
+</dd>
+<dt><code>isVersioned(object)</code></dt><dd><p>Determine whether object contains a 'version' string describing its structure . See <code><a href="isVersioned.html">isVersioned</a></code></p>
+</dd>
+<dt><code>sampleNames(SnpSet)</code> and <code>sampleNames(SnpSet)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>featureNames(SnpSet)</code>, <code>featureNames(SnpSet, value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>dims(SnpSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>phenoData(SnpSet)</code>, <code>phenoData(SnpSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>varLabels(SnpSet)</code>, <code>varLabels(SnpSet, value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>varMetadata(SnpSet)</code>, <code>varMetadata(SnpSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>pData(SnpSet)</code>, <code>pData(SnpSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>varMetadata(SnpSet)</code>, <code>varMetadata(SnpSet,value)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>experimentData(SnpSet)</code>,<code>experimentData(SnpSet,value)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>pubMedIds(SnpSet)</code>, <code>pubMedIds(SnpSet,value)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>abstract(SnpSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>annotation(SnpSet)</code>, <code>annotation(SnpSet,value)&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>protocolData(SnpSet)</code>, <code>protocolData(SnpSet,value)&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>combine(SnpSet,SnpSet)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>storageMode(eSet)</code>, <code>storageMode(eSet,character)&lt;-</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+</dl>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>initialize(SnpSet)</code>:</dt><dd><p>Object instantiation, used by <code>new</code>; not to be called directly by the user.</p>
+</dd>
+<dt><code>validObject(SnpSet)</code>:</dt><dd><p>Validity-checking method, ensuring that <code>call</code> and <code>callProbability</code> is a member of <code>assayData</code>. <code>checkValidity(SnpSet)</code> imposes this validity check, and the validity checks of <code>eSet</code>.</p>
+</dd>
+<dt><code>show(SnpSet)</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>dim(SnpSet)</code>, <code>ncol</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>SnpSet[(index)</code>:</dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+<dt><code>SnpSet$</code>, <code>SnpSet$&lt;-</code></dt><dd><p>See <code><a href="class.eSet.html">eSet</a></code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan, V.J. Carey, after initial design by R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

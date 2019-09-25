@@ -1,0 +1,29 @@
+GetColor                A function to get the Red-Blue color scheme
+                        used by dChip
+Makesense               Produce Smoothed Sense/Anti-sense For All
+                        Chromosomes
+alongChrom              A function for plotting expression data from an
+                        ExpressionSet for a given chromosome.
+amplicon.plot           Create an amplicon plot
+cColor                  A function for marking specific probes on a
+                        cPlot.
+cPlot                   A plotting function for chromosomes.
+cScale                  A function for mapping chromosome length to a
+                        number of points.
+expressionSet133a       A small dataset for testing
+groupedHeatmap          Heatmap of a matrix with grouped rows and
+                        columns
+histStack               Stacked histogram
+imageMap-methods        Write an HTML IMG tag together with a MAP image
+                        map.
+make.chromOrd           Make a chromOrd object
+multiecdf               Multiple empirical cumulative distribution
+                        functions (ecdf) and densities
+openHtmlPage            Open and close an HTML file for writing.
+plotChr                 Plot Smoothed Sense/Anti-sense of Specified
+                        Chromosomes
+plotExpressionGraph     A function to plot a graph colored by
+                        expression data
+plotMA-methods          Generate an MA plot
+savepng                 Save the contents of the current graphics
+                        device to a file

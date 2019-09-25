@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;VersionedBiobase&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for VersionedBiobase {Biobase}"><tr><td>VersionedBiobase {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;VersionedBiobase&quot;</h2>
+
+<h3>Description</h3>
+
+<p>Use this class as a &lsquo;superclass&rsquo; for classes requiring information
+about versions. By default, the class contains versions for R and
+Biobase. See <code><a href="class.Versioned.html">Versioned-class</a></code> for additional details.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>set <code><a href="class.Versioned.html">Versioned-class</a></code> for methods.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.Versioned.html">Versioned-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+obj &lt;- new("VersionedBiobase")
+classVersion(obj)
+
+obj &lt;- new("VersionedBiobase", versions=list(A="1.0.0"))
+classVersion(obj)
+
+A &lt;- setClass("A", contains="VersionedBiobase")
+
+classVersion("A")
+a &lt;- A()
+classVersion(a)
+
+obj &lt;- new("VersionedBiobase", versions=c(MyVersion="1.0.0"))
+classVersion(obj)
+
+B &lt;- setClass("B", contains="VersionedBiobase",
+         prototype=prototype(new("VersionedBiobase",versions=list(B="1.0.0"))))
+
+classVersion("B")
+b &lt;- B()
+classVersion(b)
+
+removeClass("A")
+removeClass("B")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

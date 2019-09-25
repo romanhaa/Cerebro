@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convenience function for getting the organism from an object...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for organism {annotate}"><tr><td>organism {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convenience function for getting the organism from an object or package</h2>
+
+<h3>Description</h3>
+
+<p>The most basic organism method just takes a character string (which
+represents a particular annotation package) and returns the organism
+that said package is based upon.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  organism(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a character string that names a package</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The name of the organism used for this package or object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  require(hgu95av2.db)
+  ## get the organism for this annotation package
+  organism("hgu95av2")
+
+  ## get the organism this object refers to
+  ## (for a ChromLocation object)
+  z &lt;- buildChromLocation("hgu95av2")
+  organism(z)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

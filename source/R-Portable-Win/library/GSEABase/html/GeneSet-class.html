@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;GeneSet&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneSet-class {GSEABase}"><tr><td>GeneSet-class {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;GeneSet&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A <code>GeneSet</code> contains a set of gene identifiers. Each gene set has a
+<code>geneIdType</code>, indicating how the gene identifiers should be interpreted
+(e.g., as Entrez identifiers), and a <code>collectionType</code>, indicating
+the origin of the gene set (perhaps including additional information
+about the set, as in the <code><a href="CollectionType-class.html">BroadCollection</a></code> type).
+</p>
+<p>Conversion between identifiers, subsetting, and logical (set)
+operations can be performed. Relationships between genes and phenotype
+in a <code>GeneSet</code> can be summarized using <code>coloring</code> to create
+a <code>GeneColorSet</code>. A <code>GeneSet</code> can be exported to XML with
+<code>toBroadXML</code>. 
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Construct a <code>GeneSet</code> with a <code><a href="GeneSet-methods.html">GeneSet</a></code> method (e.g.,
+from a character vector of gene names, or an
+<code><a href="../../Biobase/html/class.ExpressionSet.html">ExpressionSet</a></code>), or from gene sets stored as XML
+(locally or on the internet; see <code>getBroadSets</code>)
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>setName</code>:</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+containing a short name (single word is best) to identify the set.</p>
+</dd>
+<dt><code>setIdentifier</code>:</dt><dd><p>Object of class
+<code>"ScalarCharacter"</code> containing a (unique) identifier for the
+set.</p>
+</dd>
+<dt><code>geneIdType</code>:</dt><dd><p>Object of class <code>"GeneIdentifierType"</code>
+containing information about how the gene identifiers are encoded. See
+<code><a href="GeneIdentifierType-class.html">GeneIdentifierType</a></code> and related classes.</p>
+</dd>
+<dt><code>geneIds</code>:</dt><dd><p>Object of class <code>"character"</code> containing
+the gene symbols.</p>
+</dd>
+<dt><code>collectionType</code>:</dt><dd><p>Object of class
+<code>"CollectionType"</code> containing information about how the geneIds
+were collected, including perhaps additional information unique to
+the collection methodology. See <code><a href="CollectionType-class.html">CollectionType</a></code>
+and related classes.</p>
+</dd>
+<dt><code>shortDescription</code>:</dt><dd><p>Object of class
+<code>"ScalarCharacter"</code> representing short description (1 line) of the gene set.</p>
+</dd>
+<dt><code>longDescription</code>:</dt><dd><p>Object of class
+<code>"ScalarCharacter"</code> providing a longer description (e.g.,
+like an abstract) of the gene set.</p>
+</dd>
+<dt><code>organism</code>:</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+represents the organism the gene set is derived from.</p>
+</dd>
+<dt><code>pubMedIds</code>:</dt><dd><p>Object of class <code>"character"</code>
+containing PubMed ids related to the gene set.</p>
+</dd>
+<dt><code>urls</code>:</dt><dd><p>Object of class <code>"character"</code> containing
+urls used to construct or manipulate the gene set.</p>
+</dd>
+<dt><code>contributor</code>:</dt><dd><p>Object of class <code>"character"</code>
+identifying who created the gene set.</p>
+</dd>
+<dt><code>version</code>:</dt><dd><p>Object of class <code>"Versions"</code> a version
+number, manually curated (i.e., by the <code>contributor</code>) to
+provide a consistent way of tracking a gene set.</p>
+</dd>
+<dt><code>creationDate</code>:</dt><dd><p>Object of class <code>"character"</code>
+containing the character string representation of the date on which
+the gene set was created.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Gene set construction:
+</p>
+
+<dl>
+<dt>GeneSet</dt><dd><p>See <code><a href="GeneSet-methods.html">GeneSet</a></code> methods and
+<code><a href="getObjects.html">getBroadSets</a></code> for convenient construction.</p>
+</dd>
+</dl>
+
+<p>Slot access (e.g., <code>setName</code>) and retrieve
+(e.g., <code>setName&lt;-</code>) :
+</p>
+
+<dl>
+<dt>collectionType&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "CollectionType")</code></p>
+</dd>
+<dt>collectionType</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>contributor&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>contributor</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>creationDate&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>creationDate</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>description&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>description</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>geneIds&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>geneIds</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>longDescription&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>longDescription</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>organism&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>organism</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>pubMedIds&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>pubMedIds</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>setdiff</dt><dd><p><code>signature(x = "GeneSet", y = "GeneSet")</code></p>
+</dd>
+<dt>setIdentifier&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>setIdentifier</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>setName&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>setName</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>geneIdType&lt;-</dt><dd>
+<p><code>signature(object = "GeneSet", verbose=FALSE, value = "character")</code>,
+<code>signature(object = "GeneSet", verbose=FALSE, value = "GeneIdentifierType")</code>:
+These method attempt to coerce geneIds from
+the current type to the type named by <code>value</code>. Successful
+coercion requires an appropriate method for <code><a href="mapIdentifiers-methods.html">mapIdentifiers</a></code>.</p>
+</dd>
+<dt>geneIdType</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>setVersion&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "Versions")</code></p>
+</dd>
+<dt>setVersion</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+<dt>urls&lt;-</dt><dd><p><code>signature(object = "GeneSet", value = "character")</code></p>
+</dd>
+<dt>urls</dt><dd><p><code>signature(object = "GeneSet")</code></p>
+</dd>
+</dl>
+
+<p>Logical and subsetting operations:
+</p>
+
+<dl>
+<dt>union</dt><dd><p><code>signature(x = "GeneSet", y = "GeneSet")</code>: ... </p>
+</dd>
+<dt>|</dt><dd><p><code>signature(e1 = "GeneSet", e2 = "GeneSet")</code>: calculate
+the logical &lsquo;or&rsquo; (union) of two gene sets. The sets must contain elements of
+the same <code>geneIdType</code>.</p>
+</dd>
+<dt>|</dt><dd>
+<p><code>signature(e1 = "GeneSet", e2 = "character")</code>,
+<code>signature(e1 = "character", e2 = "GeneSet")</code>:
+calculate the logical &lsquo;or&rsquo; (union) of a gene set and a character vector,
+i.e., add the geneIds named in the character vector to the gene set.</p>
+</dd>
+<dt>intersect</dt><dd><p><code>signature(x = "GeneSet", y = "GeneSet")</code>:</p>
+</dd>
+<dt>&amp;</dt><dd><p><code>signature(e1 = "GeneSet", e2 = "GeneSet")</code>: calculate
+the logical &lsquo;and&rsquo; (intersection) of two gene sets.</p>
+</dd>
+<dt>&amp;</dt><dd>
+<p><code>signature(e1 = "GeneSet", e2 = "character")</code>,
+<code>signature(e1 = "character", e2 = "GeneSet")</code>:
+calculate the logical &lsquo;and&rsquo; (intersection) of a gene set and a
+character vector, creating a new gene set containing only those
+genes named in the character vector.</p>
+</dd>
+<dt>setdiff</dt><dd>
+<p><code>signature(x = "GeneSet", y = "GeneSet")</code>,
+<code>signature(x = "GeneSet", y = "character")</code>,
+<code>signature(x = "character", y = "GeneSet")</code>:
+calculate the logical set difference betwen two gene sets, or
+betwen a gene set and a character vector.</p>
+</dd>
+<dt>[</dt><dd>
+<p><code>signature(x = "GeneSet", i="character")</code>
+<code>signature(x = "GeneSet", i="numeric")</code>: subset the gene set by
+index (<code>i="numeric"</code>) or value (<code>i="character"</code>). Genes
+are re-ordered as required</p>
+</dd>
+<dt>[</dt><dd>
+<p><code>signature(x = "ExpressionSet", i = "GeneSet")</code>: subset the
+expression set, using genes in the gene set to select
+features. Genes in the gene set are coerced to appropriate annotation type
+if necessary (by consulting the <code>annotation</code> slot of the
+expression set, and using <code>geneIdType&lt;-</code>).</p>
+</dd>
+<dt>[[</dt><dd><p><code>signature(x = "GeneSet")</code>: select a single gene from
+the gene set.</p>
+</dd>
+<dt>\$</dt><dd><p><code>signature(x = "GeneSet")</code>: select a single gene from
+the gene set, allowing partial matching.</p>
+</dd>
+</dl>
+
+<p>Useful additional methods include:
+</p>
+
+<dl>
+<dt>GeneColorSet</dt><dd><p><code>signature(type = "GeneSet")</code>: create a
+'color' gene set from a <code>GeneSet</code>, containing information
+about phenotype. This method has a required argument
+<code>phenotype</code>, a character string describing the phenotype for
+which color is available. See <code><a href="GeneColorSet-class.html">GeneColorSet</a></code>.</p>
+</dd>
+<dt>mapIdentifiers</dt><dd><p>Use the code in the examples to list available
+methods. These convert genes from one <code>GeneIdentifierType</code> to another. See
+<code><a href="mapIdentifiers-methods.html">mapIdentifiers</a></code> and specific methods in
+<code><a href="GeneIdentifierType-class.html">GeneIdentifierType</a></code> for additional detail.</p>
+</dd>
+<dt>incidence</dt><dd><p>Summarize shared membership in genes across gene
+sets. See <code><a href="incidence-methods.html">incidence-methods</a></code>.</p>
+</dd>
+<dt>toGmt</dt><dd><p>Export to 'GMT' format file. See <code><a href="getObjects.html">toGmt</a></code>.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "GeneSet")</code>: display a short
+summary of the gene set.</p>
+</dd>
+<dt>details</dt><dd><p><code>signature(object = "GeneSet")</code>: display
+additional information about the gene set. See <code><a href="details-methods.html">details</a></code>.</p>
+</dd>
+<dt>initialize</dt><dd><p><code>signature(.Object = "GeneSet")</code>: Used
+internally during gene set construction.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneColorSet-class.html">GeneColorSet</a></code>
+<code><a href="CollectionType-class.html">CollectionType</a></code>
+<code><a href="GeneIdentifierType-class.html">GeneIdentifierType</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Empty gene set
+GeneSet()
+## Gene set from ExpressionSet
+data(sample.ExpressionSet)
+gs1 &lt;- GeneSet(sample.ExpressionSet[100:109])
+## GeneSet from Broad XML; 'fl' could be a url
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+gs2 &lt;- getBroadSets(fl)[[1]] # actually, a list of two gene sets
+## GeneSet from list of geneIds
+geneIds &lt;- geneIds(gs2) # any character vector would do
+gs3 &lt;- GeneSet(geneIds=geneIds)
+## unspecified set type, so...
+is(geneIdType(gs3), "NullIdentifier") == TRUE
+## update set type to match encoding of identifiers
+geneIdType(gs2)
+geneIdType(gs3) &lt;- SymbolIdentifier()
+
+## Convert between set types; this consults the 'annotation'
+## information encoded in the 'AnnotationIdentifier' set type and the
+## corresponding annotation package.
+## Not run: 
+gs4 &lt;- gs1
+geneIdType(gs4) &lt;- EntrezIdentifier()
+
+## End(Not run)
+
+## logical (set) operations
+gs5 &lt;- GeneSet(sample.ExpressionSet[100:109], setName="subset1")
+gs6 &lt;- GeneSet(sample.ExpressionSet[105:114], setName="subset2")
+## intersection: 5 'genes'; note the set name '(subset1 &amp; subset2)'
+gs5 &amp; gs6
+## union: 15 'genes'; note the set name
+gs5 | gs6
+## an identity
+gs7 &lt;- gs5 | gs6
+gs8 &lt;- setdiff(gs5, gs6) | (gs5 &amp; gs6) | setdiff(gs6, gs5)
+identical(geneIds(gs7), geneIds(gs8))
+identical(gs7, gs8) == FALSE # gs7 and gs8 setNames differ
+
+## output
+tmp &lt;- tempfile()
+toBroadXML(gs2, tmp)
+noquote(readLines(tmp))
+## must be BroadCollection() collectionType 
+try(toBroadXML(gs1))
+gs9 &lt;- gs1
+collectionType(gs9) &lt;- BroadCollection()
+toBroadXML(gs9, tmp)
+unlink(tmp)
+toBroadXML(gs9) # no connection --&gt; character vector
+## list of geneIds --&gt; vector of Broad GENESET XML
+gs10 &lt;- getBroadSets(fl) # two sets
+entries &lt;- sapply(gs10, function(x) toBroadXML(x))
+
+## list mapIdentifiers available for GeneSet
+showMethods("mapIdentifiers", classes="GeneSet", inherit=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

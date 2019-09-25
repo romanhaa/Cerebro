@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Collection Type Class Constructors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for CollectionType {GSEABase}"><tr><td>CollectionType {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Collection Type Class Constructors</h2>
+
+<h3>Description</h3>
+
+<p>These functions construct collection types.
+Collection types can be used in manipulating (e.g., selecting)
+sets, and can contain information specific to particular sets
+(e.g., 'category' and 'subcategory' classifications of
+'BroadCollection'.)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+NullCollection(...)
+ComputedCollection(...)
+ExpressionSetCollection(...)
+ChrCollection(ids,...)
+ChrlocCollection(ids,...)
+KEGGCollection(ids,...)
+MapCollection(ids,...)
+OMIMCollection(ids,...)
+PMIDCollection(ids,...)
+PfamCollection(ids, ...)
+PrositeCollection(ids, ...)
+GOCollection(ids=character(0), evidenceCode="ANY", ontology="ANY", ..., err=FALSE)
+OBOCollection(ids, evidenceCode="ANY", ontology="ANY", ...)
+BroadCollection(category, subCategory=NA, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>category</code></td>
+<td>
+<p>(Required) Broad category, one of &quot;c1&quot; (postitional),
+&quot;c2&quot; (curated), &quot;c3&quot; (motif), &quot;c4&quot; (computational), &quot;c5&quot; (GO), &quot;c6&quot;
+(Oncogenic Pathway Activation Modules) &quot;c7&quot; (Immunologic
+Signatures), &quot;h&quot; (Hallmark).</p>
+</td></tr>
+<tr valign="top"><td><code>subCategory</code></td>
+<td>
+<p>(Optional) Sub-category; no controlled vocabulary.</p>
+</td></tr>
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p>(Optional) Character vector of identifiers (e.g., GO, KEGG,
+or PMID terms).</p>
+</td></tr>
+<tr valign="top"><td><code>evidenceCode</code></td>
+<td>
+<p>(Optional) Character vector of GO evidence codes
+to be included, or &quot;ANY&quot; (any identifier; the default). 
+Evidence is a property of particular genes, rather than of the
+ontology, so evidenceCode is a convenient way of specifying how
+users of a GOCollection might restrict derived objects (as in
+done during create of a gene set from an expression set).</p>
+</td></tr>
+<tr valign="top"><td><code>ontology</code></td>
+<td>
+<p>(Optional) Character vector of GO ontology terms to be
+included, or &quot;ANY&quot; (any identifier; the default). Unlike evidence
+code, ontology membership is enforced when GOCollection gene sets
+are constructed.</p>
+</td></tr>
+<tr valign="top"><td><code>err</code></td>
+<td>
+<p>(Optional) logical scalar indicating whether non-existent
+GO terms signal an error (<code>TRUE</code>), or are silently ignored (<code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, usually none but see specific
+<code><a href="CollectionType-class.html">CollectionType</a></code> classes  for possibilities.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of the same class as the function name, initialized as
+appropriate for the collection.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="CollectionType-class.html">CollectionType</a></code>, 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+NullCollection()
+
+## NullCollection when no collection type specified
+collectionType(GeneSet())
+collectionType(GeneSet(collectionType=GOCollection()))
+
+## fl could be a url
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+gs1 &lt;- getBroadSets(fl)[[1]]
+collectionType(gs1) # BroadCollection
+
+## new BroadCollection, with different category
+bc &lt;- BroadCollection(category="c2")
+## change collectionType of gs2
+gs2 &lt;- gs1
+collectionType(gs2) &lt;- NullCollection()
+
+## OBOCollection
+fl &lt;- system.file("extdata", "goslim_plant.obo", package="GSEABase")
+getOBOCollection(fl, evidenceCode="TAS") # returns OBOCollection
+OBOCollection(c("GO:0008967", "GO:0015119", "GO:0030372", "GO:0002732",
+                "GO:0048090"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

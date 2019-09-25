@@ -1,0 +1,378 @@
+%\VignetteIndexEntry{An Overview of the S4Vectors package}
+%\VignetteDepends{S4Vectors}
+%\VignetteKeywords{Vector,Hits,Rle,List,DataFrame}
+%\VignettePackage{S4Vectors}
+
+\documentclass{article}
+
+\usepackage[authoryear,round]{natbib}
+
+<<style, echo=FALSE, results=tex>>=
+BiocStyle::latex(use.unsrturl=FALSE)
+@
+
+\title{An Overview of the \Biocpkg{S4Vectors} package}
+\author{Patrick Aboyoun, Michael Lawrence, Herv\'e Pag\`es}
+\date{Edited: February 2018; Compiled: \today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+<<options,echo=FALSE>>=
+options(width=72)
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+The \Biocpkg{S4Vectors} package provides a framework for representing
+vector-like and list-like objects as S4 objects. It defines two central
+virtual classes, \Rclass{Vector} and \Rclass{List}, and a set of generic
+functions that extend the semantic of ordinary vectors and lists in \R{}.
+Package developers can easily implement vector-like or list-like objects
+as \Rclass{Vector} and/or \Rclass{List} derivatives.
+A few low-level \Rclass{Vector} and \Rclass{List} derivatives are
+implemented in the \Biocpkg{S4Vectors} package itself e.g. \Rclass{Hits},
+\Rclass{Rle}, and \Rclass{DataFrame}). Many more are implemented in the
+\Biocpkg{IRanges} and \Biocpkg{GenomicRanges} infrastructure packages,
+and in many other Bioconductor packages.
+
+In this vignette, we will rely on simple, illustrative example
+datasets, rather than large, real-world data, so that each data structure
+and algorithm can be explained in an intuitive, graphical manner. We
+expect that packages that apply \Biocpkg{S4Vectors} to a particular
+problem domain will provide vignettes with relevant, realistic examples.
+
+The \Biocpkg{S4Vectors} package is available at bioconductor.org and
+can be downloaded via \Rfunction{BiocManager::install}:
+
+<<install, eval=FALSE>>=
+if (!require("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install("S4Vectors")
+@
+<<initialize, results=hide>>=
+library(S4Vectors)
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Vector-like and list-like objects}
+
+In the context of the \Biocpkg{S4Vectors} package, a vector-like object
+is an ordered finite collection of elements. All vector-like objects have
+three main properties: (1) a notion of length or number of elements,
+(2) the ability to extract elements to create new vector-like objects,
+and (3) the ability to be concatenated with one or more vector-like objects
+to form larger vector-like objects. The main functions for these three
+operations are \Rfunction{length}, \Rfunction{[}, and \Rfunction{c}.
+Supporting these operations provide a great deal of power and many
+vector-like object manipulations can be constructed using them.
+
+Some vector-like objects can also have a list-like semantic, which means
+that individual elements can be extracted with \Rcode{[[}.
+
+In \Biocpkg{S4Vectors} and many other Bioconductor packages, vector-like
+and list-like objects derive from the \Rclass{Vector} and \Rclass{List}
+virtual classes, respectively. Note that \Rclass{List} is a subclass of
+\Rclass{Vector}.
+
+The following subsections describe each in turn.
+
+\subsection{Vector-like objects}
+
+As a first example of vector-like objects, we'll look at \Rclass{Rle}
+objects. In \R{}, atomic sequences are typically stored in atomic vectors.
+But there are times when these object become too large to manage in memory.
+When there are lots of consecutive repeats in the sequence, the data can be
+compressed and managed in memory through a run-length encoding where a data
+value is paired with a run length. For example, the sequence
+\{1, 1, 1, 2, 3,  3\} can be represented as values = \{1, 2, 3\},
+run lengths = \{3, 1, 2\}.
+
+The \Rclass{Rle} class defined in the \Biocpkg{S4Vectors} package is used
+to represent a run-length encoded (compressed) sequence of \Rclass{logical},
+\Rclass{integer}, \Rclass{numeric}, \Rclass{complex}, \Rclass{character},
+\Rclass{raw}, or \Rclass{factor} values.
+Note that the \Rclass{Rle} class extends the \Rclass{Vector} virtual class:
+
+<<Rle-extends-Vector>>=
+showClass("Rle")
+@
+
+One way to construct \Rclass{Rle} objects is through the \Rclass{Rle}
+constructor function:
+
+<<initialize>>=
+set.seed(0)
+lambda <- c(rep(0.001, 4500), seq(0.001, 10, length=500),
+            seq(10, 0.001, length=500))
+xVector <- rpois(1e7, lambda)
+yVector <- rpois(1e7, lambda[c(251:length(lambda), 1:250)])
+xRle <- Rle(xVector)
+yRle <- Rle(yVector)
+@
+
+\Rclass{Rle} objects are vector-like objects:
+<<basic-ops>>=
+length(xRle)
+xRle[1]
+zRle <- c(xRle, yRle)
+@
+
+\subsubsection{Subsetting a vector-like object}
+
+As with ordinary \R{} atomic vectors, it is often necessary to subset
+one sequence from another. When this subsetting does not duplicate or
+reorder the elements being extracted, the result is called a
+\textit{subsequence}. In general, the \Rfunction{[} function can be used
+to construct a new sequence or extract a subsequence, but its interface
+is often inconvenient and not amenable to optimization. To compensate for
+this, the \Biocpkg{S4Vectors} package supports seven additional functions
+for sequence extraction:
+
+\begin{enumerate}
+\item \Rfunction{window} - Extracts a subsequence over a specified region.
+\item \Rfunction{subset} - Extracts the subsequence specified by a logical
+  vector.
+\item \Rfunction{head} - Extracts a consecutive subsequence containing the
+  first n elements.
+\item \Rfunction{tail} - Extracts a consecutive subsequence containing the
+  last n elements.
+\item \Rfunction{rev} - Creates a new sequence with the elements in the
+  reverse order.
+\item \Rfunction{rep} - Creates a new sequence by repeating sequence
+  elements.
+\end{enumerate}
+
+The following code illustrates how these functions are used on an
+\Rclass{Rle} vector:
+
+<<seq-extraction>>=
+xSnippet <- window(xRle, 4751, 4760)
+xSnippet
+head(xSnippet)
+tail(xSnippet)
+rev(xSnippet)
+rep(xSnippet, 2)
+subset(xSnippet, xSnippet >= 5L)
+@
+
+\subsubsection{Concatenating vector-like objects}
+
+The \Biocpkg{S4Vectors} package uses two generic functions, \Rfunction{c}
+and \Rfunction{append}, for concatenating two \Rclass{Vector} derivatives.
+The methods for \Rclass{Vector} objects follow the definition that these
+two functions are given the \Biocpkg{base} package.
+
+<<seq-concatenate>>=
+c(xSnippet, rev(xSnippet))
+append(xSnippet, xSnippet, after=3)
+@
+
+\subsubsection{Looping over subsequences of vector-like objects}
+
+In \R{}, \Rfunction{for} looping can be an expensive operation.
+To compensate for this, the \Biocpkg{S4Vectors} package provides
+\Rfunction{aggregate} and \Rfunction{shiftApply} methods
+(\Rfunction{shiftApply} is a new generic function defined in
+\Biocpkg{S4Vectors}) to perform calculations over subsequences
+of vector-like objects.
+
+The \Rfunction{aggregate} function combines sequence extraction functionality
+of the \Rfunction{window} function with looping capabilities of the
+\Rfunction{sapply} function. For example, here is some code to compute medians
+across a moving window of width 3 using the function \Rfunction{aggregate}:
+
+<<aggregate>>=
+xSnippet
+aggregate(xSnippet, start=1:8, width=3, FUN=median)
+@
+
+The \Rfunction{shiftApply} function is a looping operation involving two
+vector-like objects whose elements are lined up via a positional shift
+operation. For example, the elements of \Robject{xRle} and \Robject{yRle}
+were simulated from Poisson distributions with the mean of element i from
+\Robject{yRle} being equivalent to the mean of element i + 250 from
+\Robject{xRle}. If we did not know the size of the shift, we could
+estimate it by finding the shift that maximizes the correlation between
+\Robject{xRle} and \Robject{yRle}.
+
+<<shiftApply-cor>>=
+cor(xRle, yRle)
+shifts <- seq(235, 265, by=3)
+corrs  <- shiftApply(shifts, yRle, xRle, FUN=cor)
+@
+%
+<<figshiftcorrs, fig=TRUE, include=FALSE, eps=FALSE, width=5, height=5>>=
+plot(shifts, corrs)
+@
+
+The result is shown in Fig.~\ref{figshiftcorrs}.
+\begin{figure}[tb]
+  \begin{center}
+     \includegraphics[width=0.5\textwidth]{S4VectorsOverview-figshiftcorrs}
+     \caption{\label{figshiftcorrs}%
+      Correlation between \Robject{xRle} and \Robject{yRle} for various
+      shifts.}
+  \end{center}
+\end{figure}
+
+\subsubsection{More on \Rclass{Rle} objects}
+
+When there are lots of consecutive repeats, the memory savings through
+an RLE can be quite dramatic. For example, the \Robject{xRle} object
+occupies less than one third of the space of the original \Robject{xVector}
+object, while storing the same information:
+
+<<Rle-vector-compare>>=
+as.vector(object.size(xRle) / object.size(xVector))
+identical(as.vector(xRle), xVector)
+@
+
+The functions \Rfunction{runValue} and \Rfunction{runLength} extract
+the run values and run lengths from an \Rclass{Rle} object respectively:
+
+<<Rle-accessors>>=
+head(runValue(xRle))
+head(runLength(xRle))
+@
+
+The \Rclass{Rle} class supports many of the basic methods associated with
+\R{} atomic vectors including the Ops, Math, Math2, Summary, and Complex
+group generics. Here is a example of manipulating \Rclass{Rle} objects
+using methods from the Ops group:
+
+<<Rle-ops>>=
+xRle > 0
+xRle + yRle
+xRle > 0 | yRle > 0
+@
+
+Here are some from the Summary group:
+
+<<Rle-summary>>=
+range(xRle)
+sum(xRle > 0 | yRle > 0)
+@
+
+And here is one from the Math group:
+
+<<Rle-math>>=
+log1p(xRle)
+@
+
+As with atomic vectors, the \Rfunction{cor} and \Rfunction{shiftApply}
+functions operate on \Rclass{Rle} objects:
+
+<<Rle-cor>>=
+cor(xRle, yRle)
+shiftApply(249:251, yRle, xRle,
+           FUN=function(x, y) {var(x, y) / (sd(x) * sd(y))})
+@
+
+For more information on the methods supported by the \Rclass{Rle} class,
+consult the \Rcode{Rle} man page.
+
+
+\subsection{List-like objects}
+
+Just as with ordinary \R{} \Rclass{list} objects, \Rclass{List}-derived
+objects support \Rfunction{[[} for element extraction, \Rfunction{c}
+for concatenating, and \Rfunction{lapply}/\Rfunction{sapply} for looping.
+\Rfunction{lapply} and \Rfunction{sapply} are familiar to
+many \R{} users since they are the standard functions for looping
+over the elements of an \R{} \Rclass{list} object.
+
+In addition, the \Biocpkg{S4Vectors} package introduces the
+\Rfunction{endoapply} function to perform an endomorphism equivalent
+to \Rfunction{lapply}, i.e. it returns a \Rclass{List} derivative of
+the same class as the input rather than a \Rclass{list} object.
+
+An example of \Rclass{List} derivative is the \Rclass{DataFrame} class:
+
+<<DataFrame-extends-List>>=
+showClass("DataFrame")
+@
+
+One way to construct \Rclass{DataFrame} objects is through the
+\Rclass{DataFrame} constructor function:
+
+<<DataFrame>>=
+df <- DataFrame(x=xRle, y=yRle)
+sapply(df, class)
+sapply(df, summary)
+sapply(as.data.frame(df), summary)
+endoapply(df, `+`, 0.5)
+@
+
+For more information on \Rclass{DataFrame} objects, consult the
+\Rcode{DataFrame} man page.
+
+See the ``An Overview of the \Biocpkg{IRanges} package'' vignette in the
+\Biocpkg{IRanges} package for many more examples of \Rclass{List} derivatives.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Data Tables}
+
+To Do:
+\Rclass{DataTable},
+\Rclass{DataFrame},
+\Rclass{DataFrameList},
+\Rclass{SplitDataFrameList}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Vector Annotations}
+
+Often when one has a collection of objects, there is a need to attach
+metadata that describes the collection in some way.
+Two kinds of metadata can be attached to a \Rclass{Vector} object:
+\begin{enumerate}
+\item Metadata about the object as a whole: this metadata is accessed
+      via the \Rfunction{metadata} accessor and is represented as an
+      ordinary \Rclass{list};
+\item Metadata about the individual elements of the object: this metadata
+      is accessed via the \Rfunction{mcols} accessor (\Rfunction{mcols}
+      stands for {\it metadata columns}) and is represented as a
+      \Rclass{DataTable} object (i.e. as an instance of a concrete
+      subclass of \Rclass{DataTable}, e.g. a \Rclass{DataFrame} object).
+      This \Rclass{DataTable} object can be thought of as the result of
+      binding together one or several vector-like objects (the metadata
+      columns) of the same length as the \Rclass{Vector} object. Each
+      row of the \Rclass{DataTable} object annotates the corresponding
+      element of the \Rclass{Vector} object.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Session Information}
+
+Here is the output of \Rcode{sessionInfo()} on the system on which this
+document was compiled:
+
+<<SessionInfo, echo=FALSE>>=
+sessionInfo()
+@
+
+\end{document}

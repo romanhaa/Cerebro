@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Formatting a Bimap as a list or character vector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for BimapFormatting {AnnotationDbi}"><tr><td>BimapFormatting {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Formatting a Bimap as a list or character vector</h2>
+
+<h3>Description</h3>
+
+<p>These functions format a Bimap as a list or character vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## Formatting as a list
+  as.list(x, ...)
+
+  ## Formatting as a character vector
+  #as.character(x, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="Bimap.html">Bimap</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments are ignored.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pages</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Bimap.html">Bimap</a>,
+<a href="Bimap-envirAPI.html">Bimap-envirAPI</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(hgu95av2.db)
+  as.list(hgu95av2CHRLOC)[1:9]
+  as.list(hgu95av2ENTREZID)[1:9]
+  as.character(hgu95av2ENTREZID)[1:9]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

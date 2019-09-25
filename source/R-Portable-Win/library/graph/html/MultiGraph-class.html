@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: EXPERIMENTAL class &quot;MultiGraph&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MultiGraph-class {graph}"><tr><td>MultiGraph-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>EXPERIMENTAL class &quot;MultiGraph&quot;</h2>
+
+<h3>Description</h3>
+
+<p>The MultiGraph class represents a single node set and a set of edge
+sets.  Each edge set is either directed or undirected.  We can think
+of an edge in a MultiGraph as a 4-tuple (from-node, to-node,
+edge-type, weight), where the edge-type field in the tuple identifies
+the edge set, the weight is a numeric value, and the order of the
+nodes only matters in the case of a directed edge set.  Unlike some of
+the graph representations, self-loops are allowed (from-node ==
+to-node).
+</p>
+<p>There is support for arbitrary edge attributes which is primarily
+useful for rendering plots of MultiGraphs.  These attributes are
+stored separately from the edge weights to facilitate efficient edge
+weight computation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+MultiGraph(edgeSets, nodes = NULL, directed = TRUE, ignore_dup_edges = FALSE)
+eweights(object, names.sep = NULL)
+edgeSetIntersect0(g, edgeFun = NULL)
+edgeSetIntersect0(g, edgeFun = NULL)
+extractGraphAM(g, edgeSets)
+extractGraphBAM(g, edgeSets)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>edgeSets</code></td>
+<td>
+
+<p>A named list of <code>data.frame</code> objects each representing an edge
+set of the multigraph.  Each <code>data.frame</code> must have three
+columns: &quot;from&quot;, &quot;to&quot;, and &quot;weight&quot;.  Columns &quot;from&quot; and &quot;to&quot; can be
+either factors or character vectors.  The &quot;weight&quot; column must be
+numeric.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nodes</code></td>
+<td>
+
+<p>A character vector of node labels.  Nodes with zero degree can be
+included in a graph by specifying the node labels in <code>nodes</code>.
+The node set of the resulting multigraph is the union of the node
+labels found in <code>edgeSets</code> and <code>nodes</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>directed</code></td>
+<td>
+
+<p>A logical vector indicating whether the edge sets specified in
+<code>edgeSets</code> represent directed edges.  If this argument has
+length one, the value applies to all edge sets in <code>edgeSets</code>.
+Otherwise, this argument must have the same length as
+<code>edgeSets</code>, values are aligned by position.
+</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>A <code>MultiGraph</code> instance
+</p>
+</td></tr>
+<tr valign="top"><td><code>g</code></td>
+<td>
+
+<p>A <code>MultiGraph</code> instance
+</p>
+</td></tr>
+<tr valign="top"><td><code>names.sep</code></td>
+<td>
+
+<p>The string to use as a separator between from and to node labels.
+If <code>NULL</code> no names will be attached to the returned vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_dup_edges</code></td>
+<td>
+
+<p>If <code>FALSE</code> (default), specifying duplicate edges in the input
+is an error.  When set to <code>TRUE</code> duplicate edges are ignored.
+Edge weight values are ignored when determining duplicates.  This is
+most useful for graph import and conversion.
+</p>
+</td></tr>
+<tr valign="top"><td><code>edgeFun</code></td>
+<td>
+
+<p>A user specified named list of functions to resolve edge attributes in a union
+or intersection operation
+</p>
+</td></tr> 
+</table>
+
+
+<h3>Constructors</h3>
+
+<p><code>MultiGraph</code>
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>nodes</dt><dd><p>Return the nodes of the multigraph.</p>
+</dd>
+<dt>numEdges</dt><dd><p>Return an integer vector named by edge set
+containing edge counts for each edge set.</p>
+</dd>
+<dt>numNodes</dt><dd><p>Return the number of nodes in the multigraph.</p>
+</dd>
+<dt>eweights</dt><dd><p>Return a list named by edge set; each element is a
+numeric vector of edge weights for the corresponding edge set.</p>
+</dd>
+<dt>isDirected</dt><dd><p>Return a logical vector named by the edge sets in
+<code>object</code> with a <code>TRUE</code> indicating a directed edge set
+and <code>FALSE</code> for undirected.</p>
+</dd>
+<dt>edges</dt><dd><p>Returns a list named by edge set; for the edges in the 
+MultiGraph</p>
+</dd>
+<dt>edgeNames</dt><dd><p>Returns a list named by the edge set; for the names
+of the edges in the MultiGraph</p>
+</dd>
+<dt>extractFromTo</dt><dd><p>Return a list named by the edge sets; each
+element is a data frame with column names from, to and weight
+corresponding to the connected nodes in the edge set.</p>
+</dd>
+<dt>subsetEdgeSets</dt><dd><p>Return a new <code>MultiGraph</code> object 
+representing the subset of edge sets from the original 
+<code>MultiGraph</code>.</p>
+</dd>
+<dt>extractGraphAM</dt><dd><p>Return a named <code>list</code> of <code>graphAM</code>
+objects corresponding to the edge sets from the original 
+<code>MultiGraph</code>.</p>
+</dd>
+<dt>extractGraphBAM</dt><dd><p>Return a named <code>list</code> of <code>graphBAM</code>
+objects corresponding to the edge sets from the original 
+<code>MultiGraph</code>.</p>
+</dd>
+<dt>ugraph</dt><dd><p>Return a new <code>MultiGraph</code> object in which all
+edge sets have been converted to undirected edge sets.  This
+operation sets all edge weights to one and drops other edge
+attributes.</p>
+</dd>
+<dt>edgeSetIntersect0</dt><dd><p>Return a new <code>MultiGraph</code> object
+representing the intersection of edges across all edge sets within
+<code>g</code>.  The return value will have a single edge set if the edge
+sets in <code>g</code> are disjoint.  Otherwise, there will be a single
+edge set containing the shared edges.  The node set is preserved.
+Edge weights and edge attributes are transferred over to the output if they
+have the same value, else user has the option of providing a function
+to resolve the conflict.</p>
+</dd>
+<dt>edgeSetUnion0</dt><dd><p>Return a new <code>MultiGraph</code> object
+representing the union of edges across all edge sets within
+<code>g</code>.  The node set is preserved.  Edge weights and edge attributes are
+transferred over to the output if they have the same value, else user has
+the option of providing a function to resolve the conflict.</p>
+</dd>
+<dt><code>graphIntersect(x, y, nodeFun, edgeFun)</code></dt><dd>
+<p>When given two <code>MultiGraph</code> objects, <code>graphIntersect</code>
+returns a new <code>MultiGraph</code> containing the nodes and edges in
+common between the two graphs.  The intersection is computed by
+first finding the intersection of the node sets, obtaining the
+induced subgraphs, and finding the intersection of the resulting
+edge sets. The corresponding named edgeSets in <code>x</code> and <code>y</code> should
+both be either directed or undirected.Node/Edge attributes that are equal
+are carried over to the result. Non equal edge/node attributes will result 
+in the corresponding attribute being set to NA. The user has the option 
+of providing a named list(names of edgeSets) of list (names of edge attributes)
+of edge functions correspoding to the names of the edge attributes for 
+resolving conflicting edge attributes (<code>edgeFun</code>). For resolving any 
+of the conflicting node attributes, the user has the option of providing a
+named <code>list</code> of functions corresponding to the node attribute names (<code>nodeFun</code>). 
+</p>
+</dd>
+<dt><code>graphUnion(x, y, nodeFun, edgeFun)</code></dt><dd>
+<p>When given two <code>MultiGraph</code> objects, <code>graphUnion</code>
+returns a new <code>MultiGraph</code> containing the union of nodes and 
+edges between the two graphs. The corresponding pairs of named edgeSets
+in  <code>x</code> and <code>y</code> should both be either directed or undirected. 
+Non equal edge/node attributes will result in the corresponding attribute 
+being set to NA. The user has the option of providing a named list(names of
+edgeSets) of list (names of edge attributes) of edge functions correspoding
+to the names of the edge attributes for resolving conflicting edge 
+attributes (<code>edgeFun</code>). For resolving any of the conflicting node attributes, the user 
+has the option of providing a named <code>list</code> of functions corresponding 
+to the node attribute names (<code>nodeFun</code>). 
+</p>
+</dd>
+<dt> <code>edgeSets(object, ...)</code></dt><dd>
+<p>Returns the names of the  edgeSets in the  MultiGraph
+<code>object</code> as a character vector.
+</p>
+</dd> 
+<dt>show</dt><dd><p>Prints a short summary of a MultiGraph object</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>S. Falcon, Gopalakrishnan N</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    ft1 &lt;- data.frame(from=c("a", "a", "a", "b", "b"),
+                        to=c("b", "c", "d", "a", "d"),
+                      weight=c(1, 3.1, 5.4, 1, 2.2))
+
+    ft2 &lt;- data.frame(from=c("a", "a", "a", "x", "x", "c"),
+                        to=c("b", "c", "x", "y", "c", "a"),
+                      weight=c(3.4, 2.6, 1, 1, 1, 7.9))
+
+    esets &lt;- list(es1=ft1, es2=ft2)
+
+    g &lt;- MultiGraph(esets)
+
+    nodes(g)
+    numEdges(g)
+    eweights(g)
+    eweights(g, names.sep = "=&gt;")
+    isDirected(g)
+    edges(g, edgeSet ="es1")
+    edges(g, "a", "es1")
+    edgeNames(g, "es2")
+    edgeSets(g)
+    ug &lt;- ugraph(g)
+    isDirected(ug)
+    numEdges(ug)
+    edgeSetIntersect0(g)
+    subsetEdgeSets(g, "es1")
+    extractFromTo(g)
+    extractGraphAM(g)
+    extractGraphAM(g, "es1")
+    extractGraphBAM(g, "es1")
+    graphIntersect(g, g)
+    graphUnion(g,g)
+    mgEdgeDataDefaults(g, "es1", attr = "color" ) &lt;- "white"
+    mgEdgeData(g, "es1", from = "a", to = c("b", "c"), attr = "color") &lt;- "red"
+    mgEdgeData(g, "es1", from = "a", to = c("b", "c"), attr = "color") 
+    nodeDataDefaults(g, attr ="shape") &lt;- "circle"
+    nodeData(g, n = c("a", "b", "c"), attr = "shape") &lt;- "triangle"
+    nodeData(g, n = c("a", "b", "x", "y"), attr = "shape") 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

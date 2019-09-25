@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to get the Red-Blue color scheme used by dChip</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GetColor {geneplotter}"><tr><td>GetColor {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> A function to get the Red-Blue color scheme used by dChip </h2>
+
+<h3>Description</h3>
+
+<p>A simple, vectorized function that computes a Red/Blue color for
+plotting microarray expression data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+GetColor(value, GreenRed=FALSE, DisplayRange=3)
+dChip.colors(n)
+greenred.colors(n)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>The vector of expression values. </p>
+</td></tr>
+<tr valign="top"><td><code>GreenRed</code></td>
+<td>
+<p>If <code>TRUE</code> the Green-Red colors are produced,
+otherwise Red-Blue are procduced. </p>
+</td></tr>
+<tr valign="top"><td><code>DisplayRange</code></td>
+<td>
+<p> A parameter controlling the range of
+<code>value</code>'s that will be plotted. </p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>An integer saying how many colors to be in the palette.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>GetColor</code> is a simple mapping into RGB land provided by Cheng
+Li.
+<code>dChip.colors</code> provides functionality similar to that of
+<code><a href="../../grDevices/html/palettes.html">topo.colors</a></code> for the red&ndash;blue colors
+used for genome  plots. <code>greenred.colors</code> does the same for the
+green-black-red gradient.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of RGB colors suitable for plotting in R.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman, based on an original by C. Li. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(10)
+  x &lt;- rnorm(10)
+  GetColor(x)
+  dChip.colors(10)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

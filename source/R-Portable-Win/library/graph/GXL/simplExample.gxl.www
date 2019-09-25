@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE gxl SYSTEM "http://www.gupro.de/GXL/gxl-1.0.1.dtd">
+<?xml-stylesheet type="text/xsl" href="../../highlightme.xsl"?>
+<!-- simple example 05.02.2002  -->
+<gxl xmlns:xlink="http://www.w3.org/1999/xlink">
+	<graph id="simpleExample" edgemode="directed">
+		<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#simpleExampleSchema"/>
+		<node id="p">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#Proc"/>
+			<attr name="file">
+				<string>main.c</string>
+			</attr>
+		</node>
+		<node id="q">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#Proc"/>
+			<attr name="file">
+				<string>test.c</string>
+			</attr>
+		</node>
+		<node id="v">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#Var"/>
+			<attr name="line">
+				<int>225</int>
+			</attr>
+		</node>
+		<node id="w">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#Var"/>
+			<attr name="line">
+				<int>316</int>
+			</attr>
+		</node>
+		<edge id="r1" from="p" to="v">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#ref"/>
+			<attr name="line">
+				<int>127</int>
+			</attr>
+		</edge>
+		<edge id="r2" from="q" to="w">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#ref"/>
+			<attr name="line">
+				<int>27</int>
+			</attr>
+		</edge>
+		<edge id="c" from="p" to="q">
+			<type xlink:href="../../../schema/gxl/simpleExample/simpleExampleSchema.gxl#call"/>
+			<attr name="line">
+				<int>42</int>
+			</attr>
+		</edge>
+	</graph>
+</gxl>

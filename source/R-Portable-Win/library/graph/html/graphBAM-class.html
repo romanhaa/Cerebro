@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: EXPERIMENTAL class &quot;graphBAM&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for graphBAM-class {graph}"><tr><td>graphBAM-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>EXPERIMENTAL class &quot;graphBAM&quot;</h2>
+
+<h3>Description</h3>
+
+<p>The graphBAM class represents a graph as an adjacency matrix.  The
+adjacency matrix is stored as a bit array using a <code>raw</code> vector to
+reduce the memory footprint and speed operations like
+<code>graphIntersection</code>.  This class is EXPERIMENTAL and its API is
+subject to change.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+graphBAM(df, nodes=NULL, edgemode="undirected", ignore_dup_edges = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>df</code></td>
+<td>
+
+<p>A <code>data.frame</code> with three columns: &quot;from&quot;, &quot;to&quot; and
+&quot;weight&quot;. Columns &quot;from&quot; and &quot;to&quot; can be either factors or character
+vectors.  Each row of <code>df</code> describes an edge in the resulting
+graph.  The &quot;weight&quot; column must be numeric.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nodes</code></td>
+<td>
+
+<p>A character vector of node labels.  Use this to add degree zero
+nodes to the graph.  If <code>NULL</code>, the set of nodes found in
+<code>from</code> and <code>to</code> will be used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>edgemode</code></td>
+<td>
+
+<p>A string, one of &quot;directed&quot; or &quot;undirected&quot;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_dup_edges</code></td>
+<td>
+
+<p>If <code>FALSE</code> (default), specifying duplicate edges in the input
+is an error.  When set to <code>TRUE</code> duplicate edges are ignored.
+Edge weight values are ignored when determining duplicates.  This is
+most useful for graph import and conversion.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Constructors</h3>
+
+<p>The <code>GraphBAM</code> function is used to create new <code>graphBAM</code>
+instances.  Edges are specified in a <code>data.frame</code>.  For
+undirected graphs, reciprical edges should not be includes unless
+<code>ignoe_dup_edges</code> is <code>TRUE</code>.
+</p>
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"<a href="graph-class.html">graph</a>"</code>, directly.
+</p>
+
+
+<h3>Methods for graphBAM objects</h3>
+
+
+<dl>
+<dt><code>addEdge(from, to, graph, weights)</code></dt><dd>
+<p>Return a new <code>graphBAM</code> object with the specified edge(s)
+added.  The <code>from</code> and <code>to</code> arguments must either be the
+same length or one of them must be of length one.  Each time an
+edge is added, the entire graph is copied.  For the purpose of
+building a graph it will often be more efficient to build up the
+list of edges and call <code>GraphBAM</code>.
+</p>
+</dd>
+<dt><code>addNode(node, object)</code></dt><dd>
+<p>Return a new <code>graphBAM</code> object with the specified node(s)
+added.
+</p>
+</dd>
+<dt><code>clearNode(node, object)</code></dt><dd>
+<p>This operation is not currently supported.
+</p>
+</dd>
+<dt><code>edges(object, which)</code></dt><dd>
+<p>Returns an adjacency list representation of the graph.  The list
+will have an entry for each node with a vector of adjacent node
+labels or <code>character(0)</code>.  For undirected graphs,
+<code>edges</code> returns the reciprocal edges.  The optional
+argument <code>which</code> can be a character vector of node labels.
+When present, only entries for the specified nodes will be
+returned.
+</p>
+</dd>
+<dt><code>inEdges(node, object)</code></dt><dd>
+<p>(Not yet supported)
+Similar to the <code>edges</code> function, but the adjacency list maps
+nodes that have an edge to the given node instead of from the
+given node.
+</p>
+</dd>
+<dt><code>isAdjacent(object, from, to)</code></dt><dd>
+<p>Returns a logical vector indicating whether there is an edge
+corresponding to the elements in <code>from</code> and <code>to</code>.  These
+vectors must have the same length, unless one has length one.
+</p>
+</dd>
+<dt><code>nodes(object)</code></dt><dd>
+<p>Return the node labels for the graph
+</p>
+</dd>
+<dt><code>numEdges(object)</code></dt><dd>
+<p>Returns the number of edges in the graph.
+</p>
+</dd>
+<dt><code>numNodes(object)</code></dt><dd>
+<p>Returns the number of nodes in the graph
+</p>
+</dd>
+<dt><code>removeEdge(from, to, graph)</code></dt><dd>
+<p>Return a new <code>graphBAM</code> object with the specified edges
+removed.  The <code>from</code> and <code>to</code> arguments must be
+the same length unless one of them has length one.
+</p>
+</dd>
+<dt><code>removeNode(node, object)</code></dt><dd>
+<p>Returns a new <code>graphBAM</code> object with the specified node removed.
+Node and edge attributes corresponding to that node are also removed.
+</p>
+</dd>
+<dt><code>edgeData(self, from, to, attr)</code></dt><dd>
+<p>Access edge attributes.  See help for <code>edgeData</code>.
+</p>
+</dd>
+<dt><code>edgeDataDefaults(self, attr)</code></dt><dd>
+<p>Access edge data default attributes .
+</p>
+</dd>
+<dt><code>nodeDataDefaults(self, attr)</code></dt><dd>
+<p>Access node data default attributes .
+</p>
+</dd>
+<dt><code>edgeWeights(object, index)</code></dt><dd>
+<p>Return the edge weights for the graph in adjacency list format.
+The optional argument <code>index</code> specified a character vector of
+nodes.  In this case, only the weights for the specified nodes
+will be returned.
+</p>
+</dd>
+<dt><code>extractFromTo(g)</code></dt><dd>
+<p>Returns a data frame with column names &quot;from&quot;, &quot;to&quot;, and &quot;weight&quot;
+corresponding to the connected nodes in the graphBAM object.
+</p>
+</dd>
+<dt><code>graphIntersect(x, y, nodeFun, edgeFun)</code></dt><dd>
+<p>When given two <code>graphBAM</code> objects, <code>graphIntersect</code>
+returns a new <code>graphBAM</code> containing the nodes and edges in
+common between the two graphs.  Both x and y should either be 
+directed or undirected. The intersection is computed by
+first finding the intersection of the node sets, obtaining the
+resulting subgraphs, and finding the intersection of the resulting
+edge sets. Node/Edge attributes that are equal are carried over to
+the result. Non equal edge/node attributes will result in the 
+corresponding attribute being set to NA. The user has the option 
+of providing a named list of functions correspoding to the names of 
+the edge attributes for resolving conflicting edge attributes. 
+For resolving any of the conflicting node attributes
+the user has the option of providing a named <code>list</code> of functions
+corresponding to the node attribute names. 
+</p>
+</dd>
+<dt><code>graphUnion(x, y, nodeFun, edgeFun)</code></dt><dd>
+<p>When given two <code>graphBAM</code> objects, <code>graphUnion</code>
+returns a new <code>graphBAM</code> containing the union of nodes and 
+edges between the two graphs. The union is compted by first finding
+the union of the nodesets. Both x and y should be either directed or 
+undirected. Node/Edge attributes that are equal are carried over to
+the result. Non equal edge/node attributes will result in the 
+corresponding attribute being set to NA. The user has the option 
+of providing a named list of functions correspoding to the names of 
+the edge attributes for resolving conflicting edge attributes. 
+For resolving any of the conflicting node attributes
+the user has the option of providing a named <code>list</code> of functions
+corresponding to the node attribute names. 
+</p>
+</dd>
+<dt><code>edgemode(object) &lt;- value</code></dt><dd>
+<p>Set the edgemode for the graph (&quot;directed&quot; or &quot;undirected&quot;).  If
+the specified edgemode is the same, the object is returned without
+changes.  Otherwise, a directed graph is converted to an
+undirected graph via <code>ugraph</code> and an undirected graph is
+returned such that each edge is interpreted as two edges, one in
+each direction.
+</p>
+</dd>
+<dt><code>ugraph(graph)</code></dt><dd>
+<p>Return an undirected version of the current graph.  Conceptually,
+the arrows of a graph's directed edges are removed.
+</p>
+</dd>
+<dt><code>nodes(object) &lt;- value</code></dt><dd>
+<p>Replacement of a <code>graphBAM</code> object's node labels is currently
+not supported.  An error is raised if this method is called.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p><code>graphBAM</code> objects can be coerced to <code>graphAM</code>,
+<code>graphNEL</code>, and <code>matrix</code> instances via <code>as(g, CLASS)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>N. Gopalakrishnan, S. Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    f &lt;- c("a", "a", "b", "c", "d")
+    t &lt;- c("b", "c", "c", "d", "a")
+    weight &lt;- c(2.3, 2.3, 4.3, 1.0, 3.0)
+    df &lt;- data.frame(from=f, to=t, weight= weight)
+    g &lt;- graphBAM(df)
+    nd &lt;- nodes(g)
+    nodeDataDefaults(g, attr ="color") &lt;- "green"
+    nodeData(g,n=c("b", "c"), attr ="color") &lt;- "red"
+    w1 &lt;- edgeWeights(g)
+    w2 &lt;- edgeWeights(g,"a")
+    w3 &lt;- edgeWeights(g,1)
+    d1 &lt;- edges(g)
+    d2 &lt;- edges(g,c("a", "b"))
+    e1 &lt;- edgeData(g)   
+    e2 &lt;- edgeData(g, "a", "c",attr="weight")
+    em &lt;- edgeMatrix(g) 
+    id &lt;- isDirected(g)
+    sg &lt;- subGraph(c("a","c","d"), g)
+    ft &lt;- extractFromTo(g)
+    am &lt;- as(g,"graphAM")
+    nl &lt;- as(g,"graphNEL")
+    mt &lt;- as(g,"matrix")
+    k  &lt;- graphIntersect(g,g)
+    k &lt;- graphUnion(g,g)
+    e &lt;- removeEdgesByWeight(g,lessThan= 3.0)
+    f &lt;- removeNode("a", g)
+    g
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

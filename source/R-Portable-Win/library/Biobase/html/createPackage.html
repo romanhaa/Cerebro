@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Package Directory from a Template</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for createPackage {Biobase}"><tr><td>createPackage {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a Package Directory from a Template</h2>
+
+<h3>Description</h3>
+
+<p>Create a package directory from a template, with symbol-value substitution
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+createPackage(pkgname, destinationDir, originDir, symbolValues, unlink=FALSE, quiet=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkgname</code></td>
+<td>
+<p>Character. The name of the package to be written.</p>
+</td></tr>
+<tr valign="top"><td><code>destinationDir</code></td>
+<td>
+<p>Character. The path to a directory where the
+package is to be written.</p>
+</td></tr>
+<tr valign="top"><td><code>originDir</code></td>
+<td>
+<p>Character. The path to a directory that contains
+the template package. Usually, this will contain a file named
+<code>DESCRIPTION</code>, and subdirectories <code>R</code>, <code>man</code>,
+<code>data</code>. In all files and filenames, symbols will be replaced
+by their respective values, see the parameter <code>symbolValues</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>symbolValues</code></td>
+<td>
+<p>Named list of character strings. The symbol-to-value
+mapping. See
+<code><a href="copySubstitute.html">copySubstitute</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>unlink</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, and <code>destinationDir</code>
+already contains a file or directory with the name <code>pkgname</code>,
+try to unlink (remove) it.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, do not print information
+messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The intended use of this function is for the automated mass
+production of data packages, such as the microarray annotation,
+CDF, and probe sequence packages.
+</p>
+<p>No syntactic or other checking of the package is performed. For this,
+use R CMD check.
+</p>
+<p>The symbols <code>@PKGNAME@</code> and <code>@DATE@</code> are automatically
+defined with the values of <code>pkgname</code> and <code>date()</code>, respectively.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a <code>list</code> with one element
+<code>pkgdir</code>: the path to the package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.dkfz.de/mga/whuber">http://www.dkfz.de/mga/whuber</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="copySubstitute.html">copySubstitute</a></code>,
+the reference manual <em>Writing R extensions</em>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  sym  = list(AUTHOR = "Hesiod", VERSION = "1.0",
+         TITLE = "the nine muses",
+         FORMAT = "Character vector containg the names of the 9 muses.")
+
+  res  = createPackage("muses",
+           destinationDir = tempdir(),
+           originDir      = system.file("Code", package="Biobase"),
+           symbolValues   = sym,
+           unlink = TRUE, quiet = FALSE)
+
+  muses = c("Calliope", "Clio", "Erato", "Euterpe", "Melpomene",
+            "Polyhymnia", "Terpsichore", "Thalia", "Urania")
+
+  dir.create(file.path(res$pkgdir, "data"))
+
+  save(muses, file = file.path(res$pkgdir, "data", "muses.rda"))
+
+  res$pkgdir
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

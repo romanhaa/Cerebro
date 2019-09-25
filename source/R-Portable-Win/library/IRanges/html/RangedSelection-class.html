@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Selection of ranges and columns</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RangedSelection-class {IRanges}"><tr><td>RangedSelection-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Selection of ranges and columns</h2>
+
+<h3>Description</h3>
+
+<p>A <code>RangedSelection</code> represents a query against a table
+of interval data in terms of ranges and column names. The ranges
+select any table row with an overlapping interval. Note that the
+intervals are always returned, even if no columns are selected.</p>
+
+
+<h3>Details</h3>
+
+<p>Traditionally, tabular data structures have supported the
+<code><a href="../../base/html/subset.html">subset</a></code> function, which allows one to select a subset of
+the rows and columns from the table. In that case, the rows and
+columns are specified by two separate arguments. As querying interval
+data sources, especially those external to R, such as binary indexed
+files and databases, is increasingly common, there is a need to
+encapsulate the row and column specifications into a single data
+structure, mostly for the sake of interface
+cleanliness. The <code>RangedSelection</code> class fills that role.
+</p>
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>RangedSelection(ranges=IRangesList(),
+        colnames = character())</code>: Constructors a <code>RangedSelection</code>
+with the given <code>ranges</code> and <code>colnames</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd><p><code>as(from, "RangedSelection")</code>: Coerces <code>from</code> to a
+<code>RangedSelection</code> object. Typically, <code>from</code> is a
+<code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code>, the ranges of which become the
+ranges in the new <code>RangedSelection</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Accessors</h3>
+
+<p>In the code snippets below, <code>x</code> is always a <code>RangedSelection</code>.
+</p>
+
+<dl>
+<dt></dt><dd><p><code>ranges(x), ranges(x) &lt;- value</code>: Gets or sets the
+ranges, a <code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code>, that select rows with
+overlapping intervals.
+</p>
+</dd>
+<dt></dt><dd><p><code>colnames(x), colnames(x) &lt;- value</code>: Gets the 
+names, a <code>character</code> vector, indicating the columns.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  rl &lt;- IRangesList(chr1 = IRanges(c(1, 5), c(3, 6)))
+
+  RangedSelection(rl)
+  as(rl, "RangedSelection") # same as above
+
+  RangedSelection(rl, "score")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check for GO annotation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hasGOannote {annotate}"><tr><td>hasGOannote {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check for GO annotation</h2>
+
+<h3>Description</h3>
+
+<p>Given a GO term, or a vector of GO terms and an ontology this function
+determines which of the terms have GO annotation in the specified
+ontology.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hasGOannote(x, which="MF")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A character vector, an instance of the <code>GOTerms</code> class
+or a list of <code>GOTerms</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>One of &quot;MF&quot;, &quot;BP&quot; or &quot;CC&quot;</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The available GO annotation is searched and a determination of
+whether a specific GO identifier has a value in the specified
+ontology is made.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A logical vector of the same length as <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/get.html">get</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ library("GO.db")
+ t1 &lt;- "GO:0003680"
+ hasGOannote(t1)
+ hasGOannote(t1, "BP")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;attrData&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for attrData-class {graph}"><tr><td>attrData-class {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;attrData&quot;</h2>
+
+<h3>Description</h3>
+
+<p>A container class to manage generic attributes.  Supports
+named attributes with default values with methods for vectorized access.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("attrData", defaults)</code>.
+The <code>defaults</code> argument should be a named list containing the
+initial attribute names and default values.   
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>data</code>:</dt><dd><p>Where custom attribute data is stored</p>
+</dd>
+<dt><code>defaults</code>:</dt><dd><p>A named list of known attribute names and
+defualt values.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>attrDataItem&lt;-</dt><dd><p><code>signature(self = "attrData", x = "character", attr = "character")</code>: ... </p>
+</dd>
+<dt>attrDataItem</dt><dd><p><code>signature(self = "attrData", x = "character", attr = "missing")</code>: ... </p>
+</dd>
+<dt>attrDataItem</dt><dd><p><code>signature(self = "attrData", x = "character", attr = "character")</code>: ... </p>
+</dd>
+<dt>attrDefaults&lt;-</dt><dd><p><code>signature(self = "attrData", attr = "character", value = "ANY")</code>: ... </p>
+</dd>
+<dt>attrDefaults&lt;-</dt><dd><p><code>signature(self = "attrData", attr = "missing", value = "list")</code>: ... </p>
+</dd>
+<dt>attrDefaults</dt><dd><p><code>signature(self = "attrData", attr = "missing")</code>: ... </p>
+</dd>
+<dt>attrDefaults</dt><dd><p><code>signature(self = "attrData", attr = "character")</code>: ... </p>
+</dd>
+<dt>initialize</dt><dd><p><code>signature(.Object = "attrData")</code>: ... </p>
+</dd>
+<dt>names</dt><dd><p>return the names of the stored attributes</p>
+</dd>
+<dt>names&lt;-</dt><dd><p>set the names of the stored attributes</p>
+</dd>
+<dt>removeAttrDataItem</dt><dd><p><code>signature(self="attrData",
+        x="character", value="NULL")</code>: Remove the data associated with
+the key specified by <code>x</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+defaultProps &lt;- list(weight=1, color="blue", friends=c("Bob", "Alice"))
+adat &lt;- new("attrData", defaults=defaultProps)
+
+## Get all defaults
+attrDefaults(adat)
+
+## Or get only a specific attribute
+attrDefaults(adat, attr="color")
+
+## Update default weight
+attrDefaults(adat, attr="weight") &lt;- 500
+
+## Add new attribute
+attrDefaults(adat, attr="length") &lt;- 0
+
+## Asking for the attributes of an element you haven't customized
+## returns the defaults
+attrDataItem(adat, x=c("n1", "n2"), attr="length")
+
+## You can customize values
+attrDataItem(adat, x=c("n1", "n2"), attr="length") &lt;- 5
+
+## What keys have been customized?
+names(adat)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

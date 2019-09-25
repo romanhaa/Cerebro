@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to plot by group means against each other.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GOmnplot {annotate}"><tr><td>GOmnplot {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to plot by group means against each other.</h2>
+
+<h3>Description</h3>
+
+<p>For a two sample comparison, as determined by <code>group</code>, and a
+specified KEGG pathway or GO category, per group means are computed
+and plotted against each other.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+GOmnplot(x, eset, data = "hgu133plus2", group, ...)
+KEGGmnplot(x, eset, data = "hgu133plus2", group, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The name of the KEGG pathway or GO category.</p>
+</td></tr>
+<tr valign="top"><td><code>eset</code></td>
+<td>
+<p>An <code>ExpressionSet</code> containing the data.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The name of the chip that was used to provide the data.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>The variable indicating group membership, should have two
+different values.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Extra parameters to pass to the call to <code>plot</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All probes in <code>eset</code> that map to the given category are
+determined. Then per group, per probe means are computed and plotted
+against each other. Extra parameters can be passed to the plot
+function via the <code>dots</code> argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The matrix of per group means, for each probe.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="GO2heatmap.html">KEGG2heatmap</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  data(sample.ExpressionSet)
+  KEGGmnplot("04810", sample.ExpressionSet, sample.ExpressionSet$sex, 
+             data = "hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

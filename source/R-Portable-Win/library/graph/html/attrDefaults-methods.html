@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get and set the default attributes of an attrData object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for attrDefaults-methods {graph}"><tr><td>attrDefaults-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get and set the default attributes of an attrData object</h2>
+
+<h3>Description</h3>
+
+<p>The <code>attrDefaults</code> method provides access to a
+<code><a href="attrData-class.html">attrData-class</a></code> object's default attribute list.  The
+default attribute list of a <code>attrData-class</code> object defines what
+attributes can be customized for individual data elements by
+defining attribute names and default values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+attrDefaults(self, attr)
+attrDefaults(self, attr) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>self</code></td>
+<td>
+<p>A <code><a href="attrData-class.html">attrData-class</a></code> instance</p>
+</td></tr>
+<tr valign="top"><td><code>attr</code></td>
+<td>
+<p>A <code>character</code> vector of length 1 giving the name of
+an attribute.  Can be missing.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>An R object that will be used as the default value of the
+specified attribute, or a named list of attribute name/default value
+pairs if <code>attr</code> is missing.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

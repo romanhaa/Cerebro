@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute an Edge Matrix or weight vector for a Graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for edgeMatrix {graph}"><tr><td>edgeMatrix {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute an Edge Matrix or weight vector for a Graph  </h2>
+
+<h3>Description</h3>
+
+<p>For our purposes an <em>edge matrix</em> is a matrix with two rows and as
+many columns as there are edges. The entries in the first row are the
+index of the node the edge is <em>from</em>, those in the second row indicate
+the node the edge is <em>to</em>.
+</p>
+<p>If the graph is &ldquo;undirected&rdquo; then the <code>duplicates</code> option
+can be used to indicate whether reciprocal edges are wanted. The
+default is to leave them out. In this case the notions of <em>from</em>
+and <em>to</em> are not relevant.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+edgeMatrix(object, duplicates=FALSE)
+eWV(g, eM, sep = ifelse(edgemode(g) == "directed", "-&gt;",
+                 "--"), useNNames=FALSE)
+pathWeights(g, p, eM=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object that inherits from <code>graph</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>g</code></td>
+<td>
+<p>An object that inherits from <code>graph</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>duplicates</code></td>
+<td>
+<p>Whether or not duplicate edges should be produced
+for &ldquo;undirected&rdquo; graphs. </p>
+</td></tr>
+<tr valign="top"><td><code>eM</code></td>
+<td>
+<p>An edge matrix</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>a character string to concatenate node labels in
+the edge label</p>
+</td></tr>
+<tr valign="top"><td><code>useNNames</code></td>
+<td>
+<p>a logical; if TRUE, node names are used in
+the edge label; if FALSE, node indices are used</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>a vector of node names constituting a path in graph <code>g</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to <code>edgeMatrix</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Implementations for <code>graphNEL</code>, <code>clusterGraph</code> and
+<code>distGraph</code> are available. 
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>edgeMatrix</code> returns a matrix with two rows, <em>from</em> and <em>to</em>, and as many columns
+as there are edges. Entries indicate the index in the node vector that
+corresponds to the appropriate end of the edge.
+</p>
+<p><code>eWV</code> uses the edge matrix to create an annotated vector of 
+edge weights.
+</p>
+<p><code>pathWeights</code> returns an annotated vector of edge weights
+for a specified path in a graph.
+</p>
+
+
+<h3>Note</h3>
+
+<p>A path through an undirected graph may have several
+representations as a named vector of edges.  Thus in the
+example, when the weights for path b-a-i are requested,
+the result is the pair of weights for edges a&ndash;b and a&ndash;i,
+as these are the edge labels computed for graph g1.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="graphNEL-class.html">edges</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(123)
+  g1 &lt;- randomGraph(letters[1:10], 1:4, p=.3)
+  edgeMatrix(g1)
+  g2 &lt;- new("clusterGraph", clusters=list(a=c(1,2,3), b=c(4,5,6)))
+  em2 &lt;- edgeMatrix(g2)
+  eWV(g1, edgeMatrix(g1))
+  eWV(g1, edgeMatrix(g1), useNNames=TRUE)
+  pathWeights(g1, c("b", "a", "i"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

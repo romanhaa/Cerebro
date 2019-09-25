@@ -1,0 +1,31 @@
+HTS core package stack
+----------------------
+
+  as of August 2015
+
+                   VariantAnnotation
+                        |     |
+                        v     v
+           GenomicFeatures   BSgenome
+                        |     |
+                        v     v
+                      rtracklayer
+                           |
+                           v
+                   GenomicAlignments
+                      |         |
+                      v         v
+     SummarizedExperiment   Rsamtools
+                    |       |      |
+                    v       v      v
+                GenomicRanges   Biostrings
+                        |          |
+                        v          v
+               GenomeInfoDb   XVector
+                        |     |
+                        v     v
+                        IRanges
+                           |
+                           v 
+                       S4Vectors
+

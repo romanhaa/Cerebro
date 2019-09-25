@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve information from the BioMart databases</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for select-methods {biomaRt}"><tr><td>select-methods {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve information from the BioMart databases</h2>
+
+<h3>Description</h3>
+
+<p><code>select</code>, <code>columns</code> and <code>keys</code> are used together to
+extract data from a <code>Mart</code> object.  These functions work much the
+same as the classic biomaRt functions such as <code>getBM</code> etc. and
+are provide here to make this easier for people who are comfortable
+using these methods from other Annotation packages.  Examples of other
+objects in other packages where you can use these methods include (but
+are not limited to): <code>ChipDb</code>, <code>OrgDb</code> <code>GODb</code>,
+<code>InparanoidDb</code> and <code>ReactomeDb</code>.
+</p>
+<p><code>columns</code> shows which kinds of data can be returned from the
+<code>Mart</code> object.
+</p>
+<p><code>keytypes</code> allows the user to discover which keytypes can be
+passed in to <code>select</code> or <code>keys</code> as the <code>keytype</code>
+argument.
+</p>
+<p><code>keys</code> returns keys from the <code>Mart</code> of the type specified by
+it's <code>keytype</code> argument.
+</p>
+<p><code>select</code> is meant to be used with these other methods and has
+arguments that take the kinds of values that these other methods
+return.  <code>select</code> will retrieve the results as a data.frame based
+on parameters for selected <code>keys</code> and <code>columns</code> and
+<code>keytype</code> arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  columns(x)
+  keytypes(x)
+  keys(x, keytype, ...)
+  select(x, keys, columns, keytype, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the <code>Mart</code> object. The dataset of the <code>Mart</code> object
+must already be specified for all of these methods.</p>
+</td></tr>
+<tr valign="top"><td><code>keys</code></td>
+<td>
+<p>the keys to select records for from the database.  Keys
+for some keytypes can be extracted by using the <code>keys</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>columns</code></td>
+<td>
+<p>the columns or kinds of things that can be retrieved
+from the database.  As with <code>keys</code>, all possible columns are
+returned by using the <code>columns</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>keytype</code></td>
+<td>
+<p>the keytype that matches the keys used.  For the
+<code>select</code> methods, this is used to indicate the kind of ID being used
+with the keys argument. For the <code>keys</code> method this is used to
+indicate which kind of keys are desired from <code>keys</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.  These include:
+</p>
+
+<dl>
+<dt>pattern:</dt><dd><p>the pattern to match (used by keys)</p>
+</dd>
+<dt>column:</dt><dd><p>the column to search on. This is used by keys and is
+for when the thing you want to pattern match is different from
+the keytype, or when you want to simply want to get keys that
+have a value for the thing specified by the column argument.</p>
+</dd>
+<dt>fuzzy:</dt><dd><p>TRUE or FALSE value.  Use fuzzy matching? (this is
+used with pattern by the keys method)</p>
+</dd>
+</dl>
+
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>keys</code>,<code>columns</code> and <code>keytypes</code> each return a character
+vector or possible values.  <code>select</code> returns a data.frame.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## 1st create a Mart object and specify the dataset
+mart&lt;-useMart(dataset="hsapiens_gene_ensembl",biomart='ensembl')
+## you can list the keytypes
+keytypes(mart)
+## you can list the columns
+columns(mart)
+## And you can extract keys when this is supported for your keytype of interest
+k = keys(mart, keytype="chromosome_name")
+head(k)
+## You can even do some pattern matching on the keys
+k = keys(mart, keytype="chromosome_name", pattern="LRG")
+head(k)
+## Finally you can use select to extract records for things that you are
+## interested in.
+affy=c("202763_at","209310_s_at","207500_at")
+select(mart, keys=affy, columns=c('affy_hg_u133_plus_2','entrezgene'),
+  keytype='affy_hg_u133_plus_2')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

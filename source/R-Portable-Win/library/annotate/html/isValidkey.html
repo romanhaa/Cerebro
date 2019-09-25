@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get or verify valid IDs for a package or OrgDb object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for isValidKey {annotate}"><tr><td>isValidKey {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get or verify valid IDs for a package or OrgDb object.</h2>
+
+<h3>Description</h3>
+
+<p>These functions either verify that a list of IDs are primary and valid IDs
+for a package, or else return all the valid primary IDs from a package
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isValidKey(ids, pkg)
+allValidKeys(pkg)
+
+## S4 method for signature 'character,character'
+isValidKey(ids, pkg)
+
+## S4 method for signature 'character,OrgDb'
+isValidKey(ids, pkg)
+
+## S4 method for signature 'character'
+allValidKeys(pkg)
+
+## S4 method for signature 'OrgDb'
+allValidKeys(pkg)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p>A character vector containing IDs that you wish to validate.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Either the name of an installed annotation package (e.g.,
+&quot;org.Hs.eg.db&quot;), or an uninstalled annotation package, e.g., from AnnotationHub.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Every package has some kind of ID that is central to that package.
+For chip-based packages this will be some kind of probe, and for the
+organism based packages it will be something else (usually an entrez
+gene ID).  isValidKey takes a list of IDs and tests to see whether or
+not they are present (valid) in a particular package.  allValidKeys
+simply returns all the valid primary IDs for a package.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>isValidKey</code> returns a vector of TRUE or FALSE values corresponding to whether or not the
+ID is valid.
+</p>
+<p><code>allValidKeys</code> returns a vector of all the valid primary IDs.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="updateSymbolsToValidKeys.html">updateSymbolsToValidKeys</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  ## 2 bad IDs and a 3rd that will be valid
+  ids &lt;- c("15S_rRNA_2","21S_rRNA_4","15S_rRNA")
+  isValidKey(ids, "org.Sc.sgd")
+
+  ## 2 good IDs and a 3rd that will not be valid
+  ids &lt;- c("5600","7531", "altSymbol")
+  isValidKey(ids, "org.Hs.eg")
+
+  ## Get all the valid primary id from org.Hs.eg.db
+  allValidKeys("org.Hs.eg")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

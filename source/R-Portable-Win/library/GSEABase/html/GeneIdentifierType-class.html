@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;GeneIdentifierType&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneIdentifierType-class {GSEABase}"><tr><td>GeneIdentifierType-class {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;GeneIdentifierType&quot;</h2>
+
+<h3>Description</h3>
+
+<p>This class provides a way to tag the meaning of gene
+symbols in a <code>GeneSet</code>. For instance, a <code>GeneSet</code> with gene
+names derived from a Bioconductor <code>annotation</code> package (e.g., via
+<code><a href="../../Biobase/html/class.ExpressionSet.html">ExpressionSet</a></code>) initially have a
+<code>GeneIdentifierType</code> of <code>AnnotationIdentifier</code>.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>The following classes are available, and derive from tables in 
+&lsquo;annotation&rsquo; packages
+</p>
+
+<dl>
+<dt>NullIdentifier</dt><dd><p>No formal information about what gene identifiers represent.</p>
+</dd>
+<dt>AnnotationIdentifier</dt><dd><p>Gene identifiers are Affymetrix
+chip-specific probe identifier, as represented in Bioconductor
+annotation packages.</p>
+</dd>
+<dt>EntrezIdentifier</dt><dd><p>&lsquo;Entrez&rsquo; identifiers.</p>
+</dd>
+<dt>EnzymeIdentifier</dt><dd><p>&lsquo;EC&rsquo; identifiers.</p>
+</dd>
+<dt>ENSEMBLIdentifier</dt><dd><p>&lsquo;ENSEMBL&rsquo; identifiers.</p>
+</dd>
+<dt>GenenameIdentifier</dt><dd><p>Curated and ad hoc descriptive gene names.</p>
+</dd>
+<dt>RefseqIdentifier</dt><dd><p>&lsquo;Prosite&rsquo; identifiers.</p>
+</dd>
+<dt>SymbolIdentifier</dt><dd><p>&lsquo;Symbol&rsquo; identifiers.</p>
+</dd>
+<dt>UnigeneIdentifier</dt><dd><p>&lsquo;Unigene&rsquo; identifiers.</p>
+</dd>
+<dt>UniprotIdentifier</dt><dd><p>&lsquo;Uniprot&rsquo; identifiers.</p>
+</dd>
+<dt>GeneIdentifierType</dt><dd><p>A virtual Class: No objects may be created
+from it; all classes listed above are subclasses of
+<code>GeneIdentifierType</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Slots</h3>
+
+<p>All <code>GeneIdentifierType</code> classes have the following slots:
+</p>
+
+<dl>
+<dt>type</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+containing the character string representation of this
+<code>GeneIdentifierType</code>.</p>
+</dd>
+<dt>annotation</dt><dd><p>Object of class <code>"ScalarCharacter"</code>
+containing the name of the annotation package from which the
+identifiers (probe identifiers) are derived.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p><code>GeneIdentifierType</code> classes are used in:
+</p>
+
+<dl>
+<dt>GeneSet</dt><dd><p><code>signature(type = "GeneIdentifierType")</code>:
+Create a new <code><a href="GeneSet-methods.html">GeneSet</a></code> using identifiers of
+<code>GeneIdentifierType</code>.</p>
+</dd>
+<dt>GeneColorSet</dt><dd><p><code>signature(type = "GeneIdentifierType")</code>:
+Create a new <code><a href="GeneColorSet-methods.html">GeneColorSet</a></code> using identifiers of
+<code>GeneIdentifierType</code>.</p>
+</dd>
+<dt>annotation</dt><dd><p><code>signature(object = "GeneIdentifierType")</code>:
+extract the name of the annotation package as a character string.</p>
+</dd>
+<dt>annotation&lt;-</dt><dd><p><code>signature(object = "GeneIdentifierType", value = "character")</code>:
+assign the name of the annotation package as a character string.</p>
+</dd>
+<dt>geneIdType</dt><dd><p><code>signature(object = "GeneIdentifierType")</code>:
+return a character string representation of the type of this
+<code>object</code>.</p>
+</dd>
+<dt>geneIdType&lt;-</dt><dd><p><code>signature(object = "GeneSet", verbose=FALSE, value =
+        "GeneIdentifierType")</code>: Changes the <code>GeneIdentifierType</code> of
+<code>object</code> to <code>value</code>, attempting to convert symbols in
+the process. This method calls <code>mapIdentifiers(what=object,
+        to=value, from=geneIdType(what), verbose=verbose)</code>.</p>
+</dd>
+<dt>mapIdentifiers</dt><dd><p>See <code><a href="mapIdentifiers-methods.html">mapIdentifiers</a></code>.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "GeneIdentifierType")</code>: display
+this object.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p>The example below lists <code>GeneIdentifierType</code> classes defined in
+this package; See the help pages of these classes for specific information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+names(getClass("GeneIdentifierType")@subclasses)
+
+# create an AnnotationIdentifier, and ask it's type
+geneIdType(AnnotationIdentifier(annotation="hgu95av2"))
+
+# Construct a GeneSet from an ExpressionSet, using the 'annotation'
+# field of ExpressionSet to recognize the genes as AnnotationType
+data(sample.ExpressionSet)
+gs &lt;- GeneSet(sample.ExpressionSet[100:109],
+              setName="sample.GeneSet", setIdentifier="123")
+geneIdType(gs) # AnnotationIdentifier
+
+## Read a Broad set from the system (or a url), and discover their
+## GeneIdentifierType
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+bsets &lt;- getBroadSets(fl)
+sapply(bsets, geneIdType)
+
+## try to combine gene sets with different set types
+try(gs &amp; sets[[1]])
+
+## Not run: 
+## Use the annotation package associated with the original
+## ExpressionSet to map to EntrezIdentifier() ...
+geneIdType(gs) &lt;- EntrezIdentifier()
+## ...and try again
+gs &amp; bsets[[1]]
+
+## Another way to change annotation to Entrez (or other) ids
+probeIds &lt;- featureNames(sample.ExpressionSet)[100:109]
+geneIds &lt;- getEG(probeIds, "hgu95av2")
+GeneSet(EntrezIdentifier(),
+        setName="sample.GeneSet2", setIdentifier="101",
+        geneIds=geneIds)
+
+## End(Not run)
+
+## Create a new identifier
+setClass("FooIdentifier",
+         contains="GeneIdentifierType",
+         prototype=prototype(
+           type=new("ScalarCharacter", "Foo")))
+## Create a constructor (optional)
+FooIdentifier &lt;- function() new("FooIdentifier")
+geneIdType(FooIdentifier())
+
+## tidy up
+removeClass("FooIdentifier")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

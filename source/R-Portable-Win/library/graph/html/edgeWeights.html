@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve the edge weights of a graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for edgeWeights {graph}"><tr><td>edgeWeights {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve the edge weights of a graph</h2>
+
+<h3>Description</h3>
+
+<p>A generic function that returns the edge weights of a graph.  If
+<code>index</code> is specified, only the weights for the edges from the
+specified nodes are returned.  The user can control which edge
+attribute is interpreted as the weight, see the Details section.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+edgeWeights(object, index, ..., attr = "weight", default = 1, type.checker = is.numeric)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A graph, any object that inherits from the <code>graph</code>
+class.</p>
+</td></tr> 
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>If supplied, a character or numeric vector of node names
+or indices.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Unused.</p>
+</td></tr>
+<tr valign="top"><td><code>attr</code></td>
+<td>
+<p>The name of the edge attribute to use as a weight.  You
+can view the list of defined edge attributes and their default values
+using <code>edgeDataDefaults</code>.  The default attribute name is
+<code>"weight"</code>, see the Details section.</p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+<p>The value to use if <code>object</code> has no edge attribute
+named by the value of <code>attr</code>.  The default is the value 1
+(double).</p>
+</td></tr>
+<tr valign="top"><td><code>type.checker</code></td>
+<td>
+<p>A function that will be used to check that the
+edge weights are of the correct type.  This function should return
+TRUE if the input vector is of the right type and FALSE otherwise.
+The default is to check for numeric edge weights using
+<code>is.numeric</code>.  If no type checking is desired, specify
+<code>NULL</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>index</code> is suppled, then edge weights from these nodes to all
+adjacent nodes are returned. If <code>index</code> is not supplied, then the
+edge weights for all nodes are returned.  The value for nodes without
+any outgoing edges will be a zero-length vector of the appropriate
+mode.
+</p>
+<p>The <code>edgeWeights</code> method is a convenience wrapper around
+<code>edgeData</code>, the general-purpose way to access edge attribute
+information for a <code>graph</code> instance.  In general, edge attributes
+can be arbitary R objects.  However, for <code>edgeWeights</code> to make
+sense, the values must be vectors of length not more than one.
+</p>
+<p>By default, <code>edgeWeights</code> looks for an edge attribute with name
+<code>"weight"</code> and, if found, uses these values to construct the edge
+weight list.  You can make use of attributes stored under a different
+name by providing a value for the <code>attr</code> argument.  For example,
+if <code>object</code> is a graph instance with an edge attribute named
+<code>"WTS"</code>, then the call <code>edgeWeights(object, attr="WTS")</code>
+will attempt to use those values.
+</p>
+<p>The function specified by <code>type.checker</code> will be given a vector
+of edge weights; if the return value is not <code>TRUE</code>, then an error
+will be signaled indicating that the edge weights in the graph are not
+of the expected type.  Type checking is skipped if <code>type.checker</code>
+is <code>NULL</code>.
+</p>
+<p>If the graph instance does not have an edge attribute with name given
+by the value of the <code>attr</code> argument, <code>default</code> will be used
+as the weight for all edges.  Note that if there is an attribute named
+by <code>attr</code>, then its default value will be used for edges not
+specifically customized.  See <code>edgeData</code> and
+<code>edgeDataDefaults</code> for more information.
+</p>
+<p>Because of their position after the <code>...</code>, no partial matching is
+performed for the arguments <code>attr</code>, <code>default</code>, and
+<code>type.checker</code>.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list of named edge weight vectors. The names on the list are
+the names of the nodes specified by <code>index</code>, or all nodes if
+<code>index</code> was not provided.  The names on the weight vectors are
+node names to identify the edge to which the weight belongs.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman and S. Falcon</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graphNEL-class.html">nodes</a></code>
+<code><a href="graphNEL-class.html">edges</a></code>
+<code><a href="edgeData-methods.html">edgeData</a></code>
+<code><a href="edgeDataDefaults-methods.html">edgeDataDefaults</a></code>
+<code><a href="../../base/html/numeric.html">is.numeric</a></code>
+<code><a href="../../base/html/integer.html">is.integer</a></code>
+<code><a href="../../base/html/character.html">is.character</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  V &lt;- LETTERS[1:4]
+  edL2 &lt;- vector("list", length=4)
+  names(edL2) &lt;- V
+  for(i in 1:4)
+    edL2[[i]] &lt;- list(edges=c(2,1,2,1)[i], weights=sqrt(i))
+  gR2 &lt;- graphNEL(nodes=V, edgeL=edL2, edgemode="directed")
+  edgeWeights(gR2, "C")
+  edgeWeights(gR2)
+  edgeWeights(gR2, attr="foo", default=5)
+  edgeData(gR2, attr="weight")
+  edgeData(gR2, from="C", attr="weight")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

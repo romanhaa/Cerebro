@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 2 methods that should be documented somewhere else</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for seqapply {IRanges}"><tr><td>seqapply {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+2 methods that should be documented somewhere else
+</h2>
+
+<h3>Description</h3>
+
+<p><code>unsplit</code> method for <a href="../../S4Vectors/html/List-class.html">List</a> object and <code>split&lt;-</code>
+method for <a href="../../S4Vectors/html/Vector-class.html">Vector</a> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'List'
+unsplit(value, f, drop = FALSE)
+## S4 replacement method for signature 'Vector'
+split(x, f, drop = FALSE, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>The <a href="../../S4Vectors/html/List-class.html">List</a> object to unsplit.
+</p>
+</td></tr>
+<tr valign="top"><td><code>f</code></td>
+<td>
+
+<p>A <code>factor</code> or <code>list</code> of factors
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>Whether to drop empty elements from the returned list
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>Like <code>X</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Extra arguments to pass to <code>FUN</code>
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>unsplit</code> unlists <code>value</code>, where the order of the returned
+vector is as if <code>value</code> were originally created by splitting that
+vector on the factor <code>f</code>.
+</p>
+<p><code>split(x, f, drop = FALSE) &lt;- value</code>: Virtually splits <code>x</code> by
+the factor <code>f</code>, replaces the elements of the resulting list with the
+elements from the list <code>value</code>, and restores <code>x</code> to its original
+form. Note that this works for any <code>Vector</code>, even though <code>split</code>
+itself is not universally supported.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -49,9 +49,14 @@ par(mfrow=c(1,2))
 c3 <- concordance(fit3, ranks=TRUE)
 c4 <- concordance(fit3, ranks=TRUE, timewt="S/G")
 
-plot(rank ~ time, data=c3$ranks, log='x')
-with(c3$ranks, lines(lowess(time, rank), col=2, lwd=2))
-abline(0,0, lty=2)
+# For technical reasons the code returns ranks on Somers' d scale, 
+#  from -1 to 1. Transform them to 0-1
+d.to.c <- function(x)  (x+1)/2
+plot(d.to.c(rank) ~ time, data=c3$ranks, log='x',
+     ylab="Rank")
+lfit <- with(c3$ranks, lowess(log(time), d.to.c(rank)))
+lines(exp(lfit$x), lfit$y, col=2, lwd=2)
+abline(.5,0, lty=2)
 
 matplot(c3$ranks$time, cbind(c3$ranks$timewt, c4$ranks$timewt),
         type="l", col=c("black", "red"), lwd=2,

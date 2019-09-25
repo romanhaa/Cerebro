@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update previously created eSet object to current eSet...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for updateOldESet {Biobase}"><tr><td>updateOldESet {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update previously created eSet object to current eSet structure</h2>
+
+<h3>Description</h3>
+
+<p>This function updates <code>eSet</code> objects created in previous versions
+of Biobase to the current class structure. Warnings indicate when
+coercions change how data in the <code>from</code> object are
+altered. If the <code>from</code> object was not a valid object of the
+original eSet class, then <code>updateOldESet</code> may fail.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+updateOldESet(from, toClass, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>Object created using a previous version of the eSet class.</p>
+</td></tr>
+<tr valign="top"><td><code>toClass</code></td>
+<td>
+<p>Character string identifying new class, e.g.,
+<code>"ExpressionSet"</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to the initialization method
+for class <code>toClass</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Valid object of class <code>toClass</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.eSet.html">eSet-class</a></code>, <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, <code><a href="class.SnpSet.html">SnpSet-class</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+updateOldESet(oldESet, "ExpressionSet")
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

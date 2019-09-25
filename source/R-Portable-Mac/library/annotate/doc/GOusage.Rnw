@@ -1,0 +1,333 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{Basic GO Usage}
+%\VignetteDepends{GO.db, hgu95av2.db, Biobase}
+%\VignetteSuggests{Rgraphviz, org.Hs.eg.db}
+%\VignetteKeywords{GO, ontology}
+%\VignettePackage{annotate}
+\documentclass[12pt]{article}
+
+\usepackage{times}
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+\usepackage{comment}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\bibliographystyle{plainnat}
+
+\title{Basic GO Usage}
+\author{R. Gentleman}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+
+<<Setup, echo=FALSE, results=hide>>=
+library("Biobase")
+library("annotate")
+library("xtable")
+require("Rgraphviz", quietly=TRUE)
+library("hgu95av2.db")
+library("GO.db")
+@
+
+In this vignette we describe some of the basic characteristics of the
+data available from the Gene Ontology (GO), \citep{GO} and how these
+data have been incorporated into Bioconductor. We assume that readers
+are familiar with the basic DAG structure of GO and with the mappings
+of genes to GO terms that are provide by GOA \citep{GOA}. We consider
+these basic structures and properties quite briefly.
+
+GO, itself, is a structured terminology. The ontology describes genes
+and gene products and is divided into three separate ontologies. One
+for cellular component (CC), one for molecular function (MF) and one
+for biological process (BP). We maintain those same distinctions were
+appropriate. The relationship between terms is a parent-child one,
+where the parents of any term are less specific than the child. The
+mapping in either direction can be one to many (so a child may have
+many parents and a parent may have many children). There is a single
+root node for all ontologies as well as separate root nodes for each
+of the three ontologies named above. These terms are structured as a
+directed acyclic graph (or a DAG).
+
+GO itself is only the collection of terms; the descriptions of genes,
+gene products, what they do, where they do it and so on. But there is
+no direct association of genes to terms. The assignment of genes to
+terms is carried out by others, in particular the GOA project
+\citep{GOA}. It is this assignment that makes GO useful for data
+analysis and hence it is the combined relationship between the
+structure of the terms and the assignment of genes to terms that is
+the concern of the \Rpackage{GO.db} package.
+
+The basis for child-parent relationships in GO can be either an
+\textit{is-a} relationship, where the child term is a more specific
+version of the parent. Or, it can be a \textit{has-a}, or
+\textit{part-of} relationship where the child is a part of the
+parent. For example a telomere is a part-of a chromosome.
+
+Genes are assigned to terms on the basis of their LocusLink ID. For
+this reason we make most of our mappings and functions work for
+LocusLink identifiers. Users of specific chips, or data with other
+gene identifiers should first map their identifiers to LocusLink
+before using \Rpackage{GOstats}.
+
+A gene is mapped only to the most specific terms that are applicable
+to it (in each ontology). Then, all less specific terms are also
+applicable and they are easily obtained by traversing the set of
+parent relationships down to the root node. In practice many of these
+mappings are precomputed and easily obtained from the different hash
+tables provided by the \Rpackage{GO.db} package.
+
+Mapping of a gene to a term can be based on many different things. GO
+and GOA provide an extensive set of evidence codes, some of which are
+given in Table~\ref{tab:EC}, but readers are referred to the GO web
+site and the documentation for the \Rpackage{GO.db} package for a more
+comprehensive listing. Clearly for some investigations one will want
+to exclude genes that were mapped according to some of the evidence
+codes.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+ IMP & inferred from mutant phenotype \\
+  IGI & inferred from genetic interaction \\
+  IPI & inferred from physical interaction \\
+  ISS & inferred from sequence similarity \\
+  IDA & inferred from direct assay \\
+  IEP & inferred from expression pattern \\
+  IEA & inferred from electronic annotation \\
+  TAS & traceable author statement \\
+  NAS & non-traceable author statement \\
+  ND & no biological data available \\
+  IC & inferred by curator \\
+\hline
+\end{tabular}
+\end{center}
+\caption{GO Evidence Codes \label{tab:EC}}
+\end{table}
+
+In some sense TAS is probably the most reliable of the mappings. IEA
+is a weak association and is based on electronic information, no human
+curator has examined or confirmed this association. As we shall see
+later, IEA is also the most common evidence code.
+
+The sets of mappings of interest are roughly divided into three
+parts. First there is the basic description of the terms etc., these
+are provided in the \Robject{GOTERMS} hash table. Each element of this
+hash table is named using its GO identifier (these are all of the
+form \texttt{GO:} followed by seven digits). Each element is an
+instance of the \Robject{GOTerms} class. A complete description of
+this class can be obtained from the appropriate manual page (use
+\verb+class?GOTerms+).
+From these data we can find the text string describing the term, which
+ontology it is in as well as some other basic information.
+
+There are also a set of hash tables that contain the information about
+parents and children. They are provided as hash tables (the
+\texttt{XX}  in the names below should be substituted for one of
+\texttt{BP}, \texttt{MF}, or \texttt{CC}.
+\begin{itemize}
+\item \texttt{GOXXPARENTS}: the parents of the term
+\item \texttt{GOXXANCESTOR}: the parents, and all their parents and
+      so on.
+\item \texttt{GOXXCHILDREN}: the children of the term
+\item \texttt{GOXXOFFSPRING}: the children, their children and so on
+      out to the leaves of the GO graph.
+\end{itemize}
+
+For the \texttt{GOXXPARENTS} mappings (only) information about the
+nature of the relationship is included.
+
+<<parentrel>>=
+ GOTERM$"GO:0003700"
+
+ GOMFPARENTS$"GO:0003700"
+ GOMFCHILDREN$"GO:0003700"
+
+@
+%%FIXME: text here should be checked against code
+Here we see that the term \texttt{GO:0003700} has two parents, that the
+relationships are \texttt{is-a} and that it has one child. One can
+then follow this chains of relationships or use the \texttt{ANCESTOR}
+and \texttt{OFFSPRING} hash tables to get more information.
+
+The mappings of genes to GO terms is not contained in the \texttt{GO}
+package. Rather these mappings are held in each of the chip and
+organism specific data packages, such as \Robject{hgu95av2GO} and
+\Robject{org.Hs.egGO} are contained within packages \texttt{hgu95av2.db}
+and \texttt{org.Hs.eg.db} respectively. These mappings are from a
+Entrez Gene ID to the most specific applicable GO terms. Each such
+entry is a list of lists where the innermost list has these names:
+\begin{itemize}
+\item \texttt{GOID}: the GO identifier
+\item \texttt{Evidence}: the evidence code for the assignment
+\item \texttt{Ontology}: the ontology the GO identifier belongs to
+      (one of \texttt{BP}, \texttt{MF}, or \texttt{CC}).
+\end{itemize}
+
+Some genes are mapped to a GO identifier based on two or more evidence
+codes. Currently these appear as separate entries. So you may want to
+remove duplicate entries if you are not interested in evidence
+codes. However, as more sophisticated use is made of these data it
+will be important to be able to separate out mappings according to
+specific evidence codes.
+
+In this next example we consider the gene with Entrez Gene ID
+\texttt{4121}, this corresponds to Affymetrix ID \texttt{39613\_at}.
+
+<<locusid>>=
+
+ ll1 = hgu95av2GO[["39613_at"]]
+ length(ll1)
+ sapply(ll1, function(x) x$Ontology)
+
+@
+
+We see that there are \Sexpr{length(ll1)} different mappings.
+We can get only those mappings for the \texttt{BP} ontology by using
+\Rfunction{getOntology}.
+We can get the evidence codes using \Rfunction{getEvidence} and we can
+drop those codes we do not wish to use by using \Rfunction{dropECode}.
+
+<<getmappings>>=
+
+getOntology(ll1, "BP")
+getEvidence(ll1)
+zz = dropECode(ll1)
+getEvidence(zz)
+
+@
+
+
+\subsection*{A Basic Description of GO}
+
+We now characterize GO and some of its properties.
+First we list some of the specific GO IDs that might be of interest
+(please feel free to propose even more).
+
+\begin{itemize}
+\item \texttt{GO:0003673} is the GO root.
+\item \texttt{GO:0003674} is the MF root.
+\item \texttt{GO:0005575} is the CC root.
+\item \texttt{GO:0008150} is the BP root.
+\item \texttt{GO:0000004} is biological process unknown
+\item \texttt{GO:0005554} is molecular function unknown
+\item \texttt{GO:0008372} is cellular component unknown
+\end{itemize}
+
+We can find out how many terms are in each of the different ontologies
+by:
+<<sizeofonts>>=
+
+ zz = Ontology(GOTERM)
+ table(unlist(zz))
+
+@
+
+Or we can ask about the number of is-a and partof relationships in
+each of the three different ontologies.
+
+<<isa-partof>>=
+
+ BPisa = eapply(GOBPPARENTS, function(x) names(x))
+ table(unlist(BPisa))
+
+ MFisa = eapply(GOMFPARENTS, function(x) names(x))
+ table(unlist(MFisa))
+
+ CCisa = eapply(GOCCPARENTS, function(x) names(x))
+ table(unlist(CCisa))
+
+@
+
+
+\section*{Working with GO}
+
+Finding terms that have specific character strings in them is easily
+accomplished using \Rfunction{grep}. In the next example we first
+convert the data from \Robject{GOTERM} into a character vector to make
+it easier to do multiple searches.
+
+<<finding these>>=
+ goterms = unlist(Term(GOTERM))
+ whmf = grep("fertilization", goterms)
+@
+
+So we see that there are \Sexpr{length(whmf)} terms with the string
+``fertilization'' in them in the ontology. They can be accessed
+by subsetting the \Robject{goterms} object.
+
+<<subsetGT>>=
+ goterms[whmf]
+
+@
+
+\subsection*{Working with chip specific meta-data}
+
+In some cases users will want to restrict their attention to the set
+of terms etc that map to genes that were assayed in the experiments
+that they are working with. To do this you should first get the
+appropriate chip specific meta-data file. Here we demonstrate some of
+the examples on the Affymetrix HGu95av2 chips and so use the package
+\Rpackage{hgu95av2.db}. Each of these packages has a data environment
+whose name is the basename of the package with a \texttt{GO} suffix, so in
+this case \Robject{hgu95av2GO}. Note that if there are many manufacturer
+ids that map to the same Entrez Gene identifier then these will be
+duplicate entries (with different keys).
+
+We can get all the \texttt{MF} terms for our Affymetrix data.
+
+<<getMF>>=
+affyGO = eapply(hgu95av2GO, getOntology)
+table(sapply(affyGO, length))
+
+@
+
+How many of these probes have multiple GO
+terms associated with them? What do we do if we want to compare two
+genes that have multiple GO terms associated with them?
+
+What about evidence codes? To find these we apply a similar function
+to the affyGO terms.
+
+<<getEvidence>>=
+affyEv = eapply(hgu95av2GO, getEvidence)
+
+table(unlist(affyEv, use.names=FALSE))
+
+@
+
+<<dropOneEvidence>>=
+test1 = eapply(hgu95av2GO, dropECode, c("IEA", "NR"))
+
+table(unlist(sapply(test1, getEvidence),
+             use.names=FALSE))
+@
+
+These functions make is somewhat straightforward to select subsets of
+the GO terms that are specific to different evidence codes.
+
+\bibliography{annotate}
+
+\end{document}

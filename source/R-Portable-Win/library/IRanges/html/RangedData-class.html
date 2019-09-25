@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Data on ranges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RangedData-class {IRanges}"><tr><td>RangedData-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Data on ranges</h2>
+
+<h3>Description</h3>
+
+<p>IMPORTANT NOTE: <code>RangedData</code> objects will be deprecated in BioC 3.9!
+The use of <code>RangedData</code> objects has been discouraged in favor
+of <a href="../../GenomicRanges/html/GRanges.html">GRanges</a> or <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+objects since BioC 2.12, that is, since 2014.
+The <a href="../../GenomicRanges/html/GRanges.html">GRanges</a> and <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+classes are defined in the <span class="pkg">GenomicRanges</span> package.
+See <code>?GRanges</code> and <code>?GenomicRanges</code> (after loading the
+<span class="pkg">GenomicRanges</span> package) for more information about these classes.
+PLEASE MIGRATE YOUR CODE TO USE <a href="../../GenomicRanges/html/GRanges.html">GRanges</a> OR
+<a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a> OBJECTS INSTEAD OF <code>RangedData</code>
+OBJECTS AS SOON AS POSSIBLE. Don't hesitate to ask on the bioc-devel
+mailing list (<a href="https://bioconductor.org/help/support/#bioc-devel">https://bioconductor.org/help/support/#bioc-devel</a>)
+if you need help with this.
+</p>
+<p><code>RangedData</code> supports storing data, i.e. a set of variables, on a
+set of ranges spanning multiple spaces (e.g. chromosomes). Although
+the data is split across spaces, it can still be treated as one
+cohesive dataset when desired and extends <code><a href="../../S4Vectors/html/DataTable-class.html">DataTable</a></code>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>A <code>RangedData</code> object consists of two primary components:
+a <code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code> holding the ranges over
+multiple spaces and a parallel <code><a href="DataFrameList-class.html">SplitDataFrameList</a></code>,
+holding the split data. There is also an <code>universe</code> slot
+for denoting the source (e.g. the genome) of the ranges and/or
+data.
+</p>
+<p>There are two different modes of interacting with a
+<code>RangedData</code>. The first mode treats the object as a contiguous
+&quot;data frame&quot; annotated with range information. The accessors
+<code>start</code>, <code>end</code>, and <code>width</code> get the corresponding
+fields in the ranges as atomic integer vectors, undoing the division
+over the spaces. The <code>[[</code> and matrix-style <code>[,</code> extraction
+and subsetting functions unroll the data in the same way. <code>[[&lt;-</code>
+does the inverse. The number
+of rows is defined as the total number of ranges and the number of
+columns is the number of variables in the data. It is often convenient
+and natural to treat the data this way, at least when the data is
+small and there is no need to distinguish the ranges by their space.
+</p>
+<p>The other mode is to treat the <code>RangedData</code> as a list, with an element
+(a virtual <code><a href="IntegerRanges-class.html">IntegerRanges</a></code>/<code><a href="../../S4Vectors/html/DataFrame-class.html">DataFrame</a></code>
+pair) for each space. The length of the object is defined as the number
+of spaces and the value returned by the <code>names</code> accessor gives the
+names of the spaces. The list-style <code>[</code> subset function behaves
+analogously.
+</p>
+
+
+<h3>Accessor methods</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>RangedData</code> object.
+</p>
+<p>The following accessors treat the data as a contiguous dataset,
+ignoring the division into spaces:
+</p>
+
+<dl>
+<dt></dt><dd><p>Array accessors:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>nrow(x)</code>: The number of ranges in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>ncol(x)</code>: The number of data variables in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>dim(x)</code>: An integer vector of length two, essentially
+<code>c(nrow(x), ncol(x))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rownames(x)</code>, <code>rownames(x) &lt;- value</code>: Gets or sets
+the names of the ranges in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>colnames(x)</code>, <code>colnames(x) &lt;- value</code>: Gets the
+names of the variables in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>dimnames(x)</code>: A list with two elements, essentially
+<code>list(rownames(x), colnames(x))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>dimnames(x) &lt;- value</code>: Sets the row and column names,
+where value is a list as described above.
+</p>
+</dd>
+<dt></dt><dd><p><code>columnMetadata(x)</code>: Get the <code>DataFrame</code> of
+metadata along the value columns, i.e., where each column in
+<code>x</code> is represented by a row in the metadata. Note that
+calling <code>mcols(x)</code> returns the metadata on each
+space in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>columnMetadata(x) &lt;- value</code>: Set the <code>DataFrame</code>
+of metadata for the columns.
+</p>
+</dd>
+<dt></dt><dd><p><code>within(data, expr, ...)</code>: Evaluates <code>expr</code>
+within <code>data</code>, a <code>RangedData</code>. Any values assigned
+in <code>expr</code> will be stored as value columns in <code>data</code>,
+unless they match one of the reserved names: <code>ranges</code>,
+<code>start</code>, <code>end</code>, <code>width</code> and
+<code>space</code>. Behavior is undefined if any of the range
+symbols are modified inconsistently. Modifications
+to <code>space</code> are ignored.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd><p>Range accessors. The type of the return value depends on the type
+of <code><a href="IntegerRanges-class.html">IntegerRanges</a></code>. For <code><a href="IRanges-class.html">IRanges</a></code>,
+an integer vector. Regardless, the number of elements is always equal to
+<code>nrow(x)</code>.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>start(x), start(x) &lt;- value</code>: Get or set the starts of the
+ranges. When setting the starts, <code>value</code> can be an integer
+vector of <code>length(sum(elementNROWS(ranges(x))))</code> or an
+IntegerList object of length <code>length(ranges(x))</code> and names
+<code>names(ranges(x))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>end(x), end(x) &lt;- value</code>: Get or set the ends of the
+ranges. When setting the ends, <code>value</code> can be an integer
+vector of <code>length(sum(elementNROWS(ranges(x))))</code> or an
+IntegerList object of length <code>length(ranges(x))</code> and names
+<code>names(ranges(x))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>width(x), width(x) &lt;- value</code>: Get or set the widths of the
+ranges. When setting the widths, <code>value</code> can be an integer
+vector of <code>length(sum(elementNROWS(ranges(x))))</code> or an
+IntegerList object of length <code>length(ranges(x))</code> and names
+<code>names(ranges(x))</code>.
+</p>
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<p>These accessors make the object seem like a list along the spaces:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>length(x)</code>:
+The number of spaces (e.g. chromosomes) in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>names(x)</code>, <code>names(x) &lt;- value</code>: Get or set the names of
+the spaces (e.g. <code>"chr1"</code>). 
+<code>NULL</code> or a character vector of the same length as <code>x</code>.
+</p>
+</dd>
+</dl>
+
+<p>Other accessors:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>universe(x)</code>, <code>universe(x) &lt;- value</code>: Get or set the
+scalar string identifying the scope of the data in some way (e.g.
+genome, experimental platform, etc). The universe may be <code>NULL</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>ranges(x), ranges(x) &lt;- value</code>: Gets or sets the ranges in
+<code>x</code> as a <code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>space(x)</code>: Gets the spaces from <code>ranges(x)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>values(x), values(x) &lt;- value</code>: Gets or sets the data values in
+<code>x</code> as a <code><a href="DataFrameList-class.html">SplitDataFrameList</a></code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>RangedData(ranges = IRanges(), ..., space = NULL)</code>:
+Creates a <code>RangedData</code> with the ranges in <code>ranges</code> and
+variables given by the arguments in <code>...</code>.  See the
+constructor <code><a href="../../S4Vectors/html/DataFrame-class.html">DataFrame</a></code> for how the <code>...</code>
+arguments are interpreted.
+</p>
+<p>If <code>ranges</code> is a <code><a href="IntegerRanges-class.html">IntegerRanges</a></code> object, the
+<code>space</code> argument is used to split of the data into spaces.
+If <code>space</code> is <code>NULL</code>, all of the ranges and values are
+placed into the same space, resulting in a single-space (length one)
+<code>RangedData</code> object. Otherwise, the ranges and values are split
+into spaces according to <code>space</code>, which is treated as a factor,
+like the <code>f</code> argument in <code><a href="../../base/html/split.html">split</a></code>.
+</p>
+<p>If <code>ranges</code> is a <code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code> object,
+then the supplied <code>space</code> argument is ignored and its value is
+derived from <code>ranges</code>.
+</p>
+<p>If <code>ranges</code> is not a <code><a href="IntegerRanges-class.html">IntegerRanges</a></code> or
+<code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code> object, this function calls
+<code>as(ranges, "RangedData")</code> and returns the result if successful.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>as.data.frame(x, row.names=NULL, optional=FALSE, ...)</code>:
+Copy the start, end, width of the ranges and all of the variables
+as columns in a <code>data.frame</code>. This is a bridge to existing
+functionality in R, but of course care must be taken if the data
+is large. Note that <code>optional</code> and <code>...</code> are ignored.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "DataFrame")</code>: Like <code>as.data.frame</code> above,
+except the result is an <code><a href="../../S4Vectors/html/DataFrame-class.html">DataFrame</a></code> and it
+probably involves less copying, especially if there is only a
+single space.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "RangedData")</code>: Coerce <code>from</code> to
+a <code>RangedData</code>, according to the type of <code>from</code>:
+</p>
+
+<dl>
+<dt><code><a href="../../S4Vectors/html/Rle-class.html">Rle</a></code>, <code><a href="AtomicList-class.html">RleList</a></code></dt><dd>
+<p>Converts each run to a range and stores the run values in a
+column named &quot;score&quot;.
+</p>
+</dd>
+<dt><code><a href="RleViewsList-class.html">RleViewsList</a></code></dt><dd>
+<p>Creates a <code>RangedData</code> using the ranges given by the runs
+of <code>subject(from)</code> in each of the windows, with a value column
+<code>score</code> taken as the corresponding subject values.
+</p>
+</dd>
+<dt><code><a href="IntegerRanges-class.html">IntegerRanges</a></code></dt><dd>
+<p>Creates a <code>RangedData</code> with only the ranges in <code>from</code>;
+no data columns.
+</p>
+</dd>
+<dt><code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code></dt><dd>
+<p>Creates a <code>RangedData</code> with the ranges in <code>from</code>.
+Also propagates the <em>inner</em> metadata columns of the
+<code>IntegerRangesList</code> (accessed with <code>mcols(unlist(from))</code>)
+to the data columns (aka values) of the <code>RangedData</code>.
+This makes it a <em>lossless</em> coercion and the exact reverse of the
+coercion from <code>RangedData</code> to <code>IntegerRangesList</code>.
+</p>
+</dd>
+<dt><code>data.frame</code> or <code>DataTable</code></dt><dd><p>Constructs a
+<code>RangedData</code>, using the columns &ldquo;start&rdquo;,
+&ldquo;end&rdquo;, and, optionally, &ldquo;space&rdquo; columns in
+<code>from</code>. The other columns become data columns in the
+result. Any &ldquo;width&rdquo; column is ignored.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>as(from, "IntegerRangesList")</code>:
+Creates a <code>CompressedIRangesList</code> (a subclass of
+<code>IntegerRangesList</code>) made of the ranges in <code>from</code>.
+Also propagates the data columns (aka values) of the <code>RangedData</code>
+to the inner metadata columns of the <code>IntegerRangesList</code>.
+This makes it a <em>lossless</em> coercion and the exact reverse of the
+coercion from <code>IntegerRangesList</code> to <code>RangedData</code>.
+</p>
+</dd>
+<dt></dt><dd><p><code>as.env(x, enclos = parent.frame())</code>:
+Creates an <code>environment</code> with a symbol for each variable in
+the frame, as well as a <code>ranges</code> symbol for
+the ranges. This is efficient, as no copying is performed.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting and Replacement</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>RangedData</code> object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>:
+Subsets <code>x</code> by indexing into its spaces, so the
+result is of the same class, with a different set of spaces.
+<code>i</code> can be numerical, logical, <code>NULL</code> or missing.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i,j]</code>:
+Subsets <code>x</code> by indexing into its rows and columns. The result
+is of the same class, with a different set of rows and columns.
+The row index <code>i</code> can either treat <code>x</code> as a flat table
+by being a character, integer, or logical vector or treat <code>x</code>
+as a partitioned table by being a <code><a href="IntegerRangesList-class.html">IntegerRangesList</a></code>,
+<code><a href="AtomicList-class.html">LogicalList</a></code>, or <code><a href="AtomicList-class.html">IntegerList</a></code>
+of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]]</code>:
+Extracts a variable from <code>x</code>, where <code>i</code> can be
+a character, numeric, or logical scalar that indexes into the
+columns. The variable is unlisted over the spaces.
+</p>
+<p>For convenience, values of <code>"space"</code> and <code>"ranges"</code>
+are equivalent to <code>space(x)</code> and <code>unlist(ranges(x))</code>
+respectively. 
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x$name</code>: similar to above, where <code>name</code> is taken
+literally as a column name in the data.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]] &lt;- value</code>:
+Sets value as column <code>i</code> in <code>x</code>, where <code>i</code> can be
+a character, numeric, or logical scalar that indexes into the
+columns. The length of <code>value</code> should equal
+<code>nrow(x)</code>. <code>x[[i]]</code> should be identical to <code>value</code>
+after this operation.
+</p>
+<p>For convenience, <code>i="ranges"</code> is equivalent to
+<code>ranges(x) &lt;- value</code>. 
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x$name &lt;- value</code>: similar to above, where <code>name</code> is taken
+literally as a column name in the data.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Splitting and Combining</h3>
+
+<p>In the code snippets below, <code>x</code> is a <code>RangedData</code> object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>rbind(...)</code>: Matches the spaces from
+the <code>RangedData</code> objects in <code>...</code> by name and combines
+them row-wise.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>c(x, ..., recursive = FALSE)</code>: Combines <code>x</code> with
+arguments specified in <code>...</code>, which must all be
+<code>RangedData</code> objects. This combination acts as if <code>x</code> is
+a list of spaces, meaning that the result will contain the spaces
+of the first concatenated with the spaces of the second, and so
+on. This function is useful when creating <code>RangedData</code>
+objects on a space-by-space basis and then needing to
+combine them.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p> Michael Lawrence </p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../S4Vectors/html/DataTable-class.html">DataTable</a>, the parent of this class, with more utilities.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ranges &lt;- IRanges(c(1,2,3),c(4,5,6))
+  filter &lt;- c(1L, 0L, 1L)
+  score &lt;- c(10L, 2L, NA)
+
+  ## constructing RangedData instances
+
+  ## no variables
+  rd &lt;- RangedData()
+  rd &lt;- RangedData(ranges)
+  ranges(rd)
+  ## one variable
+  rd &lt;- RangedData(ranges, score)
+  rd[["score"]]
+  ## multiple variables
+  rd &lt;- RangedData(ranges, filter, vals = score)
+  rd[["vals"]] # same as rd[["score"]] above
+  rd$vals
+  rd[["filter"]]
+  rd &lt;- RangedData(ranges, score + score)
+  rd[["score...score"]] # names made valid
+
+  ## split some data over chromosomes
+
+  range2 &lt;- IRanges(start=c(15,45,20,1), end=c(15,100,80,5))
+  both &lt;- c(ranges, range2)
+  score &lt;- c(score, c(0L, 3L, NA, 22L))
+  filter &lt;- c(filter, c(0L, 1L, NA, 0L)) 
+  chrom &lt;- paste("chr", rep(c(1,2), c(length(ranges), length(range2))), sep="")
+
+  rd &lt;- RangedData(both, score, filter, space = chrom)
+  rd[["score"]] # identical to score
+  rd[1][["score"]] # identical to score[1:3]
+  
+  ## subsetting
+
+  ## list style: [i]
+
+  rd[numeric()] # these three are all empty
+  rd[logical()]
+  rd[NULL]
+  rd[] # missing, full instance returned
+  rd[FALSE] # logical, supports recycling
+  rd[c(FALSE, FALSE)] # same as above
+  rd[TRUE] # like rd[]
+  rd[c(TRUE, FALSE)]
+  rd[1] # numeric index
+  rd[c(1,2)]
+  rd[-2]
+
+  ## matrix style: [i,j]
+
+  rd[,NULL] # no columns
+  rd[NULL,] # no rows
+  rd[,1]
+  rd[,1:2]
+  rd[,"filter"]
+  rd[1,] # now by the rows
+  rd[c(1,3),]
+  rd[1:2, 1] # row and column
+  rd[c(1:2,1,3),1] ## repeating rows
+
+  ## dimnames
+
+  colnames(rd)[2] &lt;- "foo"
+  colnames(rd)
+  rownames(rd) &lt;- head(letters, nrow(rd))
+  rownames(rd)
+
+  ## space names
+
+  names(rd)
+  names(rd)[1] &lt;- "chr1"
+
+  ## variable replacement
+
+  count &lt;- c(1L, 0L, 2L)
+  rd &lt;- RangedData(ranges, count, space = c(1, 2, 1))
+  ## adding a variable
+  score &lt;- c(10L, 2L, NA)
+  rd[["score"]] &lt;- score
+  rd[["score"]] # same as 'score'
+  ## replacing a variable
+  count2 &lt;- c(1L, 1L, 0L)
+  rd[["count"]] &lt;- count2
+  ## numeric index also supported
+  rd[[2]] &lt;- score
+  rd[[2]] # gets 'score'
+  ## removing a variable
+  rd[[2]] &lt;- NULL
+  ncol(rd) # is only 1
+  rd$score2 &lt;- score
+  
+  ## combining
+
+  rd &lt;- RangedData(ranges, score, space = c(1, 2, 1))
+  c(rd[1], rd[2]) # equal to 'rd'
+  rd2 &lt;- RangedData(ranges, score)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

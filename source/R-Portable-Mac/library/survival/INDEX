@@ -19,6 +19,7 @@ cluster                 Identify clusters.
 colon                   Chemotherapy for Stage B/C colon cancer
 concordance             Compute the concordance statistic for data or a
                         model
+concordancefit          Compute the concordance
 cox.zph                 Test the Proportional Hazards Assumption of a
                         Cox Regression
 coxph                   Fit Proportional Hazards Regression Model
@@ -32,7 +33,6 @@ finegray                Create data for a Fine-Gray model
 flchain                 Assay of serum free light chain for 7874
                         subjects.
 frailty                 Random effects terms
-genfan                  Generator fans
 heart                   Stanford Heart Transplant data
 is.ratetable            Verify that an object is of class ratetable.
 kidney                  Kidney catheter data
@@ -70,6 +70,7 @@ ratetable               Rate table structure
 ratetableDate           Convert date objects to ratetable form
 rats                    Rat treatment data from Mantel et al
 rats2                   Rat data from Gail et al.
+reliability             Reliability data sets
 residuals.coxph         Calculate Residuals for a 'coxph' Fit
 residuals.survreg       Compute Residuals for 'survreg' Objects
 retinopathy             Diabetic Retinopathy

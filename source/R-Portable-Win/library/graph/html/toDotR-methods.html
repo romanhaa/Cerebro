@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for Function toDotR, using R to generate a dot...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for toDotR-methods {graph}"><tr><td>toDotR-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Methods for Function toDotR, using R to generate a dot serialization</h2>
+
+<h3>Description</h3>
+
+<p>There are two basic methods of generating
+dot (<a href="http://www.graphviz.org">http://www.graphviz.org</a>) language serializations
+of R <code><a href="graph-class.html">graph-class</a></code> structures.  First,
+using the <code><a href="../../Rgraphviz/html/toDot-methods.html">toDot</a></code> methods of the 
+Rgraphviz package, the native graphviz agraph-associated methods can be
+employed to create the dot serialization.
+Second, with the methods described here, R functions can
+be used to perform the serialization directly from
+the graph data structure, without Rgraphviz.</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;character&quot;, renderList = &quot;list&quot;, optList = &quot;list&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;character&quot;, renderList = &quot;missing&quot;, optList = &quot;missing&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;character&quot;, renderList = &quot;missing&quot;, optList = &quot;list&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;missing&quot;, renderList = &quot;missing&quot;, optList = &quot;missing&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;missing&quot;, renderList = &quot;missing&quot;, optList = &quot;list&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;missing&quot;, renderList = &quot;character&quot;, optList = &quot;missing&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;missing&quot;, renderList = &quot;list&quot;, optList = &quot;list&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;graphNEL&quot;, outDotFile = &quot;missing&quot;, renderList = &quot;list&quot;, optList = &quot;missing&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;compoundGraph&quot;, outDotFile = &quot;character&quot;, renderList = &quot;list&quot;, optList = &quot;missing&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;compoundGraph&quot;, outDotFile = &quot;character&quot;, renderList = &quot;list&quot;, optList = &quot;list&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+<dt>G = &quot;compoundGraph&quot;, outDotFile = &quot;missing&quot;, renderList = &quot;list&quot;, optList = &quot;missing&quot;</dt><dd><p> create dot language descriptionof graph </p>
+</dd>
+</dl>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../Rgraphviz/html/toDot-methods.html">toDot-methods</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+example(randomGraph)
+tmp &lt;- tempfile()
+toDotR( g1, tmp )
+readLines(tmp)
+unlink(tmp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

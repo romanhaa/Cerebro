@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to build HTML pages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for htmlpage {annotate}"><tr><td>htmlpage {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to build HTML pages</h2>
+
+<h3>Description</h3>
+
+<p> This function is designed to create an HTML table
+containing both static information as well as links to various online
+annotation sources.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+htmlpage(genelist, filename, title, othernames, table.head,
+         table.center = TRUE, repository = list("en"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>genelist</code></td>
+<td>
+<p>A list or <code>data.frame</code> of character vectors
+containing ids to be made into hypertext links. See details for more
+information.</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>A filename for the resultant HTML table.</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>A title for the table.</p>
+</td></tr>
+<tr valign="top"><td><code>othernames</code></td>
+<td>
+<p>A list or <code>data.frame</code> of other things to add
+to the table. These will not be hyperlinks. The list of othernames
+can contain vectors, matrices, <code>data.frames</code> or lists.</p>
+</td></tr>
+<tr valign="top"><td><code>table.head</code></td>
+<td>
+<p>A character vector of column headers for the table.</p>
+</td></tr>
+<tr valign="top"><td><code>table.center</code></td>
+<td>
+<p>Center the table? Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>repository</code></td>
+<td>
+<p>A list of repositories to use
+for creating the hypertext links. Currently available repositories
+include 'gb' (GenBank), 'en' (EntrezGene), 'omim' (Online Mendelian
+Inheritance in Man), 'sp' (SwissProt), 'affy' (Affymetrix), 'ug'
+(UniGene), 'fb' (FlyBase), 'go' (Gene Ontology), 'ens' (Ensembl).
+Additional repositories can easily be added. See
+<code>setRepository</code> for more information.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments to be passed. See details for more
+information.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> This function will accept a list or <code>data.frame</code> of
+character vectors, each containing different ids that are to be turned
+into hyperlinks (e.g., a list containing affy ids, genbank accession
+numbers, and Entrez Gene ids). For instances where there are more than
+one id per gene, use a sub-list of character vectors. See the vignette
+'HowTo: Get HTML Output' for more information. Othernames should be a
+list or <code>data.frame</code>. Again, if there are multiple entries for a
+given gene, use a sub-list. This is more easily explained using an
+example - please see the examples section below and the above
+mentioned vignette.
+</p>
+<p>In even the simplest case the genelist, othernames and repository have
+to be lists. A simple character vector will not suffice. 
+</p>
+<p>Note that this function now uses <code>xtable</code> to create the HTML
+table, and there is the ability to pass some arguments on to either
+<code>xtable</code> or <code>print.xtable</code>. One such argument would be
+'append=TRUE', which would allow one to put lots of tables in one
+page, as long as the filename argument remained the same.
+</p>
+<p>Additionally, the Ensembl repository needs a species argument in order
+to form a usable URI. This argument can be passed in the form of e.g.,
+species = &quot;Homo\_sapiens&quot;. Note the capitalization of the genus, and
+the separation by an underscore (\_).
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function is used only for the side effect of creating an HTML table.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Gentleman &lt;rgentlem@fhcrc.org&gt;, further
+modifications by James W. MacDonald &lt;jmacdon@med.umich.edu&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## A very simple example. Two columns, one with links, the other without.
+
+  gos &lt;- paste("GO:000000", 1:9, sep="")
+  notlinks &lt;- LETTERS[1:9]
+
+  htmlpage(list(gos), "simple.html", "Two column data", list(notlinks),
+           c("GO IDs", "Letters"), repository = list("go"))
+
+  if(!interactive())
+    file.remove("simple.html")
+
+  ## A more complex example with multiple links per cell
+  ## first we create data to annotate
+  unigene &lt;- list("Hs.600536",c("Hs.596913","HS.655491"),"Hs.76704")
+  refseq &lt;- list(c("NM_001030050", "NM_001030047", "NM_001648",
+  "NM_001030049"), "NM_000860", c("NM_001011645", "NM_000044"))
+  entrez &lt;- c("354", "3248", "367")
+  genelist &lt;- list(unigene, refseq, entrez)
+
+  ## now some other data
+
+  symb &lt;- c("KLK3","HPGD","AR")
+  desc &lt;- c("Prostate-specific antigen precursor",
+            "15-hydroxyprostaglandin dehydrogenase",
+            "Androgen receptor")
+  t.stat &lt;- c(40.21, -22.14, 21.56)
+  p.value &lt;- rep(0,3)
+  fold.change &lt;- c(3.54, -2.35, 3.18)
+  expression &lt;- matrix(c(11.78, 11.69, 11.62, 8.17, 5.78, 5.58, 5.68,
+                         8.26, 9.08, 9.28, 9.19, 6.05), ncol=4, byrow=TRUE)
+
+  otherdata &lt;- list(symb, desc, t.stat, p.value, fold.change, expression)
+  table.head &lt;- c("UniGene", "RefSeq", "EntrezGene", "Symbol",
+                  "Description", "t-stat", "p-value", "fold change",
+                  paste("Sample", 1:4))
+
+  htmlpage(genelist, "test.html", "Some gene expression data", otherdata,
+           table.head, repository = list("ug","gb","en"))
+
+  if(!interactive())
+    file.remove("test.html")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

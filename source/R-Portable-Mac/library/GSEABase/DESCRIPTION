@@ -1,0 +1,31 @@
+Package: GSEABase
+Type: Package
+Title: Gene set enrichment data structures and methods
+Version: 1.44.0
+Author: Martin Morgan, Seth Falcon, Robert Gentleman
+Maintainer: Bioconductor Package Maintainer
+ <maintainer@bioconductor.org>
+Description: This package provides classes and methods to support Gene
+        Set Enrichment Analysis (GSEA).
+License: Artistic-2.0
+Depends: R (>= 2.6.0), BiocGenerics (>= 0.13.8), Biobase (>= 2.17.8),
+        annotate (>= 1.45.3), methods, graph (>= 1.37.2)
+Suggests: hgu95av2.db, GO.db, org.Hs.eg.db, Rgraphviz, ReportingTools,
+        testthat, BiocStyle, knitr
+Imports: AnnotationDbi, XML
+LazyLoad: yes
+Collate: utilities.R AAA.R AllClasses.R AllGenerics.R getObjects.R
+        methods-CollectionType.R methods-ExpressionSet.R
+        methods-GeneColorSet.R methods-GeneIdentifierType.R
+        methods-GeneSet.R methods-GeneSetCollection.R
+        methods-OBOCollection.R
+VignetteBuilder: knitr
+biocViews: GeneExpression, GeneSetEnrichment, GraphAndNetwork, GO, KEGG
+git_url: https://git.bioconductor.org/packages/GSEABase
+git_branch: RELEASE_3_8
+git_last_commit: 7042ff6
+git_last_commit_date: 2018-10-30
+Date/Publication: 2018-10-30
+NeedsCompilation: no
+Packaged: 2018-10-30 23:30:45 UTC; biocbuild
+Built: R 3.5.1; ; 2018-10-31 08:59:28 UTC; unix

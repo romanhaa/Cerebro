@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get and set attributes for the nodes of a graph object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for nodeData-methods {graph}"><tr><td>nodeData-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get and set attributes for the nodes of a graph object</h2>
+
+<h3>Description</h3>
+
+<p>Attributes of the nodes of a graph can be accessed using
+<code>nodeData</code>.  The attributes must be defined using
+<code><a href="nodeDataDefaults-methods.html">nodeDataDefaults</a></code>.  You can ommit the <code>n</code> argument
+to retrieve attributes for all nodes in the graph.  You can ommit the
+<code>attr</code> argument to retrieve all attributes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nodeData(self, n, attr)
+nodeData(self, n, attr) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>self</code></td>
+<td>
+<p>A <code>graph-class</code> instance</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>A <code>character</code> vector of node names</p>
+</td></tr>
+<tr valign="top"><td><code>attr</code></td>
+<td>
+<p>A <code>character</code> vector of length one specifying the
+name of a node attribute</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>An R object to store as the attribute value</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Underlying Graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ugraph {graph}"><tr><td>ugraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Underlying Graph</h2>
+
+<h3>Description</h3>
+
+<p>For a <em>directed</em> graph the underlying graph is the graph that is
+constructed where all edge orientation is ignored. This function
+carries out such a transformation on <code>graphNEL</code> instances.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ugraph(graph)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>graph</code></td>
+<td>
+<p>a <code>graph</code> object. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>graph</code> is already <em>undirected</em> then it is simply
+returned.
+</p>
+<p>If <code>graph</code> is a multi-graph (has multiple edges) an error is
+thrown as it is unclear how to compute the underlying graph in that
+context.
+</p>
+<p>The method will work for any <code>graph</code> subclass for which an
+<code>edgeMatrix</code> method exists.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An instance of <code>graphNEL</code> with the same nodes as the input but
+which is <code>undirected</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>References</h3>
+
+<p>Graph Theory and its Applications, J. Gross and J. Yellen. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="graph-class.html">connComp</a></code>
+<code><a href="edgeMatrix.html">edgeMatrix</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+V &lt;- letters[1:4]
+edL2 &lt;- vector("list", length=4)
+names(edL2) &lt;- V
+for(i in 1:4)
+  edL2[[i]] &lt;- list(edges=c(2,1,2,1)[i], weights=sqrt(i))
+gR2 &lt;- graphNEL(nodes=V, edgeL=edL2, edgemode="directed")
+
+ugraph(gR2)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

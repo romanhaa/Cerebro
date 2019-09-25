@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get GO terms for a specified ontology</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getOntology {annotate}"><tr><td>getOntology {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get GO terms for a specified ontology</h2>
+
+<h3>Description</h3>
+
+<p>Find the subset of GO terms for the specified ontology, for each element 
+of the supplied list of associations. The input list is typically from
+one of the chip-specific meta-data files.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getOntology(inlist, ontology=c("MF", "BP", "CC"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inlist</code></td>
+<td>
+<p>A list of GO associations</p>
+</td></tr>
+<tr valign="top"><td><code>ontology</code></td>
+<td>
+<p>The name of the ontology you want returned.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The input list should be a list of lists, each element of <code>inlist</code>
+is itself a list containing the information that maps from a specified 
+ID (usually LocusLink) to GO information. Each element of the inner list 
+is a list with elements <code>GOID</code>, <code>Ontology</code> and <code>Evidence</code>. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the same length as the input list. Each element of this
+list will contain a vector of <code>GOID</code>s for those terms that match
+the requested ontology.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getEvidence.html">getEvidence</a></code>, <code><a href="dropECode.html">dropECode</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ library("hgu95av2.db")
+ bb &lt;- hgu95av2GO[["39613_at"]]
+ getOntology(bb)
+ sapply(bb, function(x) x$Ontology)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

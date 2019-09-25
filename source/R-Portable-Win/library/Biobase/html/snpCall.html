@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get and retrieve SNP call and call probability data.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for snpCall {Biobase}"><tr><td>snpCall {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get and retrieve SNP call and call probability data.</h2>
+
+<h3>Description</h3>
+
+<p>These generic functions access the calls and call probabilities
+stored in objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+snpCall(object, ...)
+snpCall(object, ...) &lt;- value
+snpCallProbability(object, ...)
+snpCallProbability(object, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object, possibly derived from class <code>SnpSet</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Matrix with rows representing SNP calls or call
+probabilities and columns samples.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments available to methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>snpCall</code> returns a matrix of SNP calls;
+<code>snpCallProbability</code> returns the corresponding matrix of standard errors,
+when available.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.SnpSet.html">SnpSet-class</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

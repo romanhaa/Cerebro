@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute an Adjacency Matrix for a graphBAM object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for adjacencyMatrix {graph}"><tr><td>adjacencyMatrix {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute an Adjacency Matrix for a graphBAM object  </h2>
+
+<h3>Description</h3>
+
+<p>Though unwieldy for large matrices, a full adjacency matrix
+can be useful for debugging and export.
+</p>
+<p>If the graph is &ldquo;undirected&rdquo; then recicprocal edges
+are explicit in the matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+adjacencyMatrix(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A <code>graphBAM</code> object. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Thus far only implemented for <code>graphBAM</code> objects.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>adjacencyMatrix</code> returns an n x n matrix, where n is
+the number of nodes in the graph, ordered in the same manner as
+seen in the <code>nodes</code> method.  All cells in the matrix are <code>0</code>
+except where edges are found.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Shannon</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="edgeMatrix.html">edgeMatrix</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  from   &lt;- c("a", "a", "a", "x", "x", "c")
+  to     &lt;- c("b", "c", "x", "y", "c", "a")
+  weight &lt;- c(3.4, 2.6, 1.7, 5.3, 1.6, 7.9)
+  df &lt;- data.frame(from, to, weight)
+  g1 &lt;- graphBAM(df, edgemode = "directed")
+  adjacencyMatrix(g1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

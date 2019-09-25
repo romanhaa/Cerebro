@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class to Contain High-Throughput Assays and Experimental...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for eSet {Biobase}"><tr><td>eSet {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Class to Contain High-Throughput Assays and Experimental Metadata
+</h2>
+
+<h3>Description</h3>
+
+<p>Container for high-throughput assays and experimental
+metadata. Classes derived from <code>eSet</code> contain one or more
+identical-sized matrices as <code>assayData</code> elements. Derived
+classes (e.g., <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, <code><a href="class.SnpSet.html">SnpSet-class</a></code>)
+specify which elements must be present in the <code>assayData</code> slot.
+</p>
+<p><code>eSet</code> object cannot be instantiated directly; see the examples
+for usage.
+</p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>eSet</code> is a virtual class, so instances cannot be created.
+</p>
+<p>Objects created under previous definitions of <code>eSet-class</code> can be
+coerced to the current classes derived from <code>eSet</code> using
+<code>updateOldESet</code>.
+</p>
+
+
+<h3>Slots</h3>
+
+<p>Introduced in <code>eSet</code>:
+</p>
+
+<dl>
+<dt><code>assayData</code>:</dt><dd><p>Contains matrices with equal
+dimensions, and with column number equal to
+<code>nrow(phenoData)</code>. Class:<code><a href="class.AssayData.html">AssayData-class</a></code></p>
+</dd>
+<dt><code>phenoData</code>:</dt><dd><p>Contains experimenter-supplied variables
+describing sample (i.e., columns in <code>assayData</code>) phenotypes.
+Class: <code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame-class</a></code></p>
+</dd>
+<dt><code>featureData</code>:</dt><dd><p>Contains variables describing features
+(i.e., rows in <code>assayData</code>) unique to this experiment. Use
+the <code>annotation</code> slot to efficiently reference feature data
+common to the annotation package used in the experiment. Class:
+<code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame-class</a></code></p>
+</dd> 
+<dt><code>experimentData</code>:</dt><dd><p>Contains details of experimental
+methods. Class: <code><a href="class.MIAME.html">MIAME-class</a></code></p>
+</dd>
+<dt><code>annotation</code>:</dt><dd><p>Label associated with the annotation
+package used in the experiment. Class: <code>character</code></p>
+</dd>
+<dt><code>protocolData</code>:</dt><dd><p>Contains microarray equipment-generated
+variables describing sample (i.e., columns in <code>assayData</code>) phenotypes.
+Class: <code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame-class</a></code></p>
+</dd>
+<dt><code>.__classVersion__</code>:</dt><dd><p>A <code>Versions</code> object describing
+the R and Biobase version numbers used to created the instance.
+Intended for developer use.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Methods defined in derived classes (e.g., <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>,
+<code><a href="class.SnpSet.html">SnpSet-class</a></code>) may override the methods described here.
+</p>
+<p>Class-specific methods:
+</p>
+
+<dl>
+<dt><code>sampleNames(object)</code> and
+<code>sampleNames(object)&lt;-value</code>:</dt><dd><p>Coordinate accessing and setting
+sample names in <code>assayData</code> and <code>phenoData</code></p>
+</dd>
+<dt><code>featureNames(object)</code>,
+<code>featureNames(object) &lt;- value</code>:</dt><dd><p>Coordinate accessing and setting of
+feature names (e.g, genes, probes) in <code>assayData</code>.</p>
+</dd>
+<dt><code>dimnames(object)</code>, <code>dimnames(object) &lt;-
+	 value</code>:</dt><dd><p>Also <code>rownames</code> and <code>colnames</code>; access and set
+feature and sample names.</p>
+</dd>
+<dt><code>dims(object)</code>:</dt><dd><p>Access the common dimensions (<code>dim</code>) or
+column numbers (<code>ncol</code>), or dimensions of all members
+(<code>dims</code>) of <code>assayData</code>.</p>
+</dd>
+<dt><code>phenoData(object)</code>,
+<code>phenoData(object) &lt;- value</code>:</dt><dd><p>Access and set
+<code>phenoData</code>. Adding new columns to <code>phenoData</code> is often
+more easily done with <code>eSetObject[["columnName"]] &lt;- value</code>.</p>
+</dd>
+<dt><code>pData(object)</code>, <code>pData(object) &lt;- value</code>:</dt><dd><p>Access and set
+sample data information. Adding new columns to <code>pData</code> is often
+more easily done with <code>eSetObject[["columnName"]] &lt;- value</code>.</p>
+</dd>
+<dt><code>varMetadata(object)</code>,
+<code>varMetadata(eSet,value)</code></dt><dd><p>Access and set metadata describing
+variables reported in <code>pData</code></p>
+</dd>
+<dt><code>varLabels(object)</code>, <code>varLabels(eSet,
+	     value)&lt;-</code>:</dt><dd><p>Access and set variable labels in
+<code>phenoData</code>.</p>
+</dd>
+<dt><code>featureData(object)</code>,
+<code>featureData(object) &lt;- value</code>:</dt><dd><p>Access and set <code>featureData</code>.</p>
+</dd>
+<dt><code>fData(object)</code>, <code>fData(object) &lt;- value</code>:</dt><dd><p>Access and set
+feature data information.</p>
+</dd>
+<dt><code>fvarMetadata(object)</code>,
+<code>fvarMetadata(eSet,value)</code></dt><dd><p>Access and set metadata describing
+features reported in <code>fData</code></p>
+</dd>
+<dt><code>fvarLabels(object)</code>,
+<code>fvarLabels(eSet, value)&lt;-</code>:</dt><dd><p>Access and set variable labels in
+<code>featureData</code>.</p>
+</dd> 
+<dt><code>assayData(object), assayData(object) &lt;- value</code>:</dt><dd>
+<p><code>signature(object = "eSet", value = "AssayData")</code>: Access
+and replace the <code>AssayData</code> slot of an
+<code>eSet</code> instance. <code>assayData</code> returns a list or
+environment; elements in <code>assayData</code> not accessible in other
+ways (e.g., via <code>exprs</code> applied directly to the <code>eSet</code>)
+can most reliably be accessed with, e.g., <code>assayData(obj)[["se.exprs"]]</code>.</p>
+</dd>
+<dt><code>experimentData(object)</code>,<code>experimentData(object) &lt;- value</code>:</dt><dd><p>Access
+and set details of experimental methods</p>
+</dd>
+<dt><code>description(object)</code>,<code>description(object) &lt;- value</code>:</dt><dd><p>Synonymous with experimentData.</p>
+</dd>
+<dt><code>notes(object)</code>,<code>notes(object) &lt;- value</code>:</dt><dd>
+<p><code>signature(object="eSet", value="list")</code> Retrieve and set unstructured notes associated with <code>eSet</code>.
+<code>signature(object="eSet", value="character")</code> As with
+value=&quot;list&quot;, but <em>append</em> value to current list of notes.</p>
+</dd>
+<dt><code>pubMedIds(object)</code>, <code>pubMedIds(eSet,value)</code></dt><dd><p>Access
+and set PMIDs in <code>experimentData</code>.</p>
+</dd>
+<dt><code>abstract(object)</code>:</dt><dd><p>Access abstract in
+<code>experimentData</code>.</p>
+</dd>
+<dt><code>annotation(object)</code>,
+<code>annotation(object) &lt;- value</code></dt><dd><p>Access and set annotation label
+indicating package used in the experiment.</p>
+</dd>
+<dt><code>protocolData(object)</code>,
+<code>protocolData(object) &lt;- value</code></dt><dd><p>Access and set the protocol data.</p>
+</dd>
+<dt><code>preproc(object)</code>,
+<code>preproc(object) &lt;- value</code>:</dt><dd><p><code>signature(object="eSet",
+	 value="list")</code> Access and set <code>preprocessing</code> information
+in the <code><a href="class.MIAME.html">MIAME-class</a></code> object associated with this
+<code>eSet</code>.</p>
+</dd>
+<dt><code>combine(eSet,eSet)</code>:</dt><dd><p>Combine two <code>eSet</code>
+objects. To be combined, eSets must have identical numbers of
+<code>featureNames</code>, distinct <code>sampleNames</code>, and identical <code>annotation</code>.</p>
+</dd>
+<dt><code>storageMode(object)</code>, <code>storageMode(eSet,character)&lt;-</code>:</dt><dd><p>Change storage mode
+of <code><a href="assayData.html">assayData</a></code>. Can be used to 'unlock' environments,
+or to change between <code>list</code> and <code>environment</code> modes of
+storing <code>assayData</code>.</p>
+</dd>
+</dl>
+
+<p>Standard generic methods:
+</p>
+
+<dl>
+<dt><code>initialize(object)</code>:</dt><dd><p>Object instantiation, can be called by
+derived classes but not usually by the user.</p>
+</dd>
+<dt><code>validObject(object)</code>:</dt><dd><p>Validity-checking method,
+ensuring (1) all assayData components have the same number of
+features and samples; (2) the number and names of
+<code>phenoData</code> rows match the number and names of
+<code>assayData</code> columns</p>
+</dd>
+<dt><code>as(eSet, "ExpressionSet")</code></dt><dd><p>Convert instance of class <code>"eSet"</code> to instance of <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, if possible.</p>
+</dd>
+<dt><code>as(eSet, "MultiSet")</code></dt><dd><p>Convert instance of class <code>"eSet"</code> to instance of <code><a href="class.MultiSet.html">MultiSet-class</a></code>, if possible.</p>
+</dd>
+<dt><code>updateObject(object, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version, if necessary. Usually called through class inheritance rather than directly by the user. See <code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code></p>
+</dd>
+<dt><code>updateObjectTo(object, template, ..., verbose=FALSE)</code></dt><dd><p>Update instance to current version by updating slots in <code>template</code>, if necessary. Usually call by class inheritance, rather than directly by the user. See <code><a href="updateObjectTo.html">updateObjectTo</a></code></p>
+</dd>
+<dt><code>isCurrent(object)</code></dt><dd><p>Determine whether version of object is current. See <code><a href="isCurrent.html">isCurrent</a></code></p>
+</dd>
+<dt><code>isVersioned(object)</code></dt><dd><p>Determine whether object contains a 'version' string describing its structure . See <code><a href="isVersioned.html">isVersioned</a></code></p>
+</dd>
+<dt><code>show(object)</code></dt><dd><p>Informatively display object contents.</p>
+</dd>
+<dt><code>dim(object)</code>, <code>ncol</code></dt><dd><p>Access the common
+dimensions (<code>dim</code>) or column numbers (<code>ncol</code>), of all
+memebers (<code>dims</code>) of <code>assayData</code>.</p>
+</dd>
+<dt><code>object[(index)</code>:</dt><dd><p>Conducts subsetting of matrices and
+phenoData components </p>
+</dd>
+<dt><code>object$name</code>, <code>object$name&lt;-value</code></dt><dd><p>Access and set <code>name</code> column in <code>phenoData</code></p>
+</dd>
+<dt><code>object[[i, ...]]</code>, <code>object[[i, ...]]&lt;-value</code></dt><dd><p>Access and set column <code>i</code> (character or
+numeric index) in <code>phenoData</code>. The ... argument can include
+named variables (especially <code>labelDescription</code>) to be added
+to varMetadata.</p>
+</dd>
+</dl>
+
+<p>Additional functions:
+</p>
+
+<dl>
+<dt>assayDataElement(object, element)</dt><dd><p>Return matrix
+<code>element</code> from <code>assayData</code> slot of <code>object</code>.</p>
+</dd>
+<dt>assayDataElement(object, element, validate=TRUE) &lt;-
+value)</dt><dd><p>Set element <code>element</code> in <code>assayData</code> slot of
+<code>object</code> to matrix <code>value</code>. If <code>validate=TRUE</code>,
+check that value row and column names of conform to object.</p>
+</dd>
+<dt>assayDataElementReplace(object, element, value,
+validate=TRUE)</dt><dd><p>Set element <code>element</code> in <code>assayData</code>
+slot of <code>object</code> to matrix <code>value</code>. If
+<code>validate=TRUE</code>, check that row and column names of value
+conform to object.</p>
+</dd>
+<dt>assayDataElementNames(object)</dt><dd><p>Return element names in
+<code>assayData</code> slot of <code>object</code></p>
+</dd>
+<dt><code>updateOldESet</code></dt><dd><p>Update versions of <code>eSet</code>
+constructued using <code>listOrEnv</code> as <code>assayData</code> slot
+(before May, 2006).</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p>Method use in <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>.
+Related  classes
+<code><a href="class.AssayData.html">AssayData-class</a></code>, <code><a href="class.AnnotatedDataFrame.html">AnnotatedDataFrame-class</a></code>, <code><a href="class.MIAME.html">MIAME-class</a></code>.
+Derived classes
+<code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, <code><a href="class.SnpSet.html">SnpSet-class</a></code>.
+To update objects from previous class versions, see <code><a href="updateOldESet.html">updateOldESet</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# update previous eSet-like class oldESet to existing derived class
+## Not run: updateOldESet(oldESet, "ExpressionSet")
+
+# create a new, ad hoc, class, for personal use
+# all methods outlined above are available automatically
+.MySet &lt;- setClass("MySet", contains="eSet")
+.MySet()
+
+# Create a more robust class, with constructor and validation methods
+# to ensure assayData contains specific matricies
+.TwoColorSet &lt;- setClass("TwoColorSet", contains="eSet")
+
+TwoColorSet &lt;-
+    function(phenoData=AnnotatedDataFrame(), experimentData=MIAME(),
+             annotation=character(), R=new("matrix"), G=new("matrix"),
+             Rb=new("matrix"), Gb=new("matrix"), ...)
+{
+    .TwoColorSet(phenoData=phenoData, experimentData=experimentData,
+                 annotation=annotation, R=R, G=G, Rb=Rb, Gb=Gb, ...)
+}
+
+setValidity("TwoColorSet", function(object) {
+  assayDataValidMembers(assayData(object), c("R", "G", "Rb", "Gb"))
+})
+
+TwoColorSet()
+
+# eSet objects cannot be instantiated directly, only derived objects
+try(new("eSet"))
+
+removeClass("MySet")
+removeClass("TwoColorSet")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

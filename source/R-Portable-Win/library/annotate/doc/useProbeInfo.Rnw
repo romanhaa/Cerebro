@@ -1,0 +1,164 @@
+% \VignetteIndexEntry{Using Affymetrix Probe Level Data}
+% \VignetteDepends{hgu95av2.db, rae230a.db, rae230aprobe, Biostrings}
+% \VignetteKeywords{Annotation}
+%\VignettePackage{annotate}
+
+\documentclass{article}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+
+\begin{document}
+\title{Using Probe Information}
+
+\author{Robert Gentleman}
+\date{}
+\maketitle
+
+\section*{Overview}
+
+The Bioconductor project maintains a rich body of annotation data
+assembled into R libraries. For many different Affymetrix chips
+information is provided on both the sequence of the mRNA that was
+intended to be matched and the actual 25mers that were used for the
+bindings. In this vignette we show how to make use of the probe
+information.
+
+\section*{A Simple Example}
+
+To demonstrate the use of probe level data we will use the
+\texttt{rae230a} chip (for rats). So we first need to load these
+libraries.
+
+<<loadlibs, results=hide>>=
+library("annotate")
+library("rae230a.db")
+library("rae230aprobe")
+@
+
+Now, we do not have any data so all we are going to do is to examine
+the probe data and show how to use some of the different Bioconductor
+tools to access that information, and potentially check on the mapping
+information that has been given.
+
+We will select a probe set,
+<<selprobe>>=
+
+ps = names(as.list(rae230aACCNUM))
+
+myp = ps[1001]
+
+myA = get(myp, rae230aACCNUM)
+
+wp = rae230aprobe$Probe.Set.Name == myp
+myPr = rae230aprobe[wp,]
+
+@
+
+The probe data is stored as a \Rclass{data.frame} with 6 columns. They
+are
+\begin{description}
+\item[sequence] The sequence of the 25mer
+\item[x] The x position of the probe on the array.
+\item[y] The y position of the probe on the array.
+\item[Probe.Set.Name] The Affymetrix ID for the probe set.
+\item[Probe.Interrogation.Position] The location (in bases) of the
+13th base in the 25mer, in the target sequence.
+\item[Target.Strandedness] Whether the 25mer is a Sense or an
+Antisense match to the target sequence.
+\end{description}
+
+We note that it is not always the case that the sequence reported is
+found in the reference or if it is, it is not always at the location
+reported. One can check that using other tools available in the
+\Rpackage{annotate} package and in the \Rpackage{Biostrings} package.
+
+%%FIXME: need to check for connectivity
+<<getACC>>=
+
+myseq = getSEQ(myA)
+nchar(myseq)
+
+library("Biostrings")
+mybs = DNAString(myseq)
+
+match1 = matchPattern(as.character(myPr[1,1]), mybs)
+match1
+as.matrix(ranges(match1))
+myPr[1,5]
+@
+And we can see that in this case the 13th nucleotide is indeed in
+exactly the place that has been predicted.
+
+
+One additional thing to note is that Affymetrix does not accurately report the strandedness of the
+probes, so it is necessary to check the reverse complement of the sequence prior to
+assuming that the probe does not interrogate the correct gene.
+
+<<getRev>>=
+
+myp = ps[100]
+
+myA = get(myp, rae230aACCNUM)
+
+wp = rae230aprobe$Probe.Set.Name == myp
+
+myPr = rae230aprobe[wp,]
+
+myseq = getSEQ(myA)
+
+mybs = DNAString(myseq)
+
+Prstr = as.character(myPr[1,1])
+
+match2 = matchPattern(Prstr, mybs)
+
+## expecting 0 (no match)
+length(match2)
+
+match2 = matchPattern(reverseComplement(DNAString(Prstr)), mybs)
+
+nchar(match2)
+
+nchar(myseq) - as.matrix(ranges(match2))
+myPr[1,5]
+@
+
+Again, we see that the 13th nucleotide is exactly where predicted. It is relatively
+straightforward to check the other 25mers, and to develop different
+visualization tools that can be used to investigate the available data.
+
+\section*{Other Sources of Information}
+
+There are other tools available that may also be of some interest. For instance, the
+Mental Health Research Institute at the University of Michigan have various custom
+cdf files for Affymetrix data analysis that have been updated using more current annotation
+information from GenBank and Ensembl.
+
+\url {http://brainarray.mhri.med.umich.edu/Brainarray/Database/CustomCDF/genomic_curated_CDF.asp}
+
+The Weizmann Institute of Science have a database that can be queried to get the sensitivity and specificity
+for the probes on the Affymetrix HG-U95av2 chip. Although the information here is limited to a particular chip,
+this general idea is something that an enterprising end-user might want to replicate for other chips.
+
+\url {http://genecards.weizmann.ac.il/geneannot/}
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE>>=
+sessionInfo()
+@
+
+
+\end{document}

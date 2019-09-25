@@ -1,0 +1,14 @@
+computeGeneSetsOverlap	computeGeneSetsOverlap
+computeGeneSetsOverlap,GeneSetCollection,character-method	computeGeneSetsOverlap
+computeGeneSetsOverlap,GeneSetCollection,ExpressionSet-method	computeGeneSetsOverlap
+computeGeneSetsOverlap,list,character-method	computeGeneSetsOverlap
+computeGeneSetsOverlap,list,ExpressionSet-method	computeGeneSetsOverlap
+filterGeneSets	filterGeneSets
+filterGeneSets,GeneSetCollection-method	filterGeneSets
+filterGeneSets,list-method	filterGeneSets
+gsva	gsva
+gsva,ExpressionSet,GeneSetCollection-method	gsva
+gsva,ExpressionSet,list-method	gsva
+gsva,matrix,GeneSetCollection-method	gsva
+gsva,matrix,list-method	gsva
+igsva	igsva

@@ -1,7 +1,7 @@
 Package: rpart
 Priority: recommended
-Version: 4.1-13
-Date: 2018-02-23
+Version: 4.1-15
+Date: 2019-04-10
 Authors@R: c(person("Terry", "Therneau", role = "aut",
 	            email = "therneau@mayo.edu"),
              person("Beth", "Atkinson", role = c("aut", "cre"),
@@ -19,12 +19,16 @@ License: GPL-2 | GPL-3
 LazyData: yes
 ByteCompile: yes
 NeedsCompilation: yes
-Packaged: 2018-02-23 05:39:52 UTC; ripley
 Author: Terry Therneau [aut],
   Beth Atkinson [aut, cre],
   Brian Ripley [trl] (producer of the initial R port, maintainer
     1999-2017)
 Maintainer: Beth Atkinson <atkinson@mayo.edu>
 Repository: CRAN
-Date/Publication: 2018-02-23 05:45:23 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-04-24 18:41:15 UTC; unix
+URL: https://github.com/bethatkinson/rpart,
+        https://cran.r-project.org/package=rpart
+BugReports: https://github.com/bethatkinson/rpart/issues
+Packaged: 2019-04-11 15:59:38 UTC; atkinson
+Date/Publication: 2019-04-12 14:32:39 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-04-13 04:26:21 UTC; unix
+Archs: rpart.so.dSYM

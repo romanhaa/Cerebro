@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gxl SYSTEM "http://www.gupro.de/GXL/gxl-1.0.1.dtd">
+<?xml-stylesheet type="text/xsl" href="../../highlightme.xsl"?>
+<!--complex example 05.02.2002  -->
+<gxl>
+	<graph id="complexExample" edgeids="true" edgemode="directed">
+		<type xlink:href="../../../schema/gxl/complexExample/complexExampleSchema.gxl#complexExampleSchema"/>
+		<node id="v1">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#Function"/>
+			<attr name="name">
+				<string>main</string>
+			</attr>
+			<attr name="vince">
+				<string>carey</string>
+		</node>
+		<node id="v2">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#FunctionCall"/>
+		</node>
+		<node id="v3">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl/FunctionCall"/>
+		</node>
+		<node id="v4">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#Function"/>
+			<attr name="name">
+				<string>max</string>
+			</attr>
+		</node>
+		<node id="v5">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#Function"/>
+			<attr name="name">
+				<string>min</string>
+			</attr>
+		</node>
+		<node id="v6">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#Variable"/>
+			<attr name="name">
+				<string>a</string>
+			</attr>
+		</node>
+		<node id="v7">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#Variable"/>
+			<attr name="name">
+				<string>b</string>
+			</attr>
+		</node>
+		<edge id="e1" from="v2" to="v1">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isCaller"/>
+			<attr name="line">
+				<int>8</int>
+			</attr>
+		</edge>
+		<edge id="e2" from="v3" to="v1">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isCaller"/>
+			<attr name="line">
+				<int>19</int>
+			</attr>
+		</edge>
+		<edge id="e3" from="v4" to="v2">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isCallee"/>
+		</edge>
+		<edge id="e4" from="v6" to="v2">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isOutput"/>
+		</edge>
+		<edge id="e5" from="v6" to="v2" toorder="1">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isInput"/>
+		</edge>
+		<edge id="e6" from="v7" to="v2" toorder="2">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isInput"/>
+		</edge>
+		<edge id="e7" from="v6" to="v3" toorder="2">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isInput"/>
+		</edge>
+		<edge id="e8" from="v7" to="v3" toorder="1">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isInput"/>
+		</edge>
+		<edge id="e9" from="v6" to="v2">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isOutput"/>
+		</edge>
+		<edge id="e10" from="v4" to="v3">
+			<type xlink:href="../../../schema/complexExample/complexExampleSchema.gxl#isOutput"/>
+		</edge>
+	</graph>
+</gxl>

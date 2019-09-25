@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Variance and Standard Deviation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for var {BiocGenerics}"><tr><td>var {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Variance and Standard Deviation</h2>
+
+<h3>Description</h3>
+
+<p><code>var</code> and <code>sd</code> compute the variance and standard deviation
+of a vector <code>x</code>.
+</p>
+<p>NOTE: This man page is for the <code>var</code> and <code>sd</code>,
+<em>S4 generic functions</em> defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?stats::<a href="../../stats/html/var.html">var</a></code> and <code>?stats::<a href="../../stats/html/sd.html">sd</a></code>
+for the default methods (defined in the <span class="pkg">stats</span> package).
+Bioconductor packages can define specific methods for objects
+(typically array-like) not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+     var(x, y = NULL, na.rm = FALSE, use)
+     sd(x, na.rm = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a vector-like object
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>a vector-like object, or <code>NULL</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm, use</code></td>
+<td>
+<p>see <a href="../../stats/html/var.html">var</a></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?stats::<a href="../../stats/html/var.html">var</a></code> and <code>?stats::<a href="../../stats/html/sd.html">sd</a></code>
+for the value returned by the default methods.
+</p>
+<p>Specific methods defined in Bioconductor packages will typically
+return an object of the same class as the input object.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>stats::<a href="../../stats/html/var.html">var</a></code> and <code>stats::<a href="../../stats/html/sd.html">sd</a></code>
+for the default methods.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+var
+showMethods("var")
+selectMethod("var", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

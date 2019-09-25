@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to compute empirical row quantiles.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rowQ {Biobase}"><tr><td>rowQ {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to compute empirical row quantiles.</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the requested quantile for each row of a matrix,
+or of an <code>ExpressionSet</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rowQ(imat, which)
+rowMax(imat)
+rowMin(imat)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>imat</code></td>
+<td>
+<p>Either a matrix or an <code>ExpressionSet</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>An integer indicating which order statistic should be returned.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>rowMax</code> and <code>rowMin</code> simply call <code>rowQ</code>
+with the appropriate argument set. 
+</p>
+<p>The argument <code>which</code> takes values between 1, for the minimum per row,
+and <code>ncol(imat)</code>, for the maximum per row.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of length equal to the number of rows of the input matrix containing
+the requested quantiles.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rowMedians.html">rowMedians</a></code>.
+<code>rowMeans()</code> in <code><a href="../../base/html/colSums.html">colSums</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ data(sample.ExpressionSet)
+ rowMin(sample.ExpressionSet)
+ rowQ(sample.ExpressionSet, 4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

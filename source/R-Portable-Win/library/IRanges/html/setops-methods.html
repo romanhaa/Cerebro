@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set operations on IntegerRanges and IntegerRangesList objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setops-methods {IRanges}"><tr><td>setops-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set operations on IntegerRanges and IntegerRangesList objects</h2>
+
+<h3>Description</h3>
+
+<p>Performs set operations on <a href="IntegerRanges-class.html">IntegerRanges</a> and <a href="IntegerRangesList-class.html">IntegerRangesList</a>
+objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Vector-wise set operations
+## --------------------------
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+union(x, y)
+## S4 method for signature 'Pairs,missing'
+union(x, y, ...)
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+intersect(x, y)
+## S4 method for signature 'Pairs,missing'
+intersect(x, y, ...)
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+setdiff(x, y)
+## S4 method for signature 'Pairs,missing'
+setdiff(x, y, ...)
+
+## Element-wise (aka "parallel") set operations
+## --------------------------------------------
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+punion(x, y, fill.gap=FALSE)
+## S4 method for signature 'Pairs,missing'
+punion(x, y, ...)
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+pintersect(x, y, resolve.empty=c("none", "max.start", "start.x"))
+## S4 method for signature 'Pairs,missing'
+pintersect(x, y, ...)
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+psetdiff(x, y)
+## S4 method for signature 'Pairs,missing'
+psetdiff(x, y, ...)
+
+## S4 method for signature 'IntegerRanges,IntegerRanges'
+pgap(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+
+<p>Objects representing ranges.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fill.gap</code></td>
+<td>
+
+<p>Logical indicating whether or not to force a union by using the rule
+<code>start = min(start(x), start(y)), end = max(end(x), end(y))</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>resolve.empty</code></td>
+<td>
+
+<p>One of <code>"none"</code>, <code>"max.start"</code>, or <code>"start.x"</code> denoting
+how to handle ambiguous empty ranges formed by intersections.
+<code>"none"</code> - throw an error if an ambiguous empty range is formed,
+<code>"max.start"</code> - associate the maximum start value with any
+ambiguous empty range, and <code>"start.x"</code> - associate the start value
+of <code>x</code> with any ambiguous empty range. (See Details section
+below for the definition of an ambiguous range.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>The methods for <a href="../../S4Vectors/html/Pairs.html">Pairs</a> objects pass any extra argument
+to the internal call to <code>punion(first(x), last(x), ...)</code>,
+<code>pintersect(first(x), last(x), ...)</code>, etc...
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>union</code>, <code>intersect</code> and <code>setdiff</code> methods
+for <a href="IntegerRanges-class.html">IntegerRanges</a> objects return a &quot;normal&quot; <a href="IntegerRanges-class.html">IntegerRanges</a>
+object representing the union, intersection and (asymmetric!)
+difference of the sets of integers represented by <code>x</code> and
+<code>y</code>.
+</p>
+<p><code>punion</code>, <code>pintersect</code>, <code>psetdiff</code> and <code>pgap</code>
+are generic functions that compute the element-wise (aka &quot;parallel&quot;)
+union, intersection, (asymmetric!) difference and gap between
+each element in <code>x</code> and its corresponding element in <code>y</code>.
+Methods for <a href="IntegerRanges-class.html">IntegerRanges</a> objects are defined. For these methods,
+<code>x</code> and <code>y</code> must have the same length (i.e. same number
+of ranges). They return a <a href="IntegerRanges-class.html">IntegerRanges</a> object <em>parallel</em>
+to <code>x</code> and <code>y</code> i.e. where the i-th range corresponds
+to the i-th range in <code>x</code> and in<code>y</code>) and represents
+the union/intersection/difference/gap of/between the corresponding
+<code>x[i]</code> and <code>y[i]</code>.
+</p>
+<p>If <code>x</code> is a <code><a href="../../S4Vectors/html/Pairs.html">Pairs</a></code> object, then <code>y</code>
+should be missing, and the operation is performed between the members
+of each pair.
+</p>
+<p>By default, <code>pintersect</code> will throw an error when an &quot;ambiguous
+empty range&quot; is formed. An ambiguous empty range can occur three
+different ways:  1) when corresponding non-empty ranges elements <code>x</code>
+and <code>y</code> have an empty intersection, 2) if the position of an empty
+range element does not fall within the corresponding limits of a non-empty
+range element, or 3) if two corresponding empty range elements do not have
+the same position. For example if empty range element [22,21] is intersected
+with non-empty range element [1,10], an error will be produced; but if
+it is intersected with the range [22,28], it will produce [22,21].
+As mentioned in the Arguments section above, this behavior can be
+changed using the <code>resolve.empty</code> argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>On <a href="IntegerRanges-class.html">IntegerRanges</a> objects, <code>union</code>, <code>intersect</code>, and
+<code>setdiff</code> return an <a href="IRanges-constructor.html">IRanges</a> <em>instance</em> that is guaranteed
+to be <em>normal</em> (see <code><a href="IPosRanges-class.html">isNormal</a></code>) but is NOT promoted to
+<a href="IRanges-class.html">NormalIRanges</a>.
+</p>
+<p>On <a href="IntegerRanges-class.html">IntegerRanges</a> objects, <code>punion</code>, <code>pintersect</code>,
+<code>psetdiff</code>, and <code>pgap</code> return an object of the same class
+and length as their first argument.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pagès and M. Lawrence</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>pintersect</code> is similar to <code><a href="intra-range-methods.html">narrow</a></code>, except the
+end points are absolute, not relative. <code>pintersect</code> is also
+similar to <code><a href="intra-range-methods.html">restrict</a></code>, except ranges outside of the
+restriction become empty and are not discarded.
+</p>
+</li>
+<li> <p><a href="../../GenomicRanges/html/setops-methods.html">setops-methods</a> in the <span class="pkg">GenomicRanges</span>
+package for set operations on genomic ranges.
+</p>
+</li>
+<li> <p><a href="findOverlaps-methods.html">findOverlaps-methods</a> for finding/counting overlapping ranges.
+</p>
+</li>
+<li> <p><a href="intra-range-methods.html">intra-range-methods</a> and
+<a href="inter-range-methods.html">inter-range-methods</a> for intra range and
+inter range transformations.
+</p>
+</li>
+<li> <p><a href="IntegerRanges-class.html">IntegerRanges</a> and <a href="IntegerRangesList-class.html">IntegerRangesList</a> objects.
+In particular, <em>normality</em> of an <a href="IntegerRanges-class.html">IntegerRanges</a> object
+is discussed in the man page for <a href="IntegerRanges-class.html">IntegerRanges</a> objects.
+</p>
+</li>
+<li> <p><code><a href="../../S4Vectors/html/mendoapply.html">mendoapply</a></code> in the <span class="pkg">S4Vectors</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- IRanges(c(1, 5, -2, 0, 14), c(10, 9, 3, 11, 17))
+subject &lt;- Rle(1:-3, 6:2)
+y &lt;- Views(subject, start=c(14, 0, -5, 6, 18), end=c(20, 2, 2, 8, 20))
+
+## Vector-wise operations:
+union(x, ranges(y))
+union(ranges(y), x)
+
+intersect(x, ranges(y))
+intersect(ranges(y), x)
+
+setdiff(x, ranges(y))
+setdiff(ranges(y), x)
+
+## Element-wise (aka "parallel") operations:
+try(punion(x, ranges(y)))
+punion(x[3:5], ranges(y)[3:5])
+punion(x, ranges(y), fill.gap=TRUE)
+try(pintersect(x, ranges(y)))
+pintersect(x[3:4], ranges(y)[3:4])
+pintersect(x, ranges(y), resolve.empty="max.start")
+psetdiff(ranges(y), x)
+try(psetdiff(x, ranges(y)))
+start(x)[4] &lt;- -99
+end(y)[4] &lt;- 99
+psetdiff(x, ranges(y))
+pgap(x, ranges(y))
+
+## On IntegerRangesList objects:
+irl1 &lt;- IRangesList(a=IRanges(c(1,2),c(4,3)), b=IRanges(c(4,6),c(10,7)))
+irl2 &lt;- IRangesList(c=IRanges(c(0,2),c(4,5)), a=IRanges(c(4,5),c(6,7)))
+union(irl1, irl2)
+intersect(irl1, irl2)
+setdiff(irl1, irl2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

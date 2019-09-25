@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accessing the path of an object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for path {BiocGenerics}"><tr><td>path {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accessing the path of an object</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the path of an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+path(object, ...)
+path(object, ...) &lt;- value
+
+basename(path, ...)
+basename(path, ...) &lt;- value
+
+dirname(path, ...)
+dirname(path, ...) &lt;- value
+
+## The purpose of the following methods is to make the basename() and
+## dirname() getters work out-of-the-box on any object for which the
+## path() getter works.
+
+## S4 method for signature 'ANY'
+basename(path, ...)
+
+## S4 method for signature 'ANY'
+dirname(path, ...)
+
+## The purpose of the following replacement methods is to make the
+## basename() and dirname() setters work out-of-the-box on any object
+## for which the path() getter and setter work.
+
+## S4 replacement method for signature 'character'
+basename(path, ...) &lt;- value
+
+## S4 replacement method for signature 'ANY'
+basename(path, ...) &lt;- value
+
+## S4 replacement method for signature 'character'
+dirname(path, ...) &lt;- value
+
+## S4 replacement method for signature 'ANY'
+dirname(path, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>An object containing paths. Even though it will typically contain
+a single path, <code>object</code> can actually contain an arbitrary
+number of paths.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific methods.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>For <code>path&lt;-</code>, the paths to set on <code>object</code>.
+</p>
+<p>For <code>basename&lt;-</code> or <code>dirname&lt;-</code>, the basenames or dirnames
+to set on <code>path</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+
+<p>A character vector <em>or an object containing paths</em>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character vector for <code>path(object)</code>, <code>basename(path)</code>,
+and <code>dirname(path)</code>. Typically of length 1 but not necessarily.
+Possibly with names on it for <code>path(object)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/basename.html">basename</a></code> for the functions the
+<code>basename</code> and <code>dirname</code> generics are based on.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../Rsamtools/html/path,RsamtoolsFile-method.html">path,RsamtoolsFile-method</a> in the
+<span class="pkg">Rsamtools</span> package for an example of a specific
+<code>path</code> method (defined for <a href="../../Rsamtools/html/RsamtoolsFile.html">RsamtoolsFile</a>
+objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## GENERIC FUNCTIONS AND DEFAULT METHODS
+## ---------------------------------------------------------------------
+
+path
+showMethods("path")
+
+`path&lt;-`
+showMethods("path&lt;-")
+
+basename
+showMethods("basename")
+
+`basename&lt;-`
+showMethods("basename&lt;-")
+
+dirname
+showMethods("dirname")
+
+`dirname`
+showMethods("dirname&lt;-")
+
+
+## Default basename() and dirname() getters:
+selectMethod("basename", "ANY")
+selectMethod("dirname", "ANY")
+
+## Default basename() and dirname() setters:
+selectMethod("basename&lt;-", "character")
+selectMethod("basename&lt;-", "ANY")
+selectMethod("dirname&lt;-", "character")
+selectMethod("dirname&lt;-", "ANY")
+
+## ---------------------------------------------------------------------
+## OBJECTS CONTAINING PATHS
+## ---------------------------------------------------------------------
+
+## Let's define a simple class to represent objects that contain paths:
+setClass("A", slots=c(stuff="ANY", path="character"))
+
+a &lt;- new("A", stuff=runif(5),
+              path=c(one="path/to/file1", two="path/to/file2"))
+
+## path() getter:
+setMethod("path", "A", function(object) object@path)
+
+path(a)
+
+## Because the path() getter works on 'a', now the basename() and
+## dirname() getters also work:
+basename(a)
+dirname(a)
+
+## path() setter:
+setReplaceMethod("path", "A",
+    function(object, ..., value)
+    {
+        if (length(list(...)) != 0L) {
+            dots &lt;- match.call(expand.dots=FALSE)[[3L]]
+            stop(BiocGenerics:::unused_arguments_msg(dots))
+        }
+        object@path &lt;- value
+        object
+    }
+)
+
+a &lt;- new("A", stuff=runif(5))
+path(a) &lt;- c(one="path/to/file1", two="path/to/file2")
+path(a)
+
+## Because the path() getter and setter work on 'a', now the basename()
+## and dirname() setters also work:
+basename(a) &lt;- toupper(basename(a))
+path(a)
+dirname(a) &lt;- "~/MyDataFiles"
+path(a)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

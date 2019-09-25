@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Views objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Views-class {IRanges}"><tr><td>Views-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Views objects</h2>
+
+<h3>Description</h3>
+
+<p>The Views virtual class is a general container for storing a set of
+views on an arbitrary <a href="../../S4Vectors/html/Vector-class.html">Vector</a> object, called the &quot;subject&quot;.
+</p>
+<p>Its primary purpose is to introduce concepts and provide some facilities
+that can be shared by the concrete classes that derive from it.
+</p>
+<p>Some direct subclasses of the Views class are: <a href="RleViews-class.html">RleViews</a>,
+<a href="../../XVector/html/XIntegerViews.html">XIntegerViews</a> (defined in the XVector package),
+<a href="../../Biostrings/html/XStringViews.html">XStringViews</a> (defined in the Biostrings package),
+etc...
+</p>
+
+
+<h3>Constructor</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>Views(subject, start=NULL, end=NULL, width=NULL, names=NULL)</code>:
+This constructor is a generic function with dispatch on argument
+<code>subject</code>. Specific methods must be defined for the subclasses
+of the Views class. For example a method for
+<a href="../../Biostrings/html/XString-class.html">XString</a> subjects is defined
+in the Biostrings package that returns an
+<a href="../../Biostrings/html/XStringViews-class.html">XStringViews</a>
+object. There is no default method.
+</p>
+<p>The treatment of the <code>start</code>, <code>end</code> and <code>width</code>
+arguments is the same as with the <code><a href="IRanges-constructor.html">IRanges</a></code> constructor,
+except that, in addition, <code>Views</code> allows <code>start</code> to be an
+<a href="IntegerRanges-class.html">IntegerRanges</a> object. With this feature,
+<code>Views(subject, IRanges(my_starts, my_ends, my_widths, my_names))</code>
+and <code>Views(subject, my_starts, my_ends, my_widths, my_names)</code>
+are equivalent (except when <code>my_starts</code> is itself a
+<a href="IntegerRanges-class.html">IntegerRanges</a> object).
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>In the code snippets below, <code>from</code> is a Views object:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as(from, "IRanges")</code>: Creates an <code>IRanges</code> object
+containing the view locations in <code>from</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Accessor-like methods</h3>
+
+<p>All the accessor-like methods defined for <code>IRanges</code> objects
+work on Views objects. In addition, the following accessors are defined
+for Views objects:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>subject(x)</code>:
+Return the subject of the views.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>: Select the views specified by <code>i</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]]</code>:
+Extracts the view selected by <code>i</code> as an object of the same class
+as <code>subject(x)</code>. Subscript <code>i</code> can be a single integer
+or a character string.
+The result is the subsequence of <code>subject(x)</code> defined by
+<code>window(subject(x), start=start(x)[i], end=end(x)[i])</code>
+or an error if the view is &quot;out of limits&quot; (i.e. <code>start(x)[i] &lt; 1</code>
+or <code>end(x)[i] &gt; length(subject(x))</code>).
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Concatenation</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>c(x, ..., ignore.mcols=FALSE)</code>: Concatenate <code>Views</code> objects.
+They must have the same subject.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Other methods</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>trim(x, use.names=TRUE)</code>:
+Equivalent to
+<code>restrict(x, start=1L, end=length(subject(x)), keep.all.ranges=TRUE,
+                      use.names=use.names)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>subviews(x, start=NA, end=NA, width=NA, use.names=TRUE)</code>:
+<code>start</code>, <code>end</code>, and <code>width</code> arguments must be vectors
+of integers, eventually with NAs, that contain coordinates relative
+to the current ranges. Equivalent to
+<code>trim(narrow(x, start=start, end=end, width=width, use.names=use.names))</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>successiveViews(subject, width, gapwidth=0, from=1)</code>:
+Equivalent to <code>Views(subject, successiveIRanges(width, gapwidth, from))</code>.
+See <code>?successiveIRanges</code> for a description of the <code>width</code>,
+<code>gapwidth</code> and <code>from</code> arguments.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="IRanges-class.html">IRanges-class</a>,
+<a href="../../S4Vectors/html/Vector-class.html">Vector-class</a>,
+<a href="IRanges-utils.html">IRanges-utils</a>,
+<a href="../../XVector/html/XVector.html">XVector</a>.
+</p>
+<p>Some direct subclasses of the Views class:
+<a href="RleViews-class.html">RleViews-class</a>,
+<a href="../../XVector/html/XIntegerViews-class.html">XIntegerViews-class</a>,
+<a href="../../XVector/html/XDoubleViews-class.html">XDoubleViews-class</a>,
+<a href="../../Biostrings/html/XStringViews-class.html">XStringViews-class</a>.
+</p>
+<p><code><a href="findOverlaps-methods.html">findOverlaps</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+showClass("Views")  # shows (some of) the known subclasses
+
+## Create a set of 4 views on an XInteger subject of length 10:
+subject &lt;- Rle(3:-6)
+v1 &lt;- Views(subject, start=4:1, end=4:7)
+
+## Extract the 2nd view:
+v1[[2]]
+
+## Some views can be "out of limits"
+v2 &lt;- Views(subject, start=4:-1, end=6)
+trim(v2)
+subviews(v2, end=-2)
+
+## See ?`XIntegerViews-class` in the XVector package for more examples.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

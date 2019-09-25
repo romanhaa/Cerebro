@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Assign Values to a Names</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multiassign {Biobase}"><tr><td>multiassign {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Assign Values to a Names</h2>
+
+<h3>Description</h3>
+
+<p>Assign values to names in an environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multiassign(x, value, envir = parent.frame(), inherits=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector or list of names, represented by strings.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a vector or list of values to be assigned.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>the <code><a href="../../base/html/environment.html">environment</a></code> to use. See the details section.</p>
+</td></tr>
+<tr valign="top"><td><code>inherits</code></td>
+<td>
+<p>should the enclosing frames of the environment be
+inspected?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>pos</code> argument can specify the  environment in which to assign
+the object in any of several ways:
+as an integer (the position in the <code><a href="../../base/html/search.html">search</a></code> list); as
+the character string name of an element in the search list; or as an
+<code><a href="../../base/html/environment.html">environment</a></code> (including using <code><a href="../../base/html/sys.parent.html">sys.frame</a></code> to
+access the currently active function calls).
+The <code>envir</code> argument is an alternative way to specify an
+environment, but is primarily there for back compatibility.
+</p>
+<p>If <code>value</code> is missing and <code>x</code> has names then the values in
+each element of <code>x</code> are assigned to the names of <code>x</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function is invoked for its side effect, which is assigning
+the <code>values</code> to the variables in <code>x</code>.  If no <code>envir</code> is
+specified, then the assignment takes place in the currently active
+environment.
+</p>
+<p>If <code>inherits</code> is <code>TRUE</code>, enclosing environments of the supplied
+environment are searched until the variable <code>x</code> is encountered.
+The value is then assigned in the environment in which the variable is
+encountered.  If the symbol is not encountered then assignment takes
+place in the user's workspace (the global environment).
+</p>
+<p>If <code>inherits</code> is <code>FALSE</code>, assignment takes place in the
+initial frame of <code>envir</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#-- Create objects  'r1', 'r2', ... 'r6' --
+nam &lt;- paste("r",1:6, sep=".")
+
+multiassign(nam, 11:16)
+ls(pat="^r..$")
+
+#assign the values in y to variables with the names from y
+
+y&lt;-list(a=4,d=mean,c="aaa")
+multiassign(y)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

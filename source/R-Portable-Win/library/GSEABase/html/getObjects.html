@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read and write gene sets from Broad or GMT formats</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for import/export {GSEABase}"><tr><td>import/export {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read and write gene sets from Broad or GMT formats</h2>
+
+<h3>Description</h3>
+
+<p><code>getBroadSets</code> parses one or more XML files for gene sets. The
+file can reside locally or at a URL. The format followed is that
+defined by the Broad (below).  <code>toBroadXML</code> creates Broad XML
+from <code>BroadCollection</code> gene sets.
+</p>
+<p><code>toGmt</code> converts <code>GeneSetColletion</code> objects to a character
+vector representing the gene set collection in GMT
+format. <code>getGmt</code> reads a GMT file or other character vector into a
+<code>GeneSetColletion</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getBroadSets(uri, ..., membersId=c("MEMBERS_SYMBOLIZED", "MEMBERS_EZID"))
+toBroadXML(geneSet, con, ...)
+asBroadUri(name,
+           base="http://www.broad.mit.edu/gsea/msigdb/cards")
+getGmt(con, geneIdType=NullIdentifier(),
+       collectionType=NullCollection(), sep="\t", ...)
+toGmt(x, con, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>uri</code></td>
+<td>
+<p>A file name or URL containing gene sets encoded following
+the Broad specification. For Broad sets, the uri can point to
+a MSIGDB.</p>
+</td></tr>
+<tr valign="top"><td><code>geneSet</code></td>
+<td>
+<p>A <code><a href="GeneSet-class.html">GeneSet</a></code> with
+<code>collectionType</code> <code>BroadCollection</code> (to ensure that
+required information is available).</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="GeneSetCollection-class.html">GeneSetCollection</a></code> or other object for
+which a <code>toGmt</code> method is defined.</p>
+</td></tr>
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>A (optional, in the case of <code>toXxx</code>) file name or
+connection to receive output.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>A character vector of Broad gene set names, e.g.,
+<code>c('chr16q', 'GNF2_TNFSF10')</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>base</code></td>
+<td>
+<p>Base uri for finding Broad gene sets.</p>
+</td></tr>
+<tr valign="top"><td><code>geneIdType</code></td>
+<td>
+<p>A constructor for the type of identifier the members
+of the gene sets represent. See <code><a href="GeneIdentifierType-constructors.html">GeneIdentifierType</a></code> for
+more information.</p>
+</td></tr>
+<tr valign="top"><td><code>collectionType</code></td>
+<td>
+<p>A constructor for the type of collection for the
+gene sets. See <code><a href="CollectionType-constructors.html">CollectionType</a></code> for more information.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The character string separating members of each gene set in
+the GMT file.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to the underlying XML parser,
+particularly <code>file</code> used to specify an output <code>connection</code>
+for <code>toBroadXML</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>membersId</code></td>
+<td>
+<p>XML field name from which <code>geneIds</code> are derived.
+Choose one value; default &ldquo;MEMBERS_SYMBOLIZED&rdquo;.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>getBroadSets</code> returns a <code>GeneSetCollection</code> of gene sets.
+</p>
+<p><code>toBroadXML</code> returns a character vector of a single
+<code>GeneSet</code> or, if <code>con</code> is provided, writes the XML to a
+file.
+</p>
+<p><code>asBroadUri</code> can be used to create URI names (to be used by
+<code>getBroadSets</code> of Broad files.
+</p>
+<p><code>getGmt</code> returns a <code>GeneSetCollection</code> of gene sets.
+</p>
+<p><code>toGmt</code> returns character vectors where each line represents a
+gene set. If <code>con</code> is provided, the result is written to the
+specified connection.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Actual Broad XML files differ from the DTD (e.g., an implied ','
+separator between genes in a set); we parse to and from files as they
+exists the actual files.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmrogan@fhcrc.org&gt;</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.broad.mit.edu/gsea/">http://www.broad.mit.edu/gsea/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneSetCollection-class.html">GeneSetCollection</a></code>
+<code><a href="GeneSet-class.html">GeneSet</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## 'fl' could also be a URI
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+gss &lt;- getBroadSets(fl) # GeneSetCollection of 2 sets
+names(gss)
+gss[[1]]
+
+## Not run: 
+## Download 'msigdb_v2.5.xml' or 'c3.all.v2.5.symbols.gmt' from the
+## Broad, http://www.broad.mit.edu/gsea/downloads.jsp#msigdb, then
+gsc &lt;- getBroadSets("/path/to/msigdb_v.2.5.xml")
+types &lt;- sapply(gsc, function(elt) bcCategory(collectionType(elt)))
+c3gsc1 &lt;- gsc[types == "c3"]
+c3gsc2 &lt;- getGmt("/path/to/c3.all.v2.5.symbols.gmt",
+                 collectionType=BroadCollection(category="c3"),
+                 geneIdType=SymbolIdentifier())
+
+## End(Not run)
+
+fl &lt;- tempfile()
+toBroadXML(gss[[1]], con=fl)
+noquote(readLines(fl))
+unlink(fl)
+
+## Not run: 
+toBroadXML(gss[[1]]) # character vector
+
+## End(Not run)
+
+fl &lt;- tempfile()
+toGmt(gss, fl)
+getGmt(fl)
+unlink(fl)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

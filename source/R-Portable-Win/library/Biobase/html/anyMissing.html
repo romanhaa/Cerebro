@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Checks if there are any missing values in an object or not</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for anyMissing {Biobase}"><tr><td>anyMissing {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Checks if there are any missing values in an object or not</h2>
+
+<h3>Description</h3>
+
+<p>Checks if there are any missing values in an object or not.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>anyMissing(x=NULL)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/html/vector.html">vector</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The implementation of this method is optimized for both speed and memory.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns <code><a href="../../base/html/logical.html">TRUE</a></code> if a missing value was detected, otherwise <code><a href="../../base/html/logical.html">FALSE</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson (<a href="http://www.braju.com/R/">http://www.braju.com/R/</a>)</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- rnorm(n=1000)
+x[seq(300,length(x),by=100)] &lt;- NA
+stopifnot(anyMissing(x) == any(is.na(x)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,494 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteDepends{Biobase}
+%\VignetteIndexEntry{An introduction to Biobase and ExpressionSets}
+%\VignetteKeywords{tutorial, environment, graphics, ExpressionSet}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}
+\usepackage{amsmath,fullpage}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+\usepackage{theorem}
+\usepackage{float}
+\usepackage{ifthen}
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+\newcommand{\R}{{\textsf{R}}}
+\newcommand{\code}[1]{{\texttt{#1}}}
+\newcommand{\term}[1]{{\emph{#1}}}
+\newcommand{\Rpackage}[1]{\textsf{#1}}
+\newcommand{\Rfunction}[1]{\texttt{#1}}
+\newcommand{\Robject}[1]{\texttt{#1}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\textit{#1}}}
+\newcommand{\Rfunarg}[1]{{\textit{#1}}}
+
+%% Excercises and Questions
+\usepackage{theorem}
+\theoremstyle{break} \newtheorem{Ex}{Exercise}
+\theoremstyle{break} \newtheorem{Q}{Question}
+%% And solution or answer
+\newenvironment{solution}{%
+  \begin{center}
+    \begin{minipage}{0.75\textwidth}
+      %%     \color{blue}
+    }{
+    \end{minipage}
+  \end{center}
+  \bigskip%
+}
+
+\bibliographystyle{plainnat}
+\title{An Introduction to Bioconductor's \Rclass{ExpressionSet} Class}
+
+\author{Seth Falcon, Martin Morgan, and Robert Gentleman}
+\date{6 October, 2006; revised  9 February, 2007}
+
+\begin{document}
+
+<<init, echo=FALSE>>=
+options(width=65)
+@ 
+
+\maketitle
+
+\section{Introduction}
+\Rpackage{Biobase} is part of the Bioconductor project, and is used by
+many other packages. \Rpackage{Biobase} contains standardized data
+structures to represent genomic data. The \Rclass{ExpressionSet} class
+is designed to combine several different sources of information into a
+single convenient structure. An \Rclass{ExpressionSet} can be
+manipulated (e.g., subsetted, copied) conveniently, and is the input
+or output from many Bioconductor functions.
+
+The data in an \Rclass{ExpressionSet} is complicated, consisting of
+expression data from microarray experiments (\code{assayData};
+\code{assayData} is used to hint at the methods used to access
+different data components, as we will see below), `meta-data'
+describing samples in the experiment (\code{phenoData}), annotations
+and meta-data about the features on the chip or technology used for
+the experiment (\code{featureData}, \code{annotation}), information
+related to the protocol used for processing each sample (and usually
+extracted from manufacturer files, \code{protocolData}), and a
+flexible structure to describe the experiment
+(\code{experimentData}). The \Rclass{ExpressionSet} class coordinates
+all of this data, so that you do not usually have to worry about the
+details. However, an \Rclass{ExpressionSet} needs to be created in the
+first place, and creation can be complicated.
+
+In this introduction we learn how to create and manipulate
+\Rclass{ExpressionSet} objects, and practice some basic \R{} skills.
+
+\section{Preliminaries}
+
+\subsection{Installing Packages}
+
+If you are reading this document and have not yet installed any
+software on your computer, visit \url{http://bioconductor.org} and
+follow the instructions for installing \R{} and Bioconductor.  Once
+you have installed \R{} and Bioconductor, you are ready to go with
+this document. In the future, you might find that you need to install
+one or more additional packages. The best way to do this is to start
+an \R{} session and evaluate commands like
+<<install-pkg, eval=false>>=
+if (!require("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install("Biobase")
+@ 
+%% 
+
+\subsection{Loading Packages}
+
+The definition of the \Rclass{ExpressionSet} class along with many
+methods for manipulating \Rclass{ExpressionSet} objects are defined in
+the \Rpackage{Biobase} package.  In general, you need to load class
+and method definitions before you use them.  When using Bioconductor,
+this means loading \R{} packages using \Rfunction{library} or
+\Rfunction{require}.
+
+<<loadlib, results=hide>>=
+library("Biobase")
+@ 
+
+\begin{Ex}
+What happens when you try to load a package that is not installed?
+\end{Ex}
+\begin{solution}
+When using \Rfunction{library}, you get an error message.  With
+\Rfunction{require}, the return value is \Robject{FALSE} and a warning
+is printed.
+\end{solution}
+
+\section{Building an ExpressionSet From .CEL and other files}
+
+Many users have access to .CEL or other files produced by microarray
+chip manufacturer hardware. Usually the strategy is to use a
+Bioconductor package such as \Rpackage{affyPLM}, \Rpackage{affy},
+\Rpackage{oligo}, or \Rpackage{limma}, to read these files.
+These Bioconductor packages have functions (e.g.,
+\Rfunction{ReadAffy}, \Rfunction{expresso}, or \Rfunction{justRMA} in
+\Rpackage{affy}) to read CEL files and perform preliminary
+preprocessing, and to represent the resulting data as an
+\Rclass{ExpressionSet} or other type of object.  Suppose the result
+from reading and preprocessing CEL or other files is named
+\Robject{object}, and \Robject{object} is different from
+\Rclass{ExpressionSet}; a good bet is to try, e.g.,
+<<convert,eval=FALSE>>=
+library(convert)
+as(object, "ExpressionSet")
+@ 
+%% 
+It might be the case that no converter is available. The path then is
+to extract relevant data from \Robject{object} and use this to create
+an \Rclass{ExpressionSet} using the instructions below.
+
+\section{Building an ExpressionSet From Scratch}
+
+As mentioned in the introduction, the data from many high-throughput
+genomic experiments, such as microarray experiments, usually consist
+of several conceptually distinct parts: assay data, phenotypic
+meta-data, feature annotations and meta-data, and a description of the
+experiment. We'll construct each of these components, and then
+assemble them into an \Rclass{ExpressionSet}.
+
+\subsection{Assay data}
+
+One important part of the experiment is a matrix of `expression'
+values.  The values are usually derived from microarrays of one sort
+or another, perhaps after initial processing by manufacturer software
+or Bioconductor packages. The matrix has $F$ rows and $S$ columns,
+where $F$ is the number of features on the chip and $S$ is the number
+of samples.
+
+A likely scenario is that your assay data is in a 'tab-delimited' text
+file (as exported from a spreadsheet, for instance) with rows
+corresponding to features and columns to samples.  The strategy is to
+read this file into \R{} using the \Rfunction{read.table} command,
+converting the result to a \Rclass{matrix}. A typical command
+to read
+a tab-delimited file that includes column `headers' is
+<<read-table-geneData>>=
+dataDirectory <- system.file("extdata", package="Biobase")
+exprsFile <- file.path(dataDirectory, "exprsData.txt")
+exprs <- as.matrix(read.table(exprsFile, header=TRUE, sep="\t",
+                              row.names=1,
+                              as.is=TRUE))
+@ 
+%% 
+The first two lines create a file path pointing to where the assay
+data is stored; replace these with a character string pointing to your
+own file, e.g,
+<<exprsFile,eval=FALSE>>=
+exprsFile <- "c:/path/to/exprsData.txt"
+@ 
+%% 
+(Windows users: note the use of \verb+/+ rather than \verb+\+; this
+is because \R{} treats the \verb+\+ character as an `escape' sequence to
+change the meaning of the subsequent character). See the help pages
+for \Rfunction{read.table} for more detail.  A common variant is that
+the character separating columns is a comma (``comma-separated
+values'', or ``csv'' files), in which case the \Robject{sep} argument
+might be \Robject{sep=","}.
+
+It is always important to verify that the data you have read matches
+your expectations. At a minimum, check the class and dimensions of
+\Robject{geneData} and take a peak at the first several rows
+<<geneData-peak>>=
+class(exprs)
+dim(exprs)
+colnames(exprs)
+head(exprs[,1:5])
+@ 
+%% 
+
+At this point, we can create a minimal \Rclass{ExpressionSet} object using the
+\code{ExpressionSet} constructor:
+<<ExpressionSet-basic>>=
+minimalSet <- ExpressionSet(assayData=exprs)
+@ 
+% 
+We'll get more benefit from expression sets by creating a richer
+object that coordinates phenotypic and other data with our expression
+data, as outlined in the following sections.
+
+\subsection{Phenotypic data}
+
+Phenotypic data summarizes information about the samples (e.g., sex,
+age, and treatment status; referred to as `covariates').  The
+information describing the samples can be represented as a table with
+$S$ rows and $V$ columns, where $V$ is the number of covariates.
+An example of phenotypic data can be input with
+<<pData>>=
+pDataFile <- file.path(dataDirectory, "pData.txt")
+pData <- read.table(pDataFile,
+                    row.names=1, header=TRUE, sep="\t")
+dim(pData)
+rownames(pData)
+summary(pData)
+@ 
+%% 
+There are three columns of data, and 26 rows. Note that the number of
+rows of phenotypic data match the number of columns of expression
+data, and indeed that the row and column names are identically
+ordered:
+<<geneCovariate-geneData-name-match>>=
+all(rownames(pData)==colnames(exprs))
+@ 
+%% 
+This is an essential feature of the relationship between the
+assay and phenotype data; \Rclass{ExpressionSet} will complain if
+these names do not match.
+
+Phenotypic data can take on a number of different forms. For instance,
+some covariates might reasonably be represented as numeric values.
+Other covariates (e.g., gender, tissue type, or cancer status) might
+better be represented as \Robject{factor} objects (see the help page
+for \Robject{factor} for more information). It is especially important
+that the phenotypic data are encoded correctly; the \Robject{colClasses}
+argument to \Rfunction{read.table} can be helpful in correctly
+inputing (and ignoring, if desired) columns from the file.
+
+\begin{Ex}
+  What class does \Rfunction{read.table} return?
+\end{Ex}
+
+\begin{Ex}
+  Determine the column names of \Robject{pData}.  Hint:
+  \Robject{apropos("name")}.
+\end{Ex}
+\begin{solution}
+<<colnames>>=
+names(pData)
+@ 
+\end{solution}
+
+\begin{Ex}
+  Use \Rfunction{sapply} to determine the classes of each column of
+  \Robject{pData}.  Hint: read the help page for \Rfunction{sapply}.
+\end{Ex}
+\begin{solution}
+<<sapplyClasses>>=
+sapply(pData, class)
+@ 
+\end{solution}
+
+\begin{Ex}
+  What is the sex and Case/Control status of the 15th and 20th
+  samples?  And for the sample(s) with \Robject{score} greater than
+  $0.8$.
+\end{Ex}
+\begin{solution}
+<<simpleSubsetting>>=
+pData[c(15, 20), c("gender", "type")]
+pData[pData$score>0.8,]
+@ 
+\end{solution}
+
+Investigators often find that the meaning of simple column names does
+not provide enough information about the covariate -- What is the
+cryptic name supposed to represent? What units are the covariates
+measured in? We can create a data frame containing such meta-data (or
+read the information from a file using \Rfunction{read.table}) with
+<<metadata-create>>=
+metadata <- data.frame(labelDescription=
+                       c("Patient gender", 
+                         "Case/control status", 
+                         "Tumor progress on XYZ scale"),
+                       row.names=c("gender", "type", "score"))
+@ 
+%% 
+This creates a \Rclass{data.frame} object with a single column called
+\code{labelDescription}, and with row names identical to the column
+names of the \Rclass{data.frame} containing the phenotypic data. The
+column \Robject{labelDescription} \emph{must} be present; other columns
+are optional.
+
+Bioconductor's \Rpackage{Biobase} package provides a class called
+\Rclass{AnnotatedDataFrame} that conveniently stores and manipulates
+the phenotypic data and its metadata in a coordinated fashion. Create
+and view an \Rclass{AnnotatedDataFrame} instance with:
+<<AnnotatedDataFrame>>=
+phenoData <- new("AnnotatedDataFrame", 
+                 data=pData, varMetadata=metadata)
+phenoData
+@ 
+%% 
+Some useful operations on an \Rclass{AnnotatedDataFrame} include
+\Rmethod{sampleNames}, \Rmethod{pData} (to extract the original
+\Robject{pData} \Rclass{data.frame}), and \Rmethod{varMetadata}. In addition,
+\Rclass{AnnotatedDataFrame} objects can be subset much like a
+\Rclass{data.frame}:
+<<AnnotatedDataFrame-subset>>=
+head(pData(phenoData))
+phenoData[c("A","Z"),"gender"]
+pData(phenoData[phenoData$score>0.8,])
+@ 
+%% 
+
+\subsection{Annotations and feature data}
+
+Meta-data on features is as important as meta-data on samples, and can
+be very large and diverse.  A single chip design (i.e., collection of
+features) is likely to be used in many different experiments, and it
+would be inefficient to repeatedly collect and coordinate the same
+meta-data for each \Rclass{ExpressionSet} instance. Instead, the ideas
+is to construct specialized meta-data packages for each type of chip
+or instrument.  Many of these packages are available from the
+Bioconductor web site.  These packages contain information such as the
+gene name, symbol and chromosomal location. There are other meta-data
+packages that contain the information that is provided by other
+initiatives such as GO and KEGG.  The \Rpackage{annotate} and
+\Rpackage{AnnotationDbi} packages provides basic data manipulation
+tools for the meta-data packages.
+
+The appropriate way to create annotation data for features is very
+straight-forward: we provide a character string identifying the type of
+chip used in the experiment. For instance, the data we are using is
+from the Affymetrix hgu95av2 chip:
+<<annotation>>=
+annotation <- "hgu95av2"
+@ 
+%% 
+It is also possible to record information about features that are
+unique to the experiment (e.g., flagging particularly relevant
+features).  This is done by creating or modifying an
+\Robject{AnnotatedDataFrame} like that for \Robject{phenoData} but
+with row names of the \Rclass{AnnotatedDataFrame} matching rows of the
+assay data.
+
+\subsection{Experiment description}
+
+Basic description about the experiment (e.g., the investigator or lab
+where the experiment was done, an overall title, and other notes) can
+be recorded by creating a \Rclass{MIAME} object. One way to create a
+\Rclass{MIAME} object is to use the \Rfunction{new} function:
+<<R.MIAME>>=
+experimentData <- new("MIAME",
+  name="Pierre Fermat",
+  lab="Francis Galton Lab",
+  contact="pfermat@lab.not.exist",
+  title="Smoking-Cancer Experiment",
+  abstract="An example ExpressionSet",
+  url="www.lab.not.exist",
+  other=list(
+    notes="Created from text files"
+  ))
+@ 
+%% 
+Usually, \Rfunction{new} takes as arguments  the class name and
+pairs of names and values corresponding to different slots in the
+class; consult the help page for \Rclass{MIAME} for details of
+available slots.
+
+\subsection{Assembling an \Rclass{ExpressionSet}}
+
+An \Rclass{ExpressionSet} object is created by assembling its component
+parts and callng the \code{ExpressionSet} constructor:
+<<ExpressionSetFinally>>=
+exampleSet <- ExpressionSet(assayData=exprs, 
+                  phenoData=phenoData, 
+                  experimentData=experimentData,
+                  annotation="hgu95av2")
+@ 
+%% 
+Note that the names on the right of each equal sign can refer to any
+object of appropriate class for the argument. See the help page for
+\Rclass{ExpressionSet} for more information.  
+
+We created a rich data object to coordinate diverse sources of
+information. Less rich objects can be created by providing less
+information. As mentioned earlier, a minimal expression set can be
+created with
+<<ExpressionSet-minimal>>=
+minimalSet <- ExpressionSet(assayData=exprs)
+@ 
+%% 
+Of course this object has no information about phenotypic or feature
+data, or about the chip used for the assay.
+
+\section{\Rclass{ExpressionSet} Basics}
+
+Now that you have an \Rclass{ExpressionSet} instance, let's explore
+some of the basic operations.  You can get an overview of the
+structure and available methods for \Rclass{ExpressionSet} objects by
+reading the help page:
+<<helpExpressionSet, eval=FALSE>>=
+help("ExpressionSet-class")
+@ 
+
+When you print an \Rclass{ExpressionSet} object, a brief summary of
+the contents of the object is displayed (displaying the entire object
+would fill your screen with numbers):
+<<showExpressionSet>>=
+exampleSet
+@ 
+
+\subsection{Accessing Data Elements}
+
+A number of accessor functions are available to extract data from an
+\Rclass{ExpressionSet} instance.
+You can access the columns of the phenotype data (an
+\Rclass{AnnotatedDataFrame} instance) using \verb+$+:
+<<usingDollar>>=
+exampleSet$gender[1:5]
+exampleSet$gender[1:5] == "Female"
+@ 
+%% 
+You can retrieve the names of the features using
+\Rfunction{featureNames}.  For many microarray datasets, the feature
+names are the probe set identifiers.
+<<featureNames>>=
+featureNames(exampleSet)[1:5]
+@ 
+%% 
+The unique identifiers of the samples in the data set are available
+via the \Rfunction{sampleNames} method.  The \Rfunction{varLabels}
+method lists the column names of the phenotype data:
+<<sampleNames>>=
+sampleNames(exampleSet)[1:5]
+varLabels(exampleSet)
+@ 
+%% 
+Extract the expression matrix of
+sample information using \Rfunction{exprs}:
+<<exprs>>=
+mat <- exprs(exampleSet)
+dim(mat)
+@ 
+
+\subsubsection{Subsetting}
+
+Probably the most useful operation to perform on
+\Rclass{ExpressionSet} objects is subsetting.  Subsetting an
+\Rclass{ExpressionSet} is very similar to subsetting the expression
+matrix that is contained within the \Rclass{ExpressionSet}, the first
+argument subsets the features and the second argument subsets the
+samples.  Here are some examples: Create a new \Rclass{ExpressionSet}
+consisting of the 5 features and the first 3 samples:
+<<first10>>=
+vv <- exampleSet[1:5, 1:3]
+dim(vv)
+featureNames(vv)
+sampleNames(vv)
+@ 
+%% 
+Create a subset consisting of only the male samples:
+<<males>>=
+males <- exampleSet[ , exampleSet$gender == "Male"]
+males
+@ 
+
+\section{What was used to create this document}
+
+The version number of \R{} and the packages and their versions that were
+used to generate this document are listed below.
+
+<<echo=FALSE,results=tex>>=
+toLatex(sessionInfo())
+@
+ 
+\end{document}

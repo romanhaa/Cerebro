@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List GO Identifiers by GO Ontology</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for aqListGOIDs {annotate}"><tr><td>aqListGOIDs {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List GO Identifiers by GO Ontology</h2>
+
+<h3>Description</h3>
+
+<p>This function returns a character vector of all GO identifiers in the
+specified ontologies: Biological Process (BP), Cellular Component
+(CC), Molecular Function (MF).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+aqListGOIDs(ont)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ont</code></td>
+<td>
+<p>A character vector specifying the two-letter codes of the
+ontologies from which all GO IDs will be retrieved.  Entries must be
+one of <code>"BP"</code>, <code>"CC"</code>, or <code>"MF"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character vector of GO IDs.  The vector will contain all GO IDs in
+the GO ontologies specified by the <code>ont</code> argument.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## all GO IDs in BP
+bp_ids = aqListGOIDs("BP")
+length(bp_ids)
+
+## all GO IDs in BP or CC
+bp_or_cc_ids = aqListGOIDs(c("BP", "CC"))
+length(bp_or_cc_ids)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

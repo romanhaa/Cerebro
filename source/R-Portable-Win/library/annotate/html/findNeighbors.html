@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to locate neighboring genes within a defined range...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for findNeighbors {annotate}"><tr><td>findNeighbors {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to locate neighboring genes within a defined range
+around a target gene represented by a Entrez Gene ID </h2>
+
+<h3>Description</h3>
+
+<p>Give a data package with mappings between Entrez Gene IDs and their
+locations on chromosomes, this function locates genes that are
+within a defined range on a given chromosome. If a Entrez Gene ID is
+passed as one of the arguments, genes located will be neighbors to the
+gene represented by the Entrez Gene ID within a defined range on the
+chromosome the target gene resides
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+findNeighbors(chrLoc, llID, chromosome, upBase, downBase, mergeOrNot = TRUE)
+checkArgs(llID, chromosome, upBase, downBase)
+findChr4LL(llID, chrEnv, organism)
+getValidChr(organism)
+getBoundary(loc, base, lower = TRUE)
+weightByConfi(foundLLs)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>chrLoc</code></td>
+<td>
+<p><code>chrLoc</code> a character string for the name of the
+data package that contains mappings between Entrez Gene IDs and their
+locations on chromosomes. For each chromosome, there assumed to be
+mappings for the start and end locations of genes represented by
+Entrez Gene IDs. The data package needs to be built using
+chrLocPkgBuilder of AnnBuilder</p>
+</td></tr>
+<tr valign="top"><td><code>llID</code></td>
+<td>
+<p><code>llID</code> a character string for the Entrez Gene ID
+representing a gene whose neighbors are sought. llID can be missing</p>
+</td></tr>
+<tr valign="top"><td><code>chromosome</code></td>
+<td>
+<p><code>chromosome</code> a character string for the number
+of the chromosome of interest. chromosome is only required for
+locating genes within a range on the chromosome</p>
+</td></tr>
+<tr valign="top"><td><code>upBase</code></td>
+<td>
+<p><code>upBase</code> a numeric or character string for the
+number of base pairs that defines the upper limit of the range to
+locate genes. If neighbors of a given gene is sought, the value
+will be the distance in number of base pairs from the target gene
+upstream, to which search for genes will be conducted. Otherwise, the
+value will be the upper limit in number of base pairs from the p arm,
+to which search for genes will be conducted</p>
+</td></tr>
+<tr valign="top"><td><code>downBase</code></td>
+<td>
+<p><code>downBase</code> a numeric or character string for the
+number of base pairs that defines the lower limit of the range to
+locate gene. If neighbors of a given gene is sought, the value
+will be the distance in number of base pairs from the target gene
+downstream, to which search for genes will be conducted. Otherwise, the
+value will be the lower limit in number of base pairs from the p arm,
+to which search for genes will be conducted</p>
+</td></tr>
+<tr valign="top"><td><code>organism</code></td>
+<td>
+<p><code>organism</code> a character string for the name of the
+organism of interest</p>
+</td></tr>
+<tr valign="top"><td><code>chrEnv</code></td>
+<td>
+<p><code>chrEnv</code> an environment object with keys for
+Entrez Gene IDs and values for the chromosomes where genes reside</p>
+</td></tr>
+<tr valign="top"><td><code>loc</code></td>
+<td>
+<p><code>loc</code> a numeric of character string for the
+chromosomal location of gene of interest</p>
+</td></tr>
+<tr valign="top"><td><code>base</code></td>
+<td>
+<p><code>base</code> either a <code>downBase</code> or <code>upBase</code></p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p><code>lower</code> a boolean indicating whether the lower or
+upper boundary of search limit is sought</p>
+</td></tr>
+<tr valign="top"><td><code>mergeOrNot</code></td>
+<td>
+<p><code>mergeOrNot</code> a boolean to indicate whether gene
+found up and down streams will be merged (TRUE)</p>
+</td></tr>
+<tr valign="top"><td><code>foundLLs</code></td>
+<td>
+<p><code>foundLLs</code> a vector of character strings for
+Entrez Gene IDs</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A chrLoc data package can be created using function
+chrLocPkgBuilder of AnnBuilder, in which Entrez Gene IDs
+are mapped to location data on individual chromosomes.
+</p>
+<p>Genes are considered to be neighbors to a given target gene or within
+a given range when the transcription of genes start and end within the
+given range.
+</p>
+<p>findNeighbors, checkArgs, findChr4LL, getValidChr, and getBoundary are
+accessory functions called by findNeighbors and may not have real
+values outside.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a list of named vectors. The length of the list
+is one when genes in a given region are sought but varies depending on
+whether a given gene can be mapped to one or more chromosomes when
+neighboring genes of a target gene are sought. Names of vector can be
+&quot;Confident&quot; when a gene can be confidently placed on a chromosome or
+&quot;Unconfident&quot; when a gene can be placed on a chromosome but its exact
+location can not be determined with great confidence.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jianhua Zhang</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.genome.ucsc.edu/goldenPath/">http://www.genome.ucsc.edu/goldenPath/</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(require("humanCHRLOC")){
+   findNeighbors("humanCHRLOC", "51806", 10, upBase = 600000, downBase = 600000)
+}else{
+   print("Can not find neighbors without the required data package")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

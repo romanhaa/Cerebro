@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert between parallel vectors and lists</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for zip-methods {S4Vectors}"><tr><td>zip-methods {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert between parallel vectors and lists</h2>
+
+<h3>Description</h3>
+
+<p>The <code>zipup</code> and <code>zipdown</code> functions convert between two
+parallel vectors and a list of doublets (elements of length 2). The
+metaphor, borrowed from Python's <code>zip</code>, is that of a zipper. The
+<code>zipup</code> function interleaves the elements of the parallel vectors
+into a list of doublets. The inverse operation is <code>zipdown</code>,
+which returns a <code><a href="Pairs-class.html">Pairs</a></code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+zipup(x, y, ...)
+zipdown(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+
+<p>For <code>zipup</code>, any vector-like object. For <code>zipdown</code>, a
+doublet list.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Arguments passed to methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For <code>zipup</code>, a list-like object, where every element is of length 2.
+For <code>zipdown</code>, a <code><a href="Pairs-class.html">Pairs</a></code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="Pairs-class.html">Pairs</a> objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+z &lt;- zipup(1:10, Rle(1L, 10))
+pairs &lt;- zipdown(z)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

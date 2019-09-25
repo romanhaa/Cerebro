@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an amplicon plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for amplicon.plot {geneplotter}"><tr><td>amplicon.plot {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an amplicon plot  </h2>
+
+<h3>Description</h3>
+
+<p>Given a two-sample test statistic and an ExpressionSet this function plots
+regions of the genome that are either highly expressed (in red) or
+have low expression (blue) differentially in the two groups.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+amplicon.plot(ESET, FUN, genome)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ESET</code></td>
+<td>
+<p>an object of class <code>ExpressionSet</code></p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>A two sample test function suitable for <code><a href="../../Biobase/html/esApply.html">esApply</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>genome</code></td>
+<td>
+<p>A character string of the base name for the annotation. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In some genetic studies we are interested in finding regions of the
+genome where there are a set of highly expressed genes in some
+subgroup of the population. This set of highly (or lowly) expressed
+genes is often of great interest. For example in breast cancer the
+HER&ndash;2 gene is on an amplicon. In some patients approximately 5 genes
+located near HER&ndash;2 are all amplified.
+</p>
+<p>These plot should help in the search for such regions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>No value is returned. This function is executed purely for side
+effect.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../Biobase/html/esApply.html">esApply</a></code>, <code><a href="make.chromOrd.html">make.chromOrd</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ##none yet; takes too long
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

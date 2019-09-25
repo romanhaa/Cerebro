@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves information from two linked datasets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getLDS {biomaRt}"><tr><td>getLDS {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves information from two linked datasets</h2>
+
+<h3>Description</h3>
+
+<p>This function is the main biomaRt query function that links 2 datasets and retrieves information from these linked BioMart datasets.  In Ensembl this translates to homology mapping.</p>
+
+
+<h3>Usage</h3>
+
+<pre>getLDS(attributes, filters = "", values = "", mart, attributesL,
+filtersL = "", valuesL = "", martL, verbose = FALSE, uniqueRows = TRUE, 
+bmHeader=TRUE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>attributes</code></td>
+<td>
+<p>Attributes you want to retrieve of primary dataset.  A possible list of attributes can be retrieved using the function listAttributes.</p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>Filters that should be used in the query. These filters will be applied to primary dataset.  A possible list of filters can be retrieved using the function listFilters.</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>Values of the filter, e.g. list of affy IDs</p>
+</td></tr>
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mart created with the useMart function.</p>
+</td></tr>
+<tr valign="top"><td><code>attributesL</code></td>
+<td>
+<p>Attributes of linked dataset that needs to be retrieved</p>
+</td></tr>
+<tr valign="top"><td><code>filtersL</code></td>
+<td>
+<p>Filters to be applied to the linked dataset</p>
+</td></tr>
+<tr valign="top"><td><code>valuesL</code></td>
+<td>
+<p>Values for the linked dataset filters</p>
+</td></tr>
+<tr valign="top"><td><code>martL</code></td>
+<td>
+<p>Mart object representing linked dataset</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>When using biomaRt in webservice mode and setting verbose to TRUE, the XML query to the webservice will be printed.  Alternatively in MySQL mode the MySQL query will be printed.</p>
+</td></tr>
+<tr valign="top"><td><code>uniqueRows</code></td>
+<td>
+<p>Logical to indicate if the BioMart web service should return unique rows only or not.  Has the value of either TRUE or FALSE</p>
+</td></tr>
+<tr valign="top"><td><code>bmHeader</code></td>
+<td>
+<p>Boolean to indicate if the result retrieved from the
+BioMart server should include the data headers or not, defaults to
+TRUE.  This should only be switched off if the default behavior
+results in errors, setting to off might still be able to retrieve
+your data in that case</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if(interactive()){
+human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl") 
+getLDS(attributes = c("hgnc_symbol","chromosome_name", "start_position"), 
+    filters = "hgnc_symbol", values = "TP53", mart = human, 
+    attributesL = c("chromosome_name","start_position"), martL = mouse)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

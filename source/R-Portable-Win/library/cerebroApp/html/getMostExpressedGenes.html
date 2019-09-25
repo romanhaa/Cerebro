@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get most expressed genes for every sample and cluster in...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getMostExpressedGenes {cerebroApp}"><tr><td>getMostExpressedGenes {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get most expressed genes for every sample and cluster in Seurat
+object.</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the most expressed genes for every
+sample and cluster of the Seurat object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getMostExpressedGenes(object, column_sample = "sample",
+  column_cluster = "cluster")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>column_sample</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about sample; defaults to 'sample'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cluster</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about cluster; defaults to 'cluster'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Get most expressed genes for every sample and cluster in Seurat object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Seurat object with most expressed genes stored for every sample and
+cluster stored in object@misc$most_expressed_genes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seurat &lt;- getMostExpressedGenes(
+  object = seurat,
+  column_sample = 'sample',
+  column_cluster = 'cluster'
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

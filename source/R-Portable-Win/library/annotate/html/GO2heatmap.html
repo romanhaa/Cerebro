@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute a heatmap for the specified data, for either a GO...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GO2heatmap {annotate}"><tr><td>GO2heatmap {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute a heatmap for the specified data, for either a GO
+category or a KEGG pathway.</h2>
+
+<h3>Description</h3>
+
+<p>For a given GO category or KEGG pathway, all probes in the supplied
+data are mapped to the pathway and a heatmap is produced.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+GO2heatmap(x, eset, data, ...)
+KEGG2heatmap(x, eset, data, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The name of the category or pathway.</p>
+</td></tr>
+<tr valign="top"><td><code>eset</code></td>
+<td>
+<p>An <code>ExpressionSet</code> providing the data.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The name of the chip.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional parameters to pass to <code>heatmap</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For the given pathway or GO category all matching probes are
+determined, these are used to subset the data and <code>heatmap</code> is
+invoked on that set of data. Extra parameters can be passed through to
+<code>heatmap</code> using the <code>...</code> parameter.
+The <code>annotation</code> slot of the <code>eset</code> argument is used to
+determine the appropriate annotation data to use.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The value returned by <code>heatmap</code> is passed back to the user.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/heatmap.html">heatmap</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  data(sample.ExpressionSet)
+  KEGG2heatmap("04810", sample.ExpressionSet, "hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

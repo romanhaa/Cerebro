@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A Lockable List Structure with Constraints on Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for container {Biobase}"><tr><td>container {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A Lockable List Structure with Constraints on Content</h2>
+
+<h3>Description</h3>
+
+<p>Container class that specializes the list construct of R to provide content and access control </p>
+
+
+<h3>Creating Objects</h3>
+
+<p><code>new('container', x  = [list], content = [character], locked = [logical])</code>
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt>x</dt><dd><p>list of entities that are guaranteed to share a certain property</p>
+</dd>
+<dt>content</dt><dd><p>tag describing container contents</p>
+</dd>
+<dt>locked</dt><dd><p>boolean indicator of locked status. Value of TRUE implies assignments into the container are not permitted</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p>Class-specific methods:
+</p>
+
+<dl>
+<dt><code>content(container)</code></dt><dd><p>returns <code>content</code> slot of argument</p>
+</dd>
+<dt><code>locked(container)</code></dt><dd><p>returns <code>locked</code> slot of argument</p>
+</dd>
+</dl>
+
+<p>Standard methods defined for 'container':
+</p>
+
+<dl>
+<dt><code>show(container)</code></dt><dd><p>prints container</p>
+</dd>
+<dt><code>length(container)</code></dt><dd><p>returns number of elements in the container</p>
+</dd>
+<dt><code>[[(index)</code> and <code>[[(index, value)</code></dt><dd><p>access and replace elements in the container </p>
+</dd>
+<dt><code>[(index)</code></dt><dd><p>make a subset of a container (which will itself be a container)</p>
+</dd>
+</dl>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+  x1 &lt;- new("container", x=vector("list", length=3), content="lm")
+  lm1 &lt;- lm(rnorm(10)~runif(10))
+  x1[[1]] &lt;- lm1
+ </pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

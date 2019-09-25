@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieve Meta-data from eSets and ExpressionSets.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for abstract {Biobase}"><tr><td>abstract {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieve Meta-data from eSets and ExpressionSets.</h2>
+
+<h3>Description</h3>
+
+<p>These generic functions access generic data, abstracts, PubMed IDs
+and experiment data from instances of the 
+<code><a href="class.eSet.html">eSet-class</a></code> or <code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+abstract(object)
+pubMedIds(object)
+pubMedIds(object) &lt;- value
+experimentData(object)
+experimentData(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object, possibly derived from <code>eSet-class</code> or 
+<code>MIAME-class</code></p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Value to be assigned; see class of <code>object</code> (e.g.,
+<code><a href="class.eSet.html">eSet-class</a></code>) for specifics.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>abstract</code> returns a character vector containing the abstract
+(as in a published paper) associated with <code>object</code>.
+</p>
+<p><code>pubMedIds</code> returns a character vector of PUBMED IDs associated
+with the experiment.
+</p>
+<p><code>experimentData</code> returns an object representing the description
+of an experiment, e.g., an object of <code><a href="class.MIAME.html">MIAME-class</a></code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.ExpressionSet.html">ExpressionSet-class</a></code>, <code><a href="class.eSet.html">eSet-class</a></code>, 
+<code><a href="class.MIAME.html">MIAME-class</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

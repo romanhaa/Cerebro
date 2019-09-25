@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves gene annotation information given a vector of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getGene {biomaRt}"><tr><td>getGene {biomaRt}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves gene annotation information given a vector of identifiers</h2>
+
+<h3>Description</h3>
+
+<p>This function retrieves gene annotations from Ensembl given a vector of identifiers.  Annotation includes chromsome name, band, start position, end position, gene description and gene symbol.  A wide variety of identifiers is available in Ensembl, these can be found with the listFilters function.</p>
+
+
+<h3>Usage</h3>
+
+<pre>getGene( id, type, mart)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>vector of gene identifiers one wants to annotate</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>type of identifier, possible values can be obtained by the listFilters function.  Examples are  entrezgene, hgnc\_symbol (for hugo gene symbol), ensembl\_gene\_id, unigene, agilentprobe, affy\_hg\_u133\_plus\_2,  refseq\_dna, etc.</p>
+</td></tr>
+<tr valign="top"><td><code>mart</code></td>
+<td>
+<p>object of class Mart, containing connections to the BioMart databases.  You can create such an object using the function useMart.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Steffen Durinck</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if(interactive()){
+
+mart = useMart("ensembl", dataset="hsapiens_gene_ensembl")
+
+#example using affy id
+
+g = getGene( id = "1939_at", type = "affy_hg_u95av2", mart = mart)
+show(g)
+
+#example using Entrez Gene id
+
+g = getGene( id = "100", type = "entrezgene", mart = mart)
+show(g)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>biomaRt</em> version 2.38.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

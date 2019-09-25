@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract unique elements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unique {BiocGenerics}"><tr><td>unique {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract unique elements</h2>
+
+<h3>Description</h3>
+
+<p><code>unique</code> returns an object of the same class as <code>x</code> (typically
+a vector-like, data-frame-like, or array-like object) but with duplicate
+elements/rows removed.
+</p>
+<p>NOTE: This man page is for the <code>unique</code> <em>S4 generic function</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/unique.html">unique</a></code> for the default method
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+(typically vector-like or data-frame-like) not supported by the
+default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+unique(x, incomparables=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A vector-like, data-frame-like, or array-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>incomparables, ...</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/unique.html">unique</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/unique.html">unique</a></code> for the value returned by the
+default method.
+</p>
+<p>Specific methods defined in Bioconductor packages will typically
+return an object of the same class as the input object.
+</p>
+<p><code>unique</code> should always behave consistently with
+<code>BiocGenerics::<a href="duplicated.html">duplicated</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/unique.html">unique</a></code> for the default <code>unique</code>
+method.
+</p>
+</li>
+<li> <p><code>BiocGenerics::<a href="duplicated.html">duplicated</a></code> for determining
+duplicate elements.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/unique,Rle-method.html">unique,Rle-method</a> in the <span class="pkg">S4Vectors</span> package
+for an example of a specific <code>unique</code> method (defined for
+<a href="../../S4Vectors/html/Rle.html">Rle</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+unique
+showMethods("unique")
+selectMethod("unique", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

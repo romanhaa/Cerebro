@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The RleViews class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RleViews-class {IRanges}"><tr><td>RleViews-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The RleViews class</h2>
+
+<h3>Description</h3>
+
+<p>The RleViews class is the basic container for storing a set of views
+(start/end locations) on the same Rle object.
+</p>
+
+
+<h3>Details</h3>
+
+<p>An RleViews object contains a set of views (start/end locations) on the same
+<a href="../../S4Vectors/html/Rle-class.html">Rle</a> object called &quot;the subject vector&quot; or simply &quot;the subject&quot;.
+Each view is defined by its start and end locations: both are integers such
+that start &lt;= end.
+An RleViews object is in fact a particular case of a <a href="Views-class.html">Views</a>
+object (the RleViews class contains the <a href="Views-class.html">Views</a> class) so it
+can be manipulated in a similar manner: see <code>?<a href="Views-class.html">Views</a></code> for
+more information.
+Note that two views can overlap and that a view can be &quot;out of limits&quot;
+i.e. it can start before the first element of the subject or/and end
+after its last element.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Views-class.html">Views-class</a>,
+<a href="../../S4Vectors/html/Rle-class.html">Rle-class</a>,
+<a href="view-summarization-methods.html">view-summarization-methods</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  subject &lt;- Rle(rep(c(3L, 2L, 18L, 0L), c(3,2,1,5)))
+  myViews &lt;- Views(subject, 3:0, 5:8)
+  myViews
+  subject(myViews)
+  length(myViews)
+  start(myViews)
+  end(myViews)
+  width(myViews)
+  myViews[[2]]
+
+  set.seed(0)
+  vec &lt;- Rle(sample(0:2, 20, replace = TRUE))
+  vec
+  Views(vec, vec &gt; 0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

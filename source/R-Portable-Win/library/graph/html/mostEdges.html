@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the node in a graph with the greatest number of edges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mostEdges {graph}"><tr><td>mostEdges {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Find the node in a graph with the greatest number of edges </h2>
+
+<h3>Description</h3>
+
+<p><code>mostEdges</code> finds the node that has the most edges in the graph.
+This is the node with the highest degree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mostEdges(objGraph)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>objGraph</code></td>
+<td>
+<p> the graph object </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>the index of the node with the most edges</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>the node value with the most edges; may be affy id, locus
+link id, or genename depending on the node type</p>
+</td></tr>
+<tr valign="top"><td><code>maxLen</code></td>
+<td>
+<p>the number of edges for that node</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Elizabeth Whalen </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="graph-class.html">numEdges</a></code>, <code><a href="aveNumEdges.html">aveNumEdges</a></code>,
+<code><a href="numNoEdges.html">numNoEdges</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  set.seed(123)
+  g1 &lt;- randomGraph(11:30, letters[20:26], p=.4)
+  mostEdges(g1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

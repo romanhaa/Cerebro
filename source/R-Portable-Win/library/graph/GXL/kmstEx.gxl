@@ -1,0 +1,49 @@
+<gxl>
+ <graph edgemode="directed" id="G">
+  <node id="A"/>
+  <node id="B"/>
+  <node id="C"/>
+  <node id="D"/>
+  <node id="E"/>
+  <edge id="e1" from="A" to="C">
+   <attr name="weights">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e2" from="B" to="D">
+   <attr name="weights">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e3" from="B" to="E">
+   <attr name="weights">
+    <int>2</int>
+   </attr>
+  </edge>
+  <edge id="e4" from="C" to="B">
+   <attr name="weights">
+    <int>7</int>
+   </attr>
+  </edge>
+  <edge id="e5" from="C" to="D">
+   <attr name="weights">
+    <int>3</int>
+   </attr>
+  </edge>
+  <edge id="e6" from="D" to="E">
+   <attr name="weights">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e7" from="E" to="A">
+   <attr name="weights">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e8" from="E" to="B">
+   <attr name="weights">
+    <int>1</int>
+   </attr>
+  </edge>
+ </graph>
+</gxl>

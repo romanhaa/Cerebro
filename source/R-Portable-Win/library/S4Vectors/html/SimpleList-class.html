@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: SimpleList objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for SimpleList-class {S4Vectors}"><tr><td>SimpleList-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>SimpleList objects</h2>
+
+<h3>Description</h3>
+
+<p>The (non-virtual) SimpleList class extends the <a href="List-class.html">List</a>
+virtual class.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The SimpleList class is the simplest, most generic concrete implementation
+of the <a href="List-class.html">List</a> abstraction. It provides an implementation that
+subclasses can easily extend.
+</p>
+<p>In a SimpleList object the list elements are stored internally in an
+ordinary list.
+</p>
+
+
+<h3>Constructor</h3>
+
+<p>See the <a href="List-class.html">List</a> man page for a quick overview of how to construct
+<a href="List-class.html">List</a> objects in general.
+</p>
+<p>The following constructor is provided for SimpleList objects:
+</p>
+
+<dl>
+<dt></dt><dd><p><code>SimpleList(...)</code>: Takes possibly named objects as elements
+for the new SimpleList object.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Accessors</h3>
+
+<p>Same as for <a href="List-class.html">List</a> objects. See the <a href="List-class.html">List</a> man page for more
+information.
+</p>
+
+
+<h3>Coercion</h3>
+
+<p>All the coercions documented in the <a href="List-class.html">List</a> man page apply to
+<a href="SimpleList-class.html">SimpleList</a> objects.
+</p>
+
+
+<h3>Subsetting</h3>
+
+<p>Same as for <a href="List-class.html">List</a> objects. See the <a href="List-class.html">List</a> man page for more
+information.
+</p>
+
+
+<h3>Looping and functional programming</h3>
+
+<p>Same as for <a href="List-class.html">List</a> objects. See <code>?`<a href="List-utils.html">List-utils</a>`</code> for
+more information.
+</p>
+
+
+<h3>Displaying</h3>
+
+<p>When a SimpleList object is displayed, the &quot;Simple&quot; prefix is removed
+from the real class name of the object.
+See <code><a href="show-utils.html">classNameForDisplay</a></code> for more information about this.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="List-class.html">List</a> objects for the parent class.
+</p>
+</li>
+<li><p> The <a href="../../IRanges/html/CompressedList.html">CompressedList</a> class defined in the
+<span class="pkg">IRanges</span> package for a more efficient alternative
+to SimpleList.
+</p>
+</li>
+<li><p> The <a href="../../IRanges/html/SimpleIntegerList.html">SimpleIntegerList</a> class defined in the
+<span class="pkg">IRanges</span> package for a SimpleList subclass example.
+</p>
+</li>
+<li><p> The <a href="DataFrame-class.html">DataFrame</a> class for another SimpleList subclass example.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Displaying a SimpleList object:
+x1 &lt;- SimpleList(a=letters, i=Rle(22:20, 4:2))
+class(x1)
+
+## The "Simple" prefix is removed from the real class name of the
+## object:
+x1
+
+library(IRanges)
+x2 &lt;- IntegerList(11:12, integer(0), 3:-2, compress=FALSE)
+class(x2)
+
+## The "Simple" prefix is removed from the real class name of the
+## object:
+x2
+
+## This is controlled by internal helper classNameForDisplay():
+classNameForDisplay(x2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

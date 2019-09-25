@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stacked histogram</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for histStack {geneplotter}"><tr><td>histStack {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stacked histogram</h2>
+
+<h3>Description</h3>
+
+<p>Stacked histogram</p>
+
+
+<h3>Usage</h3>
+
+<pre>histStack(x, breaks, breaksFun=paste, ylab="frequency", ...) </pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A list of numeric vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>Histogram breaks, as in
+<code><a href="../../graphics/html/hist.html">hist</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>breaksFun</code></td>
+<td>
+<p>Function, can be used to control the formatting
+of the bin labels. See example.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>Label for the Y-axis on the plot</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments that get passed to
+<code><a href="../../graphics/html/barplot.html">barplot</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function calls <code><a href="../../graphics/html/hist.html">hist</a></code>
+for each element of <code>x</code> and plots the frequencies
+as a stacked barplot using
+<code><a href="../../graphics/html/barplot.html">barplot</a></code> with <code>beside=FALSE</code>.</p>
+
+
+<h3>Value</h3>
+
+<p>The function is called for its side effect, producing a barplot
+on the active graphics device. It returns the result of the call to
+<code><a href="../../graphics/html/barplot.html">barplot</a></code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.ebi.ac.uk/huber">http://www.ebi.ac.uk/huber</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  x    &lt;- list(rnorm(42), rnorm(42)+2)
+  br   &lt;- seq(-3, 5, length=13)
+  cols &lt;- c("#1D267B", "#ceffc0")
+  histStack(x, breaks=br, col=cols)
+
+  histStack(x, breaks=br, col=cols,
+            breaksFun=function(z) paste(signif(z, 3)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

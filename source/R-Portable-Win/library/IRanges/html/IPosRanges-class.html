@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: IPosRanges objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IPosRanges-class {IRanges}"><tr><td>IPosRanges-class {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>IPosRanges objects</h2>
+
+<h3>Description</h3>
+
+<p>The IPosRanges <em>virtual</em> class is a general container for storing
+a vector of ranges of integer positions.
+</p>
+
+
+<h3>Details</h3>
+
+<p>An IPosRanges object is a vector-like object where each element
+describes a &quot;range of integer positions&quot;.
+</p>
+<p>A &quot;range of integer values&quot; is a finite set of consecutive integer
+values. Each range can be fully described with exactly 2 integer
+values which can be arbitrarily picked up among the 3 following values:
+its &quot;start&quot; i.e. its smallest (or first, or leftmost) value;
+its &quot;end&quot; i.e. its greatest (or last, or rightmost) value;
+and its &quot;width&quot; i.e. the number of integer values in the range.
+For example the set of integer values that are greater than or equal
+to -20 and less than or equal to 400 is the range that starts at -20
+and has a width of 421.
+In other words, a range is a closed, one-dimensional interval
+with integer end points and on the domain of integers.
+</p>
+<p>The starting point (or &quot;start&quot;) of a range can be any integer (see
+<code>start</code> below) but its &quot;width&quot; must be a non-negative integer
+(see <code>width</code> below). The ending point (or &quot;end&quot;) of a range is
+equal to its &quot;start&quot; plus its &quot;width&quot; minus one (see <code>end</code> below).
+An &quot;empty&quot; range is a range that contains no value i.e. a range that
+has a null width. Depending on the context, it can be interpreted
+either as just the empty <em>set</em> of integers or, more precisely,
+as the position <em>between</em> its &quot;end&quot; and its &quot;start&quot; (note that
+for an empty range, the &quot;end&quot; equals the &quot;start&quot; minus one).
+</p>
+<p>The length of an IPosRanges object is the number of ranges in it, not
+the number of integer values in its ranges.
+</p>
+<p>An IPosRanges object is considered empty iff all its ranges are empty.
+</p>
+<p>IPosRanges objects have a vector-like semantic i.e. they only support
+single subscript subsetting (unlike, for example, standard R data frames
+which can be subsetted by row and by column).
+</p>
+<p>The IPosRanges class itself is a virtual class. The following classes
+derive directly from it: <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a>, <a href="NCList-class.html">NCList</a>,
+and <a href="Grouping-class.html">GroupingRanges</a>.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>In the code snippets below, <code>x</code>, <code>y</code> and <code>object</code> are
+IPosRanges objects. Not all the functions described below will necessarily
+work with all kinds of IPosRanges derivatives but they should work at
+least for <a href="IRanges-constructor.html">IRanges</a> objects.
+</p>
+<p>Note that many more operations on IPosRanges objects are described in
+other man pages of the <span class="pkg">IRanges</span> package. See for example the man page
+for <em>intra range transformations</em> (e.g. <code>shift()</code>, see
+<code>?`<a href="intra-range-methods.html">intra-range-methods</a>`</code>), or the man page for inter range
+transformations (e.g. <code>reduce()</code>, see
+<code>?`<a href="inter-range-methods.html">inter-range-methods</a>`</code>), or the man page for
+<code>findOverlaps</code> methods (see <code>?`<a href="findOverlaps-methods.html">findOverlaps-methods</a>`</code>),
+or the man page for <a href="IntegerRangesList-class.html">IntegerRangesList</a> objects where the <code>split</code>
+method for <a href="IntegerRanges-class.html">IntegerRanges</a> derivatives is documented.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>length(x)</code>:
+The number of ranges in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>start(x)</code>:
+The start values of the ranges.
+This is an integer vector of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>width(x)</code>:
+The number of integer values in each range.
+This is a vector of non-negative integers of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>end(x)</code>:
+<code>start(x) + width(x) - 1L</code>
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>mid(x)</code>: returns the midpoint of the range,
+<code>start(x) + floor((width(x) - 1)/2)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>names(x)</code>:
+<code>NULL</code> or a character vector of the same length as <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>tile(x, n, width, ...)</code>:
+Splits each range in <code>x</code> into subranges as specified by <code>n</code>
+(number of ranges) or <code>width</code>. Only one of <code>n</code> or <code>width</code> 
+can be specified. The return value is a <code>IRangesList</code> the same 
+length as <code>x</code>. IPosRanges with a width less than the <code>width</code>
+argument are returned unchanged.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>slidingWindows(x, width, step=1L)</code>: Generates sliding
+windows within each range of <code>x</code>, of width <code>width</code>, and
+starting every <code>step</code> positions. The return value is a
+<code>IRangesList</code> the same length as <code>x</code>. IPosRanges
+with a width less than the <code>width</code> argument are returned
+unchanged. If the sliding windows do not exactly cover <code>x</code>,
+the last window is partial.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>isEmpty(x)</code>:
+Return a logical value indicating whether <code>x</code> is empty or not.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as.matrix(x, ...)</code>:
+Convert <code>x</code> into a 2-column integer matrix
+containing <code>start(x)</code> and <code>width(x)</code>.
+Extra arguments (<code>...</code>) are ignored.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as.data.frame(x, row.names=NULL, optional=FALSE, ...)</code>:
+Convert <code>x</code> into a standard R data frame object.
+<code>row.names</code> must be <code>NULL</code> or a character vector giving
+the row names for the data frame, and <code>optional</code> and any
+additional argument (<code>...</code>) is ignored.
+See <code>?<a href="../../base/html/as.data.frame.html">as.data.frame</a></code> for more information about these
+arguments.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]]</code>:
+Return integer vector <code>start(x[i]):end(x[i])</code> denoted by <code>i</code>.
+Subscript <code>i</code> can be a single integer or a character string.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i]</code>:
+Return a new IPosRanges object (of the same type as <code>x</code>) made
+of the selected ranges.
+<code>i</code> can be a numeric vector, a logical vector, <code>NULL</code>
+or missing. If <code>x</code> is a <a href="IRanges-class.html">NormalIRanges</a> object and
+<code>i</code> a positive numeric subscript (i.e. a numeric vector of
+positive values), then <code>i</code> must be strictly increasing.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rep(x, times, length.out, each)</code>:
+Repeats the values in <code>x</code> through one of the following conventions:
+</p>
+
+<dl>
+<dt><code>times</code></dt><dd><p>Vector giving the number of times to repeat each
+element if of length <code>length(x)</code>, or to repeat the
+IPosRanges elements if of length 1.</p>
+</dd>
+<dt><code>length.out</code></dt><dd><p>Non-negative integer. The desired length of
+the output vector.</p>
+</dd>
+<dt><code>each</code></dt><dd><p>Non-negative integer.  Each element of <code>x</code> is
+repeated <code>each</code> times.</p>
+</dd>
+</dl>
+
+</dd>
+<dt></dt><dd>
+<p><code>c(x, ..., ignore.mcols=FALSE)</code>:
+Concatenate IPosRanges object <code>x</code> and the IPosRanges objects
+in <code>...</code> together.
+See <code>?<a href="../../S4Vectors/html/c.html">c</a></code> in the <span class="pkg">S4Vectors</span> package
+for more information about concatenating Vector derivatives.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x * y</code>:
+The arithmetic operation <code>x * y</code> is for centered zooming. It
+symmetrically scales the width of <code>x</code> by <code>1/y</code>, where
+<code>y</code> is a numeric vector that is recycled as necessary. For
+example, <code>x * 2</code> results in ranges with half their previous width
+but with approximately the same midpoint. The ranges have been
+&ldquo;zoomed in&rdquo;. If <code>y</code> is negative, it is equivalent to
+<code>x * (1/abs(y))</code>. Thus, <code>x * -2</code> would double the widths in
+<code>x</code>. In other words, <code>x</code> has been &ldquo;zoomed out&rdquo;.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x + y</code>: Expands the ranges in <code>x</code> on either side by the
+corresponding value in the numeric vector <code>y</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>show(x)</code>:
+By default the <code>show</code> method displays 5 head and 5 tail
+lines. The number of lines can be altered by setting the global
+options <code>showHeadLines</code> and <code>showTailLines</code>. If the 
+object length is less than the sum of the options, the full object 
+is displayed. These options affect display of <a href="IRanges-constructor.html">IRanges</a>,
+<a href="IPos-class.html">IPos</a>, <a href="../../S4Vectors/html/Hits.html">Hits</a>, <a href="../../GenomicRanges/html/GRanges.html">GRanges</a>,
+<a href="../../GenomicRanges/html/GPos.html">GPos</a>, <a href="../../GenomicAlignments/html/GAlignments.html">GAlignments</a>,
+<a href="../../Biostrings/html/XStringSet.html">XStringSet</a> objects, and more...
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Normality</h3>
+
+<p>An IPosRanges object <code>x</code> is implicitly representing an arbitrary
+finite set of integers (that are not necessarily consecutive). This set is
+the set obtained by taking the union of all the values in all the ranges in
+<code>x</code>. This representation is clearly not unique: many different
+IPosRanges objects can be used to represent the same set of integers.
+However one and only one of them is guaranteed to be <em>normal</em>.
+</p>
+<p>By definition an IPosRanges object is said to be <em>normal</em> when its
+ranges are:
+(a) not empty (i.e. they have a non-null width);
+(b) not overlapping;
+(c) ordered from left to right;
+(d) not even adjacent (i.e. there must be a non empty gap between 2
+consecutive ranges).
+</p>
+<p>Here is a simple algorithm to determine whether <code>x</code> is <em>normal</em>:
+(1) if <code>length(x) == 0</code>, then <code>x</code> is normal;
+(2) if <code>length(x) == 1</code>, then <code>x</code> is normal iff
+<code>width(x) &gt;= 1</code>;
+(3) if <code>length(x) &gt;= 2</code>, then <code>x</code> is normal iff:
+</p>
+<pre>  start(x)[i] &lt;= end(x)[i] &lt; start(x)[i+1] &lt;= end(x)[i+1]</pre>
+<p>for every 1 &lt;= <code>i</code> &lt; <code>length(x)</code>.
+</p>
+<p>The obvious advantage of using a <em>normal</em> IPosRanges object to
+represent a given finite set of integers is that it is the smallest in
+terms of number of ranges and therefore in terms of storage space.
+Also the fact that we impose its ranges to be ordered from left to
+right makes it unique for this representation.
+</p>
+<p>A special container (<a href="IRanges-class.html">NormalIRanges</a>) is provided for holding
+a <em>normal</em> <a href="IRanges-constructor.html">IRanges</a> object: a <a href="IRanges-class.html">NormalIRanges</a> object is
+just an <a href="IRanges-constructor.html">IRanges</a> object that is guaranteed to be <em>normal</em>.
+</p>
+<p>Here are some methods related to the notion of <em>normal</em> IPosRanges:
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>isNormal(x)</code>:
+Return TRUE or FALSE indicating whether <code>x</code> is <em>normal</em> or not.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>whichFirstNotNormal(x)</code>:
+Return <code>NA</code> if <code>x</code> is <em>normal</em>, or the smallest valid
+indice <code>i</code> in <code>x</code> for which <code>x[1:i]</code> is not <em>normal</em>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pagès and M. Lawrence</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="IRanges-constructor.html">IRanges</a> objects (<a href="IRanges-class.html">NormalIRanges</a> objects are documented
+in the same man page).
+</p>
+</li>
+<li><p> The <a href="IPos-class.html">IPos</a> class, a memory-efficient IPosRanges derivative
+for representing <em>integer positions</em> (i.e. integer
+ranges of width 1).
+</p>
+</li>
+<li> <p><a href="IPosRanges-comparison.html">IPosRanges-comparison</a> for comparing and ordering ranges.
+</p>
+</li>
+<li> <p><a href="findOverlaps-methods.html">findOverlaps-methods</a> for finding/counting overlapping ranges.
+</p>
+</li>
+<li> <p><a href="intra-range-methods.html">intra-range-methods</a> and
+<a href="inter-range-methods.html">inter-range-methods</a> for intra range and
+inter range transformations of <a href="IntegerRanges-class.html">IntegerRanges</a> derivatives.
+</p>
+</li>
+<li> <p><a href="coverage-methods.html">coverage-methods</a> for computing the coverage
+of a set of ranges.
+</p>
+</li>
+<li> <p><a href="setops-methods.html">setops-methods</a> for set operations on ranges.
+</p>
+</li>
+<li> <p><a href="nearest-methods.html">nearest-methods</a> for finding the nearest range neighbor.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## Basic manipulation
+## ---------------------------------------------------------------------
+x &lt;- IRanges(start=c(2:-1, 13:15), width=c(0:3, 2:0))
+x
+length(x)
+start(x)
+width(x)
+end(x)
+isEmpty(x)
+as.matrix(x)
+as.data.frame(x)
+
+## Subsetting:
+x[4:2]                  # 3 ranges
+x[-1]                   # 6 ranges
+x[FALSE]                # 0 range
+x0 &lt;- x[width(x) == 0]  # 2 ranges
+isEmpty(x0)
+
+## Use the replacement methods to resize the ranges:
+width(x) &lt;- width(x) * 2 + 1
+x
+end(x) &lt;- start(x)            # equivalent to width(x) &lt;- 0
+x
+width(x) &lt;- c(2, 0, 4) 
+x
+start(x)[3] &lt;- end(x)[3] - 2  # resize the 3rd range
+x
+
+## Name the elements:
+names(x)
+names(x) &lt;- c("range1", "range2")
+x
+x[is.na(names(x))]  # 5 ranges
+x[!is.na(names(x))]  # 2 ranges
+
+ir &lt;- IRanges(c(1,5), c(3,10))
+ir*1 # no change
+ir*c(1,2) # zoom second range by 2X
+ir*-2 # zoom out 2X
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

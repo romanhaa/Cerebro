@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The IRanges constructor and supporting functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IRanges-constructor {IRanges}"><tr><td>IRanges-constructor {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The IRanges constructor and supporting functions</h2>
+
+<h3>Description</h3>
+
+<p>The <code>IRanges</code> function is a constructor that can be used
+to create IRanges instances.
+</p>
+<p><code>solveUserSEW0</code> and <code>solveUserSEW</code> are utility functions that
+solve a set of user-supplied start/end/width values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## IRanges constructor:
+IRanges(start=NULL, end=NULL, width=NULL, names=NULL)
+
+## Supporting functions (not for the end user):
+solveUserSEW0(start=NULL, end=NULL, width=NULL)
+solveUserSEW(refwidths, start=NA, end=NA, width=NA,
+             rep.refwidths=FALSE,
+             translate.negative.coord=TRUE,
+             allow.nonnarrowing=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>start, end, width</code></td>
+<td>
+
+<p>For <code>IRanges</code> and <code>solveUserSEW0</code>: <code>NULL</code>,
+or vector of integers (eventually with NAs).
+</p>
+<p>For <code>solveUserSEW</code>: vector of integers (eventually
+with NAs).
+</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+
+<p>A character vector or <code>NULL</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>refwidths</code></td>
+<td>
+
+<p>Vector of non-NA non-negative integers containing the
+reference widths.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rep.refwidths</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>.
+Use of <code>rep.refwidths=TRUE</code> is supported only when
+<code>refwidths</code> is of length 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>translate.negative.coord, allow.nonnarrowing</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>IRanges constructor</h3>
+
+<p>Return the IRanges object containing the ranges specified by
+<code>start</code>, <code>end</code> and <code>width</code>.
+Input falls into one of two categories:
+</p>
+
+<dl>
+<dt>Category 1</dt><dd>
+<p><code>start</code>, <code>end</code> and <code>width</code> are numeric vectors
+(or NULLs). If necessary they are recycled to the
+length of the longest (NULL arguments are filled with NAs).
+After this recycling, each row in the 3-column matrix obtained
+by binding those 3 vectors together is &quot;solved&quot; i.e. NAs are
+treated as unknown in the equation <code>end = start + width - 1</code>.
+Finally, the solved matrix is returned as an <a href="IRanges-constructor.html">IRanges</a>
+instance.
+</p>
+</dd>
+<dt>Category 2</dt><dd>
+<p>The <code>start</code> argument is a logical vector or logical Rle object
+and <code>IRanges(start)</code> produces the same result as
+<code>as(start, "IRanges")</code>.
+Note that, in that case, the returned IRanges instance is guaranteed
+to be normal.
+</p>
+</dd>
+</dl>
+
+<p>Note that the <code>names</code> argument is never recycled (to remain
+consistent with what <code>`names&lt;-`</code> does on standard vectors).
+</p>
+
+
+<h3>Supporting functions</h3>
+
+
+<dl>
+<dt></dt><dd>
+<p><code>solveUserSEW0(start=NULL, end=NULL, width=NULL)</code>:
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>solveUserSEW(refwidths, start=NA, end=NA, width=NA,
+               rep.refwidths=FALSE,
+               translate.negative.coord=TRUE,
+               allow.nonnarrowing=FALSE)</code>:
+Use of <code>rep.refwidths=TRUE</code> is supported only when
+<code>refwidths</code> is of length 1.
+If <code>rep.refwidths=FALSE</code> (the default) then
+<code>start</code>, <code>end</code> and <code>width</code> are recycled to
+the length of <code>refwidths</code> (it's an error if one of them
+is longer than <code>refwidths</code>, or is of zero length while
+<code>refwidths</code> is not).
+If <code>rep.refwidths=TRUE</code> then <code>refwidths</code> is first
+replicated L times where L is the length of the longest of
+<code>start</code>, <code>end</code> and <code>width</code>. After this replication,
+<code>start</code>, <code>end</code> and <code>width</code> are recycled to
+the new length of <code>refwidths</code> (L) (it's an error if one
+of them is of zero length while L is != 0).
+</p>
+<p>From now, <code>refwidths</code>, <code>start</code>, <code>end</code> and
+<code>width</code> are integer vectors of equal lengths.
+Each row in the 3-column matrix obtained by binding those
+3 vectors together must contain at least one NA (otherwise
+an error is returned).
+Then each row is &quot;solved&quot; i.e. the 2 following transformations
+are performed (<code>i</code> is the indice of the row):
+(1) if <code>translate.negative.coord</code> is TRUE then a
+negative value of <code>start[i]</code> or <code>end[i]</code> is
+considered to be a <code>-refwidths[i]</code>-based coordinate so
+<code>refwidths[i]+1</code> is added to it to make it 1-based;
+(2) the NAs in the row are treated as unknowns which values are
+deduced from the known values in the row and from
+<code>refwidths[i]</code>.
+</p>
+<p>The exact rules for (2) are the following.
+Rule (2a): if the row contains at least 2 NAs, then <code>width[i]</code>
+must be one of them (otherwise an error is returned), and if
+<code>start[i]</code> is one of them it is replaced by 1, and if <code>end[i]</code>
+is one of them it is replaced by <code>refwidths[i]</code>, and finally
+<code>width[i]</code> is replaced by <code>end[i] - start[i] + 1</code>.
+Rule (2b): if the row contains only 1 NA, then it is replaced by the
+solution of the <code>width[i] == end[i] - start[i] + 1</code> equation.
+</p>
+<p>Finally, the set of solved rows is returned as an <a href="IRanges-constructor.html">IRanges</a>
+object of the same length as <code>refwidths</code> (after replication
+if <code>rep.refwidths=TRUE</code>).
+</p>
+<p>Note that an error is raised if either (1) the set of
+user-supplied start/end/width values is invalid or (2)
+<code>allow.nonnarrowing</code> is FALSE and the ranges represented by the
+solved start/end/width values are not narrowing
+the ranges represented by the user-supplied start/end/width values.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="IRanges-class.html">IRanges-class</a>,
+<code><a href="intra-range-methods.html">narrow</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## ---------------------------------------------------------------------
+  ## A. USING THE IRanges() CONSTRUCTOR
+  ## ---------------------------------------------------------------------
+  IRanges(start=11, end=rep.int(20, 5))
+  IRanges(start=11, width=rep.int(20, 5))
+  IRanges(-2, 20)  # only one range
+  IRanges(start=c(2, 0, NA), end=c(NA, NA, 14), width=11:0)
+  IRanges()  # IRanges instance of length zero
+  IRanges(names=character())
+
+  ## With logical input:
+  x &lt;- IRanges(c(FALSE, TRUE, TRUE, FALSE, TRUE))  # logical vector input
+  isNormal(x)  # TRUE
+  x &lt;- IRanges(Rle(1:30) %% 5 &lt;= 2)  # logical Rle input
+  isNormal(x)  # TRUE
+
+  ## ---------------------------------------------------------------------
+  ## B. USING solveUserSEW()
+  ## ---------------------------------------------------------------------
+  refwidths &lt;- c(5:3, 6:7)
+  refwidths
+
+  solveUserSEW(refwidths)
+  solveUserSEW(refwidths, start=4)
+  solveUserSEW(refwidths, end=3, width=2)
+  solveUserSEW(refwidths, start=-3)
+  solveUserSEW(refwidths, start=-3, width=2)
+  solveUserSEW(refwidths, end=-4)
+
+  ## The start/end/width arguments are recycled:
+  solveUserSEW(refwidths, start=c(3, -4, NA), end=c(-2, NA))
+
+  ## Using 'rep.refwidths=TRUE':
+  solveUserSEW(10, start=-(1:6), rep.refwidths=TRUE)
+  solveUserSEW(10, end=-(1:6), width=3, rep.refwidths=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

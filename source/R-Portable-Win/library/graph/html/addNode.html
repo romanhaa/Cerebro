@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: addNode</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for addNode {graph}"><tr><td>addNode {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> addNode </h2>
+
+<h3>Description</h3>
+
+<p>Add one or more nodes to a graph.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addNode(node, object, edges)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>node</code></td>
+<td>
+<p>A character vector of node names. </p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A <code>graph</code> </p>
+</td></tr>
+<tr valign="top"><td><code>edges</code></td>
+<td>
+<p>A named list of edges.</p>
+</td></tr> 
+</table>
+
+
+<h3>Details</h3>
+
+<p>The supplied <code>node</code>s are added to the set of nodes of the
+<code>object</code>.
+</p>
+<p>If <code>edges</code> are provided then their must be the
+same number as there are <code>node</code>s and the must be in the same
+order. The elements of the <code>edges</code> list are vectors. They can be
+character vectors of node labels for nodes in <code>object</code> and if so
+then they are added with unit weights. If the vector is numeric then
+it must be named (with labels corresponding to nodes in the
+<code>object</code>) and the values are taken to be the edge weights.
+</p>
+<p>When the <code>object</code> is a <code>distGraph</code> then the <code>edges</code> must 
+be supplied and they must contain appropriate distances for all nodes 
+both those in <code>object</code> and those supplied.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A new graph of the same class as <code>object</code> with the supplied node
+added to the set of nodes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="removeNode.html">removeNode</a></code>, <code><a href="removeEdge.html">removeEdge</a></code>,
+<code><a href="addEdge.html">addEdge</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+  V &lt;- LETTERS[1:4]
+  edL1 &lt;- vector("list", length=4)
+  names(edL1) &lt;- V
+  for(i in 1:4)
+     edL1[[i]] &lt;- list(edges=c(2,1,4,3)[i], weights=sqrt(i))
+  gR &lt;- graphNEL(nodes=V, edgeL=edL1)
+  gX &lt;- addNode("X", gR)
+
+set.seed(123)
+g1 &lt;- randomGraph(letters[1:10], 1:4, p=.3)
+g2 &lt;- addNode("z", g1, edges=list(c("a", "h", "g")))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

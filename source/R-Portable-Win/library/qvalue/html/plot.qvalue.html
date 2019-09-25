@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plotting function for q-value object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.qvalue {qvalue}"><tr><td>plot.qvalue {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plotting function for q-value object</h2>
+
+<h3>Description</h3>
+
+<p>Graphical display of the q-value object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'qvalue'
+plot(x, rng = c(0, 0.1), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A q-value object.</p>
+</td></tr>
+<tr valign="top"><td><code>rng</code></td>
+<td>
+<p>Range of q-values to show. Optional</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. Currently unused.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function plot allows one to view several plots:
+</p>
+
+<ol>
+<li><p> The estimated <i>pi_0</i> versus the tuning parameter
+<i>lambda</i>.
+</p>
+</li>
+<li><p> The q-values versus the p-values.
+</p>
+</li>
+<li><p> The number of significant tests versus each q-value cutoff.
+</p>
+</li>
+<li><p> The number of expected false positives versus the number of
+significant tests.
+</p>
+</li></ol>
+
+<p>This function makes four plots. The first is a plot of the
+estimate of <i>pi_0</i> versus its tuning parameter
+<i>lambda</i>. In most cases, as <i>lambda</i>
+gets larger, the bias of the estimate decreases, yet the variance
+increases. Various methods exist for balancing this bias-variance
+trade-off (Storey 2002, Storey &amp; Tibshirani 2003, Storey, Taylor
+&amp; Siegmund 2004). Comparing your estimate of <i>pi_0</i> to this
+plot allows one to guage its quality. The remaining three plots
+show how many tests are called significant and how many false
+positives to expect for each q-value cut-off. A thorough discussion of
+these plots can be found in Storey &amp; Tibshirani (2003).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nothing of interest.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>John D. Storey, Andrew J. Bass
+</p>
+
+
+<h3>References</h3>
+
+<p>Storey JD. (2002) A direct approach to false discovery rates. Journal
+of the Royal Statistical Society, Series B, 64: 479-498. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract">http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract</a>
+</p>
+<p>Storey JD and Tibshirani R. (2003) Statistical significance for
+genome-wide experiments. Proceedings of the National Academy of Sciences,
+100: 9440-9445. <br />
+<a href="http://www.pnas.org/content/100/16/9440.full">http://www.pnas.org/content/100/16/9440.full</a>
+</p>
+<p>Storey JD. (2003) The positive false discovery rate: A Bayesian
+interpretation and the q-value. Annals of Statistics, 31: 2013-2035. <br />
+<a href="http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335">http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335</a>
+</p>
+<p>Storey JD, Taylor JE, and Siegmund D. (2004) Strong control,
+conservative point estimation, and simultaneous conservative
+consistency of false discovery rates: A unified approach. Journal of
+the Royal Statistical Society, Series B, 66: 187-205. <br />
+</p>
+<p>Storey JD. (2011) False discovery rates. In <em>International Encyclopedia of Statistical Science</em>. <br />
+<a href="http://genomine.org/papers/Storey_FDR_2011.pdf">http://genomine.org/papers/Storey_FDR_2011.pdf</a> <br />
+<a href="http://www.springer.com/statistics/book/978-3-642-04897-5">http://www.springer.com/statistics/book/978-3-642-04897-5</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qvalue.html">qvalue</a></code>, <code><a href="write.qvalue.html">write.qvalue</a></code>, <code><a href="summary.qvalue.html">summary.qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+p &lt;- hedenfalk$p
+qobj &lt;- qvalue(p)
+
+plot(qobj, rng=c(0.0, 0.3))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

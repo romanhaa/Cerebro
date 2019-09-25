@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Combining or merging different Bioconductor data structures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for combine {BiocGenerics}"><tr><td>combine {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Combining or merging different Bioconductor data structures</h2>
+
+<h3>Description</h3>
+
+<p>The <code>combine</code> generic function handles methods for combining
+or merging different Bioconductor data structures.
+It should, given an arbitrary number of arguments of the same class
+(possibly by inheritance), combine them into a single instance in
+a sensible way (some methods may only combine 2 objects,
+ignoring <code>...</code> in the argument list; because Bioconductor
+data structures are complicated, check carefully that <code>combine</code>
+does as you intend).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+combine(x, y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>One of the values.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>A second value.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any other objects of the same class as <code>x</code> and <code>y</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>There are two basic combine strategies. One is an intersection
+strategy. The returned value should only have rows (or columns) that
+are found in all input data objects. The union strategy says that the
+return value will have all rows (or columns) found in any one of the
+input data objects (in which case some indication of what to use for
+missing values will need to be provided).
+</p>
+<p>These functions and methods are currently under construction. Please
+let us know if there are features that you require.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single value of the same class as the most specific common ancestor
+(in class terms) of the input values. This will contain the
+appropriate combination of the data in the input values.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>The following methods are defined in the <span class="pkg">BiocGenerics</span> package:
+</p>
+
+<dl>
+<dt><code>combine(x=ANY, missing)</code></dt><dd><p>Return the first (x) argument
+unchanged.</p>
+</dd>
+<dt><code>combine(data.frame, data.frame)</code></dt><dd><p>Combines two
+<code>data.frame</code> objects so that the resulting <code>data.frame</code>
+contains all rows and columns of the original objects. Rows and
+columns in the returned value are unique, that is, a row or column
+represented in both arguments is represented only once in the
+result. To perform this operation, <code>combine</code> makes sure that data
+in shared rows and columns are identical in the two
+data.frames. Data differences in shared rows and columns usually cause an
+error. <code>combine</code> issues a warning when a column is a
+<code><a href="../../base/html/factor.html">factor</a></code> and the levels of the factor in the two
+data.frames are different.</p>
+</dd>
+<dt><code>combine(matrix, matrix)</code></dt><dd><p>Combined two <code>matrix</code>
+objects so that the resulting <code>matrix</code> contains all rows and
+columns of the original objects. Both matricies must have
+<code>dimnames</code>. Rows and columns in the returned
+value are unique, that is, a row or column represented in both
+arguments is represented only once in the result. To perform this
+operation, <code>combine</code> makes sure that data in shared rows and
+columns are all equal in the two matricies.</p>
+</dd>
+</dl>
+
+<p>Additional <code>combine</code> methods are defined in the <span class="pkg">Biobase</span> package
+for <a href="../../Biobase/html/AnnotatedDataFrame.html">AnnotatedDataFrame</a>,
+<a href="../../Biobase/html/AssayData.html">AssayData</a>, <a href="../../Biobase/html/MIAME.html">MIAME</a>,
+and <a href="../../Biobase/html/eSet.html">eSet</a> objects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="../../Biobase/html/combine,AnnotatedDataFrame,AnnotatedDataFrame-method.html">combine,AnnotatedDataFrame,AnnotatedDataFrame-method</a>,
+<a href="../../Biobase/html/combine,AssayData,AssayData-method.html">combine,AssayData,AssayData-method</a>,
+<a href="../../Biobase/html/combine,MIAME,MIAME-method.html">combine,MIAME,MIAME-method</a>,
+and <a href="../../Biobase/html/combine,eSet,eSet-method.html">combine,eSet,eSet-method</a> in the <span class="pkg">Biobase</span>
+package for additional <code>combine</code> methods.
+</p>
+</li>
+<li> <p><code><a href="../../base/html/merge.html">merge</a></code> for merging two data frames (or data-frame-like)
+objects.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+combine
+showMethods("combine")
+selectMethod("combine", c("ANY", "missing"))
+selectMethod("combine", c("data.frame", "data.frame"))
+selectMethod("combine", c("matrix", "matrix"))
+
+## ---------------------------------------------------------------------
+## COMBINING TWO DATA FRAMES
+## ---------------------------------------------------------------------
+x &lt;- data.frame(x=1:5,
+        y=factor(letters[1:5], levels=letters[1:8]),
+        row.names=letters[1:5])
+y &lt;- data.frame(z=3:7,
+        y=factor(letters[3:7], levels=letters[1:8]),
+        row.names=letters[3:7])
+combine(x,y)
+
+w &lt;- data.frame(w=4:8,
+       y=factor(letters[4:8], levels=letters[1:8]),
+       row.names=letters[4:8])
+combine(w, x, y)
+
+# y is converted to 'factor' with different levels
+df1 &lt;- data.frame(x=1:5,y=letters[1:5], row.names=letters[1:5])
+df2 &lt;- data.frame(z=3:7,y=letters[3:7], row.names=letters[3:7])
+try(combine(df1, df2)) # fails
+# solution 1: ensure identical levels
+y1 &lt;- factor(letters[1:5], levels=letters[1:7])
+y2 &lt;- factor(letters[3:7], levels=letters[1:7])
+df1 &lt;- data.frame(x=1:5,y=y1, row.names=letters[1:5])
+df2 &lt;- data.frame(z=3:7,y=y2, row.names=letters[3:7])
+combine(df1, df2)
+# solution 2: force column to be 'character'
+df1 &lt;- data.frame(x=1:5,y=I(letters[1:5]), row.names=letters[1:5])
+df2 &lt;- data.frame(z=3:7,y=I(letters[3:7]), row.names=letters[3:7])
+combine(df1, df2)
+
+## ---------------------------------------------------------------------
+## COMBINING TWO MATRICES
+## ---------------------------------------------------------------------
+m &lt;- matrix(1:20, nrow=5, dimnames=list(LETTERS[1:5], letters[1:4]))
+combine(m[1:3,], m[4:5,])
+combine(m[1:3, 1:3], m[3:5, 3:4]) # overlap
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

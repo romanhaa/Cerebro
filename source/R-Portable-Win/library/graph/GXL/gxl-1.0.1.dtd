@@ -1,0 +1,138 @@
+<!-- GXL (1.0.1) 
+     Document Type Definition
+     (April 25, 2002) 
+  
+copyright by 
+
+       Andy Schuerr 
+         Institute for Software Technology 
+         University of the German Federal Armed Forces Munich 
+         85577 Neubiberg, Germany 
+         Andy.Schuerr@unibw-muenchen.de 
+
+       Susan Elliott Sim 
+         Department of Computer Science 
+         University of Toronto 
+         Toronto M5S 3G4, Canada 
+         simsuz@cs.utoronto.ca 
+
+       Ric Holt 
+         Department of Computer Science 
+         University of Waterloo 
+         Waterloo N2L 3G1, Canada 
+         holt@plg.uwaterloo.ca 
+
+       Andreas Winter 
+         Institute for Software Technology 
+         University of Koblenz-Landau 
+         Rheinau 1, D-56075 Koblenz, Germany 
+         winter@uni-koblenz.de
+-->
+<!-- Extensions -->
+<!ENTITY % gxl-extension "">
+<!ENTITY % graph-extension "">
+<!ENTITY % node-extension "">
+<!ENTITY % edge-extension "">
+<!ENTITY % rel-extension "">
+<!ENTITY % value-extension "">
+<!ENTITY % relend-extension "">
+<!ENTITY % gxl-attr-extension "">
+<!ENTITY % graph-attr-extension "">
+<!ENTITY % node-attr-extension "">
+<!ENTITY % edge-attr-extension "">
+<!ENTITY % rel-attr-extension "">
+<!ENTITY % relend-attr-extension "">
+<!-- Attribute values -->
+<!ENTITY % val " 
+           locator | 
+           bool    | 
+           int     | 
+           float   | 
+           string  | 
+           enum    | 
+           seq     | 
+           set     | 
+           bag     | 
+           tup 
+           %value-extension;">
+<!-- gxl -->
+<!ELEMENT gxl (graph* %gxl-extension;) >
+<!ATTLIST gxl
+	xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink"
+	%gxl-attr-extension; 
+>
+<!-- type -->
+<!ELEMENT type EMPTY>
+<!ATTLIST type
+	xlink:type (simple) #FIXED "simple"
+	xlink:href CDATA #REQUIRED
+>
+<!-- graph -->
+<!ELEMENT graph (type? , attr* , ( node | edge | rel )* %graph-extension;) >
+<!ATTLIST graph
+	id ID #REQUIRED
+	role NMTOKEN #IMPLIED
+	edgeids (true | false) "false"
+	hypergraph (true | false) "false"
+	edgemode (directed | undirected | defaultdirected | defaultundirected) "directed"
+	%graph-attr-extension; 
+>
+<!-- node -->
+<!ELEMENT node (type? , attr*, graph* %node-extension;) >
+<!ATTLIST node
+	id ID #REQUIRED
+	%node-attr-extension; 
+>
+<!-- edge -->
+<!ELEMENT edge (type?, attr*, graph* %edge-extension;) >
+<!ATTLIST edge
+	id ID #IMPLIED
+	from IDREF #REQUIRED
+	to IDREF #REQUIRED
+	fromorder CDATA #IMPLIED
+	toorder CDATA #IMPLIED
+	isdirected (true | false) #IMPLIED
+	%edge-attr-extension; 
+>
+<!-- rel -->
+<!ELEMENT rel (type? , attr*, graph*, relend* %rel-extension;) >
+<!ATTLIST rel
+	id ID #IMPLIED
+	isdirected (true | false) #IMPLIED
+	%rel-attr-extension; 
+>
+<!-- relend -->
+<!ELEMENT relend (attr* %relend-extension;) >
+<!ATTLIST relend
+	target IDREF #REQUIRED
+	role NMTOKEN #IMPLIED
+	direction (in | out | none) #IMPLIED
+	startorder CDATA #IMPLIED
+	endorder CDATA #IMPLIED
+	%relend-attr-extension; 
+>
+<!-- attr -->
+<!ELEMENT attr (type?, attr*, (%val;))>
+<!ATTLIST attr
+	id ID #IMPLIED
+	name NMTOKEN #REQUIRED
+	kind NMTOKEN #IMPLIED
+>
+<!-- locator -->
+<!ELEMENT locator EMPTY>
+<!ATTLIST locator
+	xlink:type (simple) #FIXED "simple"
+	xlink:href CDATA #REQUIRED
+>
+<!-- atomic values -->
+<!ELEMENT bool (#PCDATA)>
+<!ELEMENT int (#PCDATA)>
+<!ELEMENT float (#PCDATA)>
+<!ELEMENT string (#PCDATA)>
+<!-- enumeration value -->
+<!ELEMENT enum (#PCDATA)>
+<!-- composite values -->
+<!ELEMENT seq (%val;)*>
+<!ELEMENT set (%val;)*>
+<!ELEMENT bag (%val;)*>
+<!ELEMENT tup (%val;)*>

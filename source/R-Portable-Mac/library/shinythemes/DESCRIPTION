@@ -1,0 +1,37 @@
+Package: shinythemes
+Title: Themes for Shiny
+Version: 1.1.2
+Authors@R: c(
+    person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"),
+    person(family = "RStudio", role = "cph"),
+    person("Thomas", "Park", role = c("ctb", "cph"), comment = "Bootswatch themes"),
+    person("Lukasz", "Dziedzic", role = c("ctb", "cph"), comment = "Lato font"),
+    person("Nathan", "Willis", role = c("ctb", "cph"), comment = "News Cycle font"),
+    person(family = "Google Corporation", role = c("ctb", "cph"), comment = "Open Sans and Roboto fonts"),
+    person("Matt", "McInerney", role = c("ctb", "cph"), comment = "Raleway font"),
+    person(family = "Adobe Systems Incorporated", role = c("ctb", "cph"), comment = "Source Sans Pro font"),
+    person(family = "Canonical Ltd", role = c("ctb", "cph"), comment = "Ubuntu font")
+    )
+Description: Themes for use with Shiny. Includes several Bootstrap themes
+    from <http://bootswatch.com/>, which are packaged for use with Shiny
+    applications.
+Depends: R (>= 3.0.0)
+Imports: shiny (>= 0.11)
+URL: http://rstudio.github.io/shinythemes/
+License: GPL-3 | file LICENSE
+RoxygenNote: 6.1.0.9000
+NeedsCompilation: no
+Packaged: 2018-11-06 16:28:32 UTC; winston
+Author: Winston Chang [aut, cre],
+  RStudio [cph],
+  Thomas Park [ctb, cph] (Bootswatch themes),
+  Lukasz Dziedzic [ctb, cph] (Lato font),
+  Nathan Willis [ctb, cph] (News Cycle font),
+  Google Corporation [ctb, cph] (Open Sans and Roboto fonts),
+  Matt McInerney [ctb, cph] (Raleway font),
+  Adobe Systems Incorporated [ctb, cph] (Source Sans Pro font),
+  Canonical Ltd [ctb, cph] (Ubuntu font)
+Maintainer: Winston Chang <winston@rstudio.com>
+Repository: CRAN
+Date/Publication: 2018-11-06 17:00:03 UTC
+Built: R 3.5.0; ; 2018-11-07 13:39:17 UTC; unix

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the hypergeometric probability of the subgraph's...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for calcProb {graph}"><tr><td>calcProb {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Calculate the hypergeometric probability of the subgraph's number of 
+edges.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>calcProb</code> calculates the probability of having the number of edges
+found in the subgraph given that it was made from <code>origgraph</code>.
+The hypergeometric distribution is used to calculate the 
+probability (using the pdf).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calcProb(subgraph, origgraph)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>subgraph</code></td>
+<td>
+<p> subgraph made from the original graph </p>
+</td></tr>
+<tr valign="top"><td><code>origgraph</code></td>
+<td>
+<p> original graph object from which the subgraph was made </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The probability of the subgraph's number of edges is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Elizabeth Whalen </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="calcSumProb.html">calcSumProb</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ #none right now
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

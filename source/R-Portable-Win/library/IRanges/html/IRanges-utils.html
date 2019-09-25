@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: IRanges utility functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IRanges-utils {IRanges}"><tr><td>IRanges-utils {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>IRanges utility functions</h2>
+
+<h3>Description</h3>
+
+<p>Utility functions for creating or modifying <a href="IRanges-constructor.html">IRanges</a> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Create an IRanges instance:
+successiveIRanges(width, gapwidth=0, from=1)
+breakInChunks(totalsize, nchunk, chunksize)
+
+## Turn a logical vector into a set of ranges:
+whichAsIRanges(x)
+
+## Coercion:
+asNormalIRanges(x, force=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>width</code></td>
+<td>
+
+<p>A vector of non-negative integers (with no NAs) specifying the widths
+of the ranges to create.
+</p>
+</td></tr>
+<tr valign="top"><td><code>gapwidth</code></td>
+<td>
+
+<p>A single integer or an integer vector with one less element than
+the <code>width</code> vector specifying the widths of the gaps separating
+one range from the next one.
+</p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+
+<p>A single integer specifying the starting position of the first range.
+</p>
+</td></tr>
+<tr valign="top"><td><code>totalsize</code></td>
+<td>
+
+<p>A single non-negative integer. The total size of the object to break.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nchunk</code></td>
+<td>
+
+<p>A single positive integer. The number of chunks.
+</p>
+</td></tr>
+<tr valign="top"><td><code>chunksize</code></td>
+<td>
+
+<p>A single positive integer. The size of the chunks (last chunk might be
+smaller).
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A logical vector for <code>whichAsIRanges</code>.
+</p>
+<p>An <a href="IRanges-constructor.html">IRanges</a> object for <code>asNormalIRanges</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>force</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>. Should <code>x</code> be turned into a
+<a href="IRanges-class.html">NormalIRanges</a> object even if <code>isNormal(x)</code> is <code>FALSE</code>?
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>successiveIRanges</code> returns an <a href="IRanges-constructor.html">IRanges</a> instance containing
+the ranges that have the widths specified in the <code>width</code> vector
+and are separated by the gaps specified in <code>gapwidth</code>.
+The first range starts at position <code>from</code>.
+When <code>gapwidth=0</code> and <code>from=1</code> (the defaults), the returned
+IRanges can be seen as a partitioning of the 1:sum(width) interval.
+See <code>?Partitioning</code> for more details on this.
+</p>
+<p><code>breakInChunks</code> returns a <a href="Grouping-class.html">PartitioningByEnd</a> object
+describing the &quot;chunks&quot; that result from breaking a vector-like object
+of length <code>totalsize</code> in the chunks described by <code>nchunk</code> or
+<code>chunksize</code>.
+</p>
+<p><code>whichAsIRanges</code> returns an <a href="IRanges-constructor.html">IRanges</a> instance containing all of
+the ranges where <code>x</code> is <code>TRUE</code>.
+</p>
+<p>If <code>force=TRUE</code> (the default), then <code>asNormalIRanges</code> will
+turn <code>x</code> into a <a href="IRanges-class.html">NormalIRanges</a> instance by reordering and
+reducing the set of ranges if necessary (i.e. only if <code>isNormal(x)</code>
+is <code>FALSE</code>, otherwise the set of ranges will be untouched).
+If <code>force=FALSE</code>, then <code>asNormalIRanges</code> will turn <code>x</code>
+into a <a href="IRanges-class.html">NormalIRanges</a> instance only if <code>isNormal(x)</code> is
+<code>TRUE</code>, otherwise it will raise an error.
+Note that when <code>force=FALSE</code>, the returned object is guaranteed
+to contain exactly the same set of ranges than <code>x</code>.
+<code>as(x, "NormalIRanges")</code> is equivalent to <code>asNormalIRanges(x, force=TRUE)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="IRanges-constructor.html">IRanges</a> objects.
+</p>
+</li>
+<li> <p><a href="Grouping-class.html">Partitioning</a> objects.
+</p>
+</li>
+<li> <p><code><a href="extractListFragments.html">equisplit</a></code> for splitting a list-like object into
+a specified number of partitions.
+</p>
+</li>
+<li> <p><a href="intra-range-methods.html">intra-range-methods</a> and <a href="inter-range-methods.html">inter-range-methods</a>
+for intra range and inter range transformations.
+</p>
+</li>
+<li> <p><a href="setops-methods.html">setops-methods</a> for performing set operations on
+<a href="IRanges-constructor.html">IRanges</a> objects.
+</p>
+</li>
+<li> <p><code><a href="IRanges-constructor.html">solveUserSEW</a></code>
+</p>
+</li>
+<li> <p><code><a href="Views-class.html">successiveViews</a></code>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+vec &lt;- as.integer(c(19, 5, 0, 8, 5))
+
+successiveIRanges(vec)
+
+breakInChunks(600999, chunksize=50000)  # chunks of size 50000 (last
+                                        # chunk is smaller)
+
+whichAsIRanges(vec &gt;= 5)
+
+x &lt;- IRanges(start=c(-2L, 6L, 9L, -4L, 1L, 0L, -6L, 10L),
+             width=c( 5L, 0L, 6L,  1L, 4L, 3L,  2L,  3L))
+asNormalIRanges(x)  # 3 non-empty ranges ordered from left to right and
+                    # separated by gaps of width &gt;= 1.
+
+## More on normality:
+example(`IRanges-class`)
+isNormal(x16)                        # FALSE
+if (interactive())
+    x16 &lt;- asNormalIRanges(x16)      # Error!
+whichFirstNotNormal(x16)             # 57
+isNormal(x16[1:56])                  # TRUE
+xx &lt;- asNormalIRanges(x16[1:56])
+class(xx)
+max(xx)
+min(xx)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

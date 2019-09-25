@@ -1,0 +1,53 @@
+Package: IRanges
+Title: Infrastructure for manipulating intervals on sequences
+Description: Provides efficient low-level and highly reusable S4
+	classes for storing, manipulating and aggregating over annotated
+	ranges of integers. Implements an algebra of range operations,
+	including efficient algorithms for finding overlaps and nearest
+	neighbors. Defines efficient list-like classes for storing,
+	transforming and aggregating large grouped data, i.e., collections
+	of atomic vectors and DataFrames.
+Version: 2.16.0
+Encoding: UTF-8
+Author: H. Pagès, P. Aboyoun and M. Lawrence
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+biocViews: Infrastructure, DataRepresentation
+Depends: R (>= 3.1.0), methods, utils, stats, BiocGenerics (>= 0.25.3),
+        S4Vectors (>= 0.19.11)
+Imports: stats4
+LinkingTo: S4Vectors
+Suggests: XVector, GenomicRanges, Rsamtools, GenomicAlignments,
+        GenomicFeatures, BSgenome.Celegans.UCSC.ce2, pasillaBamSubset,
+        RUnit, BiocStyle
+License: Artistic-2.0
+Collate: range-squeezers.R Vector-class-leftovers.R
+        List-class-leftovers.R DataFrame-utils.R DataFrameList-class.R
+        DataFrameList-utils.R AtomicList-class.R AtomicList-utils.R
+        Ranges-and-RangesList-classes.R IPosRanges-class.R
+        IPosRanges-comparison.R IntegerRangesList-class.R
+        IRanges-class.R IRanges-constructor.R IRanges-utils.R
+        Rle-class-leftovers.R IPos-class.R subsetting-utils.R
+        Grouping-class.R Views-class.R RleViews-class.R
+        RleViews-utils.R extractList.R seqapply.R multisplit.R
+        SimpleGrouping-class.R IRangesList-class.R IPosList-class.R
+        ViewsList-class.R RleViewsList-class.R RleViewsList-utils.R
+        RangedSelection-class.R MaskCollection-class.R read.Mask.R
+        CompressedList-class.R CompressedList-comparison.R
+        CompressedHitsList-class.R CompressedDataFrameList-class.R
+        CompressedAtomicList-class.R CompressedGrouping-class.R
+        CompressedRangesList-class.R RangedData-class.R
+        RangedData-utils.R Hits-class-leftovers.R NCList-class.R
+        findOverlaps-methods.R windows-methods.R intra-range-methods.R
+        inter-range-methods.R reverse-methods.R coverage-methods.R
+        cvg-methods.R slice-methods.R setops-methods.R
+        nearest-methods.R cbind-Rle-methods.R tile-methods.R
+        extractListFragments.R zzz.R
+git_url: https://git.bioconductor.org/packages/IRanges
+git_branch: RELEASE_3_8
+git_last_commit: 26834c6
+git_last_commit_date: 2018-10-30
+Date/Publication: 2018-10-30
+NeedsCompilation: yes
+Packaged: 2018-10-31 01:03:46 UTC; biocbuild
+Built: R 3.5.1; i386-w64-mingw32; 2018-10-31 11:24:38 UTC; windows
+Archs: i386, x64

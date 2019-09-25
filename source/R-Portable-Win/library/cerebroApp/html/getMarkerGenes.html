@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get marker genes for every sample and cluster in Seurat...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getMarkerGenes {cerebroApp}"><tr><td>getMarkerGenes {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get marker genes for every sample and cluster in Seurat object.</h2>
+
+<h3>Description</h3>
+
+<p>This function gets marker genes for every sample and cluster of
+the Seurat object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getMarkerGenes(object, organism = NULL, column_sample = "sample",
+  column_cluster = "cluster", only_pos = TRUE, min_pct = 0.7,
+  thresh_logFC = 0.25, thresh_p_val = 0.01, test = "wilcox",
+  verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>organism</code></td>
+<td>
+<p>Organism information for pulling info about presence of
+marker genes of cell surface; can be omitted if already saved in Seurat
+object; defaults to NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>column_sample</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about sample; defaults to 'sample'.</p>
+</td></tr>
+<tr valign="top"><td><code>column_cluster</code></td>
+<td>
+<p>Column in object@meta.data that contains information
+about cluster; defaults to 'cluster'.</p>
+</td></tr>
+<tr valign="top"><td><code>only_pos</code></td>
+<td>
+<p>Identify only over-expressed genes; defaults to TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>min_pct</code></td>
+<td>
+<p>Only keep genes that are expressed in at least n% of current
+group of cells, defaults to 0.70 (70%).</p>
+</td></tr>
+<tr valign="top"><td><code>thresh_logFC</code></td>
+<td>
+<p>Only keep genes that show an average logFC of at least n;
+defaults to 0.25.</p>
+</td></tr>
+<tr valign="top"><td><code>thresh_p_val</code></td>
+<td>
+<p>Threshold for p-value, defaults to 0.01.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>Statistical test used, defaults to 'wilcox' (Wilcoxon test).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Print progress bar; defaults to TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further parameters can be passed to control
+Seurat::FindAllMakers().</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Get marker genes for every sample and cluster in Seurat object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Seurat object with marker gene results for samples and clusters
+stored in object@misc$marker_genes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seurat &lt;- getMarkerGenes(
+  object = seurat
+  organism = 'hg',
+  column_sample = 'sample',
+  column_cluster = 'cluster',
+  only_pos = TRUE,
+  min_pct = 0.7,
+  thresh_logFC = 0.25,
+  thresh_p_val = 0.01,
+  test = 'wilcox',
+  verbose = TRUE
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

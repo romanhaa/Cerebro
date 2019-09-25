@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update an object to the class definition of a template</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for updateObjectTo {Biobase}"><tr><td>updateObjectTo {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update an object to the class definition of a template</h2>
+
+<h3>Description</h3>
+
+<p>The <code>updateObjectTo</code> generic function returns an instance
+of <code>object</code> updated to the class definition of <code>template</code>.
+</p>
+<p>It requires that the class of the returned object be the same as the
+class of the <code>template</code> argument, and that the object is valid.
+Usually, updating proceeds by modifying slots in
+<code>template</code> with information from <code>object</code>, and returning
+<code>template</code>. Use <code><a href="../../methods/html/as.html">as</a></code> to coerce an object from one
+type to another; <code>updateObjectTo</code> might be useful to update a
+virtual superclass. By default, <code>updateObjectTo</code> has the following
+behavior:
+</p>
+
+<dl>
+<dt><code>updateObjectTo(ANY-object,ANY-template)</code></dt><dd><p>Attempt <code>as(ANY-object,class(ANY-template))</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+updateObjectTo(object, template, ..., verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object to be updated.</p>
+</td></tr>
+<tr valign="top"><td><code>template</code></td>
+<td>
+<p>Instance representing a template for updating object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, for use in specific update methods.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A logical, indicating whether information about the
+update should be reported. Use <code>message</code> to report this.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>updateObjectTo</code> returns a valid instance of <code>template</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../BiocGenerics/html/updateObject.html">updateObject</a></code>,
+<code><a href="class.Versions.html">Versions-class</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

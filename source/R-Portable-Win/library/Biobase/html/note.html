@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Informational Messages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for note {Biobase}"><tr><td>note {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Informational Messages</h2>
+
+<h3>Description</h3>
+
+<p>Generates  an informational message that corresponds to its
+argument(s).  Similar to warning() except prefaced by &quot;Note:&quot;
+instead of &quot;Warning message:&quot;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+note(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>character vectors (which are pasted together) or NULL</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function essentially cat()'s the created string to the screen.
+It is intended for messages to the user that are deemed to be
+'informational', as opposed to warnings, etc.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/warning.html">warning</a></code>,<code><a href="../../base/html/stop.html">stop</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   note("This is an example of a note")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

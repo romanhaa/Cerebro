@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Copy Between Connections or Files with Configure-Like...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for copySubstitute {Biobase}"><tr><td>copySubstitute {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Copy Between Connections or Files with Configure-Like Name-Value Substitution</h2>
+
+<h3>Description</h3>
+
+<p>Copy files, directory trees or between connections and
+replace all occurences of a symbol by the corresponding value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+copySubstitute(src, dest, symbolValues, symbolDelimiter="@", allowUnresolvedSymbols=FALSE,
+               recursive = FALSE, removeExtension = "\\.in$")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>src</code></td>
+<td>
+<p>Source, either a character vector with filenames and/or
+directory names, or a connection object.</p>
+</td></tr>
+<tr valign="top"><td><code>dest</code></td>
+<td>
+<p>Destination, either a character vector of length 1
+with the name of an existing, writable directory, or a connection
+object. The class of the <code>dest</code> argument must match that of the
+<code>src</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>symbolValues</code></td>
+<td>
+<p>A named list of character strings.</p>
+</td></tr>
+<tr valign="top"><td><code>symbolDelimiter</code></td>
+<td>
+<p>A character string of length one with a single
+character in it.</p>
+</td></tr>
+<tr valign="top"><td><code>allowUnresolvedSymbols</code></td>
+<td>
+<p>Logical. If <code>FALSE</code>, then the function
+will execute <code><a href="../../base/html/stop.html">stop</a></code> if it comes across
+symbols that are not defined in <code>symbolValues</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the function
+works recursively down a directory tree (see details).</p>
+</td></tr>
+<tr valign="top"><td><code>removeExtension</code></td>
+<td>
+<p>Character. Matches to this regular expression are removed
+from filenames and directory names.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Symbol substitution: this is best explained with an example. If the list
+<code>symbolValues</code> contains an element with name <code>FOO</code> and value
+<code>bar</code>, and symbolDelimiter is <code>@</code>, then any occurrence of
+<code>@FOO@</code> is replaced by <code>bar</code>. This applies both the text
+contents of the files in <code>src</code> as well as to the filenames. See examples.
+</p>
+<p>If <code>recursive</code> is <code>FALSE</code>, both <code>src</code> and <code>dest</code>
+must be connection or a filenames. The text in <code>src</code> is read
+through the function <code><a href="../../base/html/readLines.html">readLines</a></code>,
+symbols are replaced by their values, and the result is written to
+<code>dest</code> through the function <code><a href="../../base/html/readLines.html">writeLines</a></code>.
+</p>
+<p>If <code>recursive</code> is <code>TRUE</code>,
+<code><a href="copySubstitute.html">copySubstitute</a></code>
+works recursively down a directory tree (see details and example).
+<code>src</code> must be a character vector with multiple filenames or
+directory names, <code>dest</code> a directory name.
+</p>
+<p>One use of this function is in
+<code><a href="createPackage.html">createPackage</a></code>
+for the automatic generation of packages from a template package directory.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None. The function is called for its side effect.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.dkfz.de/mga/whuber">http://www.dkfz.de/mga/whuber</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## create an example file
+infile  = tempfile()
+outfile = tempfile()
+
+writeLines(text=c("We will perform in @WHAT@:",
+  "So, thanks to @WHOM@ at once and to each one,",
+  "Whom we invite to see us crown'd at @WHERE@."),
+  con = infile)
+
+## create the symbol table
+z = list(WHAT="measure, time and place", WHOM="all", WHERE="Scone")
+
+## run copySubstitute
+copySubstitute(infile, outfile, z)
+
+## display the results
+readLines(outfile)
+
+
+
+##--------------------------------------------------------------
+## This is a slightly more complicated example that demonstrates
+## how copySubstitute works on nested directories
+##--------------------------------------------------------------
+d = tempdir()
+my.dir.create = function(x) {dir.create(x); return(x)}
+
+unlink(file.path(d, "src"), recursive=TRUE)
+unlink(file.path(d, "dest"), recursive=TRUE)
+
+## create some directories and files:
+src  = my.dir.create(file.path(d, "src"))
+dest = file.path(d, "dest")
+d1   = my.dir.create(file.path(src, "dir1.in"))
+d2   = my.dir.create(file.path(src, "dir2@FOO@.in"))
+d3   = my.dir.create(file.path(d2, "dir3"))
+d4   = my.dir.create(file.path(d3, "dir4"))
+d5   = my.dir.create(file.path(d4, "dir5@BAR@"))
+writeLines(c("File1:", "FOO: @FOO@"),     file.path(d1, "file1.txt.in"))
+writeLines(c("File2:", "BAR: @BAR@"),     file.path(d2, "file2.txt.in"))
+writeLines(c("File3:", "SUN: @SUN@"),     file.path(d3, "file3.txt.in"))
+writeLines(c("File4:", "MOON: @MOON@"),   file.path(d4, "@SUN@.txt"))
+
+## call copySubstitute
+copySubstitute(src, dest, recursive=TRUE,
+               symbolValues = list(FOO="thefoo", BAR="thebar",
+                                   SUN="thesun", MOON="themoon"))
+
+## view the result
+listsrc  = dir(src,  full.names=TRUE, recursive=TRUE)
+listdest = dir(dest, full.names=TRUE, recursive=TRUE)
+listsrc
+listdest
+
+cat(unlist(lapply(listsrc,  readLines)), sep="\n")
+cat(unlist(lapply(listdest, readLines)), sep="\n")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

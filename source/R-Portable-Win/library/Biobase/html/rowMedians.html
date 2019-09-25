@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculates the median for each row in a matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rowMedians {Biobase}"><tr><td>rowMedians {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculates the median for each row in a matrix</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the median for each row in a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>rowMedians(x, na.rm=FALSE, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/html/numeric.html">numeric</a></code> NxK <code><a href="../../base/html/matrix.html">matrix</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code><a href="../../base/html/logical.html">TRUE</a></code>,
+<code><a href="../../base/html/NA.html">NA</a></code>s are excluded first, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not use.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The implementation of <code>rowMedians()</code>
+is optimized for both speed and memory.
+To avoid coercing to <code><a href="../../base/html/double.html">double</a></code>s (and hence memory
+allocation), there is a special implementation for
+<code><a href="../../base/html/integer.html">integer</a></code> matrices.  That is, if <code>x</code> is an
+<code><a href="../../base/html/integer.html">integer</a></code> <code><a href="../../base/html/matrix.html">matrix</a></code>, then 
+<code>rowMedians(as.double(x))</code> would require three times the memory
+of <code>rowMedians(x)</code>, but all this is avoided.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/html/numeric.html">numeric</a></code> <code><a href="../../base/html/vector.html">vector</a></code> of
+length N.
+</p>
+
+
+<h3>Missing values</h3>
+
+<p>Missing values are excluded before calculating the medians.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code>rowMeans()</code> in <code><a href="../../base/html/colSums.html">colSums</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(1)
+x &lt;- rnorm(n=234*543)
+x[sample(1:length(x), size=0.1*length(x))] &lt;- NA
+dim(x) &lt;- c(234,543)
+y1 &lt;- rowMedians(x, na.rm=TRUE)
+y2 &lt;- apply(x, MARGIN=1, FUN=median, na.rm=TRUE)
+stopifnot(all.equal(y1, y2))
+
+x &lt;- cbind(x1=3, x2=c(4:1, 2:5))
+stopifnot(all.equal(rowMeans(x), rowMedians(x)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

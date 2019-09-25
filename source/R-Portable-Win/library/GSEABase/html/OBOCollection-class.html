@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;OBOCollection&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for OBOCollection-class {GSEABase}"><tr><td>OBOCollection-class {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;OBOCollection&quot;</h2>
+
+<h3>Description</h3>
+
+<p><code>OBOCollection</code> extends the <code><a href="CollectionType-constructors.html">GOCollection</a></code> class, and
+is usually constructed from a file formated following the OBO file
+format. See <code><a href="CollectionType-class.html">CollectionType</a></code> for general use of
+collections with gene sets.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects are instantiated with calls to <code><a href="CollectionType-constructors.html">OBOCollection</a></code> or
+<code><a href="getOBOCollection.html">getOBOCollection</a></code>.
+</p>
+
+
+<h3>Slots</h3>
+
+<p><code>OBOCollection</code> extends <code>GOCollection</code> and
+<code>OBOCollection</code> has the following additional slots (these slots are
+NOT meant to be manipulated directly by the user):
+</p>
+
+<dl>
+<dt><code>.stanza</code>:</dt><dd><p>A <code>data.frame</code> representing the stanzas
+present in an OBO file. Row names of the data frame are
+unique stanza identifiers. The <code>value</code> column contains the
+stanza name (e.g., &lsquo;Term&rsquo;, i.e., the stanza name associated
+with a GO identifier).</p>
+</dd>
+<dt><code>.subset</code></dt><dd><p>A <code>data.frame</code> representing (optional)
+subsets defined in the collection. Subsets are defined in the
+header of an OBO file with a subsetdef tag. Row names of the data
+frame are the subsetdef names; the <code>value</code> column contains
+the subset definition.</p>
+</dd>
+<dt><code>.kv</code></dt><dd><p>A <code>data.frame</code> representing key-value pairs
+in the OBO source file. The row names of the data frame correspond
+to lines in the OBO file. The <code>stanza_id</code> column indexes the
+row of <code>.stanza</code> describing the stanza in which the key-value
+pair occured. The remaining columns (<code>key</code>, <code>value</code>)
+contain the parsed key and value.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+<p><code>OBOCollection</code> has the following methods, in addition to those inherited from
+<code><a href="CollectionType-class.html">GOCollection</a></code>.
+</p>
+<p>These methods list and select subsets of <code>OBOCollection</code>:
+</p>
+
+<dl>
+<dt>subsets</dt><dd><p><code>signature(object="OBOCollection",
+        display="named")</code>: return a character vector of subsets present
+in <code>object</code>. Valid values for <code>display</code> are
+&lsquo;named&rsquo; (a named character vector, with names equal to the
+names of the subsets and values the descriptions), &lsquo;full&rsquo;
+(a character vector of name and description, with each pair
+formated into a single entry as &ldquo;name (description)&rdquo;),
+&lsquo;key&rsquo; (subset names), or &lsquo;value&rsquo; (subset
+descriptions).</p>
+</dd>
+<dt>[</dt><dd><p><code>signature(object="OBOCollection", i="character",
+        j="missing", ...)</code>: return an
+<code>OBOCollection</code> by selecting just those subsets whose name
+matches the string(s) in <code>i</code>. This method calls the
+<code>[,GOCollection</code> method so, e.g., <code>evidenceCode</code> can be
+used to restricts which evidence codes the collection will
+identify.</p>
+</dd>
+</dl>
+
+<p>These methods coerce to and from <code>OBOCollection</code>:
+</p>
+
+<dl>
+<dt>as</dt><dd><p><code>signature(object="OBOCollection", "graphNEL")</code>:
+create a directed graph with nodes generated from
+<code>ids(object)</code> and edges from <code>is_a</code> relations of
+<code>object</code>.</p>
+</dd>
+<dt>as</dt><dd><p><code>signature(object="graphNEL", "OBOCollection")</code>:
+create an <code>OBOCollection</code> with <code>ids</code> from the graph
+nodes, and edges from <code>inNodes(object)</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>References</h3>
+
+<p><a href="http://www.geneontology.org">http://www.geneontology.org</a> for details of the OBO format.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="CollectionType-constructors.html">OBOCollection</a></code> constructor; 
+<code><a href="CollectionType-class.html">CollectionType</a></code> classes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+fl &lt;- system.file("extdata", "goslim_plant.obo", package="GSEABase")
+obo &lt;- getOBOCollection(fl)
+obo
+subsets(obo)
+obo["goslim_plant", evidenceCode="TAS"]
+g &lt;- as(obo["goslim_goa"], "graphNEL")
+if (interactive() &amp;&amp; require("Rgraphviz")) {
+    plot(g)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

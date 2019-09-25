@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract elements of a vector for concise rendering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for selectSome {Biobase}"><tr><td>selectSome {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract elements of a vector for concise rendering</h2>
+
+<h3>Description</h3>
+
+<p>Extract the first and last several elements of a vector for concise
+rendering; insert ellipses to indicate elided elements. This function
+is primarily meant for developer rather than end-user use.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+selectSome(obj, maxToShow=5)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>A vector.</p>
+</td></tr>
+<tr valign="top"><td><code>maxToShow</code></td>
+<td>
+<p>The number of elements (including &quot;...&quot;) to render.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used in 'show' methods to give users exemplars of
+the tokens used in a vector.  For example, an
+<code><a href="class.ExpressionSet.html">ExpressionSet</a></code> built from a yeast experiment might have
+features enumerated using systematic gene names (e.g., YPR181C) or
+standard gene names (e.g., SEC23).  The <code><a href="../../methods/html/show.html">show</a></code> method for
+<code><a href="class.ExpressionSet.html">ExpressionSet</a></code> uses <code>selectSome</code> to alert the user to
+the tokens used, and thereby to indicate what vocabulary must be
+understood to work with the feature names.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A string vector with at most <code>maxToShow</code> plus 1 elements,
+where an ellipsis (&quot;...&quot;) is included to indicate incompleteness
+of the excerpt.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;mtmorgan@fhcrc.org&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+selectSome(1:20)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

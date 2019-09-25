@@ -1,0 +1,419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Finding overlapping ranges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for findOverlaps-methods {IRanges}"><tr><td>findOverlaps-methods {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Finding overlapping ranges</h2>
+
+<h3>Description</h3>
+
+<p>Various methods for finding/counting interval overlaps between two
+&quot;range-based&quot; objects: a query and a subject.
+</p>
+<p>NOTE: This man page describes the methods that operate on
+<a href="IntegerRanges-class.html">IntegerRanges</a> and <a href="IntegerRangesList-class.html">IntegerRangesList</a> derivatives. See
+<code>?`<a href="../../GenomicRanges/html/findOverlaps,GenomicRanges,GenomicRanges-method.html">findOverlaps,GenomicRanges,GenomicRanges-method</a>`</code>
+in the <span class="pkg">GenomicRanges</span> package for methods that operate on
+<a href="../../GenomicRanges/html/GenomicRanges.html">GenomicRanges</a> or <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+findOverlaps(query, subject, maxgap=-1L, minoverlap=0L,
+             type=c("any", "start", "end", "within", "equal"),
+             select=c("all", "first", "last", "arbitrary"),
+             ...)
+
+countOverlaps(query, subject, maxgap=-1L, minoverlap=0L,
+              type=c("any", "start", "end", "within", "equal"),
+              ...)
+
+overlapsAny(query, subject, maxgap=-1L, minoverlap=0L,
+            type=c("any", "start", "end", "within", "equal"),
+            ...)
+query %over% subject
+query %within% subject
+query %outside% subject
+
+subsetByOverlaps(x, ranges, maxgap=-1L, minoverlap=0L,
+                 type=c("any", "start", "end", "within", "equal"),
+                 invert=FALSE,
+                 ...)
+
+overlapsRanges(query, subject, hits=NULL, ...)
+
+poverlaps(query, subject, maxgap = 0L, minoverlap = 1L,
+          type = c("any", "start", "end", "within", "equal"),
+          ...)
+
+mergeByOverlaps(query, subject, ...)
+
+findOverlapPairs(query, subject, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>query, subject, x, ranges</code></td>
+<td>
+
+<p>Each of them can be an <a href="IntegerRanges-class.html">IntegerRanges</a> (e.g. <a href="IRanges-constructor.html">IRanges</a>,
+<a href="Views-class.html">Views</a>) or <a href="IntegerRangesList-class.html">IntegerRangesList</a> (e.g. <a href="IRangesList-class.html">IRangesList</a>,
+<a href="ViewsList-class.html">ViewsList</a>) derivative.
+In addition, if <code>subject</code> or <code>ranges</code> is an <a href="IntegerRanges-class.html">IntegerRanges</a>
+object, <code>query</code> or <code>x</code> can be an integer vector to be converted
+to length-one ranges.
+</p>
+<p>If <code>query</code> (or <code>x</code>) is an <a href="IntegerRangesList-class.html">IntegerRangesList</a> object,
+then <code>subject</code> (or <code>ranges</code>) must also be an
+<a href="IntegerRangesList-class.html">IntegerRangesList</a> object.
+</p>
+<p>If both arguments are list-like objects with names, each list element
+from the 2nd argument is paired with the list element from the 1st
+argument with the matching name, if any. Otherwise, list elements are
+paired by position. The overlap is then computed between the pairs as
+described below.
+</p>
+<p>If <code>subject</code> is omitted, <code>query</code> is queried against
+itself. In this case, and only this case, the <code>drop.self</code>
+and <code>drop.redundant</code> arguments are allowed. By default,
+the result will contain hits for each range against itself, and if
+there is a hit from A to B, there is also a hit for B to A. If
+<code>drop.self</code> is <code>TRUE</code>, all self matches are dropped. If
+<code>drop.redundant</code> is <code>TRUE</code>, only one of A-&gt;B and B-&gt;A
+is returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>maxgap</code></td>
+<td>
+
+<p>A single integer &gt;= -1.
+</p>
+<p>If <code>type</code> is set to <code>"any"</code>, <code>maxgap</code> is interpreted as
+the maximum <em>gap</em> that is allowed between 2 ranges for the ranges
+to be considered as overlapping. The <em>gap</em> between 2 ranges
+is the number of positions that separate them. The <em>gap</em> between
+2 adjacent ranges is 0. By convention when one range has its start or
+end strictly inside the other (i.e. non-disjoint ranges), the <em>gap</em>
+is considered to be -1.
+</p>
+<p>If <code>type</code> is set to anything else, <code>maxgap</code> has a special
+meaning that depends on the particular <code>type</code>. See <code>type</code>
+below for more information.
+</p>
+</td></tr>
+<tr valign="top"><td><code>minoverlap</code></td>
+<td>
+
+<p>A single non-negative integer.
+</p>
+<p>Only ranges with a minimum of <code>minoverlap</code> overlapping positions
+are considered to be overlapping.
+</p>
+<p>When <code>type</code> is <code>"any"</code>, at least one of <code>maxgap</code> and
+<code>minoverlap</code> must be set to its default value.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>By default, any overlap is accepted. By specifying the <code>type</code>
+parameter, one can select for specific types of overlap. The types
+correspond to operations in Allen's Interval Algebra (see
+references). If <code>type</code> is <code>start</code> or <code>end</code>, the
+intervals are required to have matching starts or ends,
+respectively. Specifying <code>equal</code> as the type returns the
+intersection of the <code>start</code> and <code>end</code> matches. If
+<code>type</code> is <code>within</code>, the query interval must be wholly
+contained within the subject interval. Note that all matches must
+additionally satisfy the <code>minoverlap</code> constraint described above.
+</p>
+<p>The <code>maxgap</code> parameter has special meaning with the special
+overlap types. For <code>start</code>, <code>end</code>, and <code>equal</code>,
+it specifies the maximum difference in the starts, ends or both,
+respectively. For <code>within</code>, it is the maximum amount by which
+the subject may be wider than the query. If <code>maxgap</code> is set to -1
+(the default), it's replaced internally by 0.
+</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+
+<p>If <code>query</code> is an <a href="IntegerRanges-class.html">IntegerRanges</a> derivative:
+When <code>select</code> is <code>"all"</code> (the default), the results are
+returned as a <a href="../../S4Vectors/html/Hits.html">Hits</a> object.
+Otherwise the returned value is an integer vector <em>parallel</em> to
+<code>query</code> (i.e. same length) containing the first, last,
+or arbitrary overlapping interval in <code>subject</code>, with <code>NA</code>
+indicating intervals that did not overlap any intervals in <code>subject</code>.
+</p>
+<p>If <code>query</code> is an <a href="IntegerRangesList-class.html">IntegerRangesList</a> derivative:
+When <code>select</code> is <code>"all"</code> (the default), the results are
+returned as a <a href="../../S4Vectors/html/HitsList.html">HitsList</a> object.
+Otherwise the returned value depends on the <code>drop</code> argument.
+When <code>select != "all" &amp;&amp; !drop</code>, an <a href="AtomicList-class.html">IntegerList</a> is returned,
+where each element of the result corresponds to a space in <code>query</code>.
+When <code>select != "all" &amp;&amp; drop</code>, an integer vector is returned
+containing indices that are offset to align with the unlisted <code>query</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>invert</code></td>
+<td>
+
+<p>If <code>TRUE</code>, keep only the ranges in <code>x</code> that do <em>not</em>
+overlap <code>ranges</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>hits</code></td>
+<td>
+
+<p>The <a href="../../S4Vectors/html/Hits.html">Hits</a> or <a href="../../S4Vectors/html/HitsList.html">HitsList</a> object returned
+by <code>findOverlaps</code>, or <code>NULL</code>. If <code>NULL</code> then <code>hits</code>
+is computed by calling <code>findOverlaps(query, subject, ...)</code> internally
+(the extra arguments passed to <code>overlapsRanges</code> are passed to
+<code>findOverlaps</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments to be passed to or from other methods:
+</p>
+
+<ul>
+<li> <p><code>drop</code>: Supported only when <code>query</code> is an
+<a href="IntegerRangesList-class.html">IntegerRangesList</a> derivative.
+<code>FALSE</code> by default. See <code>select</code> argument above for the
+details.
+</p>
+</li>
+<li> <p><code>drop.self</code>, <code>drop.redundant</code>: When <code>subject</code>
+is omitted, the <code>drop.self</code> and <code>drop.redundant</code>
+arguments (both <code>FALSE</code> by default) are allowed.
+See <code>query</code> and <code>subject</code> arguments above for the
+details.
+</p>
+</li></ul>
+
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A common type of query that arises when working with intervals is
+finding which intervals in one set overlap those in another.
+</p>
+<p>The simplest approach is to call the <code>findOverlaps</code> function
+on a <a href="IntegerRanges-class.html">IntegerRanges</a> or other object with range information (aka
+&quot;range-based object&quot;).
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>findOverlaps</code>: see <code>select</code> argument above.
+</p>
+<p>For <code>countOverlaps</code>: the overlap hit count for each range
+in <code>query</code> using the specified <code>findOverlaps</code> parameters.
+For <a href="IntegerRangesList-class.html">IntegerRangesList</a> objects, it returns an <a href="AtomicList-class.html">IntegerList</a>
+object.
+</p>
+<p><code>overlapsAny</code> finds the ranges in <code>query</code> that overlap any
+of the ranges in <code>subject</code>. For <a href="IntegerRanges-class.html">IntegerRanges</a> derivatives,
+it returns a logical vector of length equal to the number of
+ranges in <code>query</code>. For <a href="IntegerRangesList-class.html">IntegerRangesList</a> derivatives,
+it returns a <a href="AtomicList-class.html">LogicalList</a> object where each element of the result
+corresponds to a space in <code>query</code>.
+</p>
+<p><code>%over%</code> and <code>%within%</code> are convenience wrappers for the
+2 most common use cases. Currently defined as
+<code>`%over%` &lt;- function(query, subject) overlapsAny(query, subject)</code>
+and
+<code>`%within%` &lt;- function(query, subject)
+                        overlapsAny(query, subject,
+  type="within")</code>. <code>%outside%</code> is simply the inverse of <code>%over%</code>.
+</p>
+<p><code>subsetByOverlaps</code> returns the subset of <code>x</code> that
+has an overlap hit with a range in <code>ranges</code> using the specified
+<code>findOverlaps</code> parameters.
+</p>
+<p>When <code>hits</code> is a <a href="../../S4Vectors/html/Hits.html">Hits</a> (or <a href="../../S4Vectors/html/HitsList.html">HitsList</a>)
+object, <code>overlapsRanges(query, subject, hits)</code> returns a
+<a href="IntegerRanges-class.html">IntegerRanges</a> (or <a href="IntegerRangesList-class.html">IntegerRangesList</a>) object of the <em>same
+shape</em> as <code>hits</code> holding the regions of intersection between the
+overlapping ranges in objects <code>query</code> and <code>subject</code>, which should
+be the same query and subject used in the call to <code>findOverlaps</code> that
+generated <code>hits</code>.
+<em>Same shape</em> means same length when <code>hits</code> is a
+<a href="../../S4Vectors/html/Hits.html">Hits</a> object, and same length and same elementNROWS
+when <code>hits</code> is a <a href="../../S4Vectors/html/HitsList.html">HitsList</a> object.
+</p>
+<p><code>poverlaps</code> compares <code>query</code> and <code>subject</code> in parallel
+(like e.g., <code>pmin</code>) and returns a logical vector indicating
+whether each pair of ranges overlaps. Integer vectors are treated as
+width-one ranges.
+</p>
+<p><code>mergeByOverlaps</code> computes the overlap between query and subject
+according to the arguments in <code>...</code>. It then extracts the
+corresponding hits from each object and returns a <code>DataFrame</code>
+containing one column for the query and one for the subject, as well
+as any <code>mcols</code> that were present on either object. The query and
+subject columns are named by quoting and deparsing the corresponding
+argument.
+</p>
+<p><code>findOverlapPairs</code> is like <code>mergeByOverlaps</code>, except it
+returns a formal <code><a href="../../S4Vectors/html/Pairs-class.html">Pairs</a></code> object
+that provides useful downstream conveniences, such as finding the
+intersection of the overlapping ranges with <code><a href="setops-methods.html">pintersect</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Lawrence and Hervé Pagès</p>
+
+
+<h3>References</h3>
+
+<p>Allen's Interval Algebra:
+James F. Allen: Maintaining knowledge about temporal intervals. In:
+Communications of the ACM. 26/11/1983. ACM Press. S. 832-843, ISSN 0001-0782
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="../../S4Vectors/html/Hits.html">Hits</a> and <a href="../../S4Vectors/html/HitsList.html">HitsList</a> objects
+in the <span class="pkg">S4Vectors</span> package for representing a set of hits
+between 2 vector-like or list-like objects.
+</p>
+</li>
+<li> <p><a href="../../GenomicRanges/html/findOverlaps,GenomicRanges,GenomicRanges-method.html">findOverlaps,GenomicRanges,GenomicRanges-method</a>
+in the <span class="pkg">GenomicRanges</span> package for methods that operate on
+<a href="../../GenomicRanges/html/GRanges.html">GRanges</a> or <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+objects.
+</p>
+</li>
+<li><p> The <a href="NCList-class.html">NCList</a> class and constructor.
+</p>
+</li>
+<li><p> The <a href="IntegerRanges-class.html">IntegerRanges</a>, <a href="Views-class.html">Views</a>, <a href="IntegerRangesList-class.html">IntegerRangesList</a>,
+and <a href="ViewsList-class.html">ViewsList</a> classes.
+</p>
+</li>
+<li><p> The <a href="AtomicList-class.html">IntegerList</a> and <a href="AtomicList-class.html">LogicalList</a> classes.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## findOverlaps()
+## ---------------------------------------------------------------------
+
+query &lt;- IRanges(c(1, 4, 9), c(5, 7, 10))
+subject &lt;- IRanges(c(2, 2, 10), c(2, 3, 12))
+
+findOverlaps(query, subject)
+
+## at most one hit per query
+findOverlaps(query, subject, select="first")
+findOverlaps(query, subject, select="last")
+findOverlaps(query, subject, select="arbitrary")
+
+## including adjacent ranges in the result
+findOverlaps(query, subject, maxgap=0L)
+
+query &lt;- IRanges(c(1, 4, 9), c(5, 7, 10))
+subject &lt;- IRanges(c(2, 2), c(5, 4))
+
+## one IRanges object with itself
+findOverlaps(query)
+
+## single points as query
+subject &lt;- IRanges(c(1, 6, 13), c(4, 9, 14))
+findOverlaps(c(3L, 7L, 10L), subject, select="first")
+
+## special overlap types
+query &lt;- IRanges(c(1, 5, 3, 4), width=c(2, 2, 4, 6))
+subject &lt;- IRanges(c(1, 3, 5, 6), width=c(4, 4, 5, 4))
+
+findOverlaps(query, subject, type="start")
+findOverlaps(query, subject, type="start", maxgap=1L)
+findOverlaps(query, subject, type="end", select="first")
+ov &lt;- findOverlaps(query, subject, type="within", maxgap=1L)
+ov
+
+## Using pairs to find intersection of overlapping ranges
+hits &lt;- findOverlaps(query, subject)
+p &lt;- Pairs(query, subject, hits=hits)
+pintersect(p)
+
+## Shortcut
+p &lt;- findOverlapPairs(query, subject)
+pintersect(p)
+
+## ---------------------------------------------------------------------
+## overlapsAny()
+## ---------------------------------------------------------------------
+
+overlapsAny(query, subject, type="start")
+overlapsAny(query, subject, type="end")
+query %over% subject    # same as overlapsAny(query, subject)
+query %within% subject  # same as overlapsAny(query, subject,
+                          #                     type="within")
+
+## ---------------------------------------------------------------------
+## overlapsRanges()
+## ---------------------------------------------------------------------
+
+## Extract the regions of intersection between the overlapping ranges:
+overlapsRanges(query, subject, ov)
+
+## ---------------------------------------------------------------------
+## Using IntegerRangesList objects
+## ---------------------------------------------------------------------
+
+query &lt;- IRanges(c(1, 4, 9), c(5, 7, 10))
+qpartition &lt;- factor(c("a","a","b"))
+qlist &lt;- split(query, qpartition)
+
+subject &lt;- IRanges(c(2, 2, 10), c(2, 3, 12))
+spartition &lt;- factor(c("a","a","b"))
+slist &lt;- split(subject, spartition)
+
+## at most one hit per query
+findOverlaps(qlist, slist, select="first")
+findOverlaps(qlist, slist, select="last")
+findOverlaps(qlist, slist, select="arbitrary")
+
+query &lt;- IRanges(c(1, 5, 3, 4), width=c(2, 2, 4, 6))
+qpartition &lt;- factor(c("a","a","b","b"))
+qlist &lt;- split(query, qpartition)
+
+subject &lt;- IRanges(c(1, 3, 5, 6), width=c(4, 4, 5, 4))
+spartition &lt;- factor(c("a","a","b","b"))
+slist &lt;- split(subject, spartition)
+
+overlapsAny(qlist, slist, type="start")
+overlapsAny(qlist, slist, type="end")
+qlist 
+
+subsetByOverlaps(qlist, slist)
+countOverlaps(qlist, slist)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

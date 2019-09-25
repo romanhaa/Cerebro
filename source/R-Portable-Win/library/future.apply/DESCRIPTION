@@ -1,0 +1,24 @@
+Package: future.apply
+Version: 1.3.0
+Title: Apply Function to Elements in Parallel using Futures
+Depends: R (>= 3.2.0), future (>= 1.13.0)
+Imports: globals (>= 0.12.4)
+Suggests: datasets, stats, tools, listenv (>= 0.7.0), R.rsp, markdown
+VignetteBuilder: R.rsp
+Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
+                                          email = "henrikb@braju.com"),
+             person("R Core Team", role = c("cph", "ctb")))
+Description: Implementations of apply(), by(), eapply(), lapply(), Map(), mapply(), replicate(), sapply(), tapply(), and vapply() that can be resolved using any future-supported backend, e.g. parallel on the local machine or distributed on a compute cluster.  These future_*apply() functions come with the same pros and cons as the corresponding base-R *apply() functions but with the additional feature of being able to be processed via the future framework.
+License: GPL (>= 2)
+LazyLoad: TRUE
+URL: https://github.com/HenrikBengtsson/future.apply
+BugReports: https://github.com/HenrikBengtsson/future.apply/issues
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+Packaged: 2019-06-18 03:07:59 UTC; hb
+Author: Henrik Bengtsson [aut, cre, cph],
+  R Core Team [cph, ctb]
+Maintainer: Henrik Bengtsson <henrikb@braju.com>
+Repository: CRAN
+Date/Publication: 2019-06-18 05:10:07 UTC
+Built: R 3.5.3; ; 2019-09-17 01:34:45 UTC; windows

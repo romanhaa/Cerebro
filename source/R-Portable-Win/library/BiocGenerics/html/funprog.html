@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Common higher-order functions in functional programming...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for funprog {BiocGenerics}"><tr><td>funprog {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Common higher-order functions in functional programming languages</h2>
+
+<h3>Description</h3>
+
+<p><code>Reduce</code> uses a binary function to successively combine the
+elements of a given list-like or vector-like object and a possibly
+given initial value.
+<code>Filter</code> extracts the elements of a list-like or vector-like
+object for which a predicate (logical) function gives true.
+<code>Find</code> and <code>Position</code> give the first or last such element
+and its position in the object, respectively.
+<code>Map</code> applies a function to the corresponding elements of given
+list-like or vector-like objects.
+</p>
+<p>NOTE: This man page is for the <code>Reduce</code>, <code>Filter</code>,
+<code>Find</code>, <code>Map</code> and <code>Position</code> <em>S4 generic functions</em>
+defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/Reduce.html">Reduce</a></code> for the default methods
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for objects
+(typically list-like or vector-like) not supported by the
+default methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Reduce(f, x, init, right=FALSE, accumulate=FALSE)
+Filter(f, x)
+Find(f, x, right=FALSE, nomatch=NULL)
+Map(f, ...)
+Position(f, x, right=FALSE, nomatch=NA_integer_)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>f, init, right, accumulate, nomatch</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/Reduce.html">Reduce</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A list-like or vector-like object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>One or more list-like or vector-like objects.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/Reduce.html">Reduce</a></code> for the value returned by the
+default methods.
+</p>
+<p>Specific methods defined in Bioconductor packages should
+behave as consistently as possible with the default methods.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/Reduce.html">Reduce</a></code> for the default <code>Reduce</code>,
+<code>Filter</code>, <code>Find</code>, <code>Map</code> and <code>Position</code> methods.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/Reduce,List-method.html">Reduce,List-method</a> in the <span class="pkg">S4Vectors</span> package
+for an example of a specific <code>Reduce</code> method (defined for
+<a href="../../S4Vectors/html/List.html">List</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+Reduce  # note the dispatch on the 'x' arg only
+showMethods("Reduce")
+selectMethod("Reduce", "ANY")  # the default method
+
+Filter  # note the dispatch on the 'x' arg only
+showMethods("Filter")
+selectMethod("Filter", "ANY")  # the default method
+
+Find  # note the dispatch on the 'x' arg only
+showMethods("Find")
+selectMethod("Find", "ANY")  # the default method
+
+Map  # note the dispatch on the '...' arg only
+showMethods("Map")
+selectMethod("Map", "ANY")  # the default method
+
+Position  # note the dispatch on the 'x' arg only
+showMethods("Position")
+selectMethod("Position", "ANY")  # the default method
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

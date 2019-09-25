@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for getting/setting the filters on a Bimap object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for toggleProbes {AnnotationDbi}"><tr><td>toggleProbes {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for getting/setting the filters on a Bimap object</h2>
+
+<h3>Description</h3>
+
+<p>These methods are part of the <a href="Bimap.html">Bimap</a> interface (see
+<code>?<a href="Bimap.html">Bimap</a></code> for a quick overview of the <a href="Bimap.html">Bimap</a> objects
+and their interface).
+</p>
+<p>Some of these methods are for getting or setting the filtering status
+on a <a href="Bimap.html">Bimap</a> object so that the mapping object can toggle between
+displaying all probes, only single probes (the defualt) or only
+multiply matching probes.
+</p>
+<p>Other methods are for viewing or setting the filter threshold value on
+a InpAnnDbBimap object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## Making a Bimap object that does not prefilter to remove probes that
+  ## match multiple genes:
+  toggleProbes(x, value)
+  hasMultiProbes(x) ##T/F test for exposure of single probes
+  hasSingleProbes(x) ##T/F test for exposure of mulitply matched probes
+
+  ## Looking at the SQL filter values for a Bimap
+  getBimapFilters(x)
+  ## Setting the filter on an InpAnnDbBimap object
+  setInpBimapFilter(x,value)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="Bimap.html">Bimap</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+    
+<p>A character vector containing the new value that the Bimap should
+use as the filter.  Or the value to toggle a probe mapping to:
+&quot;all&quot;, &quot;single&quot;, or &quot;multiple&quot;.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+  
+<p><code>toggleProbes(x)</code> is a methods for creating Bimaps that have an
+alternate filter for which probes get exposed based upon whether these
+probes map to multiple genes or not.
+</p>
+<p><code>hasMultiProbes(x)</code> and <code>hasSingleProbes(x)</code> are provided to
+give a quick test about whether or not such probes are exposed in a
+given mapping.
+</p>
+<p><code>getBimapFilters(x)</code> will list all the SQL filters applied to a
+Bimap object.
+</p>
+<p><code>setInpBimapFilters(x)</code> will allow you to pass a value as a
+character string which will be used as a filter.  In order to be
+useful with the InpAnnDbBimap objects provided in the inparanoid
+packages, this value needs to be a to digit number written as a
+percentage.  So for example &quot;80
+is owing to the nature of the inparanoid data set.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <a href="Bimap.html">Bimap</a> object of the same subtype as <code>x</code> for
+<code>exposeAllProbes(x)</code>, <code>maskMultiProbes(x)</code> and
+<code>maskSingleProbes(x)</code>.
+</p>
+<p>A TRUE or FALSE value in the case of <code>hasMultiProbes(x)</code> and
+<code>hasSingleProbes(x)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>M. Carlson</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Bimap.html">Bimap</a>,
+<a href="Bimap-keys.html">Bimap-keys</a>,
+<a href="Bimap-direction.html">Bimap-direction</a>,
+<a href="BimapFormatting.html">BimapFormatting</a>,
+<a href="Bimap-envirAPI.html">Bimap-envirAPI</a>,
+<code><a href="Bimap-toTable.html">nhit</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Make a Bimap that contains all the probes
+  require("hgu95av2.db")
+  mapWithMultiProbes &lt;- toggleProbes(hgu95av2ENTREZID, "all")
+  count.mappedLkeys(hgu95av2ENTREZID)
+  count.mappedLkeys(mapWithMultiProbes)
+
+  ## Check that it has both multiply and singly matching probes:
+  hasMultiProbes(mapWithMultiProbes)
+  hasSingleProbes(mapWithMultiProbes)
+
+  ## Make it have Multi probes ONLY:
+  OnlyMultiProbes = toggleProbes(mapWithMultiProbes, "multiple")
+  hasMultiProbes(OnlyMultiProbes)
+  hasSingleProbes(OnlyMultiProbes)
+
+  ## Convert back to a default map with only single probes exposed
+  OnlySingleProbes = toggleProbes(OnlyMultiProbes, "single")
+  hasMultiProbes(OnlySingleProbes)
+  hasSingleProbes(OnlySingleProbes)
+
+
+  ## List the filters on the inparanoid mapping 
+  # library(hom.Dm.inp.db)
+  # getBimapFilters(hom.Dm.inpANOGA)
+
+  ## Here is how you can make a mapping with a
+  ##different filter than the default:
+  # f80 = setInpBimapFilter(hom.Dm.inpANOGA, "80%")
+  # dim(hom.Dm.inpANOGA)
+  # dim(f80)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

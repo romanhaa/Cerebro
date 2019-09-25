@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Some utility functions to operate on integer vectors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for integer-utils {S4Vectors}"><tr><td>integer-utils {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Some utility functions to operate on integer vectors</h2>
+
+<h3>Description</h3>
+
+<p>Some low-level utility functions to operate on ordinary
+integer vectors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isSequence(x, of.length=length(x))
+
+toListOfIntegerVectors(x, sep=",")
+
+## more to come...
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>For <code>isSequence()</code>: An integer vector.
+</p>
+<p>For <code>toListOfIntegerVectors()</code>:
+A character vector where each element is a string containing
+comma-separated integers in decimal representation.
+Alternatively <code>x</code> can be a list of raw vectors, in which
+case it's treated like if it was <code>sapply(x, rawToChar)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>of.length</code></td>
+<td>
+
+<p>The expected length of the integer sequence.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+
+<p>The separator represented as a single-letter string.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>isSequence()</code> returns <code>TRUE</code> or <code>FALSE</code> depending
+on whether <code>x</code> is identical to <code>seq_len(of.length)</code> or not.
+</p>
+<p><code>toListOfIntegerVectors()</code> is a fast and memory-efficient
+implementation of
+</p>
+<pre>    lapply(strsplit(x, sep, fixed=TRUE), as.integer)</pre>
+<p>but, unlike the above code, it will raise an error if the input
+contains NAs or strings that don't represent integer values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list <em>parallel</em> to <code>x</code> where each list element is an integer
+vector.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="../../base/html/seq_len.html">seq_len</a></code> function in the <span class="pkg">base</span>
+package.
+</p>
+</li>
+<li><p> The <code><a href="../../base/html/strsplit.html">strsplit</a></code> function in the <span class="pkg">base</span>
+package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## isSequence()
+## ---------------------------------------------------------------------
+isSequence(1:5)               # TRUE
+isSequence(5:1)               # FALSE
+isSequence(0:5)               # FALSE
+isSequence(integer(0))        # TRUE
+isSequence(1:5, of.length=5)  # TRUE (the expected length)
+isSequence(1:5, of.length=6)  # FALSE (not the expected length)
+
+## ---------------------------------------------------------------------
+## toListOfIntegerVectors()
+## ---------------------------------------------------------------------
+
+x &lt;- c("1116,0,-19",
+       " +55291 , 2476,",
+       "19184,4269,5659,6470,6721,7469,14601",
+       "7778889, 426900, -4833,5659,6470,6721,7096",
+       "19184 , -99999")
+
+y &lt;- toListOfIntegerVectors(x)
+y
+
+## When it doesn't choke on an NA or string that doesn't represent
+## an integer value, toListOfIntegerVectors() is equivalent to
+## the function below but is faster and more memory-efficient:
+toListOfIntegerVectors2 &lt;- function(x, sep=",")
+{
+    lapply(strsplit(x, sep, fixed=TRUE), as.integer)
+}
+y2 &lt;- toListOfIntegerVectors2(x)
+stopifnot(identical(y, y2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

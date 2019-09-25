@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Histogram of p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hist.qvalue {qvalue}"><tr><td>hist.qvalue {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Histogram of p-values</h2>
+
+<h3>Description</h3>
+
+<p>Histogram of p-values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'qvalue'
+hist(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A q-value object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, currently unused.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function allows one to view a histogram of the p-values along with
+line plots of the q-values and local FDR values versus p-values. The <i>pi_0</i>
+estimate is also displayed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nothing of interest.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Andrew J. Bass
+</p>
+
+
+<h3>References</h3>
+
+<p>Storey JD. (2002) A direct approach to false discovery rates. Journal
+of the Royal Statistical Society, Series B, 64: 479-498. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract">http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract</a>
+</p>
+<p>Storey JD and Tibshirani R. (2003) Statistical significance for
+genome-wide experiments. Proceedings of the National Academy of Sciences,
+100: 9440-9445. <br />
+<a href="http://www.pnas.org/content/100/16/9440.full">http://www.pnas.org/content/100/16/9440.full</a>
+</p>
+<p>Storey JD. (2003) The positive false discovery rate: A Bayesian
+interpretation and the q-value. Annals of Statistics, 31: 2013-2035. <br />
+<a href="http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335">http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335</a>
+</p>
+<p>conservative point estimation, and simultaneous conservative
+consistency of false discovery rates: A unified approach. Journal of
+the Royal Statistical Society, Series B, 66: 187-205. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2004.00439.x/abstract">http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2004.00439.x/abstract</a>
+</p>
+<p>Storey JD. (2011) False discovery rates. In <em>International Encyclopedia of Statistical Science</em>. <br />
+<a href="http://genomine.org/papers/Storey_FDR_2011.pdf">http://genomine.org/papers/Storey_FDR_2011.pdf</a> <br />
+<a href="http://www.springer.com/statistics/book/978-3-642-04897-5">http://www.springer.com/statistics/book/978-3-642-04897-5</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qvalue.html">qvalue</a></code>, <code><a href="plot.qvalue.html">plot.qvalue</a></code>, <code><a href="summary.qvalue.html">summary.qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+p &lt;- hedenfalk$p
+
+# make histogram
+qobj &lt;- qvalue(p)
+hist(qobj)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

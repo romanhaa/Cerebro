@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: extract publication details and abstract from...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getPMInfo {annotate}"><tr><td>getPMInfo {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>extract publication details and abstract from annotate::pubmed function output  </h2>
+
+<h3>Description</h3>
+
+<p>extract publication details and abstract from annotate::pubmed function output  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getPMInfo(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> an object of class xmlDocument; assumed to be result of a pubmed() call</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>uses xmlDOMApply to extract and structure key features of the XML tree returned
+by annotate::pubmed()
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with one element per pubmed id processed by pubmed.  Each element of
+the list is in turn a list with elements for author list, title, journal
+info, and abstract text.
+</p>
+
+
+<h3>Note</h3>
+
+<p>this should be turned into a method returning an instance of
+a formal class representing articles.    </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vince Carey &lt;stvjc@channing.harvard.edu&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+demo &lt;- pubmed("11780146", 
+    "11886385", "11884611")
+getPMInfo(demo)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

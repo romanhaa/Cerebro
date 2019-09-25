@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for manipulating a Bimap object in a data-frame style</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Bimap-toTable {AnnotationDbi}"><tr><td>Bimap-toTable {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for manipulating a Bimap object in a data-frame style</h2>
+
+<h3>Description</h3>
+
+<p>These methods are part of the <a href="Bimap.html">Bimap</a> interface
+(see <code>?<a href="Bimap.html">Bimap</a></code> for a quick overview of the <a href="Bimap.html">Bimap</a>
+objects and their interface).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## Extract all the columns of the map (links + right attributes)
+  toTable(x)
+  nrow(x)
+  ncol(x)
+  #dim(x)
+  ## S4 method for signature 'FlatBimap'
+head(x, ...)
+  ## S4 method for signature 'FlatBimap'
+tail(x, ...)
+
+  ## Extract only the links of the map
+  links(x)
+  count.links(x)
+  nhit(x)
+
+  ## Col names and col metanames
+  colnames(x, do.NULL=TRUE, prefix="col")
+  colmetanames(x)
+  Lkeyname(x)
+  Rkeyname(x)
+  keyname(x)
+  tagname(x)
+  Rattribnames(x)
+  Rattribnames(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="Bimap.html">Bimap</a> object (or a list or an environment for <code>nhit</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Further arguments to be passed to or from other methods (see
+<code><a href="../../utils/html/head.html">head</a></code> or <code><a href="../../utils/html/head.html">tail</a></code>
+for the details).
+</p>
+</td></tr>
+<tr valign="top"><td><code>do.NULL</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>A character vector containing the names of the new right attributes
+(must be a subset of the current right attribute names)
+or NULL.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>toTable(x)</code> turns <a href="Bimap.html">Bimap</a> object <code>x</code> into a
+data frame (see section &quot;Flat representation of a bimap&quot; in
+<code>?<a href="Bimap.html">Bimap</a></code> for a short introduction to this concept).
+For simple maps (i.e. no tags and no right attributes),
+the resulting data frame has only 2 columns, one for the left
+keys and one for the right keys, and each row in the data frame
+represents a link (or edge) between a left and a right key.
+For maps with tagged links (i.e. a tag is associated to each
+link), <code>toTable(x)</code> has one additional colmun for the tags
+and there is still one row per link.
+For maps with right attributes (i.e. a set of attributes is
+associated to each right key), <code>toTable(x)</code> has one
+additional colmun per attribute. So for example if <code>x</code> has
+tagged links and 2 right attributes, <code>toTable(x)</code> will
+have 5 columns: one for the left keys, one for the right keys,
+one for the tags, and one for each right attribute (always the
+rightmost columns).
+Note that if at least one of the right attributes is multivalued
+then more than 1 row can be needed to represent the same link
+so the number of rows in <code>toTable(x)</code> can be strictly
+greater than the number of links in the map.
+</p>
+<p><code>nrow(x)</code> is equivalent to (but more efficient than)
+<code>nrow(toTable(x))</code>.
+</p>
+<p><code>ncol(x)</code> is equivalent to (but more efficient than)
+<code>ncol(toTable(x))</code>.
+</p>
+<p><code>colnames(x)</code> is equivalent to (but more efficient than)
+<code>colnames(toTable(x))</code>. Columns are named accordingly to
+the names of the SQL columns where the data are coming from.
+An important consequence of this that they are not necessarily
+unique.
+</p>
+<p><code>colmetanames(x)</code> returns the metanames for the column of
+<code>x</code> that are not right attributes. Valid column metanames
+are <code>"Lkeyname"</code>, <code>"Rkeyname"</code> and <code>"tagname"</code>.
+</p>
+<p><code>Lkeyname</code>, <code>Rkeyname</code>, <code>tagname</code> and
+<code>Rattribnames</code> return the name of the column (or columns)
+containing the left keys, the right keys, the tags and the right
+attributes, respectively.
+</p>
+<p>Like <code>toTable(x)</code>, <code>links(x)</code> turns <code>x</code> into a
+data frame but the right attributes (if any) are dropped.
+Note that dropping the right attributes produces a data frame
+that has eventually less columns than <code>toTable(x)</code>
+and also eventually less rows because now exactly 1 row is
+needed to represent 1 link.
+</p>
+<p><code>count.links(x)</code> is equivalent to (but more efficient than)
+<code>nrow(links(x))</code>.
+</p>
+<p><code>nhit(x)</code> returns a named integer vector indicating the
+number of &quot;hits&quot; for each key in <code>x</code> i.e. the number of links
+that start from each key.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame for <code>toTable</code> and <code>links</code>.
+</p>
+<p>A single integer for <code>nrow</code>, <code>ncol</code> and <code>count.links</code>.
+</p>
+<p>A character vector for <code>colnames</code>, <code>colmetanames</code>
+and <code>Rattribnames</code>.
+</p>
+<p>A character string for <code>Lkeyname</code>, <code>Rkeyname</code>
+and <code>tagname</code>.
+</p>
+<p>A named integer vector for <code>nhit</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pages</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="Bimap.html">Bimap</a>,
+<a href="BimapFormatting.html">BimapFormatting</a>,
+<a href="Bimap-envirAPI.html">Bimap-envirAPI</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library(GO.db)
+  x &lt;- GOSYNONYM
+  x
+  toTable(x)[1:4, ]
+  toTable(x["GO:0007322"])
+  links(x)[1:4, ]
+  links(x["GO:0007322"])
+
+  nrow(x)
+  ncol(x)
+  dim(x)
+  colnames(x)
+  colmetanames(x)
+  Lkeyname(x)
+  Rkeyname(x)
+  tagname(x)
+  Rattribnames(x)
+
+  links(x)[1:4, ]
+  count.links(x)
+
+  y &lt;- GOBPCHILDREN
+  nhy &lt;- nhit(y) # 'nhy' is a named integer vector
+  identical(names(nhy), keys(y)) # TRUE
+  table(nhy)
+  sum(nhy == 0) # number of GO IDs with no children
+  names(nhy)[nhy == max(nhy)] # the GO ID(s) with the most direct children
+
+  ## Some sanity check
+  sum(nhy) == count.links(y) # TRUE
+
+  ## Changing the right attributes of the GOSYNONYM map (advanced
+  ## users only)
+  class(x) # GOTermsAnnDbBimap
+  as.list(x)[1:3]
+  colnames(x)
+  colmetanames(x)
+  tagname(x) # untagged map
+  Rattribnames(x)
+  Rattribnames(x) &lt;- Rattribnames(x)[3:1]
+  colnames(x)
+  class(x) # AnnDbBimap
+  as.list(x)[1:3]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

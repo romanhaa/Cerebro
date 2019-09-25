@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accessing strand information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for strand {BiocGenerics}"><tr><td>strand {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accessing strand information</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the strand information contained in an object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+strand(x, ...)
+strand(x, ...) &lt;- value
+
+unstrand(x)
+
+invertStrand(x)
+## S4 method for signature 'ANY'
+invertStrand(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object containing strand information.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific methods.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>The strand information to set on <code>x</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All the <code>strand</code> methods defined in the <span class="pkg">GenomicRanges</span> package
+use the same set of 3 values (called the &quot;standard strand levels&quot;) to
+specify the strand of a genomic location: <code>+</code>, <code>-</code>, and <code>*</code>.
+<code>*</code> is used when the exact strand of the location is unknown,
+or irrelevant, or when the &quot;feature&quot; at that location belongs to
+both strands.
+</p>
+<p>Note that <code>unstrand</code> is not a generic function, just a convenience
+wrapper to the generic <code>strand()</code> setter (<code>strand&lt;-</code>) that does:
+</p>
+<pre>  strand(x) &lt;- "*"
+  x
+</pre>
+<p>The default method for <code>invertStrand</code> does:
+</p>
+<pre>  strand(x) &lt;- invertStrand(strand(x))
+  x
+</pre>
+
+
+<h3>Value</h3>
+
+<p>If <code>x</code> is a vector-like object, <code>strand(x)</code> will typically
+return a vector-like object <em>parallel</em> to <code>x</code>, that is, an
+object of the same length as <code>x</code> where the i-th element describes
+the strand of the i-th element in <code>x</code>.
+</p>
+<p><code>unstrand(x)</code> and <code>invertStrand(x)</code> return a copy of <code>x</code>
+with the strand set to <code>"*"</code> for <code>unstrand</code> or inverted for
+<code>invertStrand</code> (i.e. <code>"+"</code> and <code>"-"</code> switched, and
+<code>"*"</code> untouched).
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../GenomicRanges/html/strand,GRanges-method.html">strand,GRanges-method</a> in the
+<span class="pkg">GenomicRanges</span> package for an example of a specific
+<code>strand</code> method (defined for <a href="../../GenomicRanges/html/GRanges.html">GRanges</a>
+objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+strand
+showMethods("strand")
+
+`strand&lt;-`
+showMethods("strand&lt;-")
+
+unstrand
+
+invertStrand
+showMethods("invertStrand")
+selectMethod("invertStrand", "ANY")  # the default method
+
+library(GenomicRanges)
+
+showMethods("strand")
+selectMethod("strand", "missing")
+strand()
+
+showMethods("strand&lt;-")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

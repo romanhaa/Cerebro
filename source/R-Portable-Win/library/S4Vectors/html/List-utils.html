@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Common operations on List objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for List-utils {S4Vectors}"><tr><td>List-utils {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Common operations on List objects</h2>
+
+<h3>Description</h3>
+
+<p>Various functions and methods for looping on <a href="List-class.html">List</a> objects,
+functional programming on <a href="List-class.html">List</a> objects, and evaluation of an
+expression in a <a href="List-class.html">List</a> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Looping on List objects:
+## ------------------------
+
+## S4 method for signature 'List'
+lapply(X, FUN, ...)
+
+## S4 method for signature 'List'
+sapply(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
+
+endoapply(X, FUN, ...)
+
+revElements(x, i)
+
+mendoapply(FUN, ..., MoreArgs=NULL)
+
+pc(...)
+
+## Functional programming methods for List objects:
+## ------------------------------------------------
+
+## S4 method for signature 'List'
+Reduce(f, x, init, right=FALSE, accumulate=FALSE)
+## S4 method for signature 'List'
+Filter(f, x)
+## S4 method for signature 'List'
+Find(f, x, right=FALSE, nomatch=NULL)
+## S4 method for signature 'List'
+Map(f, ...)
+## S4 method for signature 'List'
+Position(f, x, right=FALSE, nomatch=NA_integer_)
+
+## Evaluation of an expression in a List object:
+## ---------------------------------------------
+
+## S4 method for signature 'List'
+within(data, expr, ...)
+
+## Constructing list matrices:
+## ---------------------------------------------
+
+## S4 method for signature 'List'
+rbind(..., deparse.level=1L)
+## S4 method for signature 'List'
+cbind(..., deparse.level=1L)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X, x</code></td>
+<td>
+
+<p>A list, data.frame or <a href="List-class.html">List</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+
+<p>The function to be applied to each element of <code>X</code>
+(for <code>endoapply</code>) or for the elements in <code>...</code>
+(for <code>mendoapply</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>For <code>lapply</code>, <code>sapply</code>, and <code>endoapply</code>, optional
+arguments to <code>FUN</code>.
+</p>
+<p>For <code>mendoapply</code>, <code>pc</code> and <code>Map</code>, one or more list-like
+objects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>simplify, USE.NAMES</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/sapply.html">sapply</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>MoreArgs</code></td>
+<td>
+
+<p>A list of other arguments to <code>FUN</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+
+<p>Index specifying the elements to replace. Can be anything supported
+by <code>`[&lt;-`</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>f, init, right, accumulate, nomatch</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/Reduce.html">Reduce</a></code> for a description of
+these arguments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>A <a href="List-class.html">List</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>expr</code></td>
+<td>
+
+<p>Expression to evaluate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>deparse.level</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/rbind.html">rbind</a></code> for a description of
+this argument.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Looping on List objects</h4>
+
+<p>Like the standard <code><a href="../../base/html/lapply.html">lapply</a></code> function defined in the
+<span class="pkg">base</span> package, the <code>lapply</code> method for <a href="List-class.html">List</a> objects
+returns a list of the same length as <code>X</code>, with each element being
+the result of applying <code>FUN</code> to the corresponding element of <code>X</code>.
+</p>
+<p>Like the standard <code><a href="../../base/html/sapply.html">sapply</a></code> function defined in the
+<span class="pkg">base</span> package, the <code>sapply</code> method for <a href="List-class.html">List</a> objects
+is a user-friendly version of <code>lapply</code> by default returning a vector
+or matrix if appropriate.
+</p>
+<p><code>endoapply</code> and <code>mendoapply</code> perform the endomorphic equivalents
+of <code><a href="../../base/html/lapply.html">lapply</a></code> and <code><a href="../../base/html/mapply.html">mapply</a></code> by returning
+objects of the same class as the inputs rather than an ordinary list.
+</p>
+<p><code>revElements(x, i)</code> reverses the list elements in <code>x</code> specified
+by <code>i</code>. It's equivalent to, but faster than, doing
+<code>x[i] &lt;- endoapply(x[i], rev)</code>.
+</p>
+<p><code>pc(...)</code> combine list-like objects by concatenating them in an
+element-wise fashion. It's similar to, but faster than,
+<code>mapply(c, ..., SIMPLIFY=FALSE)</code>. With the following differences:
+</p>
+
+<ol>
+<li> <p><code>pc()</code> ignores the supplied objects that are NULL.
+</p>
+</li>
+<li> <p><code>pc()</code> does not recycle its arguments. All the supplied
+objects must have the same length.
+</p>
+</li>
+<li><p> If one of the supplied objects is a <a href="List-class.html">List</a> object, then
+<code>pc()</code> returns a <a href="List-class.html">List</a> object.
+</p>
+</li>
+<li> <p><code>pc()</code> always returns a homogenous list or <a href="List-class.html">List</a> object,
+that is, an object where all the list elements have the same type.
+</p>
+</li></ol>
+
+
+
+
+<h4>Functional programming methods for List objects</h4>
+
+<p>The R base package defines some higher-order functions that are commonly
+found in Functional Programming Languages.
+See <code>?base::<a href="../../base/html/Reduce.html">Reduce</a></code> for the details, and, in particular,
+for a description of their arguments.
+The <span class="pkg">S4Vectors</span> package provides methods for <a href="List-class.html">List</a> objects, so,
+in addition to be an ordinary vector or list, the <code>x</code> argument can
+also be a <a href="List-class.html">List</a> object.
+</p>
+
+
+
+<h4>Evaluation of an expression in a List object</h4>
+
+<p><code>within</code> evaluates <code>expr</code> within <code>as.env(data)</code> via
+<code>eval(data)</code>. Similar to <code>with</code>, except assignments made
+during evaluation are taken as assignments into <code>data</code>, i.e.,
+new symbols have their value appended to <code>data</code>, and assigning
+new values to existing symbols results in replacement.
+</p>
+
+
+
+<h4>Binding Lists into a matrix</h4>
+
+<p>There are methods for <code>cbind</code> and <code>rbind</code> that will bind
+multiple lists together into a basic list matrix. The usual
+geometric constraints apply. In the future, this might return a List
+(+ dimensions), but for now the return value is an ordinary list.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p><code>endoapply</code> returns an object of the same class as <code>X</code>,
+each element of which is the result of applying <code>FUN</code> to the
+corresponding element of <code>X</code>.
+</p>
+<p><code>mendoapply</code> returns an object of the same class as the first
+object specified in <code>...</code>, each element of which is the result
+of applying <code>FUN</code> to the corresponding elements of <code>...</code>.
+</p>
+<p><code>pc</code> returns a list or List object of the same length as the
+input objects.
+</p>
+<p>See <code>?base::<a href="../../base/html/Reduce.html">Reduce</a></code> for the value returned by the
+functional programming methods.
+</p>
+<p>See <code>?base::<a href="../../base/html/within.html">within</a></code> for the value returned by
+<code>within</code>.
+</p>
+<p><code>cbind</code> and <code>rbind</code> return a list matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun and H. Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="List-class.html">List</a> class.
+</p>
+</li>
+<li> <p><code>base::<a href="../../base/html/lapply.html">lapply</a></code> and <code>base::<a href="../../base/html/mapply.html">mapply</a></code>
+for the default <code>lapply</code> and <code>mapply</code> methods.
+</p>
+</li>
+<li> <p><code>base::<a href="../../base/html/Reduce.html">Reduce</a></code> for the default functional
+programming methods.
+</p>
+</li>
+<li> <p><code>base::<a href="../../base/html/within.html">within</a></code> for the default <code>within</code>
+method.
+</p>
+</li>
+<li> <p><code>base::<a href="../../base/html/cbind.html">cbind</a></code> and
+<code>base::<a href="../../base/html/rbind.html">rbind</a></code> for the default matrix binding
+methods.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+a &lt;- data.frame(x = 1:10, y = rnorm(10))
+b &lt;- data.frame(x = 1:10, y = rnorm(10))
+
+endoapply(a, function(x) (x - mean(x))/sd(x))
+mendoapply(function(e1, e2) (e1 - mean(e1)) * (e2 - mean(e2)), a, b)
+
+x &lt;- list(a=11:13, b=26:21, c=letters)
+y &lt;- list(-(5:1), c("foo", "bar"), 0.25)
+pc(x, y)
+
+library(IRanges)
+x &lt;- IntegerList(a=11:13, b=26:21, c=31:36, d=4:2)
+y &lt;- NumericList(-(5:1), 1:2, numeric(0), 0.25)
+pc(x, y)
+
+Reduce("+", x)
+
+Filter(is.unsorted, x)
+
+pos1 &lt;- Position(is.unsorted, x)
+stopifnot(identical(Find(is.unsorted, x), x[[pos1]]))
+
+pos2 &lt;- Position(is.unsorted, x, right=TRUE)
+stopifnot(identical(Find(is.unsorted, x, right=TRUE), x[[pos2]]))
+
+y &lt;- x * 1000L
+Map("c", x, y)
+
+rbind(x, y)
+cbind(x, y)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

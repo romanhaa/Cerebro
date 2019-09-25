@@ -23,6 +23,7 @@ bladder1	bladder
 bladder2	bladder
 c.Surv	Survmethods
 cancer	lung
+capacitor	reliability
 cch	cch
 cgd	cgd
 cgd.raw	cgd
@@ -36,6 +37,7 @@ concordance.coxph	concordance
 concordance.formula	concordance
 concordance.lm	concordance
 concordance.survreg	concordance
+concordancefit	concordancefit
 cox.zph	cox.zph
 coxpenal.df	survival-internal
 coxpenal.fit	survival-internal
@@ -47,6 +49,7 @@ coxph.getdata	coxph
 coxph.object	coxph.object
 coxph.penalty	coxph
 coxph.wtest	coxph.wtest
+cracks	reliability
 diabetic	diabetic
 dsurvreg	dsurvreg
 duplicated.Surv	Survmethods
@@ -58,9 +61,11 @@ frailty	frailty
 frailty.gamma	frailty
 frailty.gaussian	frailty
 frailty.t	frailty
-genfan	genfan
+genfan	reliability
 head.Surv	Survmethods
 heart	heart
+ifluid	reliability
+imotor	reliability
 is.na.coxph.penalty	survival-internal
 is.na.Surv	Survmethods
 is.ratetable	is.ratetable
@@ -137,6 +142,7 @@ ratetable	ratetable
 ratetableDate	ratetableDate
 rats	rats
 rats2	rats2
+reliability	reliability
 rep.int.Surv	Survmethods
 rep.Surv	Survmethods
 rep_len.Surv	Survmethods
@@ -165,8 +171,8 @@ summary.survexp	summary.survexp
 summary.survfit	summary.survfit
 summary.survreg	survreg.object
 Surv	Surv
-survConcordance	survConcordance
-survConcordance.fit	survConcordance
+survConcordance	survConcordance-deprecated
+survConcordance.fit	survConcordance-deprecated
 survdiff	survdiff
 survdiff.fit	survival-internal
 survexp	survexp
@@ -201,12 +207,15 @@ tcut	tcut
 tmerge	tmerge
 tobin	tobin
 transplant	transplant
+transplant2	transplant
+turbine	reliability
 udca	udca
 udca1	udca
 udca2	udca
 unique.Surv	Survmethods
 untangle.specials	untangle.specials
 uspop2	uspop2
+valveSeat	reliability
 vcov.coxph	vcov.coxph
 vcov.survreg	vcov.coxph
 veteran	veteran

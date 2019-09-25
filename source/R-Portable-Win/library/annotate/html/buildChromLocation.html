@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to generate an instantiation of a chromLocation...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for buildChromLocation {annotate}"><tr><td>buildChromLocation {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to generate an instantiation of a chromLocation class</h2>
+
+<h3>Description</h3>
+
+<p>This function will take the name of a data package and build a
+chromLocation object representing that data set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  buildChromLocation(dataPkg)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dataPkg</code></td>
+<td>
+<p>The name of the data package to be used</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The requested data set must be available in the user's
+<code>.libPaths()</code>, and the function will throw an error if this is
+not the case.
+</p>
+<p>If the data package is present, the necessary information will be
+extracted from the data package and a <code>chromLocation</code> object will
+be created.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>chromLocation</code> object representing the specified data set.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  library("hgu95av2.db")
+  z &lt;- buildChromLocation("hgu95av2")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

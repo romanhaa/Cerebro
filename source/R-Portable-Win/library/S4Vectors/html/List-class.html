@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: List objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for List-class {S4Vectors}"><tr><td>List-class {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>List objects</h2>
+
+<h3>Description</h3>
+
+<p>List objects are <a href="Vector-class.html">Vector</a> objects with a <code>"[["</code>,
+<code>elementType</code> and <code>elementNROWS</code> method.
+The List class serves a similar role as <a href="../../base/html/list.html">list</a> in base R.
+</p>
+<p>It adds one slot, the <code>elementType</code> slot, to the two slots shared by
+all <a href="Vector-class.html">Vector</a> objects.
+</p>
+<p>The <code>elementType</code> slot is the preferred location for List
+subclasses to store the type of data represented in the sequence. It is
+designed to take a character of length 1 representing the class of the
+sequence elements. While the List class performs no validity checking
+based on <code>elementType</code>, if a subclass expects elements to be of a
+given type, that subclass is expected to perform the necessary validity
+checking. For example, the subclass <a href="../../IRanges/html/IntegerList.html">IntegerList</a> (defined
+in the <span class="pkg">IRanges</span> package) has <code>elementType = "integer"</code> and its
+validity method checks if this condition is TRUE.
+</p>
+<p>To be functional, a class that inherits from List must define at least
+a <code>"[["</code> method (in addition to the minimum set of <a href="Vector-class.html">Vector</a>
+methods).
+</p>
+
+
+<h3>Construction</h3>
+
+<p>List objects are typically constructed using one of the 3 following methods:
+</p>
+
+<ul>
+<li><p> Use of a constructor function. Many constructor functions are
+provided for List objects e.g. <code>List</code>,
+<code><a href="../../IRanges/html/IntegerList.html">IntegerList</a></code>, <code><a href="../../IRanges/html/RleList.html">RleList</a></code>,
+<code><a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a></code>,
+<code><a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a></code>, etc...
+Which one to use depends on the particular type of List object
+to construct. The name of a constructor function is always
+the name of a valid class. If it's the name of a <em>concrete</em>
+class (e.g. the <code><a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a></code> constructor
+defined in the <span class="pkg">GenomicRanges</span> package), then the constructor
+function returns an instance of that class. If it's the name of a
+<em>virtual</em> class (e.g. the <code>List</code> constructor defined in
+this package, or the <code><a href="../../IRanges/html/IntegerList.html">IntegerList</a></code> or
+<code><a href="../../IRanges/html/RleList.html">RleList</a></code> or
+<code><a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a></code> constructors defined in the
+<span class="pkg">IRanges</span> package), then the returned object belongs to a
+concrete subclass of that virtual class. Which subclass exactly
+depends on each constructor function (see man page of a particular
+constructor function for the details).
+</p>
+</li>
+<li><p> Coercion to List or to a List subclass. Many coercion methods are
+provided to turn any object into a List object. One general and
+convenient way to convert any vector-like object into a List is to
+call <code>as(x, "List")</code>. This will typically yield an object from
+a subclass of <a href="../../IRanges/html/CompressedList.html">CompressedList</a>.
+</p>
+</li>
+<li><p> Use of <code><a href="../../IRanges/html/extractList.html">extractList</a></code>. This function, defined
+in the <span class="pkg">IRanges</span> package, extracts user-specified groups of
+elements from a vector-like object and returns them in a List (or
+sometimes list) object.
+</p>
+</li></ul>
+
+
+
+<h3>Accessors</h3>
+
+<p>In the following code snippets, <code>x</code> is a List object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>length(x)</code>:
+Get the number of list elements in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>names(x)</code>, <code>names(x) &lt;- value</code>:
+Get or set the names of the elements in the List.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>mcols(x, use.names=FALSE)</code>, <code>mcols(x) &lt;- value</code>:
+Get or set the metadata columns. See <a href="Vector-class.html">Vector</a> man page for
+more information.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>elementType(x)</code>:
+Get the scalar string naming the class from which all elements must
+derive.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>elementNROWS(x)</code>:
+Get the length (or nb of row for a matrix-like object) of each of
+the elements. Equivalent to <code>sapply(x, NROW)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>isEmpty(x)</code>:
+Returns a logical indicating either if the sequence has no elements
+or if all its elements are empty.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Coercion</h3>
+
+<p>To List.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as(x, "List")</code>: Converts a vector-like object into a
+List, usually a <a href="../../IRanges/html/CompressedList.html">CompressedList</a> derivative.
+One notable exception is when <code>x</code> is an ordinary list,
+in which case <code>as(x, "List")</code> returns a <a href="SimpleList-class.html">SimpleList</a>
+derivative.
+</p>
+<p>To explicitly request a <a href="SimpleList-class.html">SimpleList</a> derivative, call
+<code>as(x, "SimpleList")</code>.
+</p>
+<p>See <code>?<a href="../../IRanges/html/CompressedList.html">CompressedList</a></code> (you might need to load
+the <span class="pkg">IRanges</span> package first) and <code>?<a href="SimpleList-class.html">SimpleList</a></code> for
+more information about the CompressedList and SimpleList
+representations.
+</p>
+</dd>
+</dl>
+
+<p>From List. In the code snippets below, <code>x</code> is a List object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>as.list(x, ...)</code>, <code>as(from, "list")</code>:
+Turns <code>x</code> into an ordinary list.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>unlist(x, recursive=TRUE, use.names=TRUE)</code>:
+Concatenates the elements of <code>x</code> into a single vector-like
+object (of class <code>elementType(x)</code>).
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>as.data.frame(x, row.names=NULL, optional=FALSE ,
+                          value.name="value", use.outer.mcols=FALSE, 
+                          group_name.as.factor=FALSE, ...)</code>: 
+Coerces a <code>List</code> to a <code>data.frame</code>. The result has the
+same length as unlisted <code>x</code> with two additional columns,
+<code>group</code> and <code>group_name</code>. <code>group</code> is an <code>integer</code>
+that indicates which list element the record came from. 
+<code>group_name</code> holds the list name associated with each
+record; value is <code>character</code> by default and <code>factor</code> when 
+<code>group_name.as.factor</code> is TRUE. 
+</p>
+<p>When <code>use.outer.mcols</code> is TRUE the metadata columns on the 
+outer list elements of <code>x</code> are replicated out and included 
+in the <code>data.frame</code>. List objects that unlist to a 
+single vector (column) are given the column name 'value' by default.
+A custom name can be provided in <code>value.name</code>.
+</p>
+<p>Splitting values in the resulting <code>data.frame</code> by the original 
+groups in <code>x</code> should be done using the <code>group</code> column as 
+the <code>f</code> argument to <code>splitAsList</code>. To relist data, use
+<code>x</code> as the <code>skeleton</code> argument to <code>relist</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Subsetting</h3>
+
+<p>In the code snippets below, <code>x</code> is a List object.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>x[i]</code>:
+Return a new List object made of the list elements selected by
+subscript <code>i</code>. Subscript <code>i</code> can be of any type supported
+by subsetting of a Vector object (see <a href="Vector-class.html">Vector</a> man page for the
+details), plus the following types: <a href="../../IRanges/html/IntegerList.html">IntegerList</a>,
+<a href="../../IRanges/html/LogicalList.html">LogicalList</a>, <a href="../../IRanges/html/CharacterList.html">CharacterList</a>,
+integer-<a href="../../IRanges/html/RleList.html">RleList</a>, logical-<a href="../../IRanges/html/RleList.html">RleList</a>,
+character-<a href="../../IRanges/html/RleList.html">RleList</a>, and <a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a>.
+Those additional types perform subsetting within the list elements
+rather than across them.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[i] &lt;- value</code>:
+Replacement version of <code>x[i]</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]]</code>:
+Return the selected list element <code>i</code>, where <code>i</code> is an
+numeric or character vector of length 1.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x[[i]] &lt;- value</code>:
+Replacement version of <code>x[[i]]</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x$name</code>, <code>x$name &lt;- value</code>:
+Similar to <code>x[[name]]</code> and <code>x[[name]] &lt;- value</code>, but
+<code>name</code> is taken literally as an element name.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>relistToClass</h3>
+
+<p><code>relistToClass(x)</code> is the opposite of <code>elementType(y)</code> in the
+sense that the former returns the class of the result of relisting (or
+splitting) <code>x</code> while the latter returns the class of the result of
+unlisting (or unsplitting) <code>y</code>.
+More formally, if <code>x</code> is an object that is relistable and <code>y</code>
+a list-like object:
+</p>
+<pre>    relistToClass(x) is class(relist(x, some_skeleton))
+    elementType(y) is class(unlist(y))
+</pre>
+<p>As a consequence, for any object <code>x</code> for which <code>relistToClass(x)</code>
+is defined and returns a valid class,
+<code>elementType(new(relistToClass(x)))</code> should return <code>class(x)</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>P. Aboyoun and H. Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="List-utils.html">List-utils</a> for common operations on List objects.
+</p>
+</li>
+<li> <p><a href="Vector-class.html">Vector</a> objects for the parent class.
+</p>
+</li>
+<li><p> The <a href="SimpleList-class.html">SimpleList</a> class for a direct extension of the List class.
+</p>
+</li>
+<li><p> The <a href="../../IRanges/html/CompressedList.html">CompressedList</a> class defined in the
+<span class="pkg">IRanges</span> package for another direct extension of the List class.
+</p>
+</li>
+<li><p> The <a href="../../IRanges/html/IntegerList.html">IntegerList</a>, <a href="../../IRanges/html/RleList.html">RleList</a>, and
+<a href="../../IRanges/html/IRanges.html">IRanges</a> classes and constructors defined in the
+<span class="pkg">IRanges</span> package for more examples of concrete List
+subclasses.
+</p>
+</li>
+<li><p> The <a href="../../IRanges/html/extractList.html">extractList</a> function defined in the
+<span class="pkg">IRanges</span> package for grouping elements of a vector-like
+object into a list-like object.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+showClass("List")  # shows (some of) the known subclasses
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

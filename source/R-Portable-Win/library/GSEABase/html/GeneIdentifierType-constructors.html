@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gene Identifier Class Constructors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneIdentifierType {GSEABase}"><tr><td>GeneIdentifierType {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gene Identifier Class Constructors</h2>
+
+<h3>Description</h3>
+
+<p>Gene identifier classes and functions are used to indicate what the
+list of genes in a gene set represents (e.g., Entrez gene identifiers
+are tagged with <code>EntrezIdentifier()</code>, Bioconductor annotations with
+<code>AnnotationIdentifier()</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+NullIdentifier(annotation, ...)
+EnzymeIdentifier(annotation, ...)
+ENSEMBLIdentifier(annotation, ...)
+GenenameIdentifier(annotation,...)
+RefseqIdentifier(annotation,...)
+SymbolIdentifier(annotation,...)
+UnigeneIdentifier(annotation,...)
+UniprotIdentifier(annotation,...)
+EntrezIdentifier(annotation,...)
+AnnotationIdentifier(annotation, ...)
+AnnoOrEntrezIdentifier(annotation, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>annotation</code></td>
+<td>
+<p>An optional character string identifying the
+Bioconductor package from which the annotations are drawn, e.g.,
+&lsquo;hgu95av2&rsquo;, &lsquo;org.Hs.eg.db&rsquo;. Or an &lsquo;src_organism&rsquo;
+object, e.g.
+&lsquo;Organism.dplyr::src_organism(TxDb.Hsapiens.UCSC.hg38.knownGene)&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, usually none.</p>
+</td></tr></table>
+
+
+<h3>Value</h3>
+
+<p>For all but <code>AnnoOrEntrezIdentifier</code>, An object of the same class
+as the function name, initialized as appropriate for the identifier.
+</p>
+<p>For <code>AnnoOrEntrezIdentifier</code>, either an
+<code>AnnotationIdentifier</code> or <code>EntrezIdentifier</code> depending on
+the argument. This requires that the corresponding chip- or organism
+package be loaded, hence installed on the user's system.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneIdentifierType-class.html">GeneIdentifierType</a></code>-class for a description of the
+classes and methods using these objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+NullIdentifier()
+
+data(sample.ExpressionSet)
+gs1 &lt;- GeneSet(sample.ExpressionSet[100:109],
+               setName="sample1", setIdentifier="100")
+geneIdType(gs1) # AnnotationIdentifier
+
+geneIds &lt;- featureNames(sample.ExpressionSet)[100:109]
+gs2 &lt;- GeneSet(geneIds=geneIds,
+               setName="sample1", setIdentifier="101")
+geneIdType(gs2) # NullIdentifier, since no info about genes provided
+
+## Convert...
+ai &lt;- AnnotationIdentifier(annotation(sample.ExpressionSet))
+geneIdType(gs2) &lt;- ai
+geneIdType(gs2)
+## ...or provide more explicit construction
+gs3 &lt;- GeneSet(geneIds=geneIds, type=ai,
+               setName="sample1", setIdentifier="102")
+
+uprotIds &lt;- c("Q9Y6Q1", "A6NJZ7", "Q9BXI6", "Q15035", "A1X283",
+              "P55957")
+gs4 &lt;- GeneSet(uprotIds, geneIdType=UniprotIdentifier())
+geneIdType(gs4) # UniprotIdentifier
+geneIds(mapIdentifiers(gs4, UnigeneIdentifier(annotation="org.Hs.eg")))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

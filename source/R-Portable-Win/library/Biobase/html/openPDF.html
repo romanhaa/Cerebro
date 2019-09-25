@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Open PDF Files in a Standard Viewer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for openPDF {Biobase}"><tr><td>openPDF {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Open PDF Files in a Standard Viewer</h2>
+
+<h3>Description</h3>
+
+<p>Displays the specified PDF file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+openPDF(file, bg=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A character string, indicating the file to view</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Should the pdf viewer be opened in the background.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Currently this function works on Windows and Unix platforms.  Under
+Windows, whatever program is associated with the file extension will
+be used.  Under Unix, the function will use the program named in the
+
+
+option &quot;pdfviewer&quot; (see <code>help(options)</code> for information on
+how this is set.)
+</p>
+<p>The <code>bg</code> argument is only interpreted on Unix.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function is executed for its side effects.  The specified PDF file
+is opened in the PDF viewer and <code>TRUE</code> is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeff Gentry</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: openPDF("annotate.pdf")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

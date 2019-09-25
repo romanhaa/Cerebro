@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test if a vector-like object is sorted</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for isSorted {S4Vectors}"><tr><td>isSorted {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Test if a vector-like object is sorted</h2>
+
+<h3>Description</h3>
+
+<p><code>isSorted</code> and <code>isStrictlySorted</code> test if a vector-like object
+is sorted or strictly sorted, respectively.
+</p>
+<p><code>isConstant</code> tests if a vector-like or array-like object is constant.
+Currently only <code>isConstant</code> methods for vectors or arrays of type
+integer or double are implemented.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isSorted(x)
+isStrictlySorted(x)
+isConstant(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A vector-like object. Can also be an array-like object for
+<code>isConstant</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Vector-like objects of length 0 or 1 are always considered to be sorted,
+strictly sorted, and constant.
+</p>
+<p>Strictly sorted and constant objects are particular cases of sorted objects.
+</p>
+<p><code>isStrictlySorted(x)</code> is equivalent to
+<code>isSorted(x) &amp;&amp; !anyDuplicated(x)</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single logical i.e. <code>TRUE</code>, <code>FALSE</code> or <code>NA</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code><a href="../../base/html/is.unsorted.html">is.unsorted</a></code>.
+</p>
+</li>
+<li> <p><code><a href="../../base/html/duplicated.html">duplicated</a></code> and <code><a href="../../base/html/unique.html">unique</a></code>.
+</p>
+</li>
+<li> <p><code><a href="../../base/html/all.equal.html">all.equal</a></code>.
+</p>
+</li>
+<li> <p><code><a href="../../base/html/NA.html">NA</a></code> and <code><a href="../../base/html/is.finite.html">is.finite</a></code>.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## A. isSorted() and isStrictlySorted()
+## ---------------------------------------------------------------------
+
+x &lt;- 1:10
+
+isSorted(x)           # TRUE
+isSorted(-x)          # FALSE
+isSorted(rev(x))      # FALSE
+isSorted(-rev(x))     # TRUE
+
+isStrictlySorted(x)   # TRUE
+
+x2 &lt;- rep(x, each=2)
+isSorted(x2)          # TRUE
+isStrictlySorted(x2)  # FALSE
+
+## ---------------------------------------------------------------------
+## B. "isConstant" METHOD FOR integer VECTORS
+## ---------------------------------------------------------------------
+
+## On a vector with no NAs:
+stopifnot(isConstant(rep(-29L, 10000)))
+
+## On a vector with NAs:
+stopifnot(!isConstant(c(0L, NA, -29L)))
+stopifnot(is.na(isConstant(c(-29L, -29L, NA))))
+ 
+## On a vector of length &lt;= 1:
+stopifnot(isConstant(NA_integer_))
+
+
+## ---------------------------------------------------------------------
+## C. "isConstant" METHOD FOR numeric VECTORS
+## ---------------------------------------------------------------------
+## This method does its best to handle rounding errors and special
+## values NA, NaN, Inf and -Inf in a way that "makes sense".
+## Below we only illustrate handling of rounding errors.
+
+## Here values in 'x' are "conceptually" the same:
+x &lt;- c(11/3,
+       2/3 + 4/3 + 5/3,
+       50 + 11/3 - 50,
+       7.00001 - 1000003/300000)
+## However, due to machine rounding errors, they are not *strictly*
+## equal:
+duplicated(x)
+unique(x)
+## only *nearly* equal:
+all.equal(x, rep(11/3, 4))  # TRUE
+
+## 'isConstant(x)' uses 'all.equal()' internally to decide whether
+## the values in 'x' are all the same or not:
+stopifnot(isConstant(x))
+
+## This is not perfect though:
+isConstant((x - 11/3) * 1e8)  # FALSE on Intel Pentium paltforms
+                              # (but this is highly machine dependent!)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

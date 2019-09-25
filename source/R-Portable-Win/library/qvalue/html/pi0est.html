@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Proportion of true null p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pi0est {qvalue}"><tr><td>pi0est {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Proportion of true null p-values</h2>
+
+<h3>Description</h3>
+
+<p>Estimates the proportion of true null p-values, i.e., those following the Uniform(0,1) distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pi0est(p, lambda = seq(0.05, 0.95, 0.05), pi0.method = c("smoother",
+  "bootstrap"), smooth.df = 3, smooth.log.pi0 = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>A vector of p-values (only necessary input).</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>The value of the tuning parameter to estimate
+<i>pi_0</i>. Must be in [0,1). Optional, see Storey (2002).</p>
+</td></tr>
+<tr valign="top"><td><code>pi0.method</code></td>
+<td>
+<p>Either &quot;smoother&quot; or &quot;bootstrap&quot;; the method for
+automatically choosing tuning parameter in the estimation of <i>pi_0</i>,
+the proportion of true null hypotheses.</p>
+</td></tr>
+<tr valign="top"><td><code>smooth.df</code></td>
+<td>
+<p>Number of degrees-of-freedom to use when estimating <i>pi_0</i>
+with a smoother. Optional.</p>
+</td></tr>
+<tr valign="top"><td><code>smooth.log.pi0</code></td>
+<td>
+<p>If TRUE and <code>pi0.method</code> = &quot;smoother&quot;, <i>pi_0</i> will be
+estimated by applying a smoother to a scatterplot of <i>log(pi_0)</i> estimates
+against the tuning parameter <i>lambda</i>. Optional.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed from <code><a href="qvalue.html">qvalue</a></code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If no options are selected, then the method used to estimate <i>pi_0</i> is
+the smoother method described in Storey and Tibshirani (2003). The
+bootstrap method is described in Storey, Taylor &amp; Siegmund (2004). A closed form solution of the
+bootstrap method is used in the package and is significantly faster.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>pi0</code></td>
+<td>
+<p>A numeric that is the estimated proportion
+of true null p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>pi0.lambda</code></td>
+<td>
+<p>A vector of the proportion of null
+values at the <i>lambda</i> values (see vignette).</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>A vector of <i>lambda</i> value(s) utilized in calculating <code>pi0.lambda</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pi0.smooth</code></td>
+<td>
+<p>A vector of fitted values from the
+smoother fit to the <i>pi_0</i> estimates at each <code>lambda</code> value
+(pi0.method=&quot;bootstrap&quot; returns NULL).</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>John D. Storey
+</p>
+
+
+<h3>References</h3>
+
+<p>Storey JD. (2002) A direct approach to false discovery rates. Journal
+of the Royal Statistical Society, Series B, 64: 479-498. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract">http://onlinelibrary.wiley.com/doi/10.1111/1467-9868.00346/abstract</a>
+</p>
+<p>Storey JD and Tibshirani R. (2003) Statistical significance for
+genome-wide experiments. Proceedings of the National Academy of Sciences,
+100: 9440-9445. <br />
+</p>
+<p>Storey JD. (2003) The positive false discovery rate: A Bayesian
+interpretation and the q-value. Annals of Statistics, 31: 2013-2035. <br />
+<a href="http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335">http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335</a>
+</p>
+<p>Storey JD, Taylor JE, and Siegmund D. (2004) Strong control,
+conservative point estimation, and simultaneous conservative
+consistency of false discovery rates: A unified approach. Journal of
+the Royal Statistical Society, Series B, 66: 187-205. <br />
+<a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2004.00439.x/abstract">http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9868.2004.00439.x/abstract</a>
+</p>
+<p>Storey JD. (2011) False discovery rates. In <em>International Encyclopedia of Statistical Science</em>. <br />
+<a href="http://genomine.org/papers/Storey_FDR_2011.pdf">http://genomine.org/papers/Storey_FDR_2011.pdf</a> <br />
+<a href="http://www.springer.com/statistics/book/978-3-642-04897-5">http://www.springer.com/statistics/book/978-3-642-04897-5</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qvalue.html">qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+p &lt;- hedenfalk$p
+
+# proportion of null p-values
+nullRatio &lt;- pi0est(p)
+nullRatioS &lt;- pi0est(p, lambda=seq(0.40, 0.95, 0.05), smooth.log.pi0="TRUE")
+nullRatioM &lt;- pi0est(p, pi0.method="bootstrap")
+
+# check behavior of estimate over lambda
+# also, pi0est arguments can be passed to qvalue
+qobj = qvalue(p, lambda=seq(0.05, 0.95, 0.1), smooth.log.pi0="TRUE")
+hist(qobj)
+plot(qobj)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

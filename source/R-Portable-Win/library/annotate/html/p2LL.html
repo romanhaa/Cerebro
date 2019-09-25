@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to map from probes to unique Entrez Gene IDs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for p2LL {annotate}"><tr><td>p2LL {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to map from probes to unique Entrez Gene IDs</h2>
+
+<h3>Description</h3>
+
+<p>For any chip, this function computes the map from  unique Entrez Gene
+ID to all probes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+p2LL(data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> The character string naming the chip.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is deprecated.
+</p>
+<p>This is essentially the computation of the reverse map, we store probe
+to Entrez gene information in the <code>ENTREZID</code> environment. This is
+used to compute the inverse mapping.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list, with length equal to the number of unique Entrez Gene IDs on
+the chip, the elements correspond to the probes that map to the Gene ID.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getSYMBOL.html">getEG</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+  library("hgu95av2.db")
+  x &lt;- p2LL("hgu95av2")
+  table(sapply(x, length))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

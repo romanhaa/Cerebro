@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: KEGG apoptosis pathway graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for apoptosisGraph {graph}"><tr><td>apoptosisGraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>KEGG apoptosis pathway graph</h2>
+
+<h3>Description</h3>
+
+<p>A graph representing the apoptosis pathway from
+KEGG, as well as a data.frame of attributes for use in plotting the
+graph with <code>Rgraphviz</code> and a list to compare the nodes with their
+respective LocusLink IDs.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(apopGraph)
+</pre>
+
+
+<h3>Details</h3>
+
+<p>The <code>apopGraph</code> data set contains three objects:
+</p>
+<p>The first is <code>apopGraph</code>, which is an object of class
+<code>graph-NEL</code> and represents the hsa04210 graph from <code>KEGG</code>.
+</p>
+<p>The second is <code>apopAttrs</code>, which is a data.frame with two columns,
+and a row for every node in <code>apopGraph</code>.  The first column lists
+what color the node is represented with on the <code>KEGG</code> site.  The
+second column lists the type of the node - either <code>genesym</code> or
+<code>text</code>.  Most nodes are of type <code>genesym</code> as they represent
+genes, but some of the nodes in the <code>KEGG</code> graph were not genes
+and thus those nodes are of type <code>text</code>.
+</p>
+<p>The third, <code>apopLocusLink</code> is a named list where the names
+correspond to the node names in <code>apopGraph</code>.  The values of the
+list are the LocusLink IDs that correspond to that node in the KEGG graph.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="http://www.genome.ad.jp/kegg/pathway/hsa/hsa04210.html">http://www.genome.ad.jp/kegg/pathway/hsa/hsa04210.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(apopGraph)
+if (require("Rgraphviz") &amp; interactive())
+  plot(apopGraph)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

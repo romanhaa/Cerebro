@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Produce Smoothed Sense/Anti-sense For All Chromosomes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Makesense {geneplotter}"><tr><td>Makesense {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Produce Smoothed Sense/Anti-sense For All Chromosomes</h2>
+
+<h3>Description</h3>
+
+<p>'Makesense' takes either an <code>ExpressionSet</code> object or a <code>matrix</code>
+of gene expressions and will produce a smoothed positive and negative strands
+for all chromosomes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Makesense(expr, lib, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>Either an <code>ExpressionSet</code> or a <code>matrix</code> of 
+gene expressions with genes as rows and columns as samples.</p>
+</td></tr>
+<tr valign="top"><td><code>lib</code></td>
+<td>
+<p>The name of the Bioconductor annotation data package that
+will be used to provide mappings from probes to chromosomal
+locations, such as <code>hgu95av2.db</code> or <code>hgu133a.db</code>.  If
+<code>expr</code> is an <code>ExpressionSet</code>, the argument defaults to the
+<code>annotation</code> slot of the <code>ExpressionSet</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently, the only optional argument is <code>f</code>, the
+smoother span to be passed to 'lowess'. Its value should
+be in the interval of (0,1). This gives the proportion of points in
+the plot which influence the smooth at each value. Larger values
+give more smoothness.  The default value for this argument is 1/10.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>expr</code> argument can either be of class <code>ExpressionSet</code> or
+<code>matrix</code>, where the latter represents the matrix of gene
+expressions.
+</p>
+<p>If the <code>expr</code> argument is an <code>ExpressionSet</code>, the <code>lib</code>
+argument will use the <code>annotation</code> slot.  Users can override this
+behaviour and supply their own <code>lib</code> argument if they wish.  If
+the <code>ExpressionSet</code> has no value associated with the <code>annotation</code>
+slot (which should not happen, but is possible) then the user must
+supply the <code>lib</code> argument manually or the function will throw an
+error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of 2 components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>ans2</code></td>
+<td>
+<p>a <code>list</code>, whose components correspond to samples 
+in the same order as appearing in the columns of 
+'expr'. Each component is also a <code>list</code>, named by chromosomes 
+&quot;1&quot;-&quot;22&quot;, &quot;X&quot; and &quot;Y&quot;. Each named component is again a <code>list</code> 
+with two elements named &quot;posS&quot; and &quot;negS&quot;, corresponding to the
+positive and negative strands of a chromosome, each of which is an object returned by 'lowess'.</p>
+</td></tr>
+<tr valign="top"><td><code>lib</code></td>
+<td>
+<p>A string giving the name of the annotation data package to
+use.  Optional if <code>expr</code> is an <code>ExpressionSet</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Gentleman and Xiaochun Li</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="plotChr.html">plotChr</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  if (require("hgu133a.db")) {
+    data(expressionSet133a)
+    esetobj &lt;- Makesense(exprs(expressionSet133a), "hgu133a")
+    esetobj2 &lt;- Makesense(expressionSet133a[1:200, ])
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

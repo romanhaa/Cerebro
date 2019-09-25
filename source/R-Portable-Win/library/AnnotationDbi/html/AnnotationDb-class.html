@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: AnnotationDb objects and their progeny, methods etc.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AnnotationDb-objects {AnnotationDbi}"><tr><td>AnnotationDb-objects {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>AnnotationDb objects and their progeny, methods etc.</h2>
+
+<h3>Description</h3>
+
+<p><code>AnnotationDb</code> is the virtual base class for all annotation
+packages.  It contain a database connection and is meant to be the
+parent for a set of classes in the Bioconductor annotation
+packages. These classes will provide a means of dispatch for a
+widely available set of <code>select</code> methods and thus allow the
+easy extraction of data from the annotation packages.
+</p>
+<p><code>select</code>, <code>columns</code> and <code>keys</code> are used together to
+extract data from an <code>AnnotationDb</code> object (or any object derived
+from the parent class).  Examples of classes derived from the
+<code>AnnotationDb</code> object include (but are not limited to):
+<code>ChipDb</code>, <code>OrgDb</code> <code>GODb</code>, <code>InparanoidDb</code> and
+<code>ReactomeDb</code>.
+</p>
+<p><code>columns</code> shows which kinds of data can be returned for the
+<code>AnnotationDb</code> object.
+</p>
+<p><code>keytypes</code> allows the user to discover which keytypes can be
+passed in to <code>select</code> or <code>keys</code> and the <code>keytype</code>
+argument.
+</p>
+<p><code>keys</code> returns keys for the database contained in the
+<code>AnnotationDb</code> object .  This method is already documented in the
+keys manual page but is mentioned again here because it's usage with
+<code>select</code> is so intimate.  By default it will return the primary
+keys for the database, but if used with the <code>keytype</code> argument,
+it will return the keys from that keytype.
+</p>
+<p><code>select</code> will retrieve the data as a data.frame based on
+parameters for selected <code>keys</code> <code>columns</code> and <code>keytype</code>
+arguments.  Users should be warned that if you call <code>select</code> and request 
+columns that have multiple matches for your keys, select will return a 
+data.frame with one row for each possible match.  This has the effect that if 
+you request multiple columns and some of them have a many to one relationship 
+to the keys, things will continue to multiply accordingly.  So it's not a good 
+idea to request a large number of columns unless you know that what you are 
+asking for should have a one to one relationship with the initial set of keys.
+In general, if you need to retrieve a column (like GO) that has a many to one 
+relationship to the original keys, it is most useful to extract that 
+separately.
+</p>
+<p><code>mapIds</code> gets the mapped ids (column) for a set of keys that are of a 
+particular keytype.  Usually returned as a named character vector.
+</p>
+<p><code>saveDb</code> will take an AnnotationDb object and save the database
+to the file specified by the path passed in to the <code>file</code>
+argument.
+</p>
+<p><code>loadDb</code> takes a .sqlite database file as an argument and uses
+data in the metadata table of that file to return an AnnotationDb
+style object of the appropriate type.
+</p>
+<p><code>species</code> shows the genus and species label currently attached to
+the <code>AnnotationDb</code> objects database.
+</p>
+<p><code>dbfile</code> gets the database file associated with an object.
+</p>
+<p><code>dbconn</code> gets the datebase connection associated with an object.
+</p>
+<p><code>taxonomyId</code> gets the taxonomy ID associated with an object (if available).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  columns(x)
+  keytypes(x)
+  keys(x, keytype, ...)
+  select(x, keys, columns, keytype, ...)
+  mapIds(x, keys, column, keytype, ..., multiVals)
+  saveDb(x, file)
+  loadDb(file, packageName=NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the <code>AnnotationDb</code> object. But in practice this will mean an 
+object derived from an <code>AnnotationDb</code> object such as a <code>OrgDb</code> or 
+<code>ChipDb</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>keys</code></td>
+<td>
+<p>the keys to select records for from the database.  All possible 
+keys are returned by using the <code>keys</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>columns</code></td>
+<td>
+<p>the columns or kinds of things that can be retrieved
+from the database.  As with <code>keys</code>, all possible columns are
+returned by using the <code>columns</code> method.</p>
+</td></tr>
+<tr valign="top"><td><code>keytype</code></td>
+<td>
+<p>the keytype that matches the keys used.  For the
+<code>select</code> methods, this is used to indicate the kind of ID being used
+with the keys argument. For the <code>keys</code> method this is used to
+indicate which kind of keys are desired from <code>keys</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>column</code></td>
+<td>
+<p>the column to search on (for <code>mapIds</code>).  Different from 
+<code>columns</code> in that it can only have a single element for the value</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.  These include:
+</p>
+
+<dl>
+<dt>pattern:</dt><dd><p>the pattern to match (used by keys)</p>
+</dd>
+<dt>column:</dt><dd><p>the column to search on. This is used by keys and is
+for when the thing you want to pattern match is different from
+the keytype, or when you want to simply want to get keys that
+have a value for the thing specified by the column argument.</p>
+</dd>
+<dt>fuzzy:</dt><dd><p>TRUE or FALSE value.  Use fuzzy matching? (this is
+used with pattern by the keys method)</p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>multiVals</code></td>
+<td>
+<p>What should <code>mapIds</code> do when there are multiple values         
+that could be returned?  Options include:
+</p>
+
+<dl>
+<dt>first:</dt><dd><p>This value means that when there are multiple matches only the 1st thing that comes back will be returned. This is the default behavior</p>
+</dd>
+<dt>list:</dt><dd><p>This will just returns a list object to the end user</p>
+</dd>
+<dt>filter:</dt><dd><p>This will remove all elements that contain multiple matches and will therefore return a shorter vector than what came in whenever some of the keys match more than one value</p>
+</dd>
+<dt>asNA:</dt><dd><p>This will return an NA value whenever there are multiple matches</p>
+</dd>
+<dt>CharacterList:</dt><dd><p>This just returns a SimpleCharacterList object</p>
+</dd>
+<dt>FUN:</dt><dd><p>You can also supply a function to the <code>multiVals</code> argument for custom behaviors.  The function must take a single argument and return a single value.  This function will be applied to all the elements and will serve a 'rule' that for which thing to keep when there is more than one element.  So for example this example function will always grab the last element in each result: <code> last &lt;- function(x){x[[length(x)]]} </code>
+</p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>an <code>sqlite</code> file path.  A string the represents the
+full name you want for your sqlite database and also where to put it.</p>
+</td></tr>
+<tr valign="top"><td><code>packageName</code></td>
+<td>
+<p>for internal use only</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>keys</code>,<code>columns</code> and <code>keytypes</code> each return a character
+vector or possible values.  <code>select</code> returns a data.frame.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Marc Carlson</p>
+
+
+<h3>See Also</h3>
+
+<p><code>keys</code>,
+<code><a href="../../DBI/html/dbConnect.html">dbConnect</a></code>,
+<code><a href="../../DBI/html/dbListTables.html">dbListTables</a></code>,
+<code><a href="../../DBI/html/dbListTables.html">dbListFields</a></code>,
+<code><a href="../../DBI/html/dbSendQuery.html">dbGetQuery</a></code>,
+<a href="Bimap.html">Bimap</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(hgu95av2.db)
+## display the columns
+columns(hgu95av2.db)
+## get the 1st 6 possible keys
+keys &lt;- head( keys(hgu95av2.db) )
+keys
+## lookup gene symbol and unigene ID for the 1st 6 keys
+select(hgu95av2.db, keys=keys, columns = c("SYMBOL","UNIGENE"))
+
+## get keys based on unigene
+keyunis &lt;- head( keys(hgu95av2.db, keytype="UNIGENE") )
+keyunis
+## list supported key types
+keytypes(hgu95av2.db)
+## lookup gene symbol and unigene ID based on unigene IDs by setting
+## the keytype to "UNIGENE" and passing in unigene keys:
+select(hgu95av2.db, keys=keyunis, columns = c("SYMBOL","UNIGENE"),
+       keytype="UNIGENE")
+
+keys &lt;- head(keys(hgu95av2.db, 'ENTREZID'))
+## get a default result (captures only the 1st element)
+mapIds(hgu95av2.db, keys=keys, column='ALIAS', keytype='ENTREZID')
+## or use a different option
+mapIds(hgu95av2.db, keys=keys, column='ALIAS', keytype='ENTREZID', 
+    multiVals="CharacterList")
+## Or define your own function
+last &lt;- function(x){x[[length(x)]]}
+mapIds(hgu95av2.db, keys=keys, column='ALIAS', keytype='ENTREZID', 
+    multiVals=last)
+    
+## For other ways to access the DB, you can use dbfile() or dbconn() to extract
+dbconn(hgu95av2.db)
+dbfile(hgu95av2.db)
+
+## Try to retrieve an associated taxonomyId 
+taxonomyId(hgu95av2.db)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

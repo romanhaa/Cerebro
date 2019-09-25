@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply a function over subsequences of 2 vector-like objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for shiftApply-methods {S4Vectors}"><tr><td>shiftApply-methods {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply a function over subsequences of 2 vector-like objects</h2>
+
+<h3>Description</h3>
+
+<p><code>shiftApply</code> loops and applies a function overs subsequences
+of vector-like objects <code>X</code> and <code>Y</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+shiftApply(SHIFT, X, Y, FUN, ..., OFFSET=0L, simplify=TRUE, verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>SHIFT</code></td>
+<td>
+<p>A non-negative integer vector of shift values.</p>
+</td></tr>
+<tr valign="top"><td><code>X, Y</code></td>
+<td>
+<p>The vector-like objects to shift.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>The function, found via <code>match.fun</code>, to be
+applied to each set of shifted vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments for <code>FUN</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>OFFSET</code></td>
+<td>
+<p>A non-negative integer offset to maintain throughout
+the shift operations.</p>
+</td></tr>
+<tr valign="top"><td><code>simplify</code></td>
+<td>
+<p>A logical value specifying whether or not the
+result should be simplified to a vector or matrix if possible.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A logical value specifying whether or not to
+print the <code>i</code> indices to track the iterations.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Let <code>i</code> be the indices in <code>SHIFT</code>,
+<code>X_i = window(X, 1 + OFFSET, length(X) - SHIFT[i])</code>, and
+<code>Y_i = window(Y, 1 + SHIFT[i], length(Y) - OFFSET)</code>.
+<code>shiftApply</code> calculates the set of <code>FUN(X_i, Y_i, ...)</code> values
+and returns the results in a convenient form.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="window.html">window</a></code> and
+<code><a href="aggregate.html">aggregate</a></code> methods for vector-like
+objects defined in the <span class="pkg">S4Vectors</span> package.
+</p>
+</li>
+<li> <p><a href="Vector-class.html">Vector</a> and <a href="Rle-class.html">Rle</a> objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(0)
+lambda &lt;- c(rep(0.001, 4500), seq(0.001, 10, length = 500),
+            seq(10, 0.001, length = 500))
+xRle &lt;- Rle(rpois(1e7, lambda))
+yRle &lt;- Rle(rpois(1e7, lambda[c(251:length(lambda), 1:250)]))
+
+cor(xRle, yRle)
+shifts &lt;- seq(235, 265, by=3)
+corrs &lt;- shiftApply(shifts, yRle, xRle, FUN=cor)
+
+cor(xRle, yRle)
+shiftApply(249:251, yRle, xRle,
+           FUN=function(x, y) var(x, y) / (sd(x) * sd(y)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

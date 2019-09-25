@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods to construct GeneSet instances</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneSet {GSEABase}"><tr><td>GeneSet {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods to construct GeneSet instances</h2>
+
+<h3>Description</h3>
+
+<p>Use <code>GeneSet</code> to construct gene sets from <code>ExpressionSet</code>,
+character vector, or other objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+GeneSet(type, ..., setIdentifier=.uniqueIdentifier())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>An argument determining how the gene set will be created,
+as described in the Methods section.</p>
+</td></tr>
+<tr valign="top"><td><code>setIdentifier</code></td>
+<td>
+<p>A <code>ScalarCharacter</code> or length-1 character
+vector uniquely identifying the set.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments for gene set construction. 
+Methods have required arguments, as outlined below; additional
+arguments correspond to slot names <code><a href="GeneSet-class.html">GeneSet</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>
+<code>signature(type = "missing", ..., setIdentifier=.uniqueIdentifier())</code></dt><dd>
+<p>Construct an empty gene set.</p>
+</dd>
+<dt>
+<code>signature(type = "character", ..., setIdentifier=.uniqueIdentifier())</code></dt><dd>
+<p>Construct a gene set using identifiers <code>type</code>.</p>
+</dd>
+<dt>
+<code>signature(type = "GeneIdentifierType", ..., setIdentifier=.uniqueIdentifier())</code></dt><dd>
+<p>Construct an empty gene set. The gene set has <code>geneIdType</code>
+created from the <code>GeneIdentifierType</code> of <code>type</code>.</p>
+</dd>
+<dt>
+<code>signature(type = "ExpressionSet", ..., setIdentifier=.uniqueIdentifier())</code></dt><dd>
+<p>Construct a gene set from an
+<code><a href="../../Biobase/html/class.ExpressionSet.html">ExpressionSet</a></code>. <code>geneIdType</code>
+is set to <code>AnnotationIdentifier</code>; the annotation field and
+annotation package of the <code>ExpressionSet</code> are consulted to
+determine <code>organism</code>, if possible. Short and long
+descriptions from the <code>ExpressionSet</code> <code>experimentData</code>
+title and abstract; pub med ids, urls, and contributor are also
+derived from <code>experimentData</code>.</p>
+</dd>
+<dt>
+<code>signature(type = "GOCollection", ..., geneIdType, setIdentifier=.uniqueIdentifier())</code></dt><dd>
+<p>Use genes contained in <code>type</code> to create a <code>GeneSet
+      </code>. The required arugment <code>geneIdType</code> must include a package
+for which an appropriate map (to GO) exists, e.g.,
+<code>EntrezIdentifier('org.Hs.eg.db')</code>.
+</p>
+</dd>
+<dt>
+<code>signature(type = "BroadCollection", ..., urls = character(0), setIdentifier=.uniqueIdentifier())</code></dt><dd>
+<p>Read XML following the Broad Institute schema and located at
+<code>urls</code> to create a gene set. The url can be a local file or
+internet connection, but must contain just a single gene set. See
+<code><a href="getObjects.html">getBroadSets</a></code> for details.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneSet-class.html">GeneSet-class</a></code>
+<code><a href="GeneColorSet-class.html">GeneColorSet-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Empty gene set
+GeneSet()
+
+## Gene set from ExpressionSet
+data(sample.ExpressionSet)
+gs1 &lt;- GeneSet(sample.ExpressionSet[100:109])
+
+## GeneSet from Broad XML; 'fl' could be a url
+fl &lt;- system.file("extdata", "Broad.xml", package="GSEABase")
+gs2 &lt;- getBroadSets(fl)[[1]] # actually, a list of two gene sets
+
+## GeneSet from list of gene identifiers
+geneIds &lt;- geneIds(gs2) # any character vector would do
+gs3 &lt;- GeneSet(geneIds)
+## unspecified set type, so...
+is(geneIdType(gs3), "NullIdentifier") == TRUE
+## update set type to match encoding of identifiers
+geneIdType(gs2)
+geneIdType(gs3) &lt;- SymbolIdentifier()
+## other ways of accomplishing the same
+gs4 &lt;- GeneSet(geneIds, geneIdType=SymbolIdentifier())
+gs5 &lt;- GeneSet(SymbolIdentifier(), geneIds=geneIds)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

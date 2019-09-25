@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Determine whether object or class contains versioning...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for isVersioned {Biobase}"><tr><td>isVersioned {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Determine whether object or class contains versioning information</h2>
+
+<h3>Description</h3>
+
+<p>This generic function checks to see whether <code><a href="class.Versioned.html">Versioned-class</a></code> information
+is present. When the argument to <code>isVersioned</code> is a character
+string, the prototype of the class corresponding to the string is
+consulted.
+</p>
+<p>By default, <code>isVersioned</code> has the following behaviors:
+</p>
+
+<dl>
+<dt><code>isVersioned(Versioned-instance)</code></dt><dd><p>Returns <code>TRUE</code> when the instance have version information.</p>
+</dd>
+<dt><code>isCurrent("class-name")</code></dt><dd><p>Returns <code>TRUE</code> when the named class extends <code><a href="class.Versioned.html">Versioned-class</a></code>.</p>
+</dd>
+<dt><code>isVersioned(ANY)</code></dt><dd><p>Returns <code>FALSE</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+isVersioned(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Object or class name to check for version information, as described above.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>isVersioned</code> returns a logical indicating whether version information is present.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Biocore team</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="class.Versions.html">Versions-class</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+obj &lt;- new("VersionedBiobase")
+isVersioned(obj)
+
+isVersioned(1:10) # FALSE
+
+A &lt;- setClass("A", contains="VersionedBiobase",
+         prototype=prototype(new("VersionedBiobase", versions=c(A="1.0.0"))))
+a &lt;- A()
+isVersioned(a)
+
+removeClass("A")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

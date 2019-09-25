@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A Simple Aggregation Mechanism.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Aggregate {Biobase}"><tr><td>Aggregate {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A Simple Aggregation Mechanism.  </h2>
+
+<h3>Description</h3>
+
+<p>Given an environment and an aggregator (an object of class <code>aggregate</code> simple aggregations are made.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Aggregate(x, agg)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> The data to be aggregated. </p>
+</td></tr>
+<tr valign="top"><td><code>agg</code></td>
+<td>
+<p>The aggregator to be used. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Given some data, <code>x</code> the user can accumulate (or aggregate)
+information in <code>env</code> using the two supplied functions.
+See the accompanying documentation for a more complete example of this
+function and its use.
+</p>
+
+
+<h3>Value</h3>
+
+<p>No value is returned. This function is evaluated purely for side
+effects. The symbols and values in <code>env</code> are altered.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/environment.html">new.env</a></code>,  <code><a href="class.aggregator.html">class:aggregator</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  agg1 &lt;- new("aggregator")
+  Aggregate(letters[1:10], agg1)
+  # the first 10 letters should be symbols in env1 with values of 1
+  Aggregate(letters[5:11], agg1)
+  # now letters[5:10] should have value 2
+  bb &lt;- mget(letters[1:11], env=aggenv(agg1), ifnotfound=NA)
+  t1 &lt;- as.numeric(bb); names(t1) &lt;- names(bb)
+  t1
+# a b c d e f g h i j k
+# 1 1 1 1 2 2 2 2 2 2 1
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

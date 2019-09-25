@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Some utility functions to operate on strings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for character-utils {S4Vectors}"><tr><td>character-utils {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Some utility functions to operate on strings</h2>
+
+<h3>Description</h3>
+
+<p>Some low-level string utilities to operate on ordinary
+character vectors. For more advanced string manipulations,
+see the <span class="pkg">Biostrings</span> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+unstrsplit(x, sep="")
+
+## more to come...
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A list-like object where each list element is a character vector,
+or a character vector (identity).
+</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+
+<p>A single string containing the separator.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>unstrsplit(x, sep)</code> is equivalent to (but much faster than)
+<code>sapply(x, paste0, collapse=sep)</code>. It performs the reverse
+transformation of <code><a href="../../base/html/strsplit.html">strsplit</a>( , fixed=TRUE)</code>, that is,
+if <code>x</code> is a character vector with no NAs and <code>sep</code> a single
+string, then <code>unstrsplit(strsplit(x, split=sep, fixed=TRUE), sep)</code>
+is identical to <code>x</code>. A notable exception to this though is when
+<code>strsplit</code> finds a match at the end of a string, in which case the
+last element of the output (which should normally be an empty string)
+is not returned (see <code>?strsplit</code> for the details).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector with one string per list element in <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="../../base/html/strsplit.html">strsplit</a></code> function in the <span class="pkg">base</span>
+package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- list(A=c("abc", "XY"), B=NULL, C=letters[1:4])
+unstrsplit(x)
+unstrsplit(x, sep=",")
+unstrsplit(x, sep=" =&gt; ")
+
+data(islands)
+x &lt;- names(islands)
+y &lt;- strsplit(x, split=" ", fixed=TRUE)
+x2 &lt;- unstrsplit(y, sep=" ")
+stopifnot(identical(x, x2))
+
+## But...
+names(x) &lt;- x
+y &lt;- strsplit(x, split="in", fixed=TRUE)
+x2 &lt;- unstrsplit(y, sep="in")
+y[x != x2]
+## In other words: strsplit() behavior sucks :-/
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gene Set Variation Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for igsva {GSVA}"><tr><td>igsva {GSVA}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Gene Set Variation Analysis
+</h2>
+
+<h3>Description</h3>
+
+<p>Starts an interactive GSVA shiny web app.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+igsva()
+</pre>
+
+
+<h3>Details</h3>
+
+<p>GSVA assesses the relative enrichment of gene sets across samples using
+a non-parametric approach.  Conceptually, GSVA transforms a p-gene by n-sample
+gene expression matrix into a g-geneset by n-sample pathway enrichment matrix.
+This facilitates many forms of statistical analysis in the 'space' of pathways
+rather than genes, providing a higher level of interpretability.
+</p>
+<p>The <code>igsva()</code> function starts an interactive shiny web app that allows the
+user to configure the arguments of the <code><a href="gsva.html">gsva</a>()</code> function and runs it
+on the computer. Please see the manual page of the <code><a href="gsva.html">gsva</a>()</code> function
+for a description of the arguments and their default and alternative values.
+</p>
+<p>The input data may be loaded from the users workspace or by selecting a CSV file
+for the expression data, and a GMT file for the gene sets data.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A gene-set by sample matrix of GSVA enrichment scores after
+pressing the button 'Save &amp; Close'. This result can be also downloaded as a
+CSV file with the 'Download' button.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>J. Fernández and R. Castelo</p>
+
+
+<h3>References</h3>
+
+<p>Hänzelmann, S., Castelo, R. and Guinney, J.
+GSVA: Gene set variation analysis for microarray and RNA-Seq data.
+<em>BMC Bioinformatics</em>, 14:7, 2013.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gsva.html">gsva</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+res &lt;- igsva() ## this will open your browser with the GSVA shiny web app
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSVA</em> version 1.30.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

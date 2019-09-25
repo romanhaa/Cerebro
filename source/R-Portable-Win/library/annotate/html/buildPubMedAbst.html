@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A function to generate an instantiation of a pubMedAbst class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for buildPubMedAbst {annotate}"><tr><td>buildPubMedAbst {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A function to generate an instantiation of a pubMedAbst class </h2>
+
+<h3>Description</h3>
+
+<p>This function will take in a XML tree object and will create an
+instance of a pubMedAbst class.  This instance is returned to the caller.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  buildPubMedAbst(xml)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xml</code></td>
+<td>
+<p>A XMLTree object that corresponds to a Pubmed abstract.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>This function returns an instantiation of a pubMedAbst object to the
+caller.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeff Gentry </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="pubmed.html">pubmed</a></code>,<code><a href="genbank.html">genbank</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   x &lt;- pubmed("9695952","8325638","8422497")
+   a &lt;- xmlRoot(x)
+   numAbst &lt;- length(xmlChildren(a))
+   absts &lt;- list()
+   for (i in 1:numAbst) {
+      absts[[i]] &lt;- buildPubMedAbst(a[[i]])
+   }
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

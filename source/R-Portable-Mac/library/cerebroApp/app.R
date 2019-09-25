@@ -1,2 +1,2 @@
 
-cerebroApp::launchApp()
+cerebroApp::launchCerebro()

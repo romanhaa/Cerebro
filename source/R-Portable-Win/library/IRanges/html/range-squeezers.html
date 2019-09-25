@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Squeeze the ranges out of a range-based object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for range-squeezers {IRanges}"><tr><td>range-squeezers {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Squeeze the ranges out of a range-based object</h2>
+
+<h3>Description</h3>
+
+<p>S4 generic functions for squeezing the ranges out of a range-based object.
+</p>
+<p>These are analog to range squeezers <code><a href="../../GenomicRanges/html/granges.html">granges</a></code>
+and <code><a href="../../GenomicRanges/html/grglist.html">grglist</a></code> defined in the <span class="pkg">GenomicRanges</span>
+package, except that <code>ranges</code> returns the ranges in an <a href="IRanges-constructor.html">IRanges</a>
+object (instead of a <a href="../../GenomicRanges/html/GRanges.html">GRanges</a> object for
+<code><a href="../../GenomicRanges/html/granges.html">granges</a></code>), and <code>rglist</code> returns them in an
+<a href="IRangesList-class.html">IRangesList</a> object (instead of a <a href="../../GenomicRanges/html/GRangesList.html">GRangesList</a>
+object for <code><a href="../../GenomicRanges/html/grglist.html">grglist</a></code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ranges(x, use.names=TRUE, use.mcols=FALSE, ...)
+rglist(x, use.names=TRUE, use.mcols=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object containing ranges e.g. a
+<a href="IntegerRanges-class.html">IntegerRanges</a>, <a href="../../GenomicRanges/html/GenomicRanges.html">GenomicRanges</a>,
+<a href="../../SummarizedExperiment/html/RangedSummarizedExperiment.html">RangedSummarizedExperiment</a>,
+<a href="../../GenomicAlignments/html/GAlignments.html">GAlignments</a>,
+<a href="../../GenomicAlignments/html/GAlignmentPairs.html">GAlignmentPairs</a>, or
+<a href="../../GenomicAlignments/html/GAlignmentsList.html">GAlignmentsList</a> object,
+or a <a href="../../S4Vectors/html/Pairs.html">Pairs</a> object containing ranges.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.names</code></td>
+<td>
+
+<p><code>TRUE</code> (the default) or <code>FALSE</code>.
+Whether or not the names on <code>x</code> (accessible with <code>names(x)</code>)
+should be propagated to the returned object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.mcols</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code> (the default).
+Whether or not the metadata columns on <code>x</code> (accessible with
+<code>mcols(x)</code>) should be propagated to the returned object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments, for use in specific methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Various packages (e.g. <span class="pkg">IRanges</span>, <span class="pkg">GenomicRanges</span>,
+<span class="pkg">SummarizedExperiment</span>, <span class="pkg">GenomicAlignments</span>, etc...)
+define and document various range squeezing methods for various types
+of objects.
+</p>
+<p>Note that these functions can be seen as <em>object getters</em> or as
+functions performing coercion.
+</p>
+<p>For some objects (e.g. <a href="../../GenomicAlignments/html/GAlignments.html">GAlignments</a> and
+<a href="../../GenomicAlignments/html/GAlignmentPairs.html">GAlignmentPairs</a> objects defined in the
+<span class="pkg">GenomicAlignments</span> package), <code>as(x, "IRanges")</code> and
+<code>as(x, "IRangesList")</code>, are equivalent to
+<code>ranges(x, use.names=TRUE, use.mcols=TRUE)</code> and
+<code>rglist(x, use.names=TRUE, use.mcols=TRUE)</code>, respectively.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An <a href="IRanges-constructor.html">IRanges</a> object for <code>ranges</code>.
+</p>
+<p>An <a href="IRangesList-class.html">IRangesList</a> object for <code>rglist</code>.
+</p>
+<p>If <code>x</code> is a vector-like object (e.g.
+<a href="../../GenomicAlignments/html/GAlignments.html">GAlignments</a>), the returned object is expected
+to be <em>parallel</em> to <code>x</code>, that is, the i-th element in the output
+corresponds to the i-th element in the input.
+</p>
+<p>If <code>use.names</code> is TRUE, then the names on <code>x</code>
+(if any) are propagated to the returned object.
+If <code>use.mcols</code> is TRUE, then the metadata columns on <code>x</code>
+(if any) are propagated to the returned object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>H. Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><a href="IRanges-constructor.html">IRanges</a> and <a href="IRangesList-class.html">IRangesList</a> objects.
+</p>
+</li>
+<li> <p><a href="../../SummarizedExperiment/html/RangedSummarizedExperiment.html">RangedSummarizedExperiment</a> objects
+in the <span class="pkg">SummarizedExperiment</span> packages.
+</p>
+</li>
+<li> <p><a href="../../GenomicAlignments/html/GAlignments.html">GAlignments</a>,
+<a href="../../GenomicAlignments/html/GAlignmentPairs.html">GAlignmentPairs</a>,
+and <a href="../../GenomicAlignments/html/GAlignmentsList.html">GAlignmentsList</a> objects in the
+<span class="pkg">GenomicAlignments</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## See ?GAlignments in the GenomicAlignments package for examples of
+## "ranges" and "rglist" methods.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

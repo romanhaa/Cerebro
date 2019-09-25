@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lengths of list elements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for listLen {Biobase}"><tr><td>listLen {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lengths of list elements</h2>
+
+<h3>Description</h3>
+
+<p>This function returns an integer vector with the length
+of the elements of its argument, which is expected to be a list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+listLen(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A list</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function returns a vector of the same length as
+the list <code>x</code> containing the lengths of each element.
+</p>
+<p>The current implementation is intended for lists containing vectors
+and the C-level length function is used to determine length.  This
+means no dispatch is done for the elements of the list.  If your
+list contains S4 objects, you should use <code>sapply(x, length)</code>
+instead.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeff Gentry and R. Gentleman</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/lapply.html">sapply</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  foo = lapply(1:8, rnorm)
+  listLen(foo)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

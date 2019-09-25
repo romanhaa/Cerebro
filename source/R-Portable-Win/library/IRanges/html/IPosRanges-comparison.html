@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Comparing and ordering ranges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for IPosRanges-comparison {IRanges}"><tr><td>IPosRanges-comparison {IRanges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Comparing and ordering ranges</h2>
+
+<h3>Description</h3>
+
+<p>Methods for comparing and/or ordering the ranges in <a href="IPosRanges-class.html">IPosRanges</a>
+derivatives (e.g. <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a>, or <a href="NCList-class.html">NCList</a> objects).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## match() &amp; selfmatch()
+## ---------------------
+
+## S4 method for signature 'IPosRanges,IPosRanges'
+match(x, table, nomatch=NA_integer_, incomparables=NULL,
+      method=c("auto", "quick", "hash"))
+
+## S4 method for signature 'IPosRanges'
+selfmatch(x, method=c("auto", "quick", "hash"))
+
+## order() and related methods
+## ----------------------------
+
+## S4 method for signature 'IPosRanges'
+is.unsorted(x, na.rm=FALSE, strictly=FALSE)
+
+## S4 method for signature 'IPosRanges'
+order(..., na.last=TRUE, decreasing=FALSE,
+           method=c("auto", "shell", "radix"))
+
+## Generalized parallel comparison of 2 IPosRanges derivatives
+## -----------------------------------------------------------
+
+## S4 method for signature 'IPosRanges,IPosRanges'
+pcompare(x, y)
+
+rangeComparisonCodeToLetter(code)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, table, y</code></td>
+<td>
+
+<p><a href="IPosRanges-class.html">IPosRanges</a> derivatives e.g. <a href="IRanges-constructor.html">IRanges</a>, <a href="IPos-class.html">IPos</a>, or
+<a href="NCList-class.html">NCList</a> objects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nomatch</code></td>
+<td>
+
+<p>The value to be returned in the case when no match is found.
+It is coerced to an <code>integer</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>incomparables</code></td>
+<td>
+
+<p>Not supported.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>For <code>match</code> and <code>selfmatch</code>: Use a Quicksort-based
+(<code>method="quick"</code>) or a hash-based (<code>method="hash"</code>) algorithm.
+The latter tends to give better performance, except maybe for some
+pathological input that we've not encountered so far.
+When <code>method="auto"</code> is specified, the most efficient algorithm will
+be used, that is, the hash-based algorithm if <code>length(x) &lt;= 2^29</code>,
+otherwise the Quicksort-based algorithm.
+</p>
+<p>For <code>order</code>: The <code>method</code> argument is ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strictly</code></td>
+<td>
+
+<p>Logical indicating if the check should be for <em>strictly</em> increasing
+values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>One or more <a href="IPosRanges-class.html">IPosRanges</a> derivatives. The 2nd and following objects
+are used to break ties.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.last</code></td>
+<td>
+
+<p>Ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>decreasing</code></td>
+<td>
+
+<p><code>TRUE</code> or <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>code</code></td>
+<td>
+
+<p>A vector of codes as returned by <code>pcompare</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Two ranges of an <a href="IPosRanges-class.html">IPosRanges</a> derivative are considered equal iff
+they share the same start and width.
+<code>duplicated()</code> and <code>unique()</code> on an <a href="IPosRanges-class.html">IPosRanges</a>
+derivative are conforming to this.
+</p>
+<p>Note that with this definition, 2 empty ranges are generally
+not equal (they need to share the same start to be considered equal).
+This means that, when it comes to comparing ranges, an empty range is
+interpreted as a position between its end and start. For example, a
+typical usecase is comparison of insertion points defined along a string
+(like a DNA sequence) and represented as empty ranges.
+</p>
+<p>The &quot;natural order&quot; for the elements of an <a href="IPosRanges-class.html">IPosRanges</a>
+derivative is to order them (a) first by start and (b) then by width.
+This way, the space of integer ranges is totally ordered.
+</p>
+<p><code>pcompare()</code>, <code>==</code>, <code>!=</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;</code>
+and <code>&gt;</code> on <a href="IPosRanges-class.html">IPosRanges</a> derivatives behave accordingly to
+this &quot;natural order&quot;.
+</p>
+<p><code>is.unsorted()</code>, <code>order()</code>, <code>sort()</code>, <code>rank()</code> on
+<a href="IPosRanges-class.html">IPosRanges</a> derivatives also behave accordingly to this
+&quot;natural order&quot;.
+</p>
+<p>Finally, note that some <em>inter range transformations</em> like
+<code><a href="inter-range-methods.html">reduce</a></code> or <code><a href="inter-range-methods.html">disjoin</a></code> also use this &quot;natural order&quot;
+implicitly when operating on <a href="IPosRanges-class.html">IPosRanges</a> derivatives.
+</p>
+
+<dl>
+<dt></dt><dd>
+<p><code>pcompare(x, y)</code>:
+Performs element-wise (aka &quot;parallel&quot;) comparison of 2
+<a href="IPosRanges-class.html">IPosRanges</a> objects of <code>x</code> and <code>y</code>, that is,
+returns an integer vector where the i-th element is a code describing
+how <code>x[i]</code> is qualitatively positioned with respect to <code>y[i]</code>.
+</p>
+<p>Here is a summary of the 13 predefined codes (and their letter
+equivalents) and their meanings:
+</p>
+<pre>
+      -6 a: x[i]: .oooo.......         6 m: x[i]: .......oooo.
+            y[i]: .......oooo.              y[i]: .oooo.......
+
+      -5 b: x[i]: ..oooo......         5 l: x[i]: ......oooo..
+            y[i]: ......oooo..              y[i]: ..oooo......
+
+      -4 c: x[i]: ...oooo.....         4 k: x[i]: .....oooo...
+            y[i]: .....oooo...              y[i]: ...oooo.....
+
+      -3 d: x[i]: ...oooooo...         3 j: x[i]: .....oooo...
+            y[i]: .....oooo...              y[i]: ...oooooo...
+
+      -2 e: x[i]: ..oooooooo..         2 i: x[i]: ....oooo....
+            y[i]: ....oooo....              y[i]: ..oooooooo..
+
+      -1 f: x[i]: ...oooo.....         1 h: x[i]: ...oooooo...
+            y[i]: ...oooooo...              y[i]: ...oooo.....
+
+                      0 g: x[i]: ...oooooo...
+                           y[i]: ...oooooo...
+      </pre>
+<p>Note that this way of comparing ranges is a refinement over the
+standard ranges comparison defined by the <code>==</code>, <code>!=</code>,
+<code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;</code> and <code>&gt;</code> operators. In particular
+a code that is <code>&lt; 0</code>, <code>= 0</code>, or <code>&gt; 0</code>, corresponds to
+<code>x[i] &lt; y[i]</code>, <code>x[i] == y[i]</code>, or <code>x[i] &gt; y[i]</code>,
+respectively.
+</p>
+<p>The <code>pcompare</code> method for <a href="IPosRanges-class.html">IPosRanges</a> derivatives is
+guaranteed to return predefined codes only but methods for other
+objects (e.g. for <a href="../../GenomicRanges/html/GenomicRanges.html">GenomicRanges</a> objects) can
+return non-predefined codes. Like for the predefined codes, the sign
+of any non-predefined code must tell whether <code>x[i]</code> is less than,
+or greater than <code>y[i]</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rangeComparisonCodeToLetter(x)</code>:
+Translate the codes returned by <code>pcompare</code>. The 13 predefined
+codes are translated as follow: -6 -&gt; a; -5 -&gt; b; -4 -&gt; c; -3 -&gt; d;
+-2 -&gt; e; -1 -&gt; f; 0 -&gt; g; 1 -&gt; h; 2 -&gt; i; 3 -&gt; j; 4 -&gt; k; 5-&gt; l; 6 -&gt; m.
+Any non-predefined code is translated to X.
+The translated codes are returned in a factor with 14 levels:
+a, b, ..., l, m, X.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>match(x, table, nomatch=NA_integer_, method=c("auto", "quick", "hash"))</code>:
+Returns an integer vector of the length of <code>x</code>,
+containing the index of the first matching range in <code>table</code>
+(or <code>nomatch</code> if there is no matching range) for each range
+in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>selfmatch(x, method=c("auto", "quick", "hash"))</code>:
+Equivalent to, but more efficient than,
+<code>match(x, x, method=method)</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>duplicated(x, fromLast=FALSE, method=c("auto", "quick", "hash"))</code>:
+Determines which elements of <code>x</code> are equal to elements
+with smaller subscripts, and returns a logical vector indicating
+which elements are duplicates. <code>duplicated(x)</code> is equivalent to,
+but more efficient than, <code>duplicated(as.data.frame(x))</code> on an
+<a href="IPosRanges-class.html">IPosRanges</a> derivative.
+See <code><a href="../../base/html/duplicated.html">duplicated</a></code> in the <span class="pkg">base</span> package for more
+details.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>unique(x, fromLast=FALSE, method=c("auto", "quick", "hash"))</code>:
+Removes duplicate ranges from <code>x</code>. <code>unique(x)</code> is equivalent
+to, but more efficient than, <code>unique(as.data.frame(x))</code> on an
+<a href="IPosRanges-class.html">IPosRanges</a> derivative.
+See <code><a href="../../base/html/unique.html">unique</a></code> in the <span class="pkg">base</span> package for more
+details.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>x %in% table</code>:
+A shortcut for finding the ranges in <code>x</code> that match any of
+the ranges in <code>table</code>. Returns a logical vector of length
+equal to the number of ranges in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>findMatches(x, table, method=c("auto", "quick", "hash"))</code>:
+An enhanced version of <code>match</code> that returns all the matches
+in a <a href="../../S4Vectors/html/Hits-class.html">Hits</a> object.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>countMatches(x, table, method=c("auto", "quick", "hash"))</code>:
+Returns an integer vector of the length of <code>x</code> containing the
+number of matches in <code>table</code> for each element in <code>x</code>.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>order(...)</code>:
+Returns a permutation which rearranges its first argument (an
+<a href="IPosRanges-class.html">IPosRanges</a> derivative) into ascending order, breaking ties
+by further arguments (also <a href="IPosRanges-class.html">IPosRanges</a> derivatives).
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>sort(x)</code>:
+Sorts <code>x</code>.
+See <code><a href="../../base/html/sort.html">sort</a></code> in the <span class="pkg">base</span> package for more details.
+</p>
+</dd>
+<dt></dt><dd>
+<p><code>rank(x, na.last=TRUE, ties.method=c("average", "first", "random", "max", "min"))</code>:
+Returns the sample ranks of the ranges in <code>x</code>.
+See <code><a href="../../base/html/rank.html">rank</a></code> in the <span class="pkg">base</span> package for more details.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Hervé Pagès</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <a href="IPosRanges-class.html">IPosRanges</a> class.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/Vector-comparison.html">Vector-comparison</a> in the <span class="pkg">S4Vectors</span>
+package for general information about comparing, ordering, and
+tabulating vector-like objects.
+</p>
+</li>
+<li> <p><a href="../../GenomicRanges/html/GenomicRanges-comparison.html">GenomicRanges-comparison</a> in the
+<span class="pkg">GenomicRanges</span> package for comparing and ordering genomic
+ranges.
+</p>
+</li>
+<li> <p><code><a href="findOverlaps-methods.html">findOverlaps</a></code> for finding overlapping ranges.
+</p>
+</li>
+<li> <p><a href="intra-range-methods.html">intra-range-methods</a> and <a href="inter-range-methods.html">inter-range-methods</a> for
+intra and inter range transformations.
+</p>
+</li>
+<li> <p><a href="setops-methods.html">setops-methods</a> for set operations on <a href="IRanges-constructor.html">IRanges</a>
+objects.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## ---------------------------------------------------------------------
+## A. ELEMENT-WISE (AKA "PARALLEL") COMPARISON OF 2 IPosRanges
+##    DERIVATIVES
+## ---------------------------------------------------------------------
+x0 &lt;- IRanges(1:11, width=4)
+x0
+y0 &lt;- IRanges(6, 9)
+pcompare(x0, y0)
+pcompare(IRanges(4:6, width=6), y0)
+pcompare(IRanges(6:8, width=2), y0)
+pcompare(x0, y0) &lt; 0   # equivalent to 'x0 &lt; y0'
+pcompare(x0, y0) == 0  # equivalent to 'x0 == y0'
+pcompare(x0, y0) &gt; 0   # equivalent to 'x0 &gt; y0'
+
+rangeComparisonCodeToLetter(-10:10)
+rangeComparisonCodeToLetter(pcompare(x0, y0))
+
+## Handling of zero-width ranges (a.k.a. empty ranges):
+x1 &lt;- IRanges(11:17, width=0)
+x1
+pcompare(x1, x1[4])
+pcompare(x1, IRanges(12, 15))
+
+## Note that x1[2] and x1[6] are empty ranges on the edge of non-empty
+## range IRanges(12, 15). Even though -1 and 3 could also be considered
+## valid codes for describing these configurations, pcompare()
+## considers x1[2] and x1[6] to be *adjacent* to IRanges(12, 15), and
+## thus returns codes -5 and 5:
+pcompare(x1[2], IRanges(12, 15))  # -5
+pcompare(x1[6], IRanges(12, 15))  #  5
+
+x2 &lt;- IRanges(start=c(20L, 8L, 20L, 22L, 25L, 20L, 22L, 22L),
+              width=c( 4L, 0L, 11L,  5L,  0L,  9L,  5L,  0L))
+x2
+
+which(width(x2) == 0)  # 3 empty ranges
+x2[2] == x2[2]  # TRUE
+x2[2] == x2[5]  # FALSE
+x2 == x2[4]
+x2 &gt;= x2[3]
+
+## ---------------------------------------------------------------------
+## B. match(), selfmatch(), %in%, duplicated(), unique()
+## ---------------------------------------------------------------------
+table &lt;- x2[c(2:4, 7:8)]
+match(x2, table)
+
+x2 %in% table
+
+duplicated(x2)
+unique(x2)
+
+## ---------------------------------------------------------------------
+## C. findMatches(), countMatches()
+## ---------------------------------------------------------------------
+findMatches(x2, table)
+countMatches(x2, table)
+
+x2_levels &lt;- unique(x2)
+countMatches(x2_levels, x2)
+
+## ---------------------------------------------------------------------
+## D. order() AND RELATED METHODS
+## ---------------------------------------------------------------------
+is.unsorted(x2)
+order(x2)
+sort(x2)
+rank(x2, ties.method="first")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRanges</em> version 2.16.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

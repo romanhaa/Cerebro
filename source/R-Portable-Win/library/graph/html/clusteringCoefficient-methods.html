@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Clustering coefficient of a graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clusteringCoefficient-methods {graph}"><tr><td>clusteringCoefficient-methods {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Clustering coefficient of a graph</h2>
+
+<h3>Description</h3>
+
+<p>This generic function takes an object that inherits from the <code>graph</code> 
+class. The graph needs to have <code>edgemode=="undirected"</code>. If it has
+<code>edgemode=="directed"</code>, the function will return NULL.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'graph'
+clusteringCoefficient(object, selfLoops=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An instance of the appropriate graph class.</p>
+</td></tr>
+<tr valign="top"><td><code>selfLoops</code></td>
+<td>
+<p>Logical. If true, the calculation
+takes self loops into account.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For a node with n adjacent nodes, if <code>selfLoops</code> is
+<code>FALSE</code>, the clustering coefficent is
+N/(n*(n-1)), where N is the number of edges between these nodes.
+The graph may not have self loops.
+If <code>selfLoops</code> is <code>TRUE</code>, the clustering coefficent is
+N/(n*n), where N is the number of edges between these nodes,
+including self loops.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named numeric vector with the clustering coefficients
+for each node. For nodes with 2 or more edges,
+the values are between 0 and 1.
+For nodes that have no edges, the function returns the value NA.
+For nodes that have exactly one edge, the function returns NaN.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Huber <a href="http://www.dkfz.de/mga/whuber">http://www.dkfz.de/mga/whuber</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+g1 &lt;- randomGraph(letters[1:10], 1:4, p=.3)
+clusteringCoefficient(g1)
+clusteringCoefficient(g1, selfLoops=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

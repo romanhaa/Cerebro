@@ -1,0 +1,78 @@
+BiocGenerics-package    S4 generic functions for Bioconductor
+Extremes                Maxima and minima
+IQR                     The Interquartile Range
+Ontology                Generic Ontology getter
+S3-classes-as-S4-classes
+                        S3 classes as S4 classes
+annotation              Accessing annotation information
+append                  Append elements to a vector-like object
+as.data.frame           Coerce an object into a data frame
+as.vector               Coerce an object into a vector
+boxplot                 Box plots
+cbind                   Combine objects by rows or columns
+clusterApply            Apply operations using clusters
+combine                 Combining or merging different Bioconductor
+                        data structures
+conditions              Accessors and generic functions used in the
+                        context of count datasets
+dbconn                  Accessing SQLite DB information
+density                 Kernel density estimation
+dims                    Get the dimensions of all elements in a
+                        list-like object
+do.call                 Execute a function call
+duplicated              Determine duplicate elements
+eval                    Evaluate an (unevaluated) expression
+evalq                   Evaluate an (unevaluated) expression
+fileName                Accessing the file name of an object
+funprog                 Common higher-order functions in functional
+                        programming languages
+get                     Return the value of a named object
+grep                    Pattern Matching and Replacement
+image                   Display a color image
+is.unsorted             Test if a vector-like object is not sorted
+lapply                  Apply a function over a list-like or
+                        vector-like object
+lengths                 Lengths of the list elements of a list-like
+                        object
+mad                     Median Absolute Deviation
+mapply                  Apply a function to multiple list-like or
+                        vector-like arguments
+match                   Value matching
+mean                    Arithmetic Mean
+normalize               Normalize an object
+nrow                    The number of rows/columns of an array-like
+                        object
+order                   Ordering permutation
+organism_species        Organism and species accessors
+paste                   Concatenate strings
+path                    Accessing the path of an object
+plotMA                  MA-plot: plot differences versus averages for
+                        high-throughput data
+plotPCA                 PCA-plot: Principal Component Analysis plot
+rank                    Ranks the values in a vector-like object
+relist                  Re-listing an unlist()ed object
+rep.int                 Replicate elements of a vector-like object
+residuals               Extract model residuals
+row+colnames            Row and column names
+rowSums                 Form Row and Column Sums and Means
+score                   Score accessor
+sets                    Set operations
+sort                    Sorting a vector-like object
+start                   The start(), end(), width(), and pos() generic
+                        getters and setters
+strand                  Accessing strand information
+subset                  Subsetting vector-like, matrix-like and
+                        data-frame-like objects
+t                       Matrix Transponse
+table                   Cross tabulation and table creation
+tapply                  Apply a function over a ragged array
+testPackage             Run RUnit package unit tests
+unique                  Extract unique elements
+unlist                  Flatten list-like objects
+unsplit                 Unsplit a list-like object
+updateObject            Update an object to its current class
+                        definition
+var                     Variance and Standard Deviation
+weights                 Extract model weights
+which                   Subscript generators
+xtabs                   Cross tabulation

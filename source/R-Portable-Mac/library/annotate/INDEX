@@ -1,0 +1,101 @@
+ACCNUMStats             Provides statistics on the types of ids used
+                        for the ACCNUM environment of a given data
+                        package
+GO2heatmap              Compute a heatmap for the specified data, for
+                        either a GO category or a KEGG pathway.
+GOmnplot                A function to plot by group means against each
+                        other.
+HTMLPage-class          Classes to represent HTML pages
+LL2homology             DEPRECATED Functions that find the homology
+                        data for a given set of LocusLink ids or
+                        HomoloGeneIDs
+PMIDAmat                A function to compute the probe to PubMed id
+                        incidence matrix.
+PWAmat                  A function to compute the probe to KEGG pathway
+                        incidence matrix.
+UniGeneQuery            Create a Query String for a UniGene Identifier
+accessionToUID          A function to convert accession values to NCBI
+                        UIDs.
+annPkgName              Get annotation package name from chip name
+annotate-defunct        Defunct Functions in Package 'annotate'
+aqListGOIDs             List GO Identifiers by GO Ontology
+blastSequences          Run a blast query to NCBI for either a string
+                        or an entrez gene ID and then return a series
+                        of MultipleAlignment objects.
+buildChromLocation      A function to generate an instantiation of a
+                        chromLocation class
+buildPubMedAbst         A function to generate an instantiation of a
+                        pubMedAbst class
+chrCats                 Returns a list of chromosome locations from a
+                        MAP environment
+chromLocation-class     Class chromLocation, a class for describing
+                        genes and their chromosome mappings.
+compatibleVersions      function to check to see if the packages
+                        represented by the names passed have the same
+                        version number
+dropECode               Drop GO labels for specified Evidence Codes
+entrezGeneByID          Create a Query String for an Entrez Gene
+                        Identifier
+entrezGeneQuery         Create a Query String for Entrez Genes
+filterGOByOntology      Filter GO terms by a specified GO ontology
+findNeighbors           A function to locate neighboring genes within a
+                        defined range around a target gene represented
+                        by a Entrez Gene ID
+genbank                 A function to open the browser to Genbank with
+                        the selected gene.
+getAnnMap               Get annotation map
+getEvidence             Get the Evidence codes for a set of GO terms.
+getGOTerm               Functions to Access GO data.
+getOntology             Get GO terms for a specified ontology
+getPMInfo               extract publication details and abstract from
+                        annotate::pubmed function output
+getQueryLink            Functions to create hypertext links that can be
+                        placed in a table cell of a HTML file
+getSEQ                  Queries the NCBI database to obtain the
+                        sequence for a given GenBank Accession number
+getSYMBOL               Functions to deal with Data Packages
+hasGOannote             Check for GO annotation
+hgByChroms              A dataset to show the human genome base pair
+                        locations per chromosome.
+hgCLengths              A dataset which contains the lengths (in base
+                        pairs) of the human chromosomes.
+hgu95AProbLocs          chromLocation instance hgu95AProbLocs, an
+                        example of a chromLocation object
+hgu95Achroloc           Annotation data for the Affymetrix HGU95A
+                        GeneChip
+hgu95Achrom             Annotation data for the Affymetrix HGU95A
+                        GeneChip
+hgu95All                Annotation data for the Affymetrix HGU95A
+                        GeneChip
+hgu95Asym               Annotation data for the Affymetrix HGU95A
+                        GeneChip
+homoData-class          Class "homoData"
+htmlpage                Functions to build HTML pages
+isValidKey              Get or verify valid IDs for a package or OrgDb
+                        object.
+makeAnchor              A Function To Generate HTML Anchors
+mapOrgs                 Functions to map to organism IDs used by NCBI
+                        homology.
+organism                Convenience function for getting the organism
+                        from an object or package
+p2LL                    A function to map from probes to unique Entrez
+                        Gene IDs
+pm.abstGrep             An interface to grep for PubMed abstracts.
+pm.getabst              Obtain the abstracts for a set PubMed list.
+pm.titles               Obtain the titles of the PubMed abstracts.
+pmAbst2HTML             HTML Generation for PubMed Abstracts
+pmid2MIAME              use web to populate MIAME instance with pubmed
+                        details
+pmidQuery               A function to query PubMed
+pubMedAbst-class        Class pubMedAbst, a class to handle PubMed
+                        abstracts, and methods for processing them.
+pubmed                  A function to open the browser to Pubmed with
+                        the selected gene.
+readGEOAnn              Function to extract data from the GEO web site
+serializeEnv            A Function To Serialize Environment
+setRepository           Functions to add arbitrary repositories
+updateSymbolsToValidKeys
+                        Take a list of symbols and translate them into
+                        the best possible ID for a package.
+usedChromGenes          A function to select used genes on a chromosome
+                        from an ExpressionSet.

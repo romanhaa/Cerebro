@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute summary statistics of subsets of vector-like objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for aggregate-methods {S4Vectors}"><tr><td>aggregate-methods {S4Vectors}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute summary statistics of subsets of vector-like objects</h2>
+
+<h3>Description</h3>
+
+<p>The <span class="pkg">S4Vectors</span> package defines <code><a href="../../stats/html/aggregate.html">aggregate</a></code> methods
+for <a href="Vector-class.html">Vector</a>, <a href="Rle-class.html">Rle</a>, and <a href="List-class.html">List</a> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Vector'
+aggregate(x, by, FUN, start=NULL, end=NULL, width=NULL,
+          frequency=NULL, delta=NULL, ..., simplify=TRUE)
+
+## S4 method for signature 'Rle'
+aggregate(x, by, FUN, start=NULL, end=NULL, width=NULL,
+          frequency=NULL, delta=NULL, ..., simplify=TRUE)
+
+## S4 method for signature 'List'
+aggregate(x, by, FUN, start=NULL, end=NULL, width=NULL,
+          frequency=NULL, delta=NULL, ..., simplify=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A <a href="Vector-class.html">Vector</a>, <a href="Rle-class.html">Rle</a>, or <a href="List-class.html">List</a> object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+
+<p>An object with <code><a href="../../BiocGenerics/html/start.html">start</a></code>,
+<code><a href="../../BiocGenerics/html/end.html">end</a></code>, and <code><a href="../../BiocGenerics/html/width.html">width</a></code>
+methods.
+</p>
+<p>If <code>x</code> is a <a href="List-class.html">List</a> object, the <code>by</code> parameter can be a
+<a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a> object to aggregate within the list
+elements rather than across them. When <code>by</code> is a
+<a href="../../IRanges/html/IntegerRangesList.html">IntegerRangesList</a> object, the output is either a
+<a href="../../IRanges/html/SimpleAtomicList.html">SimpleAtomicList</a> object, if possible, or a
+<a href="SimpleList-class.html">SimpleList</a> object, if not.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+
+<p>The function, found via <code>match.fun</code>, to be applied to each subset
+of <code>x</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start, end, width</code></td>
+<td>
+
+<p>The start, end, and width of the subsets. If <code>by</code> is missing, then
+two of the three must be supplied and have the same length.
+</p>
+</td></tr>
+<tr valign="top"><td><code>frequency, delta</code></td>
+<td>
+
+<p>Optional arguments that specify the sampling frequency and increment
+within the subsets (in the same fashion as <code><a href="../../stats/html/window.html">window</a></code>
+from the <span class="pkg">stats</span> package does).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Optional arguments to <code>FUN</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>simplify</code></td>
+<td>
+
+<p>A logical value specifying whether the result should be simplified
+to a vector or matrix if possible.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Subsets of <code>x</code> can be specified either via the <code>by</code> argument
+or via the <code>start</code>, <code>end</code>, <code>width</code>, <code>frequency</code>, and
+<code>delta</code> arguments.
+</p>
+<p>For example, if <code>start</code> and <code>end</code> are specified, then:
+</p>
+<pre>
+  aggregate(x, FUN=FUN, start=start, end=end, ..., simplify=simplify)
+</pre>
+<p>is equivalent to:
+</p>
+<pre>
+  sapply(seq_along(start),
+         function(i) FUN(x[start[i]:end[i]], ...), simplify=simplify)
+</pre>
+<p>(replace <code>x[start[i]:end[i]]</code> with 2D-style subsetting
+<code>x[start[i]:end[i], ]</code> if <code>x</code> is a <a href="DataFrame-class.html">DataFrame</a> object).
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> The <code><a href="../../stats/html/aggregate.html">aggregate</a></code> function in the <span class="pkg">stats</span>
+package.
+</p>
+</li>
+<li> <p><a href="Vector-class.html">Vector</a>, <a href="Rle-class.html">Rle</a>, <a href="List-class.html">List</a>, and <a href="DataFrame-class.html">DataFrame</a> objects.
+</p>
+</li>
+<li><p> The <code><a href="../../BiocGenerics/html/start.html">start</a></code>,
+<code><a href="../../BiocGenerics/html/end.html">end</a></code>, and
+<code><a href="../../BiocGenerics/html/width.html">width</a></code> generic functions defined in
+the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- Rle(10:2, 1:9)
+aggregate(x, x &gt; 4, mean)
+aggregate(x, FUN=mean, start=1:26, width=20)
+
+## Note that aggregate() works on a DataFrame object the same way it
+## works on an ordinary data frame:
+aggregate(DataFrame(state.x77), list(Region=state.region), mean)
+aggregate(weight ~ feed, data=DataFrame(chickwts), mean)
+
+library(IRanges)
+by &lt;- IRanges(start=1:26, width=20, names=LETTERS)
+aggregate(x, by, is.unsorted)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>S4Vectors</em> version 0.20.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

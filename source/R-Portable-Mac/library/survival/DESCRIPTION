@@ -2,8 +2,8 @@ Title: Survival Analysis
 Maintainer: Terry M Therneau <therneau.terry@mayo.edu>
 Priority: recommended
 Package: survival
-Version: 2.43-3
-Date: 2018-11-13
+Version: 2.44-1.1
+Date: 2019-03-27
 Depends: R (>= 2.13.0)
 Imports: graphics, Matrix, methods, splines, stats, utils
 LazyData: Yes
@@ -21,11 +21,11 @@ Description: Contains the core survival analysis routines, including
 License: LGPL (>= 2)
 URL: https://github.com/therneau/survival
 NeedsCompilation: yes
-Packaged: 2018-11-26 16:26:23 UTC; therneau
+Packaged: 2019-04-01 08:25:51 UTC; ripley
 Author: Terry M Therneau [aut, cre],
   Thomas Lumley [ctb, trl] (original S->R port and R maintainer until
     2009)
 Repository: CRAN
-Date/Publication: 2018-11-26 23:00:03 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-11-27 13:49:45 UTC; unix
+Date/Publication: 2019-04-01 08:42:36 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-04-02 20:20:59 UTC; unix
 Archs: survival.so.dSYM

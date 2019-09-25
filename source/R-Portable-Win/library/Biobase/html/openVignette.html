@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Open a Vignette or Show Vignette Selection Menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for openVignette {Biobase}"><tr><td>openVignette {Biobase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Open a Vignette or Show Vignette Selection Menu</h2>
+
+<h3>Description</h3>
+
+<p>Using the data returned by <code>vignette</code> this function provides a
+simple easy to use interface for opening vignettes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+openVignette(package=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>character string indicating the package to be used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>package</code> is NULL then all packages are scanned for
+vignettes.  The list of vignettes is presented to the user via the
+<code>menu</code> command.  The user may select one of the vignettes to be
+opened in a PDF viewer.
+</p>
+
+
+<h3>Value</h3>
+
+<p>No value is returned; this function is run entirely for the side effect
+of opening the pdf document in the PDF viewer.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../utils/html/vignette.html">vignette</a></code>, <code><a href="openPDF.html">openPDF</a></code>,
+<code><a href="../../utils/html/menu.html">menu</a></code>, <code><a href="getPkgVigs.html">getPkgVigs</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  if( interactive() )
+    openVignette("Biobase")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Biobase</em> version 2.42.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

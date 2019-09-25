@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Smoothed Sense/Anti-sense of Specified Chromosomes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plotChr {geneplotter}"><tr><td>plotChr {geneplotter}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Smoothed Sense/Anti-sense of Specified Chromosomes</h2>
+
+<h3>Description</h3>
+
+<p>For a given chromosome, plot the smooths of the sense and the 
+anti-sense from 5' to 3' (left to right on x-axis). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotChr(chrN, senseObj, cols = rep("black", length(senseObj[[1]])), log = FALSE, xloc = c("equispaced", "physical"), geneSymbols = FALSE, ngenes = 20, lines.at = NULL, lines.col = "red")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>chrN</code></td>
+<td>
+<p>The desired chromosome, e.g. for humans it would be a character string in the set of c(1:22, &quot;X&quot;, &quot;Y&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>senseObj</code></td>
+<td>
+<p>The result of <code>Makesense</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cols</code></td>
+<td>
+<p>A vector of colors for the lines in the plot, typically specified according to a certain pheotype of samples.</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Logical, whether log-transformation should be taken on the smoothed expressions.</p>
+</td></tr>
+<tr valign="top"><td><code>xloc</code></td>
+<td>
+<p>Determines whether the &quot;Representative Genes&quot; 
+will be displayed according to their relative 
+positions on the chromosome (physical), or spaced 
+evenly (equispaced).  Default is equispaced.</p>
+</td></tr>
+<tr valign="top"><td><code>geneSymbols</code></td>
+<td>
+<p>Logical, whether to use Affy IDs or 
+Gene Symbols for &quot;Representative Genes&quot;, default is 
+Affy IDs.</p>
+</td></tr>
+<tr valign="top"><td><code>ngenes</code></td>
+<td>
+<p>Desired number of &quot;Representative Genes&quot;. The 
+number of actual displayed genes may differ.</p>
+</td></tr>
+<tr valign="top"><td><code>lines.at</code></td>
+<td>
+<p>A vector of Affy IDs. Vertical lines will 
+be drawn at specified genes.</p>
+</td></tr>
+<tr valign="top"><td><code>lines.col</code></td>
+<td>
+<p>A vector of colors associated with 
+<code>lines.at</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert Gentleman and Xiaochun Li</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Makesense.html">Makesense</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+example(Makesense)
+
+if (interactive())
+  op &lt;- par(ask=TRUE)
+
+cols &lt;- ifelse(expressionSet133a$cov1=="test 1", "red", "green")
+plotChr("21", esetobj, cols)
+
+# plot on log-scale:
+
+plotChr("21", esetobj, cols, log=TRUE)
+
+# genesymbol instead of probe names:
+
+plotChr("21", esetobj, cols, log=TRUE, geneSymbols=TRUE)
+
+# add vertical lines at genes of interest:
+
+gs &lt;- c("220372_at", "35776_at", "200943_at")
+plotChr("21", esetobj, cols, log=TRUE, geneSymbols=FALSE, lines.at=gs)
+
+# add vertical lines at genes of interest
+# with specified colors:
+
+gs &lt;- c("220372_at", "35776_at", "200943_at")
+cc &lt;- c("blue", "cyan","magenta")
+plotChr("21", esetobj, cols, log=TRUE, geneSymbols=FALSE, lines.at=gs,
+lines.col=cc)
+if (interactive())
+  par(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geneplotter</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to create hypertext links that can be placed in a...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getQueryLink {annotate}"><tr><td>getQueryLink {annotate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to create hypertext links that can be placed in a table
+cell of a HTML file </h2>
+
+<h3>Description</h3>
+
+<p>Given a vector of ids, the functions will create a vector of
+hypertext links to a defined public repositories such as
+LocusLink, UniGene .... The linkages can be placed in a html file
+constructed by <code><a href="htmlpage.html">htmlpage</a>.</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getQueryLink(ids, repository = "ug", ...)
+getTDRows(ids, repository = "ug", ...)
+getCells(ids, repository = "ug", ...)
+getQuery4UG(ids, ...)
+getQuery4SP(ids, ...)
+getQuery4GB(ids, ...)
+getQuery4OMIM(ids, ...)
+getQuery4Affy(ids, ...)
+getQuery4FB(ids, ...)
+getQuery4EN(ids, ...)
+getQuery4TR(ids, ...)
+getQuery4ENSEMBL(ids, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p> A character vector of ids, or alternatively, a list
+containing character vectors of ids. These will be used to construct
+hypertext links. A list should be used in cases where there are
+multiple ids per gene.</p>
+</td></tr>
+<tr valign="top"><td><code>repository</code></td>
+<td>
+<p> A character string for the name of a public
+repository. Valid values include &quot;ll&quot;, &quot;ug&quot;, &quot;gb&quot;, &quot;sp&quot;, &quot;omim&quot;,
+&quot;affy&quot;, &quot;en&quot;, and &quot;fb&quot;. See the details section for more
+information. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Allows end user to pass additional arguments. See details
+for <code><a href="getTDRows.html">getQuery4ENSEMBL</a></code> for more information.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code><a href="getTDRows.html">getQuery4GB</a></code> constructs hypertext links to GenBank using the
+provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4UG</a></code> constructs hypertext links to UniGene using the
+provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4Affy</a></code> constructs hypertext links to Affymetrix using the
+provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4SP</a></code> constructs hypertext links to SwissProt using the
+provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4OMIM</a></code> constructs hypertext links to OMIM using the
+provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4FB</a></code> constructs hypertext links to FlyBase using
+the provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4EN</a></code> constructs hypertext links to EntrezGene
+using the provided ids. 
+</p>
+<p><code><a href="getTDRows.html">getQuery4TR</a></code> constructs hypertext links to TAIR using the
+provided ids.
+</p>
+<p><code><a href="getTDRows.html">getQuery4ENSEMBL</a></code> constructs hypertext links to Ensembl
+using the provided ids. An additional 'species' argument must be passed
+to this function via the <code>...</code> argument to <code>htmlpage</code>. The
+form of the argument must be e.g., species=&quot;Homo_sapiens&quot; for
+human. Note the capitalized genus and underscore (_) separator.
+</p>
+<p><code><a href="getTDRows.html">getQueryLink</a></code> directs calls to construct hypertext links using
+the provided ids.
+</p>
+<p><code><a href="getTDRows.html">getTDRows</a></code> constructs each row of the resulting table.
+</p>
+<p><code><a href="getTDRows.html">getCells</a></code> constructs each cell of the resulting table.
+</p>
+<p>Note that some of these functions (<code>getQuery4OMIM</code>,
+<code>getQuery4UG</code>, <code>getQuery4FB</code>) attempt to
+return empty cells for ids that don't make sense, rather than broken
+links. For the other getQuery4XX functions, the end user must replace
+all nonsense ids with &quot;&amp;nbsp;&quot; in order to have an empty cell.
+</p>
+<p>Also note that creating additional links is quite simple. First, define
+a new 'getQuery4XX()' function modeled on the existing functions, then
+add this function to the <code>getQueryLink</code> function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a vector of character strings representing the hypertext links.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jianhua Zhang &lt;jzhang@jimmy.harvard.edu&gt; with further
+modifications by James W. MacDonald &lt;jmacdon@med.umich.edu&gt; </p>
+
+<hr /><div style="text-align: center;">[Package <em>annotate</em> version 1.60.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,116 @@
+Aggregate               A Simple Aggregation Mechanism.
+AnnotatedDataFrame      Class Containing Measured Variables and Their
+                        Meta-Data Description.
+AssayData-class         Class "AssayData"
+Biobase-package         Biobase Package Overview
+ExpressionSet           Class to Contain and Describe High-Throughput
+                        Expression Level Assays.
+MIAME                   Class for Storing Microarray Experiment
+                        Information
+MIAxE                   MIAxE objects
+MultiSet                Class to Contain and Describe High-Throughput
+                        Expression Level Assays.
+NChannelSet-class       Class to contain data from multiple channel
+                        array technologies
+ScalarObject-class      Utility classes for length one (scalar) objects
+SnpSet                  Class to Contain Objects Describing
+                        High-Throughput SNP Assays.
+Versioned               Class "Versioned"
+VersionedBiobase        Class "VersionedBiobase"
+Versions                Class "Versions"
+VersionsNull            Class "VersionsNull"
+abstract                Retrieve Meta-data from eSets and
+                        ExpressionSets.
+addVigs2WinMenu         Add Menu Items to an Existing/New Menu of
+                        Window
+aggregator              A Simple Class for Aggregators
+annotatedDataFrameFrom
+                        Methods for Function annotatedDataFrameFrom in
+                        Package 'Biobase'
+anyMissing              Checks if there are any missing values in an
+                        object or not
+assayData               Retrieve assay data from eSets and
+                        ExpressionSets.
+cache                   Evaluate an expression if its value is not
+                        already cached.
+channel                 Create a new ExpressionSet instance by
+                        selecting a specific channel
+channelNames            Retrieve and set channel names from object
+class:characterORMIAME
+                        Class to Make Older Versions Compatible
+classVersion            Retrieve information about versioned classes
+container               A Lockable List Structure with Constraints on
+                        Content
+contents                Function to retrieve contents of environments
+copyEnv                 List-Environment interactions
+copySubstitute          Copy Between Connections or Files with
+                        Configure-Like Name-Value Substitution
+createPackage           Create a Package Directory from a Template
+data:aaMap              Dataset: Names and Characteristics of Amino
+                        Acids
+data:geneData           Sample expression matrix and phenotype
+                        data.frames.
+data:sample.ExpressionSet
+                        Dataset of class 'ExpressionSet'
+data:sample.MultiSet    Data set of class 'MultiSet'
+description             Retrieve and set overall experimental
+                        information eSet-like classes.
+dumpPackTxt             Dump Textual Description of a Package
+eSet                    Class to Contain High-Throughput Assays and
+                        Experimental Metadata
+esApply                 An apply-like function for ExpressionSet and
+                        related structures.
+exprs                   Retrieve expression data from eSets.
+featureData             Retrieve information on features recorded in
+                        eSet-derived classes.
+featureNames            Retrieve feature and sample names from eSets.
+getPkgVigs              List Vignette Files for a Package
+isCurrent               Use version information to test whether class
+                        is current
+isUnique                Determine Unique Elements
+isVersioned             Determine whether object or class contains
+                        versioning information
+lcSuffix                Compute the longest common prefix or suffix of
+                        a string
+listLen                 Lengths of list elements
+makeDataPackage         Make an R package from a data object
+matchpt                 Nearest neighbor search.
+multiassign             Assign Values to a Names
+note                    Informational Messages
+notes                   Retrieve and set eSet notes.
+openPDF                 Open PDF Files in a Standard Viewer
+openVignette            Open a Vignette or Show Vignette Selection Menu
+package.version         Report Version of a Package
+phenoData               Retrieve information on experimental phenotypes
+                        recorded in eSet and ExpressionSet-derived
+                        classes.
+protocolData            Protocol Metadata
+read.AnnotatedDataFrame
+                        Read and write 'AnnotatedDataFrame'
+read.MIAME              Read MIAME Information into an Instance of
+                        Class 'MIAME'
+readExpressionSet       Read 'ExpressionSet'
+reporter                Example data.frame representing reporter
+                        information
+reverseSplit            A function to reverse the role of names and
+                        values in a list.
+rowMedians              Calculates the median for each row in a matrix
+rowQ                    A function to compute empirical row quantiles.
+selectChannels          Create a new NChannelSet instance by selecting
+                        specific channels
+selectSome              Extract elements of a vector for concise
+                        rendering
+snpCall                 Get and retrieve SNP call and call probability
+                        data.
+storageMode             Retrieve or set storage mode for eSets.
+strbreak                Break Character Strings to Fit Width
+subListExtract          Extract the same element from the sublists of a
+                        list
+testBioCConnection      A function to check internet connectivity to
+                        Bioconductor
+updateObjectTo          Update an object to the class definition of a
+                        template
+updateOldESet           Update previously created eSet object to
+                        current eSet structure
+userQuery               A function to query the user for input
+validMsg                Conditionally append result to validity message

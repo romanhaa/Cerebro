@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;GeneSetCollection&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeneSetCollection-class {GSEABase}"><tr><td>GeneSetCollection-class {GSEABase}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;GeneSetCollection&quot;</h2>
+
+<h3>Description</h3>
+
+<p>a <code>GeneSetCollection</code> is a collection of related
+<code><a href="GeneSet-class.html">GeneSet</a></code>s. The collection can mix and match
+different types of gene sets. Members of the collection are refered to
+by the <code>setName</code>s of each gene set.
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Construct a <code>GeneSetCollection</code> with a
+<code><a href="GeneSetCollection-methods.html">GeneSetCollection</a></code> method, e.g., from a list of gene sets
+or with several gene sets provided as argument to the constructor. See
+examples below.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>.Data</code>:</dt><dd><p>Object of class <code>"list"</code>, containing the
+gene sets.</p>
+</dd>
+</dl>
+
+
+
+<h3>Extends</h3>
+
+<p>Class <code>"<a href="../../methods/html/BasicClasses.html">list</a>"</code>, from data part.
+Class <code>"<a href="../../methods/html/BasicClasses.html">vector</a>"</code>, by class &quot;list&quot;, distance 2.
+Class <code>"<a href="../../Biobase/html/class.AssayData.html">AssayData</a>"</code>, by class &quot;list&quot;, distance 2.
+</p>
+
+
+<h3>Methods</h3>
+
+<p>Gene set collection construction
+</p>
+
+<dl>
+<dt>GeneSetCollection</dt><dd><p>See <code><a href="GeneSetCollection-methods.html">GeneSetCollection</a></code> methods
+and <code>getBroadSets</code> for convenient construction methods.</p>
+</dd>
+</dl>
+
+<p>Collection access (operations on lists, such as <code>length</code>, ,
+<code>lapply</code> also work on <code>GeneSetCollection</code>).
+</p>
+
+<dl>
+<dt>geneIds</dt><dd><p><code>signature(object = "GeneSetCollection")</code>:
+return a list, with each member a character vector of gene
+identifiers from the gene set collection.</p>
+</dd>
+<dt>geneIds&lt;-</dt><dd><p><code>signature(object="GeneSetCollection",
+        value="list")</code>: assign character vectors in <code>value</code> to
+corresponding <code>geneIds</code> of <code>object</code>.</p>
+</dd>
+<dt>names</dt><dd><p><code>signature(x = "GeneSetCollection")</code>: return the
+<code>setName</code> of each gene set in the colloection.</p>
+</dd>
+</dl>
+
+<p>Logical and subsetting operations
+</p>
+
+<dl>
+<dt>union</dt><dd>
+<p><code>signature(x = "GeneSetCollection", y = "ANY")</code>,
+<code>signature(x = "ANY", y = "GeneSetCollection")</code>: ...</p>
+</dd>
+<dt>|</dt><dd>
+<p><code>signature(e1 = "GeneSetCollection", e2 = "ANY")</code>,
+<code>signautre(e1 = "GeneSet", e2 = "GeneSetCollection")</code>,
+<code>signautre(e1 = "character", e2 = "GeneSetCollection")</code>,
+<code>signature(e1 = "ANY", e2 = "GeneSetCollection")</code>:
+calculate the logical 'or' (union) of all gene identifiers
+in an object over all members of the gene set collection.</p>
+</dd> 
+<dt>intersect</dt><dd>
+<p><code>signature(x = "GeneSetCollection", y = "ANY")</code>,
+<code>signature(x = "ANY", y = "GeneSetCollection")</code>: ...</p>
+</dd>
+<dt>&amp;</dt><dd>
+<p><code>signature(e1 = "GeneSetCollection", e2 = "ANY")</code>,
+<code>signautre(e1 = "character", e2 = "GeneSetCollection")</code>,
+<code>signautre(e1 = "GeneSet", e2 = "GeneSetCollection")</code>,
+<code>signature(e1 = "ANY", e2 = "GeneSetCollection")</code>:
+calculate the logical &lsquo;and&rsquo; (intersection) of all gene identifiers
+in a gene set or character vector, over all members of the gene
+set collection.</p>
+</dd> 
+<dt>setdiff</dt><dd>
+<p><code>signature(x = "GeneSetCollection", y = "ANY")</code>:
+calculate the logical set difference betwen all gene sets in a
+collection and the gene identifiers of a gene set or character
+vector. A <code>setdiff</code> method must be available for
+<code>x="GeneSet"</code> and the type of <code>y</code>. </p>
+</dd>
+<dt>[&lt;-</dt><dd>
+<p><code>signature(x = "GeneSetCollection", i = "ANY", j = "ANY",
+        value = "ANY")</code>,
+<code>signature(x = "GeneSetCollection", i = "ANY", j = "ANY",
+        value = "GeneSet")</code>,
+<code>signature(x = "GeneSetCollection", i = "character", j =
+        "ANY", value = "GeneSet")</code>: assign new sets to existing set
+members. To add entirely new sets, use a
+<code><a href="GeneSetCollection-methods.html">GeneSetCollection</a></code> constructor.
+</p>
+</dd>
+<dt>[</dt><dd>
+<p><code>signature(x = "GeneSetCollection", i = "logical")</code>, 
+<code>signature(x = "GeneSetCollection", i = "numeric")</code>,
+<code>signature(x = "GeneSetCollection", i = "character")</code>: create
+a <code>GeneSetCollection</code> consisting of a subset of the current
+set. All indicies <code>i</code> must already be present in the set.
+</p>
+</dd>
+<dt>[[</dt><dd>
+<p><code>signature(x = "GeneSetCollection", i = "character")</code>: 
+Select a single gene set from the collection. Methods for
+<code>i="numeric"</code> are inherited from <code>list</code>.</p>
+</dd>
+<dt>[[&lt;-</dt><dd>
+<p><code>signature(x = "GeneSetCollection", i = "ANY", j = "ANY", value = "ANY")</code>,
+<code>signature(x = "GeneSetCollection", i = "numeric", j = "ANY", value = "GeneSet")</code>,
+<code>signature(x = "GeneSetCollection", i = "character", j = "ANY", value = "GeneSet")</code>:
+Replace a gene set in the collecton with another.
+<code>value = "ANY"</code> serves to stop invalid assignments.</p>
+</dd> 
+</dl>
+
+<p>Additional useful methods.
+</p>
+
+<dl>
+<dt>updateObject</dt><dd>
+<p>Objects created in previous versions of GSEABase may be
+incompatible with current object definitions. Usually this is
+singalled by an error suggesting that a slot is missing, and a
+recommnedation to use <code>updateObject</code>. Use <code>updateObject</code>
+to update a <code>GeneSetCollection</code> and all contained
+<code>GeneSets</code> to their current defintion.</p>
+</dd>
+<dt>mapIdentifiers</dt><dd>
+<p>Convert genes from one <code>GeneIdentifierType</code> to another. See
+<code><a href="mapIdentifiers-methods.html">mapIdentifiers</a></code> and specific methods in
+<code><a href="GeneIdentifierType-class.html">GeneIdentifierType</a></code> for additional detail.</p>
+</dd>
+<dt>incidence</dt><dd><p>Summarize shared membership in genes across gene
+sets. See <code><a href="incidence-methods.html">incidence-methods</a></code>.</p>
+</dd>
+<dt>toGmt</dt><dd><p>Export to 'GMT' format file. See <code><a href="getObjects.html">toGmt</a></code>.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object="GeneSetCollection")</code>: provide a
+compact representation of <code>object</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Morgan &lt;Martin.Morgan@RoswellPark.org&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GeneSet-class.html">GeneSet</a></code>, <code><a href="GeneColorSet-class.html">GeneColorSet</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+gs1 &lt;- GeneSet(setName="set1", setIdentifier="101")
+gs2 &lt;- GeneSet(setName="set2", setIdentifier="102")
+
+## construct from indivdiual elements...
+gsc &lt;- GeneSetCollection(gs1, gs2)
+## or from a list
+gsc &lt;- GeneSetCollection(list(gs1, gs2))
+
+## 'names' are the setNames
+names(gsc)
+
+## a collection of a single gene set
+gsc["set1"]
+## a gene set
+gsc[["set1"]]
+
+## set names must be unique
+try(GeneSetCollection(gs1, gs1))
+try(gsc[c("set1", "set1")])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSEABase</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

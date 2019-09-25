@@ -1,0 +1,57 @@
+AtomicList              Lists of Atomic Vectors in Natural and Rle Form
+AtomicList-utils        Common operations on AtomicList objects
+CompressedHitsList-class
+                        CompressedHitsList objects
+CompressedList-class    CompressedList objects
+DataFrame-utils         Common operations on DataFrame objects
+DataFrameList-class     List of DataFrames
+Grouping-class          Grouping objects
+Hits-examples           Examples of basic manipulation of Hits objects
+IPos-class              Memory-efficient representation of integer
+                        positions
+IPosRanges-class        IPosRanges objects
+IPosRanges-comparison   Comparing and ordering ranges
+IRanges-class           IRanges and NormalIRanges objects
+IRanges-constructor     The IRanges constructor and supporting
+                        functions
+IRanges-utils           IRanges utility functions
+IRangesList-class       List of IRanges and NormalIRanges
+IntegerRanges-class     IntegerRanges objects
+IntegerRangesList-class
+                        IntegerRangesList objects
+MaskCollection-class    MaskCollection objects
+NCList-class            Nested Containment List objects
+RangedData-class        Data on ranges
+RangedSelection-class   Selection of ranges and columns
+RleViews-class          The RleViews class
+RleViewsList-class      List of RleViews
+Views-class             Views objects
+ViewsList-class         List of Views
+coverage-methods        Coverage of a set of ranges
+extractList             Group elements of a vector-like object into a
+                        list-like object
+extractListFragments    Extract list fragments from a list-like object
+findOverlaps-methods    Finding overlapping ranges
+inter-range-methods     Inter range transformations of an
+                        IntegerRanges, Views, IntegerRangesList, or
+                        MaskCollection object
+intra-range-methods     Intra range transformations of an IRanges,
+                        IPos, Views, RangesList, or MaskCollection
+                        object
+multisplit              Split elements belonging to multiple groups
+nearest-methods         Finding the nearest range neighbor
+range-squeezers         Squeeze the ranges out of a range-based object
+ranges,Rle-method       Rle objects (old man page)
+read.Mask               Read a mask from a file
+reverse                 reverse
+setops-methods          Set operations on IntegerRanges and
+                        IntegerRangesList objects
+slice-methods           Slice a vector-like or list-like object
+stack,List-method       List objects (old man page)
+unsplit,List-method     2 methods that should be documented somewhere
+                        else
+view-summarization-methods
+                        Summarize views on a vector-like object with
+                        numeric values
+window<-,Vector-method
+                        Vector objects (old man page)

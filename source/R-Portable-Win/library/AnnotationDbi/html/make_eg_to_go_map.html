@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create GO to Entrez Gene maps for chip-based packages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for make_eg_to_go_map {AnnotationDbi}"><tr><td>make_eg_to_go_map {AnnotationDbi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create GO to Entrez Gene maps for chip-based packages</h2>
+
+<h3>Description</h3>
+
+<p>Create a new map object mapping Entrez ID to GO (or vice versa) given
+a chip annotation data package.
+</p>
+<p>This is a temporary solution until a more general pluggable map
+solution comes online.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+make_eg_to_go_map(chip)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>chip</code></td>
+<td>
+<p>The name of the annotation data package.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Either a <code>Go3AnnDbMap</code> or a <code>RevGo3AnnDbMap</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Seth Falcon and Herve Pages</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library("hgu95av2.db")
+
+eg2go = make_eg_to_go_map("hgu95av2.db")
+sample(eg2go, 2)
+
+go2eg = make_go_to_eg_map("hgu95av2.db")
+sample(go2eg, 2)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>AnnotationDbi</em> version 1.44.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

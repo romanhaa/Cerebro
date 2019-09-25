@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Estimate local False Discovery Rate (FDR)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lfdr {qvalue}"><tr><td>lfdr {qvalue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Estimate local False Discovery Rate (FDR)</h2>
+
+<h3>Description</h3>
+
+<p>Estimate the local FDR values from p-values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lfdr(p, pi0 = NULL, trunc = TRUE, monotone = TRUE, transf = c("probit",
+  "logit"), adj = 1.5, eps = 10^-8, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>A vector of p-values (only necessary input).</p>
+</td></tr>
+<tr valign="top"><td><code>pi0</code></td>
+<td>
+<p>Estimated proportion of true null p-values. If NULL, then <code><a href="pi0est.html">pi0est</a></code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>trunc</code></td>
+<td>
+<p>If TRUE, local FDR values &gt;1 are set to 1. Default is TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>monotone</code></td>
+<td>
+<p>If TRUE, local FDR values are non-decreasing with increasing p-values. Default is TRUE; this is recommended.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>Either a &quot;probit&quot; or &quot;logit&quot; transformation is applied to the p-values so that a local FDR estimate can be formed that
+does not involve edge effects of the [0,1] interval in which the p-values lie.</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>Numeric value that is applied as a multiple of the smoothing bandwidth used in the density estimation. Default is <code>adj=1.0</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>Numeric value that is threshold for the tails of the empirical p-value distribution. Default is 10^-8.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, passed to <code><a href="pi0est.html">pi0est</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It is assumed that null p-values follow a Uniform(0,1) distribution.
+The estimated proportion of true null hypotheses <i>pi_0</i> is either
+a user-provided value or the value calculated via <code><a href="pi0est.html">pi0est</a></code>.
+This function works by forming an estimate of the marginal density of the
+observed p-values, say <i>f(p)</i>. Then the local FDR is estimated as
+<i>lFDR(p) = pi_0/f(p)</i>, with
+adjustments for monotonicity and to guarantee that <i>lFDR(p) &lt;= 1</i>.  See the Storey (2011) reference below for a concise
+mathematical definition of local FDR.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of estimated local FDR values, with each entry corresponding to the entries of the input p-value vector <code>p</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>John D. Storey
+</p>
+
+
+<h3>References</h3>
+
+<p>Efron B, Tibshirani R, Storey JD, and Tisher V. (2001) Empirical Bayes analysis
+of a microarray experiment. Journal of the American Statistical Association, 96: 1151-1160. <br />
+<a href="http://www.tandfonline.com/doi/abs/10.1198/016214501753382129">http://www.tandfonline.com/doi/abs/10.1198/016214501753382129</a>
+</p>
+<p>Storey JD. (2003) The positive false discovery rate: A Bayesian
+interpretation and the q-value. Annals of Statistics, 31: 2013-2035. <br />
+<a href="http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335">http://projecteuclid.org/DPubS/Repository/1.0/Disseminate?view=body&amp;id=pdf_1&amp;handle=euclid.aos/1074290335</a>
+</p>
+<p>Storey JD. (2011) False discovery rates. In <em>International Encyclopedia of Statistical Science</em>. <br />
+<a href="http://genomine.org/papers/Storey_FDR_2011.pdf">http://genomine.org/papers/Storey_FDR_2011.pdf</a> <br />
+<a href="http://www.springer.com/statistics/book/978-3-642-04897-5">http://www.springer.com/statistics/book/978-3-642-04897-5</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="qvalue.html">qvalue</a></code>, <code><a href="pi0est.html">pi0est</a></code>, <code><a href="hist.qvalue.html">hist.qvalue</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# import data
+data(hedenfalk)
+p &lt;- hedenfalk$p
+lfdrVals &lt;- lfdr(p)
+
+# plot local FDR values
+qobj = qvalue(p)
+hist(qobj)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>qvalue</em> version 2.14.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

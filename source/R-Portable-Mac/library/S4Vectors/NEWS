@@ -1,0 +1,486 @@
+CHANGES IN VERSION 0.20.0
+-------------------------
+
+NEW FEATURES
+
+    o rbind() now supports DataFrame objects with the same column names
+      but in different order, even when some of the column names are
+      duplicated. How rbind() re-aligns the columns of the various objects
+      to bind with those of the first object is consistent with what
+      base:::rbind.data.frame() does.
+
+    o Add isSequence() low-level helper.
+
+    o Add 'nodup' argument to selectHits().
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o The rownames of a DataFrame are no more required to be unique.
+
+    o Change 'use.names' default from FALSE to TRUE in mcols() getter.
+
+    o Coercion to DataFrame now **always** propagates the names.
+
+    o Rename low-level generic concatenateObjects() -> bindROWS().
+
+    o replaceROWS() now dispatches on 'x' and 'i' instead of 'x' only.
+
+    o Speedup row subsetting of DataFrame with many columns.
+
+DEPRECATED AND DEFUNCT
+
+    o phead(), ptail(), and strsplitAsListOfIntegerVectors() are now defunct
+      (after being deprecated in BioC 3.7).
+
+BUG FIXES
+
+    o Fix window() on a DataFrame with data.frame columns.
+
+    o 2 fixes to "rbind" method for DataFrame objects:
+      - It now properly handles DataFrame objects with duplicated colnames.
+        Note that the new behavior is consistent with base::rbind.data.frame().
+      - It now properly handles DataFrame objects with columns that are 1D
+        arrays.
+
+    o Fix showAsCell() on nested data-frame-like objects.
+
+    o 2 fixes to "as.data.frame" method for DataFrame objects:
+      - It now works if the DataFrame object contains nested data-frame-like
+        objects or other complicated S4 objects (as long as these complicated
+        objects in turn support as.data.frame()).
+      - It now handles 'stringsAsFactors' argument properly. Originally
+        reported here: https://github.com/Bioconductor/GenomicRanges/issues/18
+
+
+CHANGES IN VERSION 0.18.0
+-------------------------
+
+NEW FEATURES
+
+    o The package gets a new vignette: S4VectorsOverview.Rnw
+      The material in this new vignette comes from the IRangesOverview.Rnw
+      vignette located in the IRanges package. All the S4Vectors-specific
+      material was moved from the IRangesOverview.Rnw vignette to the new
+      S4VectorsOverview.Rnw vignette.
+
+    o All Vector derivatives now support 'x[i, j]' by default. This allows
+      the user to conveniently subset the metadata columns thru 'j'.
+      Note that GenomicRanges objects have been supporting this feature for
+      years but now all Vector derivatives support it. Developers of Vector
+      derivatives with a true 2-D semantic (e.g. SummarizedExperiment) need
+      to overwrite this.
+
+    o rank() now suports 'by' on Vector derivatives.
+
+    o Add concatenateObjects() generic and methods for LLint, vector, Vector,
+      Hits, and Rle objects. This is a low-level generic intended to
+      facilitate implementation of c() on vector-like objects.
+      The "concatenateObjects" method for Vector objects concatenates the
+      objects by concatenating all their parallel slots. The method behaves
+      like an endomorphism with respect to its first argument 'x'. Note that
+      this method will work out-of-the-box and do the right thing on most
+      Vector subclasses as long as parallelSlotNames() reports the names of
+      all the parallel slots on objects of the subclass (some Vector subclasses
+      might require a "parallelSlotNames" method for this to happen). For those
+      Vector subclasses on which concatenateObjects() does not work
+      out-of-the-box or does not do the right thing, it is strongly advised
+      to override the method for Vector objects rather than trying to override
+      the (new) "c" method for Vector objects with a specialized method. The
+      specialized "concatenateObjects" method will typically delegate to the
+      method below via the use of callNextMethod(). See "concatenateObjects"
+      methods for Hits and Rle objects for some examples. No Vector subclass
+      should need to override the "c" method for Vector objects.
+
+    o Major refactoring of [[<- for List objects. It's now based on a new
+      "setListElement" method for List objects that relies on `[<-` for
+      replacement, c() for appending, and `[` for removal, which are the 3
+      operations that setListElement() can perform (depending on how it's
+      called). As a consequence [[<- now works out-of-the box on any List
+      derivative for which `[<-`, c(), and `[` work.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o endoapply() and mendoapply() are now regular functions instead of
+      generic functions.
+
+    o A couple of minor improvements to how default "showAsCell" method
+      handles list-like and non-list like objects.
+
+    o Replace strsplitAsListOfIntegerVectors() with toListOfIntegerVectors().
+      (The former is still available but deprecated in favor of the latter.)
+      The input of toListOfIntegerVectors() now can be a list of raw vectors
+      (in addition to be a character vector), in which case it's treated like
+      if it was 'sapply(x, rawToChar)'.
+
+    o A couple of optimizations to "[<-" method for DataFrame objects
+      (see commit e63f4cfd637e3471e4b04015c2938348df17e14a).
+
+DEPRECATED AND DEFUNCT
+
+    o phead() and ptail() are deprecated in favor of IRanges::heads() and
+      IRanges::tails().
+
+    o strsplitAsListOfIntegerVectors() is deprecated in favor of
+      toListOfIntegerVectors().
+
+BUG FIXES
+
+    o The mcols() setter no more tries to downgrade to DataFrame a supplied
+      right value that extends DataFrame (e.g. DelayedDataFrame).
+
+    o 'DataFrame(I(x)) and as(I(x), "DataFrame")' now drops the I() wrapping
+      before storing 'x' in the returned object. This wrapping was ugly, not
+      needed, and breaking S4 objects.
+
+    o Fix a couple of long-standing bugs in DataFrame subassignment:
+      - Bug in the "[<-" method for DataFrame objects where replacing the
+        1st variable with a rectangular object (e.g. x[1] <-
+        DataFrame(aa=I(matrix(1:6, ncol=2)))) was returning a DataFrame
+        with the "nrows" slot set incorrectly.
+      - A couple of bugs in the "replaceROWS" method for DataFrame objects
+        when used in "rbind mode" i.e. when max(i) > nrow(x).
+
+    o Fix bug in "cbind" method for DataFrame where it was appending X to
+      the column names in some situations (see
+      https://github.com/Bioconductor/S4Vectors/issues/8).
+
+    o Fix order() on SortedByQueryHits objects (see
+      https://github.com/Bioconductor/S4Vectors/issues/6).
+
+    o Fix bug in internal new_Hits() constructor where it was not returning an
+      object of the class specified via 'Class' in some situations.
+
+    o "lapply" for SimpleList objects now calls match.fun(FUN) internally to
+      find the function to apply.
+
+
+CHANGES IN VERSION 0.16.0
+-------------------------
+
+NEW FEATURES
+
+    o Introduce FilterResults as generic parent of FilterMatrix.
+
+
+    o Optimized subsetting of an Rle object by an integer vector. Speed up
+      is about 3x or more for big objects with respect to BioC 3.5.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o coerce,list,DataFrame generates "valid" names when list has none.
+      This ends up introducing an inconsistency between DataFrame and
+      data.frame but it is arguably a good one. We shouldn't rely on
+      DataFrame() to generate variable names from scratch anyway.
+
+BUG FIXES
+
+    o Fix showAsCell() on data-frame-like and array-like objects with a single
+      column, and on SplitDataFrameList objects.
+
+    o Calling DataFrame() with explict 'row.names=NULL' should block rownames
+      inference.
+
+    o cbind.DataFrame() ensures every argument is a DataFrame, not just first.
+
+    o rbind_mcols() now is robust to missing 'x'.
+
+    o Fix extractROWS() for arrays when subscript is a RangeNSBS.
+
+    o Temporary workaround to make the "union" method for Hits objects work
+      even in the presence of another "union" generic in the cache (which is
+      the case e.g. if the user loads the lubridate package).
+
+    o A couple of (long-time due) tweaks and fixes to "unlist" method for
+      List objects so that it behaves consistently with "unlist" method for
+      CompressedList objects.
+
+    o Modify Mini radix C code to accomodate a bug in Apple LLVM version 6.1.0
+      optimizer.
+      [commit 241150d2b043e8fcf6721005422891baff018586]
+
+    o Fix match,Pairs,Pairs()
+      [commit a08c12bf4c31b7304d25122c411d882ec52b360c]
+
+    o Various other minor fixes.
+
+
+CHANGES IN VERSION 0.14.0
+-------------------------
+
+NEW FEATURES
+
+    o Add LLint vectors: similar to ordinary integer vectors (int values at
+      the C level) but store "large integers" i.e. long long int values at the
+      C level. These are 64-bit on Intel platforms vs 32-bit for int values.
+      See ?LLint for more information. This is in preparation for supporting
+      long Vector derivatives (planned for BioC 3.6).
+
+    o Default "rank" method for Vector objects now supports the same ties
+      method as base::rank() (was only supporting ties methods "first" and
+      "min" until now).
+
+    o Support x[[i,j]] on DataFrame objects.
+
+    o Add "transform" methods for DataTable and Vector objects.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Rename union classes characterORNULL, vectorORfactor, DataTableORNULL,
+      and expressionORfunction -> character_OR_NULL, vector_OR_factor,
+      DataTable_OR_NULL, and expression_OR_function, respectively.
+
+    o Remove default "xtfrm" method for Vector objects. Not needed and
+      introduced infinite recursion when calling order(), sort() or rank() on
+      Vector objects that don't have specific order/sort/rank methods.
+
+DEPRECATED AND DEFUNCT
+
+    o Remove compare() (was defunct in BioC 3.4).
+
+    o Remove elementLengths() (was defunct in BioC 3.4).
+
+BUG FIXES
+
+    o Make showAsCell() robust to nested lists.
+
+    o Fix bug where subsetting a List object 'x' by a list-like subscript was
+      not always propagating 'mcols(x)'.
+
+
+CHANGES IN VERSION 0.12.0
+-------------------------
+
+NEW FEATURES
+
+    o Add n-ary "merge" method for Vector objects.
+
+    o "extractROWS" methods for atomic vectors and DataFrame objects now
+      support NAs in the subscript. As a consequence a DataFrame can now
+      be subsetted by row with a subscript that contains NAs. However that
+      will only succeed if all the columns in the DataFrame can also be
+      subsetted with a subscript that contains NAs (e.g. it would fail at
+      the moment if some columns are Rle's but we have plans to make this
+      work in the future).
+
+    o Add "union", "intersect", "setdiff", and "setequal" methods for Vector
+      objects.
+
+    o Add coercion from data.table to DataFrame.
+
+    o Add t() S3 methods for Hits and HitsList.
+
+    o Add "c" method for Pairs objects.
+
+    o Add rbind/cbind methods for List, returning a list matrix.
+
+    o aggregate() now supports named aggregator expressions when 'FUN' is
+      missing.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o "c" method for Rle objects handles factor data more gracefully.
+
+    o "eval" method for FilterRules objects now excludes NA results, like
+      subset(), instead of failing on NAs.
+
+    o Drop "as.env" method for List objects so that as.env() behaves more like
+      as.data.frame() on these objects.
+
+    o Speed up "replaceROWS" method for Vector objects when 'x' has names.
+
+    o Optimize selfmatch for factors.
+
+DOCUMENTATION IMPROVEMENTS
+
+    o Add S4QuickOverview vignette.
+
+DEPRECATED AND DEFUNCT
+
+    o elementLengths() and compare() are now defunct (were deprecated in
+      BioC 3.3).
+
+    o Remove "ifelse" methods for Rle objects (were defunct in BioC 3.3),
+
+BUG FIXES
+
+    o Fix bug in showAsCell(x) when 'x' is an AsIs object.
+
+    o DataFrame() avoids NULL names when there are no columns.
+
+    o DataFrame with NULL colnames are now considered invalid.
+
+
+CHANGES IN VERSION 0.10.0
+-------------------------
+
+NEW FEATURES
+
+    o Add SelfHits class, a subclass of Hits for representing objects where the
+      left and right nodes are identical.
+
+    o Add utilities isSelfHit() and isRedundantHit() to operate on SelfHits
+      objects.
+
+    o Add new Pairs class that couples two parallel vectors.
+
+    o head() and tail() now work on a DataTable object and behave like on an
+      ordinary matrix.
+
+    o Add as.matrix.Vector().
+
+    o Add "append" methods for Rle/vector (they promote to Rle).
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Many changes to the Hits class:
+      - Replace the old Hits class (where the hits had to be sorted by query)
+        with the SortedByQueryHits class.
+      - A new Hits class where the hits can be in any order is re-introduced as
+        the parent of the SortedByQueryHits class.
+      - The Hits() constructor gets the new 'sort.by.query' argument that is
+        FALSE by default. When 'sort.by.query' is set to TRUE, the constructor
+        returns a SortedByQueryHits instance instead of a Hits instance.
+      - Bidirectional coercion is supported between Hits and SortedByQueryHits.
+        When going from Hits to SortedByQueryHits, the hits are sorted by query.
+      - Add "c" method for Hits objects.
+      - Rename Hits slots:
+          queryHits -> from
+          subjectHits -> to
+          queryLength -> nLnode (nb of left nodes)
+          subjectLength -> nRnode (nb of right nodes)
+      - Add updateObject() method to update serialized Hits objects from old
+        (queryHits/subjectHits) to new (from/to) internal representation.
+      - The "show" method for Hits objects now labels columns with from/to by
+        default and switches to queryHits/subjectHits labels only when the
+        object is a SortedByQueryHits object.
+      - New accessors are provided that match the new slot names: from(), to(),
+        nLnode(), nRnode(). The old accessors (queryHits(), subjectHits(),
+        queryLength(), and subjectLength()) are just aliases for the new
+        accessors. Also countQueryHits() and countSubjectHits() are now aliases
+        for new countLnodeHits() and countRnodeHits().
+
+    o Transposition of Hits objects now propagates the metadata columns.
+
+    o Rename elementLengths() -> elementNROWS() (the old name was clearly a
+      misnomer). For backward compatibility the old name still works but is
+      deprecated (now it's just an "alias" for elementNROWS()).
+
+    o Rename compare() -> pcompare(). For backward compatibility the old name
+      still works but is just an "alias" for pcompare() and is deprecated.
+
+    o Some refactoring of the Rle() generic and methods:
+      - Remove ellipsis from the argument list of the generic.
+      - Dispatch on 'values' only.
+      - The 'values' and 'lengths' arguments now have explicit default values
+        logical(0) and integer(0) respectively.
+      - Methods have no more 'check' argument but new low-level (non-exported)
+        constructor new_Rle() does and is what should now be used by code that
+        needs this feature.
+
+    o Optimize subsetting of an Rle object by an Rle subscript: the subscript
+      is no longer decoded (i.e. expanded into an ordinary vector). This
+      reduces memory usage and makes the subsetting much faster e.g. it can be
+      100x times faster or more if the subscript has many (e.g. thousands) of
+      long runs.
+
+    o Modify "replaceROWS" methods so that the replaced elements in 'x' get
+      their metadata columns from 'value'. See this thread on bioc-devel:
+        https://stat.ethz.ch/pipermail/bioc-devel/2015-November/008319.html
+
+    o Remove ellipsis from the argument list of the "head" and "tail" methods
+      for Vector objects.
+
+    o pc() (parallel combine) now returns a List object only if one of the
+      supplied objects is a List object, otherwise it returns an ordinary list.
+
+    o The "as.data.frame" method for Vector objects now forwards the
+      'row.names' argument.
+
+    o Export the "parallelSlotNames" methods.
+
+DEPRECATED AND DEFUNCT
+
+    o Deprecate elementLengths() in favor of elementNROWS(). New name reflects
+      TRUE semantic.
+
+    o Deprecate compare() in favor of pcompare().
+
+    o After being deprecated in BioC 3.2, the "ifelse" methods for Rle objects
+      are now defunct.
+
+    o Remove "aggregate" method for vector objects which was an undocumented
+      bad idea from the start.
+
+BUG FIXES
+
+    o Fix 2 long-standing bugs in "as.data.frame" method for List objects:
+      - must always return an ordinary data.frame (was returning a DataFrame
+        when 'use.outer.mcols' was TRUE),
+      - when 'x' has names and 'group_name.as.factor' is TRUE, the levels of
+        the returned group_name col must be identical to 'unique(names(x))'
+        (names of empty list elements in 'x' was not showing up in
+        'levels(group_name)').
+
+    o Fix and improve the elementMetadata/mcols setter method for Vector
+      objects so that the specific methods for GenomicRanges, GAlignments,
+      and GAlignmentPairs objects are not needed anymore and were removed.
+      Note that this change also fixes setting the elementMetadata/mcols of a
+      SummarizedExperiment object with NULL or an ordinary data frame, which
+      was broken until now.
+
+    o Fix bug in match,ANY,Rle method when supplied 'nomatch' is not NA.
+
+    o Fix findMatches() for Rle table.
+
+    o Fix show,DataTable-method to display all rows if <= nhead + ntail + 1
+
+
+CHANGES IN VERSION 0.4.0
+------------------------
+
+NEW FEATURES
+
+    o Add isSorted() and isStrictlySorted() generics, plus some methods.
+
+    o Add low-level wmsg() helper for formatting error/warning messages.
+
+    o Add pc() function for parallel c() of list-like objects.
+
+    o Add coerce,Vector,DataFrame; just adds any mcols as columns on top of the
+      coerce,ANY,DataFrame behavior.
+
+    o [[ on a List object now accepts a numeric- or character-Rle of length 1.
+
+    o Add "droplevels" methods for Rle, List, and DataFrame objects.
+
+    o Add table,DataTable and transform,DataTable methods.
+
+    o Add prototype of a better all.equals() for S4 objects.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Move Annotated, DataTable, Vector, Hits, Rle, List, SimpleList, and
+      DataFrame classes from the IRanges package.
+
+    o Move isConstant(), classNameForDisplay(), and low-level argument
+      checking helpers isSingleNumber(), isSingleString(), etc... from the
+      IRanges package.
+
+    o Add as.data.frame,List method and remove other inconsistent and not
+      needed anymore "as.data.frame" methods for List subclasses.
+
+    o Remove useless and thus probably never used aggregate,DataTable method
+      that followed the time-series API.
+
+    o coerce,ANY,List method now propagates the names.
+
+BUG FIXES
+
+    o Fix bug in coercion from list to SimpleList when the list contains
+      matrices and arrays.
+
+    o Fix subset() on a zero column DataFrame.
+
+    o Fix rendering of Date/time classes as DataFrame columns.
+
+

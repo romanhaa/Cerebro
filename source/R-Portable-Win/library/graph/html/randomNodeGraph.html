@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate Random Graph with Specified Degree Distribution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for randomNodeGraph {graph}"><tr><td>randomNodeGraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate Random Graph with Specified Degree Distribution</h2>
+
+<h3>Description</h3>
+
+<p><code>randomNodeGraph</code> generates a random graph with the specified
+degree distribution.  Self-loops are allowed.  The resultant graph is
+directed (but can always be coerced to be undirected).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+randomNodeGraph(nodeDegree)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nodeDegree</code></td>
+<td>
+<p>A named integer vector specifying the node degrees. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The input vector must be named, the names are taken to be the names of
+the nodes. The sum must be even (there is a theorem that says we
+require that to construct a graph). Self-loops are allowed, although
+patches to the code that make this a switchable parameter would be
+welcome.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An instance of the <code>graphNEL</code> class. The graph is directed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman</p>
+
+
+<h3>References</h3>
+
+<p>Random Graphs as Models of Networks, M. E. J. Newman. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="randomGraph.html">randomGraph</a></code>, <code><a href="randomEGraph.html">randomEGraph</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+c1 &lt;- c(a = 1, b = 1, c = 2, d = 4)
+
+(g1 &lt;- randomNodeGraph(c1))
+stopifnot(validObject(g1))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

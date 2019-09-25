@@ -1,7 +1,7 @@
 Package: foreign
 Priority: recommended
-Version: 0.8-71
-Date: 2018-07-20
+Version: 0.8-72
+Date: 2019-08-02
 Title: Read Data Stored by 'Minitab', 'S', 'SAS', 'SPSS', 'Stata',
         'Systat', 'Weka', 'dBase', ...
 Depends: R (>= 3.0.0)
@@ -17,6 +17,7 @@ Authors@R: c(
     person("Swetlana", "Herbrandt", role = "ctb"),
     person("Nicholas", "Lewin-Koh", role = c("ctb", "cph")),
     person("Mark", "Myatt", role = c("ctb", "cph")),
+    person("Michael", "Nelson", role = "ctb"),
     person("Ben", "Pfaff", role = "ctb"),
     person("Brian", "Quistorff", role = "ctb"),
     person("Frank", "Warmerdam", role = c("ctb", "cph")),
@@ -31,7 +32,7 @@ Biarch: yes
 License: GPL (>= 2)
 BugReports: https://bugs.r-project.org
 NeedsCompilation: yes
-Packaged: 2018-07-20 09:11:09 UTC; ripley
+Packaged: 2019-08-02 07:24:39 UTC; hornik
 Author: R Core Team [aut, cph, cre],
   Roger Bivand [ctb, cph],
   Vincent J. Carey [ctb, cph],
@@ -41,6 +42,7 @@ Author: R Core Team [aut, cph, cre],
   Swetlana Herbrandt [ctb],
   Nicholas Lewin-Koh [ctb, cph],
   Mark Myatt [ctb, cph],
+  Michael Nelson [ctb],
   Ben Pfaff [ctb],
   Brian Quistorff [ctb],
   Frank Warmerdam [ctb, cph],
@@ -48,6 +50,6 @@ Author: R Core Team [aut, cph, cre],
   Free Software Foundation, Inc. [cph]
 Maintainer: R Core Team <R-core@R-project.org>
 Repository: CRAN
-Date/Publication: 2018-07-20 09:17:09 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-07-21 14:10:17 UTC; unix
+Date/Publication: 2019-08-02 07:27:08 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-08-03 04:26:00 UTC; unix
 Archs: foreign.so.dSYM

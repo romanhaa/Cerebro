@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Random Graph</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for randomGraph {graph}"><tr><td>randomGraph {graph}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Random Graph </h2>
+
+<h3>Description</h3>
+
+<p>This function generates a random graph according to a model that
+involves a latent variable.  The construction is to randomly assign
+members of the set <code>M</code> to the nodes, <code>V</code>. An edge is assigned
+between two elements of <code>V</code> when they both have the same element
+of <code>M</code> assigned to them. An object of class <code>graphNEL</code> is
+returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+randomGraph(V, M, p, weights=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>V</code></td>
+<td>
+<p>The nodes of the graph. </p>
+</td></tr>
+<tr valign="top"><td><code>M</code></td>
+<td>
+<p>A set of values used to generate the graph. </p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>A value between 0 and 1 that indicates the probability of
+selecting an element of <code>M</code></p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>A logical indicating whether to use the number of
+shared elements of <code>M</code> as weights. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model is quite simple. To generate a graph, <code>G</code>, the user
+supplies the list of nodes, <code>V</code> and a set of values <code>M</code>
+which will be used to create the graph. For each node in <code>V</code> a
+logical vector with length equal to the length of <code>M</code> is
+generated. The probability of a <code>TRUE</code> at any position is
+determined by <code>p</code>. Once valus from <code>M</code> have been assigned to
+each node in <code>V</code> the result is processed into a graph. This is
+done by creating an edge between any two elements of <code>V</code> that
+share an element of <code>M</code> (as chosen by the selection process).
+</p>
+<p>The sizes of <code>V</code> and <code>M</code> and the values of <code>p</code>
+determine how dense the graph will be.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code><a href="graphNEL-class.html">graphNEL-class</a></code> is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>R. Gentleman </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="randomEGraph.html">randomEGraph</a></code>, <code><a href="randomNodeGraph.html">randomNodeGraph</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ set.seed(123)
+ V &lt;- letters[1:10]
+ M &lt;- 1:4
+ g1 &lt;- randomGraph(V, M, 0.2)
+ numEdges(g1) # 16, in this case
+ edgeNames(g1)# "&lt;from&gt; ~ &lt;to&gt;"  since undirected
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>graph</em> version 1.60.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

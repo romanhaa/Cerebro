@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lengths of the list elements of a list-like object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lengths {BiocGenerics}"><tr><td>lengths {BiocGenerics}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lengths of the list elements of a list-like object</h2>
+
+<h3>Description</h3>
+
+<p>Get the length of each list element of a list-like object.
+</p>
+<p>NOTE: This man page is for the <code>lengths</code> <em>S4 generic
+function</em> defined in the <span class="pkg">BiocGenerics</span> package.
+See <code>?base::<a href="../../base/html/lengths.html">lengths</a></code> for the default method
+(defined in the <span class="pkg">base</span> package).
+Bioconductor packages can define specific methods for list-like
+objects not supported by the default method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lengths(x, use.names=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A list-like object. Can also be a vector-like object that is not
+list-like, in which case the result is trivial.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use.names</code></td>
+<td>
+
+<p>See <code>?base::<a href="../../base/html/lengths.html">lengths</a></code> for a description of
+this argument.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>See <code>?base::<a href="../../base/html/lengths.html">lengths</a></code> for the value returned by the
+default method.
+</p>
+<p>Specific methods defined in Bioconductor packages should
+behave as consistently as possible with the default method.
+</p>
+
+
+<h3>Note</h3>
+
+<p>IMPORTANT: The default method (<code>base::<a href="../../base/html/lengths.html">lengths</a></code>)
+is equivalent to <code>sapply(x, length)</code>. However, because the
+<code>lengths</code> method for <a href="../../S4Vectors/html/Vector.html">Vector</a> objects is currently
+defined as an alias for <code>S4Vectors::<a href="../../S4Vectors/html/elementNROWS.html">elementNROWS</a></code>,
+it's equivalent to <code>sapply(x, NROW)</code>, not to <code>sapply(x, length)</code>.
+</p>
+<p>This makes a difference if <code>x</code> has array-like list elements.
+See <code>?base::<a href="../../base/html/NROW.html">NROW</a></code> for the difference between
+<code>length()</code> and <code>NROW()</code>.
+This difference is illustrated in the Examples section below.
+</p>
+<p>This is a temporary situation that will be addressed in BioC 3.3.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li> <p><code>base::<a href="../../base/html/lengths.html">lengths</a></code> for the default <code>lengths</code> 
+method.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/showMethods.html">showMethods</a></code> for displaying a summary of the
+methods defined for a given generic function.
+</p>
+</li>
+<li> <p><code><a href="../../methods/html/selectMethod.html">selectMethod</a></code> for getting the definition of
+a specific method.
+</p>
+</li>
+<li> <p><a href="../../S4Vectors/html/lengths,Vector-method.html">lengths,Vector-method</a> in the <span class="pkg">S4Vectors</span>
+package for an example of a specific <code>lengths</code> method (defined
+for <a href="../../S4Vectors/html/Vector.html">Vector</a> objects).
+</p>
+</li>
+<li> <p><a href="BiocGenerics-package.html">BiocGenerics</a> for a summary of all the generics defined
+in the <span class="pkg">BiocGenerics</span> package.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+lengths  # note the dispatch on the 'x' arg only
+showMethods("lengths")
+selectMethod("lengths", "ANY")  # the default method
+
+library(S4Vectors)
+showMethods("lengths")
+selectMethod("lengths", "Vector")  # the "lengths" method for Vector
+                                   # objects
+
+## Difference between default method and method for Vector objects:
+groups &lt;- c("group1", "group2")
+df &lt;- data.frame(
+    a=letters[1:10],
+    i=101:110,
+    group=rep(factor(groups, levels=groups), c(6, 4))
+)
+x1 &lt;- split(df, df$group)
+x2 &lt;- split(DataFrame(df), df$group)
+lengths(x1)  # dispatch on default method
+lengths(x2)  # dispatch on method for Vector objects
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocGenerics</em> version 0.28.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

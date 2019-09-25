@@ -1,0 +1,29 @@
+Package: annotate
+Title: Annotation for microarrays
+Version: 1.60.1
+Author: R. Gentleman
+Description: Using R enviroments for annotation.
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Depends: R (>= 2.10), AnnotationDbi (>= 1.27.5), XML
+Imports: Biobase, DBI, xtable, graphics, utils, stats, methods,
+        BiocGenerics (>= 0.13.8), RCurl
+Suggests: hgu95av2.db, genefilter, Biostrings (>= 2.25.10), IRanges,
+        rae230a.db, rae230aprobe, tkWidgets, GO.db, org.Hs.eg.db,
+        org.Mm.eg.db, hom.Hs.inp.db, humanCHRLOC, Rgraphviz, RUnit,
+License: Artistic-2.0
+LazyLoad: yes
+Collate: AllGenerics.R ACCNUMStats.R Amat.R AnnMaps.R chromLocation.R
+        compatipleVersions.R findNeighbors.R getData.R getPMInfo.R
+        getSeq4ACC.R GOhelpers.R homoData.R html.R isValidKey.R
+        LL2homology.R pmid2MIAME.R probesByLL.R pubMedAbst.R query.R
+        readGEOAnn.R serializeEnv.R blastSequences.R zzz.R
+        test_annotate_package.R
+biocViews: Annotation, Pathways, GO
+Packaged: 2019-03-07 23:55:27 UTC; biocbuild
+git_url: https://git.bioconductor.org/packages/annotate
+git_branch: RELEASE_3_8
+git_last_commit: 9d8f87d
+git_last_commit_date: 2019-03-07
+Date/Publication: 2019-03-07
+NeedsCompilation: no
+Built: R 3.5.2; ; 2019-03-08 08:53:04 UTC; unix
