@@ -1,11 +1,11 @@
 # Seurat v3 workflow for `GSE129845` data set
 
-Here, we analyze a [`GSE129845`](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE129845) data set which was published by [Russell *et al.* in 2018 (eLIFE)](https://doi.org/10.7554/eLife.32303) using [Seurat](https://satijalab.org/seurat/) framework, following the basic [Seurat](https://satijalab.org/seurat/) workflow.
+Here, we analyze a `GSE129845` data set ("Single-Cell Transcriptomic Map of the Human and Mouse Bladders", Yu *et al.*, J Am Soc Nephrol (2019), [DOI](https://doi.org/10.1681/ASN.2019040335), [GEO submission](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE129845)) using [Seurat](https://satijalab.org/seurat/) framework, following the basic Seurat workflow.
 
 ## Preparation
 
 Before starting, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
-One (optional) step of our analysis will require us to provide some gene sets in a GMT file.
+One (optional) step of our analysis will require us to provide some gene sets in a `GMT` file.
 We manually download the `c2.all.v7.0.symbols.gmt` file from [MSigDB](http://software.broadinstitute.org/gsea/downloads.jsp#msigdb) and put it in our current working directory.
 Then, we pull the Docker image from the Docker Hub, convert it to Singularity, and start an R session inside.
 
@@ -36,9 +36,11 @@ library('cerebroApp')
 
 ## Load transcript counts
 
-We load the sparse transcript count matrices downloaded from the 10x Genomics website, add the respective sample info to the cell barcode, and merge them into a big matrix.
+For each of the three patient samples we load the transcript count matrix (`.mtx` format), add a tag for the sample of origin to the cellular barcodes, merge transcripts from genes with the same name, and then merge the transcript counts from the different patients together.
 
 ### Patient 1
+
+Load transcript counts from patient 1.
 
 ```r
 path_to_data <- "./raw_data/GSM3723357"
@@ -69,6 +71,8 @@ feature_matrix_patient_1 <- feature_matrix
 
 ### Patient 2
 
+Load transcript counts from patient 2.
+
 ```r
 path_to_data <- "./raw_data/GSM3723358"
 
@@ -97,6 +101,8 @@ feature_matrix_patient_2 <- feature_matrix
 ```
 
 ### Patient 3
+
+Load transcript counts from patient 3.
 
 ```r
 path_to_data <- "./raw_data/GSM3723359"
@@ -127,6 +133,8 @@ feature_matrix_patient_3 <- feature_matrix
 
 ### Merge patient samples
 
+Merge transcript counts from all three patients.
+
 ```r
 feature_matrix <- dplyr::full_join(feature_matrix_patient_1, feature_matrix_patient_2, by = 'gene') %>%
   dplyr::full_join(feature_matrix_patient_3, by = 'gene')
@@ -136,8 +144,15 @@ feature_matrix <- dplyr::select(feature_matrix, -gene)
 
 ## Pre-processing with Seurat
 
-With the merged transcript count matrix ready, we create a Seurat object, add sample info to meta data, and remove cells with less than `100` transcripts or fewer than `50` expressed genes.
-Then, we follow the standard Seurat workflow, including normalization, identifying highly variably genes, scaling expression values and regressing out the number of transcripts per cell, perform principal component analysis (PCA), find neighbors and clusters.
+With the merged transcript count matrix ready, we create a Seurat object, add sample info to meta data, and remove cells with fewer than `100` transcripts  `50` expressed genes.
+Then, we follow the standard Seurat workflow, including...
+
+* normalization,
+* identifying highly variably genes,
+* scaling expression values and regressing out the number of transcripts per cell,
+* perform principal component analysis (PCA),
+* find neighbors and clusters.
+
 Furthermore, we build a cluster tree that represents the similarity between clusters and create a dedicated `cluster` column in the meta data.
 
 ```r

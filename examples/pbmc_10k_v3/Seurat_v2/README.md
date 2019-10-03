@@ -2,8 +2,10 @@
 
 Here, we analyze the `pbmc_10k_v3` data set using [Seurat](https://satijalab.org/seurat/) framework, following the basic [Seurat](https://satijalab.org/seurat/) workflow.
 
+## Preparation
+
 Before starting, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
-One (optional) step of our analysis will require us to provide some gene sets in a GMT file.
+One (optional) step of our analysis will require us to provide some gene sets in a `GMT` file.
 We manually download the `c2.all.v7.0.symbols.gmt` file from [MSigDB](http://software.broadinstitute.org/gsea/downloads.jsp#msigdb) and put it in our current working directory.
 Then, we pull the Docker image from the Docker Hub, convert it to Singularity, and start an R session inside.
 
@@ -34,7 +36,7 @@ library('cerebroApp')
 
 ## Load transcript counts
 
-Unfortunately, the `Read10X_h5()` function of Seurat v2 has problems with the `.h5` file downloaded from the 10x Genomics website so instead we load it manually and convert it to a sparse matrix.
+Unfortunately, the `Read10X_h5()` function of Seurat v2 has problems with the `.h5` file downloaded from the 10x Genomics website so instead we load it manually, convert it to a sparse matrix, and merge transcripts from genes with the same name.
 
 ```r
 h5_data <- hdf5r::H5File$new('raw_data/filtered_feature_bc_matrix.h5', mode = 'r')
@@ -50,17 +52,44 @@ feature_matrix <- Matrix::sparseMatrix(
   dims = h5_data[['matrix/shape']][],
   index1 = FALSE
 )
+
+genes <- rownames(feature_matrix)
+
+feature_matrix <- feature_matrix %>%
+  as.matrix() %>%
+  as.data.frame() %>%
+  dplyr::mutate(gene = genes) %>%
+  dplyr::select(gene, dplyr::everything()) %>%
+  dplyr::group_by(gene) %>%
+  dplyr::summarise_all(sum) %>%
+  dplyr::ungroup()
+
+genes <- feature_matrix$gene
+
+feature_matrix <- feature_matrix %>%
+  dplyr::select(-gene) %>%
+  as.matrix() %>%
+  as('sparseMatrix')
+
+rownames(feature_matrix) <- genes
 ```
 
 ## Pre-processing with Seurat
 
 With the transcript count loaded, we create a Seurat object and remove cells with less than `100` transcripts or fewer than `50` expressed genes.
-Then, we follow the standard Seurat workflow, including normalization, identifying highly variably genes, scaling expression values and regressing out the number of transcripts per cell, perform principal component analysis (PCA), find neighbors and clusters.
+Then, we follow the standard Seurat workflow, including...
+
+* normalization,
+* identifying highly variably genes,
+* scaling expression values and regressing out the number of transcripts per cell,
+* perform principal component analysis (PCA),
+* find neighbors and clusters.
+
 Furthermore, we build a cluster tree that represents the similarity between clusters and create a dedicated `cluster` column in the meta data.
 
 ```r
 seurat <- CreateSeuratObject(
-  project = 'PBMC_10k_v3',
+  project = 'pbmc_10k_v3',
   raw.data = feature_matrix,
   min.cells = 10
 )
@@ -162,24 +191,14 @@ seurat <- RunUMAP(
 
 ## Meta data
 
-This example data set consists of a single sample.
-To highlight the functionality of Cerebro when working with a multi-sample data set, we the cells of clusters 1-5 to `sample_A`, those in clusters 6-10 to `sample_B`, and those of clusters 11-16 to `sample_C`.
+This example data set consists of a single sample so we just add that name to the meta data.
+Moreover, in order to later be able to understand how we did the analysis, we add some meta data to the `misc` slot of the Seurat object.
 
 ```r
-meta_sample <- seurat@meta.data$cluster %>% as.character()
-meta_sample[which(meta_sample %in% c('1','2','3','4','5'))] <- 'sample_A'
-meta_sample[which(meta_sample %in% c('6','7','8','9','10'))] <- 'sample_B'
-meta_sample[which(meta_sample %in% c('11','12','13','14','15','16'))] <- 'sample_C'
-seurat@meta.data$sample <- factor(meta_sample, levels = c('sample_A','sample_B','sample_C'))
-```
+seurat@meta.data$sample <- factor('pbmc_10k_v3', levels = 'pbmc_10k_v3')
 
-## Preparation
-
-In order to later be able to understand how we did the analysis, we add some meta data to the `misc` slot of the Seurat object.
-
-```r
 seurat@misc$experiment <- list(
-  experiment_name = 'PBMC_10k',
+  experiment_name = 'pbmc_10k_v3',
   organism = 'hg',
   date_of_analysis = Sys.Date()
 )
@@ -313,8 +332,8 @@ Finally, we use the `exportFromSeurat()` function of cerebroApp to export our Se
 ```r
 cerebroApp::exportFromSeurat(
   seurat,
-  experiment_name = 'PBMC_10k',
-  file = paste0('Seurat_v2/cerebro_PBMC_10k_', Sys.Date(), '.crb'),
+  experiment_name = 'pbmc_10k_v3',
+  file = paste0('Seurat_v2/cerebro_pbmc_10k_v3_', Sys.Date(), '.crb'),
   organism = 'hg',
   column_cell_cycle_seurat = 'Phase'
 )

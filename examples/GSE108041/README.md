@@ -1,6 +1,6 @@
 # `GSE108041` data set
 
-This data set comes from the publication "Extreme heterogeneity of influenza virus infection in single cells" by Russell *et al.*, eLIFE (2018) ([DOI](https://doi.org/10.7554/eLife.32303), [GEO submission](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108041)).
+This data set is taken from the publication "Extreme heterogeneity of influenza virus infection in single cells" by Russell *et al.*, eLIFE (2018) ([DOI](https://doi.org/10.7554/eLife.32303), [GEO submission](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108041)).
 It contains ~13,000 cells from 4 samples before and 6/8/10h after infection with the influenza virus.
 
 To test Cerebro, download the `.crb` file from either [Seurat v3](Seurat_v3) or [scanpy](scanpy) and load it into Cerebro.
@@ -35,5 +35,4 @@ Lastly, from the Seurat object we export a Cerebro file (`.crb` extension) that 
 ## How to reproduce
 
 The example data sets were generated using the official Cerebro Docker image which was built in Docker ([Docker Hub](https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro)) and imported into [Singularity](https://singularity.lbl.gov/) (here I used Singularity 2.6.0).
-The workflows for Seurat v2 and Seurat v3 are conceptually identical with some differences due to changes in the Seurat package.
 Details and descriptions for all workflows can be found in the respective directories [Seurat v3](Seurat_v3), and [scanpy](scanpy).

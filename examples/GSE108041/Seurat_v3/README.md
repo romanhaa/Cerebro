@@ -1,11 +1,11 @@
 # Seurat v3 workflow for `GSE108041` data set
 
-Here, we analyze a [`GSE108041`](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108041) data set which was published by [Russell *et al.* in 2018 (eLIFE)](https://doi.org/10.7554/eLife.32303) using [Seurat](https://satijalab.org/seurat/) framework, following the basic [Seurat](https://satijalab.org/seurat/) workflow.
+Here, we analyze a `GSE108041` data set ("Extreme heterogeneity of influenza virus infection in single cells", Russell *et al.*, eLIFE (2018), [DOI](https://doi.org/10.7554/eLife.32303), [GEO submission](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108041)) using [Seurat](https://satijalab.org/seurat/) framework, following the basic Seurat workflow.
 
 ## Preparation
 
 Before starting, we clone the Cerebro repository (or manually download it) because it contains the raw data of our example data set.
-One (optional) step of our analysis will require us to provide some gene sets in a GMT file.
+One (optional) step of our analysis will require us to provide some gene sets in a `GMT` file.
 We manually download the `c2.all.v7.0.symbols.gmt` file from [MSigDB](http://software.broadinstitute.org/gsea/downloads.jsp#msigdb) and put it in our current working directory.
 Then, we pull the Docker image from the Docker Hub, convert it to Singularity, and start an R session inside.
 
@@ -36,7 +36,7 @@ library('cerebroApp')
 
 ## Load transcript counts
 
-We load the sparse transcript count matrices downloaded from the 10x Genomics website, add the respective sample info to the cell barcode, and merge them into a big matrix.
+For each of the four samples we load the transcript count matrix (`.h5` format), add a tag for the sample of origin to the cellular barcodes, and then merge the transcript counts together.
 
 ```r
 sample_uninfected <- Read10X_h5('raw_data/GSM2888370_Uninfected.h5') %>%
@@ -80,8 +80,15 @@ feature_matrix <- dplyr::select(feature_matrix, -gene)
 
 ## Pre-processing with Seurat
 
-With the merged transcript count matrix ready, we create a Seurat object, add sample info to meta data, and remove cells with less than `100` transcripts or fewer than `50` expressed genes.
-Then, we follow the standard Seurat workflow, including normalization, identifying highly variably genes, scaling expression values and regressing out the number of transcripts per cell, perform principal component analysis (PCA), find neighbors and clusters.
+With the merged transcript count matrix ready, we create a Seurat object, add sample info to meta data, and remove cells with less fewer `100` transcripts or `50` expressed genes.
+Then, we follow the standard Seurat workflow, including...
+
+* normalization,
+* identifying highly variably genes,
+* scaling expression values and regressing out the number of transcripts per cell,
+* perform principal component analysis (PCA),
+* find neighbors and clusters.
+
 Furthermore, we build a cluster tree that represents the similarity between clusters and create a dedicated `cluster` column in the meta data.
 
 ```r

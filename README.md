@@ -210,7 +210,9 @@ docker run -p <port_of_choice>:<port_of_choice> -v <export_folder>:/plots romanh
 
 We provide documentation and commands for the following example data sets:
 
-* [`pbmc_10k_v3`](examples/pbmc_10k_v3/)
+* [`pbmc_10k_v3`](examples/pbmc_10k_v3): single sample of human peripheral blood mononuclear cells
+* [`GSE108041`](examples/GSE108041): 4 samples of A549 cells before and after infection with influenza virus
+* [`GSE129845`](examples/GSE129845): 3 samples of human bladder cells from (3 patients)
 
 ## Conversion of other single cell data formats
 

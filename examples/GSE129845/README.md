@@ -35,5 +35,4 @@ Lastly, from the Seurat object we export a Cerebro file (`.crb` extension) that 
 ## How to reproduce
 
 The example data sets were generated using the official Cerebro Docker image which was built in Docker ([Docker Hub](https://cloud.docker.com/u/romanhaa/repository/docker/romanhaa/cerebro)) and imported into [Singularity](https://singularity.lbl.gov/) (here I used Singularity 2.6.0).
-The workflows for Seurat v2 and Seurat v3 are conceptually identical with some differences due to changes in the Seurat package.
 Details and descriptions for the workflow can be found in the respective directory [Seurat v3](Seurat_v3).
