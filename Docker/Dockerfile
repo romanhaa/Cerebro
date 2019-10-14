@@ -44,7 +44,7 @@ RUN pip3 install louvain python-igraph scanpy umap-learn
 # dependencies + Seurat v3 + monocle
 RUN Rscript -e 'install.packages("BiocManager", repos = "http://cran.us.r-project.org")'
 RUN Rscript -e 'BiocManager::install(c("devtools","remotes"), update = TRUE, ask = FALSE)'
-RUN Rscript -e 'BiocManager::install("satijalab/seurat@develop")'
+RUN Rscript -e 'BiocManager::install("Seurat")'
 RUN Rscript -e 'BiocManager::install("monocle")'
 
 # cerebroApp
