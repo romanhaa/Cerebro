@@ -113,14 +113,8 @@ output[["overview_projection"]] <- plotly::renderPlotly({
   samples_to_display <- input[["overview_samples_to_display"]]
   clusters_to_display <- input[["overview_clusters_to_display"]]
   cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", samples_to_display, "$", collapse="|")
-      ) &
-      grepl(
-        sample_data()$cells$cluster,
-        pattern = paste0("^", clusters_to_display, "$", collapse="|")
-      )
+      (sample_data()$cells$sample %in% samples_to_display) &
+      (sample_data()$cells$cluster %in% clusters_to_display)
     )
 
   # randomly remove cells
@@ -406,15 +400,9 @@ observeEvent(input[["overview_projection_export"]], {
     samples_to_display <- input[["overview_samples_to_display"]]
     clusters_to_display <- input[["overview_clusters_to_display"]]
     cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", samples_to_display, "$", collapse = "|")
-      ) &
-      grepl(
-        sample_data()$cells$cluster,
-        pattern = paste0("^", clusters_to_display, "$", collapse = "|")
+        (sample_data()$cells$sample %in% samples_to_display) &
+        (sample_data()$cells$cluster %in% clusters_to_display)
       )
-    )
     to_plot <- cbind(
       sample_data()$projections[[ projection_to_display ]][ cells_to_display , ],
       sample_data()$cells[ cells_to_display , ]

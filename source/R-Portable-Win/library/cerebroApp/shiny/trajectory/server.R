@@ -3,14 +3,7 @@
 ##----------------------------------------------------------------------------##
 
 # what needs to be done
-# - check if trajectory data is available
-# - if not, display a message
-# - if yes, merge with rest of meta data (so cells can be colored by whatever)
-#   - maybe just merge with those cells that info is available for? not ideal
-# - plot trajectory with ggplot -> plotly
-# - second plot to show selected meta data over pseudotime
 # - let user show gene expression as well? probably more complicated
-
 
 # UI element: display results or alternative text
 output[["trajectory_UI"]] <- renderUI({
@@ -253,14 +246,8 @@ output[["trajectory_projection"]] <- plotly::renderPlotly({
   samples_to_display <- input[["trajectory_samples_to_display"]]
   clusters_to_display <- input[["trajectory_clusters_to_display"]]
   cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", samples_to_display, "$", collapse="|")
-      ) &
-      grepl(
-        sample_data()$cells$cluster,
-        pattern = paste0("^", clusters_to_display, "$", collapse="|")
-      )
+      (sample_data()$cells$sample %in% samples_to_display) &
+      (sample_data()$cells$cluster %in% clusters_to_display)
     )
 
   # randomly remove cells
@@ -457,15 +444,9 @@ observeEvent(input[["trajectory_projection_export"]], {
     samples_to_display <- input[["trajectory_samples_to_display"]]
     clusters_to_display <- input[["trajectory_clusters_to_display"]]
     cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", samples_to_display, "$", collapse = "|")
-      ) &
-      grepl(
-        sample_data()$cells$cluster,
-        pattern = paste0("^", clusters_to_display, "$", collapse = "|")
+        (sample_data()$cells$sample %in% samples_to_display) &
+        (sample_data()$cells$cluster %in% clusters_to_display)
       )
-    )
     to_plot <- cbind(
         sample_data()$trajectory$monocle2[[ trajectory_to_display ]][[ "meta" ]][ cells_to_display , ],
         sample_data()$cells[ cells_to_display , ]
@@ -587,14 +568,8 @@ output[["trajectory_density_plot"]] <- plotly::renderPlotly({
   samples_to_display <- input[["trajectory_samples_to_display"]]
   clusters_to_display <- input[["trajectory_clusters_to_display"]]
   cells_to_display <- which(
-      grepl(
-        sample_data()$cells$sample,
-        pattern = paste0("^", samples_to_display, "$", collapse="|")
-      ) &
-      grepl(
-        sample_data()$cells$cluster,
-        pattern = paste0("^", clusters_to_display, "$", collapse="|")
-      )
+      (sample_data()$cells$sample %in% samples_to_display) &
+      (sample_data()$cells$cluster %in% clusters_to_display)
     )
 
   # extract cells to plot

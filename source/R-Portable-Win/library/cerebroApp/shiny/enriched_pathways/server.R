@@ -55,6 +55,8 @@ output[["enriched_pathways_by_sample_UI"]] <- renderUI({
         )
       } else if ( sample_data()$enriched_pathways$GSVA$by_sample == "no_gene_sets_enriched" ) {
         textOutput("enriched_pathways_by_sample_table_no_gene_sets_enriched")
+      } else if ( sample_data()$enriched_pathways$GSVA$by_sample == "only_one_sample_in_data_set" ) {
+        textOutput("enriched_pathways_by_sample_table_only_one_sample_in_data_set")
       }
     } else {
       textOutput("enriched_pathways_by_sample_table_missing_gsva")
@@ -217,27 +219,27 @@ output[["enriched_pathways_by_sample_table_present"]] <- DT::renderDataTable(ser
   }
 })
 
-# alternative text
+# alternative text messages
 output[["enriched_pathways_by_sample_table_missing"]] <- renderText({
   "Data not available. Possible reason: Data not generated."
 })
 
-# alternative text
 output[["enriched_pathways_by_sample_table_no_markers_found"]] <- renderText({
   "No marker genes identified to perform pathway enrichment analysis with."
 })
 
-# alternative text
 output[["enriched_pathways_by_sample_table_missing_enrichr"]] <- renderText({
   "Data not available. Possible reasons: Only 1 sample in this data set, no marker genes found or data not generated."
 })
 
-# alternative text
 output[["enriched_pathways_by_sample_table_no_gene_sets_enriched"]] <- renderText({
   "No gene sets were found to be enriched (with the selected statistical thresholds) in any sample."
 })
 
-# alternative text
+output[["enriched_pathways_by_sample_table_only_one_sample_in_data_set"]] <- renderText({
+  "The loaded data set consists of a single sample which means GSVA cannot be applied."
+})
+
 output[["enriched_pathways_by_sample_table_missing_gsva"]] <- renderText({
   "Data not available. Possible reason: Data not generated."
 })
@@ -307,6 +309,8 @@ output[["enriched_pathways_by_cluster_UI"]] <- renderUI({
         )
       } else if ( sample_data()$enriched_pathways$GSVA$by_cluster == "no_gene_sets_enriched" ) {
         textOutput("enriched_pathways_by_cluster_table_no_gene_sets_enriched")
+      } else if ( sample_data()$enriched_pathways$GSVA$by_cluster == "only_one_cluster_in_data_set" ) {
+        textOutput("enriched_pathways_by_cluster_table_only_one_cluster_in_data_set")
       }
     } else {
       textOutput("enriched_pathways_by_cluster_table_missing_gsva")
@@ -469,27 +473,27 @@ output[["enriched_pathways_by_cluster_table_present"]] <- DT::renderDataTable(se
   }
 })
 
-# alternative text
+# alternative text messages
 output[["enriched_pathways_by_cluster_table_missing"]] <- renderText({
   "Data not available. Possible reason: Data not generated."
 })
 
-# alternative text
 output[["enriched_pathways_by_cluster_table_no_markers_found"]] <- renderText({
   "No marker genes identified to perform pathway enrichment analysis with."
 })
 
-# alternative text
 output[["enriched_pathways_by_cluster_table_missing_enrichr"]] <- renderText({
   "Data not available. Possible reasons: Only 1 cluster in this data set, no marker genes found or data not generated."
 })
 
-# alternative text
 output[["enriched_pathways_by_cluster_table_no_gene_sets_enriched"]] <- renderText({
-  "No gene sets were found to be enriched (with the selected statistical thresholds) in any cluster."
+  "Either the loaded data set consists of a single cluster (in which case GSVA cannot be applied) or no gene sets were found to be enriched (with the selected statistical thresholds) in any cluster."
 })
 
-# alternative text
+output[["enriched_pathways_by_cluster_table_only_one_cluster_in_data_set"]] <- renderText({
+  "The loaded data set consists of a single cluster which means GSVA cannot be applied."
+})
+
 output[["enriched_pathways_by_cluster_table_missing_gsva"]] <- renderText({
   "Data not available. Possible reason: Data not generated."
 })

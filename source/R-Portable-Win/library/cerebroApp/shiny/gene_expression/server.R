@@ -148,8 +148,8 @@ gene_expression_plot_data <- reactive({
   plot_order <- input[["expression_projection_plotting_order"]]
   # check which cells to display
   cells_to_display <- which(
-      grepl(sample_data()$cells$sample, pattern = paste0("^", samples_to_display, "$", collapse = "|")) == TRUE &
-      grepl(sample_data()$cells$cluster, pattern = paste0("^", clusters_to_display, "$", collapse = "|")) == TRUE
+      (sample_data()$cells$sample %in% samples_to_display) &
+      (sample_data()$cells$cluster %in% clusters_to_display)
     )
   # randomly remove cells
   if ( percentage_cells_show < 100 ) {
