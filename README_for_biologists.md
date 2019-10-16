@@ -30,9 +30,7 @@ A few general notes:
 
 ### Load data
 
-![Cerebro v1.1.0: Load data](screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true "Cerebro v1.1.0: Load data")
-
-<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true" width="30%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true" alt="Load data" width="30%" height="auto" />
 
 This is the panel that we will be shown to you when you launch Cerebro.
 In the top input panel you can choose your data which is the file you received from your colleague or downloaded from the examples mentioned earlier.
@@ -44,7 +42,8 @@ After loading the sample, there is not much more to do here so let's move on to 
 
 ### Overview
 
-![Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle](screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_02.png?raw=true "Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle")
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_01.png?raw=true" alt="t-SNE projection with cells colored by sample" width="50%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_02.png?raw=true" alt="UMAP projection with cells colored by cell cycle" width="50%" height="auto" />
 
 In the "Overview" panel, you have access to all the dimensional reductions (e.g. t-SNE or UMAP) that have been generated for this data set.
 Dimensional reductions can be either 2- or 3-dimensional and aim to represent the complex expression profiles of all the cells in a more interpretable way.

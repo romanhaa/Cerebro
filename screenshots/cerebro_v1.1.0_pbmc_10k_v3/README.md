@@ -10,7 +10,7 @@
 
 ## 3D UMAP projection with cells colored by cell cycle
 
-![Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle](2019-09-23_02_02.png?raw=true "Cerebro v1.1.0: t-SNE projection with cells colored by cell cycle")
+![Cerebro v1.1.0: UMAP projection with cells colored by cell cycle](2019-09-23_02_02.png?raw=true "Cerebro v1.1.0: UMAP projection with cells colored by cell cycle")
 
 ## Composition of samples by cluster
 
