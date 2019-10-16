@@ -14,7 +14,7 @@ If you prefer a more authentic feeling, you can also download one of the [exampl
 You need two things to start exploring your data:
 
 1) The Cerebro application. The easiest way to get Cerebro is to download the standalone executable for either Windows or macOS (whichever operating system you are using) from the [Cerebro releases](https://github.com/romanhaa/Cerebro/releases). After the download is finished, the application can be unzipped and launched.
-2) A file containing your data. This is the file you get from your colleague who did the analysis.
+2) A file containing your data. This is the file you get from your colleague who did the analysis (the file name should end with `.crb` or `.rds`).
 
 ## The interface
 
