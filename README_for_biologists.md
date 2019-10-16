@@ -30,7 +30,7 @@ A few general notes:
 
 ### Load data
 
-<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true" alt="Load data" width="30%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true" alt="Load data" width="100%" height="auto" />
 
 This is the panel that we will be shown to you when you launch Cerebro.
 In the top input panel you can choose your data which is the file you received from your colleague or downloaded from the examples mentioned earlier.
@@ -42,8 +42,8 @@ After loading the sample, there is not much more to do here so let's move on to 
 
 ### Overview
 
-<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_01.png?raw=true" alt="t-SNE projection with cells colored by sample" width="50%" height="auto" />
-<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_02.png?raw=true" alt="UMAP projection with cells colored by cell cycle" width="50%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_01.png?raw=true" alt="t-SNE projection with cells colored by sample" width="49%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_02_02.png?raw=true" alt="UMAP projection with cells colored by cell cycle" width="49%" height="auto" />
 
 In the "Overview" panel, you have access to all the dimensional reductions (e.g. t-SNE or UMAP) that have been generated for this data set.
 Dimensional reductions can be either 2- or 3-dimensional and aim to represent the complex expression profiles of all the cells in a more interpretable way.
@@ -63,7 +63,8 @@ The rest of the parameters are aesthetic and allow you to adjust dot size, dot o
 
 ### Samples
 
-![Cerebro v1.1.0: Composition of samples by cluster](screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_03.png?raw=true "Cerebro v1.1.0: Composition of samples by cluster")
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_03.png?raw=true" alt="Composition of samples by cluster" width="49%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_04.png?raw=true" alt="Distribution of cell cycle states by sample" width="49%" height="auto" />
 
 The "Samples" panel gives you a sample-centric view of the loaded data.
 That means, cells are grouped by the sample they came from.
@@ -79,6 +80,9 @@ The last two boxes, if available, show the percentage of cells in the cell cycle
 
 ### Clusters
 
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_05.png?raw=true" alt="Cluster tree" width="49%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_06.png?raw=true" alt="Number of transcripts and expressed genes by cluster" width="49%" height="auto" />
+
 The "Clusters" panel gives a cluster-centric view of the data.
 Except for the first plot (the cluster tree), it shows the same info as the "Samples" panel however now the cells are grouped by the cluster they were assigned to.
 
@@ -91,12 +95,16 @@ As before, we also see the distribution of clusters into the cell cycle phases f
 
 ### Most expressed genes
 
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_07.png?raw=true" alt="Table of most expressed by sample and cluster" width="100%" height="auto" />
+
 The "Most expressed genes" panel provides tables with precisely the information promised by the title.
 
 For each sample and cluster (select in the respective input box), you will see the 100 most expressed genes and what percentage of all transcripts they account for.
 Feel free to search the table through the search box, or download it in CSV or Excel format.
 
 ### Marker genes
+
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_08.png?raw=true" alt="Table of marker genes by sample and cluster" width="100%" height="auto" />
 
 The "Marker genes" panel provides tables of - surprise - marker genes for each sample and cluster.
 
@@ -118,6 +126,8 @@ Even though this information is not 100% reliable, it might point you to genes w
 
 ### Enriched pathways
 
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_09.png?raw=true" alt="Table of enriched pathways in marker genes of samples and clusters" width="100%" height="auto" />
+
 The "Enriched pathways" panel shows results of pathway enrichment analysis, again for each sample and cluster.
 There are currently two supported methods:
 
@@ -132,6 +142,9 @@ While both methods have the same goal of associating a cell population with func
 Which of the two gives "better" results depends on the experimental context, which is why we support both methods.
 
 ### Gene expression
+
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_10.png?raw=true" alt="Expression of individual genes in t-SNE projection" width="49%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_11.png?raw=true" alt="Expression of individual genes by sample and cluster" width="49%" height="auto" />
 
 The "Gene expression" panel allows you to visualize the log-normalized expression of one or multiple genes.
 
@@ -151,12 +164,19 @@ The last plot of this panel shows the average expression of the 50 most expresse
 
 ### Gene set expression
 
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_12.png?raw=true" alt="Expression of MSigDB gene sets in t-SNE projection" width="49%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_13.png?raw=true" alt="Expression of MSigDB gene sets by sample and cluster and average expression of 50 most expressed genes in gene set" width="49%" height="auto" />
+
 The "Gene set expression" panel is essentially the same as the "Gene expression" panel, except that it allows to select gene sets from [MSigDB](https://http://software.broadinstitute.org/gsea/msigdb) (requires internet connection).
 The MSigDB database is quite large, depending on your internet connection, it might take a few seconds to load the lists.
 
 This feature is only available for human and mouse data.
 
 ### Trajectory
+
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_14.png?raw=true" alt="Monocle trajectory - dimensional reduction" width="33%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_15.png?raw=true" alt="Monocle trajectory - distribution of states along pseudotime" width="33%" height="auto" />
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_16.png?raw=true" alt="Monocle trajectory - distribution of states by cluster and cell cycle" width="33%" height="auto" />
 
 This "Trajectory" panel gives you access to trajectory information (if data is available).
 
@@ -180,12 +200,16 @@ Namely, you see the composition of transcriptional states by sample, cluster and
 
 ### Gene ID conversion
 
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_17.png?raw=true" alt="Gene ID conversion table" width="100%" height="auto" />
+
 The "Gene ID conversion" panel provides tables which allow to convert gene IDs and names.
 
 For the moment, only tables for mouse and human genes are available.
 The tables include GENCODE identifier, ENSEMBL identifier, HAVANA identifier, gene symbol and gene type and have been derived from the GENCODE annotation version M16 (mouse) and version 27 (human).
 
 ### Analysis info
+
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_18.png?raw=true" alt="Information about analysis" width="100%" height="auto" />
 
 The "Analysis info" panel gives you an overview of the parameters which were used during the analysis (as long as they were recorded).
 
@@ -199,6 +223,8 @@ Shown can be:
 * Technical information.
 
 ### About
+
+<img src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_19.png?raw=true" alt="About Cerebro" width="100%" height="auto" />
 
 The "About" panel, apart from providing information about Cerebro and the author (me), allows to switch off WebGL (see "Preferences" at the bottom).
 Without going into detail, WebGL is a technology used to accelerate generation and interaction with complex graphics, such as the dimensional reduction plot with many cells.
