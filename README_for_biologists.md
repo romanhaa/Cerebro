@@ -32,6 +32,8 @@ A few general notes:
 
 ![Cerebro v1.1.0: Load data](screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true "Cerebro v1.1.0: Load data")
 
+<img src="https://camo.githubusercontent.com/..." data-canonical-src="screenshots/cerebro_v1.1.0_pbmc_10k_v3/2019-09-23_01.png?raw=true" width="30%" height="auto" />
+
 This is the panel that we will be shown to you when you launch Cerebro.
 In the top input panel you can choose your data which is the file you received from your colleague or downloaded from the examples mentioned earlier.
 The input file usually has the `.crb` or `.rds` extension.
