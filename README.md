@@ -7,34 +7,34 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Cerebro](#cerebro)
-  - [Introduction to the Cerebro interface](#introduction-to-the-cerebro-interface)
-    - [Load data](#load-data)
-    - [Overview](#overview)
-    - [Samples](#samples)
-    - [Clusters](#clusters)
-    - [Most expressed genes](#most-expressed-genes)
-    - [Marker genes](#marker-genes)
-    - [Enriched pathways](#enriched-pathways)
-    - [Gene expression](#gene-expression)
-    - [Gene set expression](#gene-set-expression)
-    - [Trajectory](#trajectory)
-    - [Gene ID conversion](#gene-id-conversion)
-    - [Analysis info](#analysis-info)
-  - [Motivation](#motivation)
-  - [Installation](#installation)
-    - [Details: `cerebroApp` R package](#details-cerebroapp-r-package)
-    - [Details: `romanhaa/cerebro` Docker container](#details-romanhaacerebro-docker-container)
-  - [Example data sets](#example-data-sets)
-  - [Conversion of other single cell data formats](#conversion-of-other-single-cell-data-formats)
-  - [Technical notes](#technical-notes)
-  - [Building from source](#building-from-source)
-    - [On macOS](#on-macos)
-    - [On Windows](#on-windows)
-  - [Troubleshooting](#troubleshooting)
-  - [Credits](#credits)
-  - [Contribute](#contribute)
-  - [License](#license)
+- [Introduction to the Cerebro interface](#introduction-to-the-cerebro-interface)
+  - [Load data](#load-data)
+  - [Overview](#overview)
+  - [Samples](#samples)
+  - [Clusters](#clusters)
+  - [Most expressed genes](#most-expressed-genes)
+  - [Marker genes](#marker-genes)
+  - [Enriched pathways](#enriched-pathways)
+  - [Gene expression](#gene-expression)
+  - [Gene set expression](#gene-set-expression)
+  - [Trajectory](#trajectory)
+  - [Gene ID conversion](#gene-id-conversion)
+  - [Analysis info](#analysis-info)
+- [Motivation](#motivation)
+- [Installation](#installation)
+  - [Details: `cerebroApp` R package](#details-cerebroapp-r-package)
+  - [Details: `romanhaa/cerebro` Docker container](#details-romanhaacerebro-docker-container)
+- [Example data sets](#example-data-sets)
+- [Conversion of other single cell data formats](#conversion-of-other-single-cell-data-formats)
+- [Technical notes](#technical-notes)
+- [Building from source](#building-from-source)
+  - [On macOS](#on-macos)
+  - [On Windows](#on-windows)
+- [Troubleshooting](#troubleshooting)
+- [Credits](#credits)
+- [Contribute](#contribute)
+- [Citation](#citation)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -283,10 +283,14 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 
 To report any bugs, submit patches, or request new features, please log an issue [through the issue tracker](https://github.com/romanhaa/Cerebro/issues/new). For direct inquiries, please send an email to <a href = "mailto: roman.hillje@ieo.it">roman.hillje@ieo.it</a>.
 
+## Citation
+
+If you used Cerebro for your research, please cite the following publication:
+
+Roman Hillje, Pier Giuseppe Pelicci, Lucilla Luzi, Cerebro: interactive visualization of scRNA-seq data, Bioinformatics, btz877, [https://doi.org/10.1093/bioinformatics/btz877](https://doi.org/10.1093/bioinformatics/btz877)
+
 ## License
 
 Copyright (c) 2019 Roman Hillje
 
 [The MIT License (MIT)](LICENSE.md)
-
-
