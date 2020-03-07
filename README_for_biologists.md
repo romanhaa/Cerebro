@@ -227,10 +227,10 @@ Most modern browsers should be compatible with WebGL, but if you experience prob
 
 ## Addendum
 
-Before letting you go to look at your data, I want to (briefly) address one question that you might have already asked yourself: Why Cerebro?
+Before letting you go to look at your data, I want to (briefly) address one question that you might have already asked yourself: Why should you Cerebro?
 
 The aim of Cerebro is to facilitate the collaboration between experimental and computational biologists.
-There are browsers similar to Cerebro, however they usually fall into one of two categories:
+There are is data exploration similar to Cerebro, however they usually fall into one of two categories:
 
 * Made for computational biologists: That means these browsers are difficult to install and access, requiring the user to install packages and fiddle around with the terminal which is something that, at least from my experience, most experimental biologists are not experienced with.
 * Made for experimental biologists: These browsers usually have great user interfaces but lock you (and the data) in their software making additional analysis starting from the same data set difficult (for the computational biologists).
