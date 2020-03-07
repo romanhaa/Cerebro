@@ -1,5 +1,7 @@
 # Introduction to Cerebro
 
+<img align="right" width="35%" height="auto" src="logo_Cerebro.png">
+
 This article is meant to give an introduction to Cerebro for people who don't have any bioinformatic skills.
 Maybe you are an experimental biologists who performed a scRNA-seq experiment and the computational biologists who analysed the data for you gave you a file and told you to load it into Cerebro.
 And, maybe, he/she didn't tell you what Cerebro is and what it can be used for.
