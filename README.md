@@ -96,7 +96,7 @@ Shows sample-centric perspective of data.
 
 * Composition of samples by cluster as table and plot.
 * Distribution of number of transcripts and expressed genes by sample.
-* Distribution of mitochondrial and ribosomal gene expression by sample (if it was computed with `cerebroApp`.
+* Distribution of mitochondrial and ribosomal gene expression by sample (if it was computed with `cerebroApp`).
 * Cell cycle by sample, either determined by the Seurat function or using Cyclone (if it was computed and assigned during exporting).
 
 ### Clusters
