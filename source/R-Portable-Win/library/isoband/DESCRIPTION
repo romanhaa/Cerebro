@@ -1,0 +1,34 @@
+Package: isoband
+Title: Generate Isolines and Isobands from Regularly Spaced Elevation
+        Grids
+Version: 0.2.1
+Authors@R: 
+    person(
+      given = "Claus O.",
+      family = "Wilke",
+      role = c("aut", "cre"),
+      email = "wilke@austin.utexas.edu",
+      comment = c(ORCID = "0000-0002-7470-9261")
+    )
+Description: A fast C++ implementation to generate contour lines (isolines) and
+  contour polygons (isobands) from regularly spaced grids containing elevation data.
+URL: https://github.com/wilkelab/isoband
+BugReports: https://github.com/wilkelab/isoband/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+LinkingTo: Rcpp, testthat
+Imports: Rcpp, grid, utils
+RoxygenNote: 7.0.2
+Suggests: covr, ggplot2, knitr, magick, microbenchmark, rmarkdown, sf,
+        testthat
+SystemRequirements: C++11
+VignetteBuilder: knitr
+NeedsCompilation: yes
+Packaged: 2020-04-12 08:55:17 UTC; clauswilke
+Author: Claus O. Wilke [aut, cre] (<https://orcid.org/0000-0002-7470-9261>)
+Maintainer: Claus O. Wilke <wilke@austin.utexas.edu>
+Repository: CRAN
+Date/Publication: 2020-04-12 09:40:02 UTC
+Built: R 3.5.3; x86_64-w64-mingw32; 2020-04-22 07:57:00 UTC; windows
+Archs: i386, x64

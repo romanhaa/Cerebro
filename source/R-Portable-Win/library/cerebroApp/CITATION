@@ -1,0 +1,19 @@
+citHeader('To cite Cerebro in publications use:')
+
+citEntry(
+  entry   = 'Article',
+  title   = 'Cerebro: Interactive visualization of scRNA-seq data',
+  author  = personList(as.person('Roman Hillje'),
+                       as.person('Pier Giuseppe Pelicci'),
+                       as.person('Lucilla Luzi')),
+  journal = 'Bioinformatics',
+  year    = '2019',
+  month   = '11',
+  issue   = '1367-4803',
+  doi     = '10.1093/bioinformatics/btz877',
+
+  textVersion  =
+  paste('Hillje, R., Pelicci, P.G. & Luzi, L.',
+        'Cerebro: Interactive visualization of scRNA-seq data.',
+        'Bioinformatics (2019).')
+)

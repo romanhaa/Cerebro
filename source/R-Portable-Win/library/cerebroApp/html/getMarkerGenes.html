@@ -17,10 +17,20 @@ the Seurat object.
 <h3>Usage</h3>
 
 <pre>
-getMarkerGenes(object, organism = NULL, column_sample = "sample",
-  column_cluster = "cluster", only_pos = TRUE, min_pct = 0.7,
-  thresh_logFC = 0.25, thresh_p_val = 0.01, test = "wilcox",
-  verbose = TRUE, ...)
+getMarkerGenes(
+  object,
+  assay = "RNA",
+  organism = NULL,
+  column_sample = "sample",
+  column_cluster = "cluster",
+  only_pos = TRUE,
+  min_pct = 0.7,
+  thresh_logFC = 0.25,
+  thresh_p_val = 0.01,
+  test = "wilcox",
+  verbose = TRUE,
+  ...
+)
 </pre>
 
 
@@ -30,6 +40,11 @@ getMarkerGenes(object, organism = NULL, column_sample = "sample",
 <tr valign="top"><td><code>object</code></td>
 <td>
 <p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>assay</code></td>
+<td>
+<p>Assay to pull counts from; defaults to 'RNA'. Only relevant in
+Seurat v3.0 or higher since the concept of assays wasn't implemented before.</p>
 </td></tr>
 <tr valign="top"><td><code>organism</code></td>
 <td>
@@ -97,11 +112,13 @@ stored in object@misc$marker_genes.
 <h3>Examples</h3>
 
 <pre>
-seurat &lt;- getMarkerGenes(
-  object = seurat
+pbmc &lt;- readRDS(system.file("extdata/v1.2/seurat_pbmc.rds",
+  package = "cerebroApp"))
+pbmc &lt;- getMarkerGenes(
+  object = pbmc,
   organism = 'hg',
   column_sample = 'sample',
-  column_cluster = 'cluster',
+  column_cluster = 'seurat_clusters',
   only_pos = TRUE,
   min_pct = 0.7,
   thresh_logFC = 0.25,
@@ -111,5 +128,5 @@ seurat &lt;- getMarkerGenes(
 )
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

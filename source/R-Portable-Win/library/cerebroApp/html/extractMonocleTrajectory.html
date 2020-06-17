@@ -19,8 +19,13 @@ seurat@misc$trajectory under the specified name.
 <h3>Usage</h3>
 
 <pre>
-extractMonocleTrajectory(monocle, seurat, trajectory_name,
-  column_state = "State", column_pseudotime = "Pseudotime")
+extractMonocleTrajectory(
+  monocle,
+  seurat,
+  trajectory_name,
+  column_state = "State",
+  column_pseudotime = "Pseudotime"
+)
 </pre>
 
 
@@ -62,21 +67,24 @@ pseudotime of a cell; defaults to 'Pseudotime'.</p>
 
 <p>Returns Seurat object with added trajectory. Trajectory info (state,
 pseudotime, projection and tree) will be stored in
-object@misc$trajectory$monocle2 under the specified name.
+'object@misc$trajectory$monocle2' under the specified name.
 </p>
 
 
 <h3>Examples</h3>
 
 <pre>
+## Not run: 
 seurat &lt;- extractMonocleTrajectory(
   monocle = monocle,
   seurat = seurat,
-  name = 'trajectory_1'
+  name = 'trajectory_1',
   column_state = 'State',
   column_pseudotime = 'Pseudotime'
 )
+
+## End(Not run)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

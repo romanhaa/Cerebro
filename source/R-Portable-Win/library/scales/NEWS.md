@@ -1,3 +1,123 @@
+# scales 1.1.0
+
+# scales 1.0.0.9000
+
+* Axis breaks and labels have a new naming scheme: functions that generate
+  breaks from limits are called `breaks_`; functions that generate labels
+  from breaks are called `labels_` (#226).
+
+* All breaks and labels examples have been overhauled to use new 
+  `demo_continuous()`, `demo_discrete()`, and `demo_log10()`, so you
+  can see how to use scales functions with ggplot2.
+
+## Labels
+
+* All label functions preserve names (#202) and keep `NA`s as `NA`s instead of 
+  trying to convert to `"NA"` (@clauswilke, #187).
+
+* New `label_bytes()` replaces `number_bytes_format()` with a more 
+  convenient interface. It takes a single `unit` argument which can either be
+  an SI unit (e.g. "kB"), a binary unit (e.g. "kIB"), or an automatic unit
+  (either "auto_si" or "auto_binary").
+  
+    It always uses "B" as the symbol for bytes (#174), and checks that `units` 
+    are valid. Additionally, auto units are now used to determine the symbol
+    separately for each value (@mikmart):
+    
+    ```R
+    label_bytes("auto_binary")(1024^(1:3))
+    #> [1] "1 kiB" "1 MiB" "1 GiB"
+    ```
+  
+
+* New `label_date_short()` creates labels for a date axis that only show the 
+  components of the date that have changed since the previous label.
+  For example, if you have Jan 10, Jan 20, Jan 30, and Feb 1, 
+  `label_date_short()` will use labels Jan 10, 20, 30, Feb 1 (#209).
+
+* `label_dollar()` now correctly formats negative numbers as (e.g.) -$200 
+  (#216).
+
+* `label_math()` now returns an expression vector, and doesn't coerce
+  inputs to names.
+
+* `label_number()` takes `scale` into account when computing `accuracy`, if not 
+  supplied. This means that `label_percent()` should have better default 
+  accuracy in many cases (#192).
+
+* `label_number()` now picks the accuracy automatically by default. The 
+  underlying heuristic has been improved to use the distance between adjacent 
+  breaks (rather than the total range of the break).
+
+* New `label_number_auto()` automatically picks between `number_format()` and 
+  `scientific_format()` based on the range of the input. It should produce nice 
+  output over a very wide range of inputs (@paleolimbot, #208).
+
+* New `label_number_si()` formats numeric vectors with limited SI units.
+  Individual values are scaled and labelled with abbreviations "K", "M", "B",
+  or "T" dependent on magnitude (@dpseidel, #83).
+  
+* `label_parse()` now generates an expression object that can be used to 
+  display formatted labels in ggplot2 (@agila5, #203).
+
+* `label_pvalue()` now reports values close to 1 (as determined by `accuracy`) 
+  as (e.g.) ">0.99". You can control the prefixes used with the new 
+  `prefix` argument (#213).
+
+## Breaks
+
+* The built in breaks functions now returns a function that takes both a range 
+  and a desired number of breaks, making it possible to overwrite the defaults
+  number of desired breaks given in the constructor call (@thomasp85).
+
+* `breaks_log()` has nicer behaviour when there are no finite inputs (#210).
+  It also provides usable breaks even with very small ranges (@billdenney, #168)
+
+* New `breaks_width()` which allows you to specify a fixed distance between
+  breaks (along with optional offset).
+
+## Transformations
+
+* New `yj_trans()` implements the Yeo-Johnson transformation (@zamorarr, #196)
+
+* `trans` objects gets methods for `plot()` and `lines()`, and all numeric 
+  transformations get an example showing the transformation.
+
+* `boxcox_trans()` no longer throws an error when given NA values 
+  (@sflippl, #181).
+
+## Other bug fixes and minor improvements
+
+* scales now uses the farver package for colour manipulation instead of a 
+  combination of grDevices and hand-rolled C++ code (#223).
+
+* `alpha()` now preserves element names (@wibeasley, #195)
+
+* `ContinuousRange` and `DiscreteRange` methods now properly inherit and are 
+  fully mutable (@dpseidel).
+
+* `col_numeric()`, `col_bin()`, `col_quantile()`, and `col_factor()` now support
+  viridis colors. Just pass a palette name (`"magma"`, `"inferno"`, `"plasma"`,
+  or `"viridis"`) as the `palette` argument (@jcheng5, #191).
+
+* `col_numeric()`, `col_bin()`, `col_quantile()`, and `col_factor()` now have a
+  `reverse` parameter, to apply color palettes in the opposite of their usual
+  order (i.e. high-to-low instead of low-to-high) (@jcheng5, #191).
+
+* `col_bin()` and `col_quantile()` now take a `right` argument, which is passed
+  to `base::cut()`; it indicates whether the bin/quantile intervals should be
+  closed on the right (and open on the left), or vice versa (@jcheng5, #191).
+
+* `col_factor()` now tries to avoid interpolating qualitative RColorBrewer
+  palettes. Instead, it attempts to assign a palette color to each factor level.
+  Interpolation will still be used if there are more factor levels than
+  available colors, and a warning will be emitted in that case (@jcheng5, #191).
+
+* `dichromat_pal()` documentation now builds without requiring suggested 
+  `dichromat` package to be installed (@dpseidel, #172).
+
+* `date_breaks()` now supports subsecond intervals (@dpseidel, #85).
+
 # scales 1.0.0
 
 ## New Features

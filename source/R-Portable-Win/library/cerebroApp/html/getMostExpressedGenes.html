@@ -18,8 +18,12 @@ sample and cluster of the Seurat object.
 <h3>Usage</h3>
 
 <pre>
-getMostExpressedGenes(object, column_sample = "sample",
-  column_cluster = "cluster")
+getMostExpressedGenes(
+  object,
+  assay = "RNA",
+  column_sample = "sample",
+  column_cluster = "cluster"
+)
 </pre>
 
 
@@ -29,6 +33,11 @@ getMostExpressedGenes(object, column_sample = "sample",
 <tr valign="top"><td><code>object</code></td>
 <td>
 <p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>assay</code></td>
+<td>
+<p>Assay to pull counts from; defaults to 'RNA'. Only relevant in
+Seurat v3.0 or higher since the concept of assays wasn't implemented before.</p>
 </td></tr>
 <tr valign="top"><td><code>column_sample</code></td>
 <td>
@@ -59,12 +68,14 @@ cluster stored in object@misc$most_expressed_genes.
 <h3>Examples</h3>
 
 <pre>
-seurat &lt;- getMostExpressedGenes(
-  object = seurat,
+pbmc &lt;- readRDS(system.file("extdata/v1.2/seurat_pbmc.rds",
+  package = "cerebroApp"))
+pbmc &lt;- getMostExpressedGenes(
+  object = pbmc,
   column_sample = 'sample',
-  column_cluster = 'cluster'
+  column_cluster = 'seurat_clusters'
 )
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

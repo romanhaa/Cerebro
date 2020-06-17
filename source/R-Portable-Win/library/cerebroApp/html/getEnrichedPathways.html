@@ -17,13 +17,17 @@ in marker gene sets of samples and clusters.
 <h3>Usage</h3>
 
 <pre>
-getEnrichedPathways(object, column_sample = "sample",
+getEnrichedPathways(
+  object,
+  column_sample = "sample",
   column_cluster = "cluster",
-  databases = c("GO_Biological_Process_2018",
-  "GO_Cellular_Component_2018", "GO_Molecular_Function_2018", "KEGG_2016",
-  "WikiPathways_2016", "Reactome_2016", "Panther_2016", "Human_Gene_Atlas",
-  "Mouse_Gene_Atlas"), adj_p_cutoff = 0.05, max_terms = 100,
-  URL_API = "http://amp.pharm.mssm.edu/Enrichr/enrich")
+  databases = c("GO_Biological_Process_2018", "GO_Cellular_Component_2018",
+    "GO_Molecular_Function_2018", "KEGG_2016", "WikiPathways_2016", "Reactome_2016",
+    "Panther_2016", "Human_Gene_Atlas", "Mouse_Gene_Atlas"),
+  adj_p_cutoff = 0.05,
+  max_terms = 100,
+  URL_API = "http://amp.pharm.mssm.edu/Enrichr/enrich"
+)
 </pre>
 
 
@@ -84,10 +88,12 @@ object@misc$enriched_pathways$enrichr
 <h3>Examples</h3>
 
 <pre>
-seurat &lt;- getEnrichedPathways(
-  object = seurat,
+pbmc &lt;- readRDS(system.file("extdata/v1.2/seurat_pbmc.rds",
+  package = "cerebroApp"))
+pbmc &lt;- getEnrichedPathways(
+  object = pbmc,
   column_sample = 'sample',
-  column_cluster = 'cluster',
+  column_cluster = 'seurat_clusters',
   databases = c('GO_Biological_Process_2018','GO_Cellular_Component_2018'),
   adj_p_cutoff = 0.01,
   max_terms = 100,
@@ -95,5 +101,5 @@ seurat &lt;- getEnrichedPathways(
 )
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

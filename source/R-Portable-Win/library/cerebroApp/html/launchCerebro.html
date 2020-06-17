@@ -1,28 +1,33 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Launch Cerebro app.</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Launch Cerebro interface.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
 <table width="100%" summary="page for launchCerebro {cerebroApp}"><tr><td>launchCerebro {cerebroApp}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Launch Cerebro app.</h2>
+<h2>Launch Cerebro interface.</h2>
 
 <h3>Description</h3>
 
-<p>Launch Cerebro app.
+<p>Launch Cerebro interface.
 </p>
 
 
 <h3>Usage</h3>
 
 <pre>
-launchCerebro(maxFileSize = 800)
+launchCerebro(version = "v1.2", maxFileSize = 800)
 </pre>
 
 
 <h3>Arguments</h3>
 
 <table summary="R argblock">
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>Which version of Cerebro to launch: &quot;v1.0&quot;, &quot;v1.1&quot;, &quot;v1.2&quot;.
+Defaults to &quot;v1.2&quot;.</p>
+</td></tr>
 <tr valign="top"><td><code>maxFileSize</code></td>
 <td>
 <p>Maximum size of input file; defaults to 800 MB.</p>
@@ -32,21 +37,23 @@ launchCerebro(maxFileSize = 800)
 
 <h3>Details</h3>
 
-<p>Launch Cerebro app.
+<p>Launch Cerebro interface.
 </p>
 
 
 <h3>Value</h3>
 
-<p>Cerebro application object.
+<p>Shiny application.
 </p>
 
 
 <h3>Examples</h3>
 
 <pre>
-launchCerebro(maxFileSize = 800)
+if ( interactive() ) {
+  launchCerebro(maxFileSize = 800)
+}
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

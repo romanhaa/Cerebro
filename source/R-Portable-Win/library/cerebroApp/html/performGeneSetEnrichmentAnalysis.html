@@ -21,9 +21,16 @@ data&quot;, Diaz-Mejia et al., F1000Research (2019).
 <h3>Usage</h3>
 
 <pre>
-performGeneSetEnrichmentAnalysis(object, GMT_file,
-  column_sample = "sample", column_cluster = "cluster",
-  thresh_p_val = 0.05, thresh_q_val = 0.1, ...)
+performGeneSetEnrichmentAnalysis(
+  object,
+  assay = "RNA",
+  GMT_file,
+  column_sample = "sample",
+  column_cluster = "cluster",
+  thresh_p_val = 0.05,
+  thresh_q_val = 0.1,
+  ...
+)
 </pre>
 
 
@@ -32,9 +39,18 @@ performGeneSetEnrichmentAnalysis(object, GMT_file,
 <table summary="R argblock">
 <tr valign="top"><td><code>object</code></td>
 <td>
-<p>Seurat object. log-counts for analysis must be stored in
-'object@data' (Seurat object older than v3) or 'object@assays$RNA@data'
-(Seurat object v3 or newer).</p>
+<p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>assay</code></td>
+<td>
+<p>Assay to pull counts from; defaults to 'RNA'. Only relevant in
+Seurat v3.0 or higher since the concept of assays wasn't implemented before.</p>
+</td></tr>
+<tr valign="top"><td><code>GMT_file</code></td>
+<td>
+<p>Path to GMT file containing the gene sets to be tested.
+The Broad Institute provides many gene sets which can be downloaded:
+http://software.broadinstitute.org/gsea/msigdb/index.jsp</p>
 </td></tr>
 <tr valign="top"><td><code>column_sample</code></td>
 <td>
@@ -58,12 +74,6 @@ about cluster; defaults to 'cluster'.</p>
 <td>
 <p>Further parameters can be passed to control GSVA::gsva().</p>
 </td></tr>
-<tr valign="top"><td><code>gene_sets</code></td>
-<td>
-<p>Path to GMT file containing the gene sets to be tested.
-The Broad Institute provides many gene sets which can be downloaded:
-http://software.broadinstitute.org/gsea/msigdb/index.jsp</p>
-</td></tr>
 </table>
 
 
@@ -83,15 +93,21 @@ object@misc$enriched_pathways$GSVA.
 <h3>Examples</h3>
 
 <pre>
-seurat &lt;- performGeneSetEnrichmentAnalysis(
-  object = seurat,
-  gene_sets = 'path/to/gene_sets.gmt',
+pbmc &lt;- readRDS(system.file("extdata/v1.2/seurat_pbmc.rds",
+  package = "cerebroApp"))
+example_gene_set &lt;- system.file("extdata/example_gene_set.gmt",
+  package = "cerebroApp")
+pbmc &lt;- performGeneSetEnrichmentAnalysis(
+  object = pbmc,
+  GMT_file = example_gene_set,
   column_sample = 'sample',
-  column_cluster = 'cluster',
+  column_cluster = 'seurat_clusters',
   thresh_p_val = 0.05,
-  thresh_q_val = 0.1
+  thresh_q_val = 0.1,
+  parallel.sz = 1,
+  verbose = FALSE
 )
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

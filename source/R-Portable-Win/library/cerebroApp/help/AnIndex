@@ -1,3 +1,5 @@
+.read_GMT_file	dot-read_GMT_file
+.send_enrichr_query	dot-send_enrichr_query
 addPercentMtRibo	addPercentMtRibo
 calculatePercentGenes	calculatePercentGenes
 exportFromSeurat	exportFromSeurat
@@ -7,5 +9,3 @@ getMarkerGenes	getMarkerGenes
 getMostExpressedGenes	getMostExpressedGenes
 launchCerebro	launchCerebro
 performGeneSetEnrichmentAnalysis	performGeneSetEnrichmentAnalysis
-read_GMT_file	read_GMT_file
-send_enrichr_query	send_enrichr_query

@@ -1,3 +1,5 @@
+.read_GMT_file          Read GMT file.
+.send_enrichr_query     Gene enrichment using Enrichr.
 addPercentMtRibo        Add percentage of mitochondrial and ribosomal
                         transcripts.
 calculatePercentGenes   Calculate percentage of transcripts of gene
@@ -12,8 +14,6 @@ getMarkerGenes          Get marker genes for every sample and cluster
                         in Seurat object.
 getMostExpressedGenes   Get most expressed genes for every sample and
                         cluster in Seurat object.
-launchCerebro           Launch Cerebro app.
+launchCerebro           Launch Cerebro interface.
 performGeneSetEnrichmentAnalysis
                         Perform gene set enrichment analysis with GSVA.
-read_GMT_file           Read GMT file.
-send_enrichr_query      Gene enrichment using Enrichr.

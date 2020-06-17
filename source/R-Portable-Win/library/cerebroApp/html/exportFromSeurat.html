@@ -17,11 +17,20 @@ Cerebro.
 <h3>Usage</h3>
 
 <pre>
-exportFromSeurat(object, file, experiment_name, organism,
-  column_sample = "sample", column_cluster = "cluster",
-  column_nUMI = "nUMI", column_nGene = "nGene",
-  column_cell_cycle_seurat = NULL, column_cell_cycle_cyclone = NULL,
-  add_all_meta_data = TRUE)
+exportFromSeurat(
+  object,
+  assay = "RNA",
+  file,
+  experiment_name,
+  organism,
+  column_sample = "sample",
+  column_cluster = "cluster",
+  column_nUMI = "nUMI",
+  column_nGene = "nGene",
+  column_cell_cycle_seurat = NULL,
+  column_cell_cycle_cyclone = NULL,
+  add_all_meta_data = TRUE
+)
 </pre>
 
 
@@ -31,6 +40,11 @@ exportFromSeurat(object, file, experiment_name, organism,
 <tr valign="top"><td><code>object</code></td>
 <td>
 <p>Seurat object.</p>
+</td></tr>
+<tr valign="top"><td><code>assay</code></td>
+<td>
+<p>Assay to pull counts from; defaults to 'RNA'. Only relevant in
+Seurat v3.0 or higher since the concept of assays wasn't implemented before.</p>
 </td></tr>
 <tr valign="top"><td><code>file</code></td>
 <td>
@@ -99,20 +113,19 @@ be extracted as well.</p>
 <h3>Examples</h3>
 
 <pre>
+pbmc &lt;- readRDS(system.file("extdata/v1.2/seurat_pbmc.rds",
+  package = "cerebroApp"))
 exportFromSeurat(
-  object = seurat,
-  file = 'PDX_patient_A.crb',
-  experiment_name = 'PDX_patient_A',
+  object = pbmc,
+  file = 'pbmc.crb',
+  experiment_name = 'PBMC',
   organism = 'hg',
   column_sample = 'sample',
-  column_cluster = 'cluster',
-  column_nUMI = 'nUMI',
-  column_nGene = 'nGene',
-  column_cell_cycle_seurat = 'cell_cycle_seurat',
-  column_cell_cycle_cyclone = 'cell_cycle_cyclone',
-  add_all_meta_data = TRUE
+  column_cluster = 'seurat_clusters',
+  column_nUMI = 'nCount_RNA',
+  column_nGene = 'nFeature_RNA'
 )
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>cerebroApp</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

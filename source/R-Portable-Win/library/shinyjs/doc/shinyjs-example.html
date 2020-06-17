@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Dean Attali" />
+
+<meta name="date" content="2020-01-12" />
+
+<title>shinyjs example app walk-through</title>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">shinyjs example app walk-through</h1>
+<h4 class="author">Dean Attali</h4>
+<h4 class="date">2020-01-12</h4>
+
+
+
+<div id="shinyjs-example-app-walk-through" class="section level1">
+<h1>shinyjs example app walk-through</h1>
+<p>This document provides a step-by-step guide on how to add a variety of shinyjs features to a simple app in order to make it more user friendly.</p>
+<p><em>You can view the final Shiny app developed in this simple example <a href="http://daattali.com/shiny/shinyjs-basic/">here</a>.</em></p>
+<p>Suppose we want to have a simple Shiny app that collects a user’s basic information (name, age, company) and submits it, along with the time of submission. Here is a very simple implementation of such an app (nothing actually happens when the user “submits”).</p>
+<pre><code>library(shiny)
+shinyApp(
+  ui = fluidPage(
+    div(id = &quot;myapp&quot;,
+      h2(&quot;shinyjs demo&quot;),
+      textInput(&quot;name&quot;, &quot;Name&quot;, &quot;&quot;),
+      numericInput(&quot;age&quot;, &quot;Age&quot;, 30),
+      textInput(&quot;company&quot;, &quot;Company&quot;, &quot;&quot;),
+      p(&quot;Timestamp: &quot;, span(date())),
+      actionButton(&quot;submit&quot;, &quot;Submit&quot;)
+    )
+  ),
+  
+  server = function(input, output) {
+  }
+)</code></pre>
+<p><em>Note that I generally don’t like running Shiny apps like this and prefer to declare the UI and server separately, but this style is used here for brevity.</em></p>
+<p>Here is what that app would look like</p>
+<div class="figure">
+<img src="data:image/png;base64,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" alt />
+<p class="caption">Demo app</p>
+</div>
+<div id="add-shinyjs-features" class="section level3">
+<h3>Add shinyjs features</h3>
+<p>Now suppose we want to add a few features to the app to make it a bit more user-friendly. First we need to set up the app to use <code>shinyjs</code> by making a call to <code>useShinyjs()</code> in the Shiny app’s UI.</p>
+<p>Here are 7 features we’ll add to the app, each followed with the code to implement it using <code>shinyjs</code>:</p>
+<p><strong>1. The “Name” field is mandatory and thus the “Submit” button should not be enabled if there is no name</strong></p>
+<p>In the server portion, add the following code</p>
+<pre><code>observe({
+  if (is.null(input$name) || input$name == &quot;&quot;) {
+    shinyjs::disable(&quot;submit&quot;)
+  } else {
+    shinyjs::enable(&quot;submit&quot;)
+  }
+})</code></pre>
+<p>Or instead you can use the <code>toggleState</code> function and pass it a <code>condition</code>:</p>
+<pre><code>observe({
+  shinyjs::toggleState(&quot;submit&quot;, !is.null(input$name) &amp;&amp; input$name != &quot;&quot;)
+})</code></pre>
+<p>You can use the optional <code>condition</code> in some other functions as well, which can be very useful to make your code shorter and more understandable.</p>
+<p><strong>2. The “Age” and “Company” fields are optional and we want to have the ability to hide that section of the form</strong></p>
+<p>First, we need to section off the “Age” and “Company” elements into their own section, so we surround them with a <code>div</code></p>
+<pre><code>div(id = &quot;advanced&quot;,
+  numericInput(&quot;age&quot;, &quot;Age&quot;, 30),
+  textInput(&quot;company&quot;, &quot;Company&quot;, &quot;&quot;)
+)</code></pre>
+<p>We also need to add a link in the UI that will be used to hide/show the section</p>
+<pre><code>a(id = &quot;toggleAdvanced&quot;, &quot;Show/hide advanced info&quot;)</code></pre>
+<p>Lastly, we need to tell Shiny to show/hide the section when the link is clicked by adding this code to the server</p>
+<pre><code>shinyjs::onclick(&quot;toggleAdvanced&quot;,
+                  shinyjs::toggle(id = &quot;advanced&quot;, anim = TRUE))</code></pre>
+<p><strong>3. Similarly, since we don’t really care about “Age” and “Company” too much, we want to hide them initially when the form loads</strong></p>
+<p>Simply surround the section we want to hide initially with <code>shinyjs::hidden</code></p>
+<pre><code>shinyjs::hidden(
+  div(id = &quot;advanced&quot;,
+    ...
+))</code></pre>
+<p><strong>4. The user should be able to update the “Timestamp” in case he spends way too long filling out the form (not very realistic here, and the timestamp should ideally be determined when the button is clicked, but it’s good enough for illustration purposes)</strong></p>
+<p>First, we need to add an “Update” link to click on, and we need to give the element showing the time an <code>id</code> so that we can refer to it later when we want to change its contents.</p>
+<p>To do that, replace <code>p(&quot;Timestamp: &quot;, span(date()))</code> with</p>
+<pre><code>p(&quot;Timestamp: &quot;, span(id = &quot;time&quot;, date()), a(id = &quot;update&quot;, &quot;Update&quot;))</code></pre>
+<p>Now we need to tell Shiny what to do when “Update” is clicked by adding this to the server</p>
+<pre><code>shinyjs::onclick(&quot;update&quot;, shinyjs::html(&quot;time&quot;, date()))</code></pre>
+<p><strong>5. Some users may find it hard to read the small text in the app, so there should be an option to increase the font size</strong></p>
+<p>First, we need to add checkbox to the UI</p>
+<pre><code>checkboxInput(&quot;big&quot;, &quot;Bigger text&quot;, FALSE)</code></pre>
+<p>In order to make the text bigger, we will use CSS. So let’s add an appropriate CSS rule by adding this code to the UI</p>
+<pre><code>shinyjs::inlineCSS(list(.big = &quot;font-size: 2em&quot;))</code></pre>
+<p>Lastly, we want the text to be big or small depending on whether the checkbox is checked by adding this code to the server</p>
+<pre><code>observe({
+  if (input$big) {
+    shinyjs::addClass(&quot;myapp&quot;, &quot;big&quot;)
+  } else {
+    shinyjs::removeClass(&quot;myapp&quot;, &quot;big&quot;)
+  }
+})</code></pre>
+<p>Or, again, we can use the <code>toggleClass</code> function with the <code>condition</code> argument:</p>
+<pre><code>observe({
+  shinyjs::toggleClass(&quot;myapp&quot;, &quot;big&quot;, input$big)
+})</code></pre>
+<p><strong>6. Give the user a “Thank you” message upon submission</strong></p>
+<p>Simply add the following to the server</p>
+<pre><code>observeEvent(input$submit, {
+  shinyjs::alert(&quot;Thank you!&quot;)
+})</code></pre>
+<p><strong>7. Allow the user to reset the form</strong></p>
+<p>First let’s add a button to the UI</p>
+<pre><code>actionButton(&quot;reset&quot;, &quot;Reset form&quot;)</code></pre>
+<p>And when the button is clicked, reset the form</p>
+<pre><code>observeEvent(input$reset, {
+  shinyjs::reset(&quot;myapp&quot;)
+})</code></pre>
+</div>
+<div id="final-code" class="section level3">
+<h3>Final code</h3>
+<p>The final code looks like this</p>
+<pre><code>library(shiny)
+shinyApp(
+  ui = fluidPage(
+    shinyjs::useShinyjs(),
+    shinyjs::inlineCSS(list(.big = &quot;font-size: 2em&quot;)),
+    div(id = &quot;myapp&quot;,
+        h2(&quot;shinyjs demo&quot;),
+        checkboxInput(&quot;big&quot;, &quot;Bigger text&quot;, FALSE),
+        textInput(&quot;name&quot;, &quot;Name&quot;, &quot;&quot;),
+        a(id = &quot;toggleAdvanced&quot;, &quot;Show/hide advanced info&quot;, href = &quot;#&quot;),
+        shinyjs::hidden(
+          div(id = &quot;advanced&quot;,
+            numericInput(&quot;age&quot;, &quot;Age&quot;, 30),
+            textInput(&quot;company&quot;, &quot;Company&quot;, &quot;&quot;)
+          )
+        ),
+        p(&quot;Timestamp: &quot;,
+          span(id = &quot;time&quot;, date()),
+          a(id = &quot;update&quot;, &quot;Update&quot;, href = &quot;#&quot;)
+        ),
+        actionButton(&quot;submit&quot;, &quot;Submit&quot;),
+        actionButton(&quot;reset&quot;, &quot;Reset form&quot;)
+    )
+  ),
+  
+  server = function(input, output) {
+    observe({
+      shinyjs::toggleState(&quot;submit&quot;, !is.null(input$name) &amp;&amp; input$name != &quot;&quot;)
+    })
+    
+    shinyjs::onclick(&quot;toggleAdvanced&quot;,
+                     shinyjs::toggle(id = &quot;advanced&quot;, anim = TRUE))    
+    
+    shinyjs::onclick(&quot;update&quot;, shinyjs::html(&quot;time&quot;, date()))
+    
+    observe({
+      shinyjs::toggleClass(&quot;myapp&quot;, &quot;big&quot;, input$big)
+    })
+    
+    observeEvent(input$submit, {
+      shinyjs::alert(&quot;Thank you!&quot;)
+    })
+    
+    observeEvent(input$reset, {
+      shinyjs::reset(&quot;myapp&quot;)
+    })    
+  }
+)</code></pre>
+<p>You can view the final app <a href="http://daattali.com/shiny/shinyjs-basic/">here</a>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
