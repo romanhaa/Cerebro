@@ -353,8 +353,8 @@ monocle_all_cells <- newCellDataSet(
   seurat@assays$RNA@data,
   phenoData = new('AnnotatedDataFrame', data = seurat@meta.data),
   featureData = new('AnnotatedDataFrame', data = data.frame(
-    gene_short_name = rownames(seurat@assays$RNA@data),
-    row.names = rownames(seurat@assays$RNA@data))
+    gene_short_name = rownames(seurat@assays$RNA@counts),
+    row.names = rownames(seurat@assays$RNA@counts))
   )
 )
 
@@ -378,8 +378,8 @@ monocle_subset_of_cells <- newCellDataSet(
   seurat@assays$RNA@data[,G1_cells],
   phenoData = new('AnnotatedDataFrame', data = seurat@meta.data[G1_cells,]),
   featureData = new('AnnotatedDataFrame', data = data.frame(
-    gene_short_name = rownames(seurat@assays$RNA@data),
-    row.names = rownames(seurat@assays$RNA@data))
+    gene_short_name = rownames(seurat@assays$RNA@counts),
+    row.names = rownames(seurat@assays$RNA@counts))
   )
 )
 
