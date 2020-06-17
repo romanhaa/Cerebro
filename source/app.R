@@ -1,4 +1,4 @@
 ##----------------------------------------------------------------------------##
 ## Launch Cerebro from cerebroApp package.
 ##----------------------------------------------------------------------------##
-cerebroApp::launchCerebro()
+cerebroApp::launchCerebro(version = 'v1.2')
