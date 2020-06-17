@@ -255,7 +255,7 @@ as.list(x)
 })%>
 ```
 
-Concurrently with dimensional names it is possible to have names of the invidual elements just as for list environments without dimensions.  For example,
+Concurrently with dimensional names it is possible to have names of the individual elements just as for list environments without dimensions.  For example,
 ```r
 <%=withCapture({
 names(x) <- letters[seq_along(x)]

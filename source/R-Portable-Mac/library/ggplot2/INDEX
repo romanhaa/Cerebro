@@ -4,6 +4,7 @@ aes                     Construct aesthetic mappings
 aes_                    Define aesthetic mappings programmatically
 aes_colour_fill_alpha   Colour related aesthetics: colour, fill and
                         alpha
+aes_eval                Control aesthetic evaluation
 aes_group_order         Aesthetics: grouping
 aes_linetype_size_shape
                         Differentiation related aesthetics: linetype,
@@ -27,11 +28,11 @@ coord_map               Map projections
 coord_polar             Polar coordinates
 coord_trans             Transformed Cartesian coordinate system
 cut_interval            Discretise numeric data into categorical
-diamonds                Prices of 50,000 round cut diamonds
+diamonds                Prices of over 50,000 round cut diamonds
 draw_key                Key glyphs for legends
 economics               US economic time series
 expand_limits           Expand the plot limits, using data
-expand_scale            Generate expansion vector for scales.
+expansion               Generate expansion vector for scales
 facet_grid              Lay out panels in a grid
 facet_wrap              Wrap a 1d ribbon of panels into 2d
 faithfuld               2d density estimate of Old Faithful data
@@ -72,8 +73,12 @@ ggplot                  Create a new ggplot
 ggproto                 Create a new ggproto object
 ggsave                  Save a ggplot (or other grid object) with
                         sensible defaults
+guide_axis              Axis guide
+guide_bins              A binned version of guide_legend
 guide_colourbar         Continuous colour bar guide
+guide_coloursteps       Discretized colourbar guide
 guide_legend            Legend guide
+guide_none              Empty guide
 guides                  Set guides for each scale
 hmisc                   A selection of summary functions from Hmisc
 label_bquote            Label with mathematical expressions
@@ -85,8 +90,8 @@ luv_colours             'colors()' in Luv space
 margin                  Theme elements
 mean_se                 Calculate mean and standard error
 midwest                 Midwest demographics
-mpg                     Fuel economy data from 1999 and 2008 for 38
-                        popular models of car
+mpg                     Fuel economy data from 1999 to 2008 for 38
+                        popular models of cars
 msleep                  An updated and expanded version of the mammals
                         sleep dataset
 position_dodge          Dodge overlapping objects side-to-side
@@ -105,25 +110,27 @@ scale_alpha             Alpha transparency scales
 scale_colour_brewer     Sequential, diverging and qualitative colour
                         scales from colorbrewer.org
 scale_colour_continuous
-                        Continuous colour scales
+                        Continuous and binned colour scales
 scale_colour_gradient   Gradient colour scales
 scale_colour_grey       Sequential grey colour scales
 scale_colour_hue        Evenly spaced colours for discrete data
 scale_colour_identity   Use values without scaling
 scale_colour_manual     Create your own discrete scale
+scale_colour_steps      Binned gradient colour scales
 scale_colour_viridis_d
                         Viridis colour scales from viridisLite
 scale_linetype          Scale for line patterns
 scale_shape             Scales for shapes, aka glyphs
 scale_size              Scales for area or radius
+scale_x_binned          Positional scales for binning continuous data
+                        (x & y)
 scale_x_continuous      Position scales for continuous data (x & y)
 scale_x_date            Position scales for date/time data
 scale_x_discrete        Position scales for discrete data
 seals                   Vector field of seal movements
 sec_axis                Specify a secondary axis
-stat                    Calculated aesthetics
 stat_ecdf               Compute empirical cumulative distribution
-stat_ellipse            Compute normal confidence ellipses
+stat_ellipse            Compute normal data ellipses
 stat_function           Compute function for each x value
 stat_identity           Leave data as is
 stat_sf_coordinates     Extract coordinates from 'sf' objects

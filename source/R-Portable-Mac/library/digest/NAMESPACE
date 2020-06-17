@@ -1,12 +1,16 @@
 ## package has a dynamic library
 useDynLib(digest, digest_impl=digest, vdigest_impl=vdigest, digest2int_impl=digest2int, AESinit, AESencryptECB, AESdecryptECB, spookydigest_impl, .registration=TRUE)
 
+importFrom(utils, packageVersion)
+
 ## and exported functions
 export(AES,
        digest,
        digest2int,
        getVDigest,
        sha1,
+       sha1_attr_digest,
+       sha1_digest,
        hmac,
        makeRaw)
 
@@ -22,6 +26,7 @@ S3method(sha1, Date)
 S3method(sha1, default)
 S3method(sha1, integer)
 S3method(sha1, factor)
+S3method(sha1, formula)
 S3method(sha1, "function")
 S3method(sha1, logical)
 S3method(sha1, list)
@@ -33,6 +38,7 @@ S3method(sha1, pairlist)
 S3method(sha1, POSIXct)
 S3method(sha1, POSIXlt)
 S3method(sha1, raw)
+S3method(sha1, "(")
 
 S3method(makeRaw, default)
 S3method(makeRaw, digest)

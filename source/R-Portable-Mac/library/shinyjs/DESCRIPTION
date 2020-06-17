@@ -1,0 +1,30 @@
+Package: shinyjs
+Title: Easily Improve the User Experience of Your Shiny Apps in Seconds
+Version: 1.1
+Authors@R: person("Dean", "Attali", email = "daattali@gmail.com",
+    role = c("aut", "cre"))
+Description: Perform common useful JavaScript operations in Shiny apps that will
+    greatly improve your apps without having to know any JavaScript. Examples
+    include: hiding an element, disabling an input, resetting an input back to
+    its original value, delaying code execution by a few seconds, and many more
+    useful functions for both the end user and the developer. 'shinyjs' can also
+    be used to easily call your own custom JavaScript functions from R.
+URL: https://deanattali.com/shinyjs
+BugReports: https://github.com/daattali/shinyjs/issues
+Depends: R (>= 3.1.0)
+Imports: digest (>= 0.6.8), htmltools (>= 0.2.9), jsonlite, shiny (>=
+        1.0.0)
+Suggests: knitr (>= 1.7), rmarkdown, shinyAce, testthat (>= 0.9.1), V8
+        (>= 0.6)
+License: AGPL-3
+SystemRequirements: pandoc with https support
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+Packaged: 2020-01-13 01:12:39 UTC; Oriane
+Author: Dean Attali [aut, cre]
+Maintainer: Dean Attali <daattali@gmail.com>
+Repository: CRAN
+Date/Publication: 2020-01-13 06:40:03 UTC
+Built: R 3.5.2; ; 2020-01-14 05:55:38 UTC; unix

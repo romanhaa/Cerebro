@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Thierry Onkelinx and Dirk Eddelbuettel" />
 
-<meta name="date" content="2019-09-19" />
+<meta name="date" content="2020-02-22" />
 
 <title>Calculating SHA1 hashes with digest() and sha1()</title>
 
@@ -21,9 +20,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -33,14 +32,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -49,9 +50,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -118,9 +119,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -289,7 +287,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,7 +303,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Calculating SHA1 hashes with digest() and sha1()</h1>
 <h4 class="author">Thierry Onkelinx and Dirk Eddelbuettel</h4>
-<h4 class="date">2019-09-19</h4>
+<h4 class="date">2020-02-22</h4>
 
 
 
@@ -317,43 +316,43 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Difference between <code>digest()</code> and <code>sha1()</code></h2>
 <p>R <a href="https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f">FAQ 7.31</a> illustrates potential problems with floating point arithmetic. Mathematically the equality <span class="math inline">\(x = \sqrt{x}^2\)</span> should hold. But the precision of floating points numbers is finite. Hence some rounding is done, leading to numbers which are no longer identical.</p>
 <p>An illustration:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># FAQ 7.31</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">a0 &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">b &lt;-<span class="st"> </span><span class="kw">sqrt</span>(a0)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">a1 &lt;-<span class="st"> </span>b <span class="op">^</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">identical</span>(a0, a1)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># FAQ 7.31</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>a0 &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>b &lt;-<span class="st"> </span><span class="kw">sqrt</span>(a0)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>a1 &lt;-<span class="st"> </span>b <span class="op">^</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">identical</span>(a0, a1)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">a0 <span class="op">-</span><span class="st"> </span>a1</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>a0 <span class="op">-</span><span class="st"> </span>a1</span></code></pre></div>
 <pre><code>## [1] -4.440892e-16</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw">c</span>(a0, a1)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># hexadecimal representation</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">sprintf</span>(<span class="st">&quot;%a&quot;</span>, a)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>a &lt;-<span class="st"> </span><span class="kw">c</span>(a0, a1)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># hexadecimal representation</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">sprintf</span>(<span class="st">&quot;%a&quot;</span>, a)</span></code></pre></div>
 <pre><code>## [1] &quot;0x1p+1&quot;               &quot;0x1.0000000000001p+1&quot;</code></pre>
 <p>Although the difference is small, any difference will result in different hash when using the <code>digest()</code> function. However, the <code>sha1()</code> function tackles this problem by using the hexadecimal representation of the numbers and truncates that representation to a certain number of digits prior to calculating the hash function.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(digest)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># different hashes with digest</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">sapply</span>(a, digest, <span class="dt">algo =</span> <span class="st">&quot;sha1&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">library</span>(digest)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co"># different hashes with digest</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">sapply</span>(a, digest, <span class="dt">algo =</span> <span class="st">&quot;sha1&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;315a5aa84aa6cfa4f3fb4b652a596770be0365e8&quot;
 ## [2] &quot;5e3999bf79c230f7430e97d7f30070a7eff5ec92&quot;</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># same hash with sha1 with default digits (14)</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">sapply</span>(a, sha1)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># same hash with sha1 with default digits (14)</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">sapply</span>(a, sha1)</span></code></pre></div>
 <pre><code>## [1] &quot;8a938d8f5fb9b8ccb6893aa1068babcc517f32d4&quot;
 ## [2] &quot;8a938d8f5fb9b8ccb6893aa1068babcc517f32d4&quot;</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># larger digits can lead to different hashes</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">sapply</span>(a, sha1, <span class="dt">digits =</span> <span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># larger digits can lead to different hashes</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">sapply</span>(a, sha1, <span class="dt">digits =</span> <span class="dv">15</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;98eb1dc9fada00b945d3ef01c77049ee5a4b7b9c&quot;
 ## [2] &quot;5a173e2445df1134908037f69ac005fbd8afee74&quot;</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># decreasing the number of digits gives a stronger truncation</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co"># the hash will change when then truncation gives a different result</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co"># case where truncating gives same hexadecimal value</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="kw">sapply</span>(a, sha1, <span class="dt">digits =</span> <span class="dv">13</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># decreasing the number of digits gives a stronger truncation</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># the hash will change when then truncation gives a different result</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># case where truncating gives same hexadecimal value</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="kw">sapply</span>(a, sha1, <span class="dt">digits =</span> <span class="dv">13</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;43b3b465c975af322c85473190a9214b79b79bf6&quot;
 ## [2] &quot;43b3b465c975af322c85473190a9214b79b79bf6&quot;</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">sapply</span>(a, sha1, <span class="dt">digits =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">sapply</span>(a, sha1, <span class="dt">digits =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;6b537a9693c750ed535ca90527152f06e358aa3a&quot;
 ## [2] &quot;6b537a9693c750ed535ca90527152f06e358aa3a&quot;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># case where truncating gives different hexadecimal value</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">c</span>(<span class="kw">sha1</span>(pi), <span class="kw">sha1</span>(pi, <span class="dt">digits =</span> <span class="dv">13</span>), <span class="kw">sha1</span>(pi, <span class="dt">digits =</span> <span class="dv">10</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># case where truncating gives different hexadecimal value</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">c</span>(<span class="kw">sha1</span>(pi), <span class="kw">sha1</span>(pi, <span class="dt">digits =</span> <span class="dv">13</span>), <span class="kw">sha1</span>(pi, <span class="dt">digits =</span> <span class="dv">10</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;169388cf1ce60dc4e9904a22bc934c5db33d975b&quot;
 ## [2] &quot;20dc38536b6689d5f2d053f30efb09c44af78378&quot;
 ## [3] &quot;3a727417bd1807af2f0148cf3de69abff32c23ec&quot;</code></pre>
@@ -435,16 +434,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="summary.lm" class="section level3">
 <h3>summary.lm</h3>
 <p>Let’s illustrate this using the summary of a simple linear regression. Suppose that we want a hash that takes into account the coefficients, their standard error and sigma.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># taken from the help file of lm.influence</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">lm_SR &lt;-<span class="st"> </span><span class="kw">lm</span>(sr <span class="op">~</span><span class="st"> </span>pop15 <span class="op">+</span><span class="st"> </span>pop75 <span class="op">+</span><span class="st"> </span>dpi <span class="op">+</span><span class="st"> </span>ddpi, <span class="dt">data =</span> LifeCycleSavings)</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">lm_sum &lt;-<span class="st"> </span><span class="kw">summary</span>(lm_SR)</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="kw">class</span>(lm_sum)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># taken from the help file of lm.influence</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>lm_SR &lt;-<span class="st"> </span><span class="kw">lm</span>(sr <span class="op">~</span><span class="st"> </span>pop15 <span class="op">+</span><span class="st"> </span>pop75 <span class="op">+</span><span class="st"> </span>dpi <span class="op">+</span><span class="st"> </span>ddpi, <span class="dt">data =</span> LifeCycleSavings)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>lm_sum &lt;-<span class="st"> </span><span class="kw">summary</span>(lm_SR)</span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="kw">class</span>(lm_sum)</span></code></pre></div>
 <pre><code>## [1] &quot;summary.lm&quot;</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># str() gives the structure of the lm object</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">str</span>(lm_sum)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># str() gives the structure of the lm object</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="kw">str</span>(lm_sum)</span></code></pre></div>
 <pre><code>## List of 11
 ##  $ call         : language lm(formula = sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)
-##  $ terms        :Classes 'terms', 'formula'  language sr ~ pop15 + pop75 + dpi + ddpi
+##  $ terms        :Classes &#39;terms&#39;, &#39;formula&#39;  language sr ~ pop15 + pop75 + dpi + ddpi
 ##   .. ..- attr(*, &quot;variables&quot;)= language list(sr, pop15, pop75, dpi, ddpi)
 ##   .. ..- attr(*, &quot;factors&quot;)= int [1:5, 1:4] 0 1 0 0 0 0 0 1 0 0 ...
 ##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
@@ -477,49 +476,49 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. ..$ : chr [1:5] &quot;(Intercept)&quot; &quot;pop15&quot; &quot;pop75&quot; &quot;dpi&quot; ...
 ##   .. ..$ : chr [1:5] &quot;(Intercept)&quot; &quot;pop15&quot; &quot;pop75&quot; &quot;dpi&quot; ...
 ##  - attr(*, &quot;class&quot;)= chr &quot;summary.lm&quot;</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># extract the coefficients and their standard error</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">coef_sum &lt;-<span class="st"> </span><span class="kw">coef</span>(lm_sum)[, <span class="kw">c</span>(<span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>)]</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co"># extract sigma</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">sigma &lt;-<span class="st"> </span>lm_sum<span class="op">$</span>sigma</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co"># check the class of each component</span></a>
-<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="kw">class</span>(coef_sum)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># extract the coefficients and their standard error</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>coef_sum &lt;-<span class="st"> </span><span class="kw">coef</span>(lm_sum)[, <span class="kw">c</span>(<span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>)]</span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="co"># extract sigma</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>sigma &lt;-<span class="st"> </span>lm_sum<span class="op">$</span>sigma</span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="co"># check the class of each component</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="kw">class</span>(coef_sum)</span></code></pre></div>
 <pre><code>## [1] &quot;matrix&quot;</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">class</span>(sigma)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">class</span>(sigma)</span></code></pre></div>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># sha1() has methods for both matrix and numeric</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co"># because the values originate from floating point arithmetic it is better to use a low number of digits</span></a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw">sha1</span>(coef_sum, <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;19de60f22fbb5f31e2f39d043d78126b692f3838&quot;</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">sha1</span>(sigma, <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># sha1() has methods for both matrix and numeric</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="co"># because the values originate from floating point arithmetic it is better to use a low number of digits</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="kw">sha1</span>(coef_sum, <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;1ab538262c9aad03d17f33c644d6c8d0b27367e8&quot;</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">sha1</span>(sigma, <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;cbc83d1791ef1eeadd824ea9a038891b5889056b&quot;</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># we want a single hash</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># combining the components in a list is a solution that works</span></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">sha1</span>(<span class="kw">list</span>(coef_sum, sigma), <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;fd6b6805780dcf88e11fe05ba4693170e2dfb170&quot;</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># now turn everything into an S3 method</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co">#   - a function with name &quot;sha1.classname&quot;</span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="co">#   - must have the same arguments as sha1()</span></a>
-<a class="sourceLine" id="cb33-4" data-line-number="4">sha1.summary.lm &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">digits =</span> <span class="dv">4</span>, <span class="dt">zapsmall =</span> <span class="dv">7</span>){</a>
-<a class="sourceLine" id="cb33-5" data-line-number="5">    coef_sum &lt;-<span class="st"> </span><span class="kw">coef</span>(x)[, <span class="kw">c</span>(<span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>)]</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6">    sigma &lt;-<span class="st"> </span>x<span class="op">$</span>sigma</a>
-<a class="sourceLine" id="cb33-7" data-line-number="7">    combined &lt;-<span class="st"> </span><span class="kw">list</span>(coef_sum, sigma)</a>
-<a class="sourceLine" id="cb33-8" data-line-number="8">    <span class="kw">sha1</span>(combined, <span class="dt">digits =</span> digits, <span class="dt">zapsmall =</span> zapsmall)</a>
-<a class="sourceLine" id="cb33-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb33-10" data-line-number="10"><span class="kw">sha1</span>(lm_sum)</a></code></pre></div>
-<pre><code>## [1] &quot;fd6b6805780dcf88e11fe05ba4693170e2dfb170&quot;</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># try an altered dataset</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">LCS2 &lt;-<span class="st"> </span>LifeCycleSavings[<span class="kw">rownames</span>(LifeCycleSavings) <span class="op">!=</span><span class="st"> &quot;Zambia&quot;</span>, ]</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">lm_SR2 &lt;-<span class="st"> </span><span class="kw">lm</span>(sr <span class="op">~</span><span class="st"> </span>pop15 <span class="op">+</span><span class="st"> </span>pop75 <span class="op">+</span><span class="st"> </span>dpi <span class="op">+</span><span class="st"> </span>ddpi, <span class="dt">data =</span> LCS2)</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="kw">sha1</span>(<span class="kw">summary</span>(lm_SR2))</a></code></pre></div>
-<pre><code>## [1] &quot;0643afd880f6f9c4b2aa935bec91724ba103198e&quot;</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># we want a single hash</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="co"># combining the components in a list is a solution that works</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="kw">sha1</span>(<span class="kw">list</span>(coef_sum, sigma), <span class="dt">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;d2e6e07d97e2a97882fd3bbf6e4455140c0c6412&quot;</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># now turn everything into an S3 method</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="co">#   - a function with name &quot;sha1.classname&quot;</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="co">#   - must have the same arguments as sha1()</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>sha1.summary.lm &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">digits =</span> <span class="dv">4</span>, <span class="dt">zapsmall =</span> <span class="dv">7</span>){</span>
+<span id="cb33-5"><a href="#cb33-5"></a>    coef_sum &lt;-<span class="st"> </span><span class="kw">coef</span>(x)[, <span class="kw">c</span>(<span class="st">&quot;Estimate&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>)]</span>
+<span id="cb33-6"><a href="#cb33-6"></a>    sigma &lt;-<span class="st"> </span>x<span class="op">$</span>sigma</span>
+<span id="cb33-7"><a href="#cb33-7"></a>    combined &lt;-<span class="st"> </span><span class="kw">list</span>(coef_sum, sigma)</span>
+<span id="cb33-8"><a href="#cb33-8"></a>    <span class="kw">sha1</span>(combined, <span class="dt">digits =</span> digits, <span class="dt">zapsmall =</span> zapsmall)</span>
+<span id="cb33-9"><a href="#cb33-9"></a>}</span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="kw">sha1</span>(lm_sum)</span></code></pre></div>
+<pre><code>## [1] &quot;d2e6e07d97e2a97882fd3bbf6e4455140c0c6412&quot;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># try an altered dataset</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>LCS2 &lt;-<span class="st"> </span>LifeCycleSavings[<span class="kw">rownames</span>(LifeCycleSavings) <span class="op">!=</span><span class="st"> &quot;Zambia&quot;</span>, ]</span>
+<span id="cb35-3"><a href="#cb35-3"></a>lm_SR2 &lt;-<span class="st"> </span><span class="kw">lm</span>(sr <span class="op">~</span><span class="st"> </span>pop15 <span class="op">+</span><span class="st"> </span>pop75 <span class="op">+</span><span class="st"> </span>dpi <span class="op">+</span><span class="st"> </span>ddpi, <span class="dt">data =</span> LCS2)</span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="kw">sha1</span>(<span class="kw">summary</span>(lm_SR2))</span></code></pre></div>
+<pre><code>## [1] &quot;637d8121e49b30dbc0b0e8cd02ff5a4a8b9d89e1&quot;</code></pre>
 </div>
 <div id="lm" class="section level3">
 <h3>lm</h3>
 <p>Let’s illustrate this using the summary of a simple linear regression. Suppose that we want a hash that takes into account the coefficients, their standard error and sigma.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">class</span>(lm_SR)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">class</span>(lm_SR)</span></code></pre></div>
 <pre><code>## [1] &quot;lm&quot;</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># str() gives the structure of the lm object</span></a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw">str</span>(lm_SR)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># str() gives the structure of the lm object</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="kw">str</span>(lm_SR)</span></code></pre></div>
 <pre><code>## List of 12
 ##  $ coefficients : Named num [1:5] 28.566087 -0.461193 -1.691498 -0.000337 0.409695
 ##   ..- attr(*, &quot;names&quot;)= chr [1:5] &quot;(Intercept)&quot; &quot;pop15&quot; &quot;pop75&quot; &quot;dpi&quot; ...
@@ -545,7 +544,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##  $ df.residual  : int 45
 ##  $ xlevels      : Named list()
 ##  $ call         : language lm(formula = sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)
-##  $ terms        :Classes 'terms', 'formula'  language sr ~ pop15 + pop75 + dpi + ddpi
+##  $ terms        :Classes &#39;terms&#39;, &#39;formula&#39;  language sr ~ pop15 + pop75 + dpi + ddpi
 ##   .. ..- attr(*, &quot;variables&quot;)= language list(sr, pop15, pop75, dpi, ddpi)
 ##   .. ..- attr(*, &quot;factors&quot;)= int [1:5, 1:4] 0 1 0 0 0 0 0 1 0 0 ...
 ##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
@@ -559,13 +558,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. ..- attr(*, &quot;predvars&quot;)= language list(sr, pop15, pop75, dpi, ddpi)
 ##   .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:5] &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; ...
 ##   .. .. ..- attr(*, &quot;names&quot;)= chr [1:5] &quot;sr&quot; &quot;pop15&quot; &quot;pop75&quot; &quot;dpi&quot; ...
-##  $ model        :'data.frame':   50 obs. of  5 variables:
+##  $ model        :&#39;data.frame&#39;:   50 obs. of  5 variables:
 ##   ..$ sr   : num [1:50] 11.43 12.07 13.17 5.75 12.88 ...
 ##   ..$ pop15: num [1:50] 29.4 23.3 23.8 41.9 42.2 ...
 ##   ..$ pop75: num [1:50] 2.87 4.41 4.43 1.67 0.83 2.85 1.34 0.67 1.06 1.14 ...
 ##   ..$ dpi  : num [1:50] 2330 1508 2108 189 728 ...
 ##   ..$ ddpi : num [1:50] 2.87 3.93 3.82 0.22 4.56 2.43 2.67 6.51 3.08 2.8 ...
-##   ..- attr(*, &quot;terms&quot;)=Classes 'terms', 'formula'  language sr ~ pop15 + pop75 + dpi + ddpi
+##   ..- attr(*, &quot;terms&quot;)=Classes &#39;terms&#39;, &#39;formula&#39;  language sr ~ pop15 + pop75 + dpi + ddpi
 ##   .. .. ..- attr(*, &quot;variables&quot;)= language list(sr, pop15, pop75, dpi, ddpi)
 ##   .. .. ..- attr(*, &quot;factors&quot;)= int [1:5, 1:4] 0 1 0 0 0 0 0 1 0 0 ...
 ##   .. .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
@@ -580,47 +579,47 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:5] &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; ...
 ##   .. .. .. ..- attr(*, &quot;names&quot;)= chr [1:5] &quot;sr&quot; &quot;pop15&quot; &quot;pop75&quot; &quot;dpi&quot; ...
 ##  - attr(*, &quot;class&quot;)= chr &quot;lm&quot;</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># extract the model and the terms</span></a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">lm_model &lt;-<span class="st"> </span>lm_SR<span class="op">$</span>model</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">lm_terms &lt;-<span class="st"> </span>lm_SR<span class="op">$</span>terms</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="co"># check their class</span></a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="kw">class</span>(lm_model) <span class="co"># handled by sha1()</span></a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># extract the model and the terms</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a>lm_model &lt;-<span class="st"> </span>lm_SR<span class="op">$</span>model</span>
+<span id="cb41-3"><a href="#cb41-3"></a>lm_terms &lt;-<span class="st"> </span>lm_SR<span class="op">$</span>terms</span>
+<span id="cb41-4"><a href="#cb41-4"></a><span class="co"># check their class</span></span>
+<span id="cb41-5"><a href="#cb41-5"></a><span class="kw">class</span>(lm_model) <span class="co"># handled by sha1()</span></span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">class</span>(lm_terms) <span class="co"># not handled by sha1()</span></a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw">class</span>(lm_terms) <span class="co"># not handled by sha1()</span></span></code></pre></div>
 <pre><code>## [1] &quot;terms&quot;   &quot;formula&quot;</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># define a method for formula</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">sha1.formula &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">digits =</span> <span class="dv">14</span>, <span class="dt">zapsmall =</span> <span class="dv">7</span>, ..., <span class="dt">algo =</span> <span class="st">&quot;sha1&quot;</span>){</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">    <span class="kw">sha1</span>(<span class="kw">as.character</span>(x), <span class="dt">digits =</span> digits, <span class="dt">zapsmall =</span> zapsmall, <span class="dt">algo =</span> algo)</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="kw">sha1</span>(lm_terms)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># define a method for formula</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a>sha1.formula &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">digits =</span> <span class="dv">14</span>, <span class="dt">zapsmall =</span> <span class="dv">7</span>, ..., <span class="dt">algo =</span> <span class="st">&quot;sha1&quot;</span>){</span>
+<span id="cb45-3"><a href="#cb45-3"></a>    <span class="kw">sha1</span>(<span class="kw">as.character</span>(x), <span class="dt">digits =</span> digits, <span class="dt">zapsmall =</span> zapsmall, <span class="dt">algo =</span> algo)</span>
+<span id="cb45-4"><a href="#cb45-4"></a>}</span>
+<span id="cb45-5"><a href="#cb45-5"></a><span class="kw">sha1</span>(lm_terms)</span></code></pre></div>
 <pre><code>## [1] &quot;2737d209720aa7d1c0555050ad06ebe89f3850cd&quot;</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">sha1</span>(lm_model)</a></code></pre></div>
-<pre><code>## [1] &quot;b1b32bb6d983e1c515706c33ffef6120d811fe52&quot;</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co"># define a method for lm</span></a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">sha1.lm &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">digits =</span> <span class="dv">14</span>, <span class="dt">zapsmall =</span> <span class="dv">7</span>, ..., <span class="dt">algo =</span> <span class="st">&quot;sha1&quot;</span>){</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">    lm_model &lt;-<span class="st"> </span>x<span class="op">$</span>model</a>
-<a class="sourceLine" id="cb49-4" data-line-number="4">    lm_terms &lt;-<span class="st"> </span>x<span class="op">$</span>terms</a>
-<a class="sourceLine" id="cb49-5" data-line-number="5">    combined &lt;-<span class="st"> </span><span class="kw">list</span>(lm_model, lm_terms)</a>
-<a class="sourceLine" id="cb49-6" data-line-number="6">    <span class="kw">sha1</span>(combined, <span class="dt">digits =</span> digits, <span class="dt">zapsmall =</span> zapsmall, ..., <span class="dt">algo =</span> algo)</a>
-<a class="sourceLine" id="cb49-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb49-8" data-line-number="8"><span class="kw">sha1</span>(lm_SR)</a></code></pre></div>
-<pre><code>## [1] &quot;2b03ad0002dc6c3676555b60f3f59781e1f42eb0&quot;</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">sha1</span>(lm_SR2)</a></code></pre></div>
-<pre><code>## [1] &quot;d2bbcc2bfc737e51666d4bf86841f6b25149e224&quot;</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw">sha1</span>(lm_model)</span></code></pre></div>
+<pre><code>## [1] &quot;27b7dd9e3e09b9577da6947b8473b63a1d0b6eb4&quot;</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># define a method for lm</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>sha1.lm &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">digits =</span> <span class="dv">14</span>, <span class="dt">zapsmall =</span> <span class="dv">7</span>, ..., <span class="dt">algo =</span> <span class="st">&quot;sha1&quot;</span>){</span>
+<span id="cb49-3"><a href="#cb49-3"></a>    lm_model &lt;-<span class="st"> </span>x<span class="op">$</span>model</span>
+<span id="cb49-4"><a href="#cb49-4"></a>    lm_terms &lt;-<span class="st"> </span>x<span class="op">$</span>terms</span>
+<span id="cb49-5"><a href="#cb49-5"></a>    combined &lt;-<span class="st"> </span><span class="kw">list</span>(lm_model, lm_terms)</span>
+<span id="cb49-6"><a href="#cb49-6"></a>    <span class="kw">sha1</span>(combined, <span class="dt">digits =</span> digits, <span class="dt">zapsmall =</span> zapsmall, ..., <span class="dt">algo =</span> algo)</span>
+<span id="cb49-7"><a href="#cb49-7"></a>}</span>
+<span id="cb49-8"><a href="#cb49-8"></a><span class="kw">sha1</span>(lm_SR)</span></code></pre></div>
+<pre><code>## [1] &quot;7eda2a9d58e458c8e782e40ce140d62b836b2a2f&quot;</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="kw">sha1</span>(lm_SR2)</span></code></pre></div>
+<pre><code>## [1] &quot;4d3abdb1f17bd12fdf9d9b91a2ad04c07824fe4a&quot;</code></pre>
 </div>
 </div>
 <div id="using-hashes-to-track-changes-in-analysis" class="section level2">
 <h2>Using hashes to track changes in analysis</h2>
 <p>Use case</p>
 <ul>
-<li>automated analysis</li>
-<li>update frequency of the data might be lower than the frequency of automated analysis</li>
-<li>similar analyses on many datasets (e.g. many species in ecology)</li>
-<li>analyses that require a lot of computing time
+<li><p>automated analysis</p></li>
+<li><p>update frequency of the data might be lower than the frequency of automated analysis</p></li>
+<li><p>similar analyses on many datasets (e.g. many species in ecology)</p></li>
+<li><p>analyses that require a lot of computing time</p>
 <ul>
 <li>not rerunning an analysis because nothing has changed saves enough resources to compensate the overhead of tracking changes</li>
 </ul></li>
-<li>Bundle all relevant information on an analysis in a class
+<li><p>Bundle all relevant information on an analysis in a class</p>
 <ul>
 <li>data</li>
 <li>method</li>

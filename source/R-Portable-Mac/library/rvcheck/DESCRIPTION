@@ -1,22 +1,22 @@
 Package: rvcheck
 Type: Package
 Title: R/Package Version Check
-Version: 0.1.3
+Version: 0.1.8
 Authors@R: c(person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("aut", "cre")),
              person(given = "Chun-hui", family = "Gao", email = "gaospecial@gmail.com", role = "ctb")
 	         )
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Description: Check latest release version of R and R package (both in 'CRAN', 'Bioconductor' or 'Github').
 Depends: R (>= 3.4.0)
-Imports: utils, rlang
+Imports: BiocManager, utils, rlang
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 NeedsCompilation: no
-Packaged: 2018-12-06 02:28:11 UTC; YGC
+Packaged: 2020-03-01 11:51:33 UTC; ygc
 Author: Guangchuang Yu [aut, cre],
   Chun-hui Gao [ctb]
 Repository: CRAN
-Date/Publication: 2018-12-06 05:50:03 UTC
-Built: R 3.5.0; ; 2018-12-07 18:29:05 UTC; unix
+Date/Publication: 2020-03-01 12:20:02 UTC
+Built: R 3.5.2; ; 2020-03-02 11:47:13 UTC; unix

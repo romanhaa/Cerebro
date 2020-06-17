@@ -1,4 +1,31 @@
-        CHANGES IN bit VERSION 1.1-14
+	CHANGES IN bit VERSION 1.1-15.1
+
+- This version is formally orphaned.
+
+- Added C-level sanity checks (which would have detected the problems
+  found in 1.1-15.
+
+- Declare as static many functions/variables in bit.c.
+
+
+	CHANGES IN bit VERSION 1.1-15
+
+It seems the maintainer (who had been pretty unresponsive for years)
+has abandoned this so, it has been orphaned.
+
+- There were invalid write/read errors reported by valgrind, which was
+  traced to a design error in length<-.bit() -- it could only handle
+  reducing the length.  And there was an example in regtest.bit which
+  stretched.
+
+- example(regtest.bit) was reporting a failure (but not giving an
+  error).  This was because NA indices were not implemented (and
+  disabled by the change in 1.1-14).
+
+- Added registration of .Call()s
+
+
+	CHANGES IN bit VERSION 1.1-14
 
 BUG FIXES
 

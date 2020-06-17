@@ -1,0 +1,68 @@
+\name{NEWS}
+\title{News for Package \pkg{cerebroApp}}
+
+\section{Changes in version 1.2.2}{
+\itemize{
+    \item Fixes:
+    \itemize{
+      \item The title in the browser tab now correctly says "Cerebro" instead of containing some HTML code.
+      \item Cluster trees should now be displayed correctly.
+      \item \texttt{getEnrichedPathways()} no longer results in an error when marker genes are present but no database returns any enriched pathways, e.g. because there are too few marker genes. Thanks to \href{@turkeyri}{https://github.com/turkeyri} for pointing it out and suggesting a solution!
+    }
+}}
+
+\section{Changes in version 1.2.1}{
+\itemize{
+    \item New features:
+      \item It is now possible to select cells in the dimensional reduction plots ('Overview', 'Gene expression', and 'Gene set expression' tabs) and retrieve additional info for them. For example, users can get tables of meta data or expression values and save them as a file for further analysis. Also, gene expression can be shown in the selected vs. non-selected cells.
+    \item Small changes:
+    \itemize{
+      \item Scales for expression levels by sample and cluster in "Gene expression" and "Gene set expression" tabs are now set to be from 0 to 1.2 times the highest value. This is to limit the violin plots which cannot be trimed to the actual data range and will extend beyond, giving a false impression of negative values existing in the data.
+      \item Hover info in expression by gene plot in "Gene expression" and "Gene set expression" tabs now show both the gene name and the mean expression value instead of just the gene name.
+    }
+}}
+
+\section{Changes in version 1.2.0}{
+\itemize{
+    \item New features:
+    \itemize{
+      \item New button for composition plots (e.g. samples by clusters or cell cycle) that allows to choose whether to scale by actual cell count (default) or percentage.
+      \item New button for composition plots that allows to show/hide the respective table of numbers behind them.
+      \item New tab "Color management": Users can now change the color assigned to each sample/cluster.
+      \item "Gene expression" and "Gene set expression" panels: Users can now pick from a set of color scales and adjust the color range.
+      \item The gene selection box in the "Gene expression" panel will now allow to view available genes and select them by clicking. It is not necessary anymore to hit Enter or Space to update the plot, this will be done automatically after providing new input.
+      \item It is now possible to export assays other than \texttt{RNA} through the \texttt{assay} parameter in relevant functions.
+      \item Launch old Cerebro interfaces through \texttt{version} parameter in \texttt{launchCerebro()}.
+      \item We added a vignette which explains how to use cerebroApp and its functions.
+    }
+    \item Other changes:
+    \itemize{
+      \item Add citation info.
+      \item Composition tables (e.g. samples by clusters or cell cycle) are now calculated in the Shiny app rather than being expected to be present in the \texttt{.crb} file.
+      \item Fix log message in \texttt{exportFromSeurat()} when extracting trajectories.
+      \item The gene set selection box in the "Gene set expression" tab will not crash anymore when typing a sequence of letters that doesn't match any gene set names.
+      \item Remove dependency on pre-assigned colors in the \texttt{.crb} file. If no colors have been assigned to samples and clusters when loading a data set, they will be assigned then.
+      \item Update examples of functions and include mini-Seurat object and example gene set (GMT file) to run the examples.
+      \item Modify pre-loaded data set in Cerebro interface to contain more data.
+      \item When attempting to download genes in GO term "cell surface" in the \texttt{getMarkerGenes()} function, it tries at max. 3 times to contact the biomaRt server and continues without if all attempts failed. Sometimes the server does not respond which gave an error in previous versions of the function.
+      \item Plenty of changes to meet Bioconductor guidelines (character count per line, replace \texttt{.} in dplyr pipes with \texttt{rlang::.data}, etc.).
+      \item Reduce package size by compressing reference files, e.g. gene name/ID conversion tables.
+    }
+}}
+
+\section{Changes in version 1.1.0}{
+  \itemize{
+    \item Release along with manuscript revision.
+    \item New features:
+    \itemize{
+      \item New function \texttt{extractMonocleTrajectory()}: Users can extract data from trajectories calculated with Monocle v2.
+      \item New tab "Trajectories": Allows visualization of trajectories calculated with Monocle v2.
+    }
+  }
+}
+
+\section{Changes in version 1.0.0}{
+  \itemize{
+    \item Public release along with manuscript submission to bioRxiv.
+  }
+}

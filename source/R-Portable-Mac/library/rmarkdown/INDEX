@@ -2,6 +2,7 @@ all_output_formats      Determine all output formats for an R Markdown
                         document
 beamer_presentation     Convert to a Beamer presentation
 compile_notebook        Compiling R scripts to a notebook
+context_document        Convert to a ConTeXt document
 default_output_format   Determine the default output format for an R
                         Markdown document
 draft                   Create a new document based on a template

@@ -211,19 +211,19 @@ hr {
 <p>A few simple examples:</p>
 
 <pre><code class="r">library(knitr)
-knit_expand(text = &quot;The value of pi is {{pi}}.&quot;)
+knit_expand(text = &#39;The value of pi is {{pi}}.&#39;)
 </code></pre>
 
 <pre><code>## [1] &quot;The value of pi is 3.14159265358979.&quot;
 </code></pre>
 
-<pre><code class="r">knit_expand(text = &quot;The value of a is {{a}}, so a + 1 is {{a+1}}.&quot;, a = rnorm(1))
+<pre><code class="r">knit_expand(text = &#39;The value of a is {{a}}, so a + 1 is {{a+1}}.&#39;, a = rnorm(1))
 </code></pre>
 
-<pre><code>## [1] &quot;The value of a is 0.137164074000049, so a + 1 is 1.13716407400005.&quot;
+<pre><code>## [1] &quot;The value of a is -0.661394264859485, so a + 1 is 0.338605735140515.&quot;
 </code></pre>
 
-<pre><code class="r">knit_expand(text = &quot;The area of a circle with radius {{r}} is {{pi*r^2}}&quot;, r = 5)
+<pre><code class="r">knit_expand(text = &#39;The area of a circle with radius {{r}} is {{pi*r^2}}&#39;, r = 5)
 </code></pre>
 
 <pre><code>## [1] &quot;The area of a circle with radius 5 is 78.5398163397448&quot;
@@ -231,8 +231,7 @@ knit_expand(text = &quot;The value of pi is {{pi}}.&quot;)
 
 <p>Any number of variables:</p>
 
-<pre><code class="r">knit_expand(text = &quot;a is {{a}} and b is {{b}}, with my own pi being {{pi}} instead of {{base::pi}}&quot;, 
-    a = 1, b = 2, pi = 3)
+<pre><code class="r">knit_expand(text = &#39;a is {{a}} and b is {{b}}, with my own pi being {{pi}} instead of {{base::pi}}&#39;, a=1, b=2, pi=3)
 </code></pre>
 
 <pre><code>## [1] &quot;a is 1 and b is 2, with my own pi being 3 instead of 3.14159265358979&quot;
@@ -240,8 +239,7 @@ knit_expand(text = &quot;The value of pi is {{pi}}.&quot;)
 
 <p>Custom delimiter <code>&lt;% %&gt;</code>:</p>
 
-<pre><code class="r">knit_expand(text = &quot;I do not like curly braces, so use % with &lt;&gt; instead: a is &lt;% a %&gt;.&quot;, 
-    a = 8, delim = c(&quot;&lt;%&quot;, &quot;%&gt;&quot;))
+<pre><code class="r">knit_expand(text = &#39;I do not like curly braces, so use % with &lt;&gt; instead: a is &lt;% a %&gt;.&#39;, a = 8, delim = c(&quot;&lt;%&quot;, &quot;%&gt;&quot;))
 </code></pre>
 
 <pre><code>## [1] &quot;I do not like curly braces, so use % with &lt;&gt; instead: a is 8.&quot;
@@ -249,7 +247,7 @@ knit_expand(text = &quot;The value of pi is {{pi}}.&quot;)
 
 <p>The pyexpander delimiter:</p>
 
-<pre><code class="r">knit_expand(text = &quot;hello $(LETTERS[24]) and $(pi)!&quot;, delim = c(&quot;$(&quot;, &quot;)&quot;))
+<pre><code class="r">knit_expand(text = &#39;hello $(LETTERS[24]) and $(pi)!&#39;, delim = c(&quot;$(&quot;, &quot;)&quot;))
 </code></pre>
 
 <pre><code>## [1] &quot;hello X and 3.14159265358979!&quot;
@@ -257,13 +255,13 @@ knit_expand(text = &quot;The value of pi is {{pi}}.&quot;)
 
 <p>Arbitrary R code:</p>
 
-<pre><code class="r">knit_expand(text = &quot;you cannot see the value of x {{x=rnorm(1)}}but it is indeed created: x = {{x}}&quot;)
+<pre><code class="r">knit_expand(text = &#39;you cannot see the value of x {{x=rnorm(1)}}but it is indeed created: x = {{x}}&#39;)
 </code></pre>
 
-<pre><code>## [1] &quot;you cannot see the value of x but it is indeed created: x = -0.896022092171095&quot;
+<pre><code>## [1] &quot;you cannot see the value of x but it is indeed created: x = 0.659101853922743&quot;
 </code></pre>
 
-<pre><code class="r">res = knit_expand(text = c(&quot; x | x^2&quot;, &quot;{{x=1:5;paste(sprintf(\&quot;%2d | %3d\&quot;, x, x^2), collapse = \&quot;\n\&quot;)}}&quot;))
+<pre><code class="r">res = knit_expand(text = c(&#39; x | x^2&#39;, &#39;{{x=1:5;paste(sprintf(&quot;%2d | %3d&quot;, x, x^2), collapse = &quot;\n&quot;)}}&#39;))
 cat(res)
 </code></pre>
 
@@ -277,9 +275,8 @@ cat(res)
 
 <p>The m4 example: <a href="http://en.wikipedia.org/wiki/M4_(computer_language)">http://en.wikipedia.org/wiki/M4_(computer_language)</a></p>
 
-<pre><code class="r">res = knit_expand(text = c(&quot;{{i=0;h2=function(x){i&lt;&lt;-i+1;sprintf(\&quot;&lt;h2&gt;%d. %s&lt;/h2&gt;\&quot;, i, x)} }}&lt;html&gt;&quot;, 
-    &quot;{{h2(\&quot;First Section\&quot;)}}&quot;, &quot;{{h2(\&quot;Second Section\&quot;)}}&quot;, &quot;{{h2(\&quot;Conclusion\&quot;)}}&quot;, 
-    &quot;&lt;/html&gt;&quot;))
+<pre><code class="r">res = knit_expand(text = c(&#39;{{i=0;h2=function(x){i&lt;&lt;-i+1;sprintf(&quot;&lt;h2&gt;%d. %s&lt;/h2&gt;&quot;, i, x)} }}&lt;html&gt;&#39;,
+&#39;{{h2(&quot;First Section&quot;)}}&#39;, &#39;{{h2(&quot;Second Section&quot;)}}&#39;, &#39;{{h2(&quot;Conclusion&quot;)}}&#39;, &#39;&lt;/html&gt;&#39;))
 cat(res)
 </code></pre>
 
@@ -293,18 +290,17 @@ cat(res)
 <p>Build regression models based on a template; loop through all variables in <code>mtcars</code>:</p>
 
 <pre><code class="r">src = lapply(names(mtcars)[-1], function(i) {
-    knit_expand(text = c(&quot;# Regression on {{i}}&quot;, &quot;```{r lm-{{i}}}&quot;, &quot;lm(mpg~{{i}}, data=mtcars)&quot;, 
-        &quot;```&quot;))
+knit_expand(text=c(&quot;# Regression on {{i}}&quot;, &#39;```{r lm-{{i}}}&#39;, &#39;lm(mpg~{{i}}, data=mtcars)&#39;, &#39;```&#39;))
 })
 # knit the source
 res = knit_child(text = unlist(src))
-res = paste(&quot;&lt;pre&gt;&lt;code&gt;&quot;, gsub(&quot;^\\s*|\\s*$&quot;, &quot;&quot;, res), &quot;&lt;/code&gt;&lt;/pre&gt;&quot;, sep = &quot;&quot;)
+res = paste(&#39;&lt;pre&gt;&lt;code&gt;&#39;, gsub(&#39;^\\s*|\\s*$&#39;, &#39;&#39;, res), &#39;&lt;/code&gt;&lt;/pre&gt;&#39;, sep = &#39;&#39;)
 </code></pre>
 
 <pre><code># Regression on cyl
 
 ```r
-lm(mpg ~ cyl, data = mtcars)
+lm(mpg~cyl, data=mtcars)
 ```
 
 ```
@@ -319,7 +315,7 @@ lm(mpg ~ cyl, data = mtcars)
 # Regression on disp
 
 ```r
-lm(mpg ~ disp, data = mtcars)
+lm(mpg~disp, data=mtcars)
 ```
 
 ```
@@ -334,7 +330,7 @@ lm(mpg ~ disp, data = mtcars)
 # Regression on hp
 
 ```r
-lm(mpg ~ hp, data = mtcars)
+lm(mpg~hp, data=mtcars)
 ```
 
 ```
@@ -349,7 +345,7 @@ lm(mpg ~ hp, data = mtcars)
 # Regression on drat
 
 ```r
-lm(mpg ~ drat, data = mtcars)
+lm(mpg~drat, data=mtcars)
 ```
 
 ```
@@ -364,7 +360,7 @@ lm(mpg ~ drat, data = mtcars)
 # Regression on wt
 
 ```r
-lm(mpg ~ wt, data = mtcars)
+lm(mpg~wt, data=mtcars)
 ```
 
 ```
@@ -379,7 +375,7 @@ lm(mpg ~ wt, data = mtcars)
 # Regression on qsec
 
 ```r
-lm(mpg ~ qsec, data = mtcars)
+lm(mpg~qsec, data=mtcars)
 ```
 
 ```
@@ -394,7 +390,7 @@ lm(mpg ~ qsec, data = mtcars)
 # Regression on vs
 
 ```r
-lm(mpg ~ vs, data = mtcars)
+lm(mpg~vs, data=mtcars)
 ```
 
 ```
@@ -409,7 +405,7 @@ lm(mpg ~ vs, data = mtcars)
 # Regression on am
 
 ```r
-lm(mpg ~ am, data = mtcars)
+lm(mpg~am, data=mtcars)
 ```
 
 ```
@@ -424,7 +420,7 @@ lm(mpg ~ am, data = mtcars)
 # Regression on gear
 
 ```r
-lm(mpg ~ gear, data = mtcars)
+lm(mpg~gear, data=mtcars)
 ```
 
 ```
@@ -439,7 +435,7 @@ lm(mpg ~ gear, data = mtcars)
 # Regression on carb
 
 ```r
-lm(mpg ~ carb, data = mtcars)
+lm(mpg~carb, data=mtcars)
 ```
 
 ```

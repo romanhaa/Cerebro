@@ -2,6 +2,7 @@
 #  useDynLib(XML)
 
 importFrom(utils, menu)
+importFrom(grDevices, dev.off, jpeg, pdf, png)
 import(methods)
 
 export(
@@ -21,7 +22,7 @@ export(
  getNodeSet,
  xpathApply,
  htmlTreeParse,
- htmlParse,       
+ htmlParse,
  libxmlVersion,
  xmlDoc,
  newHTMLDoc,
@@ -32,10 +33,10 @@ export(
  newXMLTextNode,
  newXMLCommentNode,
  newXMLCDataNode,
- newXMLDTDNode,       
+ newXMLDTDNode,
  parseDTD,
  processingInstruction.SAX,
- saveXML,       
+ saveXML,
  startElement.SAX,
  supportsExpat,
  supportsLibxml,
@@ -44,7 +45,7 @@ export(
  xmlApply,
  xmlAttributeType,
  xmlAttrs,
- "xmlAttrs<-",       
+ "xmlAttrs<-",
  xmlCDataNode,
  xmlChildren,
  xmlCommentNode,
@@ -55,7 +56,7 @@ export(
  xmlEventHandler,
  xmlEventParse,
 # new.xmlEventParse,
-# new.xmlTreeParse,              
+# new.xmlTreeParse,
  xmlGetAttr,
  xmlHandler,
  xmlName,
@@ -65,7 +66,7 @@ export(
  xmlOutputDOM,
  xmlPINode,
  xmlParent,
- xmlAncestors,       
+ xmlAncestors,
  xmlRoot,
  xmlSApply,
  xmlSize,
@@ -75,7 +76,7 @@ export(
  xmlTreeParse,
  xmlInternalTreeParse,
  xmlNativeTreeParse,
- xmlParse,              
+ xmlParse,
  xmlValue,
  names.XMLNode,
  parseURI,
@@ -90,12 +91,12 @@ export(
  toHTML,
  addChildren,
  removeChildren,
- removeNodes,       
+ removeNodes,
  addAttributes,
  removeAttributes,
  "xmlName<-",
   addSibling
-# xmlFlatListTree       
+# xmlFlatListTree
 )
 
 S3method(removeNodes, "list")
@@ -171,7 +172,7 @@ S3method(xmlName, XMLInternalNode)
 } else
   # S4 version
 exportMethods(xmlName)
-  
+
 S3method("names<-", XMLNode)
 S3method("xmlName<-", XMLNode)
 S3method("xmlName<-", XMLInternalElementNode)
@@ -226,6 +227,9 @@ S3method(xmlSize, XMLInternalNode)
 
 S3method(xmlValue, XMLInternalNode)
 
+S3method(xmlValue, XMLNodeSet)
+S3method(xmlValue, list)
+
 #exportS3method("xmlValue", "NULL")
 S3method("xmlValue", "NULL")
 
@@ -276,7 +280,7 @@ S3method(print, XMLComment)
 S3method(print, XMLCommentNode)
 S3method(print, XMLEntityRef)
 S3method(print, XMLCDataNode)
-S3method(print, XMLProcessingInstruction) 
+S3method(print, XMLProcessingInstruction)
 
 
 S3method(xmlRoot, XMLDocument)
@@ -510,6 +514,8 @@ export(getXIncludes, xmlXIncludes)
 export(getHTMLExternalFiles)
 
 export(xmlCleanNamespaces)
+
+export(replaceNodeWithChildren)
 
 S3method(toString, XMLNode)
 

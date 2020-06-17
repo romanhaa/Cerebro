@@ -1,9 +1,9 @@
 Package: remotes
 Title: R Package Installation from Remote Repositories, Including
         'GitHub'
-Version: 2.1.0
+Version: 2.1.1
 Authors@R: c(
-    person("Jim", "Hester", , "james.hester@rstudio.com", role = c("aut", "cre")),
+    person("Jim", "Hester", , "jim.hester@rstudio.com", role = c("aut", "cre")),
     person("Gábor", "Csárdi", , "csardi.gabor@gmail.com", role = c("aut")),
     person("Hadley", "Wickham", role = c("aut")),
     person("Winston", "Chang", role = "aut"),
@@ -12,12 +12,12 @@ Authors@R: c(
     person("Dan", "Tenenbaum", role = "aut"),
     person("Mango Solutions", role = "cph")
     )
-Description: Download and install R packages stored in 'GitHub',
-    'BitBucket', or plain 'subversion' or 'git' repositories. This package
-    provides the 'install_*' functions in 'devtools'.
-    Indeed most of the code was copied over from 'devtools'.
+Description: Download and install R packages stored in 'GitHub', 'GitLab', 
+    'Bitbucket', 'Bioconductor', or plain 'subversion' or 'git' repositories. 
+    This package provides the 'install_*' functions in 'devtools'. Indeed most 
+    of the code was copied over from 'devtools'.
 License: GPL (>= 2)
-URL: https://github.com/r-lib/remotes#readme
+URL: https://remotes.r-lib.org, https://github.com/r-lib/remotes#readme
 BugReports: https://github.com/r-lib/remotes/issues
 Imports: methods, stats, tools, utils
 Suggests: brew, callr, codetools, curl, covr, git2r (>= 0.23.0), knitr,
@@ -25,11 +25,11 @@ Suggests: brew, callr, codetools, curl, covr, git2r (>= 0.23.0), knitr,
         testthat, withr
 Depends: R (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 SystemRequirements: Subversion for install_svn, git for install_git
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2019-06-24 20:53:53 UTC; jhester
+Packaged: 2020-02-13 20:36:09 UTC; jhester
 Author: Jim Hester [aut, cre],
   Gábor Csárdi [aut],
   Hadley Wickham [aut],
@@ -38,7 +38,7 @@ Author: Jim Hester [aut, cre],
   Martin Morgan [aut],
   Dan Tenenbaum [aut],
   Mango Solutions [cph]
-Maintainer: Jim Hester <james.hester@rstudio.com>
+Maintainer: Jim Hester <jim.hester@rstudio.com>
 Repository: CRAN
-Date/Publication: 2019-06-24 21:30:03 UTC
-Built: R 3.5.2; ; 2019-06-25 04:25:32 UTC; unix
+Date/Publication: 2020-02-15 19:00:02 UTC
+Built: R 3.5.2; ; 2020-02-16 06:18:42 UTC; unix

@@ -589,9 +589,10 @@ Similarly, there is a function
 <br xmlns=""> to reverse the escaping and make a string "human-readable".
 
 <p></p><pre xmlns="" class="rfunction">postForm</pre>
-<br xmlns=""> is almost identical.
-Let's submit a POST form to 
-<a class="ulink" href="http://www.speakeasy.org/~cgires/perl_form.cgi" target="_top">http://www.speakeasy.org/~cgires/perl_form.cgi</a><pre xmlns="" class="S">
+<br xmlns=""> is almost identical.  Let's submit a POST form
+to <code>http://www.speakeasy.org/~cgires/perl_form.cgi</code> (no
+longer available).
+<!-- <a class="ulink" href="http://www.speakeasy.org/~cgires/perl_form.cgi" target="_top">http://www.speakeasy.org/~cgires/perl_form.cgi</a><pre xmlns="" class="S"> -->
   postForm("http://www.speakeasy.org/~cgires/perl_form.cgi",
             "some_text" = "Duncan",
             "choice" = "Ho",
@@ -1126,7 +1127,7 @@ so that I could discover the nuances of HTTP.  It quickly gets
 overwhelming to handle all the details.  It is more tedious than
 technically challenging, especially when others have done it already
 in C libraries and done it well.  The code that I have is in an
-unreleased package named <i xmlns=""><a href="https://cran.r-project.org/packages=httpClient">httpClient</a></i>. If anyone is interested, please
+unreleased package named <i xmlns="">httpClient</i>. If anyone is interested, please
 contact me.  Using R's sockets is also used in the <a class="ulink" href="https://cran.r-project.org/package=httpRequest" target="_top">httpRequest</a>
 package on CRAN.  This allows submitting forms and retrieving URIs.
 It is useful and, as the authors state, a "basic HTTP request"
@@ -1139,9 +1140,9 @@ libcurl is not the only C-level library that we could have used.
 Alternative libraries include <a class="ulink" href="http://www.w3.org/Library/" target="_top">libwww</a> from the W3 group.  We
 <span class="emphasis"><em>may</em></span> find that that is more suitable, but libcurl
 will definitely suffice for the present.
-</p></div><div class="section" title="Notes"><div class="titlepage"><div><div><h3 class="title"><a id="id1170723592792"></a>Notes</h3></div></div></div><p>
-libcurl can use <a class="ulink" href="ftp://athena-dist.mit.edu/pub/ATHENA/ares/" target="_top">ares</a> for
-asynchronous DNS resolution.
+<!-- </p></div><div class="section" title="Notes"><div class="titlepage"><div><div><h3 class="title"><a id="id1170723592792"></a>Notes</h3></div></div></div><p> -->
+<!-- libcurl can use <a class="ulink" href="ftp://athena-dist.mit.edu/pub/ATHENA/ares/" target="_top">ares</a> for -->
+<!-- asynchronous DNS resolution. -->
 </p></div></div><div class="section"><div class="titlepage"></div><div class="bibliography" title="Bibliography"><div class="titlepage"><div><div><h3 class="title"><a id="id1170723592811"></a>Bibliography</h3></div></div></div><div class="biblioentry" title="The RHTMLForms package: creating S functions from HTML forms."><a id="bib:odbAccess"></a><p>[1] <span class="authorgroup"><span class="firstname">Duncan</span> <span class="surname">Temple Lang</span>, <span class="firstname">Sandrine</span> <span class="surname">Dudoit</span>, and <span class="firstname">Sunduz</span> <span class="surname">Keles</span>. </span><span class="title"><em>The RHTMLForms package: creating S functions from HTML forms.</em>. </span><a class="ulink" href="http://www.omegahat.net/RHTMLForms" target="_top">RHTMLForms</a></p></div><div class="biblioentry" title="Programming Web Services with SOAP"><a id="bib:SOAP"></a><p>[2] <span class="authorgroup"><span class="firstname">James</span> <span class="surname">Snell</span>, <span class="firstname">Doug</span> <span class="surname">Tidwell</span>, and <span class="firstname">Pavel</span> <span class="surname">Kulchenko</span>. </span><span class="title"><em>Programming Web Services with SOAP</em>. </span><a class="ulink" href="http://www.oreilly.com/catalog/progwebsoap/" target="_top">O'Reilly</a></p></div></div></div><div class="footnotes"><br></br><hr width="100" align="left"></hr><div class="footnote"><p><sup>[<a id="ftn.id1170723592757" href="#id1170723592757" class="para">1</a>] </sup>I have a local version (not with SSL) but they are not
 connections since the connection data structure is not exposed in the
 R API, yet!</p></div></div></div></body></html>

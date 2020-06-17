@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -338,20 +339,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb3-7"><a href="#cb3-7"></a>)</span>
 <span id="cb3-8"><a href="#cb3-8"></a>df2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nest</span>(<span class="dt">data =</span> <span class="kw">c</span>(x, y))</span>
 <span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;       g           data</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&lt;df[,2]&gt;&gt;</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 1     1        [1 × 2]</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 2     2        [2 × 2]</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 3     3        [1 × 2]</span></span></code></pre></div>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;       g data            </span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;          </span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; 1     1 &lt;tibble [1 × 2]&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; 2     2 &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 3     3 &lt;tibble [1 × 2]&gt;</span></span></code></pre></div>
 <p><code>nest()</code> specifies which variables should be nested inside; an alternative is to use <code>dplyr::group_by()</code> to describe which variables should be kept outside.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>df2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(g) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nest</span>()</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; # Groups:   g [3]</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;       g           data</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&lt;df[,2]&gt;&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 1     1        [1 × 2]</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 2     2        [2 × 2]</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 3     3        [1 × 2]</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;       g data            </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;          </span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 1     1 &lt;tibble [1 × 2]&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 2     2 &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 3     3 &lt;tibble [1 × 2]&gt;</span></span></code></pre></div>
 <p>I think nesting is easiest to understand in connection to grouped data: each row in the output corresponds to one <em>group</em> in the input. We’ll see shortly this is particularly convenient when you have other per-group objects.</p>
 <p>The opposite of <code>nest()</code> is <code>unnest()</code>. You give it the name of a list-column containing data frames, and it row-binds the data frames together, repeating the outer columns the right number of times to line up.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unnest</span>(data)</span>
@@ -373,36 +374,39 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb6-5"><a href="#cb6-5"></a>mtcars_nested</span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
 <span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; # Groups:   cyl [3]</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;     cyl            data</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&lt;df[,10]&gt;&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; 1     6        [7 × 10]</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; 2     4       [11 × 10]</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 3     8       [14 × 10]</span></span></code></pre></div>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;     cyl data              </span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; 1     6 &lt;tibble [7 × 10]&gt; </span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; 2     4 &lt;tibble [11 × 10]&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span></span></code></pre></div>
 <p>Once you have a list of data frames, it’s very natural to produce a list of models:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mtcars_nested &lt;-<span class="st"> </span>mtcars_nested <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">model =</span> <span class="kw">map</span>(data, <span class="cf">function</span>(df) <span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> df)))</span>
 <span id="cb7-3"><a href="#cb7-3"></a>mtcars_nested</span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; # Groups:   cyl [3]</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt;     cyl            data model </span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&lt;df[,10]&gt;&gt; &lt;list&gt;</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 1     6        [7 × 10] &lt;lm&gt;  </span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; 2     4       [11 × 10] &lt;lm&gt;  </span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; 3     8       [14 × 10] &lt;lm&gt;</span></span></code></pre></div>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt;     cyl data               model </span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 1     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;  </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; 2     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;  </span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span></span></code></pre></div>
 <p>And then you could even produce a list of predictions:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mtcars_nested &lt;-<span class="st"> </span>mtcars_nested <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">model =</span> <span class="kw">map</span>(model, predict))</span>
 <span id="cb8-3"><a href="#cb8-3"></a>mtcars_nested  </span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; # Groups:   cyl [3]</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt;     cyl            data model     </span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&lt;df[,10]&gt;&gt; &lt;list&gt;    </span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 1     6        [7 × 10] &lt;dbl [7]&gt; </span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; 2     4       [11 × 10] &lt;dbl [11]&gt;</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; 3     8       [14 × 10] &lt;dbl [14]&gt;</span></span></code></pre></div>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt;     cyl data               model     </span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;    </span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; 1     6 &lt;tibble [7 × 10]&gt;  &lt;dbl [7]&gt; </span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; 2     4 &lt;tibble [11 × 10]&gt; &lt;dbl [11]&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;dbl [14]&gt;</span></span></code></pre></div>
 <p>This workflow works particularly well in conjunction with <a href="https://broom.tidyverse.org/">broom</a>, which makes it easy to turn models into tidy data frames which can then be <code>unnest()</code>ed to get back to flat data frames. You can see a bigger example in the <a href="https://broom.tidyverse.org/articles/broom_and_dplyr.html">broom and dplyr vignette</a>.</p>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -77,6 +77,8 @@ readKeyValueDB          Read an XML property-list style document
 readSolrDoc             Read the data from a Solr document
 removeXMLNamespaces     Remove namespace definitions from a XML node or
                         document
+replaceNodeWithChildren
+                        Replace an XML node with it child nodes
 saveXML                 Output internal XML Tree
 setXMLNamespace         Set the name space on a node
 startElement.SAX        Generic Methods for SAX callbacks
@@ -103,11 +105,11 @@ xmlElementsByTagName    Retrieve the children of an XML node with a
 xmlEventHandler         Default handlers for the SAX-style event XML
                         parser
 xmlEventParse           XML Event/Callback element-wise Parser
-xmlFlatListTree         Constructors for trees stored as flat list of
-                        nodes with information about parents and
-                        children.
 xmlGetAttr              Get the value of an attribute in an XML node
 xmlHandler              Example XML Event Parser Handler Functions
+xmlHashTree             Constructors for trees stored as flat list of
+                        nodes with information about parents and
+                        children.
 xmlName                 Extraces the tag name of an XMLNode object.
 xmlNamespace            Retrieve the namespace value of an XML node.
 xmlNamespaceDefinitions

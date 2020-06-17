@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;data.table&rsquo; version 1.12.2</h2>
+</div><h2>Documentation for package &lsquo;data.table&rsquo; version 1.12.8</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -152,6 +152,8 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="IDateTime.html">c.IDate</a></td>
 <td>Integer based date class</td></tr>
+<tr><td style="width: 25%;"><a href="IDateTime.html">c.ITime</a></td>
+<td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="chmatch.html">chgroup</a></td>
 <td>Faster match of character vectors</td></tr>
 <tr><td style="width: 25%;"><a href="chmatch.html">chmatch</a></td>
@@ -159,7 +161,7 @@
 <tr><td style="width: 25%;"><a href="chmatch.html">chorder</a></td>
 <td>Faster match of character vectors</td></tr>
 <tr><td style="width: 25%;"><a href="J.html">CJ</a></td>
-<td>Creates a Join data table</td></tr>
+<td>Creates a join 'data.table'</td></tr>
 <tr><td style="width: 25%;"><a href="data.table-class.html">class:data.table</a></td>
 <td>S4 Definition for data.table</td></tr>
 <tr><td style="width: 25%;"><a href="copy.html">copy</a></td>
@@ -168,8 +170,6 @@
 <td>Grouping Set aggregation for data tables</td></tr>
 <tr><td style="width: 25%;"><a href="groupingsets.html">cube.data.table</a></td>
 <td>Grouping Set aggregation for data tables</td></tr>
-<tr><td style="width: 25%;"><a href="IDateTime.html">cut.IDate</a></td>
-<td>Integer based date class</td></tr>
 </table>
 
 <h2><a name="D">-- D --</a></h2>
@@ -211,12 +211,18 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="setorder.html">fastorder</a></td>
 <td>Fast row reordering of a data.table by reference</td></tr>
+<tr><td style="width: 25%;"><a href="coalesce.html">fcoalesce</a></td>
+<td>Coalescing missing values</td></tr>
 <tr><td style="width: 25%;"><a href="setops.html">fexcept</a></td>
 <td>Set operations for data tables</td></tr>
+<tr><td style="width: 25%;"><a href="fifelse.html">fifelse</a></td>
+<td>Fast ifelse</td></tr>
+<tr><td style="width: 25%;"><a href="nafill.html">fill</a></td>
+<td>Fill missing values</td></tr>
 <tr><td style="width: 25%;"><a href="setops.html">fintersect</a></td>
 <td>Set operations for data tables</td></tr>
-<tr><td style="width: 25%;"><a href="first.html">first</a></td>
-<td>First item of an object</td></tr>
+<tr><td style="width: 25%;"><a href="last.html">first</a></td>
+<td>First/last item of an object</td></tr>
 <tr><td style="width: 25%;"><a href="setorder.html">forder</a></td>
 <td>Fast row reordering of a data.table by reference</td></tr>
 <tr><td style="width: 25%;"><a href="setorder.html">forderv</a></td>
@@ -232,6 +238,8 @@
 <tr><td style="width: 25%;"><a href="fread.html">fread</a></td>
 <td>Fast and friendly file finagler</td></tr>
 <tr><td style="width: 25%;"><a href="froll.html">froll</a></td>
+<td>Rolling functions</td></tr>
+<tr><td style="width: 25%;"><a href="froll.html">frollapply</a></td>
 <td>Rolling functions</td></tr>
 <tr><td style="width: 25%;"><a href="froll.html">frollmean</a></td>
 <td>Rolling functions</td></tr>
@@ -286,6 +294,8 @@
 <td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="IDateTime.html">IDateTime.default</a></td>
 <td>Integer based date class</td></tr>
+<tr><td style="width: 25%;"><a href="fifelse.html">ifelse</a></td>
+<td>Fast ifelse</td></tr>
 <tr><td style="width: 25%;"><a href="setkey.html">indices</a></td>
 <td>Create key on a data.table</td></tr>
 <tr><td style="width: 25%;"><a href="between.html">inrange</a></td>
@@ -308,7 +318,7 @@
 
 <table width="100%">
 <tr><td style="width: 25%;"><a href="J.html">J</a></td>
-<td>Creates a Join data table</td></tr>
+<td>Creates a join 'data.table'</td></tr>
 </table>
 
 <h2><a name="K">-- K --</a></h2>
@@ -316,10 +326,6 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="setkey.html">key</a></td>
 <td>Create key on a data.table</td></tr>
-<tr><td style="width: 25%;"><a href="set2key.html">key2</a></td>
-<td>Deprecated.</td></tr>
-<tr><td style="width: 25%;"><a href="set2key.html">key&lt;-</a></td>
-<td>Deprecated.</td></tr>
 </table>
 
 <h2><a name="L">-- L --</a></h2>
@@ -328,11 +334,15 @@
 <tr><td style="width: 25%;"><a href="shift.html">lag</a></td>
 <td>Fast lead/lag for vectors and lists</td></tr>
 <tr><td style="width: 25%;"><a href="last.html">last</a></td>
-<td>Last item of an object</td></tr>
+<td>First/last item of an object</td></tr>
+<tr><td style="width: 25%;"><a href="last.updated.html">Last.updated</a></td>
+<td>Number of rows affected by last update</td></tr>
 <tr><td style="width: 25%;"><a href="shift.html">lead</a></td>
 <td>Fast lead/lag for vectors and lists</td></tr>
 <tr><td style="width: 25%;"><a href="like.html">like</a></td>
-<td>Convenience function for calling regexpr.</td></tr>
+<td>Convenience function for calling grep.</td></tr>
+<tr><td style="width: 25%;"><a href="nafill.html">locf</a></td>
+<td>Fill missing values</td></tr>
 </table>
 
 <h2><a name="M">-- M --</a></h2>
@@ -341,6 +351,8 @@
 <tr><td style="width: 25%;"><a href="IDateTime.html">mday</a></td>
 <td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="IDateTime.html">mean.IDate</a></td>
+<td>Integer based date class</td></tr>
+<tr><td style="width: 25%;"><a href="IDateTime.html">mean.ITime</a></td>
 <td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="melt.data.table.html">melt</a></td>
 <td>Fast melt for data.table</td></tr>
@@ -361,10 +373,16 @@
 <h2><a name="N">-- N --</a></h2>
 
 <table width="100%">
+<tr><td style="width: 25%;"><a href="nafill.html">na.fill</a></td>
+<td>Fill missing values</td></tr>
 <tr><td style="width: 25%;"><a href="na.omit.data.table.html">na.omit</a></td>
 <td>Remove rows with missing values on columns specified</td></tr>
 <tr><td style="width: 25%;"><a href="na.omit.data.table.html">na.omit.data.table</a></td>
 <td>Remove rows with missing values on columns specified</td></tr>
+<tr><td style="width: 25%;"><a href="nafill.html">nafill</a></td>
+<td>Fill missing values</td></tr>
+<tr><td style="width: 25%;"><a href="nafill.html">nocb</a></td>
+<td>Fill missing values</td></tr>
 </table>
 
 <h2><a name="O">-- O --</a></h2>
@@ -415,7 +433,13 @@
 <td>Generate run-length type group id</td></tr>
 <tr><td style="width: 25%;"><a href="froll.html">roll</a></td>
 <td>Rolling functions</td></tr>
+<tr><td style="width: 25%;"><a href="froll.html">rollapply</a></td>
+<td>Rolling functions</td></tr>
 <tr><td style="width: 25%;"><a href="froll.html">rolling</a></td>
+<td>Rolling functions</td></tr>
+<tr><td style="width: 25%;"><a href="froll.html">rollmean</a></td>
+<td>Rolling functions</td></tr>
+<tr><td style="width: 25%;"><a href="froll.html">rollsum</a></td>
 <td>Rolling functions</td></tr>
 <tr><td style="width: 25%;"><a href="groupingsets.html">rollup</a></td>
 <td>Grouping Set aggregation for data tables</td></tr>
@@ -438,14 +462,16 @@
 <td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="IDateTime.html">seq.IDate</a></td>
 <td>Integer based date class</td></tr>
+<tr><td style="width: 25%;"><a href="IDateTime.html">seq.ITime</a></td>
+<td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="assign.html">set</a></td>
 <td>Assignment by reference</td></tr>
-<tr><td style="width: 25%;"><a href="set2key.html">set2key</a></td>
-<td>Deprecated.</td></tr>
-<tr><td style="width: 25%;"><a href="set2key.html">set2keyv</a></td>
-<td>Deprecated.</td></tr>
+<tr><td style="width: 25%;"><a href="truelength.html">setalloccol</a></td>
+<td>Over-allocation access</td></tr>
 <tr><td style="width: 25%;"><a href="setattr.html">setattr</a></td>
 <td>Set attributes of objects by reference</td></tr>
+<tr><td style="width: 25%;"><a href="coalesce.html">setcoalesce</a></td>
+<td>Coalescing missing values</td></tr>
 <tr><td style="width: 25%;"><a href="setcolorder.html">setcolorder</a></td>
 <td>Fast column reordering of a data.table by reference</td></tr>
 <tr><td style="width: 25%;"><a href="setDF.html">setDF</a></td>
@@ -466,6 +492,8 @@
 <td>Create key on a data.table</td></tr>
 <tr><td style="width: 25%;"><a href="setkey.html">setkeyv</a></td>
 <td>Create key on a data.table</td></tr>
+<tr><td style="width: 25%;"><a href="nafill.html">setnafill</a></td>
+<td>Fill missing values</td></tr>
 <tr><td style="width: 25%;"><a href="setattr.html">setnames</a></td>
 <td>Set attributes of objects by reference</td></tr>
 <tr><td style="width: 25%;"><a href="setNumericRounding.html">setNumericRounding</a></td>
@@ -481,7 +509,7 @@
 <tr><td style="width: 25%;"><a href="shouldPrint.html">shouldPrint</a></td>
 <td>For use by packages that mimic/divert auto printing e.g. IRkernel and knitr</td></tr>
 <tr><td style="width: 25%;"><a href="J.html">SJ</a></td>
-<td>Creates a Join data table</td></tr>
+<td>Creates a join 'data.table'</td></tr>
 <tr><td style="width: 25%;"><a href="froll.html">sliding</a></td>
 <td>Rolling functions</td></tr>
 <tr><td style="width: 25%;"><a href="special-symbols.html">special-symbols</a></td>
@@ -490,8 +518,6 @@
 <td>Split data.table into chunks in a list</td></tr>
 <tr><td style="width: 25%;"><a href="split.html">split.data.table</a></td>
 <td>Split data.table into chunks in a list</td></tr>
-<tr><td style="width: 25%;"><a href="IDateTime.html">split.IDate</a></td>
-<td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="tstrsplit.html">strsplit</a></td>
 <td>strsplit and transpose the resulting list efficiently</td></tr>
 <tr><td style="width: 25%;"><a href="subset.data.table.html">subset</a></td>
@@ -505,14 +531,12 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="tables.html">tables</a></td>
 <td>Display 'data.table' metadata</td></tr>
+<tr><td style="width: 25%;"><a href="test.html">test</a></td>
+<td>Test assertions for equality, exceptions and console output</td></tr>
 <tr><td style="width: 25%;"><a href="test.data.table.html">test.data.table</a></td>
 <td>Runs a set of tests.</td></tr>
 <tr><td style="width: 25%;"><a href="timetaken.html">timetaken</a></td>
 <td>Pretty print of time taken</td></tr>
-<tr><td style="width: 25%;"><a href="transform.data.table.html">transform</a></td>
-<td>Data table utilities</td></tr>
-<tr><td style="width: 25%;"><a href="transform.data.table.html">transform.data.table</a></td>
-<td>Data table utilities</td></tr>
 <tr><td style="width: 25%;"><a href="transpose.html">transpose</a></td>
 <td>Efficient transpose of list</td></tr>
 <tr><td style="width: 25%;"><a href="truelength.html">truelength</a></td>
@@ -545,10 +569,6 @@
 <td>Integer based date class</td></tr>
 <tr><td style="width: 25%;"><a href="IDateTime.html">week</a></td>
 <td>Integer based date class</td></tr>
-<tr><td style="width: 25%;"><a href="transform.data.table.html">within</a></td>
-<td>Data table utilities</td></tr>
-<tr><td style="width: 25%;"><a href="transform.data.table.html">within.data.table</a></td>
-<td>Data table utilities</td></tr>
 </table>
 
 <h2><a name="Y">-- Y --</a></h2>
@@ -567,16 +587,24 @@
 <td>Convenience functions for range subsets.</td></tr>
 <tr><td style="width: 25%;"><a href="chmatch.html">%chin%</a></td>
 <td>Faster match of character vectors</td></tr>
+<tr><td style="width: 25%;"><a href="like.html">%flike%</a></td>
+<td>Convenience function for calling grep.</td></tr>
+<tr><td style="width: 25%;"><a href="like.html">%ilike%</a></td>
+<td>Convenience function for calling grep.</td></tr>
 <tr><td style="width: 25%;"><a href="between.html">%inrange%</a></td>
 <td>Convenience functions for range subsets.</td></tr>
 <tr><td style="width: 25%;"><a href="like.html">%like%</a></td>
-<td>Convenience function for calling regexpr.</td></tr>
+<td>Convenience function for calling grep.</td></tr>
 <tr><td style="width: 25%;"><a href="special-symbols.html">.BY</a></td>
+<td>Special symbols</td></tr>
+<tr><td style="width: 25%;"><a href="special-symbols.html">.EACHI</a></td>
 <td>Special symbols</td></tr>
 <tr><td style="width: 25%;"><a href="special-symbols.html">.GRP</a></td>
 <td>Special symbols</td></tr>
 <tr><td style="width: 25%;"><a href="special-symbols.html">.I</a></td>
 <td>Special symbols</td></tr>
+<tr><td style="width: 25%;"><a href="last.updated.html">.Last.updated</a></td>
+<td>Number of rows affected by last update</td></tr>
 <tr><td style="width: 25%;"><a href="special-symbols.html">.N</a></td>
 <td>Special symbols</td></tr>
 <tr><td style="width: 25%;"><a href="special-symbols.html">.SD</a></td>

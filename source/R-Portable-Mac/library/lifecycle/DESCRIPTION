@@ -1,6 +1,6 @@
 Package: lifecycle
 Title: Manage the Life Cycle of your Package Functions
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     c(
       person(given = "Lionel", family = "Henry", role = c("aut", "cre"), email = "lionel@rstudio.com"),
@@ -21,15 +21,15 @@ LazyData: true
 Depends: R (>= 3.2)
 Imports: glue, rlang (>= 0.4.0)
 Suggests: covr, crayon, knitr, rmarkdown, testthat (>= 2.1.0)
-RoxygenNote: 6.1.1
-URL: https://github.com/r-lib/lifecycle
+RoxygenNote: 7.0.2
+URL: https://lifecycle.r-lib.org/, https://github.com/r-lib/lifecycle
 BugReports: https://github.com/r-lib/lifecycle/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-07-27 07:28:35 UTC; lionel
+Packaged: 2020-03-06 15:50:11 UTC; lionel
 Author: Lionel Henry [aut, cre],
   RStudio [cph]
 Maintainer: Lionel Henry <lionel@rstudio.com>
 Repository: CRAN
-Date/Publication: 2019-08-01 12:50:05 UTC
-Built: R 3.5.2; ; 2019-08-02 09:36:53 UTC; unix
+Date/Publication: 2020-03-06 16:20:02 UTC
+Built: R 3.5.2; ; 2020-03-07 11:46:50 UTC; unix

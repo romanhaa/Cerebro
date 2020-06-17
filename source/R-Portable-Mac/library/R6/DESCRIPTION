@@ -1,6 +1,6 @@
 Package: R6
 Title: Encapsulated Classes with Reference Semantics
-Version: 2.4.0
+Version: 2.4.1
 Authors@R: person("Winston", "Chang", role = c("aut", "cre"), email = "winston@stdout.org")
 Description: Creates classes with reference semantics, similar to R's built-in
     reference classes. Compared to reference classes, R6 classes are simpler
@@ -16,9 +16,9 @@ LazyData: true
 BugReports: https://github.com/r-lib/R6/issues
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-02-14 18:34:54 UTC; winston
+Packaged: 2019-11-12 20:00:15 UTC; winston
 Author: Winston Chang [aut, cre]
 Maintainer: Winston Chang <winston@stdout.org>
 Repository: CRAN
-Date/Publication: 2019-02-14 19:42:14 UTC
-Built: R 3.5.2; ; 2019-02-15 15:07:41 UTC; unix
+Date/Publication: 2019-11-12 22:50:03 UTC
+Built: R 3.5.2; ; 2019-11-13 05:44:55 UTC; unix

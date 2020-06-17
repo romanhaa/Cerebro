@@ -69,6 +69,18 @@ displayed as intended:
 writeLines(sgr.string)
 ```
 
+If you are seeing extra line breaks in your output you may need to use:
+
+````
+```{r, comment="", results="asis"}`r ''`
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks, split.nl=TRUE)
+```
+````
+
+If you use `crayon` to generate your ANSI CSI SGR style strings you may need to
+set `options(crayon.enabled=TRUE)`, as in some cases `crayon` suppresses the SGR
+markup if it thinks it is not outputting to a terminal.
+
 We can also set hooks for the other types of outputs, and add some additional
 CSS styles.
 
@@ -121,11 +133,6 @@ writeLines(sgr.string)
 
 See `?fansi::set_knit_hooks` for details.
 
-### Crayon
-
-If you use `crayon` to generate your ANSI CSI SGR style strings you may need to
-set `options(crayon.enabled=TRUE)`, as in some cases `crayon` suppresses the SGR
-markup if it thinks it is not outputting to a terminal.
 
 ----
 <a name='f1'></a><sup>1</sup>For illustrative purposes we output raw ANSI

@@ -290,6 +290,10 @@ f &lt;- future({ cat(&quot;world!&quot;, file = con); flush(con) })
 <td>stanmodel</td>
 </tr>
 <tr>
+<td><strong>sparklyr</strong></td>
+<td>tbl_spark</td>
+</tr>
+<tr>
 <td><strong>udpipe</strong></td>
 <td>udpipe_model</td>
 </tr>
@@ -434,6 +438,34 @@ f &lt;- future({
 
 <pre><code class="r">library(&quot;future&quot;)
 plan(multisession)
+library(&quot;sparklyr&quot;)
+sc &lt;- spark_connect(master = &quot;local&quot;)
+
+file &lt;- system.file(&quot;misc&quot;, &quot;exDIF.csv&quot;, package = &quot;utils&quot;)
+data &lt;- spark_read_csv(sc, &quot;exDIF&quot;, file)
+d %&lt;-% dim(data)
+d
+Error in unserialize(node$con) : 
+  Failed to retrieve the value of MultisessionFuture (&lt;none&gt;) from cluster
+SOCKnode #1 (PID 29864 on localhost &#39;localhost&#39;). The reason reported was
+&#39;unknown input format&#39;. Post-mortem diagnostic: A process with this PID
+exists, which suggests that the localhost worker is still alive.
+</code></pre>
+
+<p>To catch this as soon as possible,</p>
+
+<pre><code class="r">options(future.globals.onReference = &quot;error&quot;)
+d %&lt;-% dim(data)
+## Error: Detected a non-exportable reference (&#39;externalptr&#39;) in one of
+the globals (&#39;data&#39; of class &#39;tbl_spark&#39;) used in the future expression
+``
+
+
+### Package: udpipe
+
+```r
+library(&quot;future&quot;)
+plan(multisession)
 library(&quot;udpipe&quot;)
 udmodel &lt;- udpipe_download_model(language = &quot;dutch&quot;)
 udmodel &lt;- udpipe_load_model(file = udmodel$file_model)
@@ -450,6 +482,8 @@ x %&lt;-% udpipe_annotate(udmodel, x = &quot;Ik ging op reis en ik nam mee.&quot
 ## Error: Detected a non-exportable reference (&#39;externalptr&#39;) in one of the
 ## globals (&#39;udmodel&#39; of class &#39;udpipe_model&#39;) used in the future expression
 </code></pre>
+
+<p>Now, it is indeed possible to parallelize \pkg{udpipe} calls.  For details on how to do this, see the &#39;UDPipe Natural Language Processing - Parallel&#39; vignette that comes with the \pkg{udpipe} package.</p>
 
 <h3>Package: xml2</h3>
 

@@ -1,4 +1,191 @@
 
+# vctrs 0.2.4
+
+* Factors and dates methods are now implemented in C for efficiency.
+
+* `new_data_frame()` now correctly updates attributes and supports merging
+  of the `"names"` and `"row.names"` arguments (#883).
+
+* `vec_match()` gains an `na_equal` argument (#718).
+
+* `vec_chop()`'s `indices` argument has been restricted to positive integer
+  vectors. Character and logical subscripts haven't proven useful, and this
+  aligns `vec_chop()` with `vec_unchop()`, for which only positive integer
+  vectors make sense.
+
+* New `vec_unchop()` for combining a list of vectors into a single vector. It
+  is similar to `vec_c()`, but gives greater control over how the elements
+  are placed in the output through the use of a secondary `indices` argument.
+
+* Breaking change: When `.id` is supplied, `vec_rbind()` now creates
+  the identifier column at the start of the data frame rather than at
+  the end.
+
+* `numeric_version` and `package_version` lists are now treated as
+  vectors (#723).
+
+* `vec_slice()` now properly handles symbols and S3 subscripts.
+
+* `vec_as_location()` and `vec_as_subscript()` are now fully
+  implemented in C for efficiency.
+
+* `num_as_location()` gains a new argument, `zero`, for controlling whether
+  to `"remove"`, `"ignore"`, or `"error"` on zero values (#852).
+
+
+# vctrs 0.2.3
+
+* The main feature of this release is considerable performance
+  improvements with factors and dates.
+
+* `vec_c()` now falls back to `base::c()` if the vector doesn't
+  implement `vec_ptype2()` but implements `c()`. This should improve
+  the compatibility of vctrs-based functions with foreign classes
+  (#801).
+
+* `new_data_frame()` is now faster.
+
+* New `vec_is_list()` for detecting if a vector is a list in the vctrs sense.
+  For instance, objects of class `lm` are not lists. In general, classes need
+  to explicitly inherit from `"list"` to be considered as lists by vctrs.
+
+* Unspecified vectors of `NA` can now be assigned into a list (#819).
+
+  ```
+  x <- list(1, 2)
+  vec_slice(x, 1) <- NA
+  x
+  #> [[1]]
+  #> NULL
+  #>
+  #> [[2]]
+  #> 2
+  ```
+
+* `vec_ptype()` now errors on scalar inputs (#807).
+
+* `vec_ptype_finalise()` is now recursive over all data frame types, ensuring
+  that unspecified columns are correctly finalised to logical (#800).
+
+* `vec_ptype()` now correctly handles unspecified columns in data frames, and
+  will always return an unspecified column type (#800).
+
+* `vec_slice()` and `vec_chop()` now work correctly with `bit64::integer64()`
+  objects when an `NA` subscript is supplied. By extension, this means that
+  `vec_init()` now works with these objects as well (#813).
+
+* `vec_rbind()` now binds row names. When named inputs are supplied
+  and `names_to` is `NULL`, the names define row names. If `names_to`
+  is supplied, they are assigned in the column name as before.
+
+* `vec_cbind()` now binds row names if they are congruent across
+  inputs. If the row names are not identical that's an error.
+
+* The `c()` method for `vctrs_vctr` now throws an error when
+  `recursive` or `use.names` is supplied (#791).
+
+
+# vctrs 0.2.2
+
+* New `vec_as_subscript()` function to cast inputs to the base type
+  of a subscript (logical, numeric, or character). `vec_as_index()`
+  has been renamed to `vec_as_location()`. Use `num_as_location()` if
+  you need more options to control how numeric subscripts are
+  converted to a vector of locations.
+
+* New `vec_as_subscript2()`, `vec_as_location2()`, and
+  `num_as_location2()` variants for validating scalar subscripts and
+  locations (e.g. for indexing with `[[`).
+
+* `vec_as_location()` now preserves names of its inputs if possible.
+
+* `vec_ptype2()` methods for base classes now prevent
+  inheritance. This makes sense because the subtyping graph created by
+  `vec_ptype2()` methods is generally not the same as the inheritance
+  relationships defined by S3 classes. For instance, subclasses are
+  often a richer type than their superclasses, and should often be
+  declared as supertypes (e.g. `vec_ptype2()` should return the
+  subclass).
+
+  We introduced this breaking change in a patch release because
+  `new_vctr()` now adds the base type to the class vector by default,
+  which caused `vec_ptype2()` to dispatch erroneously to the methods
+  for base types. We'll finish switching to this approach in vctrs
+  0.3.0 for the rest of the base S3 classes (dates, data frames, ...).
+
+* `vec_equal_na()` now works with complex vectors.
+
+* `vctrs_vctr` class gains an `as.POSIXlt()` method (#717).
+
+* `vec_is()` now ignores names and row names (#707).
+
+* `vec_slice()` now support Altvec vectors (@jimhester, #696).
+
+* `vec_proxy_equal()` is now applied recursively across the columns of
+  data frames (#641).
+
+* `vec_split()` no longer returns the `val` column as a `list_of`. It is now
+  returned as a bare list (#660).
+
+* Complex numbers are now coercible with integer and double (#564).
+
+* zeallot has been moved from Imports to Suggests, meaning that `%<-%` is no
+  longer re-exported from vctrs.
+
+* `vec_equal()` no longer propagates missing values when comparing list
+  elements. This means that `vec_equal(list(NULL), list(NULL))` will continue to
+  return `NA` because `NULL` is the missing element for a list, but now
+  `vec_equal(list(NA), list(NA))` returns `TRUE` because the `NA` values are
+  compared directly without checking for missingness.
+
+* Lists of expressions are now supported in `vec_equal()` and functions that
+  compare elements, such as `vec_unique()` and `vec_match()`. This ensures that
+  they work with the result of modeling functions like `glm()` and `mgcv::gam()`
+  which store "family" objects containing expressions (#643).
+
+* `new_vctr()` gains an experimental `inherit_base_type` argument
+  which determines whether or not the class of the underlying type
+  will be included in the class.
+
+* `list_of()` now inherits explicitly from "list" (#593).
+
+* `vec_ptype()` has relaxed default behaviour for base types; now if two
+  vectors both inherit from (e.g.) "character", the common type is also
+  "character" (#497).
+
+* `vec_equal()` now correctly treats `NULL` as the missing value element for
+  lists (#653).
+
+* `vec_cast()` now casts data frames to lists rowwise, i.e. to a list of
+  data frames of size 1. This preserves the invariant of
+  `vec_size(vec_cast(x, to)) == vec_size(x)` (#639).
+
+* Positive and negative 0 are now considered equivalent by all functions that
+  check for equality or uniqueness (#637).
+
+* New experimental functions `vec_group_rle()` for returning run
+  length encoded groups; `vec_group_id()` for constructing group
+  identifiers from a vector; `vec_group_loc()` for computing the
+  locations of unique groups in a vector (#514).
+
+* New `vec_chop()` for repeatedly slicing a vector. It efficiently captures
+  the pattern of `map(indices, vec_slice, x = x)`.
+
+* Support for multiple character encodings has been added to functions that
+  compare elements within a single vector, such as `vec_unique()`, and across
+  multiple vectors, such as `vec_match()`. When multiple encodings are
+  encountered, a translation to UTF-8 is performed before any comparisons are
+  made (#600, #553).
+
+* Equality and ordering methods are now implemented for raw and
+  complex vectors (@romainfrancois).
+
+
+# vctrs 0.2.1
+
+Maintenance release for CRAN checks.
+
+
 # vctrs 0.2.0
 
 With the 0.2.0 release, many vctrs functions have been rewritten with

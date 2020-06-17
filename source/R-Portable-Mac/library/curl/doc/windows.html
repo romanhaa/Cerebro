@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1404,6 +1403,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1432,6 +1432,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1583,26 +1589,18 @@ req &lt;- curl_fetch_memory(&quot;https://httpbin.org/get&quot;, handle = h)
 <p>The example above should yield some verbose output indicating if the proxy connection was successful.</p>
 <p>If this did not work, study the verbose output from above to see what seems to be the problem. Note that curl supports many options related to proxies (types, auth, etc), the details of which you can find on the libcurl homepage.</p>
 <pre class="r"><code>curl_options(&#39;proxy&#39;)</code></pre>
-<pre><code>##        haproxyprotocol        httpproxytunnel                noproxy 
-##                    274                     61                  10177 
-##              pre_proxy                  proxy           proxy_cainfo 
-##                  10262                  10004                  10246 
-##           proxy_capath          proxy_crlfile        proxy_keypasswd 
-##                  10247                  10260                  10258 
-##  proxy_pinnedpublickey     proxy_service_name  proxy_ssl_cipher_list 
-##                  10263                  10235                  10259 
-##      proxy_ssl_options   proxy_ssl_verifyhost   proxy_ssl_verifypeer 
-##                    261                    249                    248 
-##          proxy_sslcert      proxy_sslcerttype           proxy_sslkey 
-##                  10254                  10255                  10256 
-##       proxy_sslkeytype       proxy_sslversion    proxy_tls13_ciphers 
-##                  10257                    250                  10277 
-## proxy_tlsauth_password     proxy_tlsauth_type proxy_tlsauth_username 
-##                  10252                  10253                  10251 
-##    proxy_transfer_mode              proxyauth            proxyheader 
-##                    166                    111                  10228 
-##          proxypassword              proxyport              proxytype 
-##                  10176                     59                    101 
+<pre><code>##        haproxyprotocol        httpproxytunnel                noproxy              pre_proxy                  proxy 
+##                    274                     61                  10177                  10262                  10004 
+##           proxy_cainfo           proxy_capath          proxy_crlfile        proxy_keypasswd  proxy_pinnedpublickey 
+##                  10246                  10247                  10260                  10258                  10263 
+##     proxy_service_name  proxy_ssl_cipher_list      proxy_ssl_options   proxy_ssl_verifyhost   proxy_ssl_verifypeer 
+##                  10235                  10259                    261                    249                    248 
+##          proxy_sslcert      proxy_sslcerttype           proxy_sslkey       proxy_sslkeytype       proxy_sslversion 
+##                  10254                  10255                  10256                  10257                    250 
+##    proxy_tls13_ciphers proxy_tlsauth_password     proxy_tlsauth_type proxy_tlsauth_username    proxy_transfer_mode 
+##                  10277                  10252                  10253                  10251                    166 
+##              proxyauth            proxyheader          proxypassword              proxyport              proxytype 
+##                    111                  10228                  10176                     59                    101 
 ##          proxyusername           proxyuserpwd 
 ##                  10175                  10006</code></pre>
 <p>To use a global proxy server for all your requests, you can set the environment variable <code>http_proxy</code> (lowercase!) or <code>https_proxy</code> or <code>ALL_PROXY</code>. See <a href="https://curl.haxx.se/libcurl/c/libcurl-env.html">this page</a> for details. This variable may be set or changed in R at runtime, for example:</p>

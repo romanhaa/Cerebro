@@ -1,0 +1,48 @@
+.gadget-tabs-content-container {
+  background: #fcfcfc;
+  width: 50%;
+  border-right: 1px solid #eee;
+}
+.gadget-tabs-container {
+  z-index: 2;
+}
+.gadget-container {
+  background: #FFFFFF;
+}
+#codeArea {
+  font-size: 16px;
+}
+#codeArea .shiny-input-container {
+  width: 100%;
+}
+#code {
+  margin-top: 10px;
+}
+#plotArea {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  top: 185px;
+  width: 50%;
+}
+#plotErrorOut {
+  padding: 10px;
+  color: red;
+}
+#plotError {
+  margin-left: 15px;
+}
+#plot-container {
+  position: relative;
+}
+#plot-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  margin-top: -33px;  /* half of the spinner's height */
+  margin-left: -33px; /* half of the spinner's width */
+}
+#plot.recalculating {
+  z-index: -2;
+}

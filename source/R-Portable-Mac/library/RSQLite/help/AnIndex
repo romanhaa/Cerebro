@@ -15,9 +15,8 @@ dbDisconnect,SQLiteConnection-method	SQLite
 dbExistsTable,SQLiteConnection,character-method	SQLiteConnection-class
 dbFetch,SQLiteResult-method	SQLiteResult-class
 dbGetException,SQLiteConnection-method	SQLiteConnection-class
-dbGetInfo	dbGetInfo
-dbGetInfo,SQLiteConnection-method	dbGetInfo
-dbGetInfo,SQLiteDriver-method	dbGetInfo
+dbGetInfo,SQLiteConnection-method	SQLiteConnection-class
+dbGetInfo,SQLiteDriver-method	SQLiteDriver-class
 dbGetPreparedQuery	query-dep
 dbGetPreparedQuery,SQLiteConnection,character,data.frame-method	query-dep
 dbGetRowCount,SQLiteResult-method	SQLiteResult-class
@@ -27,7 +26,6 @@ dbHasCompleted,SQLiteResult-method	SQLiteResult-class
 dbIsValid,SQLiteConnection-method	SQLiteConnection-class
 dbIsValid,SQLiteDriver-method	SQLiteDriver-class
 dbIsValid,SQLiteResult-method	SQLiteResult-class
-dbListFields,SQLiteConnection,character-method	SQLiteConnection-class
 dbListResults,SQLiteConnection-method	dbListResults-SQLiteConnection-method
 dbListTables,SQLiteConnection-method	SQLiteConnection-class
 dbQuoteIdentifier,SQLiteConnection,character-method	SQLiteConnection-class

@@ -4,6 +4,7 @@ collapse	glue-deprecated
 double_quote	quoting
 glue	glue
 glue-deprecated	glue-deprecated
+glue-vctrs	glue-vctrs
 glue_col	glue_col
 glue_collapse	glue_collapse
 glue_data	glue
@@ -14,3 +15,5 @@ identity_transformer	identity_transformer
 quoting	quoting
 single_quote	quoting
 trim	trim
+vec_cast.glue	glue-vctrs
+vec_ptype2.glue	glue-vctrs

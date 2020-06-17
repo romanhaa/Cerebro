@@ -1,4 +1,4 @@
-## ----faq7_31-------------------------------------------------------------
+## ----faq7_31------------------------------------------------------------------
 # FAQ 7.31
 a0 <- 2
 b <- sqrt(a0)
@@ -9,7 +9,7 @@ a <- c(a0, a1)
 # hexadecimal representation
 sprintf("%a", a)
 
-## ----faq7_31digest-------------------------------------------------------
+## ----faq7_31digest------------------------------------------------------------
 library(digest)
 # different hashes with digest
 sapply(a, digest, algo = "sha1")
@@ -25,7 +25,7 @@ sapply(a, sha1, digits = 10)
 # case where truncating gives different hexadecimal value
 c(sha1(pi), sha1(pi, digits = 13), sha1(pi, digits = 10))
 
-## ----sha1_lm_sum---------------------------------------------------------
+## ----sha1_lm_sum--------------------------------------------------------------
 # taken from the help file of lm.influence
 lm_SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)
 lm_sum <- summary(lm_SR)
@@ -62,7 +62,7 @@ LCS2 <- LifeCycleSavings[rownames(LifeCycleSavings) != "Zambia", ]
 lm_SR2 <- lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LCS2)
 sha1(summary(lm_SR2))
 
-## ----sha1_lm-------------------------------------------------------------
+## ----sha1_lm------------------------------------------------------------------
 class(lm_SR)
 # str() gives the structure of the lm object
 str(lm_SR)

@@ -1,7 +1,12 @@
 Package: XML
-Version: 3.98-1.20
-Author: Duncan Temple Lang and the CRAN Team (including Tomas Kalibera)
-Maintainer: ORPHANED
+Version: 3.99-0.3
+Authors@R: c(person("CRAN Team", role = c('ctb', 'cre'),
+                    email = "CRAN@r-project.org",
+                    comment = "de facto maintainer since 2013"),
+             person("Duncan", "Temple Lang", role = c("aut"),
+                    email = "duncan@r-project.org",
+                    comment = c(ORCID = "0000-0003-0159-1546")),
+	    person("Tomas", "Kalibera", role = "ctb"))
 Title: Tools for Parsing and Generating XML Within R and S-Plus
 Depends: R (>= 2.13.0), methods, utils
 Suggests: bitops, RCurl
@@ -11,11 +16,11 @@ Description: Many approaches for both reading and
         and accessible via HTTP or FTP.  Also offers access to an
         'XPath' "interpreter".
 URL: http://www.omegahat.net/RSXML
-License: BSD_2_clause + file LICENSE
-Collate: AAA.R DTD.R DTDClasses.R DTDRef.R SAXMethods.S XMLClasses.R
+License: BSD_3_clause + file LICENSE
+Collate: AAA.R DTD.R DTDClasses.R DTDRef.R SAXMethods.R XMLClasses.R
         applyDOM.R assignChild.R catalog.R createNode.R dynSupports.R
-        error.R flatTree.R nodeAccessors.R parseDTD.R schema.S
-        summary.R tangle.R toString.S tree.R version.R xmlErrorEnums.R
+        error.R flatTree.R nodeAccessors.R parseDTD.R schema.R
+        summary.R tangle.R toString.R tree.R version.R xmlErrorEnums.R
         xmlEventHandler.R xmlEventParse.R xmlHandler.R
         xmlInternalSource.R xmlOutputDOM.R xmlNodes.R xmlOutputBuffer.R
         xmlTree.R xmlTreeParse.R htmlParse.R hashTree.R zzz.R
@@ -27,10 +32,12 @@ Collate: AAA.R DTD.R DTDClasses.R DTDRef.R SAXMethods.S XMLClasses.R
         htmlLists.R getDependencies.R getRelativeURL.R xmlIncludes.R
         simplifyPath.R
 NeedsCompilation: yes
-Packaged: 2019-06-06 06:10:55 UTC; ripley
-X-CRAN-Comment: Orphaned on 2017-06-19: all updates have been by the
-        CRAN team for some years.
+Packaged: 2020-01-20 05:19:55 UTC; ripley
+Author: CRAN Team [ctb, cre] (de facto maintainer since 2013),
+  Duncan Temple Lang [aut] (<https://orcid.org/0000-0003-0159-1546>),
+  Tomas Kalibera [ctb]
+Maintainer: CRAN Team <CRAN@r-project.org>
 Repository: CRAN
-Date/Publication: 2019-06-06 06:23:32 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-06-07 04:23:53 UTC; unix
+Date/Publication: 2020-01-20 08:44:55 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-01-21 05:26:37 UTC; unix
 Archs: XML.so.dSYM

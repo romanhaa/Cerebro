@@ -5,8 +5,10 @@ This is an example of using <a xmlns="" href="http://www.omegahat.net/RCurl">RCu
 This comes from a question on the R-help mailing list on Sep 18th,
 2012.
 </p><p>
-In a Web browser, we visit the page
-<a class="ulink" href="http://www.wateroffice.ec.gc.ca/graph/graph_e.html?mode=text&amp;stn=05ND012&amp;prm1=3&amp;syr=2012&amp;smo=09&amp;sday=15&amp;eyr=2012&amp;emo=09&amp;eday=18" target="_top">http://www.wateroffice.ec.gc.ca/graph/graph_e.html?mode=text&amp;stn=05ND012&amp;prm1=3&amp;syr=2012&amp;smo=09&amp;sday=15&amp;eyr=2012&amp;emo=09&amp;eday=18</a>.
+In a Web browser, we visit the
+page <code>http://www.wateroffice.ec.gc.ca/graph/graph_e.html?mode=text&amp;stn=05ND012&amp;prm1=3&amp;syr=2012&amp;smo=09&amp;sday=15&amp;eyr=2012&amp;emo=09&amp;eday=18</code>
+(no longer available).
+<!-- <a class="ulink" href="http://www.wateroffice.ec.gc.ca/graph/graph_e.html?mode=text&amp;stn=05ND012&amp;prm1=3&amp;syr=2012&amp;smo=09&amp;sday=15&amp;eyr=2012&amp;emo=09&amp;eday=18" target="_top">http://www.wateroffice.ec.gc.ca/graph/graph_e.html?mode=text&amp;stn=05ND012&amp;prm1=3&amp;syr=2012&amp;smo=09&amp;sday=15&amp;eyr=2012&amp;emo=09&amp;eday=18</a>. -->
 Before allowing us access to the data, the Web site presents us with a disclaimer page.
 We have to click on the <span class="guibutton">I Agree</span> button and then we are forwarded to a page with the actual
 data.  We want to read that using, for example, <i xmlns:r="http://www.r-project.org" xmlns:s="http://cm.bell-labs.com/stat/S4" xmlns:py="http://www.python.org" xmlns:perl="http://www.perl.org" xmlns:c="http://www.C.org" xmlns:vb="http://www.visualbasic.com" xmlns:omegahat="http://www.omegahat.net" xmlns:bioc="http://www.bioconductor.org" xmlns:java="http://www.java.com" xmlns:sql="http://www.sql.org" xmlns="" class="rfunc">readHTMLTable()
@@ -41,8 +43,8 @@ However, if we do want to store the cookie in a file (when the curl handle is de
 we can do this by specifying a file name as the value for the cookiefile argument.
 </p><p>
 The disclaimer page is a <code xmlns:http="http://www.w3.org/Protocols" xmlns="" class="httpOp">POST</code> form.
-We send the request to 
-<a class="ulink" href="http://www.wateroffice.ec.gc.ca/include/disclaimer.php" target="_top">http://www.wateroffice.ec.gc.ca/include/disclaimer.php</a>
+We send the request to <code>http://www.wateroffice.ec.gc.ca/include/disclaimer.php</code>
+<!-- <a class="ulink" href="http://www.wateroffice.ec.gc.ca/include/disclaimer.php" target="_top">http://www.wateroffice.ec.gc.ca/include/disclaimer.php</a> -->
 with the parameter named disclaimer_action and the value "I Agree".
 We can get this information by reading the <b xmlns:xd="http://www.xsldoc.org" xmlns="" class="progLang">HTML</b> page
 and looking for the <code xmlns="" class="xmlTag">&lt;form&gt;</code> element.

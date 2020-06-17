@@ -39,6 +39,7 @@ same_path               Test if two paths are the same after they are
                         normalized
 session_info            An alternative to sessionInfo() to print
                         session information
+split_lines             Split a character vector by line breaks
 strict_list             Strict lists
 stringsAsStrings        Set the global option 'options(stringsAsFactors
                         = FALSE)' inside a parent function and restore

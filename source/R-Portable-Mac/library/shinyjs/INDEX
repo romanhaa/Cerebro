@@ -1,0 +1,24 @@
+classFuncs              Add/remove CSS class
+click                   Click on a Shiny button
+delay                   Execute R code after a specified number of
+                        milliseconds has elapsed
+disabled                Initialize a Shiny input as disabled
+extendShinyjs           Extend shinyjs by calling your own JavaScript
+                        functions
+hidden                  Initialize a Shiny tag as hidden
+html                    Change the HTML (or text) inside an element
+inlineCSS               Add inline CSS
+messageFuncs            Show a message
+onevent                 Run R code when an event is triggered on an
+                        element
+reset                   Reset input elements to their original values
+runExample              Run shinyjs examples
+runcode                 Construct to let you run arbitrary R code live
+                        in a Shiny app
+runjs                   Run JavaScript code
+shinyjs                 shinyjs
+showLog                 Print any JavaScript console.log messages in
+                        the R console
+stateFuncs              Enable/disable an input element
+useShinyjs              Set up a Shiny app to use shinyjs
+visibilityFuncs         Display/hide an element

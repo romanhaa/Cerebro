@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;DBI&rsquo; version 1.0.0</h2>
+</div><h2>Documentation for package &lsquo;DBI&rsquo; version 1.1.0</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -47,16 +47,14 @@
 <td>Determine the SQL data type of an object</td></tr>
 <tr><td style="width: 25%;"><a href="dbDisconnect.html">dbDisconnect</a></td>
 <td>Disconnect (close) a connection</td></tr>
-<tr><td style="width: 25%;"><a href="dbDriver.html">dbDriver</a></td>
-<td>Load and unload database drivers</td></tr>
 <tr><td style="width: 25%;"><a href="dbExecute.html">dbExecute</a></td>
 <td>Execute an update statement, query number of rows affected, and then close result set</td></tr>
 <tr><td style="width: 25%;"><a href="dbExistsTable.html">dbExistsTable</a></td>
 <td>Does a table exist?</td></tr>
 <tr><td style="width: 25%;"><a href="dbFetch.html">dbFetch</a></td>
 <td>Fetch records from a previously executed query</td></tr>
-<tr><td style="width: 25%;"><a href="dbGetException.html">dbGetException</a></td>
-<td>Get DBMS exceptions</td></tr>
+<tr><td style="width: 25%;"><a href="dbGetConnectArgs.html">dbGetConnectArgs</a></td>
+<td>Get connection arguments</td></tr>
 <tr><td style="width: 25%;"><a href="dbGetInfo.html">dbGetInfo</a></td>
 <td>Get DBMS metadata</td></tr>
 <tr><td style="width: 25%;"><a href="dbGetQuery.html">dbGetQuery</a></td>
@@ -73,6 +71,8 @@
 <td>DBI: R Database Interface</td></tr>
 <tr><td style="width: 25%;"><a href="DBIConnection-class.html">DBIConnection-class</a></td>
 <td>DBIConnection class</td></tr>
+<tr><td style="width: 25%;"><a href="DBIConnector-class.html">DBIConnector-class</a></td>
+<td>DBIConnector class</td></tr>
 <tr><td style="width: 25%;"><a href="DBIDriver-class.html">DBIDriver-class</a></td>
 <td>DBIDriver class</td></tr>
 <tr><td style="width: 25%;"><a href="DBIObject-class.html">DBIObject-class</a></td>
@@ -83,14 +83,10 @@
 <td>Is this DBMS object read only?</td></tr>
 <tr><td style="width: 25%;"><a href="dbIsValid.html">dbIsValid</a></td>
 <td>Is this DBMS object still valid?</td></tr>
-<tr><td style="width: 25%;"><a href="dbListConnections.html">dbListConnections</a></td>
-<td>List currently open connections</td></tr>
 <tr><td style="width: 25%;"><a href="dbListFields.html">dbListFields</a></td>
 <td>List field names of a remote table</td></tr>
 <tr><td style="width: 25%;"><a href="dbListObjects.html">dbListObjects</a></td>
 <td>List remote objects</td></tr>
-<tr><td style="width: 25%;"><a href="dbListResults.html">dbListResults</a></td>
-<td>A list of all pending results</td></tr>
 <tr><td style="width: 25%;"><a href="dbListTables.html">dbListTables</a></td>
 <td>List remote tables</td></tr>
 <tr><td style="width: 25%;"><a href="dbQuoteIdentifier.html">dbQuoteIdentifier</a></td>
@@ -109,8 +105,6 @@
 <td>Execute a query on a given database connection</td></tr>
 <tr><td style="width: 25%;"><a href="dbSendStatement.html">dbSendStatement</a></td>
 <td>Execute a data manipulation statement on a given database connection</td></tr>
-<tr><td style="width: 25%;"><a href="dbDriver.html">dbUnloadDriver</a></td>
-<td>Load and unload database drivers</td></tr>
 <tr><td style="width: 25%;"><a href="dbUnquoteIdentifier.html">dbUnquoteIdentifier</a></td>
 <td>Unquote identifiers</td></tr>
 <tr><td style="width: 25%;"><a href="dbWithTransaction.html">dbWithTransaction</a></td>
@@ -123,14 +117,6 @@
 <td>Refer to a table nested in a hierarchy (e.g. within a schema)</td></tr>
 <tr><td style="width: 25%;"><a href="Id.html">Id-class</a></td>
 <td>Refer to a table nested in a hierarchy (e.g. within a schema)</td></tr>
-<tr><td style="width: 25%;"><a href="make.db.names.html">isSQLKeyword</a></td>
-<td>Make R identifiers into legal SQL identifiers</td></tr>
-<tr><td style="width: 25%;"><a href="make.db.names.html">isSQLKeyword.default</a></td>
-<td>Make R identifiers into legal SQL identifiers</td></tr>
-<tr><td style="width: 25%;"><a href="make.db.names.html">make.db.names</a></td>
-<td>Make R identifiers into legal SQL identifiers</td></tr>
-<tr><td style="width: 25%;"><a href="make.db.names.html">make.db.names.default</a></td>
-<td>Make R identifiers into legal SQL identifiers</td></tr>
 <tr><td style="width: 25%;"><a href="rownames.html">rownames</a></td>
 <td>Convert row names back and forth between columns</td></tr>
 <tr><td style="width: 25%;"><a href="SQL.html">SQL</a></td>
@@ -149,8 +135,6 @@
 <td>Convert a data frame into form suitable for upload to an SQL database</td></tr>
 <tr><td style="width: 25%;"><a href="sqlInterpolate.html">sqlInterpolate</a></td>
 <td>Safely interpolate values into an SQL string</td></tr>
-<tr><td style="width: 25%;"><a href="make.db.names.html">SQLKeywords</a></td>
-<td>Make R identifiers into legal SQL identifiers</td></tr>
 <tr><td style="width: 25%;"><a href="rownames.html">sqlRownamesToColumn</a></td>
 <td>Convert row names back and forth between columns</td></tr>
 <tr><td style="width: 25%;"><a href="transactions.html">transactions</a></td>

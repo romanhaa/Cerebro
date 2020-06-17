@@ -25,6 +25,8 @@ list_modify             Modify a list
 lmap                    Apply a function to list-elements of a list
 map                     Apply a function to each element of a vector
 map2                    Map over multiple inputs simultaneously.
+map_if                  Apply a function to each element of a vector
+                        conditionally
 modify                  Modify elements selectively
 modify_in               Modify a pluck location
 negate                  Negate a predicate function.

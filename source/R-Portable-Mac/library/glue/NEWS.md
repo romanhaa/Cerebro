@@ -1,8 +1,29 @@
+# glue 1.3.2
+
+* glue now implements vctrs methods. This ensures that vectors of glue
+  strings are compatible with tidyverse packages like tidyr
+  (r-lib/tidyselect#170, tidyverse/tidyr#773, @lionel-).
+
+* Fix a LTO type mismatch warning (#146)
+
+* `glue_sql()` now quotes lists of values appropriate to their type, rather
+  than coercing all values to characters (#153)
+
+* `glue_data()` now implicitly coerces `.x` to a list.
+
+* `glue()` gains the `.trim` argument, like `glue_data()`.
+
+* `single_quote()` `double_quote()` and `backtick()` all return `NA` for `NA`
+  inputs (#135).
+
+* Improve `trim()`'s handling of lines containing only indentation (#162, #163, @alandipert)
+
 # glue 1.3.1
 
 ## Features
 
 * `glue()` now has a `+` method to combine strings.
+* `glue_sql()` now collapses zero-length vector into `DBI::SQL("NULL")` (#134 @shrektan).
 
 ## Bugfixes and minor changes
 

@@ -1,6 +1,6 @@
 Package: plotly
 Title: Create Interactive Web Graphics via 'plotly.js'
-Version: 4.9.0
+Version: 4.9.2
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"),
     email = "cpsievert1@gmail.com", comment = c(ORCID = "0000-0002-4958-2844")),
     person("Chris", "Parmer", role = "aut",
@@ -32,10 +32,10 @@ Suggests: MASS, maps, ggthemes, GGally, testthat, knitr, devtools,
         maptools, rgeos, png, IRdisplay, processx, plotlyGeoAssets,
         forcats
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2019-04-10 17:54:42 UTC; cpsievert
+Packaged: 2020-02-12 15:47:51 UTC; cpsievert
 Author: Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>),
   Chris Parmer [aut],
   Toby Hocking [aut],
@@ -46,5 +46,5 @@ Author: Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>),
   Plotly Technologies Inc. [cph]
 Maintainer: Carson Sievert <cpsievert1@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-04-10 19:33:05 UTC
-Built: R 3.5.1; ; 2019-09-24 13:42:26 UTC; unix
+Date/Publication: 2020-02-12 18:50:02 UTC
+Built: R 3.5.2; ; 2020-02-14 07:09:22 UTC; unix

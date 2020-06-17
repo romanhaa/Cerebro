@@ -12,9 +12,11 @@ dbClearResult	dbClearResult
 dbColumnInfo	dbColumnInfo
 dbCommit	transactions
 dbConnect	dbConnect
+dbConnect,DBIConnector-method	hidden_aliases
 dbCreateTable	dbCreateTable
 dbCreateTable,DBIConnection-method	hidden_aliases
 dbDataType	dbDataType
+dbDataType,DBIConnector-method	hidden_aliases
 dbDataType,DBIObject-method	hidden_aliases
 dbDisconnect	dbDisconnect
 dbDriver	dbDriver
@@ -25,6 +27,8 @@ dbExistsTable	dbExistsTable
 dbExistsTable,DBIConnection,Id-method	hidden_aliases
 dbFetch	dbFetch
 dbFetch,DBIResult-method	hidden_aliases
+dbGetConnectArgs	dbGetConnectArgs
+dbGetConnectArgs,DBIConnector-method	hidden_aliases
 dbGetDBIVersion	dbGetDBIVersion
 dbGetException	dbGetException
 dbGetInfo	dbGetInfo
@@ -37,10 +41,12 @@ dbGetStatement	dbGetStatement
 dbHasCompleted	dbHasCompleted
 DBI	DBI-package
 DBIConnection-class	DBIConnection-class
+DBIConnector-class	DBIConnector-class
 DBIDriver-class	DBIDriver-class
 DBIObject-class	DBIObject-class
 DBIResult-class	DBIResult-class
 dbIsReadOnly	dbIsReadOnly
+dbIsReadOnly,DBIConnector-method	hidden_aliases
 dbIsReadOnly,DBIObject-method	hidden_aliases
 dbIsValid	dbIsValid
 dbListConnections	dbListConnections
@@ -92,6 +98,7 @@ make.db.names.default	make.db.names
 rownames	rownames
 show,AnsiConnection-method	hidden_aliases
 show,DBIConnection-method	hidden_aliases
+show,DBIConnector-method	hidden_aliases
 show,DBIDriver-method	hidden_aliases
 show,DBIResult-method	hidden_aliases
 show,Id-method	hidden_aliases

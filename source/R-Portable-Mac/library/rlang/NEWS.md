@@ -1,4 +1,213 @@
 
+# rlang 0.4.5
+
+* `set_names()`, `is_formula()`, and `names2()` are now implemented in
+  C for efficiency.
+
+* The `.data` pronoun now accepts symbol subscripts (#836).
+
+* Quosure lists now explicitly inherit from `"list"`. This makes them
+  compatible with the vctrs package (#928).
+
+* All rlang options are now documented in a centralised place, see
+  `?rlang::faq-options` (#899, @smingerson).
+
+* Fixed crash when `env_bindings_are_lazy()` gets improper arguments (#923).
+
+* `arg_match()` now detects and suggests possible typos in provided
+  arguments (@jonkeane, #798).
+
+* `arg_match()` now gives an error if argument is of length greater
+  than 1 and doesn't exactly match the values input, similar to base
+  `match.arg` (#914, @AliciaSchep)
+
+
+# rlang 0.4.4
+
+* Maintenance release for CRAN.
+
+
+# rlang 0.4.3
+
+* You can now use glue syntax to unquote on the LHS of `:=`. This
+  syntax is automatically available in all functions taking dots with
+  `list2()` and `enquos()`, and thus most of the tidyverse. Note that
+  if you use the glue syntax in an R package, you need to import glue.
+
+  A single pair of braces triggers normal glue interpolation:
+
+  ```r
+  df <- data.frame(x = 1:3)
+
+  suffix <- "foo"
+  df %>% dplyr::mutate("var_{suffix}" := x * 2)
+  #>   x var_foo
+  #> 1 1       2
+  #> 2 2       4
+  #> 3 3       6
+  ```
+
+  Using a pair of double braces is for labelling a function argument.
+  Technically, this is shortcut for `"{as_label(enquo(arg))}"`. The
+  syntax is similar to the curly-curly syntax for interpolating
+  function arguments:
+
+  ```r
+  my_wrapper <- function(data, var, suffix = "foo") {
+    data %>% dplyr::mutate("{{ var }}_{suffix}" := {{ var }} * 2)
+  }
+  df %>% my_wrapper(x)
+  #>   x x_foo
+  #> 1 1     2
+  #> 2 2     4
+  #> 3 3     6
+
+  df %>% my_wrapper(sqrt(x))
+  #>   x sqrt(x)_foo
+  #> 1 1    2.000000
+  #> 2 2    2.828427
+  #> 3 3    3.464102
+  ```
+
+* Fixed a bug in magrittr backtraces that caused duplicate calls to
+  appear in the trace.
+
+* Fixed a bug in magrittr backtraces that caused wrong call indices.
+
+* Empty backtraces are no longer shown when `rlang_backtrace_on_error`
+  is set.
+
+* The tidy eval `.env` pronoun is now exported for documentation
+  purposes.
+
+* `warn()` and `abort()` now check that either `class` or `message`
+  was supplied. `inform()` allows sending empty message as it is
+  occasionally useful for building user output incrementally.
+
+* `flatten()` fails with a proper error when input can't be flattened (#868, #885).
+
+* `inform()` now consistently appends a final newline to the message
+  (#880).
+
+* `cnd_body.default()` is now properly registered.
+
+* `cnd_signal()` now uses the same approach as `abort()` to save
+  unhandled errors to `last_error()`.
+
+* Parsable constants like `NaN` and `NA_integer_` are now deparsed by
+  `expr_deparse()` in their parsable form (#890).
+
+* Infix operators now stick to their LHS when deparsed by
+  `expr_deparse()` (#890).
+
+
+# rlang 0.4.2
+
+* New `cnd_header()`, `cnd_body()` and `cnd_footer()` generics. These
+  are automatically called by `conditionMessage.rlang_error()`, the
+  default method for all rlang errors.
+
+  Concretely, this is a way of breaking up lazy generation of error
+  messages with `conditionMessage()` into three independent
+  parts. This provides a lot of flexibility for hierarchies of error
+  classes, for instance you could inherit the body of an error message
+  from a parent class while overriding the header and footer.
+
+* The reminder to call `last_error()` is now less confusing thanks to
+  a suggestion by @markhwhiteii.
+
+* The functions prefixed in `scoped_` have been renamed to use the
+  more conventional `local_` prefix. For instance, `scoped_bindings()`
+  is now `local_bindings()`. The `scoped_` functions will be
+  deprecated in the next significant version of rlang (0.5.0).
+
+* The `.subclass` argument of `abort()`, `warn()` and `inform()` has
+  been renamed to `class`. This is for consistency with our
+  conventions for class constructors documented in
+  https://adv-r.hadley.nz/s3.html#s3-subclassing.
+
+* `inform()` now prints messages to the standard output by default in
+  interactive sessions. This makes them appear more like normal output
+  in IDEs such as RStudio. In non-interactive sessions, messages are
+  still printed to standard error to make it easy to redirect messages
+  when running R scripts (#852).
+
+* Fixed an error in `trace_back()` when the call stack contains a
+  quosured symbol.
+
+* Backtrace is now displayed in full when an error occurs in
+  non-interactive sessions. Previously the backtraces of parent errors
+  were left out.
+
+
+# rlang 0.4.1
+
+* New experimental framework for creating bulleted error messages. See
+  `?cnd_message` for the motivation and an overwiew of the tools we
+  have created to support this approach. In particular, `abort()` now
+  takes character vectors to assemble a bullet list. Elements named
+  `x` are prefixed with a red cross, elements named `i` are prefixed
+  with a blue info symbol, and unnamed elements are prefixed with a
+  bullet.
+
+* Capture of backtrace in the context of rethrowing an error from an
+  exiting handler has been improved. The `tryCatch()` context no
+  longer leaks in the high-level backtrace.
+
+* Printing an error no longer recommends calling `last_trace()`,
+  unless called from `last_error()`.
+
+* `env_clone()` no longer recreates active bindings and is now just an
+  alias for `env2list(as.list(env))`. Unlike `as.list()` which returns
+  the active binding function on R < 4.0, the value of active bindings
+  is consistently used in all versions.
+
+* The display of rlang errors derived from parent errors has been
+  improved. The simplified backtrace (as printed by
+  `rlang::last_error()`) no longer includes the parent errors. On the
+  other hand, the full backtrace (as printed by `rlang::last_trace()`)
+  now includes the backtraces of the parent errors.
+
+* `cnd_signal()` has improved support for rlang errors created with
+  `error_cnd()`. It now records a backtrace if there isn't one
+  already, and saves the error so it can be inspected with
+  `rlang::last_error()`.
+
+* rlang errors are no longer formatted and saved through
+  `conditionMessage()`. This makes it easier to use a
+  `conditionMessage()` method in subclasses created with `abort()`,
+  which is useful to delay expensive generation of error messages
+  until display time.
+
+* `abort()` can now be called without error message. This is useful
+  when `conditionMessage()` is used to generate the message at
+  print-time.
+
+* Fixed an infinite loop in `eval_tidy()`. It occurred when evaluating
+  a quosure that inherits from the mask itself.
+
+* `env_bind()`'s performance has been significantly improved by fixing a bug
+  that caused values to be repeatedly looked up by name.
+
+* `cnd_muffle()` now checks that a restart exists before invoking
+  it. The restart might not exist if the condition is signalled with a
+  different function (such as `stop(warning_cnd)`).
+
+* `trace_length()` returns the number of frames in a backtrace.
+
+* Added internal utility `cnd_entrace()` to add a backtrace to a
+  condition.
+
+* `rlang::last_error()` backtraces are no longer displayed in red.
+
+* `x %|% y` now also works when `y` is of same length as `x` (@rcannood, #806).
+
+* Empty named lists are now deparsed more explicitly as
+  `"<named list>"`.
+
+* Fixed `chr()` bug causing it to return invisibly.
+
+
 # rlang 0.4.0
 
 ## Tidy evaluation

@@ -24,7 +24,7 @@ This page shows examples of a subset of functions in this package. For a full li
 
 ## No more partial matching for lists!
 
-I have been bitten many times by partial matching in lists, e.g., when I want `x$a` but the element `a` does not exist in the list `x`, it returns the value `x$abc` if `abc` exists in `x`. This is [very annoying to me](https://twitter.com/xieyihui/status/782462926862954496). The function `xfun::strict_list()` makes a list "strict" by disabling the partial matching of the `$` operator, e.g.,
+I have been bitten many times by partial matching in lists, e.g., when I want `x$a` but the element `a` does not exist in the list `x`, it returns the value `x$abc` if `abc` exists in `x`. This is [very annoying to me](https://twitter.com/xieyihui/status/782462926862954496) which is why I created strict lists. A strict list is a list for which the partial matching of the `$` operator is disabled. The functions `xfun::strict_list()` and `xfun::as_strict_list()` are the equivalents to `base::list()` and `base::as.list()` respectively which always return as strict list, e.g.,
 
 ```{r}
 library(xfun)
@@ -36,6 +36,9 @@ z$c = "you can create a new element"
 
 z2 = unclass(z)  # a normal list
 z2$a  # partial matching
+
+z3 = as_strict_list(z2)  # a strict list again
+z3$a  # NULL (strict matching) again!
 ```
 
 Similarly, the default partial matching in `attr()` can be annoying, too. The function `xfun::attr()` is simply a shorthand of `attr(..., exact = TRUE)`.
@@ -83,7 +86,7 @@ The function `gsub_dir()` is very flexible: you can limit the list of files by M
 
 ## Manipulate filename extensions
 
-Functions `file_ext()` and `sans_ext()` are based on functins in **tools**. The function `with_ext()` adds or replaces extensions of filenames, and it is vectorized.
+Functions `file_ext()` and `sans_ext()` are based on functions in **tools**. The function `with_ext()` adds or replaces extensions of filenames, and it is vectorized.
 
 ```{r}
 library(xfun)
@@ -108,7 +111,7 @@ xfun::is_windows()
 
 ## Loading and attaching packages
 
-Often times I see users attach a series of packages in the beginning of their scripts by repeating `library()` multiple times. This could be easily vectorized, and the function `xfun::pkg_attach()` does this job. For example,
+Oftentimes I see users attach a series of packages in the beginning of their scripts by repeating `library()` multiple times. This could be easily vectorized, and the function `xfun::pkg_attach()` does this job. For example,
 
 ```{r eval=FALSE}
 library(testit)
@@ -163,11 +166,11 @@ Running `R CMD check` on the reverse dependencies of **knitr** and **rmarkdown**
 
 ## Input a character vector into the RStudio source editor
 
-The function `rstudio_type()` inputs characters in the RStudio source editor as if they were typed by a human. I came up with the idea when preparing my talk for rstudio::conf 2018 ([see this post](https://yihui.name/en/2018/03/blogdown-video-rstudio-conf/) for more details).
+The function `rstudio_type()` inputs characters in the RStudio source editor as if they were typed by a human. I came up with the idea when preparing my talk for rstudio::conf 2018 ([see this post](https://yihui.org/en/2018/03/blogdown-video-rstudio-conf/) for more details).
 
 ## Print session information
 
-Since I have never been fully satisfied by the output of `sessionInfo()`, I tweaked it to make it more useful in my use cases. For example, it is rarely useful to print out the names of base R packages, or information about the matrix products / BLAS / LAPACK. Often times I want additional information in the session information, such as the Pandoc version when **rmarkdown** is used. The function `session_info()` tweaks the output of `sessionInfo()`, and makes it possible for other packages to append information in the output of `session_info()`.
+Since I have never been fully satisfied by the output of `sessionInfo()`, I tweaked it to make it more useful in my use cases. For example, it is rarely useful to print out the names of base R packages, or information about the matrix products / BLAS / LAPACK. Oftentimes I want additional information in the session information, such as the Pandoc version when **rmarkdown** is used. The function `session_info()` tweaks the output of `sessionInfo()`, and makes it possible for other packages to append information in the output of `session_info()`.
 
 You can choose to print out the versions of only the packages you specify, e.g.,
 

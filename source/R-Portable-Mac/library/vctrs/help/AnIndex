@@ -1,11 +1,11 @@
 vctrs-package	vctrs-package
 %0%	op-empty-default
-%<-%	unpack-assign
 allow_lossy_cast	vctrs-conditions
 as_list_of	list_of
 field	fields
 field<-	fields
 fields	fields
+internal-faq-ptype2-identity	internal-faq-ptype2-identity
 is_list_of	list_of
 is_partial	new_partial
 list_of	list_of
@@ -22,6 +22,8 @@ new_ordered	new_factor
 new_partial	new_partial
 new_rcrd	new_rcrd
 new_vctr	new_vctr
+num_as_location	vec_as_location
+num_as_location2	vec_as_location
 n_fields	fields
 obj_print	obj_print
 obj_print_data	obj_print
@@ -56,8 +58,12 @@ vec_arith_base	vec_arith
 vec_assert	vec_assert
 vec_assign	vec_slice
 vec_as_index	vec_as_index
+vec_as_location	vec_as_location
+vec_as_location2	vec_as_location
 vec_as_names	vec_as_names
 vec_as_names_legacy	vec_as_names_legacy
+vec_as_subscript	vec_as_subscript
+vec_as_subscript2	vec_as_subscript
 vec_bind	vec_bind
 vec_c	vec_c
 vec_cast	vec_cast
@@ -78,6 +84,7 @@ vec_cast.raw	vec_cast
 vec_cast.vctrs_list_of	list_of
 vec_cast_common	vec_cast
 vec_cbind	vec_bind
+vec_chop	vec_chop
 vec_compare	vec_compare
 vec_count	vec_count
 vec_data	vec_data
@@ -90,11 +97,16 @@ vec_duplicate_id	vec_duplicate
 vec_empty	vec_empty
 vec_equal	vec_equal
 vec_equal_na	vec_equal
+vec_group	vec_group
+vec_group_id	vec_group
+vec_group_loc	vec_group
+vec_group_rle	vec_group
 vec_in	vec_match
 vec_init	vec_init
 vec_init_along	vec_seq_along
 vec_is	vec_assert
 vec_is_empty	vec_size
+vec_is_list	vec_is_list
 vec_list_cast	vec_list_cast
 vec_match	vec_match
 vec_math	vec_math
@@ -106,6 +118,7 @@ vec_proxy_equal	vec_proxy_equal
 vec_ptype	vec_ptype
 vec_ptype2	vec_ptype2
 vec_ptype2.character	vec_ptype2
+vec_ptype2.complex	vec_ptype2
 vec_ptype2.data.frame	new_data_frame
 vec_ptype2.Date	new_date
 vec_ptype2.difftime	new_date
@@ -142,6 +155,7 @@ vec_split	vec_split
 vec_type	vec_type
 vec_type2	vec_type
 vec_type_common	vec_type
+vec_unchop	vec_chop
 vec_unique	vec_unique
 vec_unique_count	vec_unique
 vec_unique_loc	vec_unique

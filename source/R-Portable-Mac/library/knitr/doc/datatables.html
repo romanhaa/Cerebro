@@ -216,7 +216,7 @@ p{clear:both;}
 <p>We can use the JavaScript library <a href="http://www.datatables.net"><strong>DataTables</strong></a> to generate enhanced tables in HTML. In the example below, we create a table for the <code>mtcars</code> data:</p>
 
 <pre><code class="r">library(knitr)
-kable(mtcars, &quot;html&quot;, table.attr = &quot;id=\&quot;mtcars_table\&quot;&quot;)
+kable(mtcars, &#39;html&#39;, table.attr=&#39;id=&quot;mtcars_table&quot;&#39;)
 </code></pre>
 
 <table id="mtcars_table">
@@ -705,14 +705,14 @@ kable(mtcars, &quot;html&quot;, table.attr = &quot;id=\&quot;mtcars_table\&quot;
 
 <p>Since this is a Markdown vignette, we need to add the JavaScript libraries as well as some additional CSS files to the HTML header, and this can be done via:</p>
 
-<pre><code class="r">options(markdown.HTML.header = system.file(&quot;misc&quot;, &quot;datatables.html&quot;, package = &quot;knitr&quot;))
+<pre><code class="r">options(markdown.HTML.header = system.file(&#39;misc&#39;, &#39;datatables.html&#39;, package = &#39;knitr&#39;))
 </code></pre>
 
 <p>The file <code>datatables.html</code> under the <code>misc</code> directory of <strong>knitr</strong> was added to the HTML output.</p>
 
 <p>By comparison, below is an ordinary table:</p>
 
-<pre><code class="r">kable(head(mtcars), &quot;html&quot;)
+<pre><code class="r">kable(head(mtcars), &#39;html&#39;)
 </code></pre>
 
 <table>

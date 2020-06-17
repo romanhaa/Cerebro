@@ -1,7 +1,8 @@
 Package: later
 Type: Package
-Title: Utilities for Delaying Function Execution
-Version: 0.8.0
+Title: Utilities for Scheduling Functions to Execute Later with Event
+        Loops
+Version: 1.0.0
 Authors@R: c(
     person("Joe", "Cheng", role = c("aut", "cre"), email = "joe@rstudio.com"),
     person(family = "RStudio", role = "cph"),
@@ -10,17 +11,18 @@ Authors@R: c(
     person("Evan", "Nemerson", role = c("ctb", "cph"), comment = "TinyCThread library, https://tinycthread.github.io/")
     )
 Description: Executes arbitrary R or C functions some time after the current
-    time, after the R execution stack has emptied.
+    time, after the R execution stack has emptied. The functions are scheduled
+    in an event loop.
 URL: https://github.com/r-lib/later
 BugReports: https://github.com/r-lib/later/issues
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.12.9), rlang
 LinkingTo: Rcpp, BH
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2019-02-11 08:01:33 UTC; jcheng
+Packaged: 2019-10-03 23:31:59 UTC; jcheng
 Author: Joe Cheng [aut, cre],
   RStudio [cph],
   Winston Chang [aut],
@@ -30,6 +32,6 @@ Author: Joe Cheng [aut, cre],
     https://tinycthread.github.io/)
 Maintainer: Joe Cheng <joe@rstudio.com>
 Repository: CRAN
-Date/Publication: 2019-02-11 08:53:37 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-02-12 14:19:49 UTC; unix
+Date/Publication: 2019-10-04 05:00:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-10-05 04:40:15 UTC; unix
 Archs: later.so.dSYM

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Dean Attali" />
+
+<meta name="date" content="2020-01-12" />
+
+<title>Package shinyjs</title>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Package shinyjs</h1>
+<h4 class="author">Dean Attali</h4>
+<h4 class="date">2020-01-12</h4>
+
+
+
+<p align="center">
+<p><a href="https://deanattali.com/shinyjs/"> <img src="data:image/png;base64,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" alt="shinyjs" width="285" height="100" /> </a></p>
+<h3 align="center">
+shinyjs
+</h3>
+<h4 align="center">
+Easily improve the user experience of your Shiny apps in seconds <br><br> <a href="https://deanattali.com/shinyjs/">Official website</a> · Copyright 2016 <a href="https://deanattali.com">Dean Attali</a>
+</h4>
+<p align="center">
+<a href="https://www.paypal.me/daattali/20"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAAUCAYAAAAEEYpkAAAABmJLR0QA/wD/AP+gvaeTAAAGJklEQVRYw9WZaUxUVxTHX3EEtbVutU2XtOnnfrL2g6KixCXGoCyuuKDSIGmqIImVqiUahlEEygziAoxoTBpaEQ0uIFIGGBiwhcoWlK3DNggFB5kJMCjcc2/fueYRhhlNWL48kl/eu+eec+bO/5177iMjrFmzRnHgwAHV/v37jSJEjmj/WiQTFhq1jxepzhQICiEgIEAlQuRMyuOFskL7eEGUsG/fPpMIkTPJpQvkhknYu3cvkTtJJfNlh7Bnzx4id64Y5skOYffu3UTuXC7+UHYI/v7+xBn9/f3MbDaz7u5u1tvby8rKyuipU6fgbf7TQUZGBqCQE427VDTXjqHhXtb/ysQstmb2crCBPaoPhPE+E2WyOQm8YkmGxQ52YdeuXcQZVquVBQYGgqenJ6xduxY0Gg0dGhpix48fh7fFTBUAYNg6Jhp3Uf+BHQO2Xnb2xlI4op4N6j88Ab98aulXDn4TYbI5R8grdrnoIwe7sHPnTuIMFD4sLAyk8ebNm0lWVhbNz8+nOI6OjobW1lba3t5Oa2traWho6GgsE//S0tLAYDDQ5uZmGhsbO5pHsmFceXk5FR8ut2dmZlKMq6uro8+ePaP4thIREQE4bmlpoUajkSqVSnC21sTC9+1Aka4Xfwd4f/7+HDI41MfSyjz4uKE7nfb0V1LzQC01mu/TFMPnPKak+Reoea6lUo7U0q+J7XUPu1K8eNI5ERT+kn6RwxqFHTt2EGeg8EePHoWxNqz6+vp6dujQIT4visN3hFqtpk1NTVTyQwEjIyNh/fr1IFYw9PT0MGlu27ZtPAZJTU2ld+7c4XEbN27kFb9hwwa+ww4ePEja2tro9u3bua9Y2TwP7ojxa71QMMcOFOla0VLA+8waH3g9PMgScj7lc2dufAEhmlli5c6C7L8jaFlLHEX7uVufkX5bN7tS9DH3KzUqIf+fRKrRTT4nwoUvXOiwRkH8YsQZKKxYxTDWlpiYiBXIYmJiAHu+r68vt+NuGBkZYfjPDI5ReGnOz8+PYIvCloDjlJQUXsXiA+SVj3mk/Ci85Ic7qq+vjz19+pTvALyaTCZ2+PBhh7Um5M+2Y8BmZv1Dncw61Ma6+iroxXRvGp/7Zi6vLgSeW0pop6WUdvXV0IaOhxTtOG+ovkZ19aGQWDCXWAZMLO7WNzCVnAgKf7FggcMaBbECiTMsFgsLCQmBsbbc3FyanZ1NVSoVYJuQ7Fh1w8PDDN+pcYzCb926dTROEj48PBw6OjrYli1beBWfOHGCVlRUjOZB4bF14H1UVBRUVVUxaXcgHh4e4OPj47BWjW6WHSiS8toS+CHGVaxCV1BmuHF7Wrk7mK2N7OekTyAkwRWS7/rRxo4CKsXFZyyFbkstvV/jD3WteTQma+o5UfjE/PkOaxRQIGdIwuM9CpuUlAQ2m40FBQUBCow7QpznvsnJySBWJMPqxrEkvAQKj4KePn0aKisr+W5Au16v58JLfpgTWwze49sKjrGvS/MnT54EZ2tV57nZgSJdLfwWxtt/L/WCxnY9i8t5M65tv0kbTflUmj93z400mfTUOtjBtA986XTkROEv6OY5rFFAsZyBwuNr5IsXL/i1pKQED0IQq5Vg1R07dowferj9q6urqfgaCFIsCj82Fz4wfHjYknQ6HRXFp8XFxTQ9PZ0LL/lptVqKOwIPbfQPDg4GbDP4GZ2dnQwPZmdrjf/T1Q4USVu4BMbblbdnkycNN2mrOZfW/3eTFlapuUhjfW7kBNBeaxuLvOU2LTlR+IS8Dx3WKGD1OcPd3R2QFStW8CtudS8vr9H5TZs2kZUrVwKCLQAfiDS3bNkyGJtr+fLlvEXgPeZZvXo1z7du3TqCsZKfeBiP5kR//LxVq1bxMa4DY5yt9dfcmXYEnVXA2bszHexxj2aSsEsKsSUoAK8/XVWQIxoFjPV5YrxObxeEU/SdjpzfKxUwPhci4BeUO3GPFFMmqfBL8nKgkf37vIhF/DZ3WnK+C8Hb25vIndicGVPm3L0ZJDjaBX6Md4Hz2TOmJee7EMQW0YFtQs7EPHSRGyZBPPBUeOjJmfPZ78kMlygBf/pD8cWDrAsPMzkSnSXIha7oBwL/6e9/yPj0XYcW9IsAAAAASUVORK5CYII=" alt="Donate" /> </a> <a href="https://travis-ci.org/daattali/shinyjs"> <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MCIgaGVpZ2h0PSIyMCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4Mj0iMCIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2JiYiIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3Qgcng9IjMiIHdpZHRoPSI5MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHJ4PSIzIiB4PSIzNyIgd2lkdGg9IjUzIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNGMxIi8+PHBhdGggZmlsbD0iIzRjMSIgZD0iTTM3IDBoNHYyMGgtNHoiLz48cmVjdCByeD0iMyIgd2lkdGg9IjkwIiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI2EpIi8+PGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkRlamFWdSBTYW5zLFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPjx0ZXh0IHg9IjE5LjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj5idWlsZDwvdGV4dD48dGV4dCB4PSIxOS41IiB5PSIxNCI+YnVpbGQ8L3RleHQ+PHRleHQgeD0iNjIuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPnBhc3Npbmc8L3RleHQ+PHRleHQgeD0iNjIuNSIgeT0iMTQiPnBhc3Npbmc8L3RleHQ+PC9nPjwvc3ZnPg==" alt="Build Status" /> </a> <a href="https://cran.r-project.org/package=shinyjs"> <img src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NiIgaGVpZ2h0PSIyMCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJiIiB4Mj0iMCIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iLjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxtYXNrIGlkPSJhIj4KICAgIDxyZWN0IHdpZHRoPSI3NiIgaGVpZ2h0PSIyMCIgcng9IjMiIGZpbGw9IiNmZmYiLz4KICA8L21hc2s+CiAgPGcgbWFzaz0idXJsKCNhKSI+CiAgICA8cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDQzdjIwSDB6Ii8+CiAgICA8cGF0aCBmaWxsPSIjNGMxIiBkPSJNNDMgMGg1Mi41djIwSDQzeiIvPgogICAgPHBhdGggZmlsbD0idXJsKCNiKSIgZD0iTTAgMGg3NnYyMEgweiIvPgogIDwvZz4KICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIgogICAgIGZvbnQtZmFtaWx5PSJEZWphVnUgU2FucyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIj4KICAgIDx0ZXh0IHg9IjIxLjUiIHk9IjE1IiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIj4KICAgICAgQ1JBTgogICAgPC90ZXh0PgogICAgPHRleHQgeD0iMjEuNSIgeT0iMTQiPgogICAgICBDUkFOCiAgICA8L3RleHQ+CiAgICA8dGV4dCB4PSI1OC41IiB5PSIxNSIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+CiAgICAgIDEuMAogICAgPC90ZXh0PgogICAgPHRleHQgeD0iNTguNSIgeT0iMTQiPgogICAgICAxLjAKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="CRAN version" /> </a>
+</p>
+</p>
+<hr />
+<p><code>shinyjs</code> lets you perform common useful JavaScript operations in Shiny apps that will greatly improve your apps without having to know any JavaScript.</p>
+<p>Examples include: hiding an element, disabling an input, resetting an input back to its original value, delaying code execution by a few seconds, and many more useful functions for both the end user and the developer. <code>shinyjs</code> can also be used to easily call your own custom JavaScript functions from R.</p>
+<p><strong>shinyjs is under the AGPL-3 license. For a commercial license, please <a href="https://deanattali.com/contact">contact me</a>. If you find shinyjs useful, please consider supporting its development!</strong></p>
+<p align="center">
+<a href="https://www.paypal.me/daattali/20"> <img src="data:image/gif;base64,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" /> </a>
+</p>
+<div id="table-of-contents" class="section level1">
+<h1>Table of contents</h1>
+<ul>
+<li><a href="#demos">Demos and tutorials</a></li>
+<li><a href="#overview-main">Overview of main functions</a></li>
+<li><a href="#install">Installation</a></li>
+<li><a href="#usage">How to use</a></li>
+<li><a href="#usecase">Basic use case - complete working example</a></li>
+<li><a href="#extendshinyjs">Calling your own JavaScript functions from R</a></li>
+<li><a href="#faq-tricks">FAQ and extra tricks</a></li>
+<li><a href="#more-resources">More resources</a></li>
+</ul>
+<h2 id="demos">
+Demos and tutorials
+</h2>
+<ul>
+<li><a href="https://deanattali.com/shinyjs/demo">Demo Shiny app</a> that lets you play around with some of the functionality in <code>shinyjs</code>.</li>
+<li><a href="https://deanattali.com/shinyjs-shinydevcon-2016/">Video of my shinyjs talk</a> (30 min) and the corresponding <a href="https://bit.ly/shinyjs-slides">presentation slides</a> from the 2016 Shiny Developer Conference.</li>
+<li><a href="https://deanattali.com/shinyjs-user-2016/">Video of my shinyjs talk</a> (5 min) and the corresponding <a href="https://bit.ly/shinyjs-slides-useR2016">presentation slides</a> from the 2016 useR Conference.</li>
+</ul>
+<h2 id="overview-main">
+Overview of main functions
+</h2>
+<p><strong>Note: In order to use any <code>shinyjs</code> function in a Shiny app, you must first call <code>useShinyjs()</code> anywhere in the app’s UI.</strong></p>
+<table>
+<colgroup>
+<col width="28%"></col>
+<col width="71%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>show</code>/<code>hide</code>/<code>toggle</code></td>
+<td>Display or hide an element (optionally with an animation).</td>
+</tr>
+<tr class="even">
+<td><code>hidden</code></td>
+<td>Initialize a Shiny tag as invisible (can be shown later with a call to <code>show</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>enable</code>/<code>disable</code>/<code>toggleState</code></td>
+<td>Enable or disable an input element, such as a button or a text input.</td>
+</tr>
+<tr class="even">
+<td><code>disabled</code></td>
+<td>Initialize a Shiny input as disabled.</td>
+</tr>
+<tr class="odd">
+<td><code>reset</code></td>
+<td>Reset a Shiny input widget back to its original value.</td>
+</tr>
+<tr class="even">
+<td><code>delay</code></td>
+<td>Execute R code (including any <code>shinyjs</code> functions) after a specified amount of time.</td>
+</tr>
+<tr class="odd">
+<td><code>alert</code></td>
+<td>Show a message to the user.</td>
+</tr>
+<tr class="even">
+<td><code>click</code></td>
+<td>Simulate a click on a button.</td>
+</tr>
+<tr class="odd">
+<td><code>html</code></td>
+<td>Change the text/HTML of an element.</td>
+</tr>
+<tr class="even">
+<td><code>onclick</code></td>
+<td>Run R code when a specific element is clicked. Was originally developed with the sole purpose of running a <code>shinyjs</code> function when an element is clicked, though any R code can be used.</td>
+</tr>
+<tr class="odd">
+<td><code>onevent</code></td>
+<td>Similar to <code>onclick</code>, but can be used with many other events instead of click (for example, listen for a key press, mouse hover, etc).</td>
+</tr>
+<tr class="even">
+<td><code>addClass</code>/<code>removeClass</code>/<code>toggleClass</code></td>
+<td>add or remove a CSS class from an element.</td>
+</tr>
+<tr class="odd">
+<td><code>runjs</code></td>
+<td>Run arbitrary JavaScript code.</td>
+</tr>
+<tr class="even">
+<td><code>extendShinyjs</code></td>
+<td>Allows you to write your own JavaScript functions and use <code>shinyjs</code> to call them as if they were regular R code. More information is available in the section “Calling your own JavaScript functions from R” below.</td>
+</tr>
+</tbody>
+</table>
+<div id="functions-that-help-you-during-shiny-app-development" class="section level3">
+<h3>Functions that help you during Shiny app development</h3>
+<table>
+<colgroup>
+<col width="28%"></col>
+<col width="71%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>runcodeUI</code>+<code>runcodeServer</code></td>
+<td>Adds a text input to your app that lets you run arbitrary R code live.</td>
+</tr>
+<tr class="even">
+<td><code>showLog</code></td>
+<td>Print any JavaScript <code>console.log()</code> messages in the R console, to make it easier and quicker to debug apps without having to open the JS console.</td>
+</tr>
+<tr class="odd">
+<td><code>logjs</code></td>
+<td>Print a message to the JavaScript console (mainly used for debugging purposes).</td>
+</tr>
+<tr class="even">
+<td><code>inlineCSS</code></td>
+<td>Easily add inline CSS to a Shiny app.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://deanattali.com/shinyjs/demo">Check out the shinyjs demo app</a> to see some of these in action, or install <code>shinyjs</code> and run <code>shinyjs::runExample()</code> to see more demos.</p>
+<h2 id="install">
+Installation
+</h2>
+<p>To install the stable CRAN version:</p>
+<pre><code>install.packages(&quot;shinyjs&quot;)</code></pre>
+<p>To install the latest development version from GitHub:</p>
+<pre><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;daattali/shinyjs&quot;)</code></pre>
+<h2 id="usage">
+How to use
+</h2>
+<p>A typical Shiny app has a UI portion and a server portion. Before using most shinyjs functions, you need to call <code>useShinyjs()</code> in the app’s UI. It’s best to include it near the top as a convention.</p>
+<p>Here is a minimal Shiny app that uses <code>shinyjs</code>:</p>
+<pre><code>library(shiny)
+library(shinyjs)
+
+ui &lt;- fluidPage(
+  useShinyjs(),  # Include shinyjs
+
+  actionButton(&quot;button&quot;, &quot;Click me&quot;),
+  textInput(&quot;text&quot;, &quot;Text&quot;)
+)
+
+server &lt;- function(input, output) {
+  observeEvent(input$button, {
+    toggle(&quot;text&quot;)  # toggle is a shinyjs function
+  })
+}
+
+shinyApp(ui, server)</code></pre>
+<p>This is how most Shiny apps should initialize <code>shinyjs</code> - by calling <code>useShinyjs()</code> near the top of the UI.</p>
+<p>However, if you use shinyjs in any of the following cases:</p>
+<ul>
+<li>In Shiny dashboards (built using the <code>shinydashboard</code> package)</li>
+<li>In Shiny apps that use a <code>navbarPage</code> layout</li>
+<li>In Rmd documents</li>
+<li>In Shiny apps that manually build the user interface with an HTML file or template (instead of using Shiny’s UI functions)</li>
+</ul>
+<p>Then you should see the <a href="https://deanattali.com/shinyjs/advanced"><em>Including shinyjs in different types of apps</em></a> document.</p>
+<p>If your Shiny app doesn’t fall into any of these categories, then the above code sample should be enough to get your started with including shinyjs in your app.</p>
+<h2 id="usecase">
+Basic use case - complete working example
+</h2>
+<p>See the <a href="https://deanattali.com/shinyjs/example"><em>shinyjs example app walk-through</em></a> document for a step-by-step guide on how to add a variety of shinyjs features to a simple app in order to make it more user friendly.</p>
+<h2 id="extendshinyjs">
+Calling your own JavaScript functions from R
+</h2>
+<p>You can also use <code>shinyjs</code> to add your own JavaScript functions that can be called from R as if they were regular R functions using <code>extendShinyjs</code>. This is only suitable for advanced users who are familiar with JavaScript and wish to facilitate the communication between R and JavaScript.</p>
+<p>To learn about this feature and see how useful it can be, see the <a href="https://deanattali.com/shinyjs/extend"><em>extendShinyjs: Calling your own JavaScript functions from R</em></a> document.</p>
+<h2 id="faq-tricks">
+FAQ and extra tricks
+</h2>
+<p>There are several questions that pop up very frequently in my email or on StackOverflow about “How do I use shinyjs to do ___?” Here is a list of a few of these common questions with links to a solution that could be useful. Note that all of these require using <code>extendShinyjs()</code>.</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/31306707/3943160">How do I show/hide the <code>shinydashboard</code> sidebar programmatically?</a></li>
+<li><a href="https://stackoverflow.com/a/31719425/3943160">How do I hide/disable a tab?</a></li>
+<li><a href="https://stackoverflow.com/a/34758024/3943160">How do I refresh the page?</a></li>
+<li><a href="https://github.com/timelyportfolio/sweetalertR/issues/1#issuecomment-151685005">How do I call a JavaScript function from a different JavaScript library?</a></li>
+<li><a href="https://stackoverflow.com/a/31066997/3943160">How do I change the values of a <code>sliderInput</code>?</a></li>
+<li><a href="https://stackoverflow.com/a/34728125/3943160">How do I call JavaScript code and use the return value?</a></li>
+</ul>
+<p>I also keep a long <a href="https://deanattali.com/blog/advanced-shiny-tips/">list of various Shiny tips &amp; tricks</a> for solving common Shiny problems, many of which make use of shinyjs.</p>
+<h2 id="more-resources">
+More resources
+</h2>
+<p>This document is meant to serve as a high overview of shinyjs. There are three more documents provided in shinyjs to teach you various aspects of the package:</p>
+<ul>
+<li><a href="https://deanattali.com/shinyjs/advanced">Including shinyjs in different types of apps</a></li>
+<li><a href="https://deanattali.com/shinyjs/example">shinyjs example app walk-through</a></li>
+<li><a href="https://deanattali.com/shinyjs/extend">extendShinyjs: Calling your own JavaScript functions from R</a></li>
+</ul>
+<p>If you need help with shinyjs, a good place to start is to try to get help from the community. I suggest browsing the <a href="https://stackoverflow.com/tags/shinyjs">shinyjs tag</a> on StackOverflow or asking your own question there. You can also try getting help on the <a href="https://community.rstudio.com/c/shiny">RStudio Community forums</a>.</p>
+<p>If you still can’t get an answer to your question, you can <a href="https://deanattali.com/contact">contact me</a>. However, because of the high volume of support emails I receive daily, I can only provide support for a fee (as part of my <a href="http://attalitech.com/">Shiny consulting</a>).</p>
+</div>
+<div id="motivation-alternatives-using-native-shiny" class="section level2">
+<h2>Motivation &amp; alternatives using native Shiny</h2>
+<p>The initial release of this package was announced <a href="https://deanattali.com/2015/04/23/shinyjs-r-package/">on my blog</a> and discusses these topics.</p>
+</div>
+<div id="contributions" class="section level2">
+<h2>Contributions</h2>
+<p>If you have any suggestions or feedback, I would love to hear about it. You can either <a href="https://deanattali.com/contact">message me directly</a>, <a href="https://github.com/daattali/shinyjs/issues">open an issue</a> if you want to request a feature/report a bug, or make a pull request if you can contribute.</p>
+<p>I’d like to give special thanks to the Shiny developers, especially <a href="http://www.joecheng.com/">Joe Cheng</a> for always answering all my Shiny questions.</p>
+<p>Lastly, if you find shinyjs useful, please consider <a href="https://www.paypal.me/daattali/20">supporting me</a> for the countless hours I’ve spent building, documenting, and supporting this package :)</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

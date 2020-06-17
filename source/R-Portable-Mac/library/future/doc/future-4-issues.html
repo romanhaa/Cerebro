@@ -234,6 +234,15 @@ y
 ## Error: object &#39;x&#39; not found
 </code></pre>
 
+<p>It is recommended to avoid above constructs where it is ambigious whether a variable is global or local.  To force variable <code>x</code> to always be global, insert it at the very being of the future expression, e.g.</p>
+
+<pre><code class="r">reset &lt;- FALSE
+x &lt;- 1
+y %&lt;-% { x; if (reset) x &lt;- 0; x + 1 }
+y
+## [1] 2
+</code></pre>
+
 <p><em>Comment:</em> The goal is to in a future version of the package detect globals also in expression where the local-global state of a variable is only known at run time.</p>
 
 <h4>do.call() - function not found</h4>
@@ -293,6 +302,14 @@ In order for <code>a</code> to be identified, the future framework would need to
 <p>The workaround is to tell the future framework what <em>additional</em> globals are needed.  This can be done via argument <code>globals</code> using:</p>
 
 <pre><code class="r">&gt; f &lt;- future(my_sum(&quot;a&quot;), globals = structure(TRUE, add = &quot;a&quot;))
+&gt; y &lt;- value(f)
+&gt; y
+[1] 6
+</code></pre>
+
+<p>or my injecting <code>a</code> at the beginning of the future expression, e.g.</p>
+
+<pre><code class="r">&gt; f &lt;- future({ a; my_sum(&quot;a&quot;) })
 &gt; y &lt;- value(f)
 &gt; y
 [1] 6

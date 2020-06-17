@@ -1,38 +1,54 @@
 Package: RSQLite
 Title: 'SQLite' Interface for R
-Version: 2.1.2
-Date: 2019-07-23
-Authors@R: c(
-    person("Kirill", "M\u00fcller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org", comment = c(ORCID = "0000-0002-1416-3412")),
-    person("Hadley", "Wickham", role = c("aut")),
-    person(c("David", "A."), "James", role = "aut"),
-    person("Seth", "Falcon", role = "aut"),
-    person(family = "SQLite Authors", role = "ctb", comment = "for the included SQLite sources"),
-    person("Liam", "Healy", role = "ctb", comment = "for the included SQLite sources"),
-    person(family = "R Consortium", role = "fnd"),
-    person(family = "RStudio", role = "cph")
-    )
+Version: 2.2.0
+Date: 2020-01-07
+Authors@R: 
+    c(person(given = "Kirill",
+             family = "M\u00fcller",
+             role = c("aut", "cre"),
+             email = "krlmlr+r@mailbox.org",
+             comment = c(ORCID = "0000-0002-1416-3412")),
+      person(given = "Hadley",
+             family = "Wickham",
+             role = "aut"),
+      person(given = c("David", "A."),
+             family = "James",
+             role = "aut"),
+      person(given = "Seth",
+             family = "Falcon",
+             role = "aut"),
+      person(family = "SQLite Authors",
+             role = "ctb",
+             comment = "for the included SQLite sources"),
+      person(given = "Liam",
+             family = "Healy",
+             role = "ctb",
+             comment = "for the included SQLite sources"),
+      person(given = "R Consortium",
+             role = "fnd"),
+      person(family = "RStudio",
+             role = "cph"))
 Description: Embeds the 'SQLite' database engine in R and
-    provides an interface compliant with the 'DBI' package. The
-    source for the 'SQLite' engine is included.
-License: LGPL (>= 2)
-URL: https://github.com/r-dbi/RSQLite
+    provides an interface compliant with the 'DBI' package. The source for
+    the 'SQLite' engine is included.
+License: LGPL (>= 2.1)
+URL: https://rsqlite.r-dbi.org, https://github.com/r-dbi/RSQLite
 BugReports: https://github.com/r-dbi/RSQLite/issues
 Depends: R (>= 3.1.0)
-Imports: bit64, blob (>= 1.2.0), DBI (>= 1.0.0), memoise, methods,
+Imports: bit64, blob (>= 1.2.0), DBI (>= 1.1.0), memoise, methods,
         pkgconfig, Rcpp (>= 0.12.7)
-Suggests: DBItest, knitr, rmarkdown, testthat
+Suggests: DBItest (>= 1.7.0), knitr, rmarkdown, testthat
 LinkingTo: BH, plogr (>= 0.2.0), Rcpp
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Collate: 'RcppExports.R' 'SQLiteConnection.R' 'SQLiteDriver.R'
         'SQLiteResult.R' 'coerce.R' 'connect.R' 'copy.R' 'datasetsDb.R'
-        'deprecated.R' 'export.R' 'extensions.R' 'names.R' 'query.R'
-        'regularExpressions.R' 'rownames.R' 'table.R' 'transactions.R'
-        'utils.R' 'zzz.R'
+        'deprecated.R' 'export.R' 'extensions.R' 'names.R'
+        'pkgconfig.R' 'query.R' 'regularExpressions.R' 'rownames.R'
+        'table.R' 'transactions.R' 'utils.R' 'zzz.R'
 NeedsCompilation: yes
-Packaged: 2019-07-24 06:49:59 UTC; kirill
+Packaged: 2020-01-07 08:18:18 UTC; kirill
 Author: Kirill Müller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
   Hadley Wickham [aut],
   David A. James [aut],
@@ -43,6 +59,6 @@ Author: Kirill Müller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
   RStudio [cph]
 Maintainer: Kirill Müller <krlmlr+r@mailbox.org>
 Repository: CRAN
-Date/Publication: 2019-07-24 10:20:02 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-07-25 04:27:32 UTC; unix
+Date/Publication: 2020-01-07 14:30:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-01-08 05:46:55 UTC; unix
 Archs: RSQLite.so.dSYM

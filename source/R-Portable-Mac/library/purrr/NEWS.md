@@ -1,4 +1,14 @@
 
+# purrr 0.3.3
+
+* Maintenance release.
+
+* The documentation of `map()` and its variants has been improved by
+  @surdina as part of the Tidyverse Developer Day (@surdina, #671).
+
+* purrr now depends on R 3.2 or greater.
+
+
 # purrr 0.3.2
 
 * Fix protection issues reported by rchk.
@@ -15,6 +25,8 @@
 
 * `compose()` now works with generic functions again (#629, #639). Its
   set of unit tests was expanded to cover many edge cases.
+
+* `prepend()` now works with empty lists (@czeildi, #637)
 
 
 # purrr 0.3.0

@@ -1,8 +1,8 @@
-## ---- include = FALSE----------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 7, fig.align = "center")
 library(ggplot2)
 
-## ----ggproto-intro-------------------------------------------------------
+## ----ggproto-intro------------------------------------------------------------
 A <- ggproto("A", NULL,
   x = 1,
   inc = function(self) {
@@ -16,7 +16,7 @@ A$inc()
 A$inc()
 A$x
 
-## ----chull---------------------------------------------------------------
+## ----chull--------------------------------------------------------------------
 StatChull <- ggproto("StatChull", Stat,
   compute_group = function(data, scales) {
     data[chull(data$x, data$y), , drop = FALSE]
@@ -25,7 +25,7 @@ StatChull <- ggproto("StatChull", Stat,
   required_aes = c("x", "y")
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 stat_chull <- function(mapping = NULL, data = NULL, geom = "polygon",
                        position = "identity", na.rm = FALSE, show.legend = NA, 
                        inherit.aes = TRUE, ...) {
@@ -36,22 +36,22 @@ stat_chull <- function(mapping = NULL, data = NULL, geom = "polygon",
   )
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() + 
   stat_chull(fill = NA, colour = "black")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ggplot(mpg, aes(displ, hwy, colour = drv)) + 
   geom_point() + 
   stat_chull(fill = NA)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ggplot(mpg, aes(displ, hwy)) + 
   stat_chull(geom = "point", size = 4, colour = "red") +
   geom_point()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 StatLm <- ggproto("StatLm", Stat, 
   required_aes = c("x", "y"),
   
@@ -80,7 +80,7 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point() + 
   stat_lm()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 StatLm <- ggproto("StatLm", Stat, 
   required_aes = c("x", "y"),
   
@@ -111,7 +111,7 @@ ggplot(mpg, aes(displ, hwy)) +
   stat_lm(formula = y ~ poly(x, 10)) + 
   stat_lm(formula = y ~ poly(x, 10), geom = "point", colour = "red", n = 20)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #' @export
 #' @inheritParams ggplot2::stat_identity
 #' @param formula The modelling formula passed to \code{lm}. Should only 
@@ -129,7 +129,7 @@ stat_lm <- function(mapping = NULL, data = NULL, geom = "line",
 }
 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 StatDensityCommon <- ggproto("StatDensityCommon", Stat, 
   required_aes = "x",
   
@@ -169,7 +169,7 @@ ggplot(mpg, aes(displ, colour = drv)) +
 ggplot(mpg, aes(displ, colour = drv)) + 
   stat_density_common(bandwidth = 0.5)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 StatDensityCommon <- ggproto("StatDensity2", Stat, 
   required_aes = "x",
   default_aes = aes(y = stat(density)),
@@ -183,11 +183,11 @@ StatDensityCommon <- ggproto("StatDensity2", Stat,
 ggplot(mpg, aes(displ, drv, colour = stat(density))) + 
   stat_density_common(bandwidth = 1, geom = "point")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ggplot(mpg, aes(displ, fill = drv)) + 
   stat_density_common(bandwidth = 1, geom = "area", position = "stack")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 StatDensityCommon <- ggproto("StatDensityCommon", Stat, 
   required_aes = "x",
   default_aes = aes(y = stat(density)),
@@ -215,7 +215,7 @@ ggplot(mpg, aes(displ, fill = drv)) +
 ggplot(mpg, aes(displ, drv, fill = stat(density))) + 
   stat_density_common(bandwidth = 1, geom = "raster")
 
-## ----GeomSimplePoint-----------------------------------------------------
+## ----GeomSimplePoint----------------------------------------------------------
 GeomSimplePoint <- ggproto("GeomSimplePoint", Geom,
   required_aes = c("x", "y"),
   default_aes = aes(shape = 19, colour = "black"),
@@ -244,7 +244,7 @@ geom_simple_point <- function(mapping = NULL, data = NULL, stat = "identity",
 ggplot(mpg, aes(displ, hwy)) + 
   geom_simple_point()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 GeomSimplePolygon <- ggproto("GeomPolygon", Geom,
   required_aes = c("x", "y"),
   
@@ -289,7 +289,7 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point() + 
   geom_simple_polygon(aes(colour = class), fill = NA)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 GeomPolygonHollow <- ggproto("GeomPolygonHollow", GeomPolygon,
   default_aes = aes(colour = "black", fill = NA, size = 0.5, linetype = 1,
     alpha = NA)
@@ -308,17 +308,32 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point() + 
   geom_chull()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
+StatBoxplot$setup_params
+
+## -----------------------------------------------------------------------------
+StatBoxplot$setup_data
+
+## -----------------------------------------------------------------------------
+GeomBoxplot$setup_data
+
+## -----------------------------------------------------------------------------
+GeomBoxplot$required_aes
+
+## -----------------------------------------------------------------------------
+GeomLine$setup_params
+
+## -----------------------------------------------------------------------------
 theme_grey()$legend.key
 
 new_theme <- theme_grey() + theme(legend.key = element_rect(colour = "red"))
 new_theme$legend.key
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 new_theme <- theme_grey() %+replace% theme(legend.key = element_rect(colour = "red"))
 new_theme$legend.key
 
-## ----axis-line-ex--------------------------------------------------------
+## ----axis-line-ex-------------------------------------------------------------
 df <- data.frame(x = 1:3, y = 1:3)
 base <- ggplot(df, aes(x, y)) + 
   geom_point() + 
@@ -327,12 +342,12 @@ base <- ggplot(df, aes(x, y)) +
 base
 base + theme(text = element_text(colour = "red"))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 layout <- function(data, params) {
   data.frame(PANEL = c(1L, 2L), SCALE_X = 1L, SCALE_Y = 1L)
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 mapping <- function(data, layout, params) {
   if (is.null(data) || nrow(data) == 0) {
     return(cbind(data, PANEL = integer(0)))
@@ -343,7 +358,7 @@ mapping <- function(data, layout, params) {
   )
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 render <- function(panels, layout, x_scales, y_scales, ranges, coord, data,
                    theme, params) {
   # Place panels according to settings
@@ -415,7 +430,7 @@ render <- function(panels, layout, x_scales, y_scales, ranges, coord, data,
   panel_table
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # Constructor: shrink is required to govern whether scales are trained on 
 # Stat-transformed data or not.
 facet_duplicate <- function(horizontal = TRUE, shrink = TRUE) {
@@ -433,12 +448,12 @@ FacetDuplicate <- ggproto("FacetDuplicate", Facet,
   draw_panels = render
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 p <- ggplot(mtcars, aes(x = hp, y = mpg)) + geom_point()
 p
 p + facet_duplicate()
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(scales)
 
 facet_trans <- function(trans, horizontal = TRUE, shrink = TRUE) {
@@ -622,10 +637,10 @@ FacetTrans <- ggproto("FacetTrans", Facet,
   }
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ggplot(mtcars, aes(x = hp, y = mpg)) + geom_point() + facet_trans('sqrt')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 facet_bootstrap <- function(n = 9, prop = 0.2, nrow = NULL, ncol = NULL, 
   scales = "fixed", shrink = TRUE, strip.position = "top") {
   

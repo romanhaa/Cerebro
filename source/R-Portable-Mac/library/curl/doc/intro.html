@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
-<meta name="date" content="2019-09-15" />
+<meta name="date" content="2019-12-02" />
 
 <title>The curl package: a modern R interface to libcurl</title>
 
@@ -1405,6 +1404,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1433,6 +1433,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1510,7 +1516,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">The curl package: a modern R interface to libcurl</h1>
-<h4 class="date">2019-09-15</h4>
+<h4 class="date">2019-12-02</h4>
 
 </div>
 
@@ -1537,16 +1543,16 @@ str(req)</code></pre>
  $ type       : chr &quot;application/json&quot;
  $ headers    : raw [1:378] 48 54 54 50 ...
  $ modified   : POSIXct[1:1], format: NA
- $ times      : Named num [1:6] 0 0.0565 0.1476 0.3513 0.4325 ...
+ $ times      : Named num [1:6] 0 0.00161 0.10009 0.31124 0.41083 ...
   ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;redirect&quot; &quot;namelookup&quot; &quot;connect&quot; &quot;pretransfer&quot; ...
- $ content    : raw [1:321] 7b 0a 20 20 ...</code></pre>
+ $ content    : raw [1:325] 7b 0a 20 20 ...</code></pre>
 <pre class="r"><code>parse_headers(req$headers)</code></pre>
 <pre><code> [1] &quot;HTTP/1.1 200 OK&quot;                             &quot;Access-Control-Allow-Credentials: true&quot;     
  [3] &quot;Access-Control-Allow-Origin: *&quot;              &quot;Content-Encoding: gzip&quot;                     
- [5] &quot;Content-Type: application/json&quot;              &quot;Date: Sun, 15 Sep 2019 18:40:08 GMT&quot;        
+ [5] &quot;Content-Type: application/json&quot;              &quot;Date: Mon, 02 Dec 2019 12:32:58 GMT&quot;        
  [7] &quot;Referrer-Policy: no-referrer-when-downgrade&quot; &quot;Server: nginx&quot;                              
  [9] &quot;X-Content-Type-Options: nosniff&quot;             &quot;X-Frame-Options: DENY&quot;                      
-[11] &quot;X-XSS-Protection: 1; mode=block&quot;             &quot;Content-Length: 216&quot;                        
+[11] &quot;X-XSS-Protection: 1; mode=block&quot;             &quot;Content-Length: 217&quot;                        
 [13] &quot;Connection: keep-alive&quot;                     </code></pre>
 <pre class="r"><code>jsonlite::prettify(rawToChar(req$content))</code></pre>
 <pre><code>{
@@ -1555,11 +1561,11 @@ str(req)</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
         &quot;User-Agent&quot;: &quot;R (3.6.1 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
     },
-    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
+    &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/get?foo=123&quot;
 }
  </code></pre>
@@ -1577,11 +1583,11 @@ jsonlite::prettify(readLines(tmp))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;,
         &quot;Host&quot;: &quot;eu.httpbin.org&quot;,
         &quot;User-Agent&quot;: &quot;R (3.6.1 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
     },
-    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
+    &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/get?bar=456&quot;
 }
  </code></pre>
@@ -1602,7 +1608,7 @@ cat(out, sep = &quot;\n&quot;)</code></pre>
 out &lt;- readLines(con, n = 3)
 cat(out, sep = &quot;\n&quot;)</code></pre>
 <pre><code>    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;, 
     &quot;Host&quot;: &quot;eu.httpbin.org&quot;, </code></pre>
 <pre class="r"><code># Get remaining lines
 out &lt;- readLines(con)
@@ -1610,7 +1616,7 @@ close(con)
 cat(out, sep = &quot;\n&quot;)</code></pre>
 <pre><code>    &quot;User-Agent&quot;: &quot;R (3.6.1 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)&quot;
   }, 
-  &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;, 
+  &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;, 
   &quot;url&quot;: &quot;https://eu.httpbin.org/get&quot;
 }</code></pre>
 <p>The example shows how to use <code>readLines</code> on an opened connection to read <code>n</code> lines at a time. Similarly <code>readBin</code> is used to read <code>n</code> bytes at a time for stream parsing binary data.</p>
@@ -1640,8 +1646,8 @@ curl_fetch_multi(&#39;https://httpbin.org/blabla&#39;, done = cb, pool = pool)</
 <p>When we call <code>multi_run()</code>, all scheduled requests are performed concurrently. The callback functions get triggered when each request completes.</p>
 <pre class="r"><code># This actually performs requests:
 out &lt;- multi_run(pool = pool)</code></pre>
-<pre><code>done: https://www.google.com : HTTP: 200 
-done: https://cloud.r-project.org : HTTP: 200 
+<pre><code>done: https://cloud.r-project.org : HTTP: 200 
+done: https://www.google.com : HTTP: 200 
 done: https://httpbin.org/blabla : HTTP: 404 </code></pre>
 <pre class="r"><code>print(out)</code></pre>
 <pre><code>$success
@@ -1673,10 +1679,10 @@ unlink(&#39;mirrors.csv&#39;)</code></pre>
 <p>If the HTTP request was unsuccessful, R will not continue:</p>
 <pre class="r"><code># Oops! A typo in the URL!
 curl_download(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;, &#39;mirrors.csv&#39;)</code></pre>
-<pre><code>Error in curl_download(&quot;https://cloud.r-project.org/CRAN_mirrorZ.csv&quot;, : HTTP error 404.</code></pre>
+<pre><code>## Error: HTTP error 404.</code></pre>
 <pre class="r"><code>con &lt;- curl(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;)
 open(con)</code></pre>
-<pre><code>Error in open.connection(con): HTTP error 404.</code></pre>
+<pre><code>## Error: HTTP error 404.</code></pre>
 </div>
 <div id="check-manually" class="section level3">
 <h3>Check manually</h3>
@@ -1701,14 +1707,14 @@ head(readLines(&#39;mirrors.csv&#39;))</code></pre>
 <p>If you <em>do</em> want the <code>curl_fetch_*</code> functions to automatically raise an error, you should set the <a href="https://curl.haxx.se/libcurl/c/CURLOPT_FAILONERROR.html"><code>FAILONERROR</code></a> option to <code>TRUE</code> in the handle of the request.</p>
 <pre class="r"><code>h &lt;- new_handle(failonerror = TRUE)
 curl_fetch_memory(&#39;https://cloud.r-project.org/CRAN_mirrorZ.csv&#39;, handle = h)</code></pre>
-<pre><code>Error in curl_fetch_memory(&quot;https://cloud.r-project.org/CRAN_mirrorZ.csv&quot;, : The requested URL returned error: 404 </code></pre>
+<pre><code>## Error: The requested URL returned error: 404 </code></pre>
 </div>
 </div>
 <div id="customizing-requests" class="section level2">
 <h2>Customizing requests</h2>
 <p>By default libcurl uses HTTP GET to issue a request to an HTTP url. To send a customized request, we first need to create and configure a curl handle object that is passed to the specific download interface.</p>
-<div id="configuring-a-handle" class="section level3">
-<h3>Configuring a handle</h3>
+<div id="setting-handle-options" class="section level3">
+<h3>Setting handle options</h3>
 <p>Creating a new handle is done using <code>new_handle</code>. After creating a handle object, we can set the libcurl options and http request headers.</p>
 <pre class="r"><code>h &lt;- new_handle()
 handle_setopt(h, copypostfields = &quot;moo=moomooo&quot;);
@@ -1718,6 +1724,61 @@ handle_setheaders(h,
   &quot;User-Agent&quot; = &quot;A cow&quot;
 )</code></pre>
 <p>Use the <code>curl_options()</code> function to get a list of the options supported by your version of libcurl. The <a href="https://curl.haxx.se/libcurl/c/curl_easy_setopt.html">libcurl documentation</a> explains what each option does. Option names are not case sensitive.</p>
+<p>It is important you check the <a href="https://curl.haxx.se/libcurl/c/curl_easy_setopt.html">libcurl documentation</a> to set options of the correct type. Options in libcurl take several types:</p>
+<ul>
+<li>number</li>
+<li>string</li>
+<li>slist (vector of strings)</li>
+<li>enum (long) option</li>
+</ul>
+<p>The R bindings will automatically do some type checking and coercion to convert R values to appropriate libcurl option values. Logical (boolean) values in R automatically get converted to <code>0</code> or <code>1</code> for example <a href="https://curl.haxx.se/libcurl/c/CURLOPT_VERBOSE.html">CURLOPT_VERBOSE</a>:</p>
+<pre class="r"><code>handle &lt;- new_handle(verbose = TRUE)</code></pre>
+<p>However R does not know if an option is actually boolean. So passing <code>TRUE</code>/ <code>FALSE</code> to any numeric option will simply set it to <code>0</code> or <code>1</code> without a warning or error. If an option value cannot be coerced, you get an error:</p>
+<pre class="r"><code># URLOPT_MASFILESIZE must be a number
+handle_setopt(handle, maxfilesize = &quot;foo&quot;)</code></pre>
+<pre><code>## Error: Value for option maxfilesize (114) must be a number.</code></pre>
+<pre class="r"><code># CURLOPT_USERAGENT must be a string
+handle_setopt(handle, useragent = 12345)</code></pre>
+<pre><code>## Error: Value for option useragent (10018) must be a string or raw vector.</code></pre>
+</div>
+<div id="enum-long-options" class="section level3">
+<h3>ENUM (long) options</h3>
+<p>Some curl options take an long in C that actually corresponds to an ENUM value.</p>
+<p>For example the <a href="https://curl.haxx.se/libcurl/c/CURLOPT_USE_SSL.html">CURLOPT_USE_SSL</a> docs explains that there are 4 possible values for this option: <code>CURLUSESSL_NONE</code>, <code>CURLUSESSL_TRY</code>, <code>CURLUSESSL_CONTROL</code>, and <code>CURLUSESSL_ALL</code>. To use this option you have to lookup the integer values for these enums in the symbol table. These symbol values never change, so you only need to lookup the value you need once and then hardcode the integer value in your R code.</p>
+<pre class="r"><code>curl::curl_symbols(&quot;CURLUSESSL&quot;)</code></pre>
+<pre><code>                  name introduced deprecated removed value type
+928     CURLUSESSL_ALL     7.17.0       &lt;NA&gt;    &lt;NA&gt;     3 &lt;NA&gt;
+929 CURLUSESSL_CONTROL     7.17.0       &lt;NA&gt;    &lt;NA&gt;     2 &lt;NA&gt;
+930    CURLUSESSL_NONE     7.17.0       &lt;NA&gt;    &lt;NA&gt;     0 &lt;NA&gt;
+931     CURLUSESSL_TRY     7.17.0       &lt;NA&gt;    &lt;NA&gt;     1 &lt;NA&gt;</code></pre>
+<p>So suppose we want to set <code>CURLOPT_USE_SSL</code> to <code>CURLUSESSL_ALL</code> we would use this R code:</p>
+<pre class="r"><code>handle_setopt(handle, use_ssl = 3)</code></pre>
+</div>
+<div id="disabling-http2" class="section level3">
+<h3>Disabling HTTP/2</h3>
+<p>Another example is the <a href="https://curl.haxx.se/libcurl/c/CURLOPT_HTTP_VERSION.html">CURLOPT_HTTP_VERSION</a> option. This option is needed to disable or enable HTTP/2. However some users are not aware this is actually an ENUM and not a regular numeric value!</p>
+<p>The <a href="https://curl.haxx.se/libcurl/c/CURLOPT_HTTP_VERSION.html">docs</a> explain HTTP_VERSION can be set to one of several strategies for negotiating the HTTP version between client and server. Valid values are:</p>
+<pre class="r"><code>curl_symbols(&#39;CURL_HTTP_VERSION_&#39;)</code></pre>
+<pre><code>                                  name introduced deprecated removed value type
+31               CURL_HTTP_VERSION_1_0      7.9.1       &lt;NA&gt;    &lt;NA&gt;     1 &lt;NA&gt;
+32               CURL_HTTP_VERSION_1_1      7.9.1       &lt;NA&gt;    &lt;NA&gt;     2 &lt;NA&gt;
+33                 CURL_HTTP_VERSION_2     7.43.0       &lt;NA&gt;    &lt;NA&gt;     3 &lt;NA&gt;
+34               CURL_HTTP_VERSION_2_0     7.33.0       &lt;NA&gt;    &lt;NA&gt;     3 &lt;NA&gt;
+35 CURL_HTTP_VERSION_2_PRIOR_KNOWLEDGE     7.49.0       &lt;NA&gt;    &lt;NA&gt;     5 &lt;NA&gt;
+36              CURL_HTTP_VERSION_2TLS     7.47.0       &lt;NA&gt;    &lt;NA&gt;     4 &lt;NA&gt;
+37                 CURL_HTTP_VERSION_3     7.66.0       &lt;NA&gt;    &lt;NA&gt;    30 &lt;NA&gt;
+38              CURL_HTTP_VERSION_NONE      7.9.1       &lt;NA&gt;    &lt;NA&gt;     0 &lt;NA&gt;</code></pre>
+<p>As seen, the value <code>2</code> corresponds to <code>CURL_HTTP_VERSION_1_1</code> and <code>3</code> corresponds to <code>CURL_HTTP_VERSION_2_0</code>.</p>
+<p>As of libcurl 7.62.0, the default <code>http_version</code> is <code>CURL_HTTP_VERSION_2TLS</code> which uses HTTP/2 when possible, but only for HTTPS connections. Package authors should usually leave the default to let curl select the best appropriate http protocol.</p>
+<p>One exception is when writing a client for a server that seems to be running a buggy HTTP/2 server. Unfortunately this is not uncommon, and curl is a bit more picky than browsers. If you are frequently seeing <code>Error in the HTTP2 framing layer</code> error messages, then there is likely a problem with the HTTP/2 layer on the server.</p>
+<p>The easiest remedy is to <strong>disable http/2</strong> for this server by forcing http 1.1 until the service has upgraded their webservers. To do so, set the <code>http_version</code> to <code>CURL_HTTP_VERSION_1_1</code> (value: <code>2</code>):</p>
+<pre class="r"><code># Force using HTTP 1.1 (the number 2 is an enum value, see above)
+handle_setopt(handle, http_version = 2)</code></pre>
+<p>Note that the value <code>1</code> corresponds to HTTP 1.0 which is a legacy version of HTTP that you should not use! Code that sets <code>http_version</code> to <code>1</code> (or even <code>1.1</code> which R simply rounds to 1) is almost always a bug.</p>
+</div>
+</div>
+<div id="performing-the-request" class="section level2">
+<h2>Performing the request</h2>
 <p>After the handle has been configured, it can be used with any of the download interfaces to perform the request. For example <code>curl_fetch_memory</code> will load store the output of the request in memory:</p>
 <pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://eu.httpbin.org/post&quot;, handle = h)
 jsonlite::prettify(rawToChar(req$content))</code></pre>
@@ -1734,7 +1795,7 @@ jsonlite::prettify(rawToChar(req$content))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
@@ -1742,7 +1803,7 @@ jsonlite::prettify(rawToChar(req$content))</code></pre>
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
+    &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1762,7 +1823,7 @@ jsonlite::prettify(readLines(con))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
@@ -1770,7 +1831,7 @@ jsonlite::prettify(readLines(con))</code></pre>
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
+    &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1791,7 +1852,7 @@ jsonlite::prettify(readLines(tmp))</code></pre>
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
@@ -1799,7 +1860,7 @@ jsonlite::prettify(readLines(tmp))</code></pre>
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
+    &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>
@@ -1819,7 +1880,7 @@ out &lt;- multi_run()</code></pre>
   &quot;form&quot;: {}, 
   &quot;headers&quot;: {
     &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;, 
     &quot;Cache-Control&quot;: &quot;no-cache&quot;, 
     &quot;Content-Length&quot;: &quot;11&quot;, 
     &quot;Content-Type&quot;: &quot;text/moo&quot;, 
@@ -1827,10 +1888,9 @@ out &lt;- multi_run()</code></pre>
     &quot;User-Agent&quot;: &quot;A cow&quot;
   }, 
   &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;, 
+  &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;, 
   &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }</code></pre>
-</div>
 <div id="reading-cookies" class="section level3">
 <h3>Reading cookies</h3>
 <p>Curl handles automatically keep track of cookies set by the server. At any given point we can use <code>handle_cookies</code> to see a list of current cookies in the handle.</p>
@@ -1863,11 +1923,11 @@ req2 &lt;- curl_fetch_memory(&quot;https://www.r-project.org&quot;)</code></pre>
 <pre class="r"><code>req &lt;- curl_fetch_memory(&quot;https://api.github.com/users/ropensci&quot;)
 req$times</code></pre>
 <pre><code>     redirect    namelookup       connect   pretransfer starttransfer         total 
-     0.000000      0.097613      0.138805      0.202611      0.335395      0.335547 </code></pre>
+     0.000000      0.000777      0.010560      0.042220      0.569171      0.569353 </code></pre>
 <pre class="r"><code>req2 &lt;- curl_fetch_memory(&quot;https://api.github.com/users/rstudio&quot;)
 req2$times</code></pre>
 <pre><code>     redirect    namelookup       connect   pretransfer starttransfer         total 
-     0.000000      0.000029      0.000032      0.000089      0.124772      0.124917 </code></pre>
+     0.000000      0.000047      0.000050      0.000104      0.176492      0.177868 </code></pre>
 <p>If you really need to re-use a handle, do note that that curl does not cleanup the handle after each request. All of the options and internal fields will linger around for all future request until explicitly reset or overwritten. This can sometimes leads to unexpected behavior.</p>
 <pre class="r"><code>handle_reset(h)</code></pre>
 <p>The <code>handle_reset</code> function will reset all curl options and request headers to the default values. It will <strong>not</strong> erase cookies and it will still keep alive the connections. Therefore it is good practice to call <code>handle_reset</code> after performing a request if you want to reuse the handle for a subsequent request. Still it is always safer to create a new fresh handle when possible, rather than recycling old ones.</p>
@@ -1911,7 +1971,7 @@ new_handle() %&gt;%
     },
     &quot;headers&quot;: {
         &quot;Accept&quot;: &quot;*/*&quot;,
-        &quot;Accept-Encoding&quot;: &quot;deflate, gzip, br&quot;,
+        &quot;Accept-Encoding&quot;: &quot;deflate, gzip&quot;,
         &quot;Cache-Control&quot;: &quot;no-cache&quot;,
         &quot;Content-Length&quot;: &quot;11&quot;,
         &quot;Content-Type&quot;: &quot;text/moo&quot;,
@@ -1919,7 +1979,7 @@ new_handle() %&gt;%
         &quot;User-Agent&quot;: &quot;A cow&quot;
     },
     &quot;json&quot;: null,
-    &quot;origin&quot;: &quot;73.15.7.177, 73.15.7.177&quot;,
+    &quot;origin&quot;: &quot;145.136.143.132, 145.136.143.132&quot;,
     &quot;url&quot;: &quot;https://eu.httpbin.org/post&quot;
 }
  </code></pre>

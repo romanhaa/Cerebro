@@ -334,7 +334,9 @@ Some are (in no particular order)
 <li> I am trying to download a file via FTP, but it takes a very long time.
   Any suggestions?
 <dd>
-  We saw this in a posting to  <a href="https://stat.ethz.ch/pipermail/r-help/2009-January/184633.html">R-help by Zack Holden</a>.
+  We saw this in a posting to
+  <!-- <a href="https://stat.ethz.ch/pipermail/r-help/2009-January/184633.html"> -->
+    R-help by Zack Holden.
  There the issue was passive mode.  When using R's own download.file() function, an error was raised.
  When using  RCurl's getURL(), the file was correctly downloaded, but it took a long time. There
  was about 3 minutes of delay. This can be seen with
@@ -398,7 +400,7 @@ Basically, the remote server is sending us a certificate to say it is
     We can use the certificates from these agents from the Netscape
     collection, available  via
        <a
-    href="http://curl.netmirror.org/docs/caextract.html">http://curl.netmirror.org/docs/caextract.html</a>,
+    href="https://curl.haxx.se/docs/caextract.html">http://curl.netmirror.org/docs/caextract.html</a>,
     but you can find other collections.
     We download this file or its equivalent.
     Next we need to tell libcurl to use that file and where to find

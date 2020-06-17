@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -340,21 +341,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>There are two ways to turn the list components into columns. <code>unnest_wider()</code> takes every component and makes a new column:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>users <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unnest_wider</span>(user)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; # A tibble: 6 x 30</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;   login     id avatar_url gravatar_id url   html_url followers_url</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;        </span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 1 gabo… 6.60e5 https://a… &quot;&quot;          http… https:/… https://api.…</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 2 jenn… 5.99e5 https://a… &quot;&quot;          http… https:/… https://api.…</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 3 jtle… 1.57e6 https://a… &quot;&quot;          http… https:/… https://api.…</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 4 juli… 1.25e7 https://a… &quot;&quot;          http… https:/… https://api.…</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 5 leep… 3.51e6 https://a… &quot;&quot;          http… https:/… https://api.…</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; 6 masa… 8.36e6 https://a… &quot;&quot;          http… https:/… https://api.…</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; # … with 23 more variables: following_url &lt;chr&gt;, gists_url &lt;chr&gt;,</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; #   starred_url &lt;chr&gt;, subscriptions_url &lt;chr&gt;, organizations_url &lt;chr&gt;,</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; #   repos_url &lt;chr&gt;, events_url &lt;chr&gt;, received_events_url &lt;chr&gt;,</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; #   type &lt;chr&gt;, site_admin &lt;lgl&gt;, name &lt;chr&gt;, company &lt;chr&gt;, blog &lt;chr&gt;,</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; #   location &lt;chr&gt;, email &lt;chr&gt;, public_repos &lt;int&gt;, public_gists &lt;int&gt;,</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; #   followers &lt;int&gt;, following &lt;int&gt;, created_at &lt;chr&gt;, updated_at &lt;chr&gt;,</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; #   bio &lt;chr&gt;, hireable &lt;lgl&gt;</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;   login     id avatar_url gravatar_id url   html_url followers_url following_url</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;        </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 1 gabo… 6.60e5 https://a… &quot;&quot;          http… https:/… https://api.… https://api.…</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; 2 jenn… 5.99e5 https://a… &quot;&quot;          http… https:/… https://api.… https://api.…</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 3 jtle… 1.57e6 https://a… &quot;&quot;          http… https:/… https://api.… https://api.…</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 4 juli… 1.25e7 https://a… &quot;&quot;          http… https:/… https://api.… https://api.…</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 5 leep… 3.51e6 https://a… &quot;&quot;          http… https:/… https://api.… https://api.…</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; 6 masa… 8.36e6 https://a… &quot;&quot;          http… https:/… https://api.… https://api.…</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; # … with 22 more variables: gists_url &lt;chr&gt;, starred_url &lt;chr&gt;,</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; #   subscriptions_url &lt;chr&gt;, organizations_url &lt;chr&gt;, repos_url &lt;chr&gt;,</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; #   events_url &lt;chr&gt;, received_events_url &lt;chr&gt;, type &lt;chr&gt;, site_admin &lt;lgl&gt;,</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; #   name &lt;chr&gt;, company &lt;chr&gt;, blog &lt;chr&gt;, location &lt;chr&gt;, email &lt;chr&gt;,</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; #   public_repos &lt;int&gt;, public_gists &lt;int&gt;, followers &lt;int&gt;, following &lt;int&gt;,</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; #   created_at &lt;chr&gt;, updated_at &lt;chr&gt;, bio &lt;chr&gt;, hireable &lt;lgl&gt;</span></span></code></pre></div>
 <p>But in this case, there are many components and we don’t need most of them so we can instead use <code>hoist()</code>. <code>hoist()</code> allows us to pull out selected components using the same syntax as <code>purrr::pluck()</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>users <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">hoist</span>(user, </span>
 <span id="cb5-2"><a href="#cb5-2"></a>  <span class="dt">followers =</span> <span class="st">&quot;followers&quot;</span>, </span>
@@ -413,16 +413,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; # A tibble: 176 x 5</span></span>
 <span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt;    login       name        homepage watchers repo             </span></span>
 <span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;       &lt;int&gt; &lt;list&gt;           </span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt;  1 gaborcsardi after       &lt;NA&gt;            5 &lt;named list [65]&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;  2 gaborcsardi argufy      &lt;NA&gt;           19 &lt;named list [65]&gt;</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt;  3 gaborcsardi ask         &lt;NA&gt;            5 &lt;named list [65]&gt;</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt;  4 gaborcsardi baseimports &lt;NA&gt;            0 &lt;named list [65]&gt;</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt;  5 gaborcsardi citest      &lt;NA&gt;            0 &lt;named list [65]&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt;  1 gaborcsardi after        &lt;NA&gt;           5 &lt;named list [65]&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;  2 gaborcsardi argufy       &lt;NA&gt;          19 &lt;named list [65]&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt;  3 gaborcsardi ask          &lt;NA&gt;           5 &lt;named list [65]&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt;  4 gaborcsardi baseimports  &lt;NA&gt;           0 &lt;named list [65]&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt;  5 gaborcsardi citest       &lt;NA&gt;           0 &lt;named list [65]&gt;</span></span>
 <span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt;  6 gaborcsardi clisymbols  &quot;&quot;             18 &lt;named list [65]&gt;</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt;  7 gaborcsardi cmaker      &lt;NA&gt;            0 &lt;named list [65]&gt;</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt;  8 gaborcsardi cmark       &lt;NA&gt;            0 &lt;named list [65]&gt;</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt;  9 gaborcsardi conditions  &lt;NA&gt;            0 &lt;named list [65]&gt;</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; 10 gaborcsardi crayon      &lt;NA&gt;           52 &lt;named list [65]&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt;  7 gaborcsardi cmaker       &lt;NA&gt;           0 &lt;named list [65]&gt;</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt;  8 gaborcsardi cmark        &lt;NA&gt;           0 &lt;named list [65]&gt;</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt;  9 gaborcsardi conditions   &lt;NA&gt;           0 &lt;named list [65]&gt;</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; 10 gaborcsardi crayon       &lt;NA&gt;          52 &lt;named list [65]&gt;</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a><span class="co">#&gt; # … with 166 more rows</span></span></code></pre></div>
 <p>Note the use of <code>c(&quot;owner&quot;, &quot;login&quot;)</code>: this allows us to reach two levels deep inside of a list. An alternative approach would be to pull out just <code>owner</code> and then put each element of it in a column:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>repos <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -464,26 +464,24 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt;  8 6.80e7 cmark gaborcsa… &lt;nam… FALSE   https:/… CommonMark… TRUE  http…</span></span>
 <span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt;  9 6.32e7 cond… gaborcsa… &lt;nam… FALSE   https:/… &lt;NA&gt;        TRUE  http…</span></span>
 <span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt; 10 2.43e7 cray… gaborcsa… &lt;nam… FALSE   https:/… R package … FALSE http…</span></span>
-<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt; # … with 166 more rows, and 58 more variables: forks_url &lt;chr&gt;,</span></span>
-<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt; #   keys_url &lt;chr&gt;, collaborators_url &lt;chr&gt;, teams_url &lt;chr&gt;,</span></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="co">#&gt; #   hooks_url &lt;chr&gt;, issue_events_url &lt;chr&gt;, events_url &lt;chr&gt;,</span></span>
-<span id="cb10-22"><a href="#cb10-22"></a><span class="co">#&gt; #   assignees_url &lt;chr&gt;, branches_url &lt;chr&gt;, tags_url &lt;chr&gt;,</span></span>
-<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt; #   blobs_url &lt;chr&gt;, git_tags_url &lt;chr&gt;, git_refs_url &lt;chr&gt;,</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt; #   trees_url &lt;chr&gt;, statuses_url &lt;chr&gt;, languages_url &lt;chr&gt;,</span></span>
-<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt; #   stargazers_url &lt;chr&gt;, contributors_url &lt;chr&gt;, subscribers_url &lt;chr&gt;,</span></span>
-<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt; #   subscription_url &lt;chr&gt;, commits_url &lt;chr&gt;, git_commits_url &lt;chr&gt;,</span></span>
-<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt; #   comments_url &lt;chr&gt;, issue_comment_url &lt;chr&gt;, contents_url &lt;chr&gt;,</span></span>
-<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt; #   compare_url &lt;chr&gt;, merges_url &lt;chr&gt;, archive_url &lt;chr&gt;,</span></span>
-<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; #   downloads_url &lt;chr&gt;, issues_url &lt;chr&gt;, pulls_url &lt;chr&gt;,</span></span>
-<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt; #   milestones_url &lt;chr&gt;, notifications_url &lt;chr&gt;, labels_url &lt;chr&gt;,</span></span>
-<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt; #   releases_url &lt;chr&gt;, deployments_url &lt;chr&gt;, created_at &lt;chr&gt;,</span></span>
-<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt; #   updated_at &lt;chr&gt;, pushed_at &lt;chr&gt;, git_url &lt;chr&gt;, ssh_url &lt;chr&gt;,</span></span>
-<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; #   clone_url &lt;chr&gt;, svn_url &lt;chr&gt;, size &lt;int&gt;, stargazers_count &lt;int&gt;,</span></span>
-<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; #   watchers_count &lt;int&gt;, language &lt;chr&gt;, has_issues &lt;lgl&gt;,</span></span>
-<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt; #   has_downloads &lt;lgl&gt;, has_wiki &lt;lgl&gt;, has_pages &lt;lgl&gt;,</span></span>
-<span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt; #   forks_count &lt;int&gt;, open_issues_count &lt;int&gt;, forks &lt;int&gt;,</span></span>
-<span id="cb10-37"><a href="#cb10-37"></a><span class="co">#&gt; #   open_issues &lt;int&gt;, watchers &lt;int&gt;, default_branch &lt;chr&gt;,</span></span>
-<span id="cb10-38"><a href="#cb10-38"></a><span class="co">#&gt; #   homepage &lt;chr&gt;</span></span></code></pre></div>
+<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt; # … with 166 more rows, and 58 more variables: forks_url &lt;chr&gt;, keys_url &lt;chr&gt;,</span></span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt; #   collaborators_url &lt;chr&gt;, teams_url &lt;chr&gt;, hooks_url &lt;chr&gt;,</span></span>
+<span id="cb10-21"><a href="#cb10-21"></a><span class="co">#&gt; #   issue_events_url &lt;chr&gt;, events_url &lt;chr&gt;, assignees_url &lt;chr&gt;,</span></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="co">#&gt; #   branches_url &lt;chr&gt;, tags_url &lt;chr&gt;, blobs_url &lt;chr&gt;, git_tags_url &lt;chr&gt;,</span></span>
+<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt; #   git_refs_url &lt;chr&gt;, trees_url &lt;chr&gt;, statuses_url &lt;chr&gt;,</span></span>
+<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt; #   languages_url &lt;chr&gt;, stargazers_url &lt;chr&gt;, contributors_url &lt;chr&gt;,</span></span>
+<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt; #   subscribers_url &lt;chr&gt;, subscription_url &lt;chr&gt;, commits_url &lt;chr&gt;,</span></span>
+<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt; #   git_commits_url &lt;chr&gt;, comments_url &lt;chr&gt;, issue_comment_url &lt;chr&gt;,</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt; #   contents_url &lt;chr&gt;, compare_url &lt;chr&gt;, merges_url &lt;chr&gt;, archive_url &lt;chr&gt;,</span></span>
+<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt; #   downloads_url &lt;chr&gt;, issues_url &lt;chr&gt;, pulls_url &lt;chr&gt;,</span></span>
+<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; #   milestones_url &lt;chr&gt;, notifications_url &lt;chr&gt;, labels_url &lt;chr&gt;,</span></span>
+<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt; #   releases_url &lt;chr&gt;, deployments_url &lt;chr&gt;, created_at &lt;chr&gt;,</span></span>
+<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt; #   updated_at &lt;chr&gt;, pushed_at &lt;chr&gt;, git_url &lt;chr&gt;, ssh_url &lt;chr&gt;,</span></span>
+<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt; #   clone_url &lt;chr&gt;, svn_url &lt;chr&gt;, size &lt;int&gt;, stargazers_count &lt;int&gt;,</span></span>
+<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; #   watchers_count &lt;int&gt;, language &lt;chr&gt;, has_issues &lt;lgl&gt;,</span></span>
+<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; #   has_downloads &lt;lgl&gt;, has_wiki &lt;lgl&gt;, has_pages &lt;lgl&gt;, forks_count &lt;int&gt;,</span></span>
+<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt; #   open_issues_count &lt;int&gt;, forks &lt;int&gt;, open_issues &lt;int&gt;, watchers &lt;int&gt;,</span></span>
+<span id="cb10-36"><a href="#cb10-36"></a><span class="co">#&gt; #   default_branch &lt;chr&gt;, homepage &lt;chr&gt;</span></span></code></pre></div>
 </div>
 <div id="game-of-thrones-characters" class="section level2">
 <h2>Game of Thrones characters</h2>
@@ -510,16 +508,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; # A tibble: 30 x 18</span></span>
 <span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt;    url      id name  gender culture born  died  alive titles aliases father</span></span>
 <span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;list&gt; &lt;list&gt;  &lt;chr&gt; </span></span>
-<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt;  1 http…  1022 Theo… Male   Ironbo… In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt;  2 http…  1052 Tyri… Male   &quot;&quot;      In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt;  3 http…  1074 Vict… Male   Ironbo… In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt;  4 http…  1109 Will  Male   &quot;&quot;      &quot;&quot;    In 2… FALSE &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-27"><a href="#cb11-27"></a><span class="co">#&gt;  5 http…  1166 Areo… Male   Norvos… In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-28"><a href="#cb11-28"></a><span class="co">#&gt;  6 http…  1267 Chett Male   &quot;&quot;      At H… In 2… FALSE &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-29"><a href="#cb11-29"></a><span class="co">#&gt;  7 http…  1295 Cres… Male   &quot;&quot;      In 2… In 2… FALSE &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-30"><a href="#cb11-30"></a><span class="co">#&gt;  8 http…   130 Aria… Female Dornish In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-31"><a href="#cb11-31"></a><span class="co">#&gt;  9 http…  1303 Daen… Female Valyri… In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
-<span id="cb11-32"><a href="#cb11-32"></a><span class="co">#&gt; 10 http…  1319 Davo… Male   Wester… In 2… &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt;  1 http…  1022 Theo… Male   &quot;Ironb… &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt;  2 http…  1052 Tyri… Male   &quot;&quot;      &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt;  3 http…  1074 Vict… Male   &quot;Ironb… &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt;  4 http…  1109 Will  Male   &quot;&quot;      &quot;&quot;    &quot;In … FALSE &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-27"><a href="#cb11-27"></a><span class="co">#&gt;  5 http…  1166 Areo… Male   &quot;Norvo… &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-28"><a href="#cb11-28"></a><span class="co">#&gt;  6 http…  1267 Chett Male   &quot;&quot;      &quot;At … &quot;In … FALSE &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-29"><a href="#cb11-29"></a><span class="co">#&gt;  7 http…  1295 Cres… Male   &quot;&quot;      &quot;In … &quot;In … FALSE &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-30"><a href="#cb11-30"></a><span class="co">#&gt;  8 http…   130 Aria… Female &quot;Dorni… &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-31"><a href="#cb11-31"></a><span class="co">#&gt;  9 http…  1303 Daen… Female &quot;Valyr… &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
+<span id="cb11-32"><a href="#cb11-32"></a><span class="co">#&gt; 10 http…  1319 Davo… Male   &quot;Weste… &quot;In … &quot;&quot;    TRUE  &lt;chr … &lt;chr [… &quot;&quot;    </span></span>
 <span id="cb11-33"><a href="#cb11-33"></a><span class="co">#&gt; # … with 20 more rows, and 7 more variables: mother &lt;chr&gt;, spouse &lt;chr&gt;,</span></span>
 <span id="cb11-34"><a href="#cb11-34"></a><span class="co">#&gt; #   allegiances &lt;list&gt;, books &lt;list&gt;, povBooks &lt;list&gt;, tvSeries &lt;list&gt;,</span></span>
 <span id="cb11-35"><a href="#cb11-35"></a><span class="co">#&gt; #   playedBy &lt;list&gt;</span></span></code></pre></div>
@@ -563,18 +561,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">select</span>(name, <span class="dt">title =</span> titles) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">unnest_longer</span>(title)</span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; # A tibble: 60 x 2</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt;    name              title                                               </span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;                                               </span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt;  1 Theon Greyjoy     Prince of Winterfell                                </span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt;  2 Theon Greyjoy     Captain of Sea Bitch                                </span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;  3 Theon Greyjoy     Lord of the Iron Islands (by law of the green lands)</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt;  4 Tyrion Lannister  Acting Hand of the King (former)                    </span></span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt;  5 Tyrion Lannister  Master of Coin (former)                             </span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt;  6 Victarion Greyjoy Lord Captain of the Iron Fleet                      </span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt;  7 Victarion Greyjoy Master of the Iron Victory                          </span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt;  8 Will              &quot;&quot;                                                  </span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt;  9 Areo Hotah        Captain of the Guard at Sunspear                    </span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; 10 Chett             &quot;&quot;                                                  </span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt;    name              title                                                 </span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;                                                 </span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt;  1 Theon Greyjoy     &quot;Prince of Winterfell&quot;                                </span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt;  2 Theon Greyjoy     &quot;Captain of Sea Bitch&quot;                                </span></span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;  3 Theon Greyjoy     &quot;Lord of the Iron Islands (by law of the green lands)&quot;</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt;  4 Tyrion Lannister  &quot;Acting Hand of the King (former)&quot;                    </span></span>
+<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt;  5 Tyrion Lannister  &quot;Master of Coin (former)&quot;                             </span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt;  6 Victarion Greyjoy &quot;Lord Captain of the Iron Fleet&quot;                      </span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt;  7 Victarion Greyjoy &quot;Master of the Iron Victory&quot;                          </span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt;  8 Will              &quot;&quot;                                                    </span></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt;  9 Areo Hotah        &quot;Captain of the Guard at Sunspear&quot;                    </span></span>
+<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; 10 Chett             &quot;&quot;                                                    </span></span>
 <span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt; # … with 50 more rows</span></span></code></pre></div>
 <p>(Note that the empty titles (<code>&quot;&quot;</code>) are due to an infelicity in the input <code>got_chars</code>: ideally people without titles would have a title vector of length 0, not a title vector of length 1 containing an empty string.)</p>
 <p>Again, we could rewrite using <code>unnest_auto()</code>. This is convenient for exploration, but I wouldn’t rely on it in the long term - <code>unnest_auto()</code> has the undesirable property that it will always succeed. That means if your data structure changes, <code>unnest_auto()</code> will continue to work, but might give very different output that causes cryptic failures from downstream functions.</p>
@@ -585,18 +583,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt; Using `unnest_wider(char)`; elements have 18 names in common</span></span>
 <span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; Using `unnest_longer(title)`; no element has names</span></span>
 <span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt; # A tibble: 60 x 2</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt;    name              title                                               </span></span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;                                               </span></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt;  1 Theon Greyjoy     Prince of Winterfell                                </span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt;  2 Theon Greyjoy     Captain of Sea Bitch                                </span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;  3 Theon Greyjoy     Lord of the Iron Islands (by law of the green lands)</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt;  4 Tyrion Lannister  Acting Hand of the King (former)                    </span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt;  5 Tyrion Lannister  Master of Coin (former)                             </span></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt;  6 Victarion Greyjoy Lord Captain of the Iron Fleet                      </span></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt;  7 Victarion Greyjoy Master of the Iron Victory                          </span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt;  8 Will              &quot;&quot;                                                  </span></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt;  9 Areo Hotah        Captain of the Guard at Sunspear                    </span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt; 10 Chett             &quot;&quot;                                                  </span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt;    name              title                                                 </span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;                                                 </span></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt;  1 Theon Greyjoy     &quot;Prince of Winterfell&quot;                                </span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt;  2 Theon Greyjoy     &quot;Captain of Sea Bitch&quot;                                </span></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;  3 Theon Greyjoy     &quot;Lord of the Iron Islands (by law of the green lands)&quot;</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt;  4 Tyrion Lannister  &quot;Acting Hand of the King (former)&quot;                    </span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt;  5 Tyrion Lannister  &quot;Master of Coin (former)&quot;                             </span></span>
+<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt;  6 Victarion Greyjoy &quot;Lord Captain of the Iron Fleet&quot;                      </span></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt;  7 Victarion Greyjoy &quot;Master of the Iron Victory&quot;                          </span></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt;  8 Will              &quot;&quot;                                                    </span></span>
+<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt;  9 Areo Hotah        &quot;Captain of the Guard at Sunspear&quot;                    </span></span>
+<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt; 10 Chett             &quot;&quot;                                                    </span></span>
 <span id="cb15-20"><a href="#cb15-20"></a><span class="co">#&gt; # … with 50 more rows</span></span></code></pre></div>
 </div>
 <div id="geocoding-with-google" class="section level2">
@@ -713,13 +711,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb22-3"><a href="#cb22-3"></a><span class="st">  </span><span class="kw">unnest_longer</span>(results) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb22-4"><a href="#cb22-4"></a><span class="st">  </span><span class="kw">unnest_wider</span>(results)</span>
 <span id="cb22-5"><a href="#cb22-5"></a><span class="co">#&gt; # A tibble: 5 x 7</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="co">#&gt;   city   address_componen… formatted_addre… geometry place_id  types status</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;list&gt;            &lt;chr&gt;            &lt;list&gt;   &lt;chr&gt;     &lt;lis&gt; &lt;chr&gt; </span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="co">#&gt; 1 Houst… &lt;list [4]&gt;        Houston, TX, USA &lt;named … ChIJAYWN… &lt;lis… OK    </span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt; 2 LA     &lt;list [4]&gt;        Los Angeles, CA… &lt;named … ChIJE9on… &lt;lis… OK    </span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co">#&gt; 3 New Y… &lt;list [3]&gt;        New York, NY, U… &lt;named … ChIJOwg_… &lt;lis… OK    </span></span>
-<span id="cb22-11"><a href="#cb22-11"></a><span class="co">#&gt; 4 Chica… &lt;list [4]&gt;        Chicago, IL, USA &lt;named … ChIJ7cv0… &lt;lis… OK    </span></span>
-<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt; 5 Sprin… &lt;list [4]&gt;        Springfield, IL… &lt;named … ChIJd9Hb… &lt;lis… OK</span></span></code></pre></div>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="co">#&gt;   city    address_componen… formatted_address geometry  place_id    types status</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;            &lt;chr&gt;             &lt;list&gt;    &lt;chr&gt;       &lt;lis&gt; &lt;chr&gt; </span></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="co">#&gt; 1 Houston &lt;list [4]&gt;        Houston, TX, USA  &lt;named l… ChIJAYWNSL… &lt;lis… OK    </span></span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt; 2 LA      &lt;list [4]&gt;        Los Angeles, CA,… &lt;named l… ChIJE9on3F… &lt;lis… OK    </span></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="co">#&gt; 3 New Yo… &lt;list [3]&gt;        New York, NY, USA &lt;named l… ChIJOwg_06… &lt;lis… OK    </span></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="co">#&gt; 4 Chicago &lt;list [4]&gt;        Chicago, IL, USA  &lt;named l… ChIJ7cv00D… &lt;lis… OK    </span></span>
+<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt; 5 Spring… &lt;list [5]&gt;        Springfield, MO,… &lt;named l… ChIJP5jIRf… &lt;lis… OK</span></span></code></pre></div>
 <p>We can find the lat and lon coordinates by unnesting <code>geometry</code>:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>loc <span class="op">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">unnest_wider</span>(json) <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -727,15 +725,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb23-4"><a href="#cb23-4"></a><span class="st">  </span><span class="kw">unnest_wider</span>(results) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb23-5"><a href="#cb23-5"></a><span class="st">  </span><span class="kw">unnest_wider</span>(geometry)</span>
 <span id="cb23-6"><a href="#cb23-6"></a><span class="co">#&gt; # A tibble: 5 x 10</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt;   city  address_compone… formatted_addre… bounds location location_type</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;chr&gt;            &lt;list&gt; &lt;list&gt;   &lt;chr&gt;        </span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="co">#&gt; 1 Hous… &lt;list [4]&gt;       Houston, TX, USA &lt;name… &lt;named … APPROXIMATE  </span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt; 2 LA    &lt;list [4]&gt;       Los Angeles, CA… &lt;name… &lt;named … APPROXIMATE  </span></span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co">#&gt; 3 New … &lt;list [3]&gt;       New York, NY, U… &lt;name… &lt;named … APPROXIMATE  </span></span>
-<span id="cb23-12"><a href="#cb23-12"></a><span class="co">#&gt; 4 Chic… &lt;list [4]&gt;       Chicago, IL, USA &lt;name… &lt;named … APPROXIMATE  </span></span>
-<span id="cb23-13"><a href="#cb23-13"></a><span class="co">#&gt; 5 Spri… &lt;list [4]&gt;       Springfield, IL… &lt;name… &lt;named … APPROXIMATE  </span></span>
-<span id="cb23-14"><a href="#cb23-14"></a><span class="co">#&gt; # … with 4 more variables: viewport &lt;list&gt;, place_id &lt;chr&gt;, types &lt;list&gt;,</span></span>
-<span id="cb23-15"><a href="#cb23-15"></a><span class="co">#&gt; #   status &lt;chr&gt;</span></span></code></pre></div>
+<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt;   city  address_compone… formatted_addre… bounds location location_type viewport</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;chr&gt;            &lt;list&gt; &lt;list&gt;   &lt;chr&gt;         &lt;list&gt;  </span></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="co">#&gt; 1 Hous… &lt;list [4]&gt;       Houston, TX, USA &lt;name… &lt;named … APPROXIMATE   &lt;named …</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt; 2 LA    &lt;list [4]&gt;       Los Angeles, CA… &lt;name… &lt;named … APPROXIMATE   &lt;named …</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a><span class="co">#&gt; 3 New … &lt;list [3]&gt;       New York, NY, U… &lt;name… &lt;named … APPROXIMATE   &lt;named …</span></span>
+<span id="cb23-12"><a href="#cb23-12"></a><span class="co">#&gt; 4 Chic… &lt;list [4]&gt;       Chicago, IL, USA &lt;name… &lt;named … APPROXIMATE   &lt;named …</span></span>
+<span id="cb23-13"><a href="#cb23-13"></a><span class="co">#&gt; 5 Spri… &lt;list [5]&gt;       Springfield, MO… &lt;name… &lt;named … APPROXIMATE   &lt;named …</span></span>
+<span id="cb23-14"><a href="#cb23-14"></a><span class="co">#&gt; # … with 3 more variables: place_id &lt;chr&gt;, types &lt;list&gt;, status &lt;chr&gt;</span></span></code></pre></div>
 <p>And then location:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>loc <span class="op">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a><span class="st">  </span><span class="kw">unnest_wider</span>(json) <span class="op">%&gt;%</span></span>
@@ -750,7 +747,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb24-11"><a href="#cb24-11"></a><span class="co">#&gt; 2 LA    &lt;list [4]&gt;       Los Angeles, CA… &lt;name…  34.1 -118.  APPROXIMATE  </span></span>
 <span id="cb24-12"><a href="#cb24-12"></a><span class="co">#&gt; 3 New … &lt;list [3]&gt;       New York, NY, U… &lt;name…  40.7  -74.0 APPROXIMATE  </span></span>
 <span id="cb24-13"><a href="#cb24-13"></a><span class="co">#&gt; 4 Chic… &lt;list [4]&gt;       Chicago, IL, USA &lt;name…  41.9  -87.6 APPROXIMATE  </span></span>
-<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt; 5 Spri… &lt;list [4]&gt;       Springfield, IL… &lt;name…  39.8  -89.7 APPROXIMATE  </span></span>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#&gt; 5 Spri… &lt;list [5]&gt;       Springfield, MO… &lt;name…  37.2  -93.3 APPROXIMATE  </span></span>
 <span id="cb24-15"><a href="#cb24-15"></a><span class="co">#&gt; # … with 4 more variables: viewport &lt;list&gt;, place_id &lt;chr&gt;, types &lt;list&gt;,</span></span>
 <span id="cb24-16"><a href="#cb24-16"></a><span class="co">#&gt; #   status &lt;chr&gt;</span></span></code></pre></div>
 <p>Again, <code>unnest_auto()</code> makes this simpler with the small risk of failing in unexpected ways if the input structure changes:</p>
@@ -772,7 +769,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb25-16"><a href="#cb25-16"></a><span class="co">#&gt; 2 LA    &lt;list [4]&gt;       Los Angeles, CA… &lt;name…  34.1 -118.  APPROXIMATE  </span></span>
 <span id="cb25-17"><a href="#cb25-17"></a><span class="co">#&gt; 3 New … &lt;list [3]&gt;       New York, NY, U… &lt;name…  40.7  -74.0 APPROXIMATE  </span></span>
 <span id="cb25-18"><a href="#cb25-18"></a><span class="co">#&gt; 4 Chic… &lt;list [4]&gt;       Chicago, IL, USA &lt;name…  41.9  -87.6 APPROXIMATE  </span></span>
-<span id="cb25-19"><a href="#cb25-19"></a><span class="co">#&gt; 5 Spri… &lt;list [4]&gt;       Springfield, IL… &lt;name…  39.8  -89.7 APPROXIMATE  </span></span>
+<span id="cb25-19"><a href="#cb25-19"></a><span class="co">#&gt; 5 Spri… &lt;list [5]&gt;       Springfield, MO… &lt;name…  37.2  -93.3 APPROXIMATE  </span></span>
 <span id="cb25-20"><a href="#cb25-20"></a><span class="co">#&gt; # … with 4 more variables: viewport &lt;list&gt;, place_id &lt;chr&gt;, types &lt;list&gt;,</span></span>
 <span id="cb25-21"><a href="#cb25-21"></a><span class="co">#&gt; #   status &lt;chr&gt;</span></span></code></pre></div>
 <p>We could also just look at the first address for each city:</p>
@@ -789,7 +786,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb26-11"><a href="#cb26-11"></a><span class="co">#&gt; 2 LA    &lt;list [4]&gt;       Los Angeles, CA… &lt;name…  34.1 -118.  APPROXIMATE  </span></span>
 <span id="cb26-12"><a href="#cb26-12"></a><span class="co">#&gt; 3 New … &lt;list [3]&gt;       New York, NY, U… &lt;name…  40.7  -74.0 APPROXIMATE  </span></span>
 <span id="cb26-13"><a href="#cb26-13"></a><span class="co">#&gt; 4 Chic… &lt;list [4]&gt;       Chicago, IL, USA &lt;name…  41.9  -87.6 APPROXIMATE  </span></span>
-<span id="cb26-14"><a href="#cb26-14"></a><span class="co">#&gt; 5 Spri… &lt;list [4]&gt;       Springfield, IL… &lt;name…  39.8  -89.7 APPROXIMATE  </span></span>
+<span id="cb26-14"><a href="#cb26-14"></a><span class="co">#&gt; 5 Spri… &lt;list [5]&gt;       Springfield, MO… &lt;name…  37.2  -93.3 APPROXIMATE  </span></span>
 <span id="cb26-15"><a href="#cb26-15"></a><span class="co">#&gt; # … with 4 more variables: viewport &lt;list&gt;, place_id &lt;chr&gt;, types &lt;list&gt;,</span></span>
 <span id="cb26-16"><a href="#cb26-16"></a><span class="co">#&gt; #   status &lt;chr&gt;</span></span></code></pre></div>
 <p>Or use <code>hoist()</code> to dive deeply to get directly to <code>lat</code> and <code>lng</code>:</p>
@@ -805,7 +802,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb27-10"><a href="#cb27-10"></a><span class="co">#&gt; 2 LA           34.1 -118.  &lt;named list [2]&gt;</span></span>
 <span id="cb27-11"><a href="#cb27-11"></a><span class="co">#&gt; 3 New York     40.7  -74.0 &lt;named list [2]&gt;</span></span>
 <span id="cb27-12"><a href="#cb27-12"></a><span class="co">#&gt; 4 Chicago      41.9  -87.6 &lt;named list [2]&gt;</span></span>
-<span id="cb27-13"><a href="#cb27-13"></a><span class="co">#&gt; 5 Springfield  39.8  -89.7 &lt;named list [2]&gt;</span></span></code></pre></div>
+<span id="cb27-13"><a href="#cb27-13"></a><span class="co">#&gt; 5 Springfield  37.2  -93.3 &lt;named list [2]&gt;</span></span></code></pre></div>
 </div>
 <div id="sharla-gelfands-discography" class="section level2">
 <h2>Sharla Gelfand’s discography</h2>
@@ -830,8 +827,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb28-18"><a href="#cb28-18"></a><span class="co">#&gt; # … with 145 more rows</span></span></code></pre></div>
 <p>At this level, we see information about when each disc was added to Sharla’s discography, not any information about the disc itself. To do that we need to widen the <code>basic_information</code> column:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>discs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unnest_wider</span>(basic_information)</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#&gt; Column name `id` must not be duplicated.</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="co">#&gt; Use .name_repair to specify repair.</span></span></code></pre></div>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#&gt; Error: Column name `id` must not be duplicated.</span></span></code></pre></div>
 <p>Unfortunately that fails because there’s an <code>id</code> column inside <code>basic_information</code>. We can quickly see what’s going on by setting <code>names_repair = &quot;unique&quot;</code>:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>discs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unnest_wider</span>(basic_information, <span class="dt">names_repair =</span> <span class="st">&quot;unique&quot;</span>)</span>
 <span id="cb30-2"><a href="#cb30-2"></a><span class="co">#&gt; New names:</span></span>
@@ -840,19 +836,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb30-5"><a href="#cb30-5"></a><span class="co">#&gt; # A tibble: 155 x 15</span></span>
 <span id="cb30-6"><a href="#cb30-6"></a><span class="co">#&gt;    instance_id date_added          labels  year artists id...6 thumb title</span></span>
 <span id="cb30-7"><a href="#cb30-7"></a><span class="co">#&gt;          &lt;int&gt; &lt;dttm&gt;              &lt;list&gt; &lt;int&gt; &lt;list&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a><span class="co">#&gt;  1   354823933 2019-02-16 17:48:59 &lt;list…  2015 &lt;list … 7.50e6 http… Demo </span></span>
-<span id="cb30-9"><a href="#cb30-9"></a><span class="co">#&gt;  2   354092601 2019-02-13 14:13:11 &lt;list…  2013 &lt;list … 4.49e6 http… Obse…</span></span>
-<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#&gt;  3   354091476 2019-02-13 14:07:23 &lt;list…  2017 &lt;list … 9.83e6 http… I    </span></span>
-<span id="cb30-11"><a href="#cb30-11"></a><span class="co">#&gt;  4   351244906 2019-02-02 11:39:58 &lt;list…  2017 &lt;list … 9.77e6 http… Oído…</span></span>
-<span id="cb30-12"><a href="#cb30-12"></a><span class="co">#&gt;  5   351244801 2019-02-02 11:39:37 &lt;list…  2015 &lt;list … 7.24e6 http… A Ca…</span></span>
-<span id="cb30-13"><a href="#cb30-13"></a><span class="co">#&gt;  6   351052065 2019-02-01 20:40:53 &lt;list…  2019 &lt;list … 1.31e7 http… Tash…</span></span>
-<span id="cb30-14"><a href="#cb30-14"></a><span class="co">#&gt;  7   350315345 2019-01-29 15:48:37 &lt;list…  2014 &lt;list … 7.11e6 http… Demo </span></span>
-<span id="cb30-15"><a href="#cb30-15"></a><span class="co">#&gt;  8   350315103 2019-01-29 15:47:22 &lt;list…  2015 &lt;list … 1.05e7 http… Let …</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="co">#&gt;  1   354823933 2019-02-16 17:48:59 &lt;list…  2015 &lt;list … 7.50e6 &quot;htt… Demo </span></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="co">#&gt;  2   354092601 2019-02-13 14:13:11 &lt;list…  2013 &lt;list … 4.49e6 &quot;htt… Obse…</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#&gt;  3   354091476 2019-02-13 14:07:23 &lt;list…  2017 &lt;list … 9.83e6 &quot;htt… I    </span></span>
+<span id="cb30-11"><a href="#cb30-11"></a><span class="co">#&gt;  4   351244906 2019-02-02 11:39:58 &lt;list…  2017 &lt;list … 9.77e6 &quot;htt… Oído…</span></span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="co">#&gt;  5   351244801 2019-02-02 11:39:37 &lt;list…  2015 &lt;list … 7.24e6 &quot;htt… A Ca…</span></span>
+<span id="cb30-13"><a href="#cb30-13"></a><span class="co">#&gt;  6   351052065 2019-02-01 20:40:53 &lt;list…  2019 &lt;list … 1.31e7 &quot;htt… Tash…</span></span>
+<span id="cb30-14"><a href="#cb30-14"></a><span class="co">#&gt;  7   350315345 2019-01-29 15:48:37 &lt;list…  2014 &lt;list … 7.11e6 &quot;htt… Demo </span></span>
+<span id="cb30-15"><a href="#cb30-15"></a><span class="co">#&gt;  8   350315103 2019-01-29 15:47:22 &lt;list…  2015 &lt;list … 1.05e7 &quot;htt… Let …</span></span>
 <span id="cb30-16"><a href="#cb30-16"></a><span class="co">#&gt;  9   350314507 2019-01-29 15:44:08 &lt;list…  2017 &lt;list … 1.13e7 &quot;&quot;    Sub …</span></span>
-<span id="cb30-17"><a href="#cb30-17"></a><span class="co">#&gt; 10   350314047 2019-01-29 15:41:35 &lt;list…  2017 &lt;list … 1.17e7 http… Demo </span></span>
+<span id="cb30-17"><a href="#cb30-17"></a><span class="co">#&gt; 10   350314047 2019-01-29 15:41:35 &lt;list…  2017 &lt;list … 1.17e7 &quot;htt… Demo </span></span>
 <span id="cb30-18"><a href="#cb30-18"></a><span class="co">#&gt; # … with 145 more rows, and 7 more variables: formats &lt;list&gt;,</span></span>
-<span id="cb30-19"><a href="#cb30-19"></a><span class="co">#&gt; #   cover_image &lt;chr&gt;, resource_url &lt;chr&gt;, master_id &lt;int&gt;,</span></span>
-<span id="cb30-20"><a href="#cb30-20"></a><span class="co">#&gt; #   master_url &lt;chr&gt;, id...14 &lt;int&gt;, rating &lt;int&gt;</span></span></code></pre></div>
+<span id="cb30-19"><a href="#cb30-19"></a><span class="co">#&gt; #   cover_image &lt;chr&gt;, resource_url &lt;chr&gt;, master_id &lt;int&gt;, master_url &lt;chr&gt;,</span></span>
+<span id="cb30-20"><a href="#cb30-20"></a><span class="co">#&gt; #   id...14 &lt;int&gt;, rating &lt;int&gt;</span></span></code></pre></div>
 <p>The problem is that <code>basic_information</code> repeats the <code>id</code> column that’s also stored at the top-level, so we can just drop that:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>discs <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb31-2"><a href="#cb31-2"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>id) <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -860,19 +856,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb31-4"><a href="#cb31-4"></a><span class="co">#&gt; # A tibble: 155 x 14</span></span>
 <span id="cb31-5"><a href="#cb31-5"></a><span class="co">#&gt;    instance_id date_added          labels  year artists     id thumb title</span></span>
 <span id="cb31-6"><a href="#cb31-6"></a><span class="co">#&gt;          &lt;int&gt; &lt;dttm&gt;              &lt;list&gt; &lt;int&gt; &lt;list&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span id="cb31-7"><a href="#cb31-7"></a><span class="co">#&gt;  1   354823933 2019-02-16 17:48:59 &lt;list…  2015 &lt;list … 7.50e6 http… Demo </span></span>
-<span id="cb31-8"><a href="#cb31-8"></a><span class="co">#&gt;  2   354092601 2019-02-13 14:13:11 &lt;list…  2013 &lt;list … 4.49e6 http… Obse…</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a><span class="co">#&gt;  3   354091476 2019-02-13 14:07:23 &lt;list…  2017 &lt;list … 9.83e6 http… I    </span></span>
-<span id="cb31-10"><a href="#cb31-10"></a><span class="co">#&gt;  4   351244906 2019-02-02 11:39:58 &lt;list…  2017 &lt;list … 9.77e6 http… Oído…</span></span>
-<span id="cb31-11"><a href="#cb31-11"></a><span class="co">#&gt;  5   351244801 2019-02-02 11:39:37 &lt;list…  2015 &lt;list … 7.24e6 http… A Ca…</span></span>
-<span id="cb31-12"><a href="#cb31-12"></a><span class="co">#&gt;  6   351052065 2019-02-01 20:40:53 &lt;list…  2019 &lt;list … 1.31e7 http… Tash…</span></span>
-<span id="cb31-13"><a href="#cb31-13"></a><span class="co">#&gt;  7   350315345 2019-01-29 15:48:37 &lt;list…  2014 &lt;list … 7.11e6 http… Demo </span></span>
-<span id="cb31-14"><a href="#cb31-14"></a><span class="co">#&gt;  8   350315103 2019-01-29 15:47:22 &lt;list…  2015 &lt;list … 1.05e7 http… Let …</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a><span class="co">#&gt;  1   354823933 2019-02-16 17:48:59 &lt;list…  2015 &lt;list … 7.50e6 &quot;htt… Demo </span></span>
+<span id="cb31-8"><a href="#cb31-8"></a><span class="co">#&gt;  2   354092601 2019-02-13 14:13:11 &lt;list…  2013 &lt;list … 4.49e6 &quot;htt… Obse…</span></span>
+<span id="cb31-9"><a href="#cb31-9"></a><span class="co">#&gt;  3   354091476 2019-02-13 14:07:23 &lt;list…  2017 &lt;list … 9.83e6 &quot;htt… I    </span></span>
+<span id="cb31-10"><a href="#cb31-10"></a><span class="co">#&gt;  4   351244906 2019-02-02 11:39:58 &lt;list…  2017 &lt;list … 9.77e6 &quot;htt… Oído…</span></span>
+<span id="cb31-11"><a href="#cb31-11"></a><span class="co">#&gt;  5   351244801 2019-02-02 11:39:37 &lt;list…  2015 &lt;list … 7.24e6 &quot;htt… A Ca…</span></span>
+<span id="cb31-12"><a href="#cb31-12"></a><span class="co">#&gt;  6   351052065 2019-02-01 20:40:53 &lt;list…  2019 &lt;list … 1.31e7 &quot;htt… Tash…</span></span>
+<span id="cb31-13"><a href="#cb31-13"></a><span class="co">#&gt;  7   350315345 2019-01-29 15:48:37 &lt;list…  2014 &lt;list … 7.11e6 &quot;htt… Demo </span></span>
+<span id="cb31-14"><a href="#cb31-14"></a><span class="co">#&gt;  8   350315103 2019-01-29 15:47:22 &lt;list…  2015 &lt;list … 1.05e7 &quot;htt… Let …</span></span>
 <span id="cb31-15"><a href="#cb31-15"></a><span class="co">#&gt;  9   350314507 2019-01-29 15:44:08 &lt;list…  2017 &lt;list … 1.13e7 &quot;&quot;    Sub …</span></span>
-<span id="cb31-16"><a href="#cb31-16"></a><span class="co">#&gt; 10   350314047 2019-01-29 15:41:35 &lt;list…  2017 &lt;list … 1.17e7 http… Demo </span></span>
+<span id="cb31-16"><a href="#cb31-16"></a><span class="co">#&gt; 10   350314047 2019-01-29 15:41:35 &lt;list…  2017 &lt;list … 1.17e7 &quot;htt… Demo </span></span>
 <span id="cb31-17"><a href="#cb31-17"></a><span class="co">#&gt; # … with 145 more rows, and 6 more variables: formats &lt;list&gt;,</span></span>
-<span id="cb31-18"><a href="#cb31-18"></a><span class="co">#&gt; #   cover_image &lt;chr&gt;, resource_url &lt;chr&gt;, master_id &lt;int&gt;,</span></span>
-<span id="cb31-19"><a href="#cb31-19"></a><span class="co">#&gt; #   master_url &lt;chr&gt;, rating &lt;int&gt;</span></span></code></pre></div>
+<span id="cb31-18"><a href="#cb31-18"></a><span class="co">#&gt; #   cover_image &lt;chr&gt;, resource_url &lt;chr&gt;, master_id &lt;int&gt;, master_url &lt;chr&gt;,</span></span>
+<span id="cb31-19"><a href="#cb31-19"></a><span class="co">#&gt; #   rating &lt;int&gt;</span></span></code></pre></div>
 <p>Alternatively, we could use <code>hoist()</code>:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>discs <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb32-2"><a href="#cb32-2"></a><span class="st">  </span><span class="kw">hoist</span>(basic_information,</span>
@@ -882,20 +878,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb32-6"><a href="#cb32-6"></a>    <span class="dt">artist =</span> <span class="kw">list</span>(<span class="st">&quot;artists&quot;</span>, <span class="dv">1</span>, <span class="st">&quot;name&quot;</span>)</span>
 <span id="cb32-7"><a href="#cb32-7"></a>  )</span>
 <span id="cb32-8"><a href="#cb32-8"></a><span class="co">#&gt; # A tibble: 155 x 9</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="co">#&gt;    instance_id date_added          title  year label artist</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a><span class="co">#&gt;          &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb32-11"><a href="#cb32-11"></a><span class="co">#&gt;  1   354823933 2019-02-16 17:48:59 Demo   2015 Tobi… Mollot</span></span>
-<span id="cb32-12"><a href="#cb32-12"></a><span class="co">#&gt;  2   354092601 2019-02-13 14:13:11 Obse…  2013 La V… Una B…</span></span>
-<span id="cb32-13"><a href="#cb32-13"></a><span class="co">#&gt;  3   354091476 2019-02-13 14:07:23 I      2017 La V… S.H.I…</span></span>
-<span id="cb32-14"><a href="#cb32-14"></a><span class="co">#&gt;  4   351244906 2019-02-02 11:39:58 Oído…  2017 La V… Rata …</span></span>
-<span id="cb32-15"><a href="#cb32-15"></a><span class="co">#&gt;  5   351244801 2019-02-02 11:39:37 A Ca…  2015 Kato… Ivy (…</span></span>
-<span id="cb32-16"><a href="#cb32-16"></a><span class="co">#&gt;  6   351052065 2019-02-01 20:40:53 Tash…  2019 High… Tashme</span></span>
-<span id="cb32-17"><a href="#cb32-17"></a><span class="co">#&gt;  7   350315345 2019-01-29 15:48:37 Demo   2014 Mind… Desgr…</span></span>
-<span id="cb32-18"><a href="#cb32-18"></a><span class="co">#&gt;  8   350315103 2019-01-29 15:47:22 Let …  2015 Not … Phant…</span></span>
-<span id="cb32-19"><a href="#cb32-19"></a><span class="co">#&gt;  9   350314507 2019-01-29 15:44:08 Sub …  2017 Not … Sub S…</span></span>
-<span id="cb32-20"><a href="#cb32-20"></a><span class="co">#&gt; 10   350314047 2019-01-29 15:41:35 Demo   2017 Pres… Small…</span></span>
-<span id="cb32-21"><a href="#cb32-21"></a><span class="co">#&gt; # … with 145 more rows, and 3 more variables: basic_information &lt;list&gt;,</span></span>
-<span id="cb32-22"><a href="#cb32-22"></a><span class="co">#&gt; #   id &lt;int&gt;, rating &lt;int&gt;</span></span></code></pre></div>
+<span id="cb32-9"><a href="#cb32-9"></a><span class="co">#&gt;    instance_id date_added          title  year label artist basic_informati…</span></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="co">#&gt;          &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;list&gt;          </span></span>
+<span id="cb32-11"><a href="#cb32-11"></a><span class="co">#&gt;  1   354823933 2019-02-16 17:48:59 Demo   2015 Tobi… Mollot &lt;named list [9]&gt;</span></span>
+<span id="cb32-12"><a href="#cb32-12"></a><span class="co">#&gt;  2   354092601 2019-02-13 14:13:11 Obse…  2013 La V… Una B… &lt;named list [9]&gt;</span></span>
+<span id="cb32-13"><a href="#cb32-13"></a><span class="co">#&gt;  3   354091476 2019-02-13 14:07:23 I      2017 La V… S.H.I… &lt;named list [9]&gt;</span></span>
+<span id="cb32-14"><a href="#cb32-14"></a><span class="co">#&gt;  4   351244906 2019-02-02 11:39:58 Oído…  2017 La V… Rata … &lt;named list [9]&gt;</span></span>
+<span id="cb32-15"><a href="#cb32-15"></a><span class="co">#&gt;  5   351244801 2019-02-02 11:39:37 A Ca…  2015 Kato… Ivy (… &lt;named list [9]&gt;</span></span>
+<span id="cb32-16"><a href="#cb32-16"></a><span class="co">#&gt;  6   351052065 2019-02-01 20:40:53 Tash…  2019 High… Tashme &lt;named list [9]&gt;</span></span>
+<span id="cb32-17"><a href="#cb32-17"></a><span class="co">#&gt;  7   350315345 2019-01-29 15:48:37 Demo   2014 Mind… Desgr… &lt;named list [9]&gt;</span></span>
+<span id="cb32-18"><a href="#cb32-18"></a><span class="co">#&gt;  8   350315103 2019-01-29 15:47:22 Let …  2015 Not … Phant… &lt;named list [9]&gt;</span></span>
+<span id="cb32-19"><a href="#cb32-19"></a><span class="co">#&gt;  9   350314507 2019-01-29 15:44:08 Sub …  2017 Not … Sub S… &lt;named list [9]&gt;</span></span>
+<span id="cb32-20"><a href="#cb32-20"></a><span class="co">#&gt; 10   350314047 2019-01-29 15:41:35 Demo   2017 Pres… Small… &lt;named list [9]&gt;</span></span>
+<span id="cb32-21"><a href="#cb32-21"></a><span class="co">#&gt; # … with 145 more rows, and 2 more variables: id &lt;int&gt;, rating &lt;int&gt;</span></span></code></pre></div>
 <p>Here I quickly extract the name of the first label and artist by indexing deeply into the nested list.</p>
 <p>A more systematic approach would be to create separate tables for artist and label:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>discs <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -904,18 +899,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb33-4"><a href="#cb33-4"></a><span class="st">  </span><span class="kw">unnest_longer</span>(artist) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb33-5"><a href="#cb33-5"></a><span class="st">  </span><span class="kw">unnest_wider</span>(artist)</span>
 <span id="cb33-6"><a href="#cb33-6"></a><span class="co">#&gt; # A tibble: 167 x 8</span></span>
-<span id="cb33-7"><a href="#cb33-7"></a><span class="co">#&gt;     disc_id join  name        anv   tracks role  resource_url            id</span></span>
-<span id="cb33-8"><a href="#cb33-8"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;                &lt;int&gt;</span></span>
-<span id="cb33-9"><a href="#cb33-9"></a><span class="co">#&gt;  1  7496378 &quot;&quot;    Mollot      &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 4.62e6</span></span>
-<span id="cb33-10"><a href="#cb33-10"></a><span class="co">#&gt;  2  4490852 &quot;&quot;    Una Bèstia… &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 3.19e6</span></span>
-<span id="cb33-11"><a href="#cb33-11"></a><span class="co">#&gt;  3  9827276 &quot;&quot;    S.H.I.T. (… &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 2.77e6</span></span>
-<span id="cb33-12"><a href="#cb33-12"></a><span class="co">#&gt;  4  9769203 &quot;&quot;    Rata Negra  &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 4.28e6</span></span>
-<span id="cb33-13"><a href="#cb33-13"></a><span class="co">#&gt;  5  7237138 &quot;&quot;    Ivy (18)    &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 3.60e6</span></span>
-<span id="cb33-14"><a href="#cb33-14"></a><span class="co">#&gt;  6 13117042 &quot;&quot;    Tashme      &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 5.21e6</span></span>
-<span id="cb33-15"><a href="#cb33-15"></a><span class="co">#&gt;  7  7113575 &quot;&quot;    Desgraciad… &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 4.45e6</span></span>
-<span id="cb33-16"><a href="#cb33-16"></a><span class="co">#&gt;  8 10540713 &quot;&quot;    Phantom He… &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 4.27e6</span></span>
-<span id="cb33-17"><a href="#cb33-17"></a><span class="co">#&gt;  9 11260950 &quot;&quot;    Sub Space … &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 5.69e6</span></span>
-<span id="cb33-18"><a href="#cb33-18"></a><span class="co">#&gt; 10 11726853 &quot;&quot;    Small Man … &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discog… 6.37e6</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="co">#&gt;     disc_id join  name          anv   tracks role  resource_url               id</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;                   &lt;int&gt;</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a><span class="co">#&gt;  1  7496378 &quot;&quot;    Mollot        &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 4.62e6</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="co">#&gt;  2  4490852 &quot;&quot;    Una Bèstia I… &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 3.19e6</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a><span class="co">#&gt;  3  9827276 &quot;&quot;    S.H.I.T. (3)  &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 2.77e6</span></span>
+<span id="cb33-12"><a href="#cb33-12"></a><span class="co">#&gt;  4  9769203 &quot;&quot;    Rata Negra    &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 4.28e6</span></span>
+<span id="cb33-13"><a href="#cb33-13"></a><span class="co">#&gt;  5  7237138 &quot;&quot;    Ivy (18)      &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 3.60e6</span></span>
+<span id="cb33-14"><a href="#cb33-14"></a><span class="co">#&gt;  6 13117042 &quot;&quot;    Tashme        &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 5.21e6</span></span>
+<span id="cb33-15"><a href="#cb33-15"></a><span class="co">#&gt;  7  7113575 &quot;&quot;    Desgraciados  &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 4.45e6</span></span>
+<span id="cb33-16"><a href="#cb33-16"></a><span class="co">#&gt;  8 10540713 &quot;&quot;    Phantom Head  &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 4.27e6</span></span>
+<span id="cb33-17"><a href="#cb33-17"></a><span class="co">#&gt;  9 11260950 &quot;&quot;    Sub Space (2) &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 5.69e6</span></span>
+<span id="cb33-18"><a href="#cb33-18"></a><span class="co">#&gt; 10 11726853 &quot;&quot;    Small Man (2) &quot;&quot;    &quot;&quot;     &quot;&quot;    https://api.discogs.c… 6.37e6</span></span>
 <span id="cb33-19"><a href="#cb33-19"></a><span class="co">#&gt; # … with 157 more rows</span></span>
 <span id="cb33-20"><a href="#cb33-20"></a></span>
 <span id="cb33-21"><a href="#cb33-21"></a>discs <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -927,15 +922,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb33-27"><a href="#cb33-27"></a><span class="co">#&gt; # A tibble: 280 x 5</span></span>
 <span id="cb33-28"><a href="#cb33-28"></a><span class="co">#&gt;     disc_id descriptions text  name     qty  </span></span>
 <span id="cb33-29"><a href="#cb33-29"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;</span></span>
-<span id="cb33-30"><a href="#cb33-30"></a><span class="co">#&gt;  1  7496378 Numbered     Black Cassette 1    </span></span>
-<span id="cb33-31"><a href="#cb33-31"></a><span class="co">#&gt;  2  4490852 LP           &lt;NA&gt;  Vinyl    1    </span></span>
+<span id="cb33-30"><a href="#cb33-30"></a><span class="co">#&gt;  1  7496378 &quot;Numbered&quot;   Black Cassette 1    </span></span>
+<span id="cb33-31"><a href="#cb33-31"></a><span class="co">#&gt;  2  4490852 &quot;LP&quot;         &lt;NA&gt;  Vinyl    1    </span></span>
 <span id="cb33-32"><a href="#cb33-32"></a><span class="co">#&gt;  3  9827276 &quot;7\&quot;&quot;        &lt;NA&gt;  Vinyl    1    </span></span>
-<span id="cb33-33"><a href="#cb33-33"></a><span class="co">#&gt;  4  9827276 45 RPM       &lt;NA&gt;  Vinyl    1    </span></span>
-<span id="cb33-34"><a href="#cb33-34"></a><span class="co">#&gt;  5  9827276 EP           &lt;NA&gt;  Vinyl    1    </span></span>
-<span id="cb33-35"><a href="#cb33-35"></a><span class="co">#&gt;  6  9769203 LP           &lt;NA&gt;  Vinyl    1    </span></span>
-<span id="cb33-36"><a href="#cb33-36"></a><span class="co">#&gt;  7  9769203 Album        &lt;NA&gt;  Vinyl    1    </span></span>
+<span id="cb33-33"><a href="#cb33-33"></a><span class="co">#&gt;  4  9827276 &quot;45 RPM&quot;     &lt;NA&gt;  Vinyl    1    </span></span>
+<span id="cb33-34"><a href="#cb33-34"></a><span class="co">#&gt;  5  9827276 &quot;EP&quot;         &lt;NA&gt;  Vinyl    1    </span></span>
+<span id="cb33-35"><a href="#cb33-35"></a><span class="co">#&gt;  6  9769203 &quot;LP&quot;         &lt;NA&gt;  Vinyl    1    </span></span>
+<span id="cb33-36"><a href="#cb33-36"></a><span class="co">#&gt;  7  9769203 &quot;Album&quot;      &lt;NA&gt;  Vinyl    1    </span></span>
 <span id="cb33-37"><a href="#cb33-37"></a><span class="co">#&gt;  8  7237138 &quot;7\&quot;&quot;        &lt;NA&gt;  Vinyl    1    </span></span>
-<span id="cb33-38"><a href="#cb33-38"></a><span class="co">#&gt;  9  7237138 45 RPM       &lt;NA&gt;  Vinyl    1    </span></span>
+<span id="cb33-38"><a href="#cb33-38"></a><span class="co">#&gt;  9  7237138 &quot;45 RPM&quot;     &lt;NA&gt;  Vinyl    1    </span></span>
 <span id="cb33-39"><a href="#cb33-39"></a><span class="co">#&gt; 10 13117042 &quot;7\&quot;&quot;        &lt;NA&gt;  Vinyl    1    </span></span>
 <span id="cb33-40"><a href="#cb33-40"></a><span class="co">#&gt; # … with 270 more rows</span></span></code></pre></div>
 <p>Then you could join these back on to the original dataset as needed.</p>
@@ -947,6 +942,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </ol>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Download a URI</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for getURL"><tr><td>getURL</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Download a URI</h2>
+
+<h3>Description</h3>
+
+
+<p>These functions download one or more URIs (a.k.a. URLs).
+It uses libcurl under the hood to perform the request
+and retrieve the response.
+There are a myriad of options that can be specified using
+the ... mechanism to control the creation and submission
+of the request and the processing of the response.
+</p>
+<p><code>getURLContent</code> has been added as a high-level function
+like <code>getURL</code> and <code>getBinaryURL</code> but which 
+determines the type of the content being downloaded
+by looking at the resulting HTTP header's Content-Type
+field. It uses this to determine whether the bytes
+are binary or &quot;text&quot;.
+</p>
+<p>The request supports any of the facilities within the
+version of libcurl that was installed.
+One can examine these via <code>curlVersion</code>.
+</p>
+<p><code>getURLContent</code> doesn't perform asynchronous or multiple
+concurrent requests at present.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getURL(url, ..., .opts = list(),
+        write = basicTextGatherer(.mapUnicode = .mapUnicode),
+         curl = getCurlHandle(), async = length(url) &gt; 1,
+           .encoding = integer(), .mapUnicode = TRUE)
+getURI(url, ..., .opts = list(), 
+        write = basicTextGatherer(.mapUnicode = .mapUnicode),
+         curl = getCurlHandle(), async = length(url) &gt; 1,
+          .encoding = integer(), .mapUnicode = TRUE)
+getURLContent(url, ..., curl = getCurlHandle(.opts = .opts), .encoding = NA,
+               binary = NA, .opts = list(...),
+               header = dynCurlReader(curl, binary = binary,
+                                        baseURL = url, isHTTP = isHTTP,
+                                         encoding = .encoding),
+               isHTTP = length(grep('^[[:space:]]*http', url)) &gt; 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+
+<table summary="R argblock">
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p>a string giving the URI</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>named values that are interpreted as CURL options
+governing the HTTP request.</p>
+</td></tr>
+<tr valign="top"><td><code>.opts</code></td>
+<td>
+<p>a named list or <code>CURLOptions</code> object identifying the
+curl options for the handle. This is merged with the values of ...
+to create the actual options for the curl handle in the request.</p>
+</td></tr>  
+<tr valign="top"><td><code>write</code></td>
+<td>
+<p>if explicitly supplied, this is a function that is called
+with a single argument each time the the HTTP response handler has
+gathered sufficient text. The argument to the function is
+a single string.  The default argument provides
+both a  function for cumulating this text and is then used
+to retrieve it as the return value for this function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>curl</code></td>
+<td>
+<p>the previously initialized CURL context/handle which can
+be used for multiple requests.</p>
+</td></tr>
+<tr valign="top"><td><code>async</code></td>
+<td>
+<p>a logical value that determines whether the download
+request should be done via asynchronous,concurrent downloading or a serial
+download. This really only arises when we are trying to download
+multiple URIs in a single call. There are trade-offs between
+concurrent and serial downloads, essentially trading CPU cycles
+for shorter elapsed times. Concurrent downloads reduce the overall
+time waiting for <code>getURI</code>/<code>getURL</code> to return.
+</p>
+</td></tr>
+<tr valign="top"><td><code>.encoding</code></td>
+<td>
+<p>an integer or a string that explicitly identifies the
+encoding of the content that is returned by the HTTP server in its
+response to our query. The possible strings are
+&lsquo;UTF-8&rsquo; or &lsquo;ISO-8859-1&rsquo;
+and the integers should be specified symbolically
+as  <code>CE_UTF8</code> and <code>CE_LATIN1</code>.
+Note that, by default, the package attempts to process the header of
+the HTTP response to determine the encoding. This argument is used
+when such information is erroneous and the caller knows the correct
+encoding.
+The default value leaves the decision  to this default mechanism.
+This does however currently involve processing each line/chunk
+of the header (with a call to an R function). As a result,
+if one knows the encoding for the resulting response,
+specifying this avoids this slight overhead which is probably
+quite small relative to network latency and speed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>.mapUnicode</code></td>
+<td>
+<p>a logical value that controls whether the resulting
+text is processed to map components of the form \uxxxx to their
+appropriate Unicode representation.</p>
+</td></tr>
+<tr valign="top"><td><code>binary</code></td>
+<td>
+<p>a logical value indicating whether the caller  knows
+whether the resulting content is binary (<code>TRUE</code>) or not
+(<code>FALSE</code>) or unknown (<code>NA</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>header</code></td>
+<td>
+<p>this is made available as a parameter of the function
+to allow callers to construct different readers for processing
+the header and body of the (HTTP) response.
+Callers specifying this will typically only adjust the
+call to <code>dynCurlReader</code>, e.g. to specify a
+function for its <code>value</code> parameter to
+control how the body is post-processed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>isHTTP</code></td>
+<td>
+<p>a logical value that indicates whether the request an
+HTTP request. This is used when determining how to process the response.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+
+<p>If no value is supplied for <code>write</code>,
+the result is the text that is the HTTP response.
+(HTTP header information is included if the header option for CURL is
+set to <code>TRUE</code> and no handler for headerfunction is supplied in
+the CURL options.)
+</p>
+<p>Alternatively, if a value is supplied for the <code>write</code> parameter,
+this is returned. This allows the caller to create a handler within
+the call and get it back. This avoids having to explicitly create
+and assign it and then call <code>getURL</code> and then access the result.
+Instead, the 3 steps can be inlined in a single call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Duncan Temple Lang &lt;duncan@wald.ucdavis.edu&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Curl homepage <a href="http://curl.haxx.se">http://curl.haxx.se</a></p>
+
+
+<h3>See Also</h3>
+
+
+<p><code>getBinaryURL</code>
+<code>curlPerform</code>
+<code>curlOptions</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+  omegahatExists = url.exists("http://www.omegahat.net")
+
+   # Regular HTTP
+  if(omegahatExists) {
+     txt = getURL("http://www.omegahat.net/RCurl/")
+        # Then we could parse the result.
+     if(require(XML))
+         htmlTreeParse(txt, asText = TRUE)
+  }
+
+
+        # HTTPS. First check to see that we have support compiled into
+        # libcurl for ssl.
+  if(interactive() &amp;&amp; ("ssl" %in% names(curlVersion()$features))
+         &amp;&amp; url.exists("https://sourceforge.net/")) {
+     txt = tryCatch(getURL("https://sourceforge.net/"),
+                    error = function(e) {
+                                  getURL("https://sourceforge.net/",
+                                            ssl.verifypeer = FALSE)
+                              })
+
+  }
+
+
+     # Create a CURL handle that we will reuse.
+  if(interactive() &amp;&amp; omegahatExists) {
+     curl = getCurlHandle()
+     pages = list()
+     for(u in c("http://www.omegahat.net/RCurl/index.html",
+                "http://www.omegahat.net/RGtk/index.html")) {
+         pages[[u]] = getURL(u, curl = curl)
+     }
+  }
+
+
+    # Set additional fields in the header of the HTTP request.
+    # verbose option allows us to see that they were included.
+  if(omegahatExists)
+     getURL("http://www.omegahat.net", httpheader = c(Accept = "text/html", 
+                                                      MyField = "Duncan"), 
+               verbose = TRUE)
+
+
+
+    # Arrange to read the header of the response from the HTTP server as
+    # a separate "stream". Then we can break it into name-value
+    # pairs. (The first line is the HTTP/1.1 200 Ok or 301 Moved Permanently
+    # status line)
+  if(omegahatExists) {
+     h = basicTextGatherer()
+     txt = getURL("http://www.omegahat.net/RCurl/index.html", header= TRUE, headerfunction = h$update, 
+                   httpheader = c(Accept="text/html", Test=1), verbose = TRUE) 
+     print(paste(h$value(NULL)[-1], collapse=""))
+     read.dcf(textConnection(paste(h$value(NULL)[-1], collapse="")))
+  }
+
+
+
+   # Test the passwords.
+  if(omegahatExists) {
+     x = getURL("http://www.omegahat.net/RCurl/testPassword/index.html",  userpwd = "bob:duncantl")
+
+       # Catch an error because no authorization
+       # We catch the generic HTTPError, but we could catch the more specific "Unauthorized" error
+       # type.
+      x = tryCatch(getURLContent("http://www.omegahat.net/RCurl/testPassword/index.html"),
+                    HTTPError = function(e) {
+                                   cat("HTTP error: ", e$message, "\n")
+                                })
+  }
+
+## Not run: 
+  #  Needs specific information from the cookie file on a per user basis
+  #  with a registration to the NY times.
+  x = getURL("http://www.nytimes.com",
+                 header = TRUE, verbose = TRUE,
+                 cookiefile = "/home/duncan/Rcookies",
+                 netrc = TRUE,
+                 maxredirs = as.integer(20),
+                 netrc.file = "/home2/duncan/.netrc1",
+                 followlocation = TRUE)
+
+## End(Not run)
+
+   if(interactive() &amp;&amp; omegahatExists) {
+       d = debugGatherer()
+       x = getURL("http://www.omegahat.net", debugfunction = d$update, verbose = TRUE)
+       d$value()
+   }
+
+    #############################################
+    #  Using an option set in R
+
+   if(interactive() &amp;&amp; omegahatExists) {
+      opts = curlOptions(header = TRUE, userpwd = "bob:duncantl", netrc = TRUE)
+      getURL("http://www.omegahat.net/RCurl/testPassword/index.html", verbose = TRUE, .opts = opts)
+
+         # Using options in the CURL handle.
+      h = getCurlHandle(header = TRUE, userpwd = "bob:duncantl", netrc = TRUE)
+      getURL("http://www.omegahat.net/RCurl/testPassword/index.html", verbose = TRUE, curl = h)
+   }
+
+
+
+   # Use a C routine as the reader. Currently gives a warning.
+  if(interactive() &amp;&amp; omegahatExists) {
+     routine = getNativeSymbolInfo("R_internalWriteTest", PACKAGE = "RCurl")$address
+     getURL("http://www.omegahat.net/RCurl/index.html", writefunction = routine)
+  }
+
+
+
+  # Example
+  if(interactive() &amp;&amp; omegahatExists) {
+     uris = c("http://www.omegahat.net/RCurl/index.html", "http://www.omegahat.net/RCurl/philosophy.xml")
+     txt = getURI(uris)
+     names(txt)
+     nchar(txt)
+
+     txt = getURI(uris, async = FALSE)
+     names(txt)
+     nchar(txt)
+
+
+     routine = getNativeSymbolInfo("R_internalWriteTest", PACKAGE = "RCurl")$address
+     txt = getURI(uris, write = routine, async = FALSE)
+     names(txt)
+     nchar(txt)
+
+
+         # getURLContent() for text and binary
+     x = getURLContent("http://www.omegahat.net/RCurl/index.html")
+     class(x)
+
+     x = getURLContent("http://www.omegahat.net/RCurl/data.gz")
+     class(x)
+     attr(x, "Content-Type")
+
+     x = getURLContent("http://www.omegahat.net/Rcartogram/demo.jpg")
+     class(x)
+     attr(x, "Content-Type")
+
+
+     curl = getCurlHandle()
+     dd = getURLContent("http://www.omegahat.net/RJSONIO/RJSONIO.pdf",
+                        curl = curl,
+                        header = dynCurlReader(curl, binary = TRUE,
+                                           value = function(x) {
+                                                    print(attributes(x)) 
+                                                    x}))
+   }
+
+
+
+  # FTP
+  # Download the files within a directory.
+if(interactive() &amp;&amp; url.exists('ftp://ftp.wcc.nrcs.usda.gov')) {
+
+   url = 'ftp://ftp.wcc.nrcs.usda.gov/data/snow/snow_course/table/history/idaho/'
+   filenames = getURL(url, ftp.use.epsv = FALSE, dirlistonly = TRUE)
+
+      # Deal with newlines as \n or \r\n. (BDR)
+      # Or alternatively, instruct libcurl to change \n's to \r\n's for us with crlf = TRUE
+      # filenames = getURL(url, ftp.use.epsv = FALSE, ftplistonly = TRUE, crlf = TRUE)
+   filenames = paste(url, strsplit(filenames, "\r*\n")[[1]], sep = "")
+   con = getCurlHandle( ftp.use.epsv = FALSE)
+
+      # there is a slight possibility that some of the files that are
+      # returned in the directory listing and in filenames will disappear
+      # when we go back to get them. So we use a try() in the call getURL.
+   contents = sapply(filenames[1:5], function(x) try(getURL(x, curl = con)))
+   names(contents) = filenames[1:length(contents)]
+}
+   
+</pre>
+
+
+</body></html>

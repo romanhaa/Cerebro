@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -318,7 +319,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(purrr)</span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="kw">packageVersion</span>(<span class="st">&quot;tidyr&quot;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; [1] &#39;1.0.0&#39;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; [1] &#39;1.0.2&#39;</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a></span>
 <span id="cb1-8"><a href="#cb1-8"></a>(mini_iris &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb1-9"><a href="#cb1-9"></a><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -350,11 +351,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb2-3"><a href="#cb2-3"></a>  <span class="dt">sepal =</span> <span class="kw">c</span>(Sepal.Length, Sepal.Width)</span>
 <span id="cb2-4"><a href="#cb2-4"></a>)</span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;   Species             petal          sepal</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,2]&gt;&gt; &lt;list&lt;df[,2]&gt;&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; 1 setosa            [2 × 2]        [2 × 2]</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; 2 versicolor        [2 × 2]        [2 × 2]</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; 3 virginica         [2 × 2]        [2 × 2]</span></span></code></pre></div>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;   Species    petal            sepal           </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;           &lt;list&gt;          </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span></code></pre></div>
 <p>But <code>R CMD check</code> will warn about undefined global variables (<code>Petal.Length</code>, <code>Petal.Width</code>, <code>Sepal.Length</code>, and <code>Sepal.Width</code>), because it doesn’t know that <code>nest()</code> is looking for the variables inside of <code>mini_iris</code>.</p>
 <p>The easiest way to silence this note is to use <code>one_of()</code>. <code>one_of()</code> is a tidyselect helper (like <code>starts_with()</code>, <code>ends_with()</code>, etc.) that takes column names stored as strings:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mini_iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nest</span>(</span>
@@ -362,11 +363,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">sepal =</span> <span class="kw">one_of</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>)</span>
 <span id="cb3-4"><a href="#cb3-4"></a>)</span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;   Species             petal          sepal</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,2]&gt;&gt; &lt;list&lt;df[,2]&gt;&gt;</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; 1 setosa            [2 × 2]        [2 × 2]</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 2 versicolor        [2 × 2]        [2 × 2]</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; 3 virginica         [2 × 2]        [2 × 2]</span></span></code></pre></div>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;   Species    petal            sepal           </span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;           &lt;list&gt;          </span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span></code></pre></div>
 <p>The <a href="https://tidyselect.r-lib.org">tidyselect</a> package offers an entire family of select helpers. You are probably already familiar with them from using <code>dplyr::select()</code>.</p>
 </div>
 <div id="column-names-in-a-character-vector" class="section level3">
@@ -378,11 +379,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="kw">nest_egg</span>(mini_iris, <span class="kw">c</span>(<span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>, <span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>))</span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;   Species               egg</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 1 setosa            [2 × 4]</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; 2 versicolor        [2 × 4]</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; 3 virginica         [2 × 4]</span></span></code></pre></div>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;   Species    egg             </span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;          </span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 4]&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 4]&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 4]&gt;</span></span></code></pre></div>
 <p>The use of <code>one_of()</code> here is important; if you don’t use it, and <code>data</code> contains a column named <code>cols</code>, <code>nest()</code> will nest it instead of the columns named in <code>cols</code>.</p>
 </div>
 <div id="tidyselect-interface" class="section level3">
@@ -394,11 +395,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb5-4"><a href="#cb5-4"></a></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="kw">nest_egg</span>(mini_iris, <span class="op">-</span>Species)</span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt;   Species               egg</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 1 setosa            [2 × 4]</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 2 versicolor        [2 × 4]</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 3 virginica         [2 × 4]</span></span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt;   Species    egg             </span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;          </span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 4]&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 4]&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 4]&gt;</span></span></code></pre></div>
 <p>For more complicated functions, you might want to use tidyselect directly:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>sel_vars &lt;-<span class="st"> </span><span class="cf">function</span>(df, cols) {</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  tidyselect<span class="op">::</span><span class="kw">vars_select</span>(<span class="kw">names</span>(df), {{ cols }})</span>
@@ -487,11 +488,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mini_iris <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">nest</span>(<span class="dt">petal =</span> <span class="kw">matches</span>(<span class="st">&quot;Petal&quot;</span>), <span class="dt">sepal =</span> <span class="kw">matches</span>(<span class="st">&quot;Sepal&quot;</span>)) </span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;   Species             petal          sepal</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,2]&gt;&gt; &lt;list&lt;df[,2]&gt;&gt;</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 1 setosa            [2 × 2]        [2 × 2]</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 2 versicolor        [2 × 2]        [2 × 2]</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 3 virginica         [2 × 2]        [2 × 2]</span></span></code></pre></div></li>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;   Species    petal            sepal           </span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;           &lt;list&gt;          </span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 2]&gt; &lt;tibble [2 × 2]&gt;</span></span></code></pre></div></li>
 </ul>
 <p>Before and after examples:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># v0.8.3</span></span>
@@ -573,11 +574,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb16-3"><a href="#cb16-3"></a><span class="st">   </span><span class="kw">nest</span>())</span>
 <span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt; # A tibble: 3 x 2</span></span>
 <span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt; # Groups:   Species [3]</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;   Species              data</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; 1 setosa            [2 × 4]</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; 2 versicolor        [2 × 4]</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; 3 virginica         [2 × 4]</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;   Species    data            </span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;          </span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 4]&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 4]&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 4]&gt;</span></span>
 <span id="cb16-11"><a href="#cb16-11"></a>(external_variable &lt;-<span class="st"> </span><span class="kw">map_int</span>(df<span class="op">$</span>data, nrow))</span>
 <span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt; [1] 2 2 2</span></span></code></pre></div>
 <p>And now we try to add that back to the data <em>post hoc</em>:</p>
@@ -589,21 +590,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">n_rows =</span> <span class="kw">map_int</span>(data, nrow))</span>
 <span id="cb18-3"><a href="#cb18-3"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
 <span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt; # Groups:   Species [3]</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt;   Species              data n_rows</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;  &lt;int&gt;</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; 1 setosa            [2 × 4]      2</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; 2 versicolor        [2 × 4]      2</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt; 3 virginica         [2 × 4]      2</span></span></code></pre></div>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt;   Species    data             n_rows</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;            &lt;int&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 4]&gt;      2</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 4]&gt;      2</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 4]&gt;      2</span></span></code></pre></div>
 <p>If, somehow, the grouping seems appropriate AND working inside the data frame is not an option, <code>tibble::add_column()</code> is group-unaware. It lets you add external data to a grouped data frame.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span>tibble<span class="op">::</span><span class="kw">add_column</span>(<span class="dt">n_rows =</span> external_variable)</span>
 <span id="cb19-3"><a href="#cb19-3"></a><span class="co">#&gt; # A tibble: 3 x 3</span></span>
 <span id="cb19-4"><a href="#cb19-4"></a><span class="co">#&gt; # Groups:   Species [3]</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt;   Species              data n_rows</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt;  &lt;int&gt;</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt; 1 setosa            [2 × 4]      2</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt; 2 versicolor        [2 × 4]      2</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt; 3 virginica         [2 × 4]      2</span></span></code></pre></div>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co">#&gt;   Species    data             n_rows</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt;   &lt;fct&gt;      &lt;list&gt;            &lt;int&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt; 1 setosa     &lt;tibble [2 × 4]&gt;      2</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt; 2 versicolor &lt;tibble [2 × 4]&gt;      2</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt; 3 virginica  &lt;tibble [2 × 4]&gt;      2</span></span></code></pre></div>
 </div>
 <div id="nest_-and-unnest_-are-defunct" class="section level3">
 <h3><code>nest_()</code> and <code>unnest_()</code> are defunct</h3>
@@ -637,6 +638,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

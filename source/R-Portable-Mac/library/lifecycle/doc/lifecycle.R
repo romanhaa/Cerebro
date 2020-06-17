@@ -1,19 +1,19 @@
-## ---- include = FALSE----------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----setup---------------------------------------------------------------
+## ----setup--------------------------------------------------------------------
 library(lifecycle)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 deprecate_warn("1.0.0", "mypkg::foo()")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 deprecate_warn("1.0.0", "mypkg::foo()", "new()")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # The new replacement
 foobar_adder <- function(foo, bar) {
   foo + bar
@@ -25,15 +25,18 @@ foobaz_adder <- function(foo, bar) {
   foobar_adder(foo, bar)
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 deprecate_warn("1.0.0", "mypkg::foo(arg = )")
 
 deprecate_warn("1.0.0", "mypkg::foo(arg = )", "mypkg::foo(new = )")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
+deprecate_warn("1.0.0", "mypkg::foo(arg = 'must be a scalar integer')")
+
+## -----------------------------------------------------------------------------
 foobar_adder <- function(foo, bar, baz = deprecated()) {
   # Check if user has supplied `baz` instead of `bar`
-  if (!rlang::is_missing(baz)) {
+  if (lifecycle::is_present(baz)) {
 
     # Signal the deprecation to the user
     deprecate_warn("1.0.0", "foobar_adder(baz = )", "foobar_adder(bar = )")
@@ -45,14 +48,14 @@ foobar_adder <- function(foo, bar, baz = deprecated()) {
   foo + bar
 }
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  library(testthat)
 #  library(mypackage)
 #  
 #  options(lifecycle_verbosity = "error")
 #  test_check("mypackage")
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  # Force silence
 #  options(lifecycle_verbosity = "quiet")
 #  
@@ -62,20 +65,22 @@ foobar_adder <- function(foo, bar, baz = deprecated()) {
 #  # Force errors
 #  options(lifecycle_verbosity = "error")
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  test_that("`baz` argument of `foobar_adder()` still works", {
 #    withr::local_options(list(lifecycle_verbosity = "quiet"))
 #    foobar_adder(1, baz = 2)
 #  })
 
-## ---- eval = FALSE-------------------------------------------------------
-#  test_that("`baz` argument of `foobar_adder()` is deprecated", {
-#    withr::local_options(list(lifecycle_verbosity = "warning"))
-#    expect_warning(foobar_adder(1, baz = 2), class = "lifecycle_warning_deprecated")
-#  })
+## ---- eval = FALSE------------------------------------------------------------
+#  setup(options(lifecycle_verbosity = "quiet"))
+#  teardown(options(lifecycle_verbosity = NULL))
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
+#  test_that("`baz` argument of `foobar_adder()` is deprecated", {
+#    expect_deprecated(foobar_adder(1, baz = 2))
+#  })
+#  
 #  test_that("`foo()` is defunct", {
-#    expect_error(foo(), class = "lifecycle_error_deprecated")
+#    expect_defunct(foo())
 #  })
 

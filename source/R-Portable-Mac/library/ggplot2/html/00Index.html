@@ -11,7 +11,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;ggplot2&rsquo; version 3.2.1</h2>
+</div><h2>Documentation for package &lsquo;ggplot2&rsquo; version 3.3.0</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -53,6 +53,8 @@
 <td>Define aesthetic mappings programmatically</td></tr>
 <tr><td style="width: 25%;"><a href="aes_colour_fill_alpha.html">aes_colour_fill_alpha</a></td>
 <td>Colour related aesthetics: colour, fill and alpha</td></tr>
+<tr><td style="width: 25%;"><a href="aes_eval.html">aes_eval</a></td>
+<td>Control aesthetic evaluation</td></tr>
 <tr><td style="width: 25%;"><a href="aes_group_order.html">aes_group_order</a></td>
 <td>Aesthetics: grouping</td></tr>
 <tr><td style="width: 25%;"><a href="aes_linetype_size_shape.html">aes_linetype_size_shape</a></td>
@@ -63,6 +65,10 @@
 <td>Define aesthetic mappings programmatically</td></tr>
 <tr><td style="width: 25%;"><a href="aes_.html">aes_string</a></td>
 <td>Define aesthetic mappings programmatically</td></tr>
+<tr><td style="width: 25%;"><a href="aes_eval.html">after_scale</a></td>
+<td>Control aesthetic evaluation</td></tr>
+<tr><td style="width: 25%;"><a href="aes_eval.html">after_stat</a></td>
+<td>Control aesthetic evaluation</td></tr>
 <tr><td style="width: 25%;"><a href="annotate.html">annotate</a></td>
 <td>Create an annotation layer</td></tr>
 <tr><td style="width: 25%;"><a href="annotation_custom.html">annotation_custom</a></td>
@@ -127,7 +133,7 @@
 <tr><td style="width: 25%;"><a href="sec_axis.html">derive</a></td>
 <td>Specify a secondary axis</td></tr>
 <tr><td style="width: 25%;"><a href="diamonds.html">diamonds</a></td>
-<td>Prices of 50,000 round cut diamonds</td></tr>
+<td>Prices of over 50,000 round cut diamonds</td></tr>
 <tr><td style="width: 25%;"><a href="draw_key.html">draw_key</a></td>
 <td>Key glyphs for legends</td></tr>
 <tr><td style="width: 25%;"><a href="draw_key.html">draw_key_abline</a></td>
@@ -183,8 +189,10 @@
 <td>Theme elements</td></tr>
 <tr><td style="width: 25%;"><a href="expand_limits.html">expand_limits</a></td>
 <td>Expand the plot limits, using data</td></tr>
-<tr><td style="width: 25%;"><a href="expand_scale.html">expand_scale</a></td>
-<td>Generate expansion vector for scales.</td></tr>
+<tr><td style="width: 25%;"><a href="expansion.html">expand_scale</a></td>
+<td>Generate expansion vector for scales</td></tr>
+<tr><td style="width: 25%;"><a href="expansion.html">expansion</a></td>
+<td>Generate expansion vector for scales</td></tr>
 </table>
 
 <h2><a name="F">-- F --</a></h2>
@@ -224,6 +232,8 @@
 <tr><td style="width: 25%;"><a href="geom_bar.html">geom_col</a></td>
 <td>Bar charts</td></tr>
 <tr><td style="width: 25%;"><a href="geom_contour.html">geom_contour</a></td>
+<td>2d contours of a 3d surface</td></tr>
+<tr><td style="width: 25%;"><a href="geom_contour.html">geom_contour_filled</a></td>
 <td>2d contours of a 3d surface</td></tr>
 <tr><td style="width: 25%;"><a href="geom_count.html">geom_count</a></td>
 <td>Count overlapping points</td></tr>
@@ -321,12 +331,22 @@
 <td>Aesthetics: grouping</td></tr>
 <tr><td style="width: 25%;"><a href="guides.html">guides</a></td>
 <td>Set guides for each scale</td></tr>
+<tr><td style="width: 25%;"><a href="guide_axis.html">guide_axis</a></td>
+<td>Axis guide</td></tr>
+<tr><td style="width: 25%;"><a href="guide_bins.html">guide_bins</a></td>
+<td>A binned version of guide_legend</td></tr>
 <tr><td style="width: 25%;"><a href="guide_colourbar.html">guide_colorbar</a></td>
 <td>Continuous colour bar guide</td></tr>
+<tr><td style="width: 25%;"><a href="guide_coloursteps.html">guide_colorsteps</a></td>
+<td>Discretized colourbar guide</td></tr>
 <tr><td style="width: 25%;"><a href="guide_colourbar.html">guide_colourbar</a></td>
 <td>Continuous colour bar guide</td></tr>
+<tr><td style="width: 25%;"><a href="guide_coloursteps.html">guide_coloursteps</a></td>
+<td>Discretized colourbar guide</td></tr>
 <tr><td style="width: 25%;"><a href="guide_legend.html">guide_legend</a></td>
 <td>Legend guide</td></tr>
+<tr><td style="width: 25%;"><a href="guide_none.html">guide_none</a></td>
+<td>Empty guide</td></tr>
 </table>
 
 <h2><a name="H">-- H --</a></h2>
@@ -390,7 +410,7 @@
 <tr><td style="width: 25%;"><a href="midwest.html">midwest</a></td>
 <td>Midwest demographics</td></tr>
 <tr><td style="width: 25%;"><a href="mpg.html">mpg</a></td>
-<td>Fuel economy data from 1999 and 2008 for 38 popular models of car</td></tr>
+<td>Fuel economy data from 1999 to 2008 for 38 popular models of cars</td></tr>
 <tr><td style="width: 25%;"><a href="msleep.html">msleep</a></td>
 <td>An updated and expanded version of the mammals sleep dataset</td></tr>
 </table>
@@ -447,6 +467,8 @@
 <table width="100%">
 <tr><td style="width: 25%;"><a href="scale_alpha.html">scale_alpha</a></td>
 <td>Alpha transparency scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_alpha.html">scale_alpha_binned</a></td>
+<td>Alpha transparency scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_alpha.html">scale_alpha_continuous</a></td>
 <td>Alpha transparency scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_alpha.html">scale_alpha_date</a></td>
@@ -461,13 +483,21 @@
 <td>Create your own discrete scale</td></tr>
 <tr><td style="width: 25%;"><a href="scale_alpha.html">scale_alpha_ordinal</a></td>
 <td>Alpha transparency scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_colour_continuous.html">scale_color_binned</a></td>
+<td>Continuous and binned colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_brewer.html">scale_color_brewer</a></td>
 <td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
-<tr><td style="width: 25%;"><a href="scale_gradient.html">scale_color_continuous</a></td>
+<tr><td style="width: 25%;"><a href="scale_colour_continuous.html">scale_color_continuous</a></td>
+<td>Continuous and binned colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_gradient.html">scale_color_date</a></td>
+<td>Gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_gradient.html">scale_color_datetime</a></td>
 <td>Gradient colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_hue.html">scale_color_discrete</a></td>
 <td>Evenly spaced colours for discrete data</td></tr>
 <tr><td style="width: 25%;"><a href="scale_brewer.html">scale_color_distiller</a></td>
+<td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
+<tr><td style="width: 25%;"><a href="scale_brewer.html">scale_color_fermenter</a></td>
 <td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_color_gradient</a></td>
 <td>Gradient colour scales</td></tr>
@@ -483,14 +513,24 @@
 <td>Use values without scaling</td></tr>
 <tr><td style="width: 25%;"><a href="scale_manual.html">scale_color_manual</a></td>
 <td>Create your own discrete scale</td></tr>
+<tr><td style="width: 25%;"><a href="scale_viridis.html">scale_color_ordinal</a></td>
+<td>Viridis colour scales from viridisLite</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_color_steps</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_color_steps2</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_color_stepsn</a></td>
+<td>Binned gradient colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_color_viridis_c</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_color_viridis_d</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
+<tr><td style="width: 25%;"><a href="scale_colour_continuous.html">scale_colour_binned</a></td>
+<td>Continuous and binned colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_brewer.html">scale_colour_brewer</a></td>
 <td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
 <tr><td style="width: 25%;"><a href="scale_colour_continuous.html">scale_colour_continuous</a></td>
-<td>Continuous colour scales</td></tr>
+<td>Continuous and binned colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_colour_date</a></td>
 <td>Gradient colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_colour_datetime</a></td>
@@ -498,6 +538,8 @@
 <tr><td style="width: 25%;"><a href="scale_hue.html">scale_colour_discrete</a></td>
 <td>Evenly spaced colours for discrete data</td></tr>
 <tr><td style="width: 25%;"><a href="scale_brewer.html">scale_colour_distiller</a></td>
+<td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
+<tr><td style="width: 25%;"><a href="scale_brewer.html">scale_colour_fermenter</a></td>
 <td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_colour_gradient</a></td>
 <td>Gradient colour scales</td></tr>
@@ -515,6 +557,14 @@
 <td>Create your own discrete scale</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_colour_ordinal</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_colour_steps</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_colour_steps2</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_colour_stepsn</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_viridis.html">scale_colour_viridis_b</a></td>
+<td>Viridis colour scales from viridisLite</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_colour_viridis_c</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_colour_viridis_d</a></td>
@@ -525,10 +575,12 @@
 <td>Use values without scaling</td></tr>
 <tr><td style="width: 25%;"><a href="scale_manual.html">scale_discrete_manual</a></td>
 <td>Create your own discrete scale</td></tr>
+<tr><td style="width: 25%;"><a href="scale_colour_continuous.html">scale_fill_binned</a></td>
+<td>Continuous and binned colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_brewer.html">scale_fill_brewer</a></td>
 <td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
 <tr><td style="width: 25%;"><a href="scale_colour_continuous.html">scale_fill_continuous</a></td>
-<td>Continuous colour scales</td></tr>
+<td>Continuous and binned colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_fill_date</a></td>
 <td>Gradient colour scales</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_fill_datetime</a></td>
@@ -536,6 +588,8 @@
 <tr><td style="width: 25%;"><a href="scale_hue.html">scale_fill_discrete</a></td>
 <td>Evenly spaced colours for discrete data</td></tr>
 <tr><td style="width: 25%;"><a href="scale_brewer.html">scale_fill_distiller</a></td>
+<td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
+<tr><td style="width: 25%;"><a href="scale_brewer.html">scale_fill_fermenter</a></td>
 <td>Sequential, diverging and qualitative colour scales from colorbrewer.org</td></tr>
 <tr><td style="width: 25%;"><a href="scale_gradient.html">scale_fill_gradient</a></td>
 <td>Gradient colour scales</td></tr>
@@ -553,11 +607,21 @@
 <td>Create your own discrete scale</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_fill_ordinal</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_fill_steps</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_fill_steps2</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_steps.html">scale_fill_stepsn</a></td>
+<td>Binned gradient colour scales</td></tr>
+<tr><td style="width: 25%;"><a href="scale_viridis.html">scale_fill_viridis_b</a></td>
+<td>Viridis colour scales from viridisLite</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_fill_viridis_c</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
 <tr><td style="width: 25%;"><a href="scale_viridis.html">scale_fill_viridis_d</a></td>
 <td>Viridis colour scales from viridisLite</td></tr>
 <tr><td style="width: 25%;"><a href="scale_linetype.html">scale_linetype</a></td>
+<td>Scale for line patterns</td></tr>
+<tr><td style="width: 25%;"><a href="scale_linetype.html">scale_linetype_binned</a></td>
 <td>Scale for line patterns</td></tr>
 <tr><td style="width: 25%;"><a href="scale_linetype.html">scale_linetype_continuous</a></td>
 <td>Scale for line patterns</td></tr>
@@ -570,6 +634,8 @@
 <tr><td style="width: 25%;"><a href="scale_size.html">scale_radius</a></td>
 <td>Scales for area or radius</td></tr>
 <tr><td style="width: 25%;"><a href="scale_shape.html">scale_shape</a></td>
+<td>Scales for shapes, aka glyphs</td></tr>
+<tr><td style="width: 25%;"><a href="scale_shape.html">scale_shape_binned</a></td>
 <td>Scales for shapes, aka glyphs</td></tr>
 <tr><td style="width: 25%;"><a href="scale_shape.html">scale_shape_continuous</a></td>
 <td>Scales for shapes, aka glyphs</td></tr>
@@ -585,6 +651,10 @@
 <td>Scales for area or radius</td></tr>
 <tr><td style="width: 25%;"><a href="scale_size.html">scale_size_area</a></td>
 <td>Scales for area or radius</td></tr>
+<tr><td style="width: 25%;"><a href="scale_size.html">scale_size_binned</a></td>
+<td>Scales for area or radius</td></tr>
+<tr><td style="width: 25%;"><a href="scale_size.html">scale_size_binned_area</a></td>
+<td>Scales for area or radius</td></tr>
 <tr><td style="width: 25%;"><a href="scale_size.html">scale_size_continuous</a></td>
 <td>Scales for area or radius</td></tr>
 <tr><td style="width: 25%;"><a href="scale_size.html">scale_size_date</a></td>
@@ -599,6 +669,8 @@
 <td>Create your own discrete scale</td></tr>
 <tr><td style="width: 25%;"><a href="scale_size.html">scale_size_ordinal</a></td>
 <td>Scales for area or radius</td></tr>
+<tr><td style="width: 25%;"><a href="scale_binned.html">scale_x_binned</a></td>
+<td>Positional scales for binning continuous data (x &amp; y)</td></tr>
 <tr><td style="width: 25%;"><a href="scale_continuous.html">scale_x_continuous</a></td>
 <td>Position scales for continuous data (x &amp; y)</td></tr>
 <tr><td style="width: 25%;"><a href="scale_date.html">scale_x_date</a></td>
@@ -615,6 +687,8 @@
 <td>Position scales for continuous data (x &amp; y)</td></tr>
 <tr><td style="width: 25%;"><a href="scale_date.html">scale_x_time</a></td>
 <td>Position scales for date/time data</td></tr>
+<tr><td style="width: 25%;"><a href="scale_binned.html">scale_y_binned</a></td>
+<td>Positional scales for binning continuous data (x &amp; y)</td></tr>
 <tr><td style="width: 25%;"><a href="scale_continuous.html">scale_y_continuous</a></td>
 <td>Position scales for continuous data (x &amp; y)</td></tr>
 <tr><td style="width: 25%;"><a href="scale_date.html">scale_y_date</a></td>
@@ -639,8 +713,10 @@
 <td>Differentiation related aesthetics: linetype, size, shape</td></tr>
 <tr><td style="width: 25%;"><a href="aes_linetype_size_shape.html">size</a></td>
 <td>Differentiation related aesthetics: linetype, size, shape</td></tr>
-<tr><td style="width: 25%;"><a href="stat.html">stat</a></td>
-<td>Calculated aesthetics</td></tr>
+<tr><td style="width: 25%;"><a href="aes_eval.html">stage</a></td>
+<td>Control aesthetic evaluation</td></tr>
+<tr><td style="width: 25%;"><a href="aes_eval.html">stat</a></td>
+<td>Control aesthetic evaluation</td></tr>
 <tr><td style="width: 25%;"><a href="ggsf.html">StatSf</a></td>
 <td>Visualise sf objects</td></tr>
 <tr><td style="width: 25%;"><a href="stat_sf_coordinates.html">StatSfCoordinates</a></td>
@@ -659,6 +735,8 @@
 <td>A box and whiskers plot (in the style of Tukey)</td></tr>
 <tr><td style="width: 25%;"><a href="geom_contour.html">stat_contour</a></td>
 <td>2d contours of a 3d surface</td></tr>
+<tr><td style="width: 25%;"><a href="geom_contour.html">stat_contour_filled</a></td>
+<td>2d contours of a 3d surface</td></tr>
 <tr><td style="width: 25%;"><a href="geom_bar.html">stat_count</a></td>
 <td>Bar charts</td></tr>
 <tr><td style="width: 25%;"><a href="geom_density.html">stat_density</a></td>
@@ -670,7 +748,7 @@
 <tr><td style="width: 25%;"><a href="stat_ecdf.html">stat_ecdf</a></td>
 <td>Compute empirical cumulative distribution</td></tr>
 <tr><td style="width: 25%;"><a href="stat_ellipse.html">stat_ellipse</a></td>
-<td>Compute normal confidence ellipses</td></tr>
+<td>Compute normal data ellipses</td></tr>
 <tr><td style="width: 25%;"><a href="stat_function.html">stat_function</a></td>
 <td>Compute function for each x value</td></tr>
 <tr><td style="width: 25%;"><a href="stat_identity.html">stat_identity</a></td>

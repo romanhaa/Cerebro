@@ -1,7 +1,7 @@
 Package: rmarkdown
 Type: Package
 Title: Dynamic Documents for R
-Version: 1.15
+Version: 2.1
 Authors@R: c(
   person("JJ", "Allaire", role = "aut", email = "jj@rstudio.com"),
   person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
@@ -15,16 +15,19 @@ Authors@R: c(
   person("Richard", "Iannone", role = "aut", email = "rich@rstudio.com", comment = c(ORCID = "0000-0003-3925-190X")),
   #
   # Contributors, ordered alphabetically by first name
+  person("Andrew", "Dunning", role = "ctb", comment = c(ORCID = "0000-0003-0464-5036")),
   person("Atsushi", "Yasumoto", role = "ctb", comment = c(ORCID = "0000-0002-8335-495X")),
   person("Barret", "Schloerke", role = "ctb"),
   person("Christophe", "Dervieux", role = "ctb"),
   person("Frederik", "Aust", role = "ctb", email = "frederik.aust@uni-koeln.de", comment = c(ORCID = "0000-0003-4900-788X")),
   person("Jeff", "Allen", role = "ctb", email = "jeff@rstudio.com"),
+  person("JooYoung", "Seo", role="ctb", comment = c(ORCID = "0000-0002-4064-6012")),
   person("Malcolm", "Barrett", role = "ctb"),
   person("Rob", "Hyndman", role = "ctb", email = "Rob.Hyndman@monash.edu"),
   person("Romain", "Lesur", role = "ctb"),
   person("Roy", "Storey", role = "ctb"),
   person("Ruben", "Arslan", role = "ctb", email = "ruben.arslan@uni-goettingen.de"),
+  person("Sergio", "Oller", role = "ctb"),
   #
   # Copyright holders
   person(family = "RStudio, Inc.", role = "cph"),
@@ -65,7 +68,11 @@ Authors@R: c(
   person(family = "Drifty", role = "cph",
          comment = "Ionicons"),
   person("Aidan", "Lister", role = c("ctb", "cph"), 
-         comment = "jQuery StickyTabs")
+         comment = "jQuery StickyTabs"),
+  person("Benct Philip", "Jonsson", role = c("ctb", "cph"), 
+         comment = "pagebreak lua filter"),
+  person("Albert", "Krewinkel", role = c("ctb", "cph"), 
+         comment = "pagebreak lua filter")
   )
 Maintainer: Yihui Xie <xie@yihui.name>
 Description: Convert R Markdown documents into a variety of formats.
@@ -79,11 +86,11 @@ SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 URL: https://github.com/rstudio/rmarkdown
 BugReports: https://github.com/rstudio/rmarkdown/issues
 License: GPL-3
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-08-21 00:08:48 UTC; yihui
+Packaged: 2020-01-17 18:28:15 UTC; yihui
 Author: JJ Allaire [aut],
   Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
   Jonathan McPherson [aut],
@@ -94,16 +101,19 @@ Author: JJ Allaire [aut],
   Joe Cheng [aut],
   Winston Chang [aut],
   Richard Iannone [aut] (<https://orcid.org/0000-0003-3925-190X>),
+  Andrew Dunning [ctb] (<https://orcid.org/0000-0003-0464-5036>),
   Atsushi Yasumoto [ctb] (<https://orcid.org/0000-0002-8335-495X>),
   Barret Schloerke [ctb],
   Christophe Dervieux [ctb],
   Frederik Aust [ctb] (<https://orcid.org/0000-0003-4900-788X>),
   Jeff Allen [ctb],
+  JooYoung Seo [ctb] (<https://orcid.org/0000-0002-4064-6012>),
   Malcolm Barrett [ctb],
   Rob Hyndman [ctb],
   Romain Lesur [ctb],
   Roy Storey [ctb],
   Ruben Arslan [ctb],
+  Sergio Oller [ctb],
   RStudio, Inc. [cph],
   jQuery Foundation [cph] (jQuery library),
   jQuery contributors [ctb, cph] (jQuery library; authors listed in
@@ -125,7 +135,9 @@ Author: JJ Allaire [aut],
   Dave Gandy [ctb, cph] (Font-Awesome),
   Ben Sperry [ctb] (Ionicons),
   Drifty [cph] (Ionicons),
-  Aidan Lister [ctb, cph] (jQuery StickyTabs)
+  Aidan Lister [ctb, cph] (jQuery StickyTabs),
+  Benct Philip Jonsson [ctb, cph] (pagebreak lua filter),
+  Albert Krewinkel [ctb, cph] (pagebreak lua filter)
 Repository: CRAN
-Date/Publication: 2019-08-21 10:50:02 UTC
-Built: R 3.5.2; ; 2019-08-22 04:47:21 UTC; unix
+Date/Publication: 2020-01-20 19:30:02 UTC
+Built: R 3.5.2; ; 2020-01-21 06:05:05 UTC; unix

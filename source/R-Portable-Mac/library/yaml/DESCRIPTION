@@ -1,8 +1,8 @@
 Package: yaml
 Type: Package
 Title: Methods to Convert R Data to YAML and Back
-Date: 2018-07-20
-Version: 2.2.0
+Date: 2020-01-23
+Version: 2.2.1
 Suggests: RUnit
 Author: Jeremy Stephens [aut, cre], Kirill Simonov [aut], Yihui Xie [ctb],
   Zhuoer Dong [ctb], Hadley Wickham [ctb], Jeffrey Horner [ctb], reikoch [ctb],
@@ -14,8 +14,8 @@ Description: Implements the 'libyaml' 'YAML' 1.1 parser and emitter
 URL: https://github.com/viking/r-yaml/
 BugReports: https://github.com/viking/r-yaml/issues
 NeedsCompilation: yes
-Packaged: 2018-07-24 19:09:41 UTC; stephej1
+Packaged: 2020-01-30 20:29:56 UTC; stephej1
 Repository: CRAN
-Date/Publication: 2018-07-25 15:40:03 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-07-26 14:37:47 UTC; unix
+Date/Publication: 2020-02-01 05:50:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-02-02 05:28:43 UTC; unix
 Archs: yaml.so.dSYM

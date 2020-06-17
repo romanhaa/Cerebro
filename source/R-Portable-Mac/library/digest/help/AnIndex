@@ -9,6 +9,7 @@ makeRaw.default	makeRaw
 makeRaw.digest	makeRaw
 makeRaw.raw	makeRaw
 sha1	sha1
+sha1.(	sha1
 sha1.anova	sha1
 sha1.array	sha1
 sha1.call	sha1
@@ -17,6 +18,7 @@ sha1.complex	sha1
 sha1.data.frame	sha1
 sha1.Date	sha1
 sha1.factor	sha1
+sha1.formula	sha1
 sha1.function	sha1
 sha1.integer	sha1
 sha1.list	sha1
@@ -29,3 +31,5 @@ sha1.pairlist	sha1
 sha1.POSIXct	sha1
 sha1.POSIXlt	sha1
 sha1.raw	sha1
+sha1_attr_digest	sha1
+sha1_digest	sha1

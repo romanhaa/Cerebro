@@ -43,7 +43,6 @@ getCurrentOutputInfo    Get information about the output that is
 getQueryString          Get the query string / hash component from the
                         URL
 getShinyOption          Get or set Shiny options
-headerPanel             Create a header panel
 helpText                Create a help text element
 hoverOpts               Create an object representing hover options
 htmlOutput              Create an HTML output element
@@ -59,10 +58,8 @@ is.reactivevalues       Checks whether an object is a reactivevalues
                         object
 isRunning               Check whether a Shiny application is running
 isolate                 Create a non-reactive scope for an expression
-key_missing             A Key Missing object
-knit_print.html         Knitr S3 methods
 knitr_methods           Knitr S3 methods
-mainPanel               Create a main panel
+loadSupport             Load an app's supporting R files
 makeReactiveBinding     Make a reactive variable
 markRenderFunction      Mark a function as a render function
 maskReactiveContext     Evaluate an expression without a reactive
@@ -82,7 +79,6 @@ onBookmark              Add callbacks for Shiny session bookmarking
 onFlush                 Add callbacks for Shiny session events
 onStop                  Run code after an application or session ends
 outputOptions           Set options for an output object.
-pageWithSidebar         Create a page with a sidebar
 parseQueryString        Parse a GET query string from a URL
 passwordInput           Create a password input control
 plotOutput              Create an plot or image output element
@@ -91,13 +87,8 @@ plotPNG                 Run a plotting function and save the output as
 radioButtons            Create radio buttons
 reactive                Create a reactive expression
 reactiveFileReader      Reactive file reader
-reactivePlot            Plot output (deprecated)
 reactivePoll            Reactive polling
-reactivePrint           Print output (deprecated)
-reactiveTable           Table output (deprecated)
-reactiveText            Text output (deprecated)
 reactiveTimer           Timer
-reactiveUI              UI output (deprecated)
 reactiveVal             Create a (single) reactive value
 reactiveValues          Create an object for storing reactive values
 reactiveValuesToList    Convert a reactivevalues object to a list
@@ -127,17 +118,13 @@ serverInfo              Collect information about the Shiny Server
                         environment
 session                 Session object
 setBookmarkExclude      Exclude inputs from bookmarking
-shiny-options           Global options for Shiny
 shiny-package           Web Application Framework for R
 shinyApp                Create a Shiny app object
-shinyServer             Define Server Functionality
-shinyUI                 Create a Shiny UI handler
 showBookmarkUrlModal    Display a modal dialog for bookmarking
 showModal               Show or remove a modal dialog
 showNotification        Show or remove a notification
 showTab                 Dynamically hide/show a tabPanel
 sidebarLayout           Layout a sidebar and main area
-sidebarPanel            Create a sidebar panel
 singleton               Include content only once
 sizeGrowthRatio         Create a sizing function that grows at a given
                         ratio

@@ -1,3 +1,8 @@
+1.6.1
+ - Fix bug in C_collapse_array_pretty_inner declarationdetected by CRAN LTO
+ - Better handing of NA in timestamps with POSIXt = 'mongo'
+ - The 'raw' parameter in toJSON gains options 'int' and 'js'
+
 1.6
  - Add parse_json() wrapper that does not guess if a string is actually a file/url
  - Fix a few rchk warnings (mostly false positives)
@@ -7,7 +12,7 @@
  - Hide internal libyajl symbols from shlib
  - Remove C calls R connection API which are no longer allowed on CRAN. This may
    lead to about 5% performance decrease for parsing from connections.
- - Remove depreacted rbind.pages function
+ - Remove deprecated rbind.pages function
 
 1.5
  - Workaround for #180. fromJSON() first checks for literal json, then filename

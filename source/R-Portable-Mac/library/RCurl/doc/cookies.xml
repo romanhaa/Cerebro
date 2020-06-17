@@ -9,8 +9,9 @@ We can read this in R using the <r:pkg>RSQLite</r:pkg> package.
 We install this in the usual manner. Then we load it and 
 create a connection and read the table.
 <r:code>
+library(RSQLite)
 drv = SQLite()
-cookiesDB = sqliteNewConnection(con, "~/Library/Application Support/Firefox/Profiles/abc.default/cookies.sqlite")
+cookiesDB = sqliteNewConnection(drv, "~/Library/Application Support/Firefox/Profiles/abc.default/cookies.sqlite")
 dbListTables(cookiesDB)
 cookies = dbReadTable(cookiesDB, "moz_cookies")
 </r:code>

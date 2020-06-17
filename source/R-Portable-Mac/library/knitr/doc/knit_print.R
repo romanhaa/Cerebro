@@ -1,18 +1,18 @@
-## ----normal-print, comment=''--------------------------------------------
+## ----normal-print, comment=''-------------------------------------------------
 head(mtcars)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(knitr)
 knit_print  # an S3 generic function
 methods(knit_print)
 getS3method('knit_print', 'default')  # the default method
 normal_print
 
-## ----collapse=TRUE-------------------------------------------------------
+## ----collapse=TRUE------------------------------------------------------------
 knit_print(1:10)
 knit_print(head(mtcars))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(knitr)
 # define a method for objects of the class data.frame
 knit_print.data.frame = function(x, ...) {
@@ -22,21 +22,21 @@ knit_print.data.frame = function(x, ...) {
 # register the method
 registerS3method("knit_print", "data.frame", knit_print.data.frame)
 
-## ----knit-print----------------------------------------------------------
+## ----knit-print---------------------------------------------------------------
 1 + 1
 head(letters)
 list(a = 1, b = 9:4)
 head(mtcars)
 cat('This is cool.')
 
-## ----eval=FALSE, tidy=FALSE----------------------------------------------
+## ----eval=FALSE, tidy=FALSE---------------------------------------------------
 #  knit_print.classA = function(x, ...) {
 #    # ignore options and inline
 #  }
 #  knit_print.classB = function(x, options, ...) {
 #    # use the chunk option out.height
 #    asis_output(paste0(
-#      '<iframe src="https://yihui.name" height="', options$out.height, '"></iframe>',
+#      '<iframe src="https://yihui.org" height="', options$out.height, '"></iframe>',
 #    ))
 #  }
 #  knit_print.classC = function(x, inline = FALSE, ...) {
@@ -51,26 +51,26 @@ cat('This is cool.')
 #    # use both options and inline
 #  }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 dummy_print = function(x, ...) {
   cat("I do not know what to print!")
   # this function implicitly returns an invisible NULL
 }
 
-## ----knit-print, render=dummy_print, collapse=TRUE-----------------------
+## ----knit-print, render=dummy_print, collapse=TRUE----------------------------
 1 + 1
 head(letters)
 list(a = 1, b = 9:4)
 head(mtcars)
 cat('This is cool.')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 1 + 1
 invisible(1 + 1)
 invisible(head(mtcars))
 x = 1:10  # invisibly returns 1:10
 
-## ----eval=FALSE, tidy=FALSE----------------------------------------------
+## ----eval=FALSE, tidy=FALSE---------------------------------------------------
 #  # pseudo code
 #  knit_print.ggvis = function(x, ...) {
 #    res = ggvis::print_this_object(x)
@@ -83,7 +83,7 @@ x = 1:10  # invisibly returns 1:10
 #    ))
 #  }
 
-## ----tidy=FALSE----------------------------------------------------------
+## ----tidy=FALSE---------------------------------------------------------------
 library(knitr)
 knit_print.foo = function(x, ...) {
   res = paste('> **This is a `foo` object**:', x)
@@ -93,17 +93,17 @@ knit_print.foo = function(x, ...) {
   ))
 }
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 new_foo = function(x) structure(x, class = 'foo')
 new_foo('hello')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 str(knit_meta(clean = FALSE))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 new_foo('world')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 knit_print.bar = function(x, ...) {
   asis_output(x, meta = list(head = '<script>console.log("bar!")</script>'))
 }
@@ -111,14 +111,14 @@ new_bar = function(x) structure(x, class = 'bar')
 new_bar('> **hello** world!')
 new_bar('> hello **world**!')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 str(knit_meta())
 str(knit_meta()) # empty now, because clean = TRUE by default
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 knitr::asis_output
 
-## ----clean-up, include=FALSE---------------------------------------------
+## ----clean-up, include=FALSE--------------------------------------------------
 # R compiles all vignettes in the same session, which can be bad
 rm(list = ls(all = TRUE))
 

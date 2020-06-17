@@ -1,6 +1,9 @@
 ## ---- echo = FALSE, message = FALSE-----------------------------------------------------------------------------------
 knitr::opts_chunk$set(comment = "")
 options(width = 120, max.print = 100)
+wrap.simpleError <- function(x, options) {
+  paste0("```\n## Error: ", x$message, "\n```")
+}
 library(curl)
 library(jsonlite)
 
@@ -86,6 +89,29 @@ handle_setheaders(h,
   "Cache-Control" = "no-cache",
   "User-Agent" = "A cow"
 )
+
+## ---------------------------------------------------------------------------------------------------------------------
+handle <- new_handle(verbose = TRUE)
+
+## ---- error = TRUE----------------------------------------------------------------------------------------------------
+# URLOPT_MASFILESIZE must be a number
+handle_setopt(handle, maxfilesize = "foo")
+
+# CURLOPT_USERAGENT must be a string
+handle_setopt(handle, useragent = 12345)
+
+## ---------------------------------------------------------------------------------------------------------------------
+curl::curl_symbols("CURLUSESSL")
+
+## ---------------------------------------------------------------------------------------------------------------------
+handle_setopt(handle, use_ssl = 3)
+
+## ---------------------------------------------------------------------------------------------------------------------
+curl_symbols('CURL_HTTP_VERSION_')
+
+## ---------------------------------------------------------------------------------------------------------------------
+# Force using HTTP 1.1 (the number 2 is an enum value, see above)
+handle_setopt(handle, http_version = 2)
 
 ## ---------------------------------------------------------------------------------------------------------------------
 req <- curl_fetch_memory("https://eu.httpbin.org/post", handle = h)

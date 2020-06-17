@@ -1,4 +1,232 @@
 
+# tidyselect 1.0.0
+
+This is the 1.0.0 release of tidyselect. It features a more solidly
+defined and implemented syntax, support for predicate functions, new
+boolean operators, and much more.
+
+
+## Documentation
+
+* New Get started vignette for client packages. Read it with
+  `vignette("tidyselect")` or at
+  <https://tidyselect.r-lib.org/articles/tidyselect.html>.
+
+* The definition of the tidyselect language has been consolidated. A
+  technical description is now available:
+  <https://tidyselect.r-lib.org/articles/syntax.html>.
+
+
+## Breaking changes
+
+* Selecting non-column variables with bare names now triggers an
+  informative message suggesting to use `all_of()` instead. Referring
+  to contextual objects with a bare name is brittle because it might
+  be masked by a data frame column. Using `all_of()` is safe (#76).
+
+tidyselect now uses vctrs for validating inputs. These changes may
+reveal programming errors that were previously silent. They may also
+cause failures if your unit tests make faulty assumptions about the
+content of error messages created in tidyselect:
+
+* Out-of-bounds errors are thrown when a name doesn't exist or a
+  location is too large for the input.
+
+* Logical vectors now fail properly.
+
+* Selected variables now must be unique. It was previously possible to
+  return duplicate selections in some circumstances.
+
+* The input names can no longer contain `NA` values.
+
+Note that we recommend `testthat::verify_output()` for monitoring
+error messages thrown from packages that you don't control. Unlike
+`expect_error()`, `verify_output()` does not cause CMD check failures
+when error messages have changed. See
+<https://www.tidyverse.org/blog/2019/11/testthat-2-3-0/> for more
+information.
+
+
+## Syntax
+
+* The boolean operators can now be used to create selections (#106).
+
+  - `!` negates a selection.
+  - `|` takes the union of two selections.
+  - `&` takes the intersection of two selections.
+
+  These patterns can currently be achieved using `-`, `c()` and
+  `intersect()` respectively. The boolean operators should be more
+  intuitive to use.
+
+  Many thanks to Irene Steves (@isteves) for suggesting this UI.
+
+* Binary `/` is now short for set difference. These expressions are
+  now equivalent:
+
+  ```r
+  iris %>% select(starts_with("Sepal") / ends_with("Width"))
+  iris %>% select(starts_with("Sepal"), -ends_with("Width"))
+  ```
+
+* You can now use predicate functions in selection contexts:
+
+  ```r
+  iris %>% select(is.factor)
+  iris %>% select(is.factor | is.numeric)
+  ```
+
+  This feature is not available in functions that use the legacy
+  interface of tidyselect. These need to be updated to use
+  the new `eval_select()` function instead of `vars_select()`.
+
+* Unary `-` inside nested `c()` is now consistently syntax for set
+  difference (#130).
+
+* Improved support for named elements. It is now possible to assign
+  the same name to multiple elements, if the input data structure
+  doesn't require unique names (i.e. anything but a data frame).
+
+* The selection engine has been rewritten to support a clearer
+  separation between data-expressions (calls to `:`, `-`, and `c`) and
+  env-expressions (anything else). This means you can now safely use
+  expressions of the type:
+
+  ```r
+  data %>% select(1:ncol(data))
+  data %>% pivot_longer(1:ncol(data))
+  ```
+
+  Even if the data frame `data` contains a column also named `data`,
+  the subexpression `ncol(data)` is still correctly evaluated.
+  The `data:ncol(data)` expression is equivalent to `2:3` because
+  `data` is looked up in the relevant context without ambiguity:
+
+  ```r
+  data <- tibble(foo = 1, data = 2, bar = 3)
+  data %>% dplyr::select(data:ncol(data))
+  #> # A tibble: 1 x 2
+  #>    data   bar
+  #>   <dbl> <dbl>
+  #> 1     2     3
+  ```
+
+  While this example above is a bit contrived, there are many realistic
+  cases where these changes make it easier to write safe code:
+
+  ```{r}
+  select_from <- function(data, var) {
+    data %>% dplyr::select({{ var }} : ncol(data))
+  }
+  data %>% select_from(data)
+  #> # A tibble: 1 x 2
+  #>    data   bar
+  #>   <dbl> <dbl>
+  #> 1     2     3
+  ```
+
+
+## User-facing improvements
+
+* The new selection helpers `all_of()` and `any_of()` are strict
+  variants of `one_of()`. The former always fails if some variables
+  are unknown, while the latter does not. `all_of()` is safer to use
+  when you expect all selected variables to exist. `any_of()` is
+  useful in other cases, for instance to ensure variables are selected
+  out:
+
+  ```
+  vars <- c("Species", "Genus")
+  iris %>% dplyr::select(-any_of(vars))
+  ```
+
+  Note that `all_of()` and `any_of()` are a bit more conservative in
+  their function signature than `one_of()`: they do not accept dots.
+  The equivalent of `one_of("a", "b")` is `all_of(c("a", "b"))`.
+
+* Selection helpers like `all_of()` and `starts_with()` are now
+  available in all selection contexts, even when they haven't been
+  attached to the search path. The most visible consequence of this
+  change is that it is now easier to use selection functions without
+  attaching the host package:
+
+  ```r
+  # Before
+  dplyr::select(mtcars, dplyr::starts_with("c"))
+
+  # After
+  dplyr::select(mtcars, starts_with("c"))
+  ```
+
+  It is still recommended to export the helpers from your package so
+  that users can easily look up the documentation with `?`.
+
+* `starts_with()`, `ends_with()`, `contains()`, and `matches()` now
+  accept vector inputs (#50). For instance these are now equivalent
+  ways of selecting all variables that start with either `"a"` or `"b"`:
+
+  ```{r}
+  starts_with(c("a", "b"))
+  starts_with("a") | starts_with("b")
+  ```
+
+* `matches()` has new argument `perl` to allow for Perl-like regular
+  expressions (@fmichonneau, #71)
+
+* Better support for selecting with S3 vectors. For instance, factors
+  are treated as characters.
+
+
+## API
+
+New `eval_select()` and `eval_rename()` functions for client
+packages. These replace `vars_select()` and `vars_rename()`, which are
+now deprecated. These functions:
+
+* Take the full data rather than just names. This makes it possible to
+  use function predicates in selection context.
+
+* Return a numeric vector of locations rather than a vector of
+  names. This makes it possible to use tidyselect with inputs that
+  support duplicate names, like regular vectors.
+
+
+## Other features and fixes
+
+* The `.strict` argument of `vars_select()` now works more robustly
+  and consistently.
+
+* Using arithmetic operators in selection context now fails more
+  informatively (#84).
+
+* It is now possible to select columns in data frames containing
+  duplicate variables (#94). However, the duplicates can't be part of
+  the final selection.
+
+* `eval_rename()` no longer ignore the names of unquoted character
+  vectors of length 1 (#79).
+
+* `eval_rename()` now fails when a variable is renamed to an existing
+  name (#70).
+
+* `eval_rename()` has better support for existing duplicates (but
+  creating new duplicates is an error).
+
+* `eval_select()`, `eval_rename()` and `vars_pull()` now detect
+  missing values uniformly (#72).
+
+* `vars_pull()` now includes the faulty expression in error messages.
+
+* The performance issues of `eval_rename()` with many arguments have
+  been fixed. This make `dplyr::rename_all()` with many columns much
+  faster (@zkamvar, #92).
+
+* tidyselect is now much faster with many columns, thanks to a
+  performance fix in `rlang::env_bind()` as well as internal fixes.
+
+* `vars_select()` ignores vectors with only zeros (#82).
+
+
 # tidyselect 0.2.5
 
 This is a maintenance release for compatibility with rlang 0.3.0.

@@ -1,5 +1,5 @@
 Package: hexbin
-Version: 1.27.3
+Version: 1.28.1
 Title: Hexagonal Binning Routines
 Author: Dan Carr <dcarr@voxel.galaxy.gmu.edu>, ported by Nicholas
         Lewin-Koh and Martin Maechler <maechler@stat.math.ethz.ch>,
@@ -8,17 +8,18 @@ Author: Dan Carr <dcarr@voxel.galaxy.gmu.edu>, ported by Nicholas
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 Depends: R (>= 2.0.1), methods
 Imports: lattice, grid, graphics, grDevices, stats, utils
-Suggests: marray, affy, Biobase, limma
+Suggests: marray, affy, Biobase, limma, knitr
 Description: Binning and plotting functions for hexagonal bins.
 Collate: lattice.R BTC.R BTY.R grid.hexagons.R grid.hexlegend.R hbox.R
         hdiffplot.R hexbinList.R hexbinplot.R hexbin.s4.R hexpanel.R
         hexplom.R hexPlotMA.R hexutil.R hexViewport.R HO.R LINGRAY.R
         LOCS.R MAG.R RB.R smoothHexbin.R
 License: GPL-2
+VignetteBuilder: knitr
 NeedsCompilation: yes
 URL: http://github.com/edzer/hexbin
-Packaged: 2019-05-14 13:56:49 UTC; edzer
+Packaged: 2020-02-03 13:36:39 UTC; edzer
 Repository: CRAN
-Date/Publication: 2019-05-14 14:50:03 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-05-15 04:29:34 UTC; unix
+Date/Publication: 2020-02-03 16:20:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-02-04 05:40:04 UTC; unix
 Archs: hexbin.so.dSYM

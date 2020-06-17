@@ -1,3 +1,39 @@
+htmltools 0.4.0
+--------------------------------------------------------------------------------
+
+* Fixed #128: Added support for trailing commas in tagLists and the predefined
+  tags. (#135)
+
+* Added some HTML tag functions to `tags` that were missing. (#111)
+
+* Updated RcppExports for new version of Rcpp. (#93)
+
+* `as.character.shiny.tags()` will handle non-ASCII attributes correctly if they
+  are not encoded in native encoding.
+
+* Fixed #99: `NA` attributes were sometimes rendered as `"NA"` in the HTML,
+  instead of being blank. (#100)
+
+* The error message for trailing commas in tag functions now provides context
+  and useful information. (#109)
+
+* Stopped using inline styles to set background color for `save_html`, as doing so
+  makes it difficult to override using other CSS rules. (#123)
+
+* Added a `.noWS` argument to `tag()` and `tags` which can be used to suppress
+  the automatically generated whitespace around a particular tag. (#131)
+
+* Added a shim for `system.file()` so that htmltools works with `htmlDependency`
+  objects created by a package that was loaded with `devtools::load_all()`.
+  (#129)
+
+* `validateCssUnit()` now accepts `ch`, `rem`, and `calc()`. (#134)
+
+* Fixed #125: `print.html` removes html dependencies. (#126)
+
+* Stopped extra carriage returns from being inserted by `save_html` on Windows.
+  (#137)
+
 htmltools 0.3.6
 --------------------------------------------------------------------------------
 

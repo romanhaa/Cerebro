@@ -207,6 +207,7 @@ removeXMLNamespaces,XMLInternalDocument-method	removeXMLNamespaces
 removeXMLNamespaces,XMLInternalElementNode-method	removeXMLNamespaces
 removeXMLNamespaces,XMLInternalNode-method	removeXMLNamespaces
 replaceNodes	addChildren
+replaceNodeWithChildren	replaceNodeWithChildren
 RXMLNode-class	XMLNode-class
 saveXML	saveXML
 saveXML,HTMLInternalDocument-method	saveXML
@@ -297,10 +298,9 @@ XMLEntityDeclNode-class	XMLNode-class
 xmlErrorCumulator	xmlStructuredStop
 xmlEventHandler	xmlEventHandler
 xmlEventParse	xmlEventParse
-xmlFlatListTree	xmlFlatListTree
 xmlGetAttr	xmlGetAttr
 xmlHandler	xmlHandler
-xmlHashTree	xmlFlatListTree
+xmlHashTree	xmlHashTree
 XMLInternalCDataNode-class	XMLNode-class
 XMLInternalCommentNode-class	XMLNode-class
 XMLInternalDocument-class	XMLInternalDocument

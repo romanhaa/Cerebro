@@ -1,5 +1,5 @@
 Package: igraph
-Version: 1.2.4.1
+Version: 1.2.5
 Title: Network Analysis and Visualization
 Author: See AUTHORS file.
 Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
@@ -10,13 +10,13 @@ Depends: methods
 Imports: graphics, grDevices, magrittr, Matrix, pkgconfig (>= 2.0.0),
         stats, utils
 Suggests: ape, digest, graph, igraphdata, rgl, scales, stats4, tcltk,
-        testthat
+        testthat, withr
 License: GPL (>= 2)
 URL: http://igraph.org
 SystemRequirements: gmp (optional), libxml2 (optional), glpk (optional)
 BugReports: https://github.com/igraph/igraph/issues
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Collate: 'adjacency.R' 'auto.R' 'assortativity.R' 'attributes.R'
         'basic.R' 'bipartite.R' 'centrality.R' 'centralization.R'
         'cliques.R' 'cocitation.R' 'cohesive.blocks.R' 'community.R'
@@ -34,8 +34,8 @@ Collate: 'adjacency.R' 'auto.R' 'assortativity.R' 'attributes.R'
         'tkplot.R' 'topology.R' 'triangles.R' 'utils.R' 'uuid.R'
         'versions.R' 'weakref.R' 'zzz-deprecate.R'
 NeedsCompilation: yes
-Packaged: 2019-04-21 07:44:54 UTC; ripley
+Packaged: 2020-03-18 14:51:55 UTC; gaborcsardi
 Repository: CRAN
-Date/Publication: 2019-04-22 06:57:32 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-04-23 04:33:52 UTC; unix
+Date/Publication: 2020-03-19 09:20:03 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-03-20 04:33:01 UTC; unix
 Archs: igraph.so.dSYM

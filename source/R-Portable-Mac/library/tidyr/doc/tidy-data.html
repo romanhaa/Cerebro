@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -392,20 +393,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The following code shows a subset of a typical dataset of this form. This dataset explores the relationship between income and religion in the US. It comes from a report produced by the Pew Research Center, an American think-tank that collects data on attitudes to topics ranging from religion to the internet, and produces many reports that contain datasets in this format.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>relig_income</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; # A tibble: 18 x 11</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;    religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;  1 Agnostic      27        34        60        81        76       137</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;  2 Atheist       12        27        37        52        35        70</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;  3 Buddhist      27        21        30        34        33        58</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;  4 Catholic     418       617       732       670       638      1116</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  5 Don’t k…      15        14        15        11        10        35</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  6 Evangel…     575       869      1064       982       881      1486</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  7 Hindu          1         9         7         9        11        34</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  8 Histori…     228       244       236       238       197       223</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  9 Jehovah…      20        27        24        24        21        30</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; 10 Jewish        19        19        25        25        30        95</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; # … with 8 more rows, and 4 more variables: `$75-100k` &lt;dbl&gt;,</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; #   `$100-150k` &lt;dbl&gt;, `&gt;150k` &lt;dbl&gt;, `Don&#39;t know/refused` &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;    religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k` `$75-100k`</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;  1 Agnostic      27        34        60        81        76       137        122</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;  2 Atheist       12        27        37        52        35        70         73</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;  3 Buddhist      27        21        30        34        33        58         62</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;  4 Catholic     418       617       732       670       638      1116        949</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  5 Don’t k…      15        14        15        11        10        35         21</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  6 Evangel…     575       869      1064       982       881      1486        949</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  7 Hindu          1         9         7         9        11        34         47</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  8 Histori…     228       244       236       238       197       223        131</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  9 Jehovah…      20        27        24        24        21        30         15</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; 10 Jewish        19        19        25        25        30        95         69</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; # … with 8 more rows, and 3 more variables: `$100-150k` &lt;dbl&gt;, `&gt;150k` &lt;dbl&gt;,</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; #   `Don&#39;t know/refused` &lt;dbl&gt;</span></span></code></pre></div>
 <p>This dataset has three variables, <code>religion</code>, <code>income</code> and <code>frequency</code>. To tidy it, we need to <strong>gather</strong> the non-variable columns into a two-column key-value pair. This action is often described as making a wide dataset long (or tall), but I’ll avoid those terms because they’re imprecise.</p>
 <p>When gathering variables, we need to provide the name of the new key-value columns to create. The first argument, is the name of the key column, which is the name of the variable defined by the values of the column headings. In this case, it’s <code>income</code>. The second argument is the name of the value column, <code>frequency</code>. The third argument defines the columns to gather, here, every column except religion.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>relig_income <span class="op">%&gt;%</span></span>
@@ -428,33 +429,30 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>This format is also used to record regularly spaced observations over time. For example, the Billboard dataset shown below records the date a song first entered the billboard top 100. It has variables for <code>artist</code>, <code>track</code>, <code>date.entered</code>, <code>rank</code> and <code>week</code>. The rank in each week after it enters the top 100 is recorded in 75 columns, <code>wk1</code> to <code>wk75</code>. This form of storage is not tidy, but it is useful for data entry. It reduces duplication since otherwise each song in each week would need its own row, and song metadata like title and artist would need to be repeated. This will be discussed in more depth in <a href="#multiple-types">multiple types</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>billboard</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; # A tibble: 317 x 79</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;    artist track date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;  1 2 Pac  Baby… 2000-02-26      87    82    72    77    87    94    99</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;  2 2Ge+h… The … 2000-09-02      91    87    92    NA    NA    NA    NA</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  3 3 Doo… Kryp… 2000-04-08      81    70    68    67    66    57    54</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;  4 3 Doo… Loser 2000-10-21      76    76    72    69    67    65    55</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;  5 504 B… Wobb… 2000-04-15      57    34    25    17    17    31    36</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt;  6 98^0   Give… 2000-08-19      51    39    34    26    26    19     2</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;  7 A*Tee… Danc… 2000-07-08      97    97    96    95   100    NA    NA</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt;  8 Aaliy… I Do… 2000-01-29      84    62    51    41    38    35    35</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;  9 Aaliy… Try … 2000-03-18      59    53    38    28    21    18    16</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; 10 Adams… Open… 2000-08-26      76    76    74    69    68    67    61</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; # … with 307 more rows, and 69 more variables: wk8 &lt;dbl&gt;, wk9 &lt;dbl&gt;,</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; #   wk10 &lt;dbl&gt;, wk11 &lt;dbl&gt;, wk12 &lt;dbl&gt;, wk13 &lt;dbl&gt;, wk14 &lt;dbl&gt;,</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; #   wk15 &lt;dbl&gt;, wk16 &lt;dbl&gt;, wk17 &lt;dbl&gt;, wk18 &lt;dbl&gt;, wk19 &lt;dbl&gt;,</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; #   wk20 &lt;dbl&gt;, wk21 &lt;dbl&gt;, wk22 &lt;dbl&gt;, wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;,</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; #   wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;, wk29 &lt;dbl&gt;,</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; #   wk30 &lt;dbl&gt;, wk31 &lt;dbl&gt;, wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;,</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; #   wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;, wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;,</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; #   wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, wk43 &lt;dbl&gt;, wk44 &lt;dbl&gt;,</span></span>
-<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; #   wk45 &lt;dbl&gt;, wk46 &lt;dbl&gt;, wk47 &lt;dbl&gt;, wk48 &lt;dbl&gt;, wk49 &lt;dbl&gt;,</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; #   wk50 &lt;dbl&gt;, wk51 &lt;dbl&gt;, wk52 &lt;dbl&gt;, wk53 &lt;dbl&gt;, wk54 &lt;dbl&gt;,</span></span>
-<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt; #   wk55 &lt;dbl&gt;, wk56 &lt;dbl&gt;, wk57 &lt;dbl&gt;, wk58 &lt;dbl&gt;, wk59 &lt;dbl&gt;,</span></span>
-<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt; #   wk60 &lt;dbl&gt;, wk61 &lt;dbl&gt;, wk62 &lt;dbl&gt;, wk63 &lt;dbl&gt;, wk64 &lt;dbl&gt;,</span></span>
-<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt; #   wk65 &lt;dbl&gt;, wk66 &lt;lgl&gt;, wk67 &lt;lgl&gt;, wk68 &lt;lgl&gt;, wk69 &lt;lgl&gt;,</span></span>
-<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt; #   wk70 &lt;lgl&gt;, wk71 &lt;lgl&gt;, wk72 &lt;lgl&gt;, wk73 &lt;lgl&gt;, wk74 &lt;lgl&gt;,</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a><span class="co">#&gt; #   wk75 &lt;lgl&gt;, wk76 &lt;lgl&gt;</span></span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;    artist track date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7   wk8</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;  1 2 Pac  Baby… 2000-02-26      87    82    72    77    87    94    99    NA</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;  2 2Ge+h… The … 2000-09-02      91    87    92    NA    NA    NA    NA    NA</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  3 3 Doo… Kryp… 2000-04-08      81    70    68    67    66    57    54    53</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;  4 3 Doo… Loser 2000-10-21      76    76    72    69    67    65    55    59</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;  5 504 B… Wobb… 2000-04-15      57    34    25    17    17    31    36    49</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt;  6 98^0   Give… 2000-08-19      51    39    34    26    26    19     2     2</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;  7 A*Tee… Danc… 2000-07-08      97    97    96    95   100    NA    NA    NA</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt;  8 Aaliy… I Do… 2000-01-29      84    62    51    41    38    35    35    38</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;  9 Aaliy… Try … 2000-03-18      59    53    38    28    21    18    16    14</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; 10 Adams… Open… 2000-08-26      76    76    74    69    68    67    61    58</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; # … with 307 more rows, and 68 more variables: wk9 &lt;dbl&gt;, wk10 &lt;dbl&gt;,</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; #   wk11 &lt;dbl&gt;, wk12 &lt;dbl&gt;, wk13 &lt;dbl&gt;, wk14 &lt;dbl&gt;, wk15 &lt;dbl&gt;, wk16 &lt;dbl&gt;,</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; #   wk17 &lt;dbl&gt;, wk18 &lt;dbl&gt;, wk19 &lt;dbl&gt;, wk20 &lt;dbl&gt;, wk21 &lt;dbl&gt;, wk22 &lt;dbl&gt;,</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; #   wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;, wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;,</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; #   wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;, wk31 &lt;dbl&gt;, wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;,</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; #   wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;, wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;,</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; #   wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, wk43 &lt;dbl&gt;, wk44 &lt;dbl&gt;, wk45 &lt;dbl&gt;, wk46 &lt;dbl&gt;,</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; #   wk47 &lt;dbl&gt;, wk48 &lt;dbl&gt;, wk49 &lt;dbl&gt;, wk50 &lt;dbl&gt;, wk51 &lt;dbl&gt;, wk52 &lt;dbl&gt;,</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; #   wk53 &lt;dbl&gt;, wk54 &lt;dbl&gt;, wk55 &lt;dbl&gt;, wk56 &lt;dbl&gt;, wk57 &lt;dbl&gt;, wk58 &lt;dbl&gt;,</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; #   wk59 &lt;dbl&gt;, wk60 &lt;dbl&gt;, wk61 &lt;dbl&gt;, wk62 &lt;dbl&gt;, wk63 &lt;dbl&gt;, wk64 &lt;dbl&gt;,</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt; #   wk65 &lt;dbl&gt;, wk66 &lt;lgl&gt;, wk67 &lt;lgl&gt;, wk68 &lt;lgl&gt;, wk69 &lt;lgl&gt;, wk70 &lt;lgl&gt;,</span></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt; #   wk71 &lt;lgl&gt;, wk72 &lt;lgl&gt;, wk73 &lt;lgl&gt;, wk74 &lt;lgl&gt;, wk75 &lt;lgl&gt;, wk76 &lt;lgl&gt;</span></span></code></pre></div>
 <p>To tidy this dataset, we first gather together all the <code>wk</code> columns. The column names give the <code>week</code> and the values are the <code>rank</code>s:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>billboard2 &lt;-<span class="st"> </span>billboard <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">gather</span>(week, rank, wk1<span class="op">:</span>wk76, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
@@ -535,21 +533,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>tb &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(<span class="kw">read.csv</span>(<span class="st">&quot;tb.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>))</span>
 <span id="cb11-2"><a href="#cb11-2"></a>tb</span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; # A tibble: 5,769 x 22</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt;    iso2   year   m04  m514  m014 m1524 m2534 m3544 m4554 m5564   m65    mu</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt;  1 AD     1989    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt;  2 AD     1990    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt;  3 AD     1991    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt;  4 AD     1992    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt;  5 AD     1993    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt;  6 AD     1994    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt;  7 AD     1996    NA    NA     0     0     0     4     1     0     0    NA</span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt;  8 AD     1997    NA    NA     0     0     1     2     2     1     6    NA</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt;  9 AD     1998    NA    NA     0     0     0     1     0     0     0    NA</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; 10 AD     1999    NA    NA     0     0     0     1     1     0     0    NA</span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; # … with 5,759 more rows, and 10 more variables: f04 &lt;int&gt;, f514 &lt;int&gt;,</span></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; #   f014 &lt;int&gt;, f1524 &lt;int&gt;, f2534 &lt;int&gt;, f3544 &lt;int&gt;, f4554 &lt;int&gt;,</span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; #   f5564 &lt;int&gt;, f65 &lt;int&gt;, fu &lt;int&gt;</span></span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt;    iso2   year   m04  m514  m014 m1524 m2534 m3544 m4554 m5564   m65    mu   f04</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt;  1 AD     1989    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt;  2 AD     1990    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt;  3 AD     1991    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt;  4 AD     1992    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt;  5 AD     1993    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt;  6 AD     1994    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt;  7 AD     1996    NA    NA     0     0     0     4     1     0     0    NA    NA</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt;  8 AD     1997    NA    NA     0     0     1     2     2     1     6    NA    NA</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt;  9 AD     1998    NA    NA     0     0     0     1     0     0     0    NA    NA</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; 10 AD     1999    NA    NA     0     0     0     1     1     0     0    NA    NA</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; # … with 5,759 more rows, and 9 more variables: f514 &lt;int&gt;, f014 &lt;int&gt;,</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; #   f1524 &lt;int&gt;, f2534 &lt;int&gt;, f3544 &lt;int&gt;, f4554 &lt;int&gt;, f5564 &lt;int&gt;, f65 &lt;int&gt;,</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; #   fu &lt;int&gt;</span></span></code></pre></div>
 <p>First we gather up the non-variable columns:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>tb2 &lt;-<span class="st"> </span>tb <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">gather</span>(demo, n, <span class="op">-</span>iso2, <span class="op">-</span>year, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
@@ -594,23 +592,23 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>weather &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(<span class="kw">read.csv</span>(<span class="st">&quot;weather.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>))</span>
 <span id="cb14-2"><a href="#cb14-2"></a>weather</span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt; # A tibble: 22 x 35</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt;    id     year month element    d1    d2    d3    d4    d5    d6    d7</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt;  1 MX17…  2010     1 tmax       NA  NA    NA      NA  NA      NA    NA</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt;  2 MX17…  2010     1 tmin       NA  NA    NA      NA  NA      NA    NA</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt;  3 MX17…  2010     2 tmax       NA  27.3  24.1    NA  NA      NA    NA</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;  4 MX17…  2010     2 tmin       NA  14.4  14.4    NA  NA      NA    NA</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt;  5 MX17…  2010     3 tmax       NA  NA    NA      NA  32.1    NA    NA</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt;  6 MX17…  2010     3 tmin       NA  NA    NA      NA  14.2    NA    NA</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt;  7 MX17…  2010     4 tmax       NA  NA    NA      NA  NA      NA    NA</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt;  8 MX17…  2010     4 tmin       NA  NA    NA      NA  NA      NA    NA</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt;  9 MX17…  2010     5 tmax       NA  NA    NA      NA  NA      NA    NA</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; 10 MX17…  2010     5 tmin       NA  NA    NA      NA  NA      NA    NA</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; # … with 12 more rows, and 24 more variables: d8 &lt;dbl&gt;, d9 &lt;lgl&gt;,</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt; #   d10 &lt;dbl&gt;, d11 &lt;dbl&gt;, d12 &lt;lgl&gt;, d13 &lt;dbl&gt;, d14 &lt;dbl&gt;, d15 &lt;dbl&gt;,</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; #   d16 &lt;dbl&gt;, d17 &lt;dbl&gt;, d18 &lt;lgl&gt;, d19 &lt;lgl&gt;, d20 &lt;lgl&gt;, d21 &lt;lgl&gt;,</span></span>
-<span id="cb14-19"><a href="#cb14-19"></a><span class="co">#&gt; #   d22 &lt;lgl&gt;, d23 &lt;dbl&gt;, d24 &lt;lgl&gt;, d25 &lt;dbl&gt;, d26 &lt;dbl&gt;, d27 &lt;dbl&gt;,</span></span>
-<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; #   d28 &lt;dbl&gt;, d29 &lt;dbl&gt;, d30 &lt;dbl&gt;, d31 &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt;    id     year month element    d1    d2    d3    d4    d5    d6    d7    d8</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt;  1 MX17…  2010     1 tmax       NA  NA    NA      NA  NA      NA    NA    NA</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt;  2 MX17…  2010     1 tmin       NA  NA    NA      NA  NA      NA    NA    NA</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="co">#&gt;  3 MX17…  2010     2 tmax       NA  27.3  24.1    NA  NA      NA    NA    NA</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt;  4 MX17…  2010     2 tmin       NA  14.4  14.4    NA  NA      NA    NA    NA</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt;  5 MX17…  2010     3 tmax       NA  NA    NA      NA  32.1    NA    NA    NA</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt;  6 MX17…  2010     3 tmin       NA  NA    NA      NA  14.2    NA    NA    NA</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt;  7 MX17…  2010     4 tmax       NA  NA    NA      NA  NA      NA    NA    NA</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt;  8 MX17…  2010     4 tmin       NA  NA    NA      NA  NA      NA    NA    NA</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt;  9 MX17…  2010     5 tmax       NA  NA    NA      NA  NA      NA    NA    NA</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; 10 MX17…  2010     5 tmin       NA  NA    NA      NA  NA      NA    NA    NA</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; # … with 12 more rows, and 23 more variables: d9 &lt;lgl&gt;, d10 &lt;dbl&gt;, d11 &lt;dbl&gt;,</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt; #   d12 &lt;lgl&gt;, d13 &lt;dbl&gt;, d14 &lt;dbl&gt;, d15 &lt;dbl&gt;, d16 &lt;dbl&gt;, d17 &lt;dbl&gt;,</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; #   d18 &lt;lgl&gt;, d19 &lt;lgl&gt;, d20 &lt;lgl&gt;, d21 &lt;lgl&gt;, d22 &lt;lgl&gt;, d23 &lt;dbl&gt;,</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a><span class="co">#&gt; #   d24 &lt;lgl&gt;, d25 &lt;dbl&gt;, d26 &lt;dbl&gt;, d27 &lt;dbl&gt;, d28 &lt;dbl&gt;, d29 &lt;dbl&gt;,</span></span>
+<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; #   d30 &lt;dbl&gt;, d31 &lt;dbl&gt;</span></span></code></pre></div>
 <p>It has variables in individual columns (<code>id</code>, <code>year</code>, <code>month</code>), spread across columns (<code>day</code>, d1-d31) and across rows (<code>tmin</code>, <code>tmax</code>) (minimum and maximum temperature). Months with fewer than 31 days have structural missing values for the last day(s) of the month.</p>
 <p>To tidy this dataset we first gather the day columns:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>weather2 &lt;-<span class="st"> </span>weather <span class="op">%&gt;%</span></span>
@@ -735,6 +733,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

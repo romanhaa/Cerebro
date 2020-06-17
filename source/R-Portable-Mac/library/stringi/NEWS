@@ -2,6 +2,39 @@
 
 -------------------------------------------------------------------------------
 
+## 1.4.6 (2020-02-17) **devel*
+
+* [NEW FEATURE] #369: `stri_c()` now returns an empty string
+when input is empty and `collapse` is set.
+
+* [BUGFIX] #370: fixed an issue in `stri_prepare_arg_POSIXct()`
+reported by rchk.
+
+* [BUGFIX] #372: documented arguments not in `\usage` in
+documentation object `stri_datetime_format`: `...`
+
+-----------------------------------------------------------------------------
+
+## 1.4.5 (2020-01-11) **CRAN*
+
+* [BUGFIX] #366: fix for #363 required ICU >= 55 .
+
+-----------------------------------------------------------------------------
+
+## 1.4.4 (2020-01-06) **CRAN**
+
+* [BUGFIX] #348: Avoid copying 0 bytes to a nil-buffer in `stri_sub_all()`.
+
+* [BUGFIX] #362: Removed `configure` variable `CXXCPP` as it is now deprecated.
+
+* [BUGFIX] #318: PROTECTing objects from gcing as reported by `rchk`.
+
+* [BUGFIX] #344, #364: Removed compiler warnings in icu61/common/cstring.h.
+
+* [BUGFIX] #363: Status of `RegexMatcher` is now checked after its use.
+
+-------------------------------------------------------------------------------
+
 ## 1.4.3 (2019-03-12) **CRAN**
 
 * [NEW FEATURE] #30: New function `stri_sub_all()` - a version of

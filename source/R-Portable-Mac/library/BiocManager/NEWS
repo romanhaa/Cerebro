@@ -1,4 +1,88 @@
-CHANGES IN VERSION 1.31.3
+CHANGES IN VERSION 1.30.9
+-------------------------
+
+MINOR CHANGES
+
+    o Use `packageStartupMessage()` in .onLoad
+
+    o Tests are robust to missing Suggests: BiocVersion
+
+CHANGES IN VERSION 1.30.8
+-------------------------
+
+MINOR CHANGES
+
+    o Tests are skipped if is there is a misconfiguration or the CRAN
+      builder has no internet access.
+
+CHANGES IN VERSION 1.30.7
+-------------------------
+
+NEW FEATURES
+
+    o Support R-4.0
+
+MINOR CHANGES
+
+    o Conform to CRAN policy to fail with messages rather than
+      warnings or errors when internet access fails; internet access
+      failures continue to generate warnings or errors during regular
+      use.
+
+CHANGES IN VERSION 1.30.6
+-------------------------
+
+MINOR CHANGES
+
+    o Improve unit tests under Bioconductor versions 3.8, 3.9, 3.10.
+
+    o Improve error message when non-interactive version update fails.
+
+BUG FIXES
+
+    o BiocManager loads when off-line.
+
+CHANGES IN VERSION 1.30.5
+-------------------------
+
+NEW FEATURES
+
+    o Allow users to specify `checkBuilt` when invoking `valid()` or
+    `install()`. Set default `FALSE`.
+
+MINOR CHANGES
+
+    o Allow use of BiocInstaller for R < 3.5, pointing to biocLite()
+    when appropriate.
+
+    o Improve performance of version checking (issue #42 @HenrikBengtsson).
+
+    o Document off-line installation best practices.
+
+    o Warn about out-of-date packages on load (in addition to on
+    attach) (issue #29)
+
+CHANGES IN VERSION 1.30.4
+-------------------------
+
+NEW FEATURES
+
+    o Provide an 'http' fallback when 'https' fails for accessing the version
+    map hosted on Bioconductor.org
+
+MINOR CHANGES
+
+    o Conform tests to devel and release R versions
+    o Add tests for the 'http' fallback scenarios
+
+BUG FIXES
+
+    o Fixed issue with multiple error version messages for Bioc version `3.9`
+    'devel' and 'future'
+    o Return a warning message instead of an error when unable to validate
+    a given version
+
+CHANGES IN VERSION 1.30.3
 -------------------------
 
 NEW FEATURES
@@ -25,7 +109,7 @@ BUG FIXES
     o When installation is valid, return zero invalid packages rather than
     accessing non-existent list structure
 
-CHANGES IN VERSION 1.31.2
+CHANGES IN VERSION 1.30.2
 -------------------------
 
 USER VISIBLE CHANGES
@@ -50,7 +134,7 @@ BUG FIXES
     o Remove tests that were dependent on system configuration rather
     than the package itself
 
-CHANGES IN VERSION 1.31.0
+CHANGES IN VERSION 1.30.1
 -------------------------
 
 USER VISIBLE CHANGES

@@ -1,5 +1,5 @@
 Package: data.table
-Version: 1.12.2
+Version: 1.12.8
 Title: Extension of `data.frame`
 Authors@R: c(
   person("Matt","Dowle",           role=c("aut","cre"), email="mattjdowle@gmail.com"),
@@ -38,18 +38,25 @@ Authors@R: c(
   person("Martin","Morgan",        role="ctb"),
   person("Michael","Quinn",        role="ctb"),
   person("@javrucebo","",          role="ctb"),
-  person("@marc-outins","",        role="ctb"))
+  person("@marc-outins","",        role="ctb"),
+  person("Roy","Storey",           role="ctb"),
+  person("Manish","Saraswat",      role="ctb"),
+  person("Morgan","Jacob",         role="ctb"),
+  person("Michael","Schubmehl",    role="ctb"),
+  person("Davis","Vaughan",        role="ctb"))
 Depends: R (>= 3.1.0)
 Imports: methods
-Suggests: bit64, curl, R.utils, knitr, xts, nanotime, zoo
+Suggests: bit64, curl, R.utils, knitr, xts, nanotime, zoo, yaml
+SystemRequirements: zlib
 Description: Fast aggregation of large data (e.g. 100GB in RAM), fast ordered joins, fast add/modify/delete of columns by group using no copies at all, list columns, friendly and fast character-separated-value read/write. Offers a natural and flexible syntax, for faster development.
 License: MPL-2.0 | file LICENSE
-URL: http://r-datatable.com
+URL: http://r-datatable.com, https://Rdatatable.gitlab.io/data.table,
+        https://github.com/Rdatatable/data.table
 BugReports: https://github.com/Rdatatable/data.table/issues
 VignetteBuilder: knitr
 ByteCompile: TRUE
 NeedsCompilation: yes
-Packaged: 2019-03-28 19:54:17.679 UTC; mdowle
+Packaged: 2019-12-08 22:28:25.859 UTC; mdowle
 Author: Matt Dowle [aut, cre],
   Arun Srinivasan [aut],
   Jan Gorecki [ctb],
@@ -86,9 +93,14 @@ Author: Matt Dowle [aut, cre],
   Martin Morgan [ctb],
   Michael Quinn [ctb],
   @javrucebo [ctb],
-  @marc-outins [ctb]
+  @marc-outins [ctb],
+  Roy Storey [ctb],
+  Manish Saraswat [ctb],
+  Morgan Jacob [ctb],
+  Michael Schubmehl [ctb],
+  Davis Vaughan [ctb]
 Maintainer: Matt Dowle <mattjdowle@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-04-07 10:05:02 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-04-08 04:37:09 UTC; unix
+Date/Publication: 2019-12-09 10:30:10 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-12-10 05:31:41 UTC; unix
 Archs: datatable.so.dSYM

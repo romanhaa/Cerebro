@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -203,6 +204,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -227,9 +231,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><p>Instead of currying, we use <code>...</code> to pass in extra arguments.</p></li>
 <li><p>Anonymous functions are verbose in R, so we provide two convenient shorthands. For unary functions, <code>~ .x + 1</code> is equivalent to <code>function(.x) .x + 1</code>. For chains of transformations functions, <code>. %&gt;% f() %&gt;% g()</code> is equivalent to <code>function(.) . %&gt;% f() %&gt;% g()</code> (this shortcut is provided by magrittr).</p></li>
 <li><p>R is weakly typed, so we need <code>map</code> variants that describe the output type (like <code>map_int()</code>, <code>map_dbl()</code>, etc) because we don’t know the return type of <code>.f</code>.</p></li>
-<li><p>R has named arguments, so instead of providing different functions for minor variations (e.g. <code>detect()</code> and <code>detectLast()</code>) we use a named argument, <code>.right</code>. Type-stable functions are easy to reason about so additional arguments will never change the type of the output.</p></li>
+<li><p>R has named arguments, so instead of providing different functions for minor variations (e.g. <code>detect()</code> and <code>detectLast()</code>) we use a named argument, <code>.right</code>. Type-stable functions are easy to reason about so additional arguments will never change the type of the output.</p></li>
 </ul>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

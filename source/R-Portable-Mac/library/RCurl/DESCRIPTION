@@ -1,9 +1,13 @@
 Package: RCurl
-Version: 1.95-4.12
+Version: 1.98-1.1
 Title: General Network (HTTP/FTP/...) Client Interface for R
-Author: Duncan Temple Lang and the CRAN team
+Authors@R: c(person("CRAN Team", role = c('ctb', 'cre'),
+                    email = "CRAN@r-project.org",
+                    comment = "de facto maintainer since 2013"),
+             person("Duncan", "Temple Lang", role = "aut",
+                    email = "duncan@r-project.org",
+                    comment = c(ORCID = "0000-0003-0159-1546")))
 SystemRequirements: GNU make, libcurl
-Maintainer: Duncan Temple Lang <duncan@r-project.org>
 Description: A wrapper for 'libcurl' <http://curl.haxx.se/libcurl/>
 	Provides functions to allow one to compose general HTTP requests
         and provides convenient functions to fetch URIs, get & post
@@ -15,21 +19,10 @@ Description: A wrapper for 'libcurl' <http://curl.haxx.se/libcurl/>
         robust and extensive, supporting FTP/FTPS/TFTP (uploads and
         downloads), SSL/HTTPS, telnet, dict, ldap, and also supports
         cookies, redirects, authentication, etc.
-License: BSD
-Depends: R (>= 3.0.0), methods, bitops
-Suggests: Rcompression, XML
-URL: http://www.omegahat.net/RCurl
-Additional_repositories: http://www.omegahat.net/R/
-Limitations: One doesn't yet have full control over the contents of a
-        POST form such as specifying files, content type. Error
-        handling uses a single global variable at present.
-Note: This will be used generally to communicate with HTTP servers and
-        specifically in the SOAP package, HTML forms and for accessing
-        data on Web sites that require more state information than
-        simply URL access (e.g. cookies).
-Check: To run R CMD check, one really needs network access. It is an
-        HTTP client! This can be problematic as a Web site may be down
-        when you run but the real tests are important.
+License: BSD_3_clause + file LICENSE
+Depends: R (>= 3.4.0), methods
+Imports: bitops
+Suggests: XML
 Collate: aclassesEnums.R bitClasses.R xbits.R base64.R binary.S
         classes.S curl.S curlAuthConstants.R curlEnums.R curlError.R
         curlInfo.S dynamic.R form.S getFormParams.R getURLContent.R
@@ -37,8 +30,11 @@ Collate: aclassesEnums.R bitClasses.R xbits.R base64.R binary.S
         multi.S options.S scp.R support.S upload.R urlExists.R zclone.R
         zzz.R
 NeedsCompilation: yes
-Packaged: 2019-03-03 18:59:27 UTC; ripley
+Packaged: 2020-01-19 07:57:23 UTC; ripley
+Author: CRAN Team [ctb, cre] (de facto maintainer since 2013),
+  Duncan Temple Lang [aut] (<https://orcid.org/0000-0003-0159-1546>)
+Maintainer: CRAN Team <CRAN@r-project.org>
 Repository: CRAN
-Date/Publication: 2019-03-04 09:45:33 UTC
-Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2019-03-05 14:37:00 UTC; unix
+Date/Publication: 2020-01-19 08:00:43 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-01-20 05:26:20 UTC; unix
 Archs: RCurl.so.dSYM

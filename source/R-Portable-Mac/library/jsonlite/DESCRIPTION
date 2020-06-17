@@ -1,12 +1,16 @@
 Package: jsonlite
-Version: 1.6
+Version: 1.6.1
 Title: A Robust, High Performance JSON Parser and Generator for R
 License: MIT + file LICENSE
 NeedsCompilation: yes
 Depends: methods
-Author: Jeroen Ooms, Duncan Temple Lang, Lloyd Hilaiel
-URL: https://arxiv.org/abs/1403.2805,
-        https://www.opencpu.org/posts/jsonlite-a-smarter-json-encoder
+Authors@R: c(
+    person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
+      comment = c(ORCID = "0000-0002-4035-0289")),
+    person("Duncan", "Temple Lang", role = "ctb"),
+    person("Lloyd", "Hilaiel", role = "cph", comment="author of bundled libyajl"))
+URL: https://arxiv.org/abs/1403.2805 (paper)
+        https://jeroen.cran.dev/jsonlite (docs)
 BugReports: http://github.com/jeroen/jsonlite/issues
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 VignetteBuilder: knitr, R.rsp
@@ -21,9 +25,12 @@ Description: A fast JSON parser and generator optimized for statistical data
     package verify that all edge cases are encoded and decoded consistently for
     use with dynamic data in systems and applications.
 Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
-RoxygenNote: 6.1.1
-Packaged: 2018-12-07 11:22:02 UTC; jeroen
+RoxygenNote: 7.0.2
+Packaged: 2020-01-31 10:35:04 UTC; jeroen
+Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
+  Duncan Temple Lang [ctb],
+  Lloyd Hilaiel [cph] (author of bundled libyajl)
 Repository: CRAN
-Date/Publication: 2018-12-07 12:50:02 UTC
-Built: R 3.5.0; x86_64-apple-darwin15.6.0; 2018-12-08 13:37:46 UTC; unix
+Date/Publication: 2020-02-02 11:40:02 UTC
+Built: R 3.5.2; x86_64-apple-darwin15.6.0; 2020-02-03 05:29:04 UTC; unix
 Archs: jsonlite.so.dSYM

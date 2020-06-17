@@ -1,0 +1,36 @@
+Package: colourpicker
+Type: Package
+Title: A Colour Picker Tool for Shiny and for Selecting Colours in
+        Plots
+Version: 1.0
+Authors@R: c(
+    person("Dean", "Attali", email = "daattali@gmail.com",
+    role = c("aut", "cre")),
+    person("David", "Griswold", email="novachild@gmail.com",
+    role = "ctb")
+  )
+Description: A colour picker that can be used as an input in Shiny apps
+    or Rmarkdown documents. The colour picker supports alpha opacity, custom
+    colour palettes, and many more options. A Plot Colour Helper tool is
+    available as an RStudio Addin, which helps you pick colours to use in your
+    plots. A more generic Colour Picker RStudio Addin is also provided to let 
+    you select colours to use in your R code.
+URL: https://github.com/daattali/colourpicker
+BugReports: https://github.com/daattali/colourpicker/issues
+Depends: R (>= 3.1.0)
+Imports: ggplot2, htmltools, htmlwidgets (>= 0.7), jsonlite, miniUI (>=
+        0.1.1), shiny (>= 0.11.1), shinyjs, utils
+Suggests: knitr (>= 1.7), rmarkdown, rstudioapi (>= 0.5)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2017-09-27 02:35:45 UTC; Dean
+Author: Dean Attali [aut, cre],
+  David Griswold [ctb]
+Maintainer: Dean Attali <daattali@gmail.com>
+Repository: CRAN
+Date/Publication: 2017-09-27 09:15:04 UTC
+Built: R 3.5.0; ; 2018-04-24 21:39:04 UTC; unix

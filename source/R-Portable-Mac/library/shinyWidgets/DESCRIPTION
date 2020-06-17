@@ -1,6 +1,6 @@
 Package: shinyWidgets
 Title: Custom Inputs Widgets for Shiny
-Version: 0.4.9
+Version: 0.5.1
 Authors@R: c(
   person("Victor", "Perrier", email = "victor.perrier@dreamrs.fr", role = c("aut", "cre")),
   person("Fanny", "Meyer", email = "fanny.meyer@dreamrs.fr", role = "aut"),
@@ -25,7 +25,8 @@ Authors@R: c(
   person("Lokesh", "Rajendran", role = c("ctb", "cph"), comment = "pretty-checkbox"),
   person("Leon", "Gersen", role = c("ctb", "cph"), comment = "wnumb & noUiSlider"),
   person("Timofey", "Marochkin", role = c("ctb", "cph"), comment = "air-datepicker"),
-  person("Tobias", "Ahlin", role = c("ctb", "cph"), comment = "CSS spin")
+  person("Tobias", "Ahlin", role = c("ctb", "cph"), comment = "CSS spin"),
+  person("atomiks", role = c("ctb", "cph"), comment = "tippy.js")
   )
 Description: Collection of custom input controls and user interface components for 'Shiny' applications. 
   Give your applications a unique and colorful style !
@@ -36,11 +37,11 @@ Imports: shiny (>= 0.14), htmltools, jsonlite, grDevices, scales
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
-Suggests: shinydashboard, viridisLite, RColorBrewer, testthat, covr,
-        shinydashboardPlus, bs4Dash, argonR, argonDash, tablerDash
+RoxygenNote: 7.0.2
+Suggests: shinydashboard, testthat, covr, shinydashboardPlus, bs4Dash,
+        argonR, argonDash, tablerDash, ggplot2, DT
 NeedsCompilation: no
-Packaged: 2019-09-10 16:05:59 UTC; perri
+Packaged: 2020-03-03 19:13:54 UTC; perri
 Author: Victor Perrier [aut, cre],
   Fanny Meyer [aut],
   David Granjon [aut],
@@ -65,8 +66,9 @@ Author: Victor Perrier [aut, cre],
   Lokesh Rajendran [ctb, cph] (pretty-checkbox),
   Leon Gersen [ctb, cph] (wnumb & noUiSlider),
   Timofey Marochkin [ctb, cph] (air-datepicker),
-  Tobias Ahlin [ctb, cph] (CSS spin)
+  Tobias Ahlin [ctb, cph] (CSS spin),
+  atomiks [ctb, cph] (tippy.js)
 Maintainer: Victor Perrier <victor.perrier@dreamrs.fr>
 Repository: CRAN
-Date/Publication: 2019-09-10 16:40:05 UTC
-Built: R 3.5.2; ; 2019-09-11 04:34:50 UTC; unix
+Date/Publication: 2020-03-04 06:20:02 UTC
+Built: R 3.5.2; ; 2020-03-05 06:35:49 UTC; unix

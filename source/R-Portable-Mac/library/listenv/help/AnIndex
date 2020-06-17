@@ -10,6 +10,7 @@ length.listenv	length.listenv
 lengths.listenv	length.listenv
 listenv	listenv
 map	mapping
+map.listenv	mapping
 mapping	mapping
 mapping.listenv	mapping
 names.listenv	names.listenv
@@ -17,5 +18,8 @@ names<-.listenv	names.listenv
 parse_env_subset	parse_env_subset
 undim	undim
 undim.default	undim
+undim.listenv	undim
+[.listenv	cash-.listenv
+[<-.listenv	cash-set-.listenv
 [[.listenv	cash-.listenv
 [[<-.listenv	cash-set-.listenv

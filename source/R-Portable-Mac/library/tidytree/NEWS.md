@@ -1,3 +1,27 @@
+# tidytree 0.3.2
+
++ compatible with dplyr v=1.0.0 (2020-03-12, Thu)
+  - <https://github.com/YuLab-SMU/tidytree/pull/12>
+  - <https://github.com/YuLab-SMU/tidytree/issues/13>
+
+# tidytree 0.3.1
+
++ `groupOTU`: set group from 0 to NA if only root node is in group of 0 (2019-11-25, Mon)
+
+# tidytree 0.3.0
+
++ `offspring` supports a vector of node ids (2019-11-21, Thu)
++ bug fixed of `nodelab` 
++ `filter` and `select` methods for `ggtree` object (2019-10-31, Thu)
+
+# tidytree 0.2.9
+
++ `offsprint(tip, self_include=TRUE)` will return the input tip (2019-10-06, Sun)
+
+# tidytree 0.2.8
+
++ update `offspring` to compatible with missing nodes, e.g. for tree after `ggtree::collapse` (2019-09-16, Mon)
+
 # tidytree 0.2.7
 
 + allow calling `MRCA` with only one node and will return the node itself (2019-08-30, Fri)

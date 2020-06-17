@@ -3,6 +3,94 @@
 \newcommand{\ghpr}{\href{https://github.com/RcppCore/Rcpp/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/RcppCore/Rcpp/issues/#1}{##1}}
 
+\section{Changes in Rcpp version 1.0.4 (2020-03-13)}{
+  \itemize{
+    \item Changes in Rcpp API:
+    \itemize{
+      \item Safer \code{Rcpp_list*}, \code{Rcpp_lang*} and
+      \code{Function.operator()} (Romain in \ghpr{1014}, \ghit{1015}).
+      \item A number of \code{#nocov} markers were added (Dirk in
+      \ghpr{1036}, \ghpr{1042} and \ghpr{1044}).
+      \item Finalizer calls clear external pointer first (Kirill Müller and
+      Dirk in \ghpr{1038}).
+      \item Scalar operations with a rhs matrix no longer change the
+      matrix value (Qiang in \ghpr{1040} fixing (again) \ghit{365}).
+      \item \code{Rcpp::exception} and \code{Rcpp::stop} are now more
+      thread-safe (Joshua Pritikin in \ghpr{1043}).
+    }
+    \item Changes in Rcpp Attributes:
+    \itemize{
+      \item The \code{cppFunction} helper now deals correctly with mulitple
+      \code{depends} arguments (TJ McKinley in \ghpr{1016} fixing
+      \ghit{1017}).
+      \item Invisible return objects are now supported via new option (Kun Ren
+      in \ghpr{1025} fixing \ghit{1024}).
+      \item Unavailable packages referred to in \code{LinkingTo} are now
+      reported (Dirk in \ghpr{1027} fixing \ghit{1026}).
+      \item The \code{sourceCpp} function can now create a debug DLL on
+      Windows (Dirk in \ghpr{1037} fixing \ghit{1035}).
+    }
+    \item Changes in Rcpp Documentation:
+    \itemize{
+      \item The \code{.github/} directory now has more explicit guidance on
+      contributing, issues, and pull requests (Dirk).
+      \item The Rcpp Attributes vignette describe the new invisible return
+      object option (Kun Ren in \ghpr{1025}).
+      \item Vignettes are now included as pre-made pdf files (Dirk in \ghpr{1029})
+      \item The Rcpp FAQ has new entry on the recommended
+      \code{importFrom} directive (Dirk in \ghpr{1031} fixing \ghit{1030}).
+      \item The bib file for the vignette was once again updated to
+      current package versions.
+    }
+    \item Changes in Rcpp Deployment:
+    \itemize{
+      \item Added unit test to check if C++ version remains remains aligned
+      with the package number (Dirk in \ghpr{1022} fixing \ghit{1021}).
+      \item The unit test system was switched to tinytest (Dirk in
+      \ghpr{1028}, \ghpr{1032}, \ghpr{1033}).
+    }
+  }
+}
+
+\section{Changes in Rcpp version 1.0.3 (2019-11-08)}{
+  \itemize{
+    \item Changes in Rcpp API:
+    \itemize{
+      \item Compilation can be sped up by skipping Modules headers via a
+      toggle \code{RCPP_NO_MODULES} (Kevin in \ghpr{995} for \ghit{993}).
+      \item Compilation can be sped up by toggling \code{RCPP_NO_RTTI} which
+      implies \code{RCPP_NO_MODULES} (Dirk in \ghpr{998} fixing \ghit{997}).
+      \item \code{XPtr} tags are now preserved in \code{as<>} (Stephen Wade
+      in \ghpr{1003} fixing \ghit{986}, plus Dirk in \ghpr{1012}).
+      \item A few more temporary allocations are now protected from garbage
+      collection (Romain Francois in \ghpr{1010}, and Dirk in \ghpr{1011}).
+    }
+    \item Changes in Rcpp Modules:
+    \itemize{
+      \item Improved initialization via explicit \code{Rcpp::} prefix
+      (Riccardo Porreca in \ghpr{980}).
+    }
+    \item Changes in Rcpp Deployment:
+    \itemize{
+      \item A unit test for Rcpp Class exposure was updated to not fail under
+      r-devel (Dirk in \ghpr{1008} fixing \ghit{1006}).
+    }
+    \item Changes in Rcpp Documentation:
+    \itemize{
+      \item The \code{Rcpp-modules} vignette received a major review and
+      edit (Riccardo Porreca in \ghpr{982}).
+      \item Minor whitespace alignments and edits were made in three
+      vignettes following the new \pkg{pinp} release (Dirk).
+      \item New badges for DOI and CRAN and BioConductor reverse dependencies
+      have been added to README.md (Dirk).
+      \item Vignettes are now included pre-made (Dirk in \ghpr{1005}
+      addressing \ghit{1004})).
+      \item The Rcpp FAQ has two new entries on 'no modules / no rtti' and
+      exceptions across shared libraries (Dirk in \ghpr{1009}).
+    }
+  }
+}
+
 \section{Changes in Rcpp version 1.0.2 (2019-07-20)}{
   \itemize{
     \item Changes in Rcpp API:
@@ -16,7 +104,7 @@
     \itemize{
       \item The second END wrapper macro also gets \code{UNPROTECT} and
       a variable reference suppressing compiler warnings (Dirk in
-      \ghpr{953}) fixing \ghit{951}).
+      \ghpr{953} fixing \ghit{951}).
       \item Default function arguments are parsed correctly (Pierrick
       Roger in \ghpr{977} fixing \ghit{975})
     }
@@ -34,7 +122,7 @@
     \itemize{
       \item The \code{Rcpp-modules} vignette now covers the
       \code{RCPP_EXPOSED_*} macros, and the \code{Rcpp-extending} vignette
-      references it (Ralf Stubner in \ghpr{959} fixing \ghit{952})
+      references it (Ralf Stubner in \ghpr{959} fixing \ghit{952}).
     }
   }
 }
@@ -122,7 +210,7 @@
     \itemize{
       \item The \code{no_init()} accessor for vectors and matrices is
       now wrapped in \code{Shield<>()} to not trigger \code{rchk}
-      warnings (Kirill Mueller in \ghpr{893} addressing \ghit{892}).
+      warnings (Kirill Müller in \ghpr{893} addressing \ghit{892}).
       \item \code{STRICT_R_HEADERS} will be defined twelve months from
       now; until then we protect it via \code{RCPP_NO_STRICT_HEADERS}
       which can then be used to avoid the definition; downstream
@@ -257,7 +345,7 @@
     \item Changes in Rcpp Attributes:
     \itemize{
       \item Code generated with \code{cppFunction()} now uses \code{.Call()}
-      directly (Kirill Mueller in \ghpr{813} addressing \ghit{795}).
+      directly (Kirill Müller in \ghpr{813} addressing \ghit{795}).
     }
     \item Changes in Rcpp Documentation:
     \itemize{
@@ -427,7 +515,7 @@
       \item Rcpp::exceptions can now be constructed without a call stack (Jim
       Hester in \ghpr{663} addressing \ghit{664}).
       \item Somewhat spurious compiler messages under very verbose settings are
-      now suppressed (Kirill Mueller in \ghpr{670}, \ghpr{671}, \ghpr{672},
+      now suppressed (Kirill Müller in \ghpr{670}, \ghpr{671}, \ghpr{672},
       \ghpr{687}, \ghpr{688}, \ghpr{691}).
       \item Refreshed the included \code{tinyformat} template library
       (James Balamuta in \ghpr{674} addressing \ghit{673}).
@@ -733,7 +821,7 @@
       \code{Nullable} class (Dan in PR \ghpr{423} closing \ghit{421})
       \item The \code{Nullable<>::operator SEXP()} and
       \code{Nullable<>::get()} now also work for \code{const} objects
-      (Kirill Mueller in PR \ghpr{417}).
+      (Kirill Müller in PR \ghpr{417}).
       \item A subsetting error was fixed (Qiang via \ghpr{432} closing
       \ghit{431}).
     }

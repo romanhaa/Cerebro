@@ -1,5 +1,6 @@
 DBI-package             DBI: R Database Interface
 DBIConnection-class     DBIConnection class
+DBIConnector-class      DBIConnector class
 DBIDriver-class         DBIDriver class
 DBIObject-class         DBIObject class
 DBIResult-class         DBIResult class
@@ -17,12 +18,11 @@ dbConnect               Create a connection to a DBMS
 dbCreateTable           Create a table in the database
 dbDataType              Determine the SQL data type of an object
 dbDisconnect            Disconnect (close) a connection
-dbDriver                Load and unload database drivers
 dbExecute               Execute an update statement, query number of
                         rows affected, and then close result set
 dbExistsTable           Does a table exist?
 dbFetch                 Fetch records from a previously executed query
-dbGetException          Get DBMS exceptions
+dbGetConnectArgs        Get connection arguments
 dbGetInfo               Get DBMS metadata
 dbGetQuery              Send query, retrieve results and then clear
                         result set
@@ -32,10 +32,8 @@ dbGetStatement          Get the statement associated with a result set
 dbHasCompleted          Completion status
 dbIsReadOnly            Is this DBMS object read only?
 dbIsValid               Is this DBMS object still valid?
-dbListConnections       List currently open connections
 dbListFields            List field names of a remote table
 dbListObjects           List remote objects
-dbListResults           A list of all pending results
 dbListTables            List remote tables
 dbQuoteIdentifier       Quote identifiers
 dbQuoteLiteral          Quote literal values
@@ -48,7 +46,6 @@ dbSendStatement         Execute a data manipulation statement on a
 dbUnquoteIdentifier     Unquote identifiers
 dbWithTransaction       Self-contained SQL transactions
 dbWriteTable            Copy data frames to database tables
-make.db.names           Make R identifiers into legal SQL identifiers
 rownames                Convert row names back and forth between
                         columns
 sqlAppendTable          Compose query to insert rows into a table

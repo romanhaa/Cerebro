@@ -1,3 +1,40 @@
+# DBI 1.1.0
+
+## New features
+
+- New `DBIConnector` class (#280).
+
+- Specify `immediate` argument to `dbSendQuery()`, `dbGetQuery()`, `dbSendStatement()` and `dbExecute()` (#268).
+
+- Use specification for `dbGetInfo()` (#271).
+
+- `dbUnquoteIdentifier()` now supports `Id()` objects with `catalog` members (#266, @raffscallion). It also handles unquoted identifiers of the form `table`, `schema.table` or `catalog.schema.table`, for compatibility with dbplyr.
+
+
+## Documentation
+
+- New DBI intro article (#286, @cutterkom).
+
+- Add pkgdown reference index (#288).
+
+- DBI specification on https://dbi.r-dbi.org/dev/articles/spec now comes with a table of contents and code formatting.
+
+- Update examples to refer to `params` instead of `param` (#235).
+
+- Improved documentation for `sqlInterpolate()` (#100). Add usage of `SQL()` to `sqlInterpolate()` examples (#259, @renkun-ken).
+
+- Improve documentation for `Id`.
+
+
+## Internal
+
+- Add tests for `dbUnquoteIdentifier()` (#279, @baileych).
+
+- `sqlInterpolate()` uses `dbQuoteLiteral()` instead of checking the type of the input.
+
+- Avoid partial argument match in `dbWriteTable()` (#246, @richfitz).
+
+
 # DBI 1.0.0 (2018-05-02)
 
 ## New generics
