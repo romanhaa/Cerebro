@@ -278,7 +278,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.c
 
 ## Credits
 
-* Columbus Collaboratory layed out the basics of using Electron to create a standalone Shiny application: <https://github.com/ColumbusCollaboratory/electron-quick-start>
+* Columbus Collaboratory laid out the basics of using Electron to create a standalone Shiny application: <https://github.com/ColumbusCollaboratory/electron-quick-start>
 * Color palettes were put together with colored from: https://flatuicolors.com/
 * The initial app icon (until v1.2) was made by [Kiranshastry](https://www.flaticon.com/authors/kiranshastry) from [https://www.flaticon.com](https://www.flaticon.com/) and is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
 
