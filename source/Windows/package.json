@@ -14,10 +14,10 @@
   "author": "Roman Hillje",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^2.0.18"
+    "electron": "9.x"
   },
   "dependencies": {
-    "electron-log": "^2.2.17",
-    "menu": "^0.2.5"
+    "electron-log": "4.x",
+    "menu": ">=0.2.5"
   }
 }

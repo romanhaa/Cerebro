@@ -144,6 +144,8 @@ function setMainMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
 
+app.disableDomainBlockingFor3DAPIs();
+
 //
 app.on("ready", function () {
   createWindow()

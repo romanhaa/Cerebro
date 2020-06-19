@@ -1,7 +1,9 @@
 .DS_Store
 Docker/log.stdout
-source/node_modules
-source/Cerebro
+source/macOS/Cerebro
+source/macOS/node_modules
+source/Windows/Cerebro
+source/Windows/node_modules
 source/Rplots.pdf
 examples/pbmc_10k_v3/Rplots.pdf
 examples/pbmc_10k_v3/scanpy/adata.h5ad
