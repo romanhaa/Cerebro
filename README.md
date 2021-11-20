@@ -1,5 +1,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Lifecycle: retired](https://img.shields.io/badge/lifecycle-retired-red.svg)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/fakechek1.svg?label=Follow%20%40fakechek1&style=social)](https://twitter.com/fakechek1)
+
+:warning: __Discontinuation notice:__ Sadly, [Cerebro](https://github.com/romanhaa/Cerebro) and [cerebroApp](https://github.com/romanhaa/cerebroApp) are no longer in active development. See [here](./DISCONTINUATION_NOTICE.md) for more info.
 
 # Cerebro
 
